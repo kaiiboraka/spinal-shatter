@@ -84,18 +84,11 @@ public partial class PlayerBody : CharacterBody3D
         currAmmoLabel = GetNode<Label>("%CurrAmmoText");
         maxAmmoLabel = GetNode<Label>("%MaxAmmoText");
 
-        // loadout.AmmoAmountChanged += UpdateAmmoHUD;
-        
-        // loadout.CurrentAmmo = loadout.CurrentAmmo;
-        // loadout.CurrentBarrel = loadout.CurrentBarrel;
-
-        // AnchorGunToCamera();
-
-        // ViewChange += ChangePerspectives;
+        var manaComponent = GetNode<ManaComponent>("%ManaComponent");
+        manaComponent.ManaChanged += UpdateManaHUD;
+        UpdateManaHUD(manaComponent.CurrentMana, manaComponent.MaxMana);
 
         Input.MouseMode = Input.MouseModeEnum.Captured;
-
-        // Ready += loadout.OnAmmoChanged;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -370,9 +363,9 @@ public partial class PlayerBody : CharacterBody3D
         }
     }
 
-    public void UpdateAmmoHUD(int newCurr, int newMax)
+    public void UpdateManaHUD(float newCurr, float newMax)
     {
-        currAmmoLabel.Text = newCurr.ToString();
-        maxAmmoLabel.Text = newMax.ToString();
+        currAmmoLabel.Text = Mathf.RoundToInt(newCurr).ToString();
+        maxAmmoLabel.Text = Mathf.RoundToInt(newMax).ToString();
     }
 }

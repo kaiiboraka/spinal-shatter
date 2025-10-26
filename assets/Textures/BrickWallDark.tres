@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://mabyre3endiv"]
+
+[ext_resource type="Texture2D" uid="uid://c56p0ojaf4ida" path="res://assets/Images/brick.png" id="1_e7eux"]
+[ext_resource type="Texture2D" uid="uid://dbgnyy71qdiyv" path="res://assets/Images/brick_dark.png" id="1_e8nxf"]
+
+[resource]
+albedo_texture = ExtResource("1_e8nxf")
+roughness_texture = ExtResource("1_e7eux")
+roughness_texture_channel = 3
+heightmap_enabled = true
+heightmap_scale = 2.139
+heightmap_texture = ExtResource("1_e7eux")
+uv1_scale = Vector3(10, 10, 10)

@@ -1,0 +1,1 @@
+  ERROR: MagicCaster is not configured correctly. ProjectileScene, SpellOrigin, or ManaComponent is missing.

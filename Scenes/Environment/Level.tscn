@@ -1,13 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=13 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
+[ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1.tscn" id="2_jwnvx"]
 [ext_resource type="PackedScene" uid="uid://0ngmpcu0p57w" path="res://Scenes/Environment/HubRoom.tscn" id="2_ubqhk"]
+[ext_resource type="PackedScene" uid="uid://bvpgv11sxlx0v" path="res://Scenes/Environment/Doodads/torch_2.tscn" id="3_0gdma"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_00trf"]
+[ext_resource type="Material" uid="uid://drqhwl62jqb8q" path="res://assets/Textures/Flame.tres" id="4_s7kiu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
+sky_horizon_color = Color(0.0427733, 0.24475688, 0.16454482, 1)
+ground_bottom_color = Color(0.14626765, 0.121379636, 0.09337447, 1)
+ground_horizon_color = Color(0.072435506, 0.27810988, 0.1663776, 1)
 
 [sub_resource type="Sky" id="Sky_jwnvx"]
 sky_material = SubResource("ProceduralSkyMaterial_ubqhk")
@@ -15,14 +20,28 @@ sky_material = SubResource("ProceduralSkyMaterial_ubqhk")
 [sub_resource type="Environment" id="Environment_kwiqg"]
 background_mode = 2
 sky = SubResource("Sky_jwnvx")
+reflected_light_source = 1
 tonemap_mode = 2
-glow_enabled = true
+fog_light_color = Color(0.13375837, 0.18140209, 0.2031388, 1)
+volumetric_fog_density = 0.021
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dllra"]
+resource_name = "Flame"
+cull_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0.17000002, 0.9446665, 1, 1)
+emission_energy_multiplier = 3.0933428
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mb7hx"]
+resource_name = "Flame"
+cull_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0.4605003, 0.17000002, 1, 1)
+emission_energy_multiplier = 3.0933428
 
 [node name="LevelRoot" type="Node3D"]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kwiqg")
@@ -30,7 +49,43 @@ environment = SubResource("Environment_kwiqg")
 [node name="CentralHub" parent="." instance=ExtResource("2_ubqhk")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0.3277359, 0)
 
+[node name="Torches" type="Node3D" parent="CentralHub"]
+
+[node name="Torch 1" parent="CentralHub/Torches" instance=ExtResource("2_jwnvx")]
+transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.0675883, 3.3905087, -5.0150514)
+
+[node name="Torch 2" parent="CentralHub/Torches" instance=ExtResource("3_0gdma")]
+transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.068, 3.391, -5.015)
+metadata/_edit_group_ = true
+
+[node name="Torch 2 _ Flame_Flame_0" parent="CentralHub/Torches/Torch 2/Torch 2 _ Flame" index="0"]
+surface_material_override/0 = ExtResource("4_s7kiu")
+
+[node name="OmniLight3D" parent="CentralHub/Torches/Torch 2" index="3"]
+light_color = Color(0.85, 1, 0, 1)
+
+[node name="Torch 3" parent="CentralHub/Torches" instance=ExtResource("3_0gdma")]
+transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.068, 3.391, 5.015)
+metadata/_edit_group_ = true
+
+[node name="Torch 2 _ Flame_Flame_0" parent="CentralHub/Torches/Torch 3/Torch 2 _ Flame" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_dllra")
+
+[node name="OmniLight3D" parent="CentralHub/Torches/Torch 3" index="3"]
+light_color = Color(0, 0.6666665, 1, 1)
+
+[node name="Torch 4" parent="CentralHub/Torches" instance=ExtResource("3_0gdma")]
+transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.068, 3.391, 5.015)
+metadata/_edit_group_ = true
+
+[node name="Torch 2 _ Flame_Flame_0" parent="CentralHub/Torches/Torch 4/Torch 2 _ Flame" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_mb7hx")
+
+[node name="OmniLight3D" parent="CentralHub/Torches/Torch 4" index="3"]
+light_color = Color(0.5434998, 0.17000002, 1, 1)
+
 [node name="PlatformStatic" parent="." instance=ExtResource("1_kpm7v")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_amuju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
@@ -47,3 +102,7 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("3_00trf")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[editable path="CentralHub/Torches/Torch 2"]
+[editable path="CentralHub/Torches/Torch 3"]
+[editable path="CentralHub/Torches/Torch 4"]

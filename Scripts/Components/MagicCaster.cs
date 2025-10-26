@@ -58,7 +58,13 @@ public partial class MagicCaster : Node
     {
         if (_chargingProjectile == null) return;
 
-        _currentCharge = Mathf.Min(_currentCharge + delta / _maxChargeTime, 1.0f);
+        // Determine the maximum charge percentage allowed by the player's current mana
+        float maxChargeByMana = Mathf.InverseLerp(_minManaCost, _maxManaCost, _manaComponent.CurrentMana);
+        maxChargeByMana = Mathf.Clamp(maxChargeByMana, 0f, 1f);
+
+        // Increment charge, but clamp it by the mana limit
+        float newCharge = _currentCharge + delta / _maxChargeTime;
+        _currentCharge = Mathf.Min(newCharge, maxChargeByMana);
 
         // Map charge (0-1) to size (0.1-1.2)
         float size = Mathf.Lerp(0.1f, 1.2f, _currentCharge);

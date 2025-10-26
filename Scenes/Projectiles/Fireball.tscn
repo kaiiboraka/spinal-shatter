@@ -22,7 +22,11 @@ _collisionShape = NodePath("CollisionShape3D")
 billboard = 1
 sprite_frames = ExtResource("2_q3rrb")
 autoplay = "default"
-frame_progress = 0.35195085
+frame_progress = 0.57487816
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_12345")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.25, 0, 1)
+light_energy = 1.1

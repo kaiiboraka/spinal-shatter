@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://crsrmdh8437wj"]
+
+[resource]
+resource_name = "Torch__Handling_Grip"
+cull_mode = 2
+albedo_color = Color(0.23451328, 0.23451328, 0.23451328, 1)
+roughness = 0.82111454

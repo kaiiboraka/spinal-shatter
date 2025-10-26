@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
-[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/MagicOrb.tscn" id="4_orb"]
+[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
 radius = 0.3

@@ -21,66 +21,73 @@ public partial class MagicCaster : Node
     private float _maxManaCost = 50.0f;
 
     private float _currentCharge = 0f; // 0.0 to 1.0
-    private bool _isCharging = false;
+    private Projectile _chargingProjectile = null;
 
     public override void _Process(double delta)
     {
+        if (Input.IsActionJustPressed("Player_Shoot"))
+        {
+            StartCharge();
+        }
+
         if (Input.IsActionPressed("Player_Shoot"))
         {
-            _isCharging = true;
-            // Increase charge over time, capped at 1.0
-            _currentCharge = Mathf.Min(_currentCharge + (float)delta / _maxChargeTime, 1.0f);
+            ContinueCharge((float)delta);
         }
 
         if (Input.IsActionJustReleased("Player_Shoot"))
         {
-            if (_isCharging)
-            {
-                Cast();
-                _isCharging = false;
-                _currentCharge = 0f;
-            }
+            ReleaseCharge();
         }
     }
 
-    private void Cast()
+    private void StartCharge()
     {
-        if (_projectileScene == null || _spellOrigin == null || _manaComponent == null)
+        if (_chargingProjectile != null || _projectileScene == null || _manaComponent.CurrentMana < _minManaCost)
         {
-            GD.PrintErr("MagicCaster is not configured correctly. ProjectileScene, SpellOrigin, or ManaComponent is missing.");
             return;
         }
 
-        // Calculate properties based on charge
+        _currentCharge = 0f;
+        _chargingProjectile = _projectileScene.Instantiate<Projectile>();
+        _chargingProjectile.LevelParent = PlayerBody.Instance.ParentLevel;
+        _chargingProjectile.BeginCharge(_spellOrigin);
+    }
+
+    private void ContinueCharge(float delta)
+    {
+        if (_chargingProjectile == null) return;
+
+        _currentCharge = Mathf.Min(_currentCharge + delta / _maxChargeTime, 1.0f);
+
+        // Map charge (0-1) to size (0.1-1.2)
+        float size = Mathf.Lerp(0.1f, 1.2f, _currentCharge);
+        _chargingProjectile.UpdateChargeVisuals(size);
+    }
+
+    private void ReleaseCharge()
+    {
+        if (_chargingProjectile == null) return;
+
         float manaCost = Mathf.Lerp(_minManaCost, _maxManaCost, _currentCharge);
 
         if (!_manaComponent.HasEnoughMana(manaCost))
         {
+            _chargingProjectile.QueueFree(); // Fizzle if not enough mana
+            _chargingProjectile = null;
             return;
         }
 
         _manaComponent.ConsumeMana(manaCost);
 
-        Node3D projectileInstance = _projectileScene.Instantiate<Node3D>();
-        
-        GetTree().Root.AddChild(projectileInstance);
-        
-        projectileInstance.GlobalTransform = _spellOrigin.GlobalTransform;
+        float damage = Mathf.Lerp(10f, 100f, _currentCharge);
+        float speed = Mathf.Lerp(20f, 40f, _currentCharge);
+        Vector3 initialVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
 
-        var projectile = projectileInstance as Projectile;
-        if (projectile != null)
-        { 
-            float size = Mathf.Lerp(0.5f, 2.0f, _currentCharge);
-            float damage = Mathf.Lerp(10f, 100f, _currentCharge);
-            float speed = Mathf.Lerp(20f, 40f, _currentCharge);
-            Vector3 initialVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
+        _chargingProjectile.Launch(damage, initialVelocity);
 
-            projectile.Initialize(damage, size, initialVelocity);
-        }
-        else
-        {
-            GD.PrintErr("Projectile scene root node does not have a Projectile script attached.");
-            projectileInstance.QueueFree();
-        }
+        // Clear reference
+        _chargingProjectile = null;
+        _currentCharge = 0f;
     }
 }

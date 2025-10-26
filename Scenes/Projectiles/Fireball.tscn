@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dce3xvef1l24d"]
 
-[ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_abcde"]
-[ext_resource type="SpriteFrames" uid="uid://b2r13wq1r148p" path="res://Scenes/Projectiles/Fireball.tres" id="2_lwtrv"]
+[ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_fa2tn"]
+[ext_resource type="SpriteFrames" uid="uid://b2r13wq1r148p" path="res://Scenes/Projectiles/Fireball.tres" id="2_q3rrb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xyz"]
 friction = 0.0
@@ -9,18 +9,20 @@ bounce = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
-[node name="MagicOrb" type="RigidBody3D"]
+[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape")]
 collision_layer = 8
 collision_mask = 35468
 physics_material_override = SubResource("PhysicsMaterial_xyz")
 gravity_scale = 0.0
-script = ExtResource("1_abcde")
+script = ExtResource("1_fa2tn")
+_sprite = NodePath("Sprite3D")
+_collisionShape = NodePath("CollisionShape3D")
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
 billboard = 1
-sprite_frames = ExtResource("2_lwtrv")
+sprite_frames = ExtResource("2_q3rrb")
 autoplay = "default"
-frame_progress = 0.7829432
+frame_progress = 0.35195085
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_12345")

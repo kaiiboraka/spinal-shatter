@@ -69,6 +69,9 @@ public partial class PlayerBody : CharacterBody3D
     // public Loadout loadout;
     private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
 
+    private Node3D parentLevel;
+    public Node3D ParentLevel => parentLevel;
+
     public override void _Ready()
     {
         Instance = this;
@@ -87,6 +90,8 @@ public partial class PlayerBody : CharacterBody3D
         var manaComponent = GetNode<ManaComponent>("%ManaComponent");
         manaComponent.ManaChanged += UpdateManaHUD;
         UpdateManaHUD(manaComponent.CurrentMana, manaComponent.MaxMana);
+
+        parentLevel = GetParent<Node3D>();
 
         Input.MouseMode = Input.MouseModeEnum.Captured;
     }

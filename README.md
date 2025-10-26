@@ -12,9 +12,10 @@ Aaaaaaand then BRAIN BLAST
 
 I'm gonna freaking make "spell slingers"
 
-# Spell Slingers
+# Wait, what's Spell Slingers?
 
 ## overview
+
 Spell Slingers was a First Person shooter idea I had for my school's capstone game project.
 It was originally going to be a 1v1 PvP game (player versus player) in an arena that gets smaller and more chaotic the longer the match goes on.
 The main mechanic was based on Metroid Prime's charge beam. Particles of magic would scatter into the arena, and you had two main verbs: siphon, and expel.
@@ -86,19 +87,18 @@ Plane / Slip: +YZ (niche application)
 Barrier / Wall: +XY (defense)
 Box / Cube / Field: +XZY (lower skill, simple to use, decent defense, low damage)
 
-## pitch 
+## Spell Slinger's pitch script
 
 It’s time to DUEL! Grow your magic power and blast away your opponents in this fast-paced first-person magic shooter. Vie for control of finite resources as you absorb, deflect, and retaliate the magic all around the arena in a contest for domination! 
 
 High in the towers of an arcane sanctum, two apprentice sorcerers stand face to face on an arena platform suspended high in the air. The timer counts down… and with a POP, clouds of magical energy burst into the air between you two. Wielding a specialized gauntlet, you rush to absorb as much of the mana particles as you can, siphoning them in from a distance, while keeping an eye on your opponent for any sudden moves. Then you see a flash, and an aggressive wave of magic comes flying your direction. You barely manage to guard against the blast, and then it flies off to shatter on the barrier behind you, dissipating its energy back into the field. You take advantage of the opportunity by barraging your opponent with a series of smaller blasts, trying to catch them off guard. As they hide behind their shield, you lob a much larger blast at them, but right at the last second, they deflect it back at you! You retaliate with a parry of your own, and the energized ball of magic picks up speed, magnetizing nearby floating energy and growing in size as it flies. After a few more volleys of increasing intensity, the ball becomes huge! The next missed parry will decide the match, as the massive orb explodes and sends someone flying… will you fall to your shameful demise? Or will you rise to defeat your adversaries in the spell slinging showdown?!
 
-## other thoughts
+## other details about Spell Slingers
 
 the neutral particles were purple, yours were blue, and the enemies were red. so when red and blue collide, they'd revert to purple.
 There were large negation zones akin to "soccer goals" on the walls on the opposite side, where freeflying particles would be brought back into the arena's pool.
 then once the pool hit a certain threshold, the same cannons that emit particles at the start of the match would fire again, releasing more neutral energy into the play space.
 There were also crystals that could spawn in the arena that serve as a big "ammo refill"
-
 
 # back to this game, Spinal Shatter
 
@@ -106,6 +106,69 @@ So, now it's going to be a PvE (player vs. "environment" i.e. non-players) DOOM 
 I'm wondering about how to translate it, but I think the core things that I want are a charge-able projectile attack that bounces off of walls. 
 Siphoning may be cool to keep still, potentially, again very Metroid inspired.
 
-Enemies will have 3 attributes that will define general behavior, with specific versions having more particular behaviors on top of that.
+## Enemies
 
-Size: Big or small. 
+enemies are a combination of several attributes
+SIZE: small(or medium, counts in the same size category) or large
+MOVEMENT: ground or flying
+RANGE: melee or range(variable distances, but all projectile type attacks greater than melee range)
+2 * 2 * 2 = 8
+
+then ALL of these units can have simple "artificial-difficulty" ranks. Rank 1 is easy, 2 is normal, and 3 is hard. They will be simple recolors that make them stronger, with more health and damage and speed probably.
+
+| Unit Name | Priority Objective | Speed  | Size / Armor / HP | Movement | Attack Range   | Attack Rate | Attack Damage | Spawn Cost | Description                                        | Inspiration Reference                                                            |
+|-----------|--------------------|--------|-------------------|----------|----------------|-------------|---------------|------------|----------------------------------------------------|----------------------------------------------------------------------------------|
+| Scrounger | Ship/Cargo         | Fast   | Light             | Grounded | Melee          | Fast        | Low           | 0.5        | Tenacious pawns, brainless cannon fodder           | WarCraft Ghouls, Destiny Hive Thralls                                            |
+| Scrapper  | Ship/Engine        | Medium | Medium            | Grounded | Variable Range | Medium      | Medium        | 1          | Assault solider. Can wield any ranged weapon.      | SW Battle Droid, Destiny Hive Acolytes, Destiny Vex Goblins                      |
+| Lunker    | Player             | Medium | Heavy             | Grounded | Melee          | Slow        | High          | 2          | Front-line Bruiser, Normal walk, SLOW melee attack | LotR Troll, Overwatch Reinhardt, Warcraft 3 Mountain Giant, Destiny Hive Knights |
+| Buster    | Ship/Engine        | Slow   | Heavy             | Grounded | Mid Ranged     | Fast        | Medium        | 4          | Heavy Artillery, SLOW walk, fast midrange attack   | Team Fortress 2 The Heavy, Overwatch Mauga                                       |
+| Swooper   | Ship/Cargo         | Fast   | Light             | Flying   | Melee          | Medium      | Low           | 0.5        | Buzzing flies, vultures, pests, thieves            | SW Geonosian, Stormgate Spriggan, Warcraft Harpies                               |
+| Zapper    | Player             | Medium | Medium            | Flying   | Long Ranged    | Slow        | High          | 2          | Flying Snipers.                                    | Mass Effect Geth Hopper                                                          |
+| Boomer    | Player             | Slow   | Heavy             | Flying   | Mid Ranged     | Fast        | High          | 3          | Death from above, the Flame Comes.                 | SW Flametrooper, Yer average firebreathing dragon                                |
+| Shredder  | Ship/Hull          | Medium | Medium            | Flying   | Melee          | Medium      | Medium        | 3          | my what huge CLAWS YOU HAVE                        | Metroid Dread Emmi with Wings, tears things apart with ease                      |
+
+these originally came from a steampunk roguelike game where you were a mercenary on airships defending them against robot attackers
+these enemies need to be adapted into medieval gothic fantasy creatures instead with the same mechanical structure and game design.
+
+Enemy AI should be simple, driven by positioning predominantly. Detection is a big question, but I'd love if it was dead simple, like automatic upon entering a room or something. But after that, they just need to try and get into proximity to do their main attack, and then have a cooldown before they re-evaluate and try it again.
+
+the content inside @Scripts\proto-wave-sim has a knapsack-problem implementation of assigning weights based on the data in the chart, as well as multipliers based on rank, and then creating random waves of enemies based on this grab bag.
+
+I might do something similar in this game. It may just start in a small arena. But I'd love to have actual levels eventually. Maybe what I can do is have a hub that connects to like 3-4 different arena rooms at the end of hallways, then we can apply the detection logic plan, and after defeating them we can have a round spawning in another room and you run over and do it in that room. or maybe it just teleports you back to the hub after it's over via some portal. either way, it's a simple way to try different things.
+
+## player
+
+so again, we want to be a spell caster that uses mechanics from other FPS games. we want physics based projectiles that you can charge to make bigger/stronger, with enemies dropping the mana you need to cast.
+I want to draw from DOOM 2016 and be able to beat enemies if you're out of ammo. I imagine a special melee attack and/or takedown type move that will cause the enemy to eject a bunch of extra mana, refilling your "ammo" and sending you on your way to doom and glory. I can imagine melee always ejects mana from an enemy, so if you're out of ammo, you can beat it out of them no matter what. Then you still have to siphon to draw it in.
+
+I already have a first person character controller with sprint aim and crouch. I would love to add other mobility later, but that's TBD. Now it's just a matter of extending it.
+
+## powerups
+
+I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs
+
+Spells / Weapons:
+Orb (bounces, main attack)
+Slash (horizontal wave)
+Force Wall (upright and flat, offensive shield)
+Dice (shotgun)
+Lance (sniper-ish, spear)
+
+Traps:
+Icy floor lowers friction
+Floor is Lava, take damage and lose mana
+Goopy floor, slowed down
+Spike ball rolls through and knocks back
+
+temporary buffs:
+infinite ammo
+invincibility
+Invisibility while not attacking
+super speed
+
+## objective
+
+the original Spell Slingers had a PVP objective: last man standing, literally. the platform would shrink as the battle continued. the projectiles have knockback properties. once you blast someone off the stage, you win the round.
+
+In this game, I imagine waves of enemies that spawn. You just have to defeat them.
+I don't know what health looks like yet in this game, maybe it's just like Vampire Survivors where it really is just about survival until it's over. So last until time, or die. So we could have rare consumable pickups that heal.

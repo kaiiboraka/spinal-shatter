@@ -1,0 +1,96 @@
+[gd_scene load_steps=5 format=3 uid="uid://g77bng7caocf"]
+
+[ext_resource type="Script" uid="uid://ctabhw55wkss8" path="res://Scripts/Utility/Debug/DebugManager.cs" id="1_ccbrj"]
+[ext_resource type="Script" uid="uid://kequmhu8gyy" path="res://Scripts/Utility/Debug/MetaInputs.gd" id="2_2al1m"]
+[ext_resource type="PackedScene" uid="uid://te6kw365wgn0" path="res://Scenes/Debug/PropertyEntry.tscn" id="2_bw1w2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uoyte"]
+bg_color = Color(0.172549, 0.172549, 0.172549, 0.560784)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="DebugManager" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_ccbrj")
+Enabled = false
+PropertyEntryScene = ExtResource("2_bw1w2")
+
+[node name="DebugInputs" type="Node" parent="."]
+script = ExtResource("2_2al1m")
+debugManager = Object(CanvasLayer,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","layer":10,"visible":true,"offset":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"transform":Transform2D(1, 0, 0, 1, 0, 0),"follow_viewport_enabled":false,"follow_viewport_scale":1.0,"script":ExtResource("1_ccbrj"),"Enabled":false,"PropertyEntryScene":ExtResource("2_bw1w2"))
+
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+msaa_2d = 3
+size = Vector2i(1792, 1008)
+render_target_update_mode = 4
+
+[node name="WindowMarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ControllerInputViewer" type="Control" parent="SubViewportContainer/SubViewport/WindowMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ControllerInputViewer" type="Node2D" parent="SubViewportContainer/SubViewport/WindowMarginContainer/ControllerInputViewer"]
+
+[node name="DebugPanelContainer" type="PanelContainer" parent="SubViewportContainer/SubViewport/WindowMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_uoyte")
+
+[node name="DebugMarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/WindowMarginContainer/DebugPanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="PropertyList" type="VBoxContainer" parent="SubViewportContainer/SubViewport/WindowMarginContainer/DebugPanelContainer/DebugMarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_constants/separation = 2
+
+[node name="PropertyEntry" parent="SubViewportContainer/SubViewport/WindowMarginContainer/DebugPanelContainer/DebugMarginContainer/PropertyList" instance=ExtResource("2_bw1w2")]
+layout_mode = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+PropertyText = "Property1"
+ValueText = "Value1"
+
+[node name="PropertyEntry2" parent="SubViewportContainer/SubViewport/WindowMarginContainer/DebugPanelContainer/DebugMarginContainer/PropertyList" instance=ExtResource("2_bw1w2")]
+layout_mode = 2
+PropertyText = "Property2"
+ValueText = "Value2"

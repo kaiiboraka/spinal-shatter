@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5w5f5w5f5w5"]
+
+[ext_resource type="Script" uid="uid://mx5ovhofkkt8" path="res://Scripts/UI/Debug/StateDisplay.cs" id="1_abcde"]
+[ext_resource type="Script" uid="uid://co0lo02vnu10n" path="res://addons/font_auto_size_labels/auto_size_rich_text_label.gd" id="1_m078f"]
+[ext_resource type="FontFile" uid="uid://kuphg0meymun" path="res://Assets/Fonts/PixBlox Large.ttf" id="2_os2wm"]
+
+[node name="StateDisplay" type="Control" node_paths=PackedStringArray("label")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_abcde")
+label = NodePath("AutoSizeRichTextLabel")
+
+[node name="AutoSizeRichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 67.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/normal_font = ExtResource("2_os2wm")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "State: Idle"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+script = ExtResource("1_m078f")
+_max_size = 32
+_min_size = 16
+_current_font_size = 32
+_editor_defaults_set = true
+metadata/_custom_type_script = "uid://co0lo02vnu10n"

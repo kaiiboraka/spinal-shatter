@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Robobotomy {
+namespace SpinalShatter {
 	public partial class LayerNames : Node {
 		
 		private static LayerNames _instance;
@@ -277,18 +277,18 @@ namespace Robobotomy {
 			HAZARD_HITBOX_BIT = 256,
 			SOLID_WALL_NUM = 10,
 			SOLID_WALL_BIT = 512,
-			LAYER_11_NUM = 11,
-			LAYER_11_BIT = 1024,
-			LAYER_12_NUM = 12,
-			LAYER_12_BIT = 2048,
-			LAYER_13_NUM = 13,
-			LAYER_13_BIT = 4096,
-			LAYER_14_NUM = 14,
-			LAYER_14_BIT = 8192,
-			LAYER_15_NUM = 15,
-			LAYER_15_BIT = 16384,
-			LAYER_16_NUM = 16,
-			LAYER_16_BIT = 32768,
+			ENEMY_COLLISION_NUM = 11,
+			ENEMY_COLLISION_BIT = 1024,
+			ENEMY_HURTBOX_NUM = 12,
+			ENEMY_HURTBOX_BIT = 2048,
+			PLAYER_HITBOX_NUM = 13,
+			PLAYER_HITBOX_BIT = 4096,
+			PLAYER_PROJECTILE_NUM = 14,
+			PLAYER_PROJECTILE_BIT = 8192,
+			ENEMY_HITBOX_NUM = 15,
+			ENEMY_HITBOX_BIT = 16384,
+			ENEMY_PROJECTILE_NUM = 16,
+			ENEMY_PROJECTILE_BIT = 32768,
 			LAYER_17_NUM = 17,
 			LAYER_17_BIT = 65536,
 			LAYER_18_NUM = 18,

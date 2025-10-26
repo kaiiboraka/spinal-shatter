@@ -13,11 +13,19 @@ fill_from = Vector2(0, 1)
 albedo_texture = SubResource("GradientTexture2D_ws240")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_fy2dq"]
+margin = 0.5
 data = PackedVector3Array(100, 0, 100, -100, 0, 100, 100, 0, -100, -100, 0, 100, -100, 0, -100, 100, 0, -100)
 
 [node name="PlatformStatic" type="StaticBody3D"]
-collision_layer = 4
+disable_mode = 1
+collision_layer = 12
 collision_mask = 129
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_fy2dq")

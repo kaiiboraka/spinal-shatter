@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://te6kw365wgn0"]
+
+[ext_resource type="Script" uid="uid://dwjqedfpgetm0" path="res://Scripts/Utility/Debug/PropertyEntry.cs" id="1_35xff"]
+[ext_resource type="FontFile" uid="uid://86r6mfkypltq" path="res://Assets/Fonts/JetBrainsMono-Medium.ttf" id="2_7sbyx"]
+
+[node name="PropertyEntry" type="HBoxContainer" node_paths=PackedStringArray("propertyLabel", "valueLabel")]
+offset_right = 125.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_35xff")
+propertyLabel = NodePath("PropertyLabel")
+valueLabel = NodePath("ValueLabel")
+
+[node name="PropertyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7sbyx")
+theme_override_font_sizes/font_size = 16
+text = "Property"
+
+[node name="Separator" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7sbyx")
+text = ":"
+
+[node name="ValueLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7sbyx")
+text = "Value"

@@ -1,12 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=9 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_s0m4p"]
 [ext_resource type="Texture2D" uid="uid://dm504503sf3ex" path="res://assets/Images/KillerBots_Small.png" id="2_sprite"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="3_health"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_12345"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.4
 height = 1.2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0m4p"]
+radius = 0.5371094
+height = 1.289746
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_hp"]
 viewport_path = NodePath("HealthBar/SubViewport")
@@ -17,8 +21,8 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
 bg_color = Color(1, 0, 0, 1)
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_healthBar") groups=["Enemies"]]
-collision_layer = 3072
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_healthBar", "_hurtbox") groups=["Enemies"]]
+collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
 platform_floor_layers = 8
@@ -27,6 +31,7 @@ script = ExtResource("1_s0m4p")
 _healthComponent = NodePath("HealthComponent")
 _sprite = NodePath("Sprite3D")
 _healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
+_hurtbox = NodePath("Hurtbox")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_health")
@@ -42,7 +47,16 @@ region_rect = Rect2(0, 0, 24, 24)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-shape = SubResource("CapsuleShape3D_12345")
+shape = SubResource("CapsuleShape3D_0uo32")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 2048
+collision_mask = 8192
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644873, 0)
+shape = SubResource("CapsuleShape3D_s0m4p")
+debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 
 [node name="HealthBar" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.514, 0)

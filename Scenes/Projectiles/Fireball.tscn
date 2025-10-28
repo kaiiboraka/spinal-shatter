@@ -10,8 +10,8 @@ bounce = 1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
 [node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape")]
-collision_layer = 12288
-collision_mask = 35468
+collision_layer = 8192
+collision_mask = 41613
 physics_material_override = SubResource("PhysicsMaterial_xyz")
 gravity_scale = 0.0
 script = ExtResource("1_fa2tn")

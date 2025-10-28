@@ -8,14 +8,27 @@ public partial class Enemy : CharacterBody3D
 
     [Export] private ProgressBar _healthBar;
 
+    [Export] private Area3D _hurtbox;
+
     public override void _Ready()
     {
         _healthComponent.Died += OnDied;
         _healthComponent.HealthChanged += OnHealthChanged;
 
+        _hurtbox.BodyEntered += OnHurtboxBodyEntered;
+
         // Initialize Health Bar
         _healthBar.MaxValue = _healthComponent.MaxHealth;
         _healthBar.Value = _healthComponent.CurrentHealth;
+    }
+
+    private void OnHurtboxBodyEntered(Node3D body)
+    {
+        if (body is Projectile projectile)
+        {
+            TakeDamage(projectile.Damage);
+            projectile.QueueFree();
+        }
     }
 
     private void OnHealthChanged(float oldHealth, float newHealth)

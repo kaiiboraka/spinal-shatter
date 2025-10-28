@@ -20,7 +20,6 @@ public partial class Projectile : RigidBody3D
 
     public override void _Ready()
     {
-        BodyEntered += OnBodyEntered;
         if (_sprite == null) _sprite = GetNode<SpriteBase3D>("Sprite3D");
         if (_collisionShape == null) _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
 
@@ -82,18 +81,4 @@ public partial class Projectile : RigidBody3D
         _lifetimeTimer.Start();
     }
 
-    private void OnBodyEntered(Node body)
-    {
-        if (_state != ProjectileState.Fired) return;
-
-        if (body.IsInGroup("Enemies"))
-        {
-            if (body.HasMethod("TakeDamage"))
-            {
-                body.Call("TakeDamage", this.Damage);
-            }
-
-            QueueFree();
-        }
-    }
 }

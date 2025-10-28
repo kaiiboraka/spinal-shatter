@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dfsf5yu0v5t6r"]
+
+[ext_resource type="Texture2D" uid="uid://dbgnyy71qdiyv" path="res://assets/Images/brick_dark.png" id="1_1a00s"]
+[ext_resource type="Texture2D" uid="uid://c56p0ojaf4ida" path="res://assets/Images/brick.png" id="2_curwt"]
+
+[resource]
+albedo_color = Color(0.8570991, 1.0928305, 0, 1)
+albedo_texture = ExtResource("1_1a00s")
+roughness_texture = ExtResource("2_curwt")
+roughness_texture_channel = 3
+heightmap_enabled = true
+heightmap_scale = 2.139
+heightmap_texture = ExtResource("2_curwt")
+uv1_scale = Vector3(40, 40, 40)
+texture_filter = 0

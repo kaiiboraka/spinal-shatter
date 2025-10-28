@@ -1,0 +1,44 @@
+using Godot;
+
+public partial class Enemy : CharacterBody3D
+{
+    [Export] private HealthComponent _healthComponent;
+
+    [Export] private Sprite3D _sprite;
+
+    [Export] private ProgressBar _healthBar;
+
+    public override void _Ready()
+    {
+        _healthComponent.Died += OnDied;
+        _healthComponent.HealthChanged += OnHealthChanged;
+
+        // Initialize Health Bar
+        _healthBar.MaxValue = _healthComponent.MaxHealth;
+        _healthBar.Value = _healthComponent.CurrentHealth;
+    }
+
+    private void OnHealthChanged(float oldHealth, float newHealth)
+    {
+        _healthBar.Value = newHealth;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        _healthComponent.TakeDamage(amount);
+        FlashRed();
+    }
+
+    private void FlashRed()
+    {
+        var tween = GetTree().CreateTween();
+        tween.TweenProperty(_sprite, "modulate", Colors.Red, 0.1);
+        tween.TweenProperty(_sprite, "modulate", Colors.White, 0.1);
+    }
+
+    private void OnDied()
+    {
+        // For now, just disappear. We can add death effects later.
+        QueueFree();
+    }
+}

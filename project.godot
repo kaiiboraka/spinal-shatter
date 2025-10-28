@@ -205,6 +205,14 @@ Game_slow_down={
 3d_physics/layer_15="EnemyHitbox"
 3d_physics/layer_16="EnemyProjectile"
 
+[physics]
+
+common/physics_ticks_per_second=120
+common/max_physics_steps_per_frame=10
+3d/physics_engine="Jolt Physics"
+jolt_physics_3d/simulation/velocity_steps=12
+jolt_physics_3d/simulation/position_steps=3
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

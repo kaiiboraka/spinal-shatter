@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://dvmyuytfrypk8"]
+[gd_scene load_steps=12 format=4 uid="uid://dvmyuytfrypk8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ui8i"]
 resource_name = "Torch__Base_Wood"
@@ -76,6 +76,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_qjlg2")
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1y8hd"]
+points = PackedVector3Array(0.14490455, -2.8371811e-05, 0.38969415, 0.10243742, 0.10243742, 0.38969415, 0.10243742, -0.10246579, 0.38969415, 0.04604152, -0.04606989, -0.32764316, 0.06510492, -2.8371811e-05, -0.32764316, 0.04604152, 0.04604152, -0.32764316, -2.8371811e-05, 0.14490455, 0.38969415, -2.8371811e-05, -0.14490455, 0.38969415, -2.8371811e-05, -0.065133296, -0.32764316, -2.8371811e-05, 0.06510492, -0.32764316, -0.10246579, 0.10243742, 0.38969415, -0.04606989, 0.04604152, -0.32764316, -0.10246579, -0.10246579, 0.38969415, -0.04606989, -0.04606989, -0.32764316, -0.14490455, -2.8371811e-05, 0.38969415, -0.065133296, -2.8371811e-05, -0.32764316)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_f58sa"]
+points = PackedVector3Array(0.080171086, -1.5690923e-05, 0.19427109, 0.0379353, 0.0379353, -0.3277129, 0.044134907, 0.044134907, -0.1550487, 0.056675367, 0.056675367, 0.19427109, 0.056675367, -0.056691065, 0.19427109, 0.044134907, -0.0441506, -0.1550487, 0.0379353, -0.037950996, -0.3277129, 0.044448808, -1.5690923e-05, -0.50877285, -1.5690923e-05, 0.080171086, 0.19427109, 0.031421795, 0.031421795, -0.50877285, -1.5690923e-05, 0.044448808, -0.50877285, -1.5690923e-05, -0.080171086, 0.19427109, -1.5690923e-05, -0.062435508, -0.1550487, -1.5690923e-05, -0.044464502, -0.50877285, 0.031421795, -0.031437486, -0.50877285, -0.0441506, 0.044134907, -0.1550487, -0.056691065, 0.056675367, 0.19427109, -0.037950996, 0.0379353, -0.3277129, -0.031437486, 0.031421795, -0.50877285, -0.056691065, -0.056691065, 0.19427109, -0.0441506, -0.0441506, -0.1550487, -0.037950996, -0.037950996, -0.3277129, -0.031437486, -0.031437486, -0.50877285, -0.062435508, -1.5690923e-05, -0.1550487, -0.080171086, -1.5690923e-05, 0.19427109, -0.044464502, -1.5690923e-05, -0.50877285)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kx8mr"]
 resource_name = "Flame"
 cull_mode = 2
@@ -117,8 +123,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_p7u1n")
 
-[node name="Torch 1" type="Node3D"]
+[node name="Torch 1" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 0, 0, 0)
+collision_layer = 512
 
 [node name="Torch 1_Torch _ Base Wood_0" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_pey1s")
@@ -127,6 +134,12 @@ skeleton = NodePath("")
 [node name="Torch 1_Torch _ Handling Grip_0" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_t0ww6")
 skeleton = NodePath("")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_1y8hd")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_f58sa")
 
 [node name="Torch 1 _ Flame" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 2.646978e-23, 0, -2.646978e-23, 1, -0.007961094, 3.259629e-10, 0.36166453)

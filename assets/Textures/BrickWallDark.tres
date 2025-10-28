@@ -11,3 +11,4 @@ heightmap_enabled = true
 heightmap_scale = 2.139
 heightmap_texture = ExtResource("1_e7eux")
 uv1_scale = Vector3(10, 10, 10)
+texture_filter = 0

@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjoxxmvy44kro"]
+[gd_scene load_steps=5 format=3 uid="uid://cjoxxmvy44kro"]
 
 [ext_resource type="Texture2D" uid="uid://bkbk3jcblkrpo" path="res://assets/Images/spinal_sprites_2016.png" id="2_brx2m"]
-[ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="2_r3p7i"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
 radius = 0.3
@@ -50,5 +49,3 @@ target_position = Vector3(0, 1.1, 0)
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83, 0)
-
-[node name="PlatformStatic" parent="." instance=ExtResource("2_r3p7i")]

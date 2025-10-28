@@ -38,8 +38,10 @@ script = ExtResource("3_health")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+gi_mode = 2
 pixel_size = 0.05
 billboard = 2
+shaded = true
 texture_filter = 0
 texture = ExtResource("2_sprite")
 region_enabled = true
@@ -60,6 +62,7 @@ debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 
 [node name="HealthBar" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.514, 0)
+gi_mode = 2
 billboard = 1
 texture = SubResource("ViewportTexture_hp")
 

@@ -57,9 +57,6 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.
 [node name="EastTorch" parent="CentralHub/Torches" instance=ExtResource("5_68nw1")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.068, 3.391, 5.015)
 
-[node name="Scrounger" parent="CentralHub" instance=ExtResource("6_2e4mj")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, -3.9999995)
-
 [node name="North" type="Node3D" parent="."]
 
 [node name="North_Hallway" parent="North" instance=ExtResource("4_okbu8")]
@@ -111,3 +108,9 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("3_00trf")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="Scrounger" parent="." instance=ExtResource("6_2e4mj")]
+transform = Transform3D(1.2000002, 0, 0, 0, 1.2, 0, 0, 0, 1.2000002, 0, 0.3277359, -4)
+
+[node name="Scrounger2" parent="." instance=ExtResource("6_2e4mj")]
+transform = Transform3D(1.2000002, 0, 0, 0, 1.2, 0, 0, 0, 1.2000002, 0, 0.3277359, -54)

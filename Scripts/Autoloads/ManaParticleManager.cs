@@ -31,8 +31,9 @@ public partial class ManaParticleManager : Node
         }
     }
 
-    public void SpawnMana(int totalAmount, Vector3 position)
+    public Array<ManaParticle> SpawnMana(int totalAmount, Vector3 position)
     {
+        var spawnedParticles = new Array<ManaParticle>();
         int remaining = totalAmount;
 
         // The order of spawning (Large -> Medium -> Small) is important for the greedy algorithm
@@ -45,7 +46,7 @@ public partial class ManaParticleManager : Node
             int numToSpawn = remaining / value;
             for (int i = 0; i < numToSpawn; i++)
             {
-                SpawnFromPool(ManaSize.Large, position, value);
+                spawnedParticles.Add(SpawnFromPool(ManaSize.Large, position, value));
             }
             remaining %= value;
         }
@@ -57,7 +58,7 @@ public partial class ManaParticleManager : Node
             int numToSpawn = remaining / value;
             for (int i = 0; i < numToSpawn; i++)
             {
-                SpawnFromPool(ManaSize.Medium, position, value);
+                spawnedParticles.Add(SpawnFromPool(ManaSize.Medium, position, value));
             }
             remaining %= value;
         }
@@ -68,21 +69,24 @@ public partial class ManaParticleManager : Node
             int value = _manaValues[ManaSize.Small];
             for (int i = 0; i < remaining; i++)
             {
-                SpawnFromPool(ManaSize.Small, position, value);
+                spawnedParticles.Add(SpawnFromPool(ManaSize.Small, position, value));
             }
         }
+
+        return spawnedParticles;
     }
 
-    private void SpawnFromPool(ManaSize size, Vector3 position, int manaValue)
+    private ManaParticle SpawnFromPool(ManaSize size, Vector3 position, int manaValue)
     {
         var pool = _pools[size];
         ManaParticle particle = pool.Get();
-        if (particle == null) return; // Pool is full
+        if (particle == null) return null; // Pool is full
 
         // Add a random offset to the spawn position
         Vector3 offset = new Vector3((float)GD.RandRange(-0.5, 0.5), (float)GD.RandRange(0, 0.5), (float)GD.RandRange(-0.5, 0.5));
         particle.GlobalPosition = position + offset;
         particle.Initialize(manaValue);
+        return particle;
     }
 
     public void Release(ManaParticle particle)

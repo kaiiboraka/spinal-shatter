@@ -387,6 +387,7 @@ public partial class PlayerBody : CharacterBody3D
         if (body is ManaParticle particle)
         {
             _manaComponent.AddMana(particle.ManaValue);
+            particle.Collect();
             ManaParticleManager.Instance.Release(particle);
         }
     }

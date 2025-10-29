@@ -6,12 +6,14 @@
 radius = 0.3
 
 [node name="ManaParticle" instance=ExtResource("1_uesoq")]
-_manaValue = 12
 
 [node name="AnimatedSprite3D" parent="." index="0"]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
-modulate = Color(1.5720325, 0.46164066, 0.33826372, 1)
+modulate = Color(1.186, 1.572, 0, 1)
 frame_progress = 0.6184592
 
 [node name="CollisionShape3D" parent="." index="1"]
 shape = SubResource("SphereShape3D_sgvqu")
+
+[node name="OmniLight3D" parent="." index="3"]
+light_color = Color(0.99215686, 0.49803922, 0, 1)

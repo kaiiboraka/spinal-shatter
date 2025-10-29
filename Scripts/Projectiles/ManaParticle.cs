@@ -2,6 +2,9 @@ using Godot;
 
 public partial class ManaParticle : RigidBody3D
 {
+	[Signal]
+	public delegate void CollectedEventHandler(ManaParticle particle);
+
 	private enum ManaParticleState
 	{
 		Idle,
@@ -18,18 +21,26 @@ public partial class ManaParticle : RigidBody3D
 	private Vector3 _velocity = Vector3.Zero;
 	private Node3D _target = null;
 
-	    public override void _PhysicsProcess(double delta)
-	    {
-	        if (_state == ManaParticleState.Attracted && _target != null)
-	        {
-	            // Move towards the target
-	            Vector3 direction = (_target.GlobalPosition - this.GlobalPosition).Normalized();
-	            _velocity = direction * _attractSpeed;
-	        }
-	    }
+	public override void _PhysicsProcess(double delta)
+	{
+		if (_state == ManaParticleState.Attracted && _target != null)
+		{
+			// Move towards the target
+			Vector3 direction = (_target.GlobalPosition - this.GlobalPosition).Normalized();
+			_velocity = direction * _attractSpeed;
+		}
+	}
+
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
 		base._IntegrateForces(state);
+
+		if (_state == ManaParticleState.Idle && state.GetContactCount() > 0)
+		{
+			var normal = state.GetContactLocalNormal(0);
+			_velocity = _velocity.Bounce(normal);
+		}
+
 		state.LinearVelocity = _velocity;
 	}
 
@@ -37,6 +48,11 @@ public partial class ManaParticle : RigidBody3D
 	{
 		_state = ManaParticleState.Attracted;
 		_target = target;
+	}
+
+	public void Collect()
+	{
+		EmitSignal(SignalName.Collected, this);
 	}
 
 	public void Initialize(int manaValue)

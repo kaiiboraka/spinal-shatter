@@ -9,8 +9,11 @@ radius = 0.2
 
 [node name="AnimatedSprite3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-modulate = Color(1.1864796, 1.5720325, 0, 1)
+modulate = Color(1.572, 0.462, 0.338, 1)
 frame_progress = 0.8575966
 
 [node name="CollisionShape3D" parent="." index="1"]
 shape = SubResource("SphereShape3D_sgvqu")
+
+[node name="OmniLight3D" parent="." index="3"]
+light_color = Color(0.85882354, 0.019607844, 0.2627451, 1)

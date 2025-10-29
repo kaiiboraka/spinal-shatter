@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iuunfgvkc0ge"
-path="res://.godot/imported/enemies_small_scrounger.png-000ff025a6765f7eacc4f23e567363ac.ctex"
+uid="uid://b2o22k3p3on6t"
+path="res://.godot/imported/enemies_small_swooper_eye.png-36bb51433ffe9232f0ec4f7bc02a4394.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Images/enemies_small_scrounger.png"
-dest_files=["res://.godot/imported/enemies_small_scrounger.png-000ff025a6765f7eacc4f23e567363ac.ctex"]
+source_file="res://assets/Images/enemies_small_swooper_eye.png"
+dest_files=["res://.godot/imported/enemies_small_swooper_eye.png-36bb51433ffe9232f0ec4f7bc02a4394.ctex"]
 
 [params]
 

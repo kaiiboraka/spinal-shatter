@@ -4,14 +4,14 @@ using Godot;
 public partial class Enemy : CharacterBody3D
 {
     [Export] private HealthComponent _healthComponent;
-    [Export] private Sprite3D _sprite;
-    [Export] private ProgressBar _healthBar;
+    [Export] private SpriteBase3D _sprite;
+    [Export] private HealthBar _healthBar;
     [Export] private Area3D _hurtbox;
 
     [Export] public float WalkSpeed { get; private set; } = 3.0f;
     [Export] public int ManaToDrop { get; private set; } = 10;
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.2f;
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.10f;
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.05f;
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.30f;
 
     [Signal]
     public delegate void EnemyDiedEventHandler(Enemy who);
@@ -28,8 +28,7 @@ public partial class Enemy : CharacterBody3D
         _hurtbox.BodyEntered += OnHurtboxBodyEntered;
 
         // Initialize Health Bar
-        _healthBar.MaxValue = _healthComponent.MaxHealth;
-        _healthBar.Value = _healthComponent.CurrentHealth;
+        _healthBar.Initialize(_healthComponent.MaxHealth);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -77,7 +76,7 @@ public partial class Enemy : CharacterBody3D
 
     private void OnHealthChanged(float oldHealth, float newHealth)
     {
-        _healthBar.Value = newHealth;
+        _healthBar.OnHealthChanged(newHealth, _healthComponent.MaxHealth);
     }
 
     public void TakeDamage(float amount)

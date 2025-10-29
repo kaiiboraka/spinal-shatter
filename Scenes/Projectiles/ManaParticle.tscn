@@ -35,3 +35,7 @@ collision_mask = 131072
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("SphereShape3D_1")
 debug_color = Color(0.82745004, 0.83317846, 1.92523e-06, 0.41960785)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.85882354, 0.09019608, 0.79607844, 1)
+omni_range = 2.0

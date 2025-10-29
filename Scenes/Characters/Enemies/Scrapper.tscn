@@ -2,8 +2,30 @@
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_y5818"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="2_3nwgj"]
+[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="3_43jap"]
 [ext_resource type="SpriteFrames" uid="uid://ufkjesk8dxxt" path="res://assets/Images/enemies_small_scrapper.ase" id="3_y5818"]
-[ext_resource type="Texture2D" uid="uid://dm504503sf3ex" path="res://assets/Images/KillerBots_Small.png" id="4_ltrpb"]
+[ext_resource type="Texture2D" uid="uid://mtacq16sncce" path="res://assets/Images/enemies_small_scrounger_eye.png" id="4_3nwgj"]
+[ext_resource type="Texture2D" uid="uid://wexrhalc64u" path="res://assets/Images/enemies_small_scrapper_eye.png" id="5_43jap"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltrpb"]
+render_priority = 1
+transparency = 2
+alpha_scissor_threshold = 0.023
+alpha_antialiasing_mode = 0
+blend_mode = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+albedo_color = Color(1.8247963, 1.5931625, 1.5931625, 1)
+albedo_texture = ExtResource("5_43jap")
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 2
+billboard_keep_scale = true
+grow_amount = 16.0
+point_size = 59.5
+stencil_flags = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7402344
@@ -13,16 +35,7 @@ height = 2.4608397
 radius = 0.73583984
 height = 2.4355469
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hp"]
-viewport_path = NodePath("HealthBar/SubViewport")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
-bg_color = Color(1, 0, 0, 1)
-
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_healthBar", "_hurtbox") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
@@ -30,12 +43,16 @@ platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_y5818")
 _healthComponent = NodePath("HealthComponent")
-_sprite = NodePath("Sprite3D")
-_healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
+_sprite = NodePath("AnimatedSprite3D/Sprite3D")
 _hurtbox = NodePath("Hurtbox")
+ManaToDrop = 25
+_maxRefundPercent = 0.2
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_3nwgj")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_43jap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)
@@ -47,17 +64,24 @@ sprite_frames = ExtResource("3_y5818")
 animation = &"Idle"
 autoplay = "Idle"
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-visible = false
+[node name="SpotLight3D" type="SpotLight3D" parent="AnimatedSprite3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46399993, -0.01)
+light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
+light_volumetric_fog_energy = 20.0
+light_projector = ExtResource("4_3nwgj")
+light_size = 1.0
+shadow_enabled = true
+
+[node name="Sprite3D" type="Sprite3D" parent="AnimatedSprite3D"]
+material_override = SubResource("StandardMaterial3D_ltrpb")
 gi_mode = 2
 pixel_size = 0.05
 billboard = 2
-shaded = true
+double_sided = false
 texture_filter = 0
-texture = ExtResource("4_ltrpb")
-region_enabled = true
-region_rect = Rect2(0, 0, 24, 24)
+render_priority = 1
+texture = ExtResource("5_43jap")
+region_rect = Rect2(0, 0, 5, 5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2304199, 0)
@@ -72,24 +96,3 @@ collision_mask = 8192
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64926755, 0)
 shape = SubResource("CapsuleShape3D_s0m4p")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
-
-[node name="HealthBar" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
-gi_mode = 2
-billboard = 1
-texture = SubResource("ViewportTexture_hp")
-
-[node name="SubViewport" type="SubViewport" parent="HealthBar"]
-transparent_bg = true
-size = Vector2i(100, 15)
-
-[node name="ProgressBar" type="ProgressBar" parent="HealthBar/SubViewport"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
-value = 50.0
-rounded = true

@@ -122,8 +122,14 @@ process_physics_priority = 300
 script = ExtResource("3_00trf")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[node name="Scrounger" parent="." instance=ExtResource("6_2e4mj")]
+[node name="Scrounger" parent="." node_paths=PackedStringArray("_sprite", "_healthBar") instance=ExtResource("6_2e4mj")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0.3277359, -4)
+_sprite = NodePath("AnimatedSprite3D/Sprite3D")
+_healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
+ManaToDrop = 10
 
-[node name="Scrounger2" parent="." instance=ExtResource("6_2e4mj")]
+[node name="Scrounger2" parent="." node_paths=PackedStringArray("_sprite", "_healthBar") instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3277359, -54)
+_sprite = NodePath("AnimatedSprite3D/Sprite3D")
+_healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
+ManaToDrop = 10

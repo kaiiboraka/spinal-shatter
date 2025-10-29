@@ -42,13 +42,25 @@ public partial class ManaParticle : RigidBody3D
 	public void Initialize(int manaValue)
 	{
 		this.ManaValue = manaValue;
+		Reset();
+		Drift();
+	}
+
+	public void ReturnToIdle()
+	{
+		Reset();
+		Drift();
 	}
 
 	public void Reset()
 	{
 		_state = ManaParticleState.Idle;
 		_target = null;
+		_velocity = Vector3.Zero;
+	}
 
+	private void Drift()
+	{
 		// Set a random drift velocity
 		_velocity = new Vector3(
 			(float)GD.RandRange(-1.0, 1.0),

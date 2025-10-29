@@ -67,7 +67,7 @@ public partial class PlayerBody : CharacterBody3D
     private CollisionShape3D collider;
     private RayCast3D canStandUpRay;
     private RayCast3D footSoundRay;
-    
+
     private bool standUpBlocked;
 
     // public Loadout loadout;

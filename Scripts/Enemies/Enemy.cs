@@ -1,16 +1,22 @@
+using Elythia;
 using Godot;
 
 public partial class Enemy : CharacterBody3D
 {
     [Export] private HealthComponent _healthComponent;
-
     [Export] private Sprite3D _sprite;
-
     [Export] private ProgressBar _healthBar;
-
     [Export] private Area3D _hurtbox;
 
     [Export] public int ManaToDrop { get; private set; } = 10;
+    [Export] public float WalkSpeed { get; private set; } = 3.0f;
+
+    [Signal]
+    public delegate void EnemyDiedEventHandler(Enemy who);
+
+    public ObjectPoolManager<Node3D> OwningPool { get; set; }
+
+    private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
     public override void _Ready()
     {
@@ -22,6 +28,29 @@ public partial class Enemy : CharacterBody3D
         // Initialize Health Bar
         _healthBar.MaxValue = _healthComponent.MaxHealth;
         _healthBar.Value = _healthComponent.CurrentHealth;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector3 velocity = Velocity;
+
+        // Add gravity.
+        if (!IsOnFloor())
+            velocity.Y -= _gravity * (float)delta;
+
+        // Set horizontal velocity to move forward.
+        velocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
+        velocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
+
+        Velocity = velocity;
+        MoveAndSlide();
+
+        // Check for wall collision and change direction.
+        if (IsOnWall())
+        {
+            float randomAngle = (float)GD.RandRange(0, Mathf.Pi * 2);
+            Rotation = new Vector3(0, randomAngle, 0);
+        }
     }
 
     private void OnHurtboxBodyEntered(Node3D body)
@@ -53,7 +82,22 @@ public partial class Enemy : CharacterBody3D
 
     private void OnDied()
     {
+        EmitSignal(SignalName.EnemyDied, this);
+
         ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
-        QueueFree();
+        
+        if (OwningPool != null)
+        {
+            OwningPool.Release(this);
+        }
+        else
+        {
+            QueueFree(); // Failsafe for enemies not spawned from a pool
+        }
+    }
+
+    public void Reset()
+    {
+        _healthComponent.Reset();
     }
 }

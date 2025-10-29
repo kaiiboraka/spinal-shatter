@@ -3,7 +3,7 @@ using Godot;
 public partial class SiphonComponent : Node
 {
     [Export] private Area3D _siphonField;
-    [Export] private Node3D _target;
+    [Export] private Area3D _target;
 
     private bool _siphonPressed;
     public override void _Ready()
@@ -58,7 +58,7 @@ public partial class SiphonComponent : Node
         {
             if (area.GetParent()  is ManaParticle particle)
             {
-                particle.Reset();
+                particle.ReturnToIdle();
             }
         }
     }

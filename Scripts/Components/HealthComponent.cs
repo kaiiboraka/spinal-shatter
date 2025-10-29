@@ -39,4 +39,9 @@ public partial class HealthComponent : Node
     {
         CurrentHealth -= amount;
     }
+
+    public void Reset()
+    {
+        CurrentHealth = MaxHealth;
+    }
 }

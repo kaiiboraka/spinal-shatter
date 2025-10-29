@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=20 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bvlhic3q2d6q3" path="res://Scenes/Environment/Rooms/east_room.tscn" id="8_2e4mj"]
 [ext_resource type="PackedScene" uid="uid://b3np3lbhsv241" path="res://Scenes/Environment/Rooms/south_room.tscn" id="9_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://dhqr1q132v7k4" path="res://Scenes/Environment/Rooms/west_room.tscn" id="10_68nw1"]
+[ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="12_68nw1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
 sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
@@ -96,6 +97,12 @@ transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4
 
 [node name="West_Room" parent="West" instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51, 0, 0)
+
+[node name="EnemySpawner" parent="West/West_Room" instance=ExtResource("12_68nw1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 32)
+
+[node name="EnemySpawner2" parent="West/West_Room" instance=ExtResource("12_68nw1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -35)
 
 [node name="PlatformStatic" parent="." instance=ExtResource("1_kpm7v")]
 

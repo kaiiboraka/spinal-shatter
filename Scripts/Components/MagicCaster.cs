@@ -93,7 +93,7 @@ public partial class MagicCaster : Node
         float speed = Mathf.Lerp(20f, 40f, _currentCharge);
         Vector3 initialVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
 
-        _chargingProjectile.Launch(damage, initialVelocity);
+        _chargingProjectile.Launch(damage, manaCost, initialVelocity);
 
         // Clear reference
         _chargingProjectile = null;

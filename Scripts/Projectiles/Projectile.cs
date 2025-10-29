@@ -10,11 +10,14 @@ public partial class Projectile : RigidBody3D
     }
 
     [Export] private SpriteBase3D _sprite;
-
     [Export] private CollisionShape3D _collisionShape;
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.1f;
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.25f;
 
     public Node3D LevelParent { get; set; }
     public float Damage { get; private set; }
+    public float InitialManaCost { get; private set; }
+
     private ProjectileState _state = ProjectileState.Charging;
     private Timer _lifetimeTimer;
 
@@ -32,6 +35,8 @@ public partial class Projectile : RigidBody3D
         // Disable physics until launched
         this.Freeze = true;
         _collisionShape.Disabled = true;
+
+        BodyEntered += OnBodyEntered;
     }
 
     public void BeginCharge(Node3D parent)
@@ -56,12 +61,13 @@ public partial class Projectile : RigidBody3D
         }
     }
 
-    public void Launch(float damage, Vector3 initialVelocity)
+    public void Launch(float damage, float initialManaCost, Vector3 initialVelocity)
     {
         if (_state != ProjectileState.Charging) return;
 
         _state = ProjectileState.Fired;
         this.Damage = damage;
+        this.InitialManaCost = initialManaCost;
 
         // Re-parent to the root and maintain global position
         var globalTransform = this.GlobalTransform;
@@ -81,4 +87,41 @@ public partial class Projectile : RigidBody3D
         _lifetimeTimer.Start();
     }
 
+    private void OnBodyEntered(Node body)
+    {
+        // Assuming walls and ground are on specific physics layers you can check.
+        // For now, we'll just check if the body is NOT an enemy.
+        // A more robust way is to use physics layers (e.g., if (body.IsInLayer(LayerNames.PHYSICS_3D.SOLID_WALL_BIT)))
+
+        if (!body.IsInGroup("Enemies"))
+        {
+            HandleWallBounce();
+        }
+    }
+
+    private void HandleWallBounce()
+    {
+        float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+        int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
+
+        if (manaToSpawn > 0)
+        {
+            ManaParticleManager.Instance.SpawnMana(manaToSpawn, this.GlobalPosition);
+        }
+
+        // Reduce size and damage
+        this.Damage *= (1.0f - refundPercent);
+        _sprite.Scale *= (1.0f - refundPercent);
+        if (_collisionShape.Shape is SphereShape3D sphere)
+        {
+            sphere.Radius *= (1.0f - refundPercent);
+        }
+        this.Mass *= (1.0f - refundPercent);
+
+        // Destroy if too small
+        if (_sprite.Scale.X < 0.1f)
+        {
+            QueueFree();
+        }
+    }
 }

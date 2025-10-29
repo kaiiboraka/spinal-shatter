@@ -8,8 +8,10 @@ public partial class Enemy : CharacterBody3D
     [Export] private ProgressBar _healthBar;
     [Export] private Area3D _hurtbox;
 
-    [Export] public int ManaToDrop { get; private set; } = 10;
     [Export] public float WalkSpeed { get; private set; } = 3.0f;
+    [Export] public int ManaToDrop { get; private set; } = 10;
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.2f;
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.10f;
 
     [Signal]
     public delegate void EnemyDiedEventHandler(Enemy who);
@@ -57,7 +59,18 @@ public partial class Enemy : CharacterBody3D
     {
         if (body is Projectile projectile)
         {
+            // Take damage from the projectile
             TakeDamage(projectile.Damage);
+
+            // Spawn mana particles as a refund
+            float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+            int manaToSpawn = Mathf.RoundToInt(projectile.InitialManaCost * refundPercent);
+            if (manaToSpawn > 0)
+            {
+                ManaParticleManager.Instance.SpawnMana(manaToSpawn, projectile.GlobalPosition);
+            }
+
+            // Destroy the projectile
             projectile.QueueFree();
         }
     }

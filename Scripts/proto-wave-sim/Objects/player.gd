@@ -30,10 +30,10 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	if elapsed_msecs >= shoot_speed: attack()
 
-const BULLET = preload("res://Scenes/bullet.tscn")
-func shoot():
-	var b := BULLET.instantiate()
-	b.global_position = global_position
-	b.vel = (get_global_mouse_position() - global_position).normalized()
-	b.rotation = b.vel.angle()
-	add_sibling(b)
+#const BULLET = preload("res://Scenes/bullet.tscn")
+#func shoot():
+	#var b := BULLET.instantiate()
+	#b.global_position = global_position
+	#b.vel = (get_global_mouse_position() - global_position).normalized()
+	#b.rotation = b.vel.angle()
+	#add_sibling(b)

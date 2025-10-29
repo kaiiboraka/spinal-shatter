@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bl1y0kt6e7sod"]
+[gd_scene load_steps=11 format=3 uid="uid://bl1y0kt6e7sod"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_y5818"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="2_3nwgj"]
@@ -6,6 +6,9 @@
 [ext_resource type="SpriteFrames" uid="uid://ufkjesk8dxxt" path="res://assets/Images/enemies_small_scrapper.ase" id="3_y5818"]
 [ext_resource type="Texture2D" uid="uid://mtacq16sncce" path="res://assets/Images/enemies_small_scrounger_eye.png" id="4_3nwgj"]
 [ext_resource type="Texture2D" uid="uid://wexrhalc64u" path="res://assets/Images/enemies_small_scrapper_eye.png" id="5_43jap"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_43jap"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltrpb"]
 render_priority = 1
@@ -53,6 +56,7 @@ script = ExtResource("2_3nwgj")
 
 [node name="HealthBar" parent="." instance=ExtResource("3_43jap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
+texture = SubResource("ViewportTexture_43jap")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)

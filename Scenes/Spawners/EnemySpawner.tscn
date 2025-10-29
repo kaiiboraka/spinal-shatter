@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://3qks0y7n1ats"]
+
+[ext_resource type="Script" uid="uid://di84l61pcnw7j" path="res://Scripts/Spawners/EnemySpawner.cs" id="1_spawner_script"]
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger.tscn" id="2_vxqah"]
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper.tscn" id="3_c7tgn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt1v8"]
+albedo_color = Color(0, 0.4, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iqpnp"]
+material = SubResource("StandardMaterial3D_qt1v8")
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="EnemySpawner" type="Node3D"]
+script = ExtResource("1_spawner_script")
+_enemyScenes = Array[PackedScene]([ExtResource("2_vxqah"), ExtResource("3_c7tgn")])
+_spawnInRandomOrder = true
+_spawnInterval = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_iqpnp")

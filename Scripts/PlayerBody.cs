@@ -9,7 +9,7 @@ public partial class PlayerBody : CharacterBody3D
     const float GRAVITY_MULTIPLIER = 2.00f;
 
     // private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-    [ExportCategory("PlayerMovementSettings")]
+    [ExportGroup("PlayerMovementSettings")]
 
     [Export] float GRAVITY = 9.8f * GRAVITY_MULTIPLIER;
     [Export] float CROUCH_SPEED = 5;
@@ -22,7 +22,7 @@ public partial class PlayerBody : CharacterBody3D
     [Export] float DECEL = 16;
     const float MAX_SLOPE_ANGLE = 40;
 
-    [ExportCategory("CameraSettings")]
+    [ExportGroup("CameraSettings")]
     [Export] private float cameraLookSensitivity = 0.006f;
     [Export] private float bob_Speed = 1.0f;
     [Export] private float bob_Height = .15f;
@@ -35,8 +35,7 @@ public partial class PlayerBody : CharacterBody3D
     [Export] private float FOV_change = 1.5f;
     private double fovJuiceWeight = 8.0f;
 
-    [Signal]
-    public delegate void ViewChangeEventHandler();
+    [Signal] public delegate void ViewChangeEventHandler();
 
     private bool grounded = false;
     private bool isCrouching = false;
@@ -61,11 +60,14 @@ public partial class PlayerBody : CharacterBody3D
     private Label currAmmoLabel;
     private Label maxAmmoLabel;
 
-    private ManaComponent _manaComponent;
+    [ExportGroup("Components")]
+    [Export] private ManaComponent _manaComponent;
+    [Export] private Area3D pickupArea;
 
     private CollisionShape3D collider;
     private RayCast3D canStandUpRay;
     private RayCast3D footSoundRay;
+    
     private bool standUpBlocked;
 
     // public Loadout loadout;
@@ -90,11 +92,11 @@ public partial class PlayerBody : CharacterBody3D
         currAmmoLabel = GetNode<Label>("%CurrAmmoText");
         maxAmmoLabel = GetNode<Label>("%MaxAmmoText");
 
-        _manaComponent = GetNode<ManaComponent>("%ManaComponent");
+        _manaComponent ??= GetNode<ManaComponent>("%ManaComponent");
         _manaComponent.ManaChanged += UpdateManaHUD;
         UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
-        var pickupArea = GetNode<Area3D>("PickupArea");
+        pickupArea ??= GetNode<Area3D>("PickupArea");
         pickupArea.AreaEntered += OnPickupAreaEntered;
 
         parentLevel = GetParent<Node3D>();

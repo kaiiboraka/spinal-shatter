@@ -85,7 +85,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
                 return null;
             }
             obj = Scene.Instantiate<T>();
-            _poolParent.CallDeferred("add_child", obj);
+            _poolParent.AddChild(obj);
         }
 
         obj.SetProcess(true);

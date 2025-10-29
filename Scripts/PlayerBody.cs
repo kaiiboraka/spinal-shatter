@@ -61,6 +61,8 @@ public partial class PlayerBody : CharacterBody3D
     private Label currAmmoLabel;
     private Label maxAmmoLabel;
 
+    private ManaComponent _manaComponent;
+
     private CollisionShape3D collider;
     private RayCast3D canStandUpRay;
     private RayCast3D footSoundRay;
@@ -71,6 +73,7 @@ public partial class PlayerBody : CharacterBody3D
 
     private Node3D parentLevel;
     public Node3D ParentLevel => parentLevel;
+
 
     public override void _Ready()
     {
@@ -87,9 +90,12 @@ public partial class PlayerBody : CharacterBody3D
         currAmmoLabel = GetNode<Label>("%CurrAmmoText");
         maxAmmoLabel = GetNode<Label>("%MaxAmmoText");
 
-        var manaComponent = GetNode<ManaComponent>("%ManaComponent");
-        manaComponent.ManaChanged += UpdateManaHUD;
-        UpdateManaHUD(manaComponent.CurrentMana, manaComponent.MaxMana);
+        _manaComponent = GetNode<ManaComponent>("%ManaComponent");
+        _manaComponent.ManaChanged += UpdateManaHUD;
+        UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
+
+        var pickupArea = GetNode<Area3D>("PickupArea");
+        pickupArea.AreaEntered += OnPickupAreaEntered;
 
         parentLevel = GetParent<Node3D>();
 
@@ -372,5 +378,14 @@ public partial class PlayerBody : CharacterBody3D
     {
         currAmmoLabel.Text = Mathf.RoundToInt(newCurr).ToString();
         maxAmmoLabel.Text = Mathf.RoundToInt(newMax).ToString();
+    }
+
+    private void OnPickupAreaEntered(Node3D body)
+    {
+        if (body is ManaParticle particle)
+        {
+            _manaComponent.AddMana(particle.ManaValue);
+            ManaParticleManager.Instance.Release(particle);
+        }
     }
 }

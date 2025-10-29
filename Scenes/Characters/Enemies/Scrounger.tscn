@@ -1,16 +1,36 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=11 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_s0m4p"]
-[ext_resource type="Texture2D" uid="uid://dm504503sf3ex" path="res://assets/Images/KillerBots_Small.png" id="2_sprite"]
+[ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/enemies_small_scrounger.ase" id="3_0uo32"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="3_health"]
+[ext_resource type="Texture2D" uid="uid://mtacq16sncce" path="res://assets/Images/enemies_small_scrounger_eye.png" id="4_0uo32"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0uo32"]
+render_priority = 1
+transparency = 2
+alpha_scissor_threshold = 0.023
+alpha_antialiasing_mode = 0
+blend_mode = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+albedo_color = Color(1.8247963, 1.5931625, 1.5931625, 1)
+albedo_texture = ExtResource("4_0uo32")
+texture_filter = 0
+billboard_mode = 2
+billboard_keep_scale = true
+grow_amount = 16.0
+point_size = 59.5
+stencil_flags = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
-radius = 0.4
-height = 1.2
+radius = 0.7338867
+height = 2.4588866
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0m4p"]
-radius = 0.5371094
-height = 1.289746
+radius = 0.73583984
+height = 2.4355469
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_hp"]
 viewport_path = NodePath("HealthBar/SubViewport")
@@ -29,39 +49,58 @@ platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_s0m4p")
 _healthComponent = NodePath("HealthComponent")
-_sprite = NodePath("Sprite3D")
+_sprite = NodePath("AnimatedSprite3D/Sprite3D")
 _healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
 _hurtbox = NodePath("Hurtbox")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_health")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-gi_mode = 2
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)
 pixel_size = 0.05
 billboard = 2
 shaded = true
 texture_filter = 0
-texture = ExtResource("2_sprite")
-region_enabled = true
-region_rect = Rect2(0, 0, 24, 24)
+sprite_frames = ExtResource("3_0uo32")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Sprite3D" type="Sprite3D" parent="AnimatedSprite3D"]
+material_override = SubResource("StandardMaterial3D_0uo32")
+gi_mode = 2
+pixel_size = 0.05
+billboard = 2
+double_sided = false
+texture_filter = 0
+render_priority = 1
+texture = ExtResource("4_0uo32")
+region_rect = Rect2(0, 0, 5, 5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="AnimatedSprite3D/Sprite3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.739, -0.01)
+light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
+light_volumetric_fog_energy = 20.0
+light_projector = ExtResource("4_0uo32")
+light_size = 1.0
+shadow_enabled = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2294433, 0)
 shape = SubResource("CapsuleShape3D_0uo32")
 
 [node name="Hurtbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58596015, 0)
 collision_layer = 2048
 collision_mask = 8192
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644873, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64926755, 0)
 shape = SubResource("CapsuleShape3D_s0m4p")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 
 [node name="HealthBar" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.514, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
 gi_mode = 2
 billboard = 1
 texture = SubResource("ViewportTexture_hp")

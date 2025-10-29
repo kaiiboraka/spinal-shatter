@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6h7gq8xvyc3w"]
+
+[ext_resource type="Script" uid="uid://b1ddcdnjyarn3" path="res://Scripts/Autoloads/ManaParticleManager.cs" id="1_manager_script"]
+[ext_resource type="PackedScene" uid="uid://3mci4bqbc8g6" path="res://Scenes/Projectiles/ManaParticle.tscn" id="2_particle_scene"]
+[ext_resource type="PackedScene" uid="uid://c0677l47utv1s" path="res://Scenes/Projectiles/ManaParticleMedium.tscn" id="3_1der4"]
+[ext_resource type="PackedScene" uid="uid://b7hopu7o7rdrd" path="res://Scenes/Projectiles/ManaParticleLarge.tscn" id="4_56w26"]
+
+[node name="ManaParticleManager" type="Node"]
+script = ExtResource("1_manager_script")
+_particleScenes = Dictionary[int, PackedScene]({
+0: ExtResource("2_particle_scene"),
+1: ExtResource("3_1der4"),
+2: ExtResource("4_56w26")
+})
+_manaValues = Dictionary[int, int]({
+0: 1,
+1: 3,
+2: 12
+})

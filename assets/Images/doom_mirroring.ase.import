@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bfhd6c6325ha0"
+path="res://.godot/imported/doom_mirroring.ase-321ced981609a3c9ca8bd20d59af884a.res"
+
+[deps]
+
+source_file="res://assets/Images/doom_mirroring.ase"
+dest_files=["res://.godot/imported/doom_mirroring.ase-321ced981609a3c9ca8bd20d59af884a.res"]
+
+[params]
+

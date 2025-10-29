@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3vj3gq8xvyd4"]
+
+[ext_resource type="Script" uid="uid://cxmuhry32vsfo" path="res://Scripts/Spawners/ManaSpawner.cs" id="1_spawner_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt1v8"]
+albedo_color = Color(1, 0, 0.8166666, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iqpnp"]
+material = SubResource("StandardMaterial3D_qt1v8")
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="ManaSpawner" type="Node3D"]
+script = ExtResource("1_spawner_script")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_iqpnp")

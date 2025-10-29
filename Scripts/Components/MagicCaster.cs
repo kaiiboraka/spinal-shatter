@@ -13,31 +13,34 @@ public partial class MagicCaster : Node
     private ManaComponent _manaComponent;
 
     [ExportGroup("Charging")]
-    [Export]
-    private float _maxChargeTime = 2.0f; // Time in seconds to reach full charge
-    [Export]
-    private float _minManaCost = 10.0f;
-    [Export]
-    private float _maxManaCost = 50.0f;
+    [Export] private float _maxChargeTime = 2.0f; // Time in seconds to reach full charge
+    [Export] private float _minManaCost = 1.0f;
+    [Export] private float _maxManaCost = 50.0f;
 
     private float _currentCharge = 0f; // 0.0 to 1.0
     private Projectile _chargingProjectile = null;
+    private bool _isCharging = false;
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Player_Shoot"))
+        {
+            _isCharging = true;
+            StartCharge();
+        }
+        else if (@event.IsActionReleased("Player_Shoot"))
+        {
+            _isCharging = false;
+            ReleaseCharge();
+        }
+        SetProcess(_isCharging);
+    }
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("Player_Shoot"))
-        {
-            StartCharge();
-        }
-
-        if (Input.IsActionPressed("Player_Shoot"))
+        if (_isCharging)
         {
             ContinueCharge((float)delta);
-        }
-
-        if (Input.IsActionJustReleased("Player_Shoot"))
-        {
-            ReleaseCharge();
         }
     }
 

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7hopu7o7rdrd"]
+
+[ext_resource type="PackedScene" uid="uid://3mci4bqbc8g6" path="res://Scenes/Projectiles/ManaParticle.tscn" id="1_uesoq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sgvqu"]
+radius = 0.3
+
+[node name="ManaParticle" instance=ExtResource("1_uesoq")]
+_manaValue = 12
+
+[node name="AnimatedSprite3D" parent="." index="0"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+modulate = Color(1.5720325, 0.46164066, 0.33826372, 1)
+frame_progress = 0.6184592
+
+[node name="CollisionShape3D" parent="." index="1"]
+shape = SubResource("SphereShape3D_sgvqu")

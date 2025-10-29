@@ -10,6 +10,8 @@ public partial class Enemy : CharacterBody3D
 
     [Export] private Area3D _hurtbox;
 
+    [Export] public int ManaToDrop { get; private set; } = 10;
+
     public override void _Ready()
     {
         _healthComponent.Died += OnDied;
@@ -51,7 +53,7 @@ public partial class Enemy : CharacterBody3D
 
     private void OnDied()
     {
-        // For now, just disappear. We can add death effects later.
+        ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
         QueueFree();
     }
 }

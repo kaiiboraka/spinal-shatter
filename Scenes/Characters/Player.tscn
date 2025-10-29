@@ -1,9 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=16 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
+[ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
+[ext_resource type="ArrayMesh" uid="uid://cuaf41qjv2hfp" path="res://assets/Models/siphon_cone.res" id="6_gc10f"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
+radius = 1.0
+height = 3.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
 radius = 0.3
@@ -15,8 +21,49 @@ height = 0.6
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1i50u"]
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7qdam"]
+points = PackedVector3Array(1.1616907, -1.2823802, 0.27702412, -1.2082909, -1.4458746, -0.25898445, -1.2151212, -1.4539682, 0.2389093, -0.48016205, 1.4319004, 0.19075207, 0.23890913, -1.4539666, -1.21512, -0.03338711, -1.4504763, 1.2359837, 0.49957368, 1.4184207, 0.1447775, -0.20982654, 1.4186915, -0.47562292, 1.0407345, -1.4312205, -0.6586909, -0.617874, -1.4395347, -1.0676142, 0.2800267, 1.4298435, -0.43480766, 0.72589105, -1.4281473, 0.9936948, 0.14477794, 1.4184247, 0.49957505, -0.6588344, -1.4310223, 1.0405921, -0.47144154, 1.3624668, -0.25161198, -0.16398561, 1.4082261, 0.49606863, 1.235998, -1.4504932, -0.03314805, 0.4961079, 1.4083401, -0.16376723, -0.97741735, -1.4387578, -0.75231206, -1.0811263, -1.4572321, 0.60392314, 0.60392356, -1.457233, -1.081127, -0.2592034, -1.4457686, -1.2082014, 0.9937187, -1.4278388, 0.72573674, 0.3297028, -1.4528315, 1.1923659, 0.36300534, 1.3165821, 0.40686384, 0.100448206, 1.3770379, -0.52099997, -0.3811146, 1.3976759, 0.36128092, -0.5232029, 1.3821213, -0.076965585, -0.3492912, -1.4440063, 1.1851952, 1.1853427, -1.4441879, -0.34885946, 0.8604311, -1.4290234, -0.8812436, 0.5585395, -1.4575499, 1.1051742)
+
 [sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
 font_size = 32
+
+[sub_resource type="Animation" id="Animation_gc10f"]
+resource_name = "Siphon_Spin"
+length = 2.0000017
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Camera1P/SiphonField/MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.1415927, 0), Vector3(0, 6.2831855, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qkgjm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Camera1P/SiphonField/MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qkgjm"]
+_data = {
+&"RESET": SubResource("Animation_qkgjm"),
+&"Siphon_Spin": SubResource("Animation_gc10f")
+}
 
 [node name="Player" type="CharacterBody3D"]
 collision_mask = 652
@@ -36,7 +83,20 @@ script = ExtResource("2_caster")
 _projectileScene = ExtResource("4_orb")
 _spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 _manaComponent = NodePath("../ManaComponent")
-_minManaCost = 1.0
+
+[node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target")]
+script = ExtResource("5_siphon")
+_siphonField = NodePath("../Head/Camera1P/SiphonField")
+_target = NodePath("../PickupArea")
+
+[node name="PickupArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.208, 0.181)
+collision_layer = 131072
+collision_mask = 65536
+
+[node name="PickupRadius" type="CollisionShape3D" parent="PickupArea"]
+shape = SubResource("CapsuleShape3D_7qdam")
+debug_color = Color(0.76919794, 0.44635576, 1.92523e-07, 0.41960785)
 
 [node name="Mesh_Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.328861)
@@ -76,6 +136,20 @@ collide_with_areas = true
 [node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.5)
+
+[node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)
+collision_layer = 131072
+collision_mask = 65536
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera1P/SiphonField"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = ExtResource("6_gc10f")
+
+[node name="Siphon_Cone" type="CollisionShape3D" parent="Head/Camera1P/SiphonField"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_7qdam")
+debug_color = Color(0.8813784, 0.00035636008, 0.82074654, 0.41960785)
 
 [node name="CameraArm" type="SpringArm3D" parent="Head"]
 unique_name_in_owner = true
@@ -190,3 +264,9 @@ width = 2.0
 [node name="Left" type="Line2D" parent="Control/Reticle"]
 points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qkgjm")
+}
+autoplay = "Siphon_Spin"

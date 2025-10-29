@@ -38,8 +38,9 @@ fog_light_color = Color(0.13375837, 0.18140209, 0.2031388, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.04
 
-[node name="LevelRoot" type="Node3D"]
+[node name="LevelRoot" type="Node3D" node_paths=PackedStringArray("_rooms")]
 script = ExtResource("1_oghjx")
+_rooms = [NodePath("North/North_Room"), NodePath("East/East_Room"), NodePath("South/South_Room"), NodePath("West/West_Room")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kwiqg")

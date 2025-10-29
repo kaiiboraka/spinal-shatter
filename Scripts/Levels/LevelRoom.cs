@@ -2,6 +2,9 @@ using Godot;
 
 public partial class LevelRoom : Node3D
 {
+    [Signal]
+    public delegate void PlayerEnteredEventHandler(LevelRoom room);
+
     [Export] private Area3D _triggerVolume;
 
     public override void _Ready()
@@ -16,7 +19,7 @@ public partial class LevelRoom : Node3D
     {
         if (body is PlayerBody)
         {
-            GetParent().Call("OnPlayerEnteredRoom", this);
+            EmitSignal(SignalName.PlayerEntered, this);
         }
     }
 

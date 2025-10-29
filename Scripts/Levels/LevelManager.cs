@@ -15,6 +15,7 @@ public partial class LevelManager : Node
             if (room != null)
             {
                 _rooms.Add(room);
+                room.PlayerEntered += OnPlayerEnteredRoom;
             }
         }
 

@@ -38,7 +38,7 @@ height = 2.4608397
 radius = 0.73583984
 height = 2.4355469
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_hurtbox") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_healthBar", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
@@ -47,6 +47,7 @@ platform_wall_layers = 512
 script = ExtResource("1_y5818")
 _healthComponent = NodePath("HealthComponent")
 _sprite = NodePath("AnimatedSprite3D/Sprite3D")
+_healthBar = NodePath("HealthBar")
 _hurtbox = NodePath("Hurtbox")
 ManaToDrop = 25
 _maxRefundPercent = 0.2

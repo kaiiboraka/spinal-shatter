@@ -7,7 +7,7 @@ public partial class Enemy : CharacterBody3D
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;
 	[Export] private Area3D _hurtbox;
 	[Export] private HealthComponent HealthComponent { get; set; }
-	[Export] private HealthBar HealthBar { get; set; }
+	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
 
 	[Export] public float WalkSpeed { get; private set; } = 3.0f;
 	[Export] public int ManaToDrop { get; private set; } = 10;
@@ -28,7 +28,7 @@ public partial class Enemy : CharacterBody3D
 	public override void _Ready()
 	{
 		HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
-		HealthBar ??= GetNode<HealthBar>("%HealthBar");
+		OverheadHealthBar ??= GetNode<OverheadHealthBar>("%HealthBar");
 
 		HealthComponent.Died += OnDied;
 		HealthComponent.HealthChanged += OnHealthChanged;
@@ -36,7 +36,7 @@ public partial class Enemy : CharacterBody3D
 		_hurtbox.BodyEntered += OnHurtboxBodyEntered;
 
 		// Initialize Health Bar
-		HealthBar.Initialize(HealthComponent.MaxHealth);
+		OverheadHealthBar.Initialize(HealthComponent.MaxHealth);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -143,7 +143,7 @@ public partial class Enemy : CharacterBody3D
 
 	private void OnHealthChanged(float oldHealth, float newHealth)
 	{
-		HealthBar.OnHealthChanged(newHealth, HealthComponent.MaxHealth);
+		OverheadHealthBar.OnHealthChanged(newHealth, HealthComponent.MaxHealth);
 	}
 
 	public void TakeDamage(float amount)

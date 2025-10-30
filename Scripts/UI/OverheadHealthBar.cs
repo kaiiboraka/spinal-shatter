@@ -1,6 +1,7 @@
 using Godot;
 
-public partial class HealthBar : Sprite3D
+[GlobalClass]
+public partial class OverheadHealthBar : Sprite3D
 {
     [Export] private float _renderDistance = 25.0f;
 

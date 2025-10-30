@@ -7,7 +7,7 @@
 [ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/enemies_small_scrounger_eye.ase" id="6_fhuh0"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bnk72"]
-viewport_path = NodePath("SubViewport")
+viewport_path = NodePath("HealthBar/SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7338867
@@ -17,7 +17,7 @@ height = 2.4588866
 radius = 0.8564453
 height = 2.4355469
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "HealthBar") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
@@ -28,7 +28,6 @@ _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _hurtbox = NodePath("Hurtbox")
 HealthComponent = NodePath("HealthComponent")
-HealthBar = NodePath("HealthBar")
 ManaToDrop = 35
 
 [node name="HealthComponent" type="Node" parent="."]

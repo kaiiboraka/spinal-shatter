@@ -62,6 +62,8 @@ public partial class PlayerBody : CharacterBody3D
 
     [ExportGroup("Components")]
     [Export] private ManaComponent _manaComponent;
+    [Export] private HealthComponent _healthComponent;
+    [Export] private PlayerHealthBar _playerHealthBar;
     [Export] private Area3D pickupArea;
 
     private CollisionShape3D collider;
@@ -95,6 +97,11 @@ public partial class PlayerBody : CharacterBody3D
         _manaComponent ??= GetNode<ManaComponent>("%ManaComponent");
         _manaComponent.ManaChanged += UpdateManaHUD;
         UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
+
+        _healthComponent ??= GetNode<HealthComponent>("%HealthComponent");
+        _playerHealthBar ??= GetNode<PlayerHealthBar>("%PlayerHealthBar");
+        _healthComponent.HealthChanged += UpdateHealthHUD;
+        UpdateHealthHUD(_healthComponent.CurrentHealth, _healthComponent.MaxHealth);
 
         pickupArea ??= GetNode<Area3D>("PickupArea");
         // pickupArea.BodyEntered += OnBodyEnteredPickupArea;
@@ -133,24 +140,10 @@ public partial class PlayerBody : CharacterBody3D
     }
 
 
-    private const double pickup_check_time = .5f;
-    private double pickup_clock = 0f;
     public override void _PhysicsProcess(double delta)
     {
         ProcessInput(delta);
         ProcessMovement(delta);
-        pickup_clock += delta;
-        if (pickup_clock >= pickup_check_time)
-        {
-            pickup_clock = 0;
-            foreach (var body in pickupArea.GetOverlappingBodies())
-            {
-                if (body is ManaParticle particle)
-                {
-                    PickupManaParticle(particle);
-                }
-            }
-        }
     }
 
     private void ProcessInput(double delta)
@@ -355,6 +348,11 @@ public partial class PlayerBody : CharacterBody3D
     {
         currAmmoLabel.Text = Mathf.RoundToInt(newCurr).ToString();
         maxAmmoLabel.Text = Mathf.RoundToInt(newMax).ToString();
+    }
+
+    public void UpdateHealthHUD(float newCurr, float newMax)
+    {
+        _playerHealthBar.OnHealthChanged(newCurr, newMax);
     }
 
     // private void OnBodyEnteredPickupArea(Node3D body)

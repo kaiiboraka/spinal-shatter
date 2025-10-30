@@ -70,7 +70,7 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.068, 3.391, 5.015)
 
 [node name="ManaSpawner" parent="CentralHub" instance=ExtResource("6_qf3oj")]
-transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 5.999999, 1, -3.9999995)
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 3.999999, 1, -3.9999995)
 _maxActiveInstances = 30
 _minManaToSpawn = 20
 _maxManaToSpawn = 30

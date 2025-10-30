@@ -1,10 +1,11 @@
 using Godot;
 using System;
 
+[GlobalClass]
 public partial class HealthComponent : Node
 {
     [Signal]
-    public delegate void HealthChangedEventHandler(float oldHealth, float newHealth);
+    public delegate void HealthChangedEventHandler(float currentHealth, float maxHealth);
 
     [Signal]
     public delegate void DiedEventHandler();
@@ -18,9 +19,8 @@ public partial class HealthComponent : Node
         get => _currentHealth;
         private set
         {
-            float oldHealth = _currentHealth;
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-            EmitSignal(SignalName.HealthChanged, oldHealth, _currentHealth);
+            EmitSignal(SignalName.HealthChanged, _currentHealth, MaxHealth);
 
             if (_currentHealth <= 0)
             {
@@ -32,12 +32,16 @@ public partial class HealthComponent : Node
     public override void _Ready()
     {
         CurrentHealth = MaxHealth;
-        EmitSignalHealthChanged(MaxHealth, MaxHealth);
     }
 
     public void TakeDamage(float amount)
     {
         CurrentHealth -= amount;
+    }
+
+    public void Heal(float amount)
+    {
+        CurrentHealth += amount;
     }
 
     public void Reset()

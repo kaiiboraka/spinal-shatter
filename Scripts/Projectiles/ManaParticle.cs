@@ -1,13 +1,16 @@
 using Godot;
 
+[GlobalClass]
 public partial class ManaParticle : RigidBody3D
 {
 	[Signal] public delegate void CollectedEventHandler(ManaParticle particle);
 
-	private enum ManaParticleState
+	public enum ManaParticleState
 	{
 		Idle,
-		Attracted
+		Attracted,
+		Collected,
+		Expired
 	}
 
 	[Export] public ManaSize Size { get; private set; }
@@ -22,6 +25,8 @@ public partial class ManaParticle : RigidBody3D
 	public int ManaValue { get; private set; }
 
 	private ManaParticleState _state = ManaParticleState.Idle;
+	public ManaParticleState State => _state;
+
 	private Vector3 _velocity = Vector3.Zero;
 	private Node3D _target = null;
 
@@ -56,20 +61,15 @@ public partial class ManaParticle : RigidBody3D
 		BlinkRoutine();
 	}
 
-	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
-	{
-		if (_state == ManaParticleState.Idle && state.GetContactCount() > 0)
-		{
-			var normal = state.GetContactLocalNormal(0);
-			_velocity = _velocity.Bounce(normal);
-		}
-
-		// if (_state == ManaParticleState.Attracted)
-		state.LinearVelocity = _velocity;
-
-		base._IntegrateForces(state);
-	}
-
+	    public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+	    {
+	        if (_state == ManaParticleState.Attracted || _state == ManaParticleState.Idle)
+	        {
+	            state.LinearVelocity = _velocity;
+	        }
+	
+	        base._IntegrateForces(state);
+	    }
 	public void Attract(Node3D target)
 	{
 		_state = ManaParticleState.Attracted;
@@ -77,12 +77,13 @@ public partial class ManaParticle : RigidBody3D
 		_decayTween?.Kill();
 	}
 
-	public void Collect()
-	{
-		StopMoving();
-		EmitSignal(SignalName.Collected, this);
-	}
-
+	    public void Collect()
+	    {
+	        _state = ManaParticleState.Collected;
+	        StopMoving();
+	        _blinkTween?.Kill();
+	        EmitSignal(SignalName.Collected, this);
+	    }
 	// Called by the ManaParticleManager when a particle is spawned from the pool.
 	public void Initialize(ManaParticleData data)
 	{
@@ -150,14 +151,14 @@ public partial class ManaParticle : RigidBody3D
 		_blinkTween.TweenProperty(_sprite, "modulate:a", 1.0f, duration / 2);
 	}
 
-	private void OnLifetimeTimeout()
-	{
-		var tween = CreateTween();
-		tween.TweenProperty(this, "scale", Vector3.One * 0.001f, 0.2f).SetTrans(Tween.TransitionType.Quad)
-			 .SetEase(Tween.EaseType.In);
-		tween.TweenCallback(Callable.From(() => ManaParticleManager.Instance.Release(this)));
-	}
-
+	    private void OnLifetimeTimeout()
+	    {
+	        _state = ManaParticleState.Expired;
+	        var tween = CreateTween();
+	        tween.TweenProperty(this, "scale", Vector3.One * 0.001f, 0.2f).SetTrans(Tween.TransitionType.Quad)
+	             .SetEase(Tween.EaseType.In);
+	        tween.TweenCallback(Callable.From(() => ManaParticleManager.Instance.Release(this)));
+	    }
 	private void ResetVisuals(ManaParticleData data)
 	{
 		Scale = Vector3.One;
@@ -183,14 +184,16 @@ public partial class ManaParticle : RigidBody3D
 		// _blinkTween = null;
 	}
 
-	public void StopMoving()
-	{
-		LinearVelocity = Vector3.Zero;
-		_state = ManaParticleState.Idle;
-		_velocity = Vector3.Zero;
-		_target = null;
-	}
-
+	    public void StopMoving()
+	    {
+	        LinearVelocity = Vector3.Zero;
+	        if (_state != ManaParticleState.Collected && _state != ManaParticleState.Expired)
+	        {
+	            _state = ManaParticleState.Idle;
+	        }
+	        _velocity = Vector3.Zero;
+	        _target = null;
+	    }
 	public Vector3 DriftIdle()
 	{
 		// Set a random drift velocity

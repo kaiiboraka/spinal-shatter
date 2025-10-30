@@ -36,7 +36,7 @@ public partial class ManaSpawner : Node3D
     [Export] private bool _spawnRandomAmount = true;
 
     private Timer _spawnTimer;
-    private int _activeInstanceCount = 0;
+    [Export] private int _activeInstanceCount = 0;
 
     public override void _Ready()
     {
@@ -76,7 +76,6 @@ public partial class ManaSpawner : Node3D
             }
 
             particle.Collected += OnManaCollected;
-            particle.StopMoving();
             particle.DriftIdle();
             _activeInstanceCount++;
         }

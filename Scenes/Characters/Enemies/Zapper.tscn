@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://5ou8wlwv5mf1"]
+
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger.tscn" id="1_ekt2s"]
+[ext_resource type="SpriteFrames" uid="uid://cqr5851apyyhs" path="res://assets/Images/enemies_small_zapper.ase" id="2_kgabe"]
+[ext_resource type="SpriteFrames" uid="uid://fpsefbsgn0bo" path="res://assets/Images/enemies_small_zapper_eye.ase" id="3_5lwoa"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kgabe"]
+viewport_path = NodePath("HealthBar/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5lwoa"]
+viewport_path = NodePath("StateSprite3D/SubViewport2")
+
+[node name="Zapper" instance=ExtResource("1_ekt2s")]
+motion_mode = 1
+WalkSpeed = 8.0
+
+[node name="HealthBar" parent="." index="2"]
+texture = SubResource("ViewportTexture_kgabe")
+
+[node name="StateSprite3D" parent="." index="3"]
+texture = SubResource("ViewportTexture_5lwoa")
+
+[node name="Body_AnimatedSprite3D" parent="." index="4"]
+sprite_frames = ExtResource("2_kgabe")
+
+[node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+sprite_frames = ExtResource("3_5lwoa")

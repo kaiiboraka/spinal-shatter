@@ -1,9 +1,685 @@
-E 0:00:34:441   NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int): Path to node is invalid: 'HealthBar/SubViewport'.
-  <C++ Error>   Parameter "vpn" is null.
-  <C++ Source>  scene/main/viewport.cpp:197 @ _setup_local_to_scene()
-  <Stack Trace> NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int)
-				Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
-				ObjectPoolManager.cs:98 @ T ObjectPoolManager`1.Get()
-				EnemySpawner.cs:78 @ void EnemySpawner.OnSpawnTimerTimeout()
-				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
+Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
+Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
+
+4215: ManaParticle ManaParticle is being initialized. Old state: Idle
+4218: ManaParticle ManaParticle is stopped moving. Old state: Idle
+4218: ManaParticle ManaParticle is stopped moving. New state: Idle
+4218: ManaParticle ManaParticle is being initialized. New state: Idle
+4218: ManaParticle @RigidBody3D@15 is being initialized. Old state: Idle
+4218: ManaParticle @RigidBody3D@15 is stopped moving. Old state: Idle
+4219: ManaParticle @RigidBody3D@15 is stopped moving. New state: Idle
+4219: ManaParticle @RigidBody3D@15 is being initialized. New state: Idle
+4219: ManaParticle @RigidBody3D@16 is being initialized. Old state: Idle
+4219: ManaParticle @RigidBody3D@16 is stopped moving. Old state: Idle
+4219: ManaParticle @RigidBody3D@16 is stopped moving. New state: Idle
+4219: ManaParticle @RigidBody3D@16 is being initialized. New state: Idle
+4219: ManaParticle @RigidBody3D@17 is being initialized. Old state: Idle
+4219: ManaParticle @RigidBody3D@17 is stopped moving. Old state: Idle
+4219: ManaParticle @RigidBody3D@17 is stopped moving. New state: Idle
+4219: ManaParticle @RigidBody3D@17 is being initialized. New state: Idle
+4220: ManaParticle @RigidBody3D@18 is being initialized. Old state: Idle
+4220: ManaParticle @RigidBody3D@18 is stopped moving. Old state: Idle
+4220: ManaParticle @RigidBody3D@18 is stopped moving. New state: Idle
+4220: ManaParticle @RigidBody3D@18 is being initialized. New state: Idle
+6709: ManaParticle @RigidBody3D@21 is being initialized. Old state: Idle
+6709: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Idle
+6709: ManaParticle @RigidBody3D@21 is stopped moving. New state: Idle
+6709: ManaParticle @RigidBody3D@21 is being initialized. New state: Idle
+6709: ManaParticle @RigidBody3D@22 is being initialized. Old state: Idle
+6709: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Idle
+6709: ManaParticle @RigidBody3D@22 is stopped moving. New state: Idle
+6709: ManaParticle @RigidBody3D@22 is being initialized. New state: Idle
+6709: ManaParticle @RigidBody3D@23 is being initialized. Old state: Idle
+6709: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Idle
+6709: ManaParticle @RigidBody3D@23 is stopped moving. New state: Idle
+6709: ManaParticle @RigidBody3D@23 is being initialized. New state: Idle
+9212: ManaParticle @RigidBody3D@26 is being initialized. Old state: Idle
+9212: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Idle
+9212: ManaParticle @RigidBody3D@26 is stopped moving. New state: Idle
+9212: ManaParticle @RigidBody3D@26 is being initialized. New state: Idle
+9212: ManaParticle @RigidBody3D@27 is being initialized. Old state: Idle
+9212: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Idle
+9212: ManaParticle @RigidBody3D@27 is stopped moving. New state: Idle
+9212: ManaParticle @RigidBody3D@27 is being initialized. New state: Idle
+9212: ManaParticle @RigidBody3D@28 is being initialized. Old state: Idle
+9212: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Idle
+9212: ManaParticle @RigidBody3D@28 is stopped moving. New state: Idle
+9212: ManaParticle @RigidBody3D@28 is being initialized. New state: Idle
+11690: ManaParticle @RigidBody3D@32 is being initialized. Old state: Idle
+11691: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Idle
+11691: ManaParticle @RigidBody3D@32 is stopped moving. New state: Idle
+11691: ManaParticle @RigidBody3D@32 is being initialized. New state: Idle
+11691: ManaParticle @RigidBody3D@33 is being initialized. Old state: Idle
+11691: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Idle
+11691: ManaParticle @RigidBody3D@33 is stopped moving. New state: Idle
+11691: ManaParticle @RigidBody3D@33 is being initialized. New state: Idle
+11691: ManaParticle @RigidBody3D@34 is being initialized. Old state: Idle
+11691: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Idle
+11691: ManaParticle @RigidBody3D@34 is stopped moving. New state: Idle
+11691: ManaParticle @RigidBody3D@34 is being initialized. New state: Idle
+11691: ManaParticle @RigidBody3D@35 is being initialized. Old state: Idle
+11691: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Idle
+11691: ManaParticle @RigidBody3D@35 is stopped moving. New state: Idle
+11691: ManaParticle @RigidBody3D@35 is being initialized. New state: Idle
+13261: SiphonComponent: Attracting particle @RigidBody3D@32, current state: Idle
+13261: ManaParticle @RigidBody3D@32 is being attracted. Old state: Idle
+13262: ManaParticle @RigidBody3D@32 is being attracted. New state: Attracted
+13262: SiphonComponent: Attracting particle @RigidBody3D@33, current state: Idle
+13262: ManaParticle @RigidBody3D@33 is being attracted. Old state: Idle
+13262: ManaParticle @RigidBody3D@33 is being attracted. New state: Attracted
+13262: SiphonComponent: Attracting particle @RigidBody3D@34, current state: Idle
+13262: ManaParticle @RigidBody3D@34 is being attracted. Old state: Idle
+13262: ManaParticle @RigidBody3D@34 is being attracted. New state: Attracted
+13262: SiphonComponent: Attracting particle @RigidBody3D@21, current state: Idle
+13262: ManaParticle @RigidBody3D@21 is being attracted. Old state: Idle
+13262: ManaParticle @RigidBody3D@21 is being attracted. New state: Attracted
+13262: SiphonComponent: Attracting particle @RigidBody3D@35, current state: Idle
+13262: ManaParticle @RigidBody3D@35 is being attracted. Old state: Idle
+13262: ManaParticle @RigidBody3D@35 is being attracted. New state: Attracted
+13262: SiphonComponent: Attracting particle @RigidBody3D@26, current state: Idle
+13262: ManaParticle @RigidBody3D@26 is being attracted. Old state: Idle
+13262: ManaParticle @RigidBody3D@26 is being attracted. New state: Attracted
+13575: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@26
+13576: ManaParticle @RigidBody3D@26 is being collected. Old state: Attracted
+13576: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Collected
+13576: ManaParticle @RigidBody3D@26 is stopped moving. New state: Collected
+13576: SiphonComponent: Removing particle @RigidBody3D@26 from attracted set.
+13576: ManaParticle @RigidBody3D@26 is being collected. New state: Collected
+13577: ManaParticle @RigidBody3D@26 is resetting. Old state: Collected
+13577: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Collected
+13577: ManaParticle @RigidBody3D@26 is stopped moving. New state: Collected
+13577: ManaParticle @RigidBody3D@26 is resetting. New state: Collected
+13577: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@26
+13577: ManaParticle @RigidBody3D@26 is being collected. Old state: Collected
+13577: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Collected
+13577: ManaParticle @RigidBody3D@26 is stopped moving. New state: Collected
+13577: SiphonComponent: Removing particle @RigidBody3D@26 from attracted set.
+13577: ManaParticle @RigidBody3D@26 is being collected. New state: Collected
+13577: ManaParticle @RigidBody3D@26 is resetting. Old state: Collected
+13577: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Collected
+13577: ManaParticle @RigidBody3D@26 is stopped moving. New state: Collected
+13577: ManaParticle @RigidBody3D@26 is resetting. New state: Collected
+13599: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@33
+13599: ManaParticle @RigidBody3D@33 is being collected. Old state: Attracted
+13599: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Collected
+13599: ManaParticle @RigidBody3D@33 is stopped moving. New state: Collected
+13599: SiphonComponent: Removing particle @RigidBody3D@33 from attracted set.
+13599: ManaParticle @RigidBody3D@33 is being collected. New state: Collected
+13599: ManaParticle @RigidBody3D@33 is resetting. Old state: Collected
+13600: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Collected
+13600: ManaParticle @RigidBody3D@33 is stopped moving. New state: Collected
+13600: ManaParticle @RigidBody3D@33 is resetting. New state: Collected
+13600: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@33
+13600: ManaParticle @RigidBody3D@33 is being collected. Old state: Collected
+13600: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Collected
+13600: ManaParticle @RigidBody3D@33 is stopped moving. New state: Collected
+13600: SiphonComponent: Removing particle @RigidBody3D@33 from attracted set.
+13600: ManaParticle @RigidBody3D@33 is being collected. New state: Collected
+13600: ManaParticle @RigidBody3D@33 is resetting. Old state: Collected
+13600: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Collected
+13600: ManaParticle @RigidBody3D@33 is stopped moving. New state: Collected
+13600: ManaParticle @RigidBody3D@33 is resetting. New state: Collected
+13636: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@21
+13636: ManaParticle @RigidBody3D@21 is being collected. Old state: Attracted
+13636: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. New state: Collected
+13636: SiphonComponent: Removing particle @RigidBody3D@21 from attracted set.
+13636: ManaParticle @RigidBody3D@21 is being collected. New state: Collected
+13636: ManaParticle @RigidBody3D@21 is resetting. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. New state: Collected
+13636: ManaParticle @RigidBody3D@21 is resetting. New state: Collected
+13636: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@21
+13636: ManaParticle @RigidBody3D@21 is being collected. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. New state: Collected
+13636: SiphonComponent: Removing particle @RigidBody3D@21 from attracted set.
+13636: ManaParticle @RigidBody3D@21 is being collected. New state: Collected
+13636: ManaParticle @RigidBody3D@21 is resetting. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Collected
+13636: ManaParticle @RigidBody3D@21 is stopped moving. New state: Collected
+13636: ManaParticle @RigidBody3D@21 is resetting. New state: Collected
+13660: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@32
+13660: ManaParticle @RigidBody3D@32 is being collected. Old state: Attracted
+13660: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Collected
+13660: ManaParticle @RigidBody3D@32 is stopped moving. New state: Collected
+13660: SiphonComponent: Removing particle @RigidBody3D@32 from attracted set.
+13660: ManaParticle @RigidBody3D@32 is being collected. New state: Collected
+13660: ManaParticle @RigidBody3D@32 is resetting. Old state: Collected
+13660: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Collected
+13660: ManaParticle @RigidBody3D@32 is stopped moving. New state: Collected
+13660: ManaParticle @RigidBody3D@32 is resetting. New state: Collected
+13660: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@32
+13660: ManaParticle @RigidBody3D@32 is being collected. Old state: Collected
+13660: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Collected
+13661: ManaParticle @RigidBody3D@32 is stopped moving. New state: Collected
+13661: SiphonComponent: Removing particle @RigidBody3D@32 from attracted set.
+13661: ManaParticle @RigidBody3D@32 is being collected. New state: Collected
+13661: ManaParticle @RigidBody3D@32 is resetting. Old state: Collected
+13661: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Collected
+13661: ManaParticle @RigidBody3D@32 is stopped moving. New state: Collected
+13661: ManaParticle @RigidBody3D@32 is resetting. New state: Collected
+13687: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@34
+13687: ManaParticle @RigidBody3D@34 is being collected. Old state: Attracted
+13687: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Collected
+13687: ManaParticle @RigidBody3D@34 is stopped moving. New state: Collected
+13687: SiphonComponent: Removing particle @RigidBody3D@34 from attracted set.
+13687: ManaParticle @RigidBody3D@34 is being collected. New state: Collected
+13687: ManaParticle @RigidBody3D@34 is resetting. Old state: Collected
+13688: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@34 is stopped moving. New state: Collected
+13688: ManaParticle @RigidBody3D@34 is resetting. New state: Collected
+13688: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@34
+13688: ManaParticle @RigidBody3D@34 is being collected. Old state: Collected
+13688: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@34 is stopped moving. New state: Collected
+13688: SiphonComponent: Removing particle @RigidBody3D@34 from attracted set.
+13688: ManaParticle @RigidBody3D@34 is being collected. New state: Collected
+13688: ManaParticle @RigidBody3D@34 is resetting. Old state: Collected
+13688: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@34 is stopped moving. New state: Collected
+13688: ManaParticle @RigidBody3D@34 is resetting. New state: Collected
+13688: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@35
+13688: ManaParticle @RigidBody3D@35 is being collected. Old state: Attracted
+13688: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+13688: SiphonComponent: Removing particle @RigidBody3D@35 from attracted set.
+13688: ManaParticle @RigidBody3D@35 is being collected. New state: Collected
+13688: ManaParticle @RigidBody3D@35 is resetting. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+13688: ManaParticle @RigidBody3D@35 is resetting. New state: Collected
+13688: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@35
+13688: ManaParticle @RigidBody3D@35 is being collected. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+13688: SiphonComponent: Removing particle @RigidBody3D@35 from attracted set.
+13688: ManaParticle @RigidBody3D@35 is being collected. New state: Collected
+13688: ManaParticle @RigidBody3D@35 is resetting. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+13688: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+13688: ManaParticle @RigidBody3D@35 is resetting. New state: Collected
+13689: SiphonComponent: Attracting particle @RigidBody3D@22, current state: Idle
+13689: ManaParticle @RigidBody3D@22 is being attracted. Old state: Idle
+13689: ManaParticle @RigidBody3D@22 is being attracted. New state: Attracted
+13698: SiphonComponent: Attracting particle @RigidBody3D@27, current state: Idle
+13698: ManaParticle @RigidBody3D@27 is being attracted. Old state: Idle
+13698: ManaParticle @RigidBody3D@27 is being attracted. New state: Attracted
+13885: SiphonComponent: Attracting particle @RigidBody3D@28, current state: Idle
+13885: ManaParticle @RigidBody3D@28 is being attracted. Old state: Idle
+13885: ManaParticle @RigidBody3D@28 is being attracted. New state: Attracted
+14126: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@22
+14126: ManaParticle @RigidBody3D@22 is being collected. Old state: Attracted
+14126: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. New state: Collected
+14126: SiphonComponent: Removing particle @RigidBody3D@22 from attracted set.
+14126: ManaParticle @RigidBody3D@22 is being collected. New state: Collected
+14126: ManaParticle @RigidBody3D@22 is resetting. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. New state: Collected
+14126: ManaParticle @RigidBody3D@22 is resetting. New state: Collected
+14126: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@22
+14126: ManaParticle @RigidBody3D@22 is being collected. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. New state: Collected
+14126: SiphonComponent: Removing particle @RigidBody3D@22 from attracted set.
+14126: ManaParticle @RigidBody3D@22 is being collected. New state: Collected
+14126: ManaParticle @RigidBody3D@22 is resetting. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Collected
+14126: ManaParticle @RigidBody3D@22 is stopped moving. New state: Collected
+14126: ManaParticle @RigidBody3D@22 is resetting. New state: Collected
+14193: ManaParticle @RigidBody3D@26 is being initialized. Old state: Collected
+14193: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Collected
+14193: ManaParticle @RigidBody3D@26 is stopped moving. New state: Collected
+14193: ManaParticle @RigidBody3D@26 is being initialized. New state: Collected
+14193: ManaParticle @RigidBody3D@26 is being initialized. Old state: Collected
+14193: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Collected
+14193: ManaParticle @RigidBody3D@26 is stopped moving. New state: Collected
+14193: ManaParticle @RigidBody3D@26 is being initialized. New state: Collected
+14193: ManaParticle @RigidBody3D@33 is being initialized. Old state: Collected
+14194: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Collected
+14194: ManaParticle @RigidBody3D@33 is stopped moving. New state: Collected
+14194: ManaParticle @RigidBody3D@33 is being initialized. New state: Collected
+14194: ManaParticle @RigidBody3D@33 is being initialized. Old state: Collected
+14194: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Collected
+14194: ManaParticle @RigidBody3D@33 is stopped moving. New state: Collected
+14194: ManaParticle @RigidBody3D@33 is being initialized. New state: Collected
+14194: ManaParticle @RigidBody3D@21 is being initialized. Old state: Collected
+14194: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Collected
+14194: ManaParticle @RigidBody3D@21 is stopped moving. New state: Collected
+14194: ManaParticle @RigidBody3D@21 is being initialized. New state: Collected
+14200: ManaParticle @RigidBody3D@17 is timing out. Old state: Idle
+14202: ManaParticle @RigidBody3D@17 is timing out. New state: Expired
+14202: ManaParticle @RigidBody3D@18 is timing out. Old state: Idle
+14202: ManaParticle @RigidBody3D@18 is timing out. New state: Expired
+14260: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@27
+14260: ManaParticle @RigidBody3D@27 is being collected. Old state: Attracted
+14260: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Collected
+14260: ManaParticle @RigidBody3D@27 is stopped moving. New state: Collected
+14260: SiphonComponent: Removing particle @RigidBody3D@27 from attracted set.
+14260: ManaParticle @RigidBody3D@27 is being collected. New state: Collected
+14260: ManaParticle @RigidBody3D@27 is resetting. Old state: Collected
+14260: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Collected
+14261: ManaParticle @RigidBody3D@27 is stopped moving. New state: Collected
+14261: ManaParticle @RigidBody3D@27 is resetting. New state: Collected
+14261: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@27
+14261: ManaParticle @RigidBody3D@27 is being collected. Old state: Collected
+14261: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Collected
+14261: ManaParticle @RigidBody3D@27 is stopped moving. New state: Collected
+14261: SiphonComponent: Removing particle @RigidBody3D@27 from attracted set.
+14261: ManaParticle @RigidBody3D@27 is being collected. New state: Collected
+14261: ManaParticle @RigidBody3D@27 is resetting. Old state: Collected
+14261: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Collected
+14261: ManaParticle @RigidBody3D@27 is stopped moving. New state: Collected
+14261: ManaParticle @RigidBody3D@27 is resetting. New state: Collected
+14278: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@28
+14278: ManaParticle @RigidBody3D@28 is being collected. Old state: Attracted
+14278: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. New state: Collected
+14278: SiphonComponent: Removing particle @RigidBody3D@28 from attracted set.
+14278: ManaParticle @RigidBody3D@28 is being collected. New state: Collected
+14278: ManaParticle @RigidBody3D@28 is resetting. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. New state: Collected
+14278: ManaParticle @RigidBody3D@28 is resetting. New state: Collected
+14278: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@28
+14278: ManaParticle @RigidBody3D@28 is being collected. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. New state: Collected
+14278: SiphonComponent: Removing particle @RigidBody3D@28 from attracted set.
+14278: ManaParticle @RigidBody3D@28 is being collected. New state: Collected
+14278: ManaParticle @RigidBody3D@28 is resetting. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Collected
+14278: ManaParticle @RigidBody3D@28 is stopped moving. New state: Collected
+14278: ManaParticle @RigidBody3D@28 is resetting. New state: Collected
+14400: ManaParticle @RigidBody3D@17 is resetting. Old state: Expired
+14400: ManaParticle @RigidBody3D@17 is stopped moving. Old state: Expired
+14400: ManaParticle @RigidBody3D@17 is stopped moving. New state: Expired
+14400: ManaParticle @RigidBody3D@17 is resetting. New state: Expired
+14400: ManaParticle @RigidBody3D@18 is resetting. Old state: Expired
+14400: ManaParticle @RigidBody3D@18 is stopped moving. Old state: Expired
+14400: ManaParticle @RigidBody3D@18 is stopped moving. New state: Expired
+14400: ManaParticle @RigidBody3D@18 is resetting. New state: Expired
+14417: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@18
+14417: ManaParticle @RigidBody3D@18 is being collected. Old state: Expired
+14417: ManaParticle @RigidBody3D@18 is stopped moving. Old state: Collected
+14417: ManaParticle @RigidBody3D@18 is stopped moving. New state: Collected
+14417: ManaParticle @RigidBody3D@18 is being collected. New state: Collected
+14417: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@18
+14417: ManaParticle @RigidBody3D@18 is being collected. Old state: Collected
+14417: ManaParticle @RigidBody3D@18 is stopped moving. Old state: Collected
+14417: ManaParticle @RigidBody3D@18 is stopped moving. New state: Collected
+14417: ManaParticle @RigidBody3D@18 is being collected. New state: Collected
+14417: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@17
+14417: ManaParticle @RigidBody3D@17 is being collected. Old state: Expired
+14417: ManaParticle @RigidBody3D@17 is stopped moving. Old state: Collected
+14417: ManaParticle @RigidBody3D@17 is stopped moving. New state: Collected
+14417: ManaParticle @RigidBody3D@17 is being collected. New state: Collected
+14417: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@17
+14417: ManaParticle @RigidBody3D@17 is being collected. Old state: Collected
+14417: ManaParticle @RigidBody3D@17 is stopped moving. Old state: Collected
+14417: ManaParticle @RigidBody3D@17 is stopped moving. New state: Collected
+14417: ManaParticle @RigidBody3D@17 is being collected. New state: Collected
+16690: ManaParticle @RigidBody3D@21 is being initialized. Old state: Collected
+16690: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Collected
+16690: ManaParticle @RigidBody3D@21 is stopped moving. New state: Collected
+16690: ManaParticle @RigidBody3D@21 is being initialized. New state: Collected
+16690: ManaParticle @RigidBody3D@32 is being initialized. Old state: Collected
+16690: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Collected
+16690: ManaParticle @RigidBody3D@32 is stopped moving. New state: Collected
+16690: ManaParticle @RigidBody3D@32 is being initialized. New state: Collected
+16690: ManaParticle @RigidBody3D@32 is being initialized. Old state: Collected
+16690: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Collected
+16690: ManaParticle @RigidBody3D@32 is stopped moving. New state: Collected
+16690: ManaParticle @RigidBody3D@32 is being initialized. New state: Collected
+16690: ManaParticle @RigidBody3D@34 is being initialized. Old state: Collected
+16690: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Collected
+16690: ManaParticle @RigidBody3D@34 is stopped moving. New state: Collected
+16690: ManaParticle @RigidBody3D@34 is being initialized. New state: Collected
+16696: ManaParticle @RigidBody3D@23 is timing out. Old state: Idle
+16696: ManaParticle @RigidBody3D@23 is timing out. New state: Expired
+16896: ManaParticle @RigidBody3D@23 is resetting. Old state: Expired
+16896: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Expired
+16896: ManaParticle @RigidBody3D@23 is stopped moving. New state: Expired
+16896: ManaParticle @RigidBody3D@23 is resetting. New state: Expired
+16908: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@23
+16908: ManaParticle @RigidBody3D@23 is being collected. Old state: Expired
+16908: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+16908: ManaParticle @RigidBody3D@23 is being collected. New state: Collected
+16908: ManaParticle @RigidBody3D@23 is resetting. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+16908: ManaParticle @RigidBody3D@23 is resetting. New state: Collected
+16908: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@23
+16908: ManaParticle @RigidBody3D@23 is being collected. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+16908: ManaParticle @RigidBody3D@23 is being collected. New state: Collected
+16908: ManaParticle @RigidBody3D@23 is resetting. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+16908: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+16908: ManaParticle @RigidBody3D@23 is resetting. New state: Collected
+19194: ManaParticle @RigidBody3D@34 is being initialized. Old state: Collected
+19194: ManaParticle @RigidBody3D@34 is stopped moving. Old state: Collected
+19194: ManaParticle @RigidBody3D@34 is stopped moving. New state: Collected
+19194: ManaParticle @RigidBody3D@34 is being initialized. New state: Collected
+19194: ManaParticle @RigidBody3D@35 is being initialized. Old state: Collected
+19194: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+19194: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+19194: ManaParticle @RigidBody3D@35 is being initialized. New state: Collected
+19194: ManaParticle @RigidBody3D@35 is being initialized. Old state: Collected
+19194: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+19194: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+19194: ManaParticle @RigidBody3D@35 is being initialized. New state: Collected
+19194: ManaParticle @RigidBody3D@22 is being initialized. Old state: Collected
+19194: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Collected
+19194: ManaParticle @RigidBody3D@22 is stopped moving. New state: Collected
+19194: ManaParticle @RigidBody3D@22 is being initialized. New state: Collected
+19199: ManaParticle @RigidBody3D@16 is timing out. Old state: Idle
+19199: ManaParticle @RigidBody3D@16 is timing out. New state: Expired
+19399: ManaParticle @RigidBody3D@16 is resetting. Old state: Expired
+19399: ManaParticle @RigidBody3D@16 is stopped moving. Old state: Expired
+19399: ManaParticle @RigidBody3D@16 is stopped moving. New state: Expired
+19399: ManaParticle @RigidBody3D@16 is resetting. New state: Expired
+21543: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@35
+21543: ManaParticle @RigidBody3D@35 is being collected. Old state: Collected
+21543: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+21543: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+21543: SiphonComponent: Removing particle @RigidBody3D@35 from attracted set.
+21543: ManaParticle @RigidBody3D@35 is being collected. New state: Collected
+21543: ManaParticle @RigidBody3D@35 is resetting. Old state: Collected
+21544: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+21544: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+21544: ManaParticle @RigidBody3D@35 is resetting. New state: Collected
+21544: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@35
+21544: ManaParticle @RigidBody3D@35 is being collected. Old state: Collected
+21544: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+21544: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+21544: SiphonComponent: Removing particle @RigidBody3D@35 from attracted set.
+21544: ManaParticle @RigidBody3D@35 is being collected. New state: Collected
+21544: ManaParticle @RigidBody3D@35 is resetting. Old state: Collected
+21544: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+21544: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+21544: ManaParticle @RigidBody3D@35 is resetting. New state: Collected
+21691: ManaParticle @RigidBody3D@22 is being initialized. Old state: Collected
+21691: ManaParticle @RigidBody3D@22 is stopped moving. Old state: Collected
+21691: ManaParticle @RigidBody3D@22 is stopped moving. New state: Collected
+21691: ManaParticle @RigidBody3D@22 is being initialized. New state: Collected
+21691: ManaParticle @RigidBody3D@27 is being initialized. Old state: Collected
+21691: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Collected
+21691: ManaParticle @RigidBody3D@27 is stopped moving. New state: Collected
+21691: ManaParticle @RigidBody3D@27 is being initialized. New state: Collected
+21691: ManaParticle @RigidBody3D@27 is being initialized. Old state: Collected
+21691: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Collected
+21691: ManaParticle @RigidBody3D@27 is stopped moving. New state: Collected
+21691: ManaParticle @RigidBody3D@27 is being initialized. New state: Collected
+21691: ManaParticle @RigidBody3D@28 is being initialized. Old state: Collected
+21691: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Collected
+21691: ManaParticle @RigidBody3D@28 is stopped moving. New state: Collected
+21692: ManaParticle @RigidBody3D@28 is being initialized. New state: Collected
+21692: ManaParticle @RigidBody3D@28 is being initialized. Old state: Collected
+21692: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Collected
+21692: ManaParticle @RigidBody3D@28 is stopped moving. New state: Collected
+21692: ManaParticle @RigidBody3D@28 is being initialized. New state: Collected
+24193: ManaParticle @RigidBody3D@17 is being initialized. Old state: Collected
+24193: ManaParticle @RigidBody3D@17 is stopped moving. Old state: Collected
+24193: ManaParticle @RigidBody3D@17 is stopped moving. New state: Collected
+24193: ManaParticle @RigidBody3D@17 is being initialized. New state: Collected
+24193: ManaParticle @RigidBody3D@18 is being initialized. Old state: Collected
+24193: ManaParticle @RigidBody3D@18 is stopped moving. Old state: Collected
+24193: ManaParticle @RigidBody3D@18 is stopped moving. New state: Collected
+24193: ManaParticle @RigidBody3D@18 is being initialized. New state: Collected
+24193: ManaParticle @RigidBody3D@23 is being initialized. Old state: Collected
+24193: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+24193: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+24193: ManaParticle @RigidBody3D@23 is being initialized. New state: Collected
+24199: ManaParticle ManaParticle is timing out. Old state: Idle
+24199: ManaParticle ManaParticle is timing out. New state: Expired
+24199: ManaParticle @RigidBody3D@15 is timing out. Old state: Idle
+24199: ManaParticle @RigidBody3D@15 is timing out. New state: Expired
+24200: ManaParticle @RigidBody3D@33 is timing out. Old state: Collected
+24200: SiphonComponent: Removing particle @RigidBody3D@33 from attracted set.
+24200: ManaParticle @RigidBody3D@33 is timing out. New state: Expired
+24400: ManaParticle ManaParticle is resetting. Old state: Expired
+24400: ManaParticle ManaParticle is stopped moving. Old state: Expired
+24400: ManaParticle ManaParticle is stopped moving. New state: Expired
+24400: ManaParticle ManaParticle is resetting. New state: Expired
+24400: ManaParticle @RigidBody3D@15 is resetting. Old state: Expired
+24400: ManaParticle @RigidBody3D@15 is stopped moving. Old state: Expired
+24400: ManaParticle @RigidBody3D@15 is stopped moving. New state: Expired
+24400: ManaParticle @RigidBody3D@15 is resetting. New state: Expired
+24400: ManaParticle @RigidBody3D@33 is resetting. Old state: Expired
+24400: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Expired
+24400: ManaParticle @RigidBody3D@33 is stopped moving. New state: Expired
+24400: ManaParticle @RigidBody3D@33 is resetting. New state: Expired
+26696: ManaParticle @RigidBody3D@23 is being initialized. Old state: Collected
+26697: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+26697: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+26697: ManaParticle @RigidBody3D@23 is being initialized. New state: Collected
+26697: ManaParticle @RigidBody3D@23 is being initialized. Old state: Collected
+26697: ManaParticle @RigidBody3D@23 is stopped moving. Old state: Collected
+26697: ManaParticle @RigidBody3D@23 is stopped moving. New state: Collected
+26697: ManaParticle @RigidBody3D@23 is being initialized. New state: Collected
+26697: ManaParticle @RigidBody3D@16 is being initialized. Old state: Expired
+26697: ManaParticle @RigidBody3D@16 is stopped moving. Old state: Expired
+26697: ManaParticle @RigidBody3D@16 is stopped moving. New state: Expired
+26697: ManaParticle @RigidBody3D@16 is being initialized. New state: Expired
+29195: ManaParticle @RigidBody3D@35 is being initialized. Old state: Collected
+29195: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+29195: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+29195: ManaParticle @RigidBody3D@35 is being initialized. New state: Collected
+29195: ManaParticle @RigidBody3D@35 is being initialized. Old state: Collected
+29195: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+29195: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+29195: ManaParticle @RigidBody3D@35 is being initialized. New state: Collected
+29195: ManaParticle ManaParticle is being initialized. Old state: Expired
+29195: ManaParticle ManaParticle is stopped moving. Old state: Expired
+29195: ManaParticle ManaParticle is stopped moving. New state: Expired
+29195: ManaParticle ManaParticle is being initialized. New state: Expired
+29195: ManaParticle @RigidBody3D@15 is being initialized. Old state: Expired
+29195: ManaParticle @RigidBody3D@15 is stopped moving. Old state: Expired
+29195: ManaParticle @RigidBody3D@15 is stopped moving. New state: Expired
+29195: ManaParticle @RigidBody3D@15 is being initialized. New state: Expired
+31696: ManaParticle @RigidBody3D@28 is timing out. Old state: Collected
+31696: SiphonComponent: Removing particle @RigidBody3D@28 from attracted set.
+31697: ManaParticle @RigidBody3D@28 is timing out. New state: Expired
+31697: ManaParticle @RigidBody3D@32 is timing out. Old state: Collected
+31697: SiphonComponent: Removing particle @RigidBody3D@32 from attracted set.
+31697: ManaParticle @RigidBody3D@32 is timing out. New state: Expired
+31697: ManaParticle @RigidBody3D@33 is being initialized. Old state: Expired
+31697: ManaParticle @RigidBody3D@33 is stopped moving. Old state: Expired
+31697: ManaParticle @RigidBody3D@33 is stopped moving. New state: Expired
+31697: ManaParticle @RigidBody3D@33 is being initialized. New state: Expired
+31697: ManaParticle @RigidBody3D@58 is being initialized. Old state: Idle
+31697: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Idle
+31697: ManaParticle @RigidBody3D@58 is stopped moving. New state: Idle
+31697: ManaParticle @RigidBody3D@58 is being initialized. New state: Idle
+31697: ManaParticle @RigidBody3D@59 is being initialized. Old state: Idle
+31697: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Idle
+31697: ManaParticle @RigidBody3D@59 is stopped moving. New state: Idle
+31697: ManaParticle @RigidBody3D@59 is being initialized. New state: Idle
+31698: ManaParticle @RigidBody3D@60 is being initialized. Old state: Idle
+31698: ManaParticle @RigidBody3D@60 is stopped moving. Old state: Idle
+31698: ManaParticle @RigidBody3D@60 is stopped moving. New state: Idle
+31698: ManaParticle @RigidBody3D@60 is being initialized. New state: Idle
+31698: ManaParticle @RigidBody3D@61 is being initialized. Old state: Idle
+31698: ManaParticle @RigidBody3D@61 is stopped moving. Old state: Idle
+31698: ManaParticle @RigidBody3D@61 is stopped moving. New state: Idle
+31698: ManaParticle @RigidBody3D@61 is being initialized. New state: Idle
+31698: ManaParticle @RigidBody3D@62 is being initialized. Old state: Idle
+31698: ManaParticle @RigidBody3D@62 is stopped moving. Old state: Idle
+31698: ManaParticle @RigidBody3D@62 is stopped moving. New state: Idle
+31698: ManaParticle @RigidBody3D@62 is being initialized. New state: Idle
+31698: ManaParticle @RigidBody3D@58 is resetting. Old state: Idle
+31698: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Idle
+31698: ManaParticle @RigidBody3D@58 is stopped moving. New state: Idle
+31698: ManaParticle @RigidBody3D@58 is resetting. New state: Idle
+31698: ManaParticle @RigidBody3D@59 is resetting. Old state: Idle
+31698: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Idle
+31698: ManaParticle @RigidBody3D@59 is stopped moving. New state: Idle
+31698: ManaParticle @RigidBody3D@59 is resetting. New state: Idle
+31698: ManaParticle @RigidBody3D@60 is resetting. Old state: Idle
+31698: ManaParticle @RigidBody3D@60 is stopped moving. Old state: Idle
+31698: ManaParticle @RigidBody3D@60 is stopped moving. New state: Idle
+31699: ManaParticle @RigidBody3D@60 is resetting. New state: Idle
+31699: ManaParticle @RigidBody3D@61 is resetting. Old state: Idle
+31699: ManaParticle @RigidBody3D@61 is stopped moving. Old state: Idle
+31699: ManaParticle @RigidBody3D@61 is stopped moving. New state: Idle
+31699: ManaParticle @RigidBody3D@61 is resetting. New state: Idle
+31699: ManaParticle @RigidBody3D@62 is resetting. Old state: Idle
+31699: ManaParticle @RigidBody3D@62 is stopped moving. Old state: Idle
+31699: ManaParticle @RigidBody3D@62 is stopped moving. New state: Idle
+31699: ManaParticle @RigidBody3D@62 is resetting. New state: Idle
+31725: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@35
+31725: ManaParticle @RigidBody3D@35 is being collected. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+31725: SiphonComponent: Removing particle @RigidBody3D@35 from attracted set.
+31725: ManaParticle @RigidBody3D@35 is being collected. New state: Collected
+31725: ManaParticle @RigidBody3D@35 is resetting. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+31725: ManaParticle @RigidBody3D@35 is resetting. New state: Collected
+31725: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@35
+31725: ManaParticle @RigidBody3D@35 is being collected. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+31725: SiphonComponent: Removing particle @RigidBody3D@35 from attracted set.
+31725: ManaParticle @RigidBody3D@35 is being collected. New state: Collected
+31725: ManaParticle @RigidBody3D@35 is resetting. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+31725: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+31725: ManaParticle @RigidBody3D@35 is resetting. New state: Collected
+31897: ManaParticle @RigidBody3D@28 is resetting. Old state: Expired
+31897: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Expired
+31897: ManaParticle @RigidBody3D@28 is stopped moving. New state: Expired
+31897: ManaParticle @RigidBody3D@28 is resetting. New state: Expired
+31897: ManaParticle @RigidBody3D@32 is resetting. Old state: Expired
+31897: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Expired
+31897: ManaParticle @RigidBody3D@32 is stopped moving. New state: Expired
+31897: ManaParticle @RigidBody3D@32 is resetting. New state: Expired
+34194: ManaParticle @RigidBody3D@58 is being initialized. Old state: Idle
+34194: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Idle
+34194: ManaParticle @RigidBody3D@58 is stopped moving. New state: Idle
+34194: ManaParticle @RigidBody3D@58 is being initialized. New state: Idle
+34194: ManaParticle @RigidBody3D@59 is being initialized. Old state: Idle
+34194: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Idle
+34194: ManaParticle @RigidBody3D@59 is stopped moving. New state: Idle
+34194: ManaParticle @RigidBody3D@59 is being initialized. New state: Idle
+34194: ManaParticle @RigidBody3D@60 is being initialized. Old state: Idle
+34194: ManaParticle @RigidBody3D@60 is stopped moving. Old state: Idle
+34194: ManaParticle @RigidBody3D@60 is stopped moving. New state: Idle
+34194: ManaParticle @RigidBody3D@60 is being initialized. New state: Idle
+34194: ManaParticle @RigidBody3D@61 is being initialized. Old state: Idle
+34194: ManaParticle @RigidBody3D@61 is stopped moving. Old state: Idle
+34194: ManaParticle @RigidBody3D@61 is stopped moving. New state: Idle
+34194: ManaParticle @RigidBody3D@61 is being initialized. New state: Idle
+34194: ManaParticle @RigidBody3D@62 is being initialized. Old state: Idle
+34194: ManaParticle @RigidBody3D@62 is stopped moving. Old state: Idle
+34194: ManaParticle @RigidBody3D@62 is stopped moving. New state: Idle
+34194: ManaParticle @RigidBody3D@62 is being initialized. New state: Idle
+34194: ManaParticle @RigidBody3D@60 is resetting. Old state: Idle
+34194: ManaParticle @RigidBody3D@60 is stopped moving. Old state: Idle
+34194: ManaParticle @RigidBody3D@60 is stopped moving. New state: Idle
+34194: ManaParticle @RigidBody3D@60 is resetting. New state: Idle
+34195: ManaParticle @RigidBody3D@61 is resetting. Old state: Idle
+34195: ManaParticle @RigidBody3D@61 is stopped moving. Old state: Idle
+34195: ManaParticle @RigidBody3D@61 is stopped moving. New state: Idle
+34195: ManaParticle @RigidBody3D@61 is resetting. New state: Idle
+34195: ManaParticle @RigidBody3D@62 is resetting. Old state: Idle
+34195: ManaParticle @RigidBody3D@62 is stopped moving. Old state: Idle
+34195: ManaParticle @RigidBody3D@62 is stopped moving. New state: Idle
+34195: ManaParticle @RigidBody3D@62 is resetting. New state: Idle
+34198: ManaParticle @RigidBody3D@26 is timing out. Old state: Collected
+34198: SiphonComponent: Removing particle @RigidBody3D@26 from attracted set.
+34198: ManaParticle @RigidBody3D@26 is timing out. New state: Expired
+34213: SiphonComponent: Attracting particle @RigidBody3D@58, current state: Idle
+34213: ManaParticle @RigidBody3D@58 is being attracted. Old state: Idle
+34213: ManaParticle @RigidBody3D@58 is being attracted. New state: Attracted
+34213: SiphonComponent: Attracting particle @RigidBody3D@59, current state: Idle
+34213: ManaParticle @RigidBody3D@59 is being attracted. Old state: Idle
+34213: ManaParticle @RigidBody3D@59 is being attracted. New state: Attracted
+34386: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@59
+34386: ManaParticle @RigidBody3D@59 is being collected. Old state: Attracted
+34386: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. New state: Collected
+34386: SiphonComponent: Removing particle @RigidBody3D@59 from attracted set.
+34386: ManaParticle @RigidBody3D@59 is being collected. New state: Collected
+34386: ManaParticle @RigidBody3D@59 is resetting. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. New state: Collected
+34386: ManaParticle @RigidBody3D@59 is resetting. New state: Collected
+34386: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@59
+34386: ManaParticle @RigidBody3D@59 is being collected. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. New state: Collected
+34386: SiphonComponent: Removing particle @RigidBody3D@59 from attracted set.
+34386: ManaParticle @RigidBody3D@59 is being collected. New state: Collected
+34386: ManaParticle @RigidBody3D@59 is resetting. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. Old state: Collected
+34386: ManaParticle @RigidBody3D@59 is stopped moving. New state: Collected
+34386: ManaParticle @RigidBody3D@59 is resetting. New state: Collected
+34399: ManaParticle @RigidBody3D@26 is resetting. Old state: Expired
+34399: ManaParticle @RigidBody3D@26 is stopped moving. Old state: Expired
+34399: ManaParticle @RigidBody3D@26 is stopped moving. New state: Expired
+34399: ManaParticle @RigidBody3D@26 is resetting. New state: Expired
+34416: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@58
+34416: ManaParticle @RigidBody3D@58 is being collected. Old state: Attracted
+34416: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Collected
+34416: ManaParticle @RigidBody3D@58 is stopped moving. New state: Collected
+34416: SiphonComponent: Removing particle @RigidBody3D@58 from attracted set.
+34416: ManaParticle @RigidBody3D@58 is being collected. New state: Collected
+34416: ManaParticle @RigidBody3D@58 is resetting. Old state: Collected
+34416: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Collected
+34416: ManaParticle @RigidBody3D@58 is stopped moving. New state: Collected
+34416: ManaParticle @RigidBody3D@58 is resetting. New state: Collected
+34416: PlayerBody: PickupArea entered by ManaParticle @RigidBody3D@58
+34417: ManaParticle @RigidBody3D@58 is being collected. Old state: Collected
+34417: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Collected
+34417: ManaParticle @RigidBody3D@58 is stopped moving. New state: Collected
+34417: SiphonComponent: Removing particle @RigidBody3D@58 from attracted set.
+34417: ManaParticle @RigidBody3D@58 is being collected. New state: Collected
+34417: ManaParticle @RigidBody3D@58 is resetting. Old state: Collected
+34417: ManaParticle @RigidBody3D@58 is stopped moving. Old state: Collected
+34417: ManaParticle @RigidBody3D@58 is stopped moving. New state: Collected
+34417: ManaParticle @RigidBody3D@58 is resetting. New state: Collected
+36697: ManaParticle @RigidBody3D@21 is timing out. Old state: Collected
+36697: SiphonComponent: Removing particle @RigidBody3D@21 from attracted set.
+36697: ManaParticle @RigidBody3D@21 is timing out. New state: Expired
+36697: ManaParticle @RigidBody3D@27 is timing out. Old state: Collected
+36697: SiphonComponent: Removing particle @RigidBody3D@27 from attracted set.
+36697: ManaParticle @RigidBody3D@27 is timing out. New state: Expired
+36697: ManaParticle @RigidBody3D@35 is being initialized. Old state: Collected
+36697: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+36697: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+36697: ManaParticle @RigidBody3D@35 is being initialized. New state: Collected
+36697: ManaParticle @RigidBody3D@35 is being initialized. Old state: Collected
+36697: ManaParticle @RigidBody3D@35 is stopped moving. Old state: Collected
+36697: ManaParticle @RigidBody3D@35 is stopped moving. New state: Collected
+36697: ManaParticle @RigidBody3D@35 is being initialized. New state: Collected
+36697: ManaParticle @RigidBody3D@28 is being initialized. Old state: Expired
+36697: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Expired
+36697: ManaParticle @RigidBody3D@28 is stopped moving. New state: Expired
+36697: ManaParticle @RigidBody3D@28 is being initialized. New state: Expired
+36697: ManaParticle @RigidBody3D@32 is being initialized. Old state: Expired
+36697: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Expired
+36697: ManaParticle @RigidBody3D@32 is stopped moving. New state: Expired
+36697: ManaParticle @RigidBody3D@32 is being initialized. New state: Expired
+36697: ManaParticle @RigidBody3D@28 is resetting. Old state: Expired
+36697: ManaParticle @RigidBody3D@28 is stopped moving. Old state: Expired
+36697: ManaParticle @RigidBody3D@28 is stopped moving. New state: Expired
+36697: ManaParticle @RigidBody3D@28 is resetting. New state: Expired
+36697: ManaParticle @RigidBody3D@32 is resetting. Old state: Expired
+36697: ManaParticle @RigidBody3D@32 is stopped moving. Old state: Expired
+36698: ManaParticle @RigidBody3D@32 is stopped moving. New state: Expired
+36698: ManaParticle @RigidBody3D@32 is resetting. New state: Expired
+36897: ManaParticle @RigidBody3D@21 is resetting. Old state: Expired
+36897: ManaParticle @RigidBody3D@21 is stopped moving. Old state: Expired
+36897: ManaParticle @RigidBody3D@21 is stopped moving. New state: Expired
+36897: ManaParticle @RigidBody3D@21 is resetting. New state: Expired
+36897: ManaParticle @RigidBody3D@27 is resetting. Old state: Expired
+36897: ManaParticle @RigidBody3D@27 is stopped moving. Old state: Expired
+36897: ManaParticle @RigidBody3D@27 is stopped moving. New state: Expired
+36897: ManaParticle @RigidBody3D@27 is resetting. New state: Expired
+--- Debugging process stopped ---

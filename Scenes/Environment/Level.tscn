@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=22 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="Script" uid="uid://3ppasc8ug0hb" path="res://Scripts/Levels/LevelManager.cs" id="1_oghjx"]
@@ -42,6 +42,12 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.04
 volumetric_fog_albedo = Color(0.8, 0.8, 0.8, 1)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oghjx"]
+friction = 0.5
+rough = true
+bounce = 0.01
+absorbent = true
+
 [node name="LevelRoot" type="Node3D" node_paths=PackedStringArray("_rooms")]
 script = ExtResource("1_oghjx")
 _rooms = [NodePath("North/North_Room"), NodePath("East/East_Room"), NodePath("South/South_Room"), NodePath("West/West_Room")]
@@ -82,6 +88,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
 
 [node name="North_Hallway" parent="North" instance=ExtResource("4_okbu8")]
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000002, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
 [node name="East" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
@@ -91,6 +98,7 @@ transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 
 
 [node name="East_Hallway" parent="East" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -4.3711392e-08, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
 [node name="South" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
@@ -100,6 +108,7 @@ transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.1910
 
 [node name="South_Hallway" parent="South" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-1.0000001, 0, -1.5099582e-07, 0, 1, 0, 1.5099582e-07, 0, -1.0000001, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
 [node name="West" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
@@ -116,6 +125,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -35)
 
 [node name="West_Hallway" parent="West" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
 [node name="PlatformStatic" parent="." instance=ExtResource("1_kpm7v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328, 0)

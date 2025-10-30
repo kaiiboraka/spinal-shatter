@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddskdsst6e3hl"]
+
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper.tscn" id="1_7c1fy"]
+[ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/enemies_small_swooper.ase" id="2_j01h3"]
+[ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/enemies_small_swooper_eye.ase" id="3_oupyy"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ej8im"]
+viewport_path = NodePath("HealthBar/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_j01h3"]
+viewport_path = NodePath("StateSprite3D/StateSubViewport")
+
+[node name="Swooper" instance=ExtResource("1_7c1fy")]
+motion_mode = 1
+WalkSpeed = 8.0
+
+[node name="HealthBar" parent="." index="2"]
+texture = SubResource("ViewportTexture_ej8im")
+
+[node name="StateSprite3D" parent="." index="3"]
+texture = SubResource("ViewportTexture_j01h3")
+
+[node name="Body_AnimatedSprite3D" parent="." index="4"]
+sprite_frames = ExtResource("2_j01h3")
+
+[node name="SpotLight3D" parent="Body_AnimatedSprite3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090061545, -0.01)
+
+[node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+sprite_frames = ExtResource("3_oupyy")

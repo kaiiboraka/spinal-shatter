@@ -377,14 +377,16 @@ public partial class PlayerBody : CharacterBody3D
     {
         if (area.GetOwner() is ManaParticle particle)
         {
+            GD.Print($"{Time.GetTicksMsec()}: PlayerBody: PickupArea entered by ManaParticle {particle.Name}");
             PickupManaParticle(particle);
         }
     }
 
     private void PickupManaParticle(ManaParticle particle)
     {
+        if (particle.State == ManaParticle.ManaParticleState.Collected) return; // Already collected
+    
         _manaComponent.AddMana(particle.ManaValue);
         particle.Collect();
         ManaParticleManager.Instance.Release(particle);
-    }
-}
+    }}

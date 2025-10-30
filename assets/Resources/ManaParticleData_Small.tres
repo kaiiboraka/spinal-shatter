@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_74omd")
-DriftSpeed = 1.0
+DriftSpeed = 1.2
 AttractSpeed = 18.0
 Lifetime = 10.0
 Scale = Vector3(0.5, 0.5, 0.5)

@@ -5,12 +5,12 @@ public partial class OverheadHealthBar : Sprite3D
 {
     [Export] private float _renderDistance = 25.0f;
 
-    private ProgressBar _progressBar;
+    [Export] private ProgressBar _progressBar;
     private Camera3D _camera;
 
     public override void _Ready()
     {
-        _progressBar = GetNode<ProgressBar>("SubViewport/ProgressBar");
+        _progressBar ??= GetNode<ProgressBar>("SubViewport/ProgressBar");
         Visible = false; // Start invisible
     }
 

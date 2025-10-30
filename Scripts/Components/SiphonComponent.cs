@@ -57,7 +57,7 @@ public partial class SiphonComponent : Node
             if (area.GetOwner() is ManaParticle particle)
             {
                 // Attract the particle if it's not already being attracted
-                if (_attractedParticles.Add(particle) && particle.State == ManaParticle.ManaParticleState.Idle)
+                if (_attractedParticles.Add(particle) && particle.State != ManaParticle.ManaParticleState.Collected && particle.State != ManaParticle.ManaParticleState.Expired)
                 {
                     particle.Attract(_target);
                 }

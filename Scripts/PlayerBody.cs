@@ -22,6 +22,8 @@ public partial class PlayerBody : CharacterBody3D
     [Export] float DECEL = 16;
     const float MAX_SLOPE_ANGLE = 40;
 
+    [Export] private float KnockbackStrength { get; set; } = 10.0f;
+
     [ExportGroup("CameraSettings")]
     [Export] private float cameraLookSensitivity = 0.006f;
     [Export] private float bob_Speed = 1.0f;
@@ -60,10 +62,11 @@ public partial class PlayerBody : CharacterBody3D
     private Label currAmmoLabel;
     private Label maxAmmoLabel;
 
+    private PlayerHealthBar _playerHealthBar;
+
     [ExportGroup("Components")]
     [Export] private ManaComponent _manaComponent;
-    [Export] private HealthComponent _healthComponent;
-    [Export] private PlayerHealthBar _playerHealthBar;
+    public HealthComponent HealthComponent { get; private set; }
     [Export] private Area3D pickupArea;
 
     private CollisionShape3D collider;
@@ -98,10 +101,11 @@ public partial class PlayerBody : CharacterBody3D
         _manaComponent.ManaChanged += UpdateManaHUD;
         UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
-        _healthComponent ??= GetNode<HealthComponent>("%HealthComponent");
-        _playerHealthBar ??= GetNode<PlayerHealthBar>("%PlayerHealthBar");
-        _healthComponent.HealthChanged += UpdateHealthHUD;
-        UpdateHealthHUD(_healthComponent.CurrentHealth, _healthComponent.MaxHealth);
+        HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
+        _playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
+        HealthComponent.HealthChanged += UpdateHealthHUD;
+        HealthComponent.Hurt += OnHurt;
+        UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
 
         pickupArea ??= GetNode<Area3D>("PickupArea");
         // pickupArea.BodyEntered += OnBodyEnteredPickupArea;
@@ -353,6 +357,12 @@ public partial class PlayerBody : CharacterBody3D
     public void UpdateHealthHUD(float newCurr, float newMax)
     {
         _playerHealthBar.OnHealthChanged(newCurr, newMax);
+    }
+
+    private void OnHurt(Vector3 sourcePosition)
+    {
+        var direction = (GlobalPosition - sourcePosition).Normalized();
+        velocityTmp = direction * KnockbackStrength;
     }
 
     // private void OnBodyEnteredPickupArea(Node3D body)

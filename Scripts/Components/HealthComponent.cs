@@ -10,6 +10,9 @@ public partial class HealthComponent : Node
     [Signal]
     public delegate void DiedEventHandler();
 
+    [Signal]
+    public delegate void HurtEventHandler(Vector3 sourcePosition);
+
     [Export]
     public float MaxHealth { get; set; } = 100f;
 
@@ -34,9 +37,10 @@ public partial class HealthComponent : Node
         CurrentHealth = MaxHealth;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, Vector3 sourcePosition)
     {
         CurrentHealth -= amount;
+        EmitSignal(SignalName.Hurt, sourcePosition);
     }
 
     public void Heal(float amount)

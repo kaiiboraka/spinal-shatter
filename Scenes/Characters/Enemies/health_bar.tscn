@@ -16,6 +16,7 @@ gi_mode = 2
 billboard = 1
 texture = SubResource("ViewportTexture_hp")
 script = ExtResource("1_abcde")
+_renderDistance = 50.0
 
 [node name="SubViewport" type="SubViewport" parent="."]
 unique_name_in_owner = true

@@ -4,9 +4,9 @@ using Godot.Collections;
 
 public partial class EnemySpawner : Node3D
 {
-    [Export] private bool _isEnabled = true;
-    [Export] private int _maxActiveEnemies = 10;
     [Export] private Array<PackedScene> _enemyScenes = new();
+    [Export] public bool IsEnabled { get; set; } = true;
+    [Export] private int _maxActiveEnemies = 10;
     [Export] private float _spawnInterval = 5.0f;
     [Export] private int _enemiesPerSpawn = 1;
     [Export] private bool _spawnInRandomOrder = false;
@@ -16,26 +16,24 @@ public partial class EnemySpawner : Node3D
     private int _spawnIndex = 0;
     private int _activeEnemyCount = 0;
     private Array<PackedScene> _grabBag = new();
-    private Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
+    private static Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
+
 
     public override void _Ready()
     {
-        // Create a single parent node for all enemies spawned by this spawner
-        var unifiedPoolParent = new Node3D { Name = "PooledEnemies" };
-        AddChild(unifiedPoolParent);
-
         // Create a pool for each unique scene
         foreach (var scene in _enemyScenes)
         {
-            if (scene != null && !_pools.ContainsKey(scene))
-            {
-                var newPool = new ObjectPoolManager<Node3D>();
-                newPool.Scene = scene;
-                newPool.PoolParent = unifiedPoolParent;
-                newPool.Name = $"{scene.ResourcePath.GetFile().GetBaseName()}Pool";
-                _pools[scene] = newPool;
-                AddChild(newPool);
-            }
+            if (scene == null || _pools.ContainsKey(scene)) continue;
+            var newPool = new ObjectPoolManager<Node3D>();
+            newPool.Scene = scene;
+            Node3D subParent = new Node3D();
+            newPool.CallDeferred(Node.MethodName.AddChild, subParent);
+            newPool.PoolParent = subParent;
+            subParent.Name = $"{scene.ResourcePath.GetFile().GetBaseName()}NodePool";
+            newPool.Name = $"{scene.ResourcePath.GetFile().GetBaseName()}Pool";
+            _pools[scene] = newPool;
+            GetTree().Root.CallDeferred(Node.MethodName.AddChild, newPool);
         }
 
         _spawnTimer = new Timer();
@@ -47,7 +45,7 @@ public partial class EnemySpawner : Node3D
 
     private void OnSpawnTimerTimeout()
     {
-        if (!_isEnabled || _activeEnemyCount >= _maxActiveEnemies || _enemyScenes == null || _enemyScenes.Count == 0)
+        if (!IsEnabled || _activeEnemyCount >= _maxActiveEnemies || _enemyScenes == null || _enemyScenes.Count == 0)
         {
             return;
         }

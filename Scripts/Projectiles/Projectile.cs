@@ -26,6 +26,8 @@ public partial class Projectile : RigidBody3D
     private ProjectileState _state = ProjectileState.Charging;
     private Timer _lifetimeTimer;
 
+    [Export] private float initialDb = 46;
+
     public override void _Ready()
     {
         if (_sprite == null) _sprite = GetNode<SpriteBase3D>("Sprite3D");
@@ -41,12 +43,14 @@ public partial class Projectile : RigidBody3D
         this.Freeze = true;
         _collisionShape.Disabled = true;
 
+
         BodyEntered += OnBodyEntered;
     }
 
     public void BeginCharge(Node3D parent)
     {
         parent.AddChild(this);
+        initialDb = AudioStreamPlayer3D.VolumeDb;
         this.Position = Vector3.Zero;
         UpdateChargeVisuals(0.1f); // Start at 10% size
     }
@@ -101,8 +105,7 @@ public partial class Projectile : RigidBody3D
         AudioStreamPlayer3D.PitchScale = 1f;
         if (!body.IsInGroup("Enemies"))
         {
-            AudioStreamPlayer3D.Stream = AudioStream_Fireball;
-            AudioStreamPlayer3D.Play();
+
             HandleWallBounce();
         }
         else
@@ -131,6 +134,10 @@ public partial class Projectile : RigidBody3D
             sphere.Radius *= (1.0f - refundPercent);
         }
         this.Mass *= (1.0f - refundPercent);
+
+        AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
+        AudioStreamPlayer3D.Stream = AudioStream_Fireball;
+        AudioStreamPlayer3D.Play();
 
         // Destroy if too small
         if (_sprite.Scale.X < 0.1f)

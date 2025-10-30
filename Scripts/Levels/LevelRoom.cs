@@ -9,12 +9,23 @@ public partial class LevelRoom : Node3D
     [Export] private Area3D _triggerVolume;
     [Export] private Array<Node3D> _otherRooms;
 
+    [Export] private Array<EnemySpawner> _spawners;
+
     public override void _Ready()
     {
         if (_triggerVolume != null)
         {
             _triggerVolume.BodyEntered += OnBodyEntered;
             _triggerVolume.BodyExited += OnBodyExited;
+        }
+
+        _spawners = new Array<EnemySpawner>();
+        foreach (var child in GetChildren())
+        {
+            if (child is EnemySpawner spawner)
+            {
+                _spawners.Add(spawner);
+            }
         }
     }
 
@@ -62,13 +73,21 @@ public partial class LevelRoom : Node3D
 
     public void ShowRoom()
     {
-        this.Visible = true;
-        // ShowOtherRooms();
+        ToggleRoom(true);
     }
 
     public void HideRoom()
     {
-        this.Visible = false;
+        ToggleRoom(false);
+    }
+
+    private void ToggleRoom(bool which)
+    {
+        this.Visible = which;
         // HideOtherRooms();
+        foreach (var enemySpawner in _spawners)
+        {
+            enemySpawner.IsEnabled = which;
+        }
     }
 }

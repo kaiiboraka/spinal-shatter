@@ -75,7 +75,7 @@ public partial class PlayerBody : CharacterBody3D
 	[Export] private Area3D pickupArea;
 
 	[ExportSubgroup("Audio", "Audio")]
-	[Export] private AudioStreamPlayer3D AudioPlayer_ManaPickups;
+
 
 	[Export] private AudioStreamPlayer3D AudioPlayer_Footsteps;
 	[Export] private Array<AudioStream> Audio_FootstepSounds;
@@ -294,11 +294,13 @@ public partial class PlayerBody : CharacterBody3D
 
 		if (isSprinting)
 		{
+			AudioPlayer_Footsteps.PitchScale = 1;
 			AudioPlayer_Footsteps.Stream = Audio_FootstepSprintSounds.PickRandom();
 			AudioPlayer_Footsteps.Play();
 		}
 		else
 		{
+			AudioPlayer_Footsteps.PitchScale = 1.2f;
 			AudioPlayer_Footsteps.Stream = Audio_FootstepSounds.PickRandom();
 			await ToSignal(GetTree().CreateTimer(AudioPlayer_Footsteps.Stream.GetLength()), "timeout");
 			AudioPlayer_Footsteps.Play();
@@ -427,11 +429,7 @@ public partial class PlayerBody : CharacterBody3D
 
 		_manaComponent.AddMana(particle.ManaValue);
 		particle.Collect();
-		AudioPlayer_ManaPickups.Stream = ManaParticleManager.Instance.ParticleData[particle.Size].AudioStream;
-		AudioPlayer_ManaPickups.PitchScale = (float)(GD.RandRange(.95, 1.05) *
-													 ManaParticleManager.Instance.ParticleData[particle.Size]
-																		.AudioPitch);
-		AudioPlayer_ManaPickups.Play();
+
 		ManaParticleManager.Instance.Release(particle);
 	}
 }

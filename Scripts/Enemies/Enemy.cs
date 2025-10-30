@@ -31,6 +31,11 @@ public partial class Enemy : CharacterBody3D
 	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
 	[Export] private RichTextLabel _stateLabel;
 
+	[ExportSubgroup("Audio","AudioStream")]
+	[Export] public AudioStreamPlayer3D AudioStream_Vocal { get; private set; }
+	[Export] public AudioStream AudioStream_Hurt { get; private set; }
+	[Export] public AudioStream AudioStream_Movement { get; private set; }
+
 	[ExportSubgroup("Timers", "_timer")]
 	[Export] private Timer _timerWalk;
 	[Export] private Timer _timerWait;
@@ -145,6 +150,10 @@ public partial class Enemy : CharacterBody3D
 				ProcessAttacking(delta);
 				break;
 		}
+
+		// Apply knockback
+		Velocity += _knockbackVelocity;
+		_knockbackVelocity = _knockbackVelocity.Lerp(Vector3.Zero, _knockbackDecay * (float)delta);
 
 		if (_player != null)
 		{

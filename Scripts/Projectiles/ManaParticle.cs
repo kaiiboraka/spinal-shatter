@@ -7,6 +7,8 @@ public partial class ManaParticle : RigidBody3D
 
 	[Signal] public delegate void ReleasedEventHandler(ManaParticle particle);
 
+	[Export] private AudioStreamPlayer3D AudioPlayer_ManaPickups;
+
 	public enum ManaParticleState
 	{
 		Idle,
@@ -92,6 +94,13 @@ public partial class ManaParticle : RigidBody3D
         _state = ManaParticleState.Collected;
         StopMoving();
         _blinkTween?.Kill();
+
+		AudioPlayer_ManaPickups.Stream = ManaParticleManager.Instance.ParticleData[Size].AudioStream;
+		AudioPlayer_ManaPickups.PitchScale = (float)(GD.RandRange(.95, 1.05) *
+													 ManaParticleManager.Instance.ParticleData[Size]
+																		.AudioPitch);
+		AudioPlayer_ManaPickups.Play();
+
         EmitSignal(SignalName.Collected, this);
         EmitSignal(SignalName.Released, this);
         // GD.Print($"{Time.GetTicksMsec()}: ManaParticle {Name} is being collected. New state: {_state}");

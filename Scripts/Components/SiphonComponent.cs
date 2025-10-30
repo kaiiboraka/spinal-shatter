@@ -21,7 +21,11 @@ public partial class SiphonComponent : Node
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("Player_Siphon"))
+		if (@event.IsActionPressed("Player_Shoot"))
+		{
+
+		}
+		else if (@event.IsActionPressed("Player_Siphon"))
 		{
 			_siphonField.Monitoring = true;
 			_siphonField.Visible = true;

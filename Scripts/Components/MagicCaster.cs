@@ -29,7 +29,11 @@ public partial class MagicCaster : Node
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("Player_Shoot"))
+        if (@event.IsActionPressed("Player_Siphon"))
+        {
+
+        }
+        else if (@event.IsActionPressed("Player_Shoot"))
         {
             _isCharging = true;
             StartCharge();

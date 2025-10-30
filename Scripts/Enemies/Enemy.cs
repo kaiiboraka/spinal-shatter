@@ -64,6 +64,8 @@ public partial class Enemy : CharacterBody3D
 	[Export] private float KnockbackUpwardForce { get; set; } = 2.0f;
 
 	private PlayerBody _player;
+	private Vector3 _knockbackVelocity = Vector3.Zero;
+	[Export] private float _knockbackDecay = 0.9f;
 
 	private bool _isWalking = false;
 
@@ -410,6 +412,7 @@ public partial class Enemy : CharacterBody3D
 	{
 		var direction = (GlobalPosition - sourcePosition).Normalized();
 		Velocity = direction * KnockbackStrength + Vector3.Up * KnockbackUpwardForce;
+		ChangeState(AIState.Chasing);
 	}
 
 	private void OnHurtboxBodyEntered(Node3D body)

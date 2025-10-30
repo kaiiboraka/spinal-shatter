@@ -12,6 +12,12 @@ public partial class MagicCaster : Node
     [Export]
     private ManaComponent _manaComponent;
 
+    [ExportSubgroup("Audio","_audio")]
+    [Export] private AudioStreamPlayer3D _audioPlayer_Spell;
+    [Export] private AudioStreamPlayer3D _audioPlayer_Charge;
+    [Export] private AudioStream _audio_Charge;
+    [Export] private AudioStream _audio_Cast;
+
     [ExportGroup("Charging")]
     [Export] private float _maxChargeTime = 2.0f; // Time in seconds to reach full charge
     [Export] private float _minManaCost = 1.0f;
@@ -55,6 +61,8 @@ public partial class MagicCaster : Node
         _chargingProjectile = _projectileScene.Instantiate<Projectile>();
         // _chargingProjectile.LevelParent = PlayerBody.Instance.ParentLevel;
         _chargingProjectile.BeginCharge(_spellOrigin);
+
+        _audioPlayer_Charge.Play();
     }
 
     private void ContinueCharge(float delta)
@@ -71,7 +79,11 @@ public partial class MagicCaster : Node
 
         // Map charge (0-1) to size (0.1-1.2)
         float size = Mathf.Lerp(0.1f, 1.2f, _currentCharge);
+        _audioPlayer_Spell.PitchScale = size * 4 / 6f;
+        _audioPlayer_Spell.Stream = _audio_Charge;
+        if (!_audioPlayer_Spell.IsPlaying()) _audioPlayer_Spell.Play();
         _chargingProjectile.UpdateChargeVisuals(size);
+
     }
 
     private void ReleaseCharge()
@@ -93,10 +105,17 @@ public partial class MagicCaster : Node
         float speed = Mathf.Lerp(20f, 40f, _currentCharge);
         Vector3 initialVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
 
+        _audioPlayer_Spell.PitchScale = 1;
+        _audioPlayer_Spell.Stream = _audio_Cast;
+        _audioPlayer_Spell.Play();
+
+        _chargingProjectile.AudioStreamPlayer3D.PitchScale = .55f;
+        _chargingProjectile.AudioStreamPlayer3D.Play();
         _chargingProjectile.Launch(damage, manaCost, initialVelocity);
 
         // Clear reference
         _chargingProjectile = null;
         _currentCharge = 0f;
+        _audioPlayer_Charge.Stop();
     }
 }

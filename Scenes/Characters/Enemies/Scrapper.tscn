@@ -255,7 +255,7 @@ DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
 Attack_meleeHitbox = NodePath("MeleeHitbox")
 KnockbackStrength = 8.0
-KnockbackUpwardForce = 20.0
+KnockbackUpwardForce = 10.0
 
 [node name="Timers" type="Node" parent="."]
 

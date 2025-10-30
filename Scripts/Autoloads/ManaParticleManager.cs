@@ -6,7 +6,7 @@ public partial class ManaParticleManager : Node
 {
     public static ManaParticleManager Instance { get; private set; }
 
-    [Export] private Dictionary<ManaSize, ManaParticleData> _particleData = new();
+    [Export] public Dictionary<ManaSize, ManaParticleData> ParticleData { get; private set; } = new();
     [Export] private PackedScene _manaParticleScene; // The scene for all mana particles
 
     private ObjectPoolManager<ManaParticle> _pool;
@@ -36,9 +36,9 @@ public partial class ManaParticleManager : Node
         // We rely on the enum order, but a more robust solution might sort the keys by value.
 
         // Spawn Large particles
-        if (_particleData.ContainsKey(ManaSize.Large))
+        if (ParticleData.ContainsKey(ManaSize.Large))
         {
-            ManaParticleData data = _particleData[ManaSize.Large];
+            ManaParticleData data = ParticleData[ManaSize.Large];
             int numToSpawn = remaining / data.Value;
             for (int i = 0; i < numToSpawn; i++)
             {
@@ -48,9 +48,9 @@ public partial class ManaParticleManager : Node
         }
 
         // Spawn Medium particles
-        if (_particleData.ContainsKey(ManaSize.Medium))
+        if (ParticleData.ContainsKey(ManaSize.Medium))
         {
-            ManaParticleData data = _particleData[ManaSize.Medium];
+            ManaParticleData data = ParticleData[ManaSize.Medium];
             int numToSpawn = remaining / data.Value;
             for (int i = 0; i < numToSpawn; i++)
             {
@@ -60,9 +60,9 @@ public partial class ManaParticleManager : Node
         }
 
         // Spawn Small particles
-        if (_particleData.ContainsKey(ManaSize.Small))
+        if (ParticleData.ContainsKey(ManaSize.Small))
         {
-            ManaParticleData data = _particleData[ManaSize.Small];
+            ManaParticleData data = ParticleData[ManaSize.Small];
             for (int i = 0; i < remaining; i++)
             {
                 spawnedParticles.Add(SpawnFromPool(data, position));

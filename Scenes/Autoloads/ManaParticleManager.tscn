@@ -9,7 +9,7 @@
 
 [node name="ManaParticleManager" type="Node"]
 script = ExtResource("1_manager_script")
-_particleData = Dictionary[int, ExtResource("2_yvyer")]({
+ParticleData = Dictionary[int, ExtResource("2_yvyer")]({
 0: ExtResource("3_f6ega"),
 1: ExtResource("4_w348q"),
 2: ExtResource("5_l7ukl")

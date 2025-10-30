@@ -1,13 +1,26 @@
-[gd_scene load_steps=19 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=32 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
+[ext_resource type="AudioStream" uid="uid://6ij54gcnufa1" path="res://assets/Audio/SFX/step_lth2.ogg" id="3_ypuv8"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
+[ext_resource type="AudioStream" uid="uid://di8aqel3ldjnx" path="res://assets/Audio/SFX/step_lth3.ogg" id="4_toq76"]
+[ext_resource type="AudioStream" uid="uid://d0f7pdfx748wo" path="res://assets/Audio/SFX/step_lth4.ogg" id="5_hl70s"]
 [ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/siphon_cone.res" id="6_gc10f"]
+[ext_resource type="AudioStream" uid="uid://ujyk7plt0cdc" path="res://assets/Audio/SFX/step_metal (1).ogg" id="6_ibpri"]
+[ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
+[ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="7_meglp"]
+[ext_resource type="AudioStream" uid="uid://dxfhu4chq0iae" path="res://assets/Audio/SFX/step_metal (2).ogg" id="7_qd2bg"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
+[ext_resource type="AudioStream" uid="uid://besrfasltde3d" path="res://assets/Audio/SFX/step_metal (3).ogg" id="8_qeewm"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
+[ext_resource type="AudioStream" uid="uid://butus1yqi3skm" path="res://assets/Audio/SFX/Powerup_02.wav" id="8_w6cdd"]
+[ext_resource type="AudioStream" uid="uid://daj6b6305ixgx" path="res://assets/Audio/SFX/step_metal (4).ogg" id="9_81gbe"]
+[ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
+[ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
+[ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
 radius = 1.0
@@ -71,7 +84,7 @@ _data = {
 &"Siphon_Spin": SubResource("Animation_gc10f")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_manaComponent", "pickupArea")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_manaComponent", "pickupArea", "AudioPlayer_ManaPickups", "AudioPlayer_Footsteps")]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
@@ -81,6 +94,10 @@ script = ExtResource("1_gjot8")
 WALK_SPEED = 15.0
 _manaComponent = NodePath("ManaComponent")
 pickupArea = NodePath("PickupArea")
+AudioPlayer_ManaPickups = NodePath("Audio/ManaAbsorbtion_AudioStreamPlayer3D")
+AudioPlayer_Footsteps = NodePath("Audio/Footsteps_AudioStreamPlayer3D")
+Audio_FootstepSounds = Array[AudioStream]([ExtResource("10_aal88"), ExtResource("3_ypuv8"), ExtResource("4_toq76"), ExtResource("5_hl70s")])
+Audio_FootstepSprintSounds = Array[AudioStream]([ExtResource("6_ibpri"), ExtResource("7_qd2bg"), ExtResource("8_qeewm"), ExtResource("9_81gbe")])
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -90,17 +107,22 @@ script = ExtResource("7_u2vuf")
 unique_name_in_owner = true
 script = ExtResource("3_mana")
 
-[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("_spellOrigin", "_manaComponent")]
+[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("_spellOrigin", "_manaComponent", "_audioPlayer_Spell", "_audioPlayer_Charge")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
 _projectileScene = ExtResource("4_orb")
 _spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 _manaComponent = NodePath("../ManaComponent")
+_audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
+_audioPlayer_Charge = NodePath("../Audio/SpellCharge_AudioStreamPlayer3D")
+_audio_Charge = ExtResource("8_w6cdd")
+_audio_Cast = ExtResource("7_b4kmf")
 
-[node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target")]
+[node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")
 _siphonField = NodePath("../Head/Camera1P/SiphonField")
 _target = NodePath("../PickupArea")
+AudioStreamPlayer_Siphon = NodePath("../Audio/ManaSiphon_AudioStreamPlayer3D")
 
 [node name="ManaRegenTimer" type="Timer" parent="."]
 
@@ -127,6 +149,42 @@ skeleton = NodePath("../..")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_1i50u")
+
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="ManaAbsorbtion_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("7_meglp")
+volume_db = -20.0
+pitch_scale = 0.74
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="Footsteps_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("10_aal88")
+volume_db = 5.0
+unit_size = 20.0
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="ManaSiphon_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("10_5kd0c")
+volume_db = -5.0
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="SpellCast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("8_w6cdd")
+volume_db = -29.151
+pitch_scale = 0.51
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="SpellCharge_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("10_shd1k")
+volume_db = -21.622
+pitch_scale = 1.01
+bus = &"SFX"
+doppler_tracking = 2
 
 [node name="StandUpRay" type="RayCast3D" parent="."]
 unique_name_in_owner = true

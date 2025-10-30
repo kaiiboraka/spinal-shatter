@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dce3xvef1l24d"]
+[gd_scene load_steps=7 format=3 uid="uid://dce3xvef1l24d"]
 
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_fa2tn"]
 [ext_resource type="PhysicsMaterial" uid="uid://3bjci421vr1q" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_q3rrb"]
 [ext_resource type="SpriteFrames" uid="uid://b2r13wq1r148p" path="res://Scenes/Projectiles/Fireball.tres" id="2_q3rrb"]
+[ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="4_4w4lp"]
+[ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="4_7dxrx"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
-[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape")]
+[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape", "AudioStreamPlayer3D")]
 collision_layer = 8192
 collision_mask = 41613
 physics_material_override = ExtResource("1_q3rrb")
@@ -14,6 +16,9 @@ gravity_scale = 0.0
 script = ExtResource("1_fa2tn")
 _sprite = NodePath("Sprite3D")
 _collisionShape = NodePath("CollisionShape3D")
+AudioStreamPlayer3D = NodePath("Audio_Layer1")
+AudioStream_Fireball = ExtResource("4_7dxrx")
+AudioStream_FireHit = ExtResource("4_4w4lp")
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
 gi_mode = 2
@@ -28,3 +33,9 @@ shape = SubResource("SphereShape3D_12345")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_color = Color(1, 0.25, 0, 1)
 light_energy = 1.1
+
+[node name="Audio_Layer1" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_7dxrx")
+max_distance = 200.0
+bus = &"SFX"
+doppler_tracking = 2

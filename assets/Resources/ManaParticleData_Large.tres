@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="ManaParticleData" load_steps=2 format=3 uid="uid://cuiwba3mt2lap"]
+[gd_resource type="Resource" script_class="ManaParticleData" load_steps=3 format=3 uid="uid://cuiwba3mt2lap"]
 
 [ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_4fmbn"]
+[ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="1_5xgct"]
 
 [resource]
 script = ExtResource("1_4fmbn")
@@ -13,4 +14,6 @@ Modulate = Color(1.186, 1.572, 0, 1)
 Scale = Vector3(1.5, 1.5, 1.5)
 CollisionShapeRadius = 0.3
 AreaShapeRadius = 0.45
+AudioStream = ExtResource("1_5xgct")
+AudioPitch = 0.6
 metadata/_custom_type_script = "uid://q3g48qmmmpch"

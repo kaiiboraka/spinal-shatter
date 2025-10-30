@@ -6,6 +6,7 @@ public partial class SiphonComponent : Node
 {
 	[Export] private Area3D _siphonField;
 	[Export] private Node3D _target;
+	[Export] public AudioStreamPlayer3D AudioStreamPlayer_Siphon { get; private set; }
 
 	private HashSet<ManaParticle> _attractedParticles = new();
 
@@ -25,6 +26,7 @@ public partial class SiphonComponent : Node
 			_siphonField.Monitoring = true;
 			_siphonField.Visible = true;
 			_siphonPressed = true;
+			while (!AudioStreamPlayer_Siphon.IsPlaying()) AudioStreamPlayer_Siphon.Play(1.54f);
 			AttractParticles();
 		}
 
@@ -33,6 +35,7 @@ public partial class SiphonComponent : Node
 			_siphonPressed = false;
 			_siphonField.Visible = false;
 			ReleaseAllParticles();
+			AudioStreamPlayer_Siphon.Stop();
 			_siphonField.Monitoring = false;
 		}
 	}
@@ -61,7 +64,8 @@ public partial class SiphonComponent : Node
 				if (_attractedParticles.Add(particle) && particle.State != ManaParticle.ManaParticleState.Collected &&
 					particle.State != ManaParticle.ManaParticleState.Expired)
 				{
-					                GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Attracting particle {particle.Name}, current state: {particle.State}");					particle.Attract(_target);
+					// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Attracting particle {particle.Name}, current state: {particle.State}");
+					particle.Attract(_target);
 					particle.Released += OnParticleReleased;
 				}
 			}
@@ -83,8 +87,9 @@ public partial class SiphonComponent : Node
 		_attractedParticles.Clear();
 	}
 
-	    private void OnParticleReleased(ManaParticle particle)
-	    {
-	        GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Removing particle {particle.Name} from attracted set.");
-	        _attractedParticles.Remove(particle);
-	    }}
+	private void OnParticleReleased(ManaParticle particle)
+	{
+		// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Removing particle {particle.Name} from attracted set.");
+		_attractedParticles.Remove(particle);
+	}
+}

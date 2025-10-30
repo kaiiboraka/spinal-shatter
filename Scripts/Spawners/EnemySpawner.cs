@@ -8,6 +8,7 @@ public partial class EnemySpawner : Node3D
     [Export] private int _maxActiveEnemies = 10;
     [Export] private Array<PackedScene> _enemyScenes = new();
     [Export] private float _spawnInterval = 5.0f;
+    [Export] private int _enemiesPerSpawn = 1;
     [Export] private bool _spawnInRandomOrder = false;
     [Export] private bool _useGrabBag = false;
 
@@ -51,44 +52,49 @@ public partial class EnemySpawner : Node3D
             return;
         }
 
-        PackedScene sceneToSpawn;
-
-        if (_useGrabBag && _spawnInRandomOrder)
+        for (int i = 0; i < _enemiesPerSpawn; i++)
         {
-            if (_grabBag.Count == 0)
+            if (_activeEnemyCount >= _maxActiveEnemies) break;
+
+            PackedScene sceneToSpawn;
+
+            if (_useGrabBag && _spawnInRandomOrder)
             {
-                _grabBag = _enemyScenes.Duplicate();
-                _grabBag.Shuffle();
+                if (_grabBag.Count == 0)
+                {
+                    _grabBag = _enemyScenes.Duplicate();
+                    _grabBag.Shuffle();
+                }
+                sceneToSpawn = _grabBag.PopFront();
             }
-            sceneToSpawn = _grabBag.PopFront();
-        }
-        else if (_spawnInRandomOrder)
-        {
-            sceneToSpawn = _enemyScenes[(int)(GD.Randi() % _enemyScenes.Count)];
-        }
-        else
-        {
-            sceneToSpawn = _enemyScenes[_spawnIndex];
-            _spawnIndex = (_spawnIndex + 1) % _enemyScenes.Count;
-        }
-
-        if (sceneToSpawn != null && _pools.ContainsKey(sceneToSpawn))
-        {
-            var pool = _pools[sceneToSpawn];
-            var newEnemyNode = pool.Get();
-
-            if (newEnemyNode is Enemy newEnemy)
+            else if (_spawnInRandomOrder)
             {
-                newEnemy.OwningPool = pool;
-                newEnemy.GlobalPosition = this.GlobalPosition;
-                newEnemy.EnemyDied += OnEnemyDied;
-                _activeEnemyCount++;
+                sceneToSpawn = _enemyScenes[(int)(GD.Randi() % _enemyScenes.Count)];
             }
             else
             {
-                // Fallback for nodes that aren't enemies, just place them
-                GetParent().AddChild(newEnemyNode);
-                newEnemyNode.GlobalPosition = this.GlobalPosition;
+                sceneToSpawn = _enemyScenes[_spawnIndex];
+                _spawnIndex = (_spawnIndex + 1) % _enemyScenes.Count;
+            }
+
+            if (sceneToSpawn != null && _pools.ContainsKey(sceneToSpawn))
+            {
+                var pool = _pools[sceneToSpawn];
+                var newEnemyNode = pool.Get();
+
+                if (newEnemyNode is Enemy newEnemy)
+                {
+                    newEnemy.OwningPool = pool;
+                    newEnemy.GlobalPosition = this.GlobalPosition;
+                    newEnemy.EnemyDied += OnEnemyDied;
+                    _activeEnemyCount++;
+                }
+                else
+                {
+                    // Fallback for nodes that aren't enemies, just place them
+                    GetParent().AddChild(newEnemyNode);
+                    newEnemyNode.GlobalPosition = this.GlobalPosition;
+                }
             }
         }
     }

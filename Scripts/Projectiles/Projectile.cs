@@ -11,6 +11,10 @@ public partial class Projectile : RigidBody3D
 
     [Export] private SpriteBase3D _sprite;
     [Export] private CollisionShape3D _collisionShape;
+    [Export] public AudioStreamPlayer3D AudioStreamPlayer3D { get; private set; }
+    [Export] public AudioStream AudioStream_Fireball { get; private set; }
+    [Export] public AudioStream AudioStream_FireHit { get; private set; }
+
     [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.1f;
     [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.25f;
     [Export(PropertyHint.Range, "0.1, 100.0")] private float _lifetime = 10f;
@@ -94,14 +98,23 @@ public partial class Projectile : RigidBody3D
         // For now, we'll just check if the body is NOT an enemy.
         // A more robust way is to use physics layers (e.g., if (body.IsInLayer(LayerNames.PHYSICS_3D.SOLID_WALL_BIT)))
 
+        AudioStreamPlayer3D.PitchScale = 1f;
         if (!body.IsInGroup("Enemies"))
         {
+            AudioStreamPlayer3D.Stream = AudioStream_Fireball;
+            AudioStreamPlayer3D.Play();
             HandleWallBounce();
+        }
+        else
+        {
+            AudioStreamPlayer3D.Stream = AudioStream_FireHit;
+            AudioStreamPlayer3D.Play();
         }
     }
 
     private void HandleWallBounce()
     {
+
         float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
         int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
 

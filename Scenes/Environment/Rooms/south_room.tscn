@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3np3lbhsv241"]
+[gd_scene load_steps=12 format=3 uid="uid://b3np3lbhsv241"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_6igdy"]
 [ext_resource type="Material" uid="uid://dm8uxtucinjau" path="res://assets/Textures/BrickWall_Fire_RoomScale.tres" id="2_6igdy"]
-[ext_resource type="ArrayMesh" uid="uid://gofnwyhav3g" path="res://assets/Models/Room_South.res" id="2_jhh6y"]
+[ext_resource type="ArrayMesh" uid="uid://7pr8vyi18640" path="res://assets/Models/Room_South.res" id="2_jhh6y"]
 [ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1_orange.tscn" id="3_jhh6y"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wrgjc"]
@@ -23,12 +23,16 @@ size = Vector3(65.10028, 20, 29.170166)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3aq0b"]
 size = Vector3(55.944214, 20, 44.506348)
 
-[node name="South_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_jsd1r"]
+size = Vector3(6.5, 5, 33)
+
+[node name="South_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_otherRooms")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51)
 collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_6igdy")
 _triggerVolume = NodePath("LevelRegion")
+_otherRooms = []
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
@@ -41,26 +45,37 @@ shape = SubResource("ConcavePolygonShape3D_wrgjc")
 
 [node name="LevelRegion" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.11887, 0, 57.651375)
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -15.754368, 10, -32.977882)
 shape = SubResource("BoxShape3D_jhh6y")
+debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.585228, 10, 8.577255)
 shape = SubResource("BoxShape3D_6igdy")
+debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -105.31523, 10, 8.008835)
 shape = SubResource("BoxShape3D_jdgky")
+debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -49.59134, 10, -43.10621)
 shape = SubResource("BoxShape3D_bjuwb")
+debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -116.989136, 10, -32.27613)
 shape = SubResource("BoxShape3D_3aq0b")
+debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
+
+[node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 2.5, -74.15)
+shape = SubResource("BoxShape3D_jsd1r")
+debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="Torches" type="Node3D" parent="."]
 

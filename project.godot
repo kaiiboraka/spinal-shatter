@@ -26,7 +26,7 @@ config/icon="uid://bkbk3jcblkrpo"
 Globals_GD="*res://Scripts/Autoloads/Globals_GD.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 DebugManager="*res://Scenes/Debug/DebugManager.tscn"
-LayerNames="*res://addons/layerNames/generated/layerNames.gd"
+LayerNames="*res://addons/layerNames/generated/LayerNames.cs"
 ManaParticleManager="*res://Scenes/Autoloads/ManaParticleManager.tscn"
 
 [dotnet]

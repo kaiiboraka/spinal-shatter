@@ -99,7 +99,7 @@ public partial class PlayerBody : CharacterBody3D
         pickupArea ??= GetNode<Area3D>("PickupArea");
         pickupArea.AreaEntered += OnPickupAreaEntered;
 
-        parentLevel = GetParent<Node3D>();
+        parentLevel = GetParent() as Node3D;
 
         Input.MouseMode = Input.MouseModeEnum.Captured;
     }

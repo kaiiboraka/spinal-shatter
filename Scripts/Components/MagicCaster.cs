@@ -53,7 +53,7 @@ public partial class MagicCaster : Node
 
         _currentCharge = 0f;
         _chargingProjectile = _projectileScene.Instantiate<Projectile>();
-        _chargingProjectile.LevelParent = PlayerBody.Instance.ParentLevel;
+        // _chargingProjectile.LevelParent = PlayerBody.Instance.ParentLevel;
         _chargingProjectile.BeginCharge(_spellOrigin);
     }
 

@@ -1,9 +1,6 @@
-E 0:00:12:264   GD.cs:366 @ void Godot.GD.PushError(string): Invalid call. Nonexistent function 'OnPlayerEnteredRoom' in base 'Godot.Node3D'.
-  <C# Source>   /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:148 @ void Godot.NativeInterop.ExceptionUtils.DebugCheckCallError(Godot.NativeInterop.godot_string_name, nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error)
-  <Stack Trace> GD.cs:366 @ void Godot.GD.PushError(string)
-				ExceptionUtils.cs:148 @ void Godot.NativeInterop.ExceptionUtils.DebugCheckCallError(Godot.NativeInterop.godot_string_name, nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error)
-				NativeCalls.cs:7838 @ Godot.Variant Godot.NativeCalls.godot_icall_2_875(nint, nint, Godot.NativeInterop.godot_string_name, System.ReadOnlySpan`1[Godot.Variant], Godot.NativeInterop.godot_string_name)
-				GodotObject.cs:728 @ Godot.Variant Godot.GodotObject.Call(Godot.StringName, Godot.Variant[])
-				LevelRoom.cs:19 @ void LevelRoom.OnBodyEntered(Godot.Node3D)
-				Area3D.cs:936 @ void Godot.Area3D.BodyEnteredTrampoline(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
+E 0:00:02:137   VariantUtils.generic.cs:388 @ T Godot.NativeInterop.VariantUtils.ConvertTo<T>(Godot.NativeInterop.godot_variant&): System.InvalidCastException: Unable to cast object of type 'Godot.ProgressBar' to type 'HealthBar'.
+  <C# Error>    System.InvalidCastException
+  <C# Source>   /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/VariantUtils.generic.cs:388 @ T Godot.NativeInterop.VariantUtils.ConvertTo<T>(Godot.NativeInterop.godot_variant&)
+  <Stack Trace> VariantUtils.generic.cs:388 @ T Godot.NativeInterop.VariantUtils.ConvertTo<T>(Godot.NativeInterop.godot_variant&)
+				Enemy_ScriptProperties.generated.cs:77 @ bool Enemy.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:57 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Set(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant*)

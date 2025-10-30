@@ -38,24 +38,26 @@ height = 2.4608397
 radius = 0.73583984
 height = 2.4355469
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_healthComponent", "_sprite", "_healthBar", "_hurtbox") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_sprite", "_hurtbox", "HealthComponent", "HealthBar") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_y5818")
-_healthComponent = NodePath("HealthComponent")
 _sprite = NodePath("AnimatedSprite3D/Sprite3D")
-_healthBar = NodePath("HealthBar")
 _hurtbox = NodePath("Hurtbox")
+HealthComponent = NodePath("HealthComponent")
+HealthBar = NodePath("HealthBar")
 ManaToDrop = 25
 _maxRefundPercent = 0.2
 
 [node name="HealthComponent" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("2_3nwgj")
 
 [node name="HealthBar" parent="." instance=ExtResource("3_43jap")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
 texture = SubResource("ViewportTexture_43jap")
 
@@ -101,3 +103,5 @@ collision_mask = 8192
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64926755, 0)
 shape = SubResource("CapsuleShape3D_s0m4p")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
+
+[editable path="HealthBar"]

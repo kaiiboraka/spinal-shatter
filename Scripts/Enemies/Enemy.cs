@@ -3,113 +3,120 @@ using Godot;
 
 public partial class Enemy : CharacterBody3D
 {
-    [Export] private HealthComponent _healthComponent;
-    [Export] private SpriteBase3D _sprite;
-    [Export] private HealthBar _healthBar;
-    [Export] private Area3D _hurtbox;
+	[Export] private SpriteBase3D _sprite;
+	[Export] private Area3D _hurtbox;
+	[Export] private HealthComponent HealthComponent { get; set; }
+	[Export] private HealthBar HealthBar { get; set; }
 
-    [Export] public float WalkSpeed { get; private set; } = 3.0f;
-    [Export] public int ManaToDrop { get; private set; } = 10;
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.05f;
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.30f;
+	[Export] public float WalkSpeed { get; private set; } = 3.0f;
+	[Export] public int ManaToDrop { get; private set; } = 10;
 
-    [Signal]
-    public delegate void EnemyDiedEventHandler(Enemy who);
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float _minRefundPercent = 0.05f;
 
-    public ObjectPoolManager<Node3D> OwningPool { get; set; }
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float _maxRefundPercent = 0.30f;
 
-    private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+	[Signal]
+	public delegate void EnemyDiedEventHandler(Enemy who);
 
-    public override void _Ready()
-    {
-        _healthComponent.Died += OnDied;
-        _healthComponent.HealthChanged += OnHealthChanged;
+	public ObjectPoolManager<Node3D> OwningPool { get; set; }
 
-        _hurtbox.BodyEntered += OnHurtboxBodyEntered;
+	private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
-        // Initialize Health Bar
-        _healthBar.Initialize(_healthComponent.MaxHealth);
-    }
+	public override void _Ready()
+	{
+		HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
+		HealthBar ??= GetNode<HealthBar>("%HealthBar");
 
-    public override void _PhysicsProcess(double delta)
-    {
-        Vector3 velocity = Velocity;
+		HealthComponent.Died += OnDied;
+		HealthComponent.HealthChanged += OnHealthChanged;
 
-        // Add gravity.
-        if (!IsOnFloor())
-            velocity.Y -= _gravity * (float)delta;
+		_hurtbox.BodyEntered += OnHurtboxBodyEntered;
 
-        // Set horizontal velocity to move forward.
-        velocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
-        velocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
+		// Initialize Health Bar
+		HealthBar.Initialize(HealthComponent.MaxHealth);
+	}
 
-        Velocity = velocity;
-        MoveAndSlide();
+	public override void _PhysicsProcess(double delta)
+	{
+		Vector3 velocity = Velocity;
 
-        // Check for wall collision and change direction.
-        if (IsOnWall())
-        {
-            float randomAngle = (float)GD.RandRange(0, Mathf.Pi * 2);
-            Rotation = new Vector3(0, randomAngle, 0);
-        }
-    }
+		// Add gravity.
+		if (!IsOnFloor())
+			velocity.Y -= _gravity * (float)delta;
 
-    private void OnHurtboxBodyEntered(Node3D body)
-    {
-        if (body is Projectile projectile)
-        {
-            // Take damage from the projectile
-            TakeDamage(projectile.Damage);
+		// Set horizontal velocity to move forward.
+		velocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
+		velocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
 
-            // Spawn mana particles as a refund
-            float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
-            int manaToSpawn = Mathf.RoundToInt(projectile.InitialManaCost * refundPercent);
-            if (manaToSpawn > 0)
-            {
-                ManaParticleManager.Instance.SpawnMana(manaToSpawn, projectile.GlobalPosition);
-            }
+		Velocity = velocity;
+		MoveAndSlide();
 
-            // Destroy the projectile
-            projectile.QueueFree();
-        }
-    }
+		// Check for wall collision and change direction.
+		if (IsOnWall())
+		{
+			float randomAngle = (float)GD.RandRange(0, Mathf.Pi * 2);
+			Rotation = new Vector3(0, randomAngle, 0);
+		}
+	}
 
-    private void OnHealthChanged(float oldHealth, float newHealth)
-    {
-        _healthBar.OnHealthChanged(newHealth, _healthComponent.MaxHealth);
-    }
+	private void OnHurtboxBodyEntered(Node3D body)
+	{
+		if (body is Projectile projectile)
+		{
+			// Take damage from the projectile
+			TakeDamage(projectile.Damage);
 
-    public void TakeDamage(float amount)
-    {
-        _healthComponent.TakeDamage(amount);
-        FlashRed();
-    }
+			// Spawn mana particles as a refund
+			float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+			int manaToSpawn = Mathf.RoundToInt(projectile.InitialManaCost * refundPercent);
+			if (manaToSpawn > 0)
+			{
+				ManaParticleManager.Instance.SpawnMana(manaToSpawn, projectile.GlobalPosition);
+			}
 
-    private void FlashRed()
-    {
-        var tween = GetTree().CreateTween();
-        tween.TweenProperty(_sprite, "modulate", Colors.Red, 0.1);
-        tween.TweenProperty(_sprite, "modulate", Colors.White, 0.1);
-    }
+			// Destroy the projectile
+			projectile.QueueFree();
+		}
+	}
 
-    private void OnDied()
-    {
-        EmitSignal(SignalName.EnemyDied, this);
+	private void OnHealthChanged(float oldHealth, float newHealth)
+	{
+		HealthBar.OnHealthChanged(newHealth, HealthComponent.MaxHealth);
+	}
 
-        ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
-        
-        if (OwningPool != null)
-        {
-            OwningPool.Release(this);
-        }
-        else
-        {
-            QueueFree(); // Failsafe for enemies not spawned from a pool
-        }
-    }
+	public void TakeDamage(float amount)
+	{
+		HealthComponent.TakeDamage(amount);
+		FlashRed();
+	}
 
-    public void Reset()
-    {
-        _healthComponent.Reset();
-    }
+	private void FlashRed()
+	{
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(_sprite, "modulate", Colors.Red, 0.1);
+		tween.TweenProperty(_sprite, "modulate", Colors.White, 0.1);
+	}
+
+	private void OnDied()
+	{
+		EmitSignal(SignalName.EnemyDied, this);
+
+		ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
+
+		if (OwningPool != null)
+		{
+			OwningPool.Release(this);
+		}
+		else
+		{
+			QueueFree(); // Failsafe for enemies not spawned from a pool
+		}
+	}
+
+	public void Reset()
+	{
+		HealthComponent.Reset();
+	}
 }

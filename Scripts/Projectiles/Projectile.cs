@@ -70,13 +70,13 @@ public partial class Projectile : RigidBody3D
         this.InitialManaCost = initialManaCost;
 
         // Re-parent to the root and maintain global position
-        var globalTransform = this.GlobalTransform;
-        if (GetParent() is Node3D parent)
-        {
-            parent.RemoveChild(this);
-        }
-        LevelParent.AddChild(this);
-        this.GlobalTransform = globalTransform;
+        // var globalTransform = this.GlobalTransform;
+        // if (GetParent() is Node3D parent)
+        // {
+        //     parent.RemoveChild(this);
+        // }
+        // LevelParent.AddChild(this);
+        // this.GlobalTransform = globalTransform;
 
         // Enable physics and launch
         this.Freeze = false;

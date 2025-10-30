@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="ManaParticleData" load_steps=2 format=3 uid="uid://cuiwba3mt2lap"]
 
-[ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_nrdq2"]
+[ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_4fmbn"]
 
 [resource]
-script = ExtResource("1_nrdq2")
+script = ExtResource("1_4fmbn")
 Size = 2
-_attractSpeed = 12.0
-_lifetime = 20.0
+Value = 12
+AttractSpeed = 12.0
+Lifetime = 20.0
 Modulate = Color(1.186, 1.572, 0, 1)
 Scale = Vector3(1.5, 1.5, 1.5)
 CollisionShapeRadius = 0.3

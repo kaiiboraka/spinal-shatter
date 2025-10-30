@@ -73,6 +73,7 @@ public partial class SiphonComponent : Node
         {
             if (IsInstanceValid(particle))
             {
+                particle.StopMoving();
                 particle.DriftIdle();
             }
         }

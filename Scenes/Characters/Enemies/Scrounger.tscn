@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=9 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_s0m4p"]
 [ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/enemies_small_scrounger.ase" id="3_0uo32"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="3_bnk72"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="3_health"]
-[ext_resource type="Texture2D" path="res://assets/Images/enemies_small_scrounger_eye.png" id="4_0uo32"]
 [ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/enemies_small_scrounger_eye.ase" id="6_fhuh0"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bnk72"]
@@ -15,7 +14,7 @@ radius = 0.7338867
 height = 2.4588866
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0m4p"]
-radius = 0.73583984
+radius = 0.8564453
 height = 2.4355469
 
 [node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "HealthBar") groups=["Enemies"]]
@@ -58,7 +57,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 20.0
-light_projector = ExtResource("4_0uo32")
 light_size = 1.0
 light_cull_mask = 4294967291
 shadow_enabled = true

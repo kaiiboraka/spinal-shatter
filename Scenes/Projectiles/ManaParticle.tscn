@@ -12,13 +12,11 @@ radius = 0.2
 
 [node name="ManaParticle" type="RigidBody3D" node_paths=PackedStringArray("_lifetimeTimer", "_sprite", "_collisionShape", "_areaShape") groups=["ManaParticles"]]
 collision_layer = 65536
-collision_mask = 132748
+collision_mask = 1676
 physics_material_override = ExtResource("1_puym1")
 gravity_scale = 0.0
 script = ExtResource("1_particle_script")
-_attractSpeed = 18.0
 _lifetimeTimer = NodePath("LifetimeTimer")
-Lifetime = 10.0
 _sprite = NodePath("AnimatedSprite3D")
 _collisionShape = NodePath("BodyCollisionShape3D")
 _areaShape = NodePath("Area3D/AreaCollisionShape3D")

@@ -76,6 +76,8 @@ public partial class ManaSpawner : Node3D
             }
 
             particle.Collected += OnManaCollected;
+            particle.StopMoving();
+            particle.DriftIdle();
             _activeInstanceCount++;
         }
     }

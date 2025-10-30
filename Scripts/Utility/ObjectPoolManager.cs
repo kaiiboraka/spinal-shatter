@@ -47,13 +47,21 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
 
         _activeObjects--;
 
-        obj.SetProcess(false);
-        obj.SetPhysicsProcess(false);
         obj.SetDeferred("visible", false);
-        
         if (obj.HasMethod("Reset"))
         {
 	        obj.Call("Reset");
+        }
+        obj.SetPhysicsProcess(false);
+        obj.SetProcess(false);
+
+        if (obj is Node3D node3D)
+        {
+            node3D.GlobalPosition = Vector3.Zero;
+        }
+        if (obj is Node2D node2D)
+        {
+            node2D.GlobalPosition = Vector2.Zero;
         }
 
         if (_readyPool.Count < PoolMaxSize)

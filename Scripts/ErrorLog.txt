@@ -1,6 +1,398 @@
-E 0:00:02:137   VariantUtils.generic.cs:388 @ T Godot.NativeInterop.VariantUtils.ConvertTo<T>(Godot.NativeInterop.godot_variant&): System.InvalidCastException: Unable to cast object of type 'Godot.ProgressBar' to type 'HealthBar'.
-  <C# Error>    System.InvalidCastException
-  <C# Source>   /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/VariantUtils.generic.cs:388 @ T Godot.NativeInterop.VariantUtils.ConvertTo<T>(Godot.NativeInterop.godot_variant&)
-  <Stack Trace> VariantUtils.generic.cs:388 @ T Godot.NativeInterop.VariantUtils.ConvertTo<T>(Godot.NativeInterop.godot_variant&)
-				Enemy_ScriptProperties.generated.cs:77 @ bool Enemy.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:57 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Set(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant*)
+"C:\Program Files\JetBrains\Rider 2\plugins\dpa\DotFiles\JetBrains.DPA.Runner.exe" --handle=31140 --backend-pid=6980 --etw-collect-flags=67108622 --detach-event-name=dpa.detach.6980.25 --refresh-interval=1 -- "O:/OneDrive/Game Development/Godot_v4.5-stable_mono_win64/Godot_v4.5-stable_mono_win64.exe" --path "./"
+Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
+Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
+
+ERROR: Resource file not found: res://assets/Images/enemies_small_scrounger_eye.png (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:351)
+ERROR: res://Scenes/Characters/Enemies/Scrounger.tscn:61 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/Images/enemies_small_scrounger_eye.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:40)
+ERROR: Resource file not found: res://assets/Images/enemies_small_scrounger_eye.png (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:351)
+ERROR: res://Scenes/Characters/Enemies/Scrapper.tscn:62 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/Images/enemies_small_scrounger_eye.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:40)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Tween (bound to /root/ManaParticleManager/ManaParticle): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@13): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@14): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@15): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@16): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@17): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@18): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@19): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@20): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@21): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@24): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@25): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@26): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@27): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Type mismatch between initial and final value: Vector3 and Vector2
+   at: validate_type_match (scene/resources/animation.cpp:5688)
+   C# backtrace (most recent call first):
+	   [0] Godot.GodotObject Godot.NativeCalls.godot_icall_4_1441(nint, nint, nint, Godot.NativeInterop.godot_node_path, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:13339)
+	   [1] Godot.PropertyTweener Godot.Tween.TweenProperty(Godot.GodotObject, Godot.NodePath, Godot.Variant, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Tween.cs:207)
+	   [2] void ManaParticle.OnLifetimeTimeout() (C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:148)
+	   [3] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+	   [4] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ManaParticle.OnLifetimeTimeout() in C:\Projects\spinal-shatter\Scripts\Projectiles\ManaParticle.cs:line 148
+   at Godot.Callable.<From>g__Trampoline|1_0(Object delegateObj, NativeVariantPtrArgs args, godot_variant& ret) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:line 39
+   at Godot.DelegateUtils.InvokeWithVariantArgs(IntPtr delegateGCHandle, Void* trampoline, godot_variant** args, Int32 argc, godot_variant* outRet) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:line 86
+   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+   C# backtrace (most recent call first):
+	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
+	   [2] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@30): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@31): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@32): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@33): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@34): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+ERROR: Tween (bound to /root/ManaParticleManager/@RigidBody3D@35): started with no Tweeners.
+   at: step (scene/animation/tween.cpp:346)
+WARNING: 1 RID of type "Canvas" was leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2676)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2514)
+
+Process finished with exit code 0.

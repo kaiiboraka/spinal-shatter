@@ -6,11 +6,10 @@ public partial class ManaParticleManager : Node
 {
     public static ManaParticleManager Instance { get; private set; }
 
-    [Export] private Dictionary<ManaSize, PackedScene> _particleScenes = new();
-    [Export] private Dictionary<ManaSize, int> _manaValues = new();
     [Export] private Dictionary<ManaSize, ManaParticleData> _particleData = new();
+    [Export] private PackedScene _manaParticleScene; // The scene for all mana particles
 
-    private Dictionary<ManaSize, ObjectPoolManager<ManaParticle>> _pools = new();
+    private ObjectPoolManager<ManaParticle> _pool;
 
     public override void _Ready()
     {
@@ -21,27 +20,11 @@ public partial class ManaParticleManager : Node
         }
         Instance = this;
 
-        // Load visual data for mana particles
-        foreach (ManaSize size in System.Enum.GetValues<ManaSize>())
-        {
-            string path = $"ManaParticleVisuals_{size}.tres";
-            ManaParticleData data = GD.Load<ManaParticleData>($"res://assets/Resources/{path}");
-            if (data != null)
-            {
-                _particleData[size] = data;
-            }
-            else
-            {
-                GD.PrintErr($"Failed to load ManaParticleVisualData for {size} at res://assets/Resources/{path}");
-            }
-
-            var newPool = new ObjectPoolManager<ManaParticle>();
-            newPool.Scene = _particleScenes[size];
-            newPool.PoolParent = newPool; // Assign the shared parent
-            newPool.Name = $"{size}ParticlePool";
-            _pools[size] = newPool;
-            AddChild(newPool);
-        }
+        _pool = new ObjectPoolManager<ManaParticle>();
+        _pool.Scene = _manaParticleScene;
+        _pool.PoolParent = this; // Assign this manager as the parent for pooled objects
+        _pool.Name = "ManaParticlePool";
+        AddChild(_pool);
     }
 
     public Array<ManaParticle> SpawnMana(int totalAmount, Vector3 position)
@@ -53,52 +36,51 @@ public partial class ManaParticleManager : Node
         // We rely on the enum order, but a more robust solution might sort the keys by value.
 
         // Spawn Large particles
-        if (_manaValues.ContainsKey(ManaSize.Large) && _pools.ContainsKey(ManaSize.Large))
+        if (_particleData.ContainsKey(ManaSize.Large))
         {
-            int value = _manaValues[ManaSize.Large];
-            int numToSpawn = remaining / value;
+            ManaParticleData data = _particleData[ManaSize.Large];
+            int numToSpawn = remaining / data.Value;
             for (int i = 0; i < numToSpawn; i++)
             {
-                spawnedParticles.Add(SpawnFromPool(ManaSize.Large, position, value));
+                spawnedParticles.Add(SpawnFromPool(data, position));
             }
-            remaining %= value;
+            remaining %= data.Value;
         }
 
         // Spawn Medium particles
-        if (_manaValues.ContainsKey(ManaSize.Medium) && _pools.ContainsKey(ManaSize.Medium))
+        if (_particleData.ContainsKey(ManaSize.Medium))
         {
-            int value = _manaValues[ManaSize.Medium];
-            int numToSpawn = remaining / value;
+            ManaParticleData data = _particleData[ManaSize.Medium];
+            int numToSpawn = remaining / data.Value;
             for (int i = 0; i < numToSpawn; i++)
             {
-                spawnedParticles.Add(SpawnFromPool(ManaSize.Medium, position, value));
+                spawnedParticles.Add(SpawnFromPool(data, position));
             }
-            remaining %= value;
+            remaining %= data.Value;
         }
 
         // Spawn Small particles
-        if (_manaValues.ContainsKey(ManaSize.Small) && _pools.ContainsKey(ManaSize.Small))
+        if (_particleData.ContainsKey(ManaSize.Small))
         {
-            int value = _manaValues[ManaSize.Small];
+            ManaParticleData data = _particleData[ManaSize.Small];
             for (int i = 0; i < remaining; i++)
             {
-                spawnedParticles.Add(SpawnFromPool(ManaSize.Small, position, value));
+                spawnedParticles.Add(SpawnFromPool(data, position));
             }
         }
 
         return spawnedParticles;
     }
 
-    private ManaParticle SpawnFromPool(ManaSize size, Vector3 position, int manaValue)
+    private ManaParticle SpawnFromPool(ManaParticleData data, Vector3 position)
     {
-        // var pool = ;
-        ManaParticle particle = _pools[size].Get();
+        ManaParticle particle = _pool.Get();
         if (particle == null) return null; // Pool is full
 
         // Add a random offset to the spawn position
         Vector3 offset = new Vector3((float)GD.RandRange(-0.5, 0.5), (float)GD.RandRange(0, 0.5), (float)GD.RandRange(-0.5, 0.5));
         particle.GlobalPosition = position + offset;
-        particle.Initialize(manaValue, _particleData[size]);
+        particle.Initialize(data);
         return particle;
     }
 
@@ -106,14 +88,6 @@ public partial class ManaParticleManager : Node
     {
         if (particle == null) return;
 
-        if (_pools.ContainsKey(particle.Size))
-        {
-            _pools[particle.Size].Release(particle);
-        }
-        else
-        {
-            GD.PrintErr($"Attempted to release a particle of size {particle.Size} but no pool exists for it.");
-            particle.QueueFree(); // Failsafe
-        }
+        _pool.Release(particle);
     }
 }

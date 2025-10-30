@@ -97,7 +97,7 @@ public partial class PlayerBody : CharacterBody3D
         UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
         pickupArea ??= GetNode<Area3D>("PickupArea");
-        pickupArea.BodyEntered += OnBodyEnteredPickupArea;
+        // pickupArea.BodyEntered += OnBodyEnteredPickupArea;
         pickupArea.AreaEntered += OnAreaEnteredPickupArea;
 
         parentLevel = GetParent() as Node3D;
@@ -133,7 +133,7 @@ public partial class PlayerBody : CharacterBody3D
     }
 
 
-    private const double pickup_check_time = 1f;
+    private const double pickup_check_time = .5f;
     private double pickup_clock = 0f;
     public override void _PhysicsProcess(double delta)
     {
@@ -357,15 +357,13 @@ public partial class PlayerBody : CharacterBody3D
         maxAmmoLabel.Text = Mathf.RoundToInt(newMax).ToString();
     }
 
-    private void OnBodyEnteredPickupArea(Node3D body)
-    {
-        if (body is ManaParticle particle)
-        {
-            _manaComponent.AddMana(particle.ManaValue);
-            particle.Collect();
-            ManaParticleManager.Instance.Release(particle);
-        }
-    }
+    // private void OnBodyEnteredPickupArea(Node3D body)
+    // {
+    //     if (body is ManaParticle particle)
+    //     {
+    //         PickupManaParticle(particle);
+    //     }
+    // }
 
     private void OnAreaEnteredPickupArea(Area3D area)
     {

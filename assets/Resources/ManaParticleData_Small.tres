@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="ManaParticleData" load_steps=2 format=3 uid="uid://6g1ukl8gec4s"]
 
-[ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_2s263"]
+[ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_74omd"]
 
 [resource]
-script = ExtResource("1_2s263")
-_attractSpeed = 18.0
-_lifetime = 10.0
+script = ExtResource("1_74omd")
+DriftSpeed = 1.0
+AttractSpeed = 18.0
+Lifetime = 10.0
 Scale = Vector3(0.5, 0.5, 0.5)
 metadata/_custom_type_script = "uid://q3g48qmmmpch"

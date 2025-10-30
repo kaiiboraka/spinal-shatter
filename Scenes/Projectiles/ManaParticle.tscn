@@ -1,21 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://3mci4bqbc8g6"]
+[gd_scene load_steps=6 format=3 uid="uid://3mci4bqbc8g6"]
 
 [ext_resource type="Script" uid="uid://b4e4dmterk48i" path="res://Scripts/Projectiles/ManaParticle.cs" id="1_particle_script"]
 [ext_resource type="PhysicsMaterial" uid="uid://3bjci421vr1q" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_puym1"]
 [ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/magic_spark.ase" id="2_ulyup"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_puym1"]
 radius = 0.1
 
-[node name="ManaParticle" type="RigidBody3D" node_paths=PackedStringArray("_lifetimeTimer", "_sprite") groups=["ManaParticles"]]
+[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+radius = 0.2
+
+[node name="ManaParticle" type="RigidBody3D" node_paths=PackedStringArray("_lifetimeTimer", "_sprite", "_collisionShape", "_areaShape") groups=["ManaParticles"]]
 collision_layer = 65536
 collision_mask = 132748
 physics_material_override = ExtResource("1_puym1")
 gravity_scale = 0.0
 script = ExtResource("1_particle_script")
+_attractSpeed = 18.0
 _lifetimeTimer = NodePath("LifetimeTimer")
 Lifetime = 10.0
 _sprite = NodePath("AnimatedSprite3D")
+_collisionShape = NodePath("BodyCollisionShape3D")
+_areaShape = NodePath("Area3D/AreaCollisionShape3D")
 
 [node name="LifetimeTimer" type="Timer" parent="."]
 one_shot = true
@@ -31,15 +37,14 @@ sprite_frames = ExtResource("2_ulyup")
 autoplay = "default"
 frame_progress = 0.5780864
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_1")
-debug_color = Color(0.82745004, 0.83317846, 1.92523e-06, 0.41960785)
+[node name="BodyCollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_puym1")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 65536
 collision_mask = 131072
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D"]
+[node name="AreaCollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("SphereShape3D_1")
 debug_color = Color(0.82745004, 0.83317846, 1.92523e-06, 0.41960785)
 

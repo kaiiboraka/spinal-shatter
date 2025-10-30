@@ -71,6 +71,15 @@ texture={
 "roughness/mode": 0,
 "roughness/src_normal": ""
 }
+aseprite_wizard.plugin.spriteframes={
+"animation/round_fps": true,
+"layer/exclude_layers_pattern": "",
+"layer/only_visible_layers": true,
+"sheet/frame_padding": 0,
+"sheet/scale": 1,
+"sheet/sheet_columns": 12,
+"sheet/sheet_type": "packed"
+}
 
 [input]
 
@@ -189,6 +198,10 @@ Game_slow_down={
 
 [layer_names]
 
+3d_render/layer_1="Default"
+3d_render/layer_2="Player"
+3d_render/layer_3="Enemy"
+3d_render/layer_4="Projectiles"
 3d_physics/layer_1="PlayerCollision"
 3d_physics/layer_2="PlayerHurtbox"
 3d_physics/layer_3="SolidGround"

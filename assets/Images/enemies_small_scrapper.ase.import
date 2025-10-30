@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/enemies_small_scrapper.ase-8e5eab17dae6ff8714
 [params]
 
 layer/exclude_layers_pattern=""
-layer/only_visible_layers=false
+layer/only_visible_layers=true
 sheet/sheet_type="packed"
 sheet/sheet_columns=12
 sheet/frame_padding=0

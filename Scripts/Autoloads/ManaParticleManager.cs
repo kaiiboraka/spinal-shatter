@@ -8,6 +8,7 @@ public partial class ManaParticleManager : Node
 
     [Export] private Dictionary<ManaSize, PackedScene> _particleScenes = new();
     [Export] private Dictionary<ManaSize, int> _manaValues = new();
+    [Export] private Dictionary<ManaSize, ManaParticleData> _particleData = new();
 
     private Dictionary<ManaSize, ObjectPoolManager<ManaParticle>> _pools = new();
 
@@ -20,11 +21,22 @@ public partial class ManaParticleManager : Node
         }
         Instance = this;
 
-        // Setup internal pools for each defined particle size
-        foreach (var (size, scene) in _particleScenes)
+        // Load visual data for mana particles
+        foreach (ManaSize size in System.Enum.GetValues<ManaSize>())
         {
+            string path = $"ManaParticleVisuals_{size}.tres";
+            ManaParticleData data = GD.Load<ManaParticleData>($"res://assets/Resources/{path}");
+            if (data != null)
+            {
+                _particleData[size] = data;
+            }
+            else
+            {
+                GD.PrintErr($"Failed to load ManaParticleVisualData for {size} at res://assets/Resources/{path}");
+            }
+
             var newPool = new ObjectPoolManager<ManaParticle>();
-            newPool.Scene = scene;
+            newPool.Scene = _particleScenes[size];
             newPool.PoolParent = newPool; // Assign the shared parent
             newPool.Name = $"{size}ParticlePool";
             _pools[size] = newPool;
@@ -86,7 +98,7 @@ public partial class ManaParticleManager : Node
         // Add a random offset to the spawn position
         Vector3 offset = new Vector3((float)GD.RandRange(-0.5, 0.5), (float)GD.RandRange(0, 0.5), (float)GD.RandRange(-0.5, 0.5));
         particle.GlobalPosition = position + offset;
-        particle.Initialize(manaValue);
+        particle.Initialize(manaValue, _particleData[size]);
         return particle;
     }
 

@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/enemies_small_scrounger.ase-611dcf1a73b978df5
 [params]
 
 layer/exclude_layers_pattern=""
-layer/only_visible_layers=false
+layer/only_visible_layers=true
 sheet/sheet_type="packed"
 sheet/sheet_columns=12
 sheet/frame_padding=0

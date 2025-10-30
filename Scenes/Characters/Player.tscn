@@ -95,6 +95,8 @@ script = ExtResource("5_siphon")
 _siphonField = NodePath("../Head/Camera1P/SiphonField")
 _target = NodePath("../PickupArea")
 
+[node name="ManaRegenTimer" type="Timer" parent="."]
+
 [node name="PickupArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.208, 0.181)
 collision_layer = 131072
@@ -198,7 +200,7 @@ mouse_filter = 1
 
 [node name="HUD" type="CanvasLayer" parent="Control"]
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/HUD"]
+[node name="ScreenMarginContainer" type="MarginContainer" parent="Control/HUD"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -209,44 +211,44 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/HUD/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/HUD/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HUD/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/HUD/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/HUD/ScreenMarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Ammo"
+text = "Mana"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CurrAmmoText" type="Label" parent="Control/HUD/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CurrAmmoText" type="Label" parent="Control/HUD/ScreenMarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "5"
 label_settings = SubResource("LabelSettings_e12tg")
 horizontal_alignment = 2
 
-[node name="Slash" type="Label" parent="Control/HUD/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Slash" type="Label" parent="Control/HUD/ScreenMarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "/"
 label_settings = SubResource("LabelSettings_e12tg")
 horizontal_alignment = 2
 
-[node name="MaxAmmoText" type="Label" parent="Control/HUD/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MaxAmmoText" type="Label" parent="Control/HUD/ScreenMarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "10"
@@ -285,4 +287,5 @@ libraries = {
 }
 autoplay = "Siphon_Spin"
 
+[connection signal="area_entered" from="PickupArea" to="." method="OnAreaEnteredPickupArea"]
 [connection signal="body_entered" from="PickupArea" to="." method="OnPickupAreaEntered"]

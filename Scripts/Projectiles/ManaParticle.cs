@@ -27,8 +27,8 @@ public partial class ManaParticle : RigidBody3D
 	}
 
 	[Export] private SpriteBase3D _sprite;
-
-
+	[Export] private CollisionShape3D _collisionShape;
+	[Export] private CollisionShape3D _areaShape;
 	public int ManaValue { get; private set; }
 
 	private ManaParticleState _state = ManaParticleState.Idle;
@@ -57,14 +57,13 @@ public partial class ManaParticle : RigidBody3D
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
+		// if (_state == ManaParticleState.Idle && state.GetContactCount() > 0)
+		// {
+		// 	var normal = state.GetContactLocalNormal(0);
+		// 	_velocity = _velocity.Bounce(normal);
+		// }
 
-		if (_state == ManaParticleState.Idle && state.GetContactCount() > 0)
-		{
-			var normal = state.GetContactLocalNormal(0);
-			_velocity = _velocity.Bounce(normal);
-		}
-
-		state.LinearVelocity = _velocity;
+		if (_state == ManaParticleState.Attracted) state.LinearVelocity = _velocity;
 		base._IntegrateForces(state);
 	}
 
@@ -77,17 +76,31 @@ public partial class ManaParticle : RigidBody3D
 
 	public void Collect()
 	{
+		StopMoving();
 		EmitSignal(SignalName.Collected, this);
 	}
 
 	// Called by the ManaParticleManager when a particle is spawned from the pool.
-	public void Initialize(int manaValue)
+	public void Initialize(int manaValue, ManaParticleData data)
 	{
 		this.ManaValue = manaValue;
 
+		// Apply visual data
+		if (_sprite != null)
+		{
+			_sprite.Modulate = data.Modulate;
+			_sprite.Scale = data.Scale;
+		}
+		if (_collisionShape != null && _collisionShape.Shape is SphereShape3D sphere)
+		{
+			sphere.Radius = data.CollisionShapeRadius;
+		}
+		if (_areaShape != null && _areaShape.Shape is SphereShape3D areaSphere)
+		{
+			areaSphere.Radius = data.AreaShapeRadius;
+		}
+
 		// Set initial state for a new life
-		_sprite.Scale = Vector3.One;
-		_sprite.Modulate = Colors.White;
 		_state = ManaParticleState.Idle;
 		_target = null;
 
@@ -108,6 +121,7 @@ public partial class ManaParticle : RigidBody3D
 		{
 			_decayTween.TweenInterval(firstDecayStart);
 		}
+
 		_decayTween.TweenCallback(Callable.From(() =>
 		{
 			var tween = GetTree().CreateTween().BindNode(this);
@@ -117,6 +131,7 @@ public partial class ManaParticle : RigidBody3D
 
 		// Second decay stage: 2.5 seconds before end
 		float secondDecayStart = Mathf.Max(0, totalLifetime - 2.5f);
+
 		// Calculate the interval from the *previous* tween's end, or from the start.
 		// It's cleaner to calculate from the start of the particle's life.
 		// The interval for the second tween should be from the end of the first tween.
@@ -139,6 +154,7 @@ public partial class ManaParticle : RigidBody3D
 	// This is called by the ObjectPoolManager when the object is released back into the pool.
 	public void Reset()
 	{
+		StopMoving();
 		_lifetimeTimer.Stop();
 		_decayTween?.Kill();
 		_decayTween = null;
@@ -146,13 +162,21 @@ public partial class ManaParticle : RigidBody3D
 
 	public void DriftIdle()
 	{
-		_state = ManaParticleState.Idle;
-		_target = null;
+		StopMoving();
+
 		// Set a random drift velocity
 		_velocity = new Vector3(
 			(float)GD.RandRange(-1.0, 1.0),
 			(float)GD.RandRange(-1.0, 1.0),
 			(float)GD.RandRange(-1.0, 1.0)
 		).Normalized() * _driftSpeed;
+	}
+
+	private void StopMoving()
+	{
+		LinearVelocity = Vector3.Zero;
+		_state = ManaParticleState.Idle;
+		_velocity = Vector3.Zero;
+		_target = null;
 	}
 }

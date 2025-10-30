@@ -97,7 +97,8 @@ public partial class PlayerBody : CharacterBody3D
         UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
         pickupArea ??= GetNode<Area3D>("PickupArea");
-        pickupArea.AreaEntered += OnPickupAreaEntered;
+        pickupArea.BodyEntered += OnBodyEnteredPickupArea;
+        pickupArea.AreaEntered += OnAreaEnteredPickupArea;
 
         parentLevel = GetParent() as Node3D;
 
@@ -132,10 +133,24 @@ public partial class PlayerBody : CharacterBody3D
     }
 
 
+    private const double pickup_check_time = 1f;
+    private double pickup_clock = 0f;
     public override void _PhysicsProcess(double delta)
     {
         ProcessInput(delta);
         ProcessMovement(delta);
+        pickup_clock += delta;
+        if (pickup_clock >= pickup_check_time)
+        {
+            pickup_clock = 0;
+            foreach (var body in pickupArea.GetOverlappingBodies())
+            {
+                if (body is ManaParticle particle)
+                {
+                    PickupManaParticle(particle);
+                }
+            }
+        }
     }
 
     private void ProcessInput(double delta)
@@ -324,46 +339,6 @@ public partial class PlayerBody : CharacterBody3D
         return jumpsRemain && !standUpBlocked;
     }
 
-    // private void ChangePerspectives()
-    // {
-    //     var was = firstPerson;
-    //     firstPerson = !firstPerson;
-    //
-    //     if (was)
-    //     {
-    //         arm.Rotation = arm.Rotation with { X = camera.Rotation.X };
-    //     }
-    //     else
-    //     {
-    //         camera.Rotation = arm.Rotation with { X = arm.Rotation.X };
-    //     }
-    //
-    //     // AnchorGunToCamera();
-    //
-    //     // camera3P.Current = !firstPerson;
-    //     camera.Current = firstPerson;
-    // }
-
-    // private void AnchorGunToCamera()
-    // {
-    //     try
-    //     {
-    //         if (!IsNodeReady()) return;
-    //         // if (!firstPerson) loadout.Position = Vector3.Zero;
-    //
-    //         // FIXME : the 4 errors on launch have to do with Player.AnchorGunToCamera somehow
-    //         GD.Print("before errror");
-    //         // loadout.Reparent(firstPerson ? camera1P : camera3P);
-    //         // if (firstPerson) loadout.Position = Vector3.Zero;
-    //         // loadout.Rotation = Vector3.Zero;
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         GD.Print("nuh uh uh, we take those");
-    //         throw;
-    //     }
-    // }
-
     void ToggleMouseMode()
     {
         if (MouseIsCaptured)
@@ -382,7 +357,7 @@ public partial class PlayerBody : CharacterBody3D
         maxAmmoLabel.Text = Mathf.RoundToInt(newMax).ToString();
     }
 
-    private void OnPickupAreaEntered(Node3D body)
+    private void OnBodyEnteredPickupArea(Node3D body)
     {
         if (body is ManaParticle particle)
         {
@@ -390,5 +365,20 @@ public partial class PlayerBody : CharacterBody3D
             particle.Collect();
             ManaParticleManager.Instance.Release(particle);
         }
+    }
+
+    private void OnAreaEnteredPickupArea(Area3D area)
+    {
+        if (area.GetOwner() is ManaParticle particle)
+        {
+            PickupManaParticle(particle);
+        }
+    }
+
+    private void PickupManaParticle(ManaParticle particle)
+    {
+        _manaComponent.AddMana(particle.ManaValue);
+        particle.Collect();
+        ManaParticleManager.Instance.Release(particle);
     }
 }

@@ -1,34 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bl1y0kt6e7sod"]
+[gd_scene load_steps=10 format=3 uid="uid://bl1y0kt6e7sod"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_y5818"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="2_3nwgj"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="3_43jap"]
 [ext_resource type="SpriteFrames" uid="uid://ufkjesk8dxxt" path="res://assets/Images/enemies_small_scrapper.ase" id="3_y5818"]
-[ext_resource type="Texture2D" uid="uid://mtacq16sncce" path="res://assets/Images/enemies_small_scrounger_eye.png" id="4_3nwgj"]
-[ext_resource type="Texture2D" uid="uid://wexrhalc64u" path="res://assets/Images/enemies_small_scrapper_eye.png" id="5_43jap"]
+[ext_resource type="Texture2D" path="res://assets/Images/enemies_small_scrounger_eye.png" id="4_3nwgj"]
+[ext_resource type="SpriteFrames" uid="uid://b5efiy1ix8gna" path="res://assets/Images/enemies_small_scrapper_eye.ase" id="6_43jap"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_43jap"]
 viewport_path = NodePath("SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltrpb"]
-render_priority = 1
-transparency = 2
-alpha_scissor_threshold = 0.023
-alpha_antialiasing_mode = 0
-blend_mode = 1
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 1
-disable_ambient_light = true
-albedo_color = Color(1.8247963, 1.5931625, 1.5931625, 1)
-albedo_texture = ExtResource("5_43jap")
-texture_filter = 0
-texture_repeat = false
-billboard_mode = 2
-billboard_keep_scale = true
-grow_amount = 16.0
-point_size = 59.5
-stencil_flags = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7402344
@@ -38,14 +18,15 @@ height = 2.4608397
 radius = 0.73583984
 height = 2.4355469
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_sprite", "_hurtbox", "HealthComponent", "HealthBar") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "HealthBar") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_y5818")
-_sprite = NodePath("AnimatedSprite3D/Sprite3D")
+_animatedSprite = NodePath("Body_AnimatedSprite3D")
+_animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _hurtbox = NodePath("Hurtbox")
 HealthComponent = NodePath("HealthComponent")
 HealthBar = NodePath("HealthBar")
@@ -61,34 +42,39 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
 texture = SubResource("ViewportTexture_43jap")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)
+layers = 4
 pixel_size = 0.05
 billboard = 2
 shaded = true
+double_sided = false
 texture_filter = 0
 sprite_frames = ExtResource("3_y5818")
-animation = &"Idle"
-autoplay = "Idle"
+animation = &"Front_Idle"
+autoplay = "Front_Idle"
 
-[node name="SpotLight3D" type="SpotLight3D" parent="AnimatedSprite3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7467687, -0.01)
+[node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
+light_energy = 2.0
 light_volumetric_fog_energy = 20.0
 light_projector = ExtResource("4_3nwgj")
 light_size = 1.0
+light_cull_mask = 4294967291
 shadow_enabled = true
 
-[node name="Sprite3D" type="Sprite3D" parent="AnimatedSprite3D"]
-material_override = SubResource("StandardMaterial3D_ltrpb")
-gi_mode = 2
+[node name="Eye_AnimatedSprite" type="AnimatedSprite3D" parent="Body_AnimatedSprite3D"]
+layers = 5
+modulate = Color(18.892157, 18.892157, 18.892157, 1)
 pixel_size = 0.05
 billboard = 2
 double_sided = false
 texture_filter = 0
-render_priority = 1
-texture = ExtResource("5_43jap")
-region_rect = Rect2(0, 0, 5, 5)
+render_priority = 2
+sprite_frames = ExtResource("6_43jap")
+animation = &"Front_Idle"
+autoplay = "Front_Idle"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2304199, 0)

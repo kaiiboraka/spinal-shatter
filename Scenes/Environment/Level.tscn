@@ -39,7 +39,8 @@ fog_mode = 1
 fog_light_color = Color(0, 0, 0, 1)
 fog_density = 1.0
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.03
+volumetric_fog_density = 0.04
+volumetric_fog_albedo = Color(0.8, 0.8, 0.8, 1)
 
 [node name="LevelRoot" type="Node3D" node_paths=PackedStringArray("_rooms")]
 script = ExtResource("1_oghjx")
@@ -135,12 +136,10 @@ process_physics_priority = 300
 script = ExtResource("3_00trf")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[node name="Scrounger" parent="." node_paths=PackedStringArray("_sprite") instance=ExtResource("6_2e4mj")]
+[node name="Scrounger" parent="." instance=ExtResource("6_2e4mj")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -4)
-_sprite = NodePath("AnimatedSprite3D/Sprite3D")
 ManaToDrop = 10
 
-[node name="Scrounger2" parent="." node_paths=PackedStringArray("_sprite") instance=ExtResource("6_2e4mj")]
+[node name="Scrounger2" parent="." instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
-_sprite = NodePath("AnimatedSprite3D/Sprite3D")
 ManaToDrop = 10

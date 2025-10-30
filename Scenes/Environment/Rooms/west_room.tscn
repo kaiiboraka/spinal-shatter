@@ -17,13 +17,12 @@ size = Vector3(59, 20, 39)
 [sub_resource type="BoxShape3D" id="BoxShape3D_d5enq"]
 size = Vector3(6.5, 5, 33)
 
-[node name="West_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_otherRooms")]
+[node name="West_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51, 0, 51)
 collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_d5enq")
 _triggerVolume = NodePath("LevelRegion")
-_otherRooms = []
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_ds42q")

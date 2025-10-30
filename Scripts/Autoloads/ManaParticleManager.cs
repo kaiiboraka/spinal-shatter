@@ -25,6 +25,7 @@ public partial class ManaParticleManager : Node
         {
             var newPool = new ObjectPoolManager<ManaParticle>();
             newPool.Scene = scene;
+            newPool.PoolParent = newPool; // Assign the shared parent
             newPool.Name = $"{size}ParticlePool";
             _pools[size] = newPool;
             AddChild(newPool);
@@ -78,8 +79,8 @@ public partial class ManaParticleManager : Node
 
     private ManaParticle SpawnFromPool(ManaSize size, Vector3 position, int manaValue)
     {
-        var pool = _pools[size];
-        ManaParticle particle = pool.Get();
+        // var pool = ;
+        ManaParticle particle = _pools[size].Get();
         if (particle == null) return null; // Pool is full
 
         // Add a random offset to the spawn position

@@ -72,7 +72,7 @@ animation = &"Idle"
 autoplay = "Idle"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="AnimatedSprite3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46399993, -0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7467687, -0.01)
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
 light_volumetric_fog_energy = 20.0
 light_projector = ExtResource("4_3nwgj")

@@ -19,6 +19,10 @@ public partial class EnemySpawner : Node3D
 
     public override void _Ready()
     {
+        // Create a single parent node for all enemies spawned by this spawner
+        var unifiedPoolParent = new Node3D { Name = "PooledEnemies" };
+        AddChild(unifiedPoolParent);
+
         // Create a pool for each unique scene
         foreach (var scene in _enemyScenes)
         {
@@ -26,6 +30,7 @@ public partial class EnemySpawner : Node3D
             {
                 var newPool = new ObjectPoolManager<Node3D>();
                 newPool.Scene = scene;
+                newPool.PoolParent = unifiedPoolParent;
                 newPool.Name = $"{scene.ResourcePath.GetFile().GetBaseName()}Pool";
                 _pools[scene] = newPool;
                 AddChild(newPool);

@@ -1,9 +1,13 @@
+using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 public partial class SiphonComponent : Node
 {
     [Export] private Area3D _siphonField;
-    [Export] private Area3D _target;
+    [Export] private Node3D _target;
+
+    private HashSet<ManaParticle> _attractedParticles = new();
 
     private bool _siphonPressed;
     public override void _Ready()
@@ -27,40 +31,51 @@ public partial class SiphonComponent : Node
         {
             _siphonPressed = false;
             _siphonField.Visible = false;
-            ResetParticles();
+            ReleaseAllParticles();
             _siphonField.Monitoring = false;
         }
     }
 
     public override void _Process(double delta)
     {
-        base._Process(delta);
         if (_siphonPressed)
         {
             AttractParticles();
+        }
+        else
+        {
+            ReleaseAllParticles();
         }
     }
 
     private void AttractParticles()
     {
+        if (_siphonField == null) return;
+
         foreach (var area in _siphonField.GetOverlappingAreas())
         {
-            if (area.GetParent() is ManaParticle particle)
+            if (area.GetOwner() is ManaParticle particle)
             {
-                particle.Attract(_target);
+                // Attract the particle if it's not already being attracted
+                if (_attractedParticles.Add(particle))
+                {
+                    particle.Attract(_target);
+                }
             }
         }
     }
 
-    private void ResetParticles()
+    private void ReleaseAllParticles()
     {
-        foreach (var area in _siphonField.GetOverlappingAreas())
+        if (_attractedParticles.Count == 0) return;
+
+        foreach (var particle in _attractedParticles)
         {
-            if (area.GetParent()  is ManaParticle particle)
+            if (IsInstanceValid(particle))
             {
-                particle.ReturnToIdle();
+                particle.DriftIdle();
             }
         }
+        _attractedParticles.Clear();
     }
-
 }

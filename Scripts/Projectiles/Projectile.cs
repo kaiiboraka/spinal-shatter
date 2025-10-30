@@ -13,6 +13,7 @@ public partial class Projectile : RigidBody3D
     [Export] private CollisionShape3D _collisionShape;
     [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.1f;
     [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.25f;
+    [Export(PropertyHint.Range, "0.1, 100.0")] private float _lifetime = 10f;
 
     public Node3D LevelParent { get; set; }
     public float Damage { get; private set; }
@@ -27,7 +28,7 @@ public partial class Projectile : RigidBody3D
         if (_collisionShape == null) _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
 
         _lifetimeTimer = new Timer();
-        _lifetimeTimer.WaitTime = 5.0f; // 5 seconds lifetime
+        _lifetimeTimer.WaitTime = _lifetime;
         _lifetimeTimer.OneShot = true;
         _lifetimeTimer.Timeout += () => QueueFree();
         AddChild(_lifetimeTimer);

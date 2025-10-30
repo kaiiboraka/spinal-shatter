@@ -40,7 +40,6 @@ fog_light_color = Color(0, 0, 0, 1)
 fog_density = 1.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.03
-volumetric_fog_albedo = Color(0, 0, 0, 1)
 
 [node name="LevelRoot" type="Node3D" node_paths=PackedStringArray("_rooms")]
 script = ExtResource("1_oghjx")
@@ -52,7 +51,7 @@ environment = SubResource("Environment_kwiqg")
 [node name="CentralHub" parent="." node_paths=PackedStringArray("_otherRooms") instance=ExtResource("2_ubqhk")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 collision_layer = 516
-_otherRooms = [NodePath("../North/North_Hallway"), NodePath("../East/East_Hallway"), NodePath("../South/South_Hallway"), NodePath("../West/West_Hallway")]
+_otherRooms = []
 
 [node name="Torches" type="Node3D" parent="CentralHub"]
 transform = Transform3D(-0.27176, 0, 1.014222, 0, 1.05, 0, -1.014222, 0, -0.27176, 0, 0, 0)
@@ -71,12 +70,14 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5
 
 [node name="ManaSpawner" parent="CentralHub" instance=ExtResource("6_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 5.999999, 1, -3.9999995)
+_maxActiveInstances = 30
+_minManaToSpawn = 20
+_maxManaToSpawn = 30
 
 [node name="North" type="Node3D" parent="."]
 
-[node name="North_Room" parent="North" node_paths=PackedStringArray("_otherRooms") instance=ExtResource("7_wrgjc")]
+[node name="North_Room" parent="North" instance=ExtResource("7_wrgjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
-_otherRooms = [NodePath("../North_Hallway")]
 
 [node name="North_Hallway" parent="North" instance=ExtResource("4_okbu8")]
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000002, 0, 0, 0)
@@ -84,9 +85,8 @@ transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000002, 0, 0, 0)
 [node name="East" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="East_Room" parent="East" node_paths=PackedStringArray("_otherRooms") instance=ExtResource("8_2e4mj")]
+[node name="East_Room" parent="East" instance=ExtResource("8_2e4mj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 0)
-_otherRooms = [NodePath("../East_Hallway")]
 
 [node name="East_Hallway" parent="East" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -4.3711392e-08, 0, 0, 0)
@@ -94,9 +94,8 @@ transform = Transform3D(-4.3711392e-08, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -4
 [node name="South" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="South_Room" parent="South" node_paths=PackedStringArray("_otherRooms") instance=ExtResource("9_qf3oj")]
+[node name="South_Room" parent="South" instance=ExtResource("9_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.191006)
-_otherRooms = [NodePath("../South_Hallway")]
 
 [node name="South_Hallway" parent="South" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-1.0000001, 0, -1.5099582e-07, 0, 1, 0, 1.5099582e-07, 0, -1.0000001, 0, 0, 0)
@@ -106,7 +105,7 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
 [node name="West_Room" parent="West" node_paths=PackedStringArray("_otherRooms") instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51.195103, 0, 0)
-_otherRooms = [NodePath("../West_Hallway")]
+_otherRooms = []
 
 [node name="EnemySpawner" parent="West/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 32)
@@ -136,14 +135,12 @@ process_physics_priority = 300
 script = ExtResource("3_00trf")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[node name="Scrounger" parent="." node_paths=PackedStringArray("_sprite", "_healthBar") instance=ExtResource("6_2e4mj")]
+[node name="Scrounger" parent="." node_paths=PackedStringArray("_sprite") instance=ExtResource("6_2e4mj")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -4)
 _sprite = NodePath("AnimatedSprite3D/Sprite3D")
-_healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
 ManaToDrop = 10
 
-[node name="Scrounger2" parent="." node_paths=PackedStringArray("_sprite", "_healthBar") instance=ExtResource("6_2e4mj")]
+[node name="Scrounger2" parent="." node_paths=PackedStringArray("_sprite") instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
 _sprite = NodePath("AnimatedSprite3D/Sprite3D")
-_healthBar = NodePath("HealthBar/SubViewport/ProgressBar")
 ManaToDrop = 10

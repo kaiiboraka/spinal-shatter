@@ -1,7 +1,6 @@
-namespace Elythia;
-
-using Godot;
 using System.Collections.Generic;
+using Elythia;
+using Godot;
 
 
 public partial class ObjectPoolManager<T> : Node where T : Node, new()
@@ -11,7 +10,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
     [Export] public PackedScene Scene { get; set; }
     [Export] public int PoolMaxSize { get; set; } = 1000;
 
-    private Node _poolParent;
+    public Node PoolParent { get; set; }
     private readonly Queue<T> _readyPool = new();
     private int _activeObjects = 0;
 
@@ -19,8 +18,11 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
     {
         DEBUG = new DebugLogger(this);
 
-        _poolParent = new Node { Name = $"{typeof(T).Name}Pool" };
-        GetTree().Root.CallDeferred("add_child", _poolParent);
+        if (PoolParent == null)
+        {
+            PoolParent = new Node { Name = $"{typeof(T).Name}Pool_Default" };
+            GetTree().Root.AddChild(PoolParent);
+        }
     }
 
     public void ClearPool()
@@ -85,7 +87,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
                 return null;
             }
             obj = Scene.Instantiate<T>();
-            _poolParent.AddChild(obj);
+            PoolParent.AddChild(obj);
         }
 
         obj.SetProcess(true);

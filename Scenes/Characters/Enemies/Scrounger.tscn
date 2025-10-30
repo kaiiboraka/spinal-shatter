@@ -64,8 +64,8 @@ billboard = 2
 shaded = true
 texture_filter = 0
 sprite_frames = ExtResource("3_0uo32")
-animation = &"Idle"
-autoplay = "Idle"
+animation = &"Front_Idle"
+autoplay = "Front_Idle"
 
 [node name="Sprite3D" type="Sprite3D" parent="AnimatedSprite3D"]
 material_override = SubResource("StandardMaterial3D_0uo32")
@@ -79,8 +79,10 @@ texture = ExtResource("4_0uo32")
 region_rect = Rect2(0, 0, 5, 5)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="AnimatedSprite3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5408225, -0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
+visible = false
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
+light_energy = 2.0
 light_volumetric_fog_energy = 20.0
 light_projector = ExtResource("4_0uo32")
 light_size = 1.0

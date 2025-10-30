@@ -17,7 +17,7 @@ collision_mask = 67212
 physics_material_override = ExtResource("1_puym1")
 gravity_scale = 0.0
 script = ExtResource("1_particle_script")
-AudioPlayer_ManaPickups = NodePath("ManaAbsorbtion_AudioStreamPlayer3D")
+AudioPlayer_ManaPickups = NodePath("ManaAbsorbtion_AudioStreamPlayer")
 _lifetimeTimer = NodePath("LifetimeTimer")
 _sprite = NodePath("AnimatedSprite3D")
 _collisionShape = NodePath("BodyCollisionShape3D")
@@ -27,12 +27,11 @@ _areaShape = NodePath("Area3D/AreaCollisionShape3D")
 one_shot = true
 autostart = true
 
-[node name="ManaAbsorbtion_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="ManaAbsorbtion_AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ts6fd")
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 0.74
 bus = &"SFX"
-doppler_tracking = 2
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)

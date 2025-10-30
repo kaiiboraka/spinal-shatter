@@ -105,11 +105,11 @@ public partial class Projectile : RigidBody3D
         AudioStreamPlayer3D.PitchScale = 1f;
         if (!body.IsInGroup("Enemies"))
         {
-
             HandleWallBounce();
         }
         else
         {
+            AudioStreamPlayer3D.VolumeDb = initialDb;
             AudioStreamPlayer3D.Stream = AudioStream_FireHit;
             AudioStreamPlayer3D.Play();
         }
@@ -136,6 +136,7 @@ public partial class Projectile : RigidBody3D
         this.Mass *= (1.0f - refundPercent);
 
         AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
+        GD.Print(AudioStreamPlayer3D.VolumeDb);
         AudioStreamPlayer3D.Stream = AudioStream_Fireball;
         AudioStreamPlayer3D.Play();
 

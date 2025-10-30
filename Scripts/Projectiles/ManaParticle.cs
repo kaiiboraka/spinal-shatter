@@ -7,7 +7,7 @@ public partial class ManaParticle : RigidBody3D
 
 	[Signal] public delegate void ReleasedEventHandler(ManaParticle particle);
 
-	[Export] private AudioStreamPlayer3D AudioPlayer_ManaPickups;
+	[Export] private AudioStreamPlayer AudioPlayer_ManaPickups;
 
 	public enum ManaParticleState
 	{

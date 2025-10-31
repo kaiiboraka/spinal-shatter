@@ -8,6 +8,7 @@ public partial class PlayerBody : CharacterBody3D
 	public static PlayerBody Instance;
 
 	const float GRAVITY_MULTIPLIER = 2.00f;
+	[Export] private Control controlRoot;
 
 	// private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	[ExportGroup("PlayerMovementSettings")]
@@ -225,7 +226,7 @@ public partial class PlayerBody : CharacterBody3D
 		if (Input.IsActionJustPressed("Player_Pause"))
 		{
 			var pauseMenu = _pauseMenuScene.Instantiate();
-			GetTree().Root.AddChild(pauseMenu);
+			controlRoot.AddChild(pauseMenu);
 			// GetTree().Paused = true;
 		}
 	}
@@ -426,17 +427,19 @@ public partial class PlayerBody : CharacterBody3D
 		AudioPlayer_Hurt.Play();
 	}
 
-	    private void OnPlayerDied()
+	    private async void OnPlayerDied()
 	    {
 	        AudioPlayer_Hurt.Stream = Audio_DieVoice;
 	        AudioPlayer_Hurt.Play();
 	
 	        AudioPlayer_MiscFX.Stream = Audio_DieSFX;
 	        AudioPlayer_MiscFX.Play();
-	
-	        var levelLostMenu = _levelLostMenuScene.Instantiate<CanvasLayer>();
-	        GetTree().Root.AddChild(levelLostMenu);
-	        GetTree().Paused = true;
+
+			await ToSignal(AudioPlayer_MiscFX, AudioStreamPlayer3D.SignalName.Finished);
+
+	        var levelLostMenu = _levelLostMenuScene.Instantiate();
+	        controlRoot.AddChild(levelLostMenu);
+	        // GetTree().Paused = true;
 	    }
 	// private void OnBodyEnteredPickupArea(Node3D body)
 	// {

@@ -12,16 +12,21 @@ viewport_path = NodePath("StateSprite3D/SubViewport2")
 
 [node name="Zapper" instance=ExtResource("1_ekt2s")]
 motion_mode = 1
-WalkSpeed = 8.0
+WalkSpeed = 15.0
+MinWaitTime = 2.0
+MaxWaitTime = 5.0
 
-[node name="HealthBar" parent="." index="2"]
+[node name="HealthBar" parent="." index="6"]
 texture = SubResource("ViewportTexture_kgabe")
 
-[node name="StateSprite3D" parent="." index="3"]
+[node name="StateSprite3D" parent="." index="7"]
 texture = SubResource("ViewportTexture_5lwoa")
 
-[node name="Body_AnimatedSprite3D" parent="." index="4"]
+[node name="Body_AnimatedSprite3D" parent="." index="8"]
 sprite_frames = ExtResource("2_kgabe")
 
 [node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
 sprite_frames = ExtResource("3_5lwoa")
+
+[node name="SpellOrigin" parent="." index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)

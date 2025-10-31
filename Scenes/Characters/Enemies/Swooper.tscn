@@ -12,7 +12,10 @@ viewport_path = NodePath("StateSprite3D/StateSubViewport")
 
 [node name="Swooper" instance=ExtResource("1_7c1fy")]
 motion_mode = 1
-WalkSpeed = 8.0
+WalkSpeed = 16.0
+MinWalkTime = 1.0
+MinWaitTime = 0.1
+MaxWaitTime = 1.0
 
 [node name="HealthBar" parent="." index="2"]
 texture = SubResource("ViewportTexture_ej8im")

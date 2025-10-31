@@ -1,4 +1,23 @@
-[gd_resource type="AudioBusLayout" format=3 uid="uid://cgapug46f4s45"]
+[gd_resource type="AudioBusLayout" load_steps=4 format=3 uid="uid://cgapug46f4s45"]
+
+[sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_j3pel"]
+resource_name = "Amplify"
+volume_db = 24.0
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_j3pel"]
+resource_name = "Compressor"
+threshold = -12.5
+ratio = 37.0
+gain = 6.9
+attack_us = 153.0
+release_ms = 673.0
+
+[sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_j3pel"]
+resource_name = "Distortion"
+mode = 4
+pre_gain = 3.5
+drive = 0.52
+post_gain = -6.39
 
 [resource]
 bus/1/name = &"SFX"
@@ -11,5 +30,23 @@ bus/2/name = &"Ambience"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
-bus/2/volume_db = 0.0
+bus/2/volume_db = 1.2582531
 bus/2/send = &"Master"
+bus/2/effect/0/effect = SubResource("AudioEffectAmplify_j3pel")
+bus/2/effect/0/enabled = true
+bus/3/name = &"Music"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = -1.1215086
+bus/3/send = &"Master"
+bus/3/effect/0/effect = SubResource("AudioEffectCompressor_j3pel")
+bus/3/effect/0/enabled = true
+bus/3/effect/1/effect = SubResource("AudioEffectDistortion_j3pel")
+bus/3/effect/1/enabled = true
+bus/4/name = &"Voice"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"Master"

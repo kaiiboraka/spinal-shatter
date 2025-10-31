@@ -22,6 +22,7 @@ public partial class Projectile : RigidBody3D
     public Node3D LevelParent { get; set; }
     public float Damage { get; private set; }
     public float InitialManaCost { get; private set; }
+    public Node3D Owner { get; private set; }
 
     private ProjectileState _state = ProjectileState.Charging;
     private Timer _lifetimeTimer;
@@ -47,6 +48,18 @@ public partial class Projectile : RigidBody3D
         BodyEntered += OnBodyEntered;
     }
 
+    public void Initialize(Node3D owner, Vector3 targetPosition, float damage)
+    {
+        Owner = owner;
+        Damage = damage;
+
+        // Calculate initial velocity towards target
+        Vector3 direction = (targetPosition - GlobalPosition).Normalized();
+        Vector3 initialVelocity = direction * 20.0f; // Adjust speed as needed
+
+        Launch(owner, damage, 0, initialVelocity); // InitialManaCost is not relevant for enemy projectiles
+    }
+
     public void BeginCharge(Node3D parent)
     {
         parent.AddChild(this);
@@ -70,13 +83,14 @@ public partial class Projectile : RigidBody3D
         }
     }
 
-    public void Launch(float damage, float initialManaCost, Vector3 initialVelocity)
+    public void Launch(Node3D owner, float damage, float initialManaCost, Vector3 initialVelocity)
     {
         if (_state != ProjectileState.Charging) return;
 
         _state = ProjectileState.Fired;
         this.Damage = damage;
         this.InitialManaCost = initialManaCost;
+        this.Owner = owner;
 
         // Re-parent to the root and maintain global position
         // var globalTransform = this.GlobalTransform;
@@ -103,7 +117,7 @@ public partial class Projectile : RigidBody3D
         // A more robust way is to use physics layers (e.g., if (body.IsInLayer(LayerNames.PHYSICS_3D.SOLID_WALL_BIT)))
 
         AudioStreamPlayer3D.PitchScale = 1f;
-        if (!body.IsInGroup("Enemies"))
+        if (!body.IsInGroup("Enemies") && !body.IsInGroup("Player"))
         {
             HandleWallBounce();
         }

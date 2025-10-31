@@ -74,8 +74,18 @@ public partial class PlayerBody : CharacterBody3D
 	public HealthComponent HealthComponent { get; private set; }
 	[Export] private Area3D pickupArea;
 
+	[ExportGroup("Menus")]
+	[Export] private PackedScene _pauseMenuScene;
+	[Export] private PackedScene _levelLostMenuScene;
+
 	[ExportSubgroup("Audio", "Audio")]
 
+
+	[Export] private AudioStreamPlayer3D AudioPlayer_MiscFX;
+	[Export] private AudioStreamPlayer3D AudioPlayer_Hurt;
+	[Export] private AudioStream Audio_Hurt;
+	[Export] private AudioStream Audio_DieSFX;
+	[Export] private AudioStream Audio_DieVoice;
 
 	[Export] private AudioStreamPlayer3D AudioPlayer_Footsteps;
 	[Export] private Array<AudioStream> Audio_FootstepSounds;
@@ -116,10 +126,10 @@ public partial class PlayerBody : CharacterBody3D
 
 		HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
 		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
-		HealthComponent.HealthChanged += UpdateHealthHUD;
-		HealthComponent.Hurt += OnHurt;
-		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
-
+		        HealthComponent.HealthChanged += UpdateHealthHUD;
+		        HealthComponent.Hurt += OnHurt;
+		        HealthComponent.Died += OnPlayerDied;
+		        UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
 		pickupArea ??= GetNode<Area3D>("PickupArea");
 
 		// pickupArea.BodyEntered += OnBodyEnteredPickupArea;
@@ -211,6 +221,13 @@ public partial class PlayerBody : CharacterBody3D
 
 		if (Input.IsActionJustPressed("ui_cancel"))
 			ToggleMouseMode();
+
+		if (Input.IsActionJustPressed("Player_Pause"))
+		{
+			var pauseMenu = _pauseMenuScene.Instantiate();
+			GetTree().Root.AddChild(pauseMenu);
+			// GetTree().Paused = true;
+		}
 	}
 
 	private void TryShoot()
@@ -404,8 +421,23 @@ public partial class PlayerBody : CharacterBody3D
 	{
 		var direction = (GlobalPosition - sourcePosition).Normalized();
 		velocityTmp = direction * KnockbackStrength;
+
+		AudioPlayer_Hurt.Stream = Audio_Hurt;
+		AudioPlayer_Hurt.Play();
 	}
 
+	    private void OnPlayerDied()
+	    {
+	        AudioPlayer_Hurt.Stream = Audio_DieVoice;
+	        AudioPlayer_Hurt.Play();
+	
+	        AudioPlayer_MiscFX.Stream = Audio_DieSFX;
+	        AudioPlayer_MiscFX.Play();
+	
+	        var levelLostMenu = _levelLostMenuScene.Instantiate<CanvasLayer>();
+	        GetTree().Root.AddChild(levelLostMenu);
+	        GetTree().Paused = true;
+	    }
 	// private void OnBodyEnteredPickupArea(Node3D body)
 	// {
 	//     if (body is ManaParticle particle)
@@ -413,6 +445,7 @@ public partial class PlayerBody : CharacterBody3D
 	//         PickupManaParticle(particle);
 	//     }
 	// }
+
 
 	private void OnAreaEnteredPickupArea(Area3D area)
 	{
@@ -424,12 +457,12 @@ public partial class PlayerBody : CharacterBody3D
 	}
 
 	private void PickupManaParticle(ManaParticle particle)
-	{
-		if (particle.State == ManaParticle.ManaParticleState.Collected) return; // Already collected
-
-		_manaComponent.AddMana(particle.ManaValue);
-		particle.Collect();
-
-		ManaParticleManager.Instance.Release(particle);
-	}
+	    {
+	        if (particle.State == ManaParticle.ManaParticleState.Collected) return; // Already collected
+	
+	        _manaComponent.AddMana(particle.ManaValue);
+	        particle.Collect();
+	
+	        ManaParticleManager.Instance.Release(particle);
+	    }
 }

@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_fa2tn"]
 [ext_resource type="PhysicsMaterial" uid="uid://3bjci421vr1q" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_q3rrb"]
-[ext_resource type="SpriteFrames" uid="uid://b2r13wq1r148p" path="res://Scenes/Projectiles/Fireball.tres" id="2_q3rrb"]
 [ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="4_4w4lp"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="4_7dxrx"]
+[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/fireball.ase" id="5_36qv7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
@@ -25,9 +25,8 @@ AudioStream_FireHit = ExtResource("4_4w4lp")
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
 gi_mode = 2
 billboard = 1
-sprite_frames = ExtResource("2_q3rrb")
+sprite_frames = ExtResource("5_36qv7")
 autoplay = "default"
-frame_progress = 0.57487816
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_12345")

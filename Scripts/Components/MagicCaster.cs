@@ -115,7 +115,7 @@ public partial class MagicCaster : Node
 
         _chargingProjectile.AudioStreamPlayer3D.PitchScale = .55f;
         _chargingProjectile.AudioStreamPlayer3D.Play();
-        _chargingProjectile.Launch(damage, manaCost, initialVelocity);
+        _chargingProjectile.Launch(PlayerBody.Instance, damage, manaCost, initialVelocity);
 
         // Clear reference
         _chargingProjectile = null;

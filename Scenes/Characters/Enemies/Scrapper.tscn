@@ -1,9 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://bl1y0kt6e7sod"]
+[gd_scene load_steps=23 format=3 uid="uid://bl1y0kt6e7sod"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_y5818"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="2_3nwgj"]
 [ext_resource type="Script" uid="uid://ehcmdsf25yi2" path="res://Scripts/UI/OverheadHealthBar.cs" id="3_3nwgj"]
+[ext_resource type="AudioStream" uid="uid://rt8muaiwrhg2" path="res://assets/Audio/SFX/Skeleton Move.wav" id="3_h7ptk"]
 [ext_resource type="SpriteFrames" uid="uid://ufkjesk8dxxt" path="res://assets/Images/enemies_small_scrapper.ase" id="3_y5818"]
+[ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="5_e1fve"]
+[ext_resource type="AudioStream" uid="uid://cly1oxchbk3v0" path="res://assets/Audio/SFX/Punch.wav" id="5_h7ptk"]
 [ext_resource type="SpriteFrames" uid="uid://b5efiy1ix8gna" path="res://assets/Images/enemies_small_scrapper_eye.ase" id="6_43jap"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_43jap"]
@@ -33,9 +36,74 @@ radius = 30.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_3nwgj"]
 size = Vector3(2.5, 3, 2)
 
+[sub_resource type="Animation" id="Animation_5tux7"]
+resource_name = "Back"
+length = 0.06250625
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Back"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Back"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MeleeHitbox/CollisionShape3D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_3nwgj"]
 resource_name = "Front_Attack"
-length = 0.12500624
+length = 0.25000626
 step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -68,7 +136,7 @@ tracks/2/path = NodePath("Body_AnimatedSprite3D:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.0625),
+"times": PackedFloat32Array(0, 0.125),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 1]
@@ -97,10 +165,35 @@ tracks/4/keys = {
 "update": 1,
 "values": [0, 1]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:stream")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_h7ptk")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cast_AudioStreamPlayer3D:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_ltrpb"]
 resource_name = "Front_Idle"
 length = 0.06667
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -224,30 +317,130 @@ tracks/4/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:stream")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_h7ptk")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cast_AudioStreamPlayer3D:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_h7ptk"]
+resource_name = "Side"
+length = 0.06250625
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Side"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Side"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MeleeHitbox/CollisionShape3D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ltrpb"]
 _data = {
+&"Back": SubResource("Animation_5tux7"),
 &"Front_Attack": SubResource("Animation_3nwgj"),
 &"Front_Idle": SubResource("Animation_ltrpb"),
-&"RESET": SubResource("Animation_43jap")
+&"RESET": SubResource("Animation_43jap"),
+&"Side": SubResource("Animation_h7ptk")
 }
 
-[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "OverheadHealthBar", "_stateLabel", "_timerWalk", "_timerWait", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox") groups=["Enemies"]]
+[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "OverheadHealthBar", "_stateLabel", "AudioStream_Die", "AudioStream_Hurt", "AudioStream_Cast", "_timerWalk", "_timerWait", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 653
 floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_y5818")
+_animPlayer = NodePath("AnimationPlayer")
 _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _hurtbox = NodePath("Hurtbox")
 HealthComponent = NodePath("HealthComponent")
 OverheadHealthBar = NodePath("HealthBar")
 _stateLabel = NodePath("StateSprite3D/StateSubViewport/State_RichTextLabel")
+AudioStream_Die = NodePath("Die_AudioStreamPlayer3D")
+AudioStream_Hurt = NodePath("Hurt_AudioStreamPlayer3D")
+AudioStream_Cast = NodePath("Cast_AudioStreamPlayer3D")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerWait = NodePath("Timers/WaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
+WalkSpeed = 12.0
+MinWalkTime = 3.0
+MaxWalkTime = 10.0
+MinWaitTime = 0.5
+MaxWaitTime = 2.0
 ManaToDrop = 30
 Mana_minRefundPercent = 0.1
 Mana_maxRefundPercent = 0.4
@@ -255,7 +448,7 @@ DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
 Attack_meleeHitbox = NodePath("MeleeHitbox")
 KnockbackStrength = 8.0
-KnockbackUpwardForce = 10.0
+KnockbackUpwardForce = 3.0
 
 [node name="Timers" type="Node" parent="."]
 
@@ -273,9 +466,19 @@ one_shot = true
 unique_name_in_owner = true
 script = ExtResource("2_3nwgj")
 
+[node name="Die_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_h7ptk")
+
+[node name="Hurt_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_e1fve")
+
+[node name="Cast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_h7ptk")
+
 [node name="HealthBar" type="Sprite3D" parent="." node_paths=PackedStringArray("_progressBar")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6964011, 0)
+visible = false
 gi_mode = 2
 billboard = 1
 texture = SubResource("ViewportTexture_43jap")
@@ -302,6 +505,7 @@ show_percentage = false
 
 [node name="StateSprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9821777, 0)
+visible = false
 pixel_size = 0.03
 billboard = 1
 texture_filter = 0
@@ -335,6 +539,7 @@ autoplay = "Front_Idle"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
+visible = false
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 20.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=31 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="Script" uid="uid://3ppasc8ug0hb" path="res://Scripts/Levels/LevelManager.cs" id="1_oghjx"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://0ngmpcu0p57w" path="res://Scenes/Environment/HubRoom.tscn" id="2_ubqhk"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_00trf"]
 [ext_resource type="PackedScene" uid="uid://drnuyxaq83m7a" path="res://Scenes/Environment/Doodads/torch_1_green.tscn" id="3_2e4mj"]
+[ext_resource type="AudioStream" uid="uid://qy4uy5d2w78x" path="res://assets/Audio/Music/03. Caves (Lofi).ogg" id="3_lf5qn"]
 [ext_resource type="PackedScene" uid="uid://dk3vegspif145" path="res://Scenes/Environment/hallway.tscn" id="4_okbu8"]
 [ext_resource type="PackedScene" uid="uid://b85smra8ooe2k" path="res://Scenes/Environment/Doodads/torch_1_blue.tscn" id="4_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://ohgyrsqlspjj" path="res://Scenes/Environment/Doodads/torch_1_purple.tscn" id="5_68nw1"]
@@ -19,8 +20,12 @@
 [ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper.tscn" id="11_2mlx1"]
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="12_68nw1"]
 [ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper.tscn" id="12_lf5qn"]
+[ext_resource type="AudioStream" uid="uid://c63l1h31o6f3b" path="res://assets/Audio/Ambience/dripping-water-in-cave-114694.mp3" id="13_uauu6"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper.tscn" id="14_m8i8h"]
-[ext_resource type="AudioStream" uid="uid://cn23hyhj30efw" path="res://assets/Audio/SFX/Ambience_AlienHive_00.wav" id="18_ia271"]
+[ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="14_o2f56"]
+[ext_resource type="AudioStream" uid="uid://cn23hyhj30efw" path="res://assets/Audio/Ambience/Ambience_AlienHive_00.wav" id="18_ia271"]
+[ext_resource type="AudioStream" uid="uid://c6nujm1exmjr0" path="res://assets/Audio/Ambience/lava-flow.ogg" id="18_o2f56"]
+[ext_resource type="AudioStream" uid="uid://dsdulwdvl4vj0" path="res://assets/Audio/Ambience/fireplace-loop-original-noise-178209.mp3" id="19_5eed7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
 sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
@@ -56,17 +61,21 @@ absorbent = true
 script = ExtResource("1_oghjx")
 _rooms = [NodePath("North/North_Room"), NodePath("East/East_Room"), NodePath("South/South_Room"), NodePath("West/West_Room")]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("18_ia271")
-volume_db = -4.0
+[node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_lf5qn")
+volume_db = -27.5
+pitch_scale = 1.1
+autoplay = true
+bus = &"Music"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kwiqg")
 
-[node name="CentralHub" parent="." node_paths=PackedStringArray("_otherRooms") instance=ExtResource("2_ubqhk")]
+[node name="CentralHub" parent="." node_paths=PackedStringArray("_otherRooms", "_spawners") instance=ExtResource("2_ubqhk")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 collision_layer = 516
 _otherRooms = []
+_spawners = []
 
 [node name="Torches" type="Node3D" parent="CentralHub"]
 transform = Transform3D(-0.27176, 0, 1.014222, 0, 1.05, 0, -1.014222, 0, -0.27176, 0, 0, 0)
@@ -91,8 +100,9 @@ _maxManaToSpawn = 51
 
 [node name="North" type="Node3D" parent="."]
 
-[node name="North_Room" parent="North" instance=ExtResource("7_wrgjc")]
+[node name="North_Room" parent="North" node_paths=PackedStringArray("_spawners") instance=ExtResource("7_wrgjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
+_spawners = []
 
 [node name="ZapSwoop_EnemySpawner" parent="North/North_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 0, -60)
@@ -113,6 +123,23 @@ _enemyScenes = Array[PackedScene]([ExtResource("11_2mlx1"), ExtResource("12_lf5q
 _spawnInterval = 12.0
 _enemiesPerSpawn = 4
 
+[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="North/North_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19, -59.615)
+stream = ExtResource("13_uauu6")
+volume_db = -4.0
+max_db = 4.0
+autoplay = true
+max_distance = 80.0
+bus = &"Ambience"
+
+[node name="AudioStreamPlayer3D5" type="AudioStreamPlayer3D" parent="North/North_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -45, -67.615005)
+stream = ExtResource("14_o2f56")
+max_db = 4.0
+autoplay = true
+max_distance = 120.0
+bus = &"Ambience"
+
 [node name="North_Hallway" parent="North" instance=ExtResource("4_okbu8")]
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000002, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
@@ -120,8 +147,9 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="East" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="East_Room" parent="East" instance=ExtResource("8_2e4mj")]
+[node name="East_Room" parent="East" node_paths=PackedStringArray("_spawners") instance=ExtResource("8_2e4mj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 0)
+_spawners = []
 
 [node name="SwoopScrap_EnemySpawner" parent="East/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.828766, 0, -39.19426)
@@ -155,6 +183,42 @@ _enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn")])
 _maxActiveEnemies = 5
 _spawnInterval = 10.0
 
+[node name="AudioStreamPlayer3D8" type="AudioStreamPlayer3D" parent="East/East_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.828655, -14, 0)
+stream = ExtResource("14_o2f56")
+volume_db = -7.0
+max_db = 4.0
+autoplay = true
+max_distance = 100.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer6" type="AudioStreamPlayer3D" parent="East/East_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.828762, -7, 41)
+stream = ExtResource("18_o2f56")
+volume_db = -30.0
+pitch_scale = 0.75
+autoplay = true
+max_distance = 75.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer8" type="AudioStreamPlayer3D" parent="East/East_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.999996, -6, 0)
+stream = ExtResource("18_o2f56")
+volume_db = -30.0
+pitch_scale = 0.75
+autoplay = true
+max_distance = 40.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer7" type="AudioStreamPlayer3D" parent="East/East_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.828762, -7, -43)
+stream = ExtResource("18_o2f56")
+volume_db = -30.0
+pitch_scale = 0.75
+autoplay = true
+max_distance = 75.0
+bus = &"Ambience"
+
 [node name="East_Hallway" parent="East" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
@@ -162,8 +226,9 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="South" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="South_Room" parent="South" instance=ExtResource("9_qf3oj")]
+[node name="South_Room" parent="South" node_paths=PackedStringArray("_spawners") instance=ExtResource("9_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.191006)
+_spawners = []
 
 [node name="ZapScrounge_EnemySpawner" parent="South/South_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 0, 92)
@@ -192,6 +257,41 @@ _maxActiveEnemies = 14
 _spawnInterval = 8.0
 _enemiesPerSpawn = 2
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="South/South_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66, -69, 70)
+stream = ExtResource("19_5eed7")
+volume_db = 12.0
+max_db = 4.0
+autoplay = true
+max_distance = 120.0
+bus = &"Ambience"
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="South/South_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51, -69, 81)
+stream = ExtResource("19_5eed7")
+volume_db = 12.0
+max_db = 4.0
+autoplay = true
+max_distance = 120.0
+bus = &"Ambience"
+
+[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="South/South_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -69, 56.999996)
+stream = ExtResource("19_5eed7")
+volume_db = 12.0
+max_db = 4.0
+autoplay = true
+max_distance = 120.0
+bus = &"Ambience"
+
+[node name="AudioStreamPlayer3D6" type="AudioStreamPlayer3D" parent="South/South_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -45, 62.99972)
+stream = ExtResource("14_o2f56")
+max_db = 4.0
+autoplay = true
+max_distance = 120.0
+bus = &"Ambience"
+
 [node name="South_Hallway" parent="South" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-1.0000001, 0, -1.5099582e-07, 0, 1, 0, 1.5099582e-07, 0, -1.0000001, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
@@ -199,9 +299,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="West" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="West_Room" parent="West" node_paths=PackedStringArray("_otherRooms") instance=ExtResource("10_68nw1")]
+[node name="West_Room" parent="West" instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51.195103, 0, 0)
-_otherRooms = []
 
 [node name="ScrapperEnemySpawner" parent="West/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.491802, 0.741472, -28.692049)
@@ -243,6 +342,60 @@ _maxActiveEnemies = 6
 _spawnInterval = 16.0
 _enemiesPerSpawn = 2
 
+[node name="AudioStreamPlayer3D7" type="AudioStreamPlayer3D" parent="West/West_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.804996, -17, 0)
+stream = ExtResource("14_o2f56")
+volume_db = -7.0
+max_db = 4.0
+autoplay = true
+max_distance = 80.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer" type="AudioStreamPlayer3D" parent="West/West_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66.804886, 0, 18)
+stream = ExtResource("18_ia271")
+volume_db = -20.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 60.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="West/West_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -69.804886, 0, -25)
+stream = ExtResource("18_ia271")
+volume_db = -20.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 40.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer3" type="AudioStreamPlayer3D" parent="West/West_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8048897, 0, -20)
+stream = ExtResource("18_ia271")
+volume_db = -20.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 40.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer4" type="AudioStreamPlayer3D" parent="West/West_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.19511, 0, 29)
+stream = ExtResource("18_ia271")
+volume_db = -20.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 20.0
+bus = &"Ambience"
+
+[node name="Ambience1_AudioStreamPlayer5" type="AudioStreamPlayer3D" parent="West/West_Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.80489, 0, 22)
+stream = ExtResource("18_ia271")
+volume_db = -16.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 20.0
+bus = &"Ambience"
+
 [node name="West_Hallway" parent="West" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
@@ -252,13 +405,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328, 0)
 
 [node name="EnemyPoolNode" type="Node3D" parent="."]
 
-[node name="Scrounger" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -4)
-ManaToDrop = 10
-
 [node name="Scrounger2" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
 ManaToDrop = 10
+
+[node name="Scrapper" parent="EnemyPoolNode" instance=ExtResource("14_m8i8h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
 
 [node name="Player" parent="." instance=ExtResource("2_amuju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)

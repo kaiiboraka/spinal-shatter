@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3rkvftbi1tv2"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Menu Templates/scenes/credits/scrollable_credits.gd" id="1_glmoe"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Menu Templates/scenes/credits/credits_label.tscn" id="2_8mmpb"]
+
+[node name="ScrollableCredits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_glmoe")
+
+[node name="CreditsLabel" parent="." instance=ExtResource("2_8mmpb")]
+unique_name_in_owner = true
+layout_mode = 1
+fit_content = false
+scroll_active = true

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dedelbnmwspi0"]
+
+[ext_resource type="PackedScene" uid="uid://sikc02ddepyt" path="res://addons/maaacks_game_template/base/nodes/opening/opening.tscn" id="1_lipxi"]
+
+[node name="Opening" instance=ExtResource("1_lipxi")]
+next_scene_path = "uid://b4oyp3ex0rdq7"
+
+[node name="ImagesContainer" parent="." index="1"]
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64

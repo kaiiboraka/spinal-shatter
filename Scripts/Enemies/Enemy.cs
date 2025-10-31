@@ -23,8 +23,8 @@ public partial class Enemy : CharacterBody3D
 	private AIState _currentState = AIState.Idle;
 
 	[ExportGroup("Components")]
+	[Export] private AnimationPlayer _animPlayer;
 	[Export] private AnimatedSprite3D _animatedSprite;
-
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;
 	[Export] private Area3D _hurtbox;
 	[Export] private HealthComponent HealthComponent { get; set; }
@@ -32,9 +32,11 @@ public partial class Enemy : CharacterBody3D
 	[Export] private RichTextLabel _stateLabel;
 
 	[ExportSubgroup("Audio","AudioStream")]
-	[Export] public AudioStreamPlayer3D AudioStream_Vocal { get; private set; }
-	[Export] public AudioStream AudioStream_Hurt { get; private set; }
-	[Export] public AudioStream AudioStream_Movement { get; private set; }
+	[Export] public AudioStreamPlayer3D AudioStream_Die { get; private set; }
+	[Export] public AudioStreamPlayer3D AudioStream_Hurt { get; private set; }
+	[Export] public AudioStreamPlayer3D AudioStream_Cast { get; private set; }
+	// [Export] public AudioStream AudioStream_Hurt { get; private set; }
+	// [Export] public AudioStream AudioStream_Movement { get; private set; }
 
 	[ExportSubgroup("Timers", "_timer")]
 	[Export] private Timer _timerWalk;
@@ -63,6 +65,8 @@ public partial class Enemy : CharacterBody3D
 	[Export] private float AttackCooldown { get; set; } = 1.5f;
 	[Export] private Area3D Attack_meleeHitbox;
 	[Export] private float AttackDamage { get; set; } = 10f;
+	[Export] private PackedScene _projectileScene;
+	[Export] private Node3D _projectileSpawnPoint;
 
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] private float KnockbackStrength { get; set; } = 5.0f;
@@ -195,27 +199,43 @@ public partial class Enemy : CharacterBody3D
 		switch (state)
 		{
 			case AIState.Idle:
-				PlayAnimationOnSprites("Front_Idle");
+				_animPlayer.Play("Front_Idle");
+				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Patrolling:
-				PlayAnimationOnSprites("Front_Idle");
-				;
+				_animPlayer.Play("Front_Idle");
+				// PlayAnimationOnSprites("Front_Idle");
 				StartWaiting();
 				break;
 			case AIState.Chasing:
-				PlayAnimationOnSprites("Front_Idle");
+				_animPlayer.Play("Front_Idle");
+				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Attacking:
 				Velocity = Vector3.Zero;
-				PlayAnimationOnSprites("Front_Attack");
+				_animPlayer.Play("Front_Attack");
+				// PlayAnimationOnSprites("Front_Attack");
 				_timerAttackCooldown.WaitTime = AttackCooldown;
 				_timerAttackCooldown.Start();
+
+				if (_projectileScene != null && _player != null)
+				{
+					var projectile = _projectileScene.Instantiate<Projectile>();
+					GetTree().Root.AddChild(projectile);
+					projectile.GlobalPosition = _projectileSpawnPoint.GlobalPosition;
+					projectile.Initialize(this, _player.GlobalPosition, AttackDamage);
+				}
+				else if (Attack_meleeHitbox != null)
+				{
+					// Melee attack logic (handled by animation keyframes)
+				}
 				break;
 		}
 	}
 
 	private void PlayAnimationOnSprites(string which)
 	{
+
 		_animatedSprite.Play(which);
 		_animatedSprite_Eye.Play(which);
 	}
@@ -407,20 +427,31 @@ public partial class Enemy : CharacterBody3D
 			}
 		}
 
-		if (_animatedSprite.Animation != animName)
-		{
-			_animatedSprite.Play(animName);
-			_animatedSprite_Eye.Play(animName);
-		}
+		_animPlayer.Play(animName);
+
+		// if (_animatedSprite.Animation != animName)
+		// {
+		// 	_animatedSprite.Play(animName);
+		// 	_animatedSprite_Eye.Play(animName);
+		// }
 
 		_animatedSprite.FlipH = flipH;
 		_animatedSprite_Eye.FlipH = flipH;
 	}
 
+	// private void OnHurt(Vector3 sourcePosition)
+	// {
+	// 	var direction = (GlobalPosition - sourcePosition).Normalized();
+	// 	Velocity = direction * KnockbackStrength + Vector3.Up * KnockbackUpwardForce;
+	// 	ChangeState(AIState.Chasing);
+	// }
+
 	private void OnHurt(Vector3 sourcePosition)
 	{
-		var direction = (GlobalPosition - sourcePosition).Normalized();
-		Velocity = direction * KnockbackStrength + Vector3.Up * KnockbackUpwardForce;
+		GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: GlobalPosition={{GlobalPosition}}, SourcePosition={{sourcePosition}}");
+		var direction = (sourcePosition - GlobalPosition).Normalized() * -1;
+		GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: Calculated Knockback Direction={{direction}}");
+		_knockbackVelocity = direction * KnockbackStrength + Vector3.Up * KnockbackUpwardForce;
 		ChangeState(AIState.Chasing);
 	}
 

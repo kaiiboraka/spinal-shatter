@@ -135,6 +135,9 @@ _audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 _audioPlayer_Charge = NodePath("../Audio/SpellCharge_AudioStreamPlayer3D")
 _audio_Charge = ExtResource("8_w6cdd")
 _audio_Cast = ExtResource("7_b4kmf")
+_maxChargeTime = 1.0
+_maxManaCost = 20.0
+_chargeIntervals = 4
 
 [node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")

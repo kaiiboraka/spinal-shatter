@@ -28,10 +28,9 @@ public partial class Projectile : RigidBody3D
 	public float Damage { get; private set; }
 	public float InitialManaCost { get; private set; }
 
-	// public Node3D Owner { get; private set; }
-
 	private ProjectileState _state = ProjectileState.Charging;
 	private Timer _lifetimeTimer;
+	private float _bounceCooldown = 0;
 
 	[Export] private float initialDb = 46;
 
@@ -50,8 +49,55 @@ public partial class Projectile : RigidBody3D
 		this.Freeze = true;
 		_collisionShape.Disabled = true;
 
+		ContactMonitor = true;
+        MaxContactsReported = 4;
+	}
 
-		BodyEntered += OnBodyEntered;
+	public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+        if (_bounceCooldown > 0)
+        {
+            _bounceCooldown -= (float)delta;
+        }
+    }
+
+	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+	{
+		if (_bounceCooldown > 0 || _state != ProjectileState.Fired)
+		{
+			return;
+		}
+
+		if (state.GetContactCount() > 0)
+		{
+			AudioStreamPlayer3D.PitchScale = 1f; // Reset pitch on any collision
+		}
+
+		for (int i = 0; i < state.GetContactCount(); i++)
+		{
+			Node collider = state.GetContactColliderObject(i) as Node;
+			if (collider != null)
+			{
+				if (!collider.IsInGroup("Enemies"))
+				{
+					// Wall bounce
+					Vector3 impactPoint = state.GetContactColliderPosition(i);
+					HandleWallBounce(impactPoint);
+					_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
+					return; // Handle one bounce per frame
+				}
+				else
+				{
+					// Enemy hit
+					AudioStreamPlayer3D.VolumeDb = initialDb;
+					AudioStreamPlayer3D.Stream = AudioStream_FireHit;
+					AudioStreamPlayer3D.Play();
+					// The projectile will be destroyed by the enemy's hurtbox logic.
+					return;
+				}
+			}
+		}
 	}
 
 	public void BeginCharge(Node3D parent)
@@ -88,15 +134,6 @@ public partial class Projectile : RigidBody3D
 		Reparent(owner);
 		this.Owner = owner;
 
-		// Re-parent to the root and maintain global position
-		// var globalTransform = this.GlobalTransform;
-		// if (GetParent() is Node3D parent)
-		// {
-		//     parent.RemoveChild(this);
-		// }
-		// LevelParent.AddChild(this);
-		// this.GlobalTransform = globalTransform;
-
 		// Enable physics and launch
 		this.Freeze = false;
 		_collisionShape.Disabled = false;
@@ -106,33 +143,14 @@ public partial class Projectile : RigidBody3D
 		_lifetimeTimer.Start();
 	}
 
-	private void OnBodyEntered(Node body)
-	{
-		// Assuming walls and ground are on specific physics layers you can check.
-		// For now, we'll just check if the body is NOT an enemy.
-		// A more robust way is to use physics layers (e.g., if (body.IsInLayer(LayerNames.PHYSICS_3D.SOLID_WALL_BIT)))
-
-		AudioStreamPlayer3D.PitchScale = 1f;
-		if (!body.IsInGroup("Enemies"))
-		{
-			HandleWallBounce();
-		}
-		else
-		{
-			AudioStreamPlayer3D.VolumeDb = initialDb;
-			AudioStreamPlayer3D.Stream = AudioStream_FireHit;
-			AudioStreamPlayer3D.Play();
-		}
-	}
-
-	private void HandleWallBounce()
+	private void HandleWallBounce(Vector3 impactPoint)
 	{
 		float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
 		int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
 
 		if (manaToSpawn > 0)
 		{
-			ManaParticleManager.Instance.SpawnMana(manaToSpawn, this.GlobalPosition);
+			ManaParticleManager.Instance.SpawnMana(manaToSpawn, impactPoint);
 		}
 
 		// Reduce size and damage
@@ -146,7 +164,6 @@ public partial class Projectile : RigidBody3D
 		this.Mass *= (1.0f - refundPercent);
 
 		AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
-		// GD.Print(AudioStreamPlayer3D.VolumeDb);
 		AudioStreamPlayer3D.Stream = AudioStream_Fireball;
 		AudioStreamPlayer3D.Play();
 

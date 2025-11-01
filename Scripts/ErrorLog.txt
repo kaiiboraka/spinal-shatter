@@ -1,18 +1,4 @@
-E 0:00:10:265   NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int): Path to node is invalid: 'StateViewport'.
-  <C++ Error>   Parameter "vpn" is null.
-  <C++ Source>  scene/main/viewport.cpp:197 @ _setup_local_to_scene()
-  <Stack Trace> NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int)
-				Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
-				ObjectPoolManager.cs:98 @ T ObjectPoolManager`1.Get()
-				EnemySpawner.cs:81 @ void EnemySpawner.OnSpawnTimerTimeout()
-				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
-E 0:00:18:512   NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int): Path to node is invalid: 'StateViewport'.
-  <C++ Error>   Parameter "vpn" is null.
-  <C++ Source>  scene/main/viewport.cpp:197 @ _setup_local_to_scene()
-  <Stack Trace> NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int)
-				Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
-				ObjectPoolManager.cs:98 @ T ObjectPoolManager`1.Get()
-				EnemySpawner.cs:81 @ void EnemySpawner.OnSpawnTimerTimeout()
-				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
+  MagicCaster.cs(144, 19): [CS0136] A local or parameter named 'damageMultiplier' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+	MagicCaster.cs(145, 19): [CS0136] A local or parameter named 'damage' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+	  MagicCaster.cs(146, 19): [CS0136] A local or parameter named 'speed' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+		MagicCaster.cs(147, 21): [CS0136] A local or parameter named 'initialVelocity' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter

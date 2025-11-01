@@ -8,10 +8,11 @@ public partial class StateSprite3d : Sprite3D
 {
 	private Dictionary<AIState, string> stateEmoji = new()
 	{
-		{ AIState.Idle, "⌚" },
+		{ AIState.Idle, "💤" },
 		{ AIState.Patrolling, "👁️" },
 		{ AIState.Chasing, "🏃‍♂️" },
-		{ AIState.Attacking, "⚔️" }
+		{ AIState.Attacking, "⚔️" },
+		{ AIState.Recovery, "⌚" },
 	};
 
 	private AIState _currentState = AIState.Idle;

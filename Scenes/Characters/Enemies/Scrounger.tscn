@@ -382,7 +382,7 @@ _data = {
 &"Side": SubResource("Animation_fhuh0")
 }
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "OverheadHealthBar", "_stateVisual", "AudioPlayer_Die", "AudioPlayer_Hurt", "AudioPlayer_Cast", "_timerWalk", "_timerWait", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "ProjectileSpawnPoint") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "AudioPlayer_Die", "AudioPlayer_Hurt", "AudioPlayer_Cast", "_timerWalk", "_timerAction", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "ProjectileSpawnPoint", "HealthComponent", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -392,16 +392,15 @@ script = ExtResource("1_s0m4p")
 _animPlayer = NodePath("AnimationPlayer")
 _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
-_hurtbox = NodePath("Hurtbox")
-HealthComponent = NodePath("HealthComponent")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
 AudioPlayer_Die = NodePath("Die_AudioStreamPlayer3D")
 AudioPlayer_Hurt = NodePath("Hurt_AudioStreamPlayer3D")
 AudioPlayer_Cast = NodePath("Cast_AudioStreamPlayer3D")
 _timerWalk = NodePath("Timers/WalkTimer")
-_timerWait = NodePath("Timers/WaitTimer")
+_timerAction = NodePath("Timers/ActionWaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
+RecoveryTime = 2.0
 WalkSpeed = 8.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
@@ -409,13 +408,15 @@ MaxWaitTime = 4.0
 ManaToDrop = 35
 DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
-KnockbackWeight = 20.0
 AttackRange = 50.0
 AttackCooldown = 2.5
 AttackDamage = 20.0
 ProjectileIsRanged = true
 ProjectileScene = ExtResource("2_vypru")
 ProjectileSpawnPoint = NodePath("SpellOrigin")
+HealthComponent = NodePath("HealthComponent")
+_hurtbox = NodePath("Hurtbox")
+KnockbackWeight = 20.0
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -426,36 +427,46 @@ script = ExtResource("3_health")
 [node name="WalkTimer" type="Timer" parent="Timers"]
 one_shot = true
 
-[node name="WaitTimer" type="Timer" parent="Timers"]
+[node name="ActionWaitTimer" type="Timer" parent="Timers"]
 one_shot = true
 
 [node name="AttackCooldownTimer" type="Timer" parent="Timers"]
-wait_time = 1.5
+wait_time = 5.0
 one_shot = true
 
 [node name="Die_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
 stream = ExtResource("4_y5nsj")
+max_distance = 30.0
 bus = &"Voice"
+area_mask = 1677
 
 [node name="Hurt_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
 stream = ExtResource("5_uhmmm")
+max_distance = 30.0
 bus = &"Voice"
+area_mask = 1677
 
 [node name="Cast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
 stream = ExtResource("6_vypru")
+max_distance = 30.0
 bus = &"SFX"
+area_mask = 1677
 
 [node name="Charge_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
 stream = ExtResource("7_uhmmm")
+max_distance = 30.0
 bus = &"SFX"
+area_mask = 1677
 
 [node name="HealthBar" parent="." instance=ExtResource("8_uhmmm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
-texture = null
 
 [node name="StateSprite3D" parent="." instance=ExtResource("8_vypru")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-texture = null
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)

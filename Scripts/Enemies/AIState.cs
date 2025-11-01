@@ -5,6 +5,7 @@ public partial class Enemy
 		Idle,
 		Patrolling,
 		Chasing,
-		Attacking
+		Attacking,
+		Recovery
 	}
 }

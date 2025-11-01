@@ -23,11 +23,13 @@ public partial class Enemy : Combatant
 	[ExportSubgroup("Timers", "_timer")]
 	[Export] private Timer _timerWalk;
 
-	[Export] private Timer _timerWait;
+	[Export] private Timer _timerAction;
 	[Export] private Timer _timerAttackCooldown;
 
 	[ExportGroup("Patrol")]
-	[Export] public float WalkSpeed { get; private set; } = 3.0f;
+	[Export] public float RecoveryTime { get; set; } = 2.0f;
+
+	[Export] public float WalkSpeed { get; private set; } = 8.0f;
 
 	[Export] public float MinWalkTime { get; private set; } = 1.0f;
 	[Export] public float MaxWalkTime { get; private set; } = 5.0f;
@@ -90,12 +92,12 @@ public partial class Enemy : Combatant
 		TryAddTimer(_timerWalk);
 		_timerWalk.Timeout += OnWalkTimerTimeout;
 
-		TryAddTimer(_timerWait);
-		_timerWait.Timeout += OnWaitTimerTimeout;
+		TryAddTimer(_timerAction);
+		_timerAction.Timeout += OnActionTimerTimeout;
 
 		TryAddTimer(_timerAttackCooldown);
 
-		_animatedSprite.AnimationFinished += OnAnimationFinished;
+		_animPlayer.AnimationFinished += OnAnimationFinished;
 
 		if (!ProjectileIsRanged)
 		{
@@ -110,15 +112,6 @@ public partial class Enemy : Combatant
 
 		// Start patrolling
 		ChangeState(AIState.Patrolling);
-	}
-
-	private void TryAddTimer(Timer timer)
-	{
-		if (timer == null)
-		{
-			timer = new Timer { OneShot = true };
-			AddChild(timer);
-		}
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -149,6 +142,9 @@ public partial class Enemy : Combatant
 				case AIState.Attacking:
 					ProcessAttacking(ref newVelocity);
 					break;
+				case AIState.Recovery:
+					ProcessRecovery(ref newVelocity);
+					break;
 			}
 		}
 
@@ -175,20 +171,6 @@ public partial class Enemy : Combatant
 
 		Velocity = newVelocity;
 		MoveAndSlide();
-	}
-
-	private void ChangeState(AIState newState, bool force = false)
-	{
-		if (_currentState == newState && !force) return;
-
-		ExitState(_currentState);
-		_currentState = newState;
-		EnterState(_currentState);
-
-		if (_stateVisual != null)
-		{
-			_stateVisual.CurrentState = newState;
-		}
 	}
 
 	private void EnterState(AIState state)
@@ -220,6 +202,34 @@ public partial class Enemy : Combatant
 				_timerAttackCooldown.WaitTime = AttackCooldown;
 				_timerAttackCooldown.Start();
 				break;
+			case AIState.Recovery:
+				_animPlayer.Play("Front_Idle");
+				_timerAction.WaitTime = RecoveryTime;
+				_timerAction.Start();
+				break;
+		}
+	}
+
+	private void ChangeState(AIState newState, bool force = false)
+	{
+		if (_currentState == newState && !force) return;
+
+		ExitState(_currentState);
+		_currentState = newState;
+		EnterState(_currentState);
+
+		if (_stateVisual != null)
+		{
+			_stateVisual.CurrentState = newState;
+		}
+	}
+
+	private void TryAddTimer(Timer timer)
+	{
+		if (timer == null)
+		{
+			timer = new Timer { OneShot = true };
+			AddChild(timer);
 		}
 	}
 
@@ -253,11 +263,14 @@ public partial class Enemy : Combatant
 				break;
 			case AIState.Patrolling:
 				_timerWalk.Stop();
-				_timerWait.Stop();
+				_timerAction.Stop();
 				break;
 			case AIState.Chasing:
 				break;
 			case AIState.Attacking:
+				break;
+			case AIState.Recovery:
+				_timerAction.Stop();
 				break;
 		}
 	}
@@ -329,11 +342,16 @@ public partial class Enemy : Combatant
 		;
 	}
 
-	private void OnAnimationFinished()
+	private void ProcessRecovery(ref Vector3 newVelocity)
 	{
-		if (_animatedSprite.Animation == "Front_Attack")
+		newVelocity = Vector3.Zero;
+	}
+
+	private void OnAnimationFinished(StringName animName)
+	{
+		if (animName == "Front_Attack")
 		{
-			ChangeState(AIState.Chasing);
+			ChangeState(AIState.Recovery);
 		}
 	}
 
@@ -350,11 +368,18 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void OnWaitTimerTimeout()
-	{
-		Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
-		StartWalking();
-	}
+	private void OnActionTimerTimeout()
+    {
+        if (_currentState == AIState.Patrolling)
+        {
+            Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
+            StartWalking();
+        }
+        else if (_currentState == AIState.Recovery)
+        {
+            ChangeState(AIState.Chasing);
+        }
+    }
 
 	private void StartWalking()
 	{
@@ -371,8 +396,8 @@ public partial class Enemy : Combatant
 	private void StartWaiting()
 	{
 		_isWalking = false;
-		_timerWait.WaitTime = GD.RandRange(MinWaitTime, MaxWaitTime);
-		_timerWait.Start();
+		_timerAction.WaitTime = GD.RandRange(MinWaitTime, MaxWaitTime);
+		_timerAction.Start();
 	}
 
 	private void UpdateAnimation(float angleToPlayer)

@@ -401,17 +401,7 @@ public partial class PlayerBody : Combatant
 
 	public override void OnHurtboxBodyEntered(Node3D body)
 	{
-		DebugManager.Instance.DEBUG.Trace("hurtboxbody entered");
-		if (body is Projectile projectile)
-		{
-			DebugManager.Instance.DEBUG.Trace("projectile");
-			// Take damage from the projectile
-			TakeDamage(projectile.Damage, projectile.GlobalPosition);
-
-			// Spawn mana particles as a refund
-			// Destroy the projectile
-			projectile.QueueFree();
-		}
+		base.OnHurtboxBodyEntered(body);
 	}
 
 	public override void PlayOnHurtFX()
@@ -427,9 +417,7 @@ public partial class PlayerBody : Combatant
 
 	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
-		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
-		_knockbackVelocity = direction * (damage / KnockbackWeight);
-		PlayOnHurtFX();
+		base.OnHurt(sourcePosition, damage);
 	}
 
 	public override void OnDied()

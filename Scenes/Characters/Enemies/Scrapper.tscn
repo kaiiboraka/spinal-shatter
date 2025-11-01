@@ -465,7 +465,6 @@ wait_time = 3.0
 one_shot = true
 
 [node name="HealthComponent" type="Node" parent="."]
-unique_name_in_owner = true
 script = ExtResource("2_3nwgj")
 
 [node name="Die_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]

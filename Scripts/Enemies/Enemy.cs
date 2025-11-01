@@ -476,30 +476,23 @@ public partial class Enemy : Combatant
 
 	public override void OnHurtboxBodyEntered(Node3D body)
 	{
-		if (body is Projectile projectile)
-		{
-			DebugManager.Instance.DEBUG.Info($"Enemy {Name} Hit with {projectile.Damage}");
-			// Take damage from the projectile
-			TakeDamage(projectile.Damage, projectile.GlobalPosition);
+		base.OnHurtboxBodyEntered(body); // Handles damage + projectile destruction
 
-			// Spawn mana particles as a refund
+		if (body is Projectile projectile && projectile.Owner != this)
+		{
+			// Enemy-specific: Spawn mana particles as a refund
 			float refundPercent = (float)GD.RandRange(Mana_minRefundPercent, Mana_maxRefundPercent);
 			int manaToSpawn = Mathf.RoundToInt(projectile.InitialManaCost * refundPercent);
 			if (manaToSpawn > 0)
 			{
 				ManaParticleManager.Instance.SpawnMana(manaToSpawn, projectile.GlobalPosition);
 			}
-
-			// Destroy the projectile
-			projectile.QueueFree();
 		}
 	}
 
 	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
-		PlayOnHurtFX();
-		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
-		_knockbackVelocity = direction * (damage / KnockbackWeight);
+		base.OnHurt(sourcePosition, damage);
 		ChangeState(AIState.Chasing);
 	}
 

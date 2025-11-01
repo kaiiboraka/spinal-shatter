@@ -30,7 +30,14 @@ public partial class Combatant : CharacterBody3D
 
     public virtual void OnHurtboxBodyEntered(Node3D body)
     {
-        // Base implementation, can be overridden by children
+        if (body is Projectile projectile)
+        {
+            // Don't get hurt by our own projectiles
+            if (projectile.Owner == this) return;
+
+            TakeDamage(projectile.Damage, projectile.GlobalPosition);
+            projectile.QueueFree(); // Destroy projectile on impact
+        }
     }
 
     public virtual void TakeDamage(float amount, Vector3 sourcePosition)
@@ -38,11 +45,17 @@ public partial class Combatant : CharacterBody3D
         HealthComponent.TakeDamage(amount, sourcePosition);
     }
 
+    protected void ApplyKnockback(float damage, Vector3 direction)
+    {
+        float knockbackDamage = Mathf.Clamp(damage, 0, 30f);
+        _knockbackVelocity = direction * (knockbackDamage / KnockbackWeight);
+    }
+
     public virtual void OnHurt(Vector3 sourcePosition, float damage)
     {
-        // Default knockback implementation. Can be overridden.
-        var direction = (GlobalPosition - sourcePosition).Normalized();
-        _knockbackVelocity = direction * (damage / KnockbackWeight);
+        // Common knockback direction for character bodies
+        var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
+        ApplyKnockback(damage, direction);
         PlayOnHurtFX();
     }
 

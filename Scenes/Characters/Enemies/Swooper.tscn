@@ -1,20 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddskdsst6e3hl"]
+[gd_scene load_steps=4 format=3 uid="uid://ddskdsst6e3hl"]
 
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper.tscn" id="1_7c1fy"]
 [ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/enemies_small_swooper.ase" id="2_j01h3"]
 [ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/enemies_small_swooper_eye.ase" id="3_oupyy"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_j01h3"]
-viewport_path = NodePath("StateViewport")
 
 [node name="Swooper" instance=ExtResource("1_7c1fy")]
 motion_mode = 1
 WalkSpeed = 12.0
 MinWalkTime = 1.0
 MinWaitTime = 1.0
-
-[node name="StateSprite3D" parent="." index="6"]
-texture = SubResource("ViewportTexture_j01h3")
 
 [node name="Body_AnimatedSprite3D" parent="." index="7"]
 sprite_frames = ExtResource("2_j01h3")

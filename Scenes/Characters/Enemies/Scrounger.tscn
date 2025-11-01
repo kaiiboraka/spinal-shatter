@@ -418,7 +418,6 @@ _hurtbox = NodePath("Hurtbox")
 KnockbackWeight = 20.0
 
 [node name="HealthComponent" type="Node" parent="."]
-unique_name_in_owner = true
 script = ExtResource("3_health")
 
 [node name="Timers" type="Node" parent="."]

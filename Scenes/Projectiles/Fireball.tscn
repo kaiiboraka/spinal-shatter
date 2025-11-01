@@ -21,6 +21,7 @@ _collisionShape = NodePath("CollisionShape3D")
 AudioStreamPlayer3D = NodePath("Audio_Layer1")
 AudioStream_Fireball = ExtResource("4_7dxrx")
 AudioStream_FireHit = ExtResource("4_4w4lp")
+_lifetime = 30.0
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
 gi_mode = 2

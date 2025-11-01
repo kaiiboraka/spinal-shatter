@@ -256,7 +256,7 @@ public partial class Enemy : Combatant
 			GetTree().Root.AddChild(projectile);
 			projectile.GlobalPosition = ProjectileSpawnPoint.GlobalPosition;
 			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
-			projectile.Launch(Owner, AttackDamage, 0, direction * ProjectileSpeed, 1);
+			projectile.Launch(Owner, AttackDamage, direction * ProjectileSpeed);
 		}
 		else //if (Attack_meleeHitbox != null)
 		{

@@ -170,12 +170,25 @@ public partial class MagicCaster : Node
 
 		float speed = Mathf.Lerp(_minSpeed, _maxSpeed, chargeRatio.Clamp01());
 		Vector3 initialVelocity = CalculateInitialVelocity(speed);
+
+		float damageGrowthConstant = _maxChargeTime;
+		float absoluteMaxProjectileSpeed = Mathf.Max(_minSpeed, _maxSpeed);
+
 		DebugManager.Debug(
 			$"Speed: {speed}, chargeRatio: {chargeRatio}, damageMultiplier: {damageMultiplier}, damage: {damage}");
 
+		ProjectileLaunchData launchData = new ProjectileLaunchData
+		{
+			Damage = damage,
+			ManaCost = manaCost,
+			ChargeRatio = chargeRatio,
+			DamageGrowthConstant = damageGrowthConstant,
+			AbsoluteMaxProjectileSpeed = absoluteMaxProjectileSpeed
+		};
+
 		// Play sounds and launch
 		PlaySoundEffects();
-		_chargingProjectile.Launch(PlayerBody.Instance, damage, manaCost, initialVelocity, chargeRatio);
+		_chargingProjectile.Launch(PlayerBody.Instance, initialVelocity, launchData);
 
 		ResetChargeState();
 	}

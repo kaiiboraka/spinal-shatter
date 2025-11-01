@@ -17,10 +17,10 @@ public partial class Projectile : RigidBody3D
 	[Export] public AudioStream AudioStream_FireHit { get; private set; }
 
 	[Export(PropertyHint.Range, "0.0, 1.0")]
-	private float _minRefundPercent = 0.1f;
+	private float _minRefundPercent = 0.5f;
 
 	[Export(PropertyHint.Range, "0.0, 1.0")]
-	private float _maxRefundPercent = 0.25f;
+	private float _maxRefundPercent = 0.75f;
 
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
@@ -29,6 +29,8 @@ public partial class Projectile : RigidBody3D
 	public float Damage { get; private set; }
 	public float ManaCost { get; private set; }
 	public float Charge { get; set; }
+	public float DamageGrowthConstant { get; private set; }
+	public float AbsoluteMaxProjectileSpeed { get; private set; }
 
 	private ProjectileState _state = ProjectileState.Charging;
 	private Node ProjectileOwner;
@@ -132,15 +134,17 @@ public partial class Projectile : RigidBody3D
 		Mass = size;
 	}
 
-	public void Launch(Node owner, float damage, float manaCost, Vector3 velocity, float chargeRatio)
+	public void Launch(Node owner, Vector3 velocity, ProjectileLaunchData data)
 	{
 		if (_state != ProjectileState.Charging)
 			return;
 
 		_state = ProjectileState.Fired;
-		this.Damage = damage;
-		this.ManaCost = manaCost;
-		this.Charge = chargeRatio;
+		this.Damage = data.Damage;
+		this.ManaCost = data.ManaCost;
+		this.Charge = data.ChargeRatio;
+		this.DamageGrowthConstant = data.DamageGrowthConstant;
+		this.AbsoluteMaxProjectileSpeed = data.AbsoluteMaxProjectileSpeed;
 		UpdateChargeState();
 		ProjectileOwner = owner;
 		Reparent(owner.Owner);
@@ -154,57 +158,86 @@ public partial class Projectile : RigidBody3D
 		_lifetimeTimer.Start();
 	}
 
+	public void Launch(Node owner, float damage, Vector3 velocity)
+	{
+		// Construct ProjectileLaunchData for fixed-damage projectiles
+		ProjectileLaunchData fixedDamageData = new ProjectileLaunchData
+		{
+			Damage = damage,
+			ManaCost = 0, // No mana cost for fixed-damage projectiles
+			ChargeRatio = 1, // Considered fully charged for visual consistency
+			DamageGrowthConstant = 0, // Indicates no scaling
+			AbsoluteMaxProjectileSpeed = velocity.Length() // Use actual launch speed
+		};
+		Launch(owner, velocity, fixedDamageData); // Call the full Launch method
+	}
+
 	public void HandleImpact(float impactDamage)
 	{
+		DebugManager.Debug($"HI: ImpactDmg: {impactDamage}, CurrentDmg: {Damage}, CurrentMana: {ManaCost}, CurrentCharge: {Charge}");
+
+		// If DamageGrowthConstant is 0, this is a fixed-damage projectile (e.g., enemy projectile).
+		// It should not scale or eject mana, just expire.
+		if (DamageGrowthConstant.IsZero())
+		{
+			Expire();
+			return;
+		}
+
 		if (impactDamage >= Damage)
 		{
 			Expire();
 			return;
 		}
 
-		// Damage -= impactDamage;
-		// ManaCost;
-		// Damage is Expo;
-		// Mana is Linear;
-		// dmg = (base ^ charge)*mana;
-		// dmg` = dmg-impactDamage;
-		// dmg` = (base ^ charge`)*mana`
-		// log_base(dmg/mana) = charge;
-		// charge` = ?
-		// x = mana/charge
-		// mana`=charge`*x
-		// charge = lb(dmg) - lb(charge*X)));
-		// c = log_base(d) - lb(c)+lb(X);
-		// rCh= ch/ch` = ln(dmg)-ln(mana)/ln(dmg`)-ln(mana`)
-		// rCh= (A/x*mana`)ln(Z)== ln(Y)-ln(X)-(A/x*mana`)ln(mana`)
-		// 40->20 DMG -> much smaller mana change
-		// int manaToSpawn = Mathf.RoundToInt(ManaCost * refundPercent);
-		float T = Mathf.Log(Damage / ManaCost) / (Mathf.Log(4) * Charge);
-		// D = M * 4^CT;
-		// X = (min / max);
-		// M = XC + min
-		// D` = D - I;
-		// D` = M` * 4^C`T;
-		// M` = XC` + min
-		var MaxManaCost = 50;
-		// binary search for D`:
-		var f = (float C) => Mathf.Lerp(0, MaxManaCost, C) * Mathf.Pow(4,C * T);
 		float new_dmg = Damage - impactDamage;
-		float new_charge = .5f;
-		while (true)
+		DebugManager.Debug($"HI: NewDmg: {new_dmg}");
+
+		// Calculate MaxInitialManaCost from current state
+		// This assumes ManaCost = Charge * MaxInitialManaCost
+		if (Charge.IsZero())
 		{
-			float approx = f(new_charge);
-			if (approx.FloatEqualsApprox(new_dmg, 10)) break;
-			if (approx > new_dmg) new_charge *= .5f;
-			else new_charge *= 1.5f;
+			Expire(); // If charge is zero, it has no damage/mana left
+			return;
 		}
-		DebugManager.Trace($"C: {new_charge}");
-		float new_mana = new_charge * (ManaCost / Charge);
+		float maxInitialManaCost = ManaCost / Charge;
+		DebugManager.Debug($"HI: MaxInitManaCost: {maxInitialManaCost}");
 
-		DebugManager.Trace($"IMPACT:{impactDamage} N_DMG:{new_dmg} N_CRG:{new_charge} D_CRG:{Charge-new_charge} N_M:{new_mana} D_M:{ManaCost-new_charge}");
+		float A = DamageGrowthConstant * Mathf.Log(4);
+		DebugManager.Debug($"HI: DmgGrowthConst: {DamageGrowthConstant}, A: {A}");
 
-		// 40->20 DMG -> much smaller mana change as dmg is 4^x mana is linear
-		EjectMana(ManaCost -  new_mana);
+		// Calculate the argument for LambertW0
+		float lambertArg = new_dmg * A / maxInitialManaCost;
+		DebugManager.Debug($"HI: LambertArg: {lambertArg}");
+
+		// LambertW0 is defined for x >= -1/e. For our use case, new_dmg should be positive.
+		// If new_dmg is very small or zero, lambertArg could be zero or negative.
+		if (lambertArg < -0.36787944117f) // -1/e approx
+		{
+			Expire(); // Effectively no damage left
+			return;
+		}
+
+		float new_charge = (float)LambertW0(lambertArg) / A;
+		DebugManager.Debug($"HI: NewCharge (raw): {new_charge}");
+
+		// Ensure new_charge is not negative or extremely small due to floating point inaccuracies
+		new_charge = Mathf.Max(0, new_charge);
+
+		// Ensure new_charge does not exceed current charge (should be handled by new_dmg < Damage check, but for safety)
+		new_charge = Mathf.Min(Charge, new_charge);
+		DebugManager.Debug($"HI: NewCharge (clamped): {new_charge}");
+
+		// Calculate new_mana based on the linear relationship
+		float new_mana = new_charge * maxInitialManaCost;
+		DebugManager.Debug($"HI: NewMana: {new_mana}");
+
+		DebugManager.Trace($"IMPACT:{impactDamage} N_DMG:{new_dmg} N_CRG:{new_charge} D_CRG:{Charge-new_charge} N_M:{new_mana} D_M:{ManaCost-new_mana}");
+
+		// Eject mana, update properties, and visual state
+		float manaLost = ManaCost - new_mana;
+		DebugManager.Debug($"HI: ManaLost (before eject): {manaLost}");
+		EjectMana(manaLost);
 		Damage = new_dmg;
 		ManaCost = new_mana;
 		Charge = new_charge;
@@ -265,14 +298,38 @@ public partial class Projectile : RigidBody3D
 
 	public void EjectMana(float amount)
 	{
+		DebugManager.Debug($"EM: Amount received: {amount}");
 		float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+		DebugManager.Debug($"EM: RefundPercent: {refundPercent}");
 
-		ManaParticleManager.Instance.SpawnMana((amount * (1.0f - refundPercent)).FloorToInt(), GlobalPosition);
+		float manaToFloor = amount * (1.0f - refundPercent);
+		int manaToSpawn = manaToFloor.FloorToInt();
+		DebugManager.Debug($"EM: Mana to floor: {manaToFloor}, Mana to spawn (raw): {manaToSpawn}");
+
+		if (manaToSpawn <= 0 && amount > 0)
+		{
+			manaToSpawn = 1; // Ensure at least 1 mana is spawned if there was a loss
+			DebugManager.Debug($"EM: Mana to spawn adjusted to 1 (was 0, amount > 0)");
+		}
+
+		if (manaToSpawn > 0)
+		{
+			ManaParticleManager.Instance.SpawnMana(manaToSpawn, GlobalPosition);
+			DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
+		}
+		else
+		{
+			DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
+		}
 	}
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
 		DebugManager.Trace($"HandleWallBounce: LinearVelocity: {LinearVelocity}, ");
-		HandleImpact(Damage * (LinearVelocity.Length()/100));
+		float reductionFactor = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
+		float actualImpactDamage = Damage * reductionFactor * velocityFactor;
+		DebugManager.Debug($"HW: Reduct: {reductionFactor}, VelFact: {velocityFactor}, ActImpDmg: {actualImpactDamage}");
+		HandleImpact(actualImpactDamage);
 	}
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Elythia;
 using Godot;
 
-public partial class Enemy : CharacterBody3D, ITakeDamage
+public partial class Enemy : Combatant
 {
 	private AIState _currentState = AIState.Idle;
 
@@ -11,8 +11,6 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 
 	[Export] private AnimatedSprite3D _animatedSprite;
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;
-	[Export] private Area3D _hurtbox;
-	[Export] private HealthComponent HealthComponent { get; set; }
 	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
 	[Export] private StateSprite3d _stateVisual;
 
@@ -51,12 +49,6 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 
 	[Export] private RayCast3D Detection_lineOfSight;
 
-	[ExportSubgroup("Knockback", "Knockback")]
-	[Export] private float KnockbackWeight { get; set; } = 5.0f;
-
-	private float KnockbackDecay = 0.99f;
-	private Vector3 KnockbackVelocity = Vector3.Zero;
-
 	[ExportSubgroup("Attack", "Attack")]
 	[Export] private float AttackRange { get; set; } = 2.0f;
 
@@ -87,14 +79,10 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 
 	public override void _Ready()
 	{
-		HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
+		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
+
 		OverheadHealthBar ??= GetNode<OverheadHealthBar>("%HealthBar");
-
-		HealthComponent.Died += OnDied;
 		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
-		HealthComponent.Hurt += OnHurt;
-
-		_hurtbox.BodyEntered += OnHurtboxBodyEntered;
 
 		DetectionArea.BodyEntered += OnDetectionAreaBodyEntered;
 		DetectionArea.BodyExited += OnDetectionAreaBodyExited;
@@ -135,6 +123,8 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta); // Decays knockback
+
 		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
@@ -163,8 +153,7 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 		}
 
 		// Apply knockback
-		newVelocity += KnockbackVelocity;
-		KnockbackVelocity = KnockbackVelocity.Lerp(Vector3.Zero, KnockbackDecay * (float)delta);
+		newVelocity += _knockbackVelocity;
 
 		if (_player != null)
 		{
@@ -440,7 +429,7 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 		_animatedSprite_Eye.FlipH = flipH;
 	}
 
-	public void OnHurtboxBodyEntered(Node3D body)
+	public override void OnHurtboxBodyEntered(Node3D body)
 	{
 		if (body is Projectile projectile)
 		{
@@ -460,31 +449,22 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 		}
 	}
 
-	public void TakeDamage(float amount, Vector3 sourcePosition)
-	{
-		HealthComponent.TakeDamage(amount, sourcePosition);
-	}
-
-	public void OnHurt(Vector3 sourcePosition, float damage)
+	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		PlayOnHurtFX();
-
-		// GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: GlobalPosition={{GlobalPosition}}, SourcePosition={{sourcePosition}}");
 		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
-
-		// GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: Calculated Knockback Direction={{direction}}");
-		KnockbackVelocity = direction * (damage / KnockbackWeight); // + Vector3.Up;
+		_knockbackVelocity = direction * (damage / KnockbackWeight);
 		ChangeState(AIState.Chasing);
 	}
 
-	public void PlayOnHurtFX()
+	public override void PlayOnHurtFX()
 	{
 		var tween = GetTree().CreateTween();
 		tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
 		tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
 	}
 
-	public void OnDied()
+	public override void OnDied()
 	{
 		EmitSignal(SignalName.EnemyDied, this);
 
@@ -500,17 +480,9 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 		}
 	}
 
-	public void Reset()
+	public override void Reset()
 	{
-		HealthComponent.Reset();
+		base.Reset();
+		// Add any enemy-specific reset logic here
 	}
-}
-
-public interface ITakeDamage
-{
-	public void OnHurt(Vector3 sourcePosition, float damage);
-	public void OnHurtboxBodyEntered(Node3D body);
-	public void TakeDamage(float amount, Vector3 sourcePosition);
-	public void PlayOnHurtFX();
-	public void OnDied();
 }

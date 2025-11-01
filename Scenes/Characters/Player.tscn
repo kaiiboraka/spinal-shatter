@@ -92,7 +92,7 @@ _data = {
 &"Siphon_Spin": SubResource("Animation_gc10f")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("controlRoot", "_manaComponent", "pickupArea", "_hurtbox", "AudioPlayer_MiscFX", "AudioPlayer_Hurt", "AudioPlayer_Footsteps") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("controlRoot", "_manaComponent", "pickupArea", "AudioPlayer_MiscFX", "AudioPlayer_Hurt", "AudioPlayer_Footsteps", "HealthComponent", "_hurtbox") groups=["Player"]]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
@@ -101,10 +101,8 @@ platform_wall_layers = 512
 script = ExtResource("1_gjot8")
 controlRoot = NodePath("Control")
 WALK_SPEED = 15.0
-KnockbackWeight = 15.0
 _manaComponent = NodePath("ManaComponent")
 pickupArea = NodePath("PickupArea")
-_hurtbox = NodePath("Hurtbox")
 _pauseMenuScene = ExtResource("2_3vnku")
 _levelLostMenuScene = ExtResource("3_hqlak")
 AudioPlayer_MiscFX = NodePath("Audio/MiscFX_AudioStreamPlayer3D")
@@ -115,6 +113,9 @@ Audio_DieVoice = ExtResource("17_ibpri")
 AudioPlayer_Footsteps = NodePath("Audio/Footsteps_AudioStreamPlayer3D")
 Audio_FootstepSounds = Array[AudioStream]([ExtResource("10_aal88"), ExtResource("3_ypuv8"), ExtResource("4_toq76"), ExtResource("5_hl70s")])
 Audio_FootstepSprintSounds = Array[AudioStream]([ExtResource("6_ibpri"), ExtResource("7_qd2bg"), ExtResource("8_qeewm"), ExtResource("9_81gbe")])
+HealthComponent = NodePath("HealthComponent")
+_hurtbox = NodePath("Hurtbox")
+KnockbackWeight = 15.0
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true

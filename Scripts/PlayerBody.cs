@@ -5,7 +5,7 @@ using FPS_Mods.Scripts;
 using Godot.Collections;
 
 [GlobalClass]
-public partial class PlayerBody : CharacterBody3D, ITakeDamage
+public partial class PlayerBody : Combatant
 {
 	public static PlayerBody Instance;
 
@@ -73,21 +73,13 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 
 	[ExportGroup("Components")]
 	[Export] private ManaComponent _manaComponent;
-
-	public HealthComponent HealthComponent { get; private set; }
 	[Export] private Area3D pickupArea;
-	[Export] private Area3D _hurtbox;
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
 	[Export] private PackedScene _levelLostMenuScene;
 
 	[ExportGroup("Combat")]
-	[ExportSubgroup("Knockback", "Knockback")]
-	[Export] private float KnockbackWeight { get; set; } = 5.0f;
-	private float KnockbackDecay = 0.99f;
-	private Vector3 KnockbackVelocity = Vector3.Zero;
-
 	[ExportSubgroup("Audio", "Audio")]
 	[Export] private AudioStreamPlayer3D AudioPlayer_MiscFX;
 
@@ -118,6 +110,7 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 
 	public override void _Ready()
 	{
+		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
 		Instance = this;
 
 		headNode = GetNode<Node3D>("%Head");
@@ -134,29 +127,14 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 
 		_manaComponent ??= GetNode<ManaComponent>("%ManaComponent");
 		_manaComponent.ManaChanged += UpdateManaHUD;
-
-		_hurtbox.BodyEntered += OnHurtboxBodyEntered;
-
 		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
-		HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
 		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
 		HealthComponent.HealthChanged += UpdateHealthHUD;
-		HealthComponent.Hurt += OnHurt;
-		HealthComponent.Died += OnDied;
 		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
+		
 		pickupArea ??= GetNode<Area3D>("PickupArea");
-
-		// pickupArea.BodyEntered += OnBodyEnteredPickupArea;
 		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
-
-		// meleeHitbox.AreaEntered += area =>
-		// {
-		// 	if (area.Owner is Enemy enemy)
-		// 	{
-		// 		enemy.TakeDamage(AttackDamage, GlobalPosition);
-		// 	}
-		// };
 
 		parentLevel = GetParent() as Node3D;
 
@@ -169,31 +147,17 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 		if (@event is InputEventMouseMotion motion && MouseIsCaptured)
 		{
 			this.RotateY(-motion.Relative.X * cameraLookSensitivity);
-
-			// if (firstPerson)
-			// {
-			// headNode.RotateY(-motion.Relative.X * cameraLookSensitivity);
 			camera.RotateX(-motion.Relative.Y * cameraLookSensitivity);
 
 			Vector3 cameraRot = camera.Rotation;
 			cameraRot.X = Mathf.Clamp(cameraRot.X, Mathf.DegToRad(-lookUpDegrees), Mathf.DegToRad(lookUpDegrees));
 			camera.Rotation = cameraRot;
-
-			// }
-			// else
-			// {
-			//     // this.RotateY(-motion.Relative.X * cameraLookSensitivity);
-			//     arm.RotateX(-motion.Relative.Y * cameraLookSensitivity);
-			//
-			//     Vector3 cameraRot = arm.Rotation;
-			//     cameraRot.X = Mathf.Clamp(cameraRot.X, Mathf.DegToRad(-lookUpDegrees), Mathf.DegToRad(lookUpDegrees));
-			//     arm.Rotation = cameraRot;
-			// }
 		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta); // Decays knockback
 		ProcessInput(delta);
 		ProcessMovement(delta);
 	}
@@ -272,8 +236,6 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 
 		var target = direction;
 
-		// if (grounded)
-		// {
 		if (isSprinting)
 		{
 			target *= MAX_SPRINT_SPEED;
@@ -286,12 +248,6 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 		{
 			target *= WALK_SPEED;
 		}
-
-		// }
-		// else
-		// {
-		// target *= AIR_SPEED;
-		// }
 
 		float acceleration = ACCEL;
 		if (direction.Dot(hVel) > 0)
@@ -318,8 +274,7 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 		newVelocity.Z = hVel.Z;
 
 		// Apply knockback
-		newVelocity += KnockbackVelocity;
-		KnockbackVelocity = KnockbackVelocity.Lerp(Vector3.Zero, KnockbackDecay * (float)delta);
+		newVelocity += _knockbackVelocity;
 
 		Velocity = newVelocity;
 
@@ -444,7 +399,7 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 		_playerHealthBar.OnHealthChanged(newCurr, newMax);
 	}
 
-	public void OnHurtboxBodyEntered(Node3D body)
+	public override void OnHurtboxBodyEntered(Node3D body)
 	{
 		DebugManager.Instance.DEBUG.Trace("hurtboxbody entered");
 		if (body is Projectile projectile)
@@ -459,12 +414,7 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 		}
 	}
 
-	public void TakeDamage(float amount, Vector3 sourcePosition)
-	{
-		HealthComponent.TakeDamage(amount, sourcePosition);
-	}
-
-	public void PlayOnHurtFX()
+	public override void PlayOnHurtFX()
 	{
 		// var tween = GetTree().CreateTween();
 		// tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
@@ -475,14 +425,14 @@ public partial class PlayerBody : CharacterBody3D, ITakeDamage
 	}
 
 
-	public void OnHurt(Vector3 sourcePosition, float damage)
+	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
-		KnockbackVelocity = direction * (damage / KnockbackWeight);
+		_knockbackVelocity = direction * (damage / KnockbackWeight);
 		PlayOnHurtFX();
 	}
 
-	public void OnDied()
+	public override void OnDied()
 	{
 		AudioPlayer_Hurt.Stream = Audio_DieVoice;
 		AudioPlayer_Hurt.Play();

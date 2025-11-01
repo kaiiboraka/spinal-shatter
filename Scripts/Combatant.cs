@@ -8,9 +8,8 @@ public partial class Combatant : CharacterBody3D
     [Export] private Area3D _hurtbox; // Common hurtbox
 
     [ExportSubgroup("Knockback", "Knockback")]
-    [Export] private float KnockbackStrength { get; set; } = 5.0f;
-    [Export] private float KnockbackWeight { get; set; } = 1.0f; // New property
-    [Export] private float KnockbackDecay { get; set; } = 0.9f;
+    [Export] protected float KnockbackWeight { get; set; } = 5.0f;
+    [Export] private float KnockbackDecay { get; set; } = 0.99f;
 
     protected Vector3 _knockbackVelocity = Vector3.Zero;
 
@@ -25,36 +24,36 @@ public partial class Combatant : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        // Apply knockback
-        Velocity += _knockbackVelocity;
+        // Decay knockback. Children are responsible for applying it to their velocity.
         _knockbackVelocity = _knockbackVelocity.Lerp(Vector3.Zero, KnockbackDecay * (float)delta);
     }
 
     public virtual void OnHurtboxBodyEntered(Node3D body)
     {
-        // Base implementation, can be overridden
+        // Base implementation, can be overridden by children
     }
 
     public virtual void TakeDamage(float amount, Vector3 sourcePosition)
     {
         HealthComponent.TakeDamage(amount, sourcePosition);
-        PlayOnHurtFX();
     }
 
     public virtual void OnHurt(Vector3 sourcePosition, float damage)
     {
+        // Default knockback implementation. Can be overridden.
         var direction = (GlobalPosition - sourcePosition).Normalized();
-        _knockbackVelocity = direction * (damage / KnockbackWeight); // Use damage and weight
+        _knockbackVelocity = direction * (damage / KnockbackWeight);
+        PlayOnHurtFX();
     }
 
     public virtual void PlayOnHurtFX()
     {
-        // Base implementation, can be overridden
+        // Base implementation, can be overridden by children
     }
 
     public virtual void OnDied()
     {
-        // Base implementation, can be overridden
+        // Base implementation, can be overridden by children
     }
 
     public virtual void Reset()

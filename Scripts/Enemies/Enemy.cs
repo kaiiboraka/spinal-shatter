@@ -154,23 +154,28 @@ public partial class Enemy : Combatant
 		if (_player != null)
 		{
 			Detection_lineOfSight.TargetPosition = _player.GlobalPosition - GlobalPosition;
-			if (Detection_lineOfSight.GetCollider() == _player)
+			if (Detection_lineOfSight.GetCollider() is PlayerBody)
 			{
 				ChangeState(AIState.Chasing);
-			}
-
-			// Update animation based on angle to player
-			if (_currentState != AIState.Attacking)
-			{
-				Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
-				Vector3 enemyForward = -GlobalTransform.Basis.Z;
-				float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
-				UpdateAnimation(angleToPlayer);
 			}
 		}
 
 		Velocity = newVelocity;
 		MoveAndSlide();
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		if (_player != null)
+		{
+			// Update animation based on angle to player
+			if (_currentState == AIState.Attacking) return;
+			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
+			Vector3 enemyForward = -GlobalTransform.Basis.Z;
+			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
+			UpdateAnimation(angleToPlayer);
+		}
 	}
 
 	private void EnterState(AIState state)
@@ -280,6 +285,7 @@ public partial class Enemy : Combatant
 		if (body is PlayerBody player)
 		{
 			_player = player;
+			ChangeState(AIState.Chasing);
 		}
 	}
 
@@ -377,7 +383,7 @@ public partial class Enemy : Combatant
         }
         else if (_currentState == AIState.Recovery)
         {
-            ChangeState(AIState.Chasing);
+            ChangeState(AIState.Patrolling);
         }
     }
 

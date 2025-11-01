@@ -12,8 +12,8 @@ public partial class OverheadHealthBar : Sprite3D
     public async override void _Ready()
     {
         Visible = false; // Start invisible
-        viewport = GetNode<SubViewport>("%HealthbarViewport");
-        progressBar = viewport.GetNode<ProgressBar>("%LifeBar");
+        viewport = GetNode<SubViewport>("HealthbarViewport");
+        progressBar = viewport.GetNode<ProgressBar>("MarginContainer/LifeBar");
 
         await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
         this.Texture = viewport.GetTexture();

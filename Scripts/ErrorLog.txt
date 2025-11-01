@@ -1,34 +1,18 @@
-
-5762: Enemy Scrapper OnHurt: GlobalPosition=(0.02507083, 0.0011633339, -3.3074708), SourcePosition=(0.15818357, 0.66063994, -2.7116632)
-5769: Enemy Scrapper OnHurt: Calculated Knockback Direction=(-0.14812128, -0.7338329, -0.6629852)
-16171: Enemy Scrounger2 OnHurt: GlobalPosition=(14.525048, 0.0010000722, -63.96719), SourcePosition=(14.090075, 0.79440033, -63.57895)
-16171: Enemy Scrounger2 OnHurt: Calculated Knockback Direction=(0.44178167, -0.80581814, -0.39431733)
-40.265068
-31.850477
-27.297916
-22.324207
-22001: Enemy Scrounger2 OnHurt: GlobalPosition=(-7.9042907, -0.0006976797, -65.755936), SourcePosition=(-7.066009, 0.99355876, -66.246506)
-22001: Enemy Scrounger2 OnHurt: Calculated Knockback Direction=(-0.6031082, -0.71532553, 0.35294446)
-25430: Enemy Scrounger2 OnHurt: GlobalPosition=(-10.792334, 0.00094602176, -51.929142), SourcePosition=(-9.491576, 0.9994568, -52.029434)
-25430: Enemy Scrounger2 OnHurt: Calculated Knockback Direction=(-0.7917547, -0.607781, 0.061046608)
-28797: Enemy Scrapper OnHurt: GlobalPosition=(7.4523263, -0.000657379, -61.98438), SourcePosition=(6.938903, 1.229476, -62.154068)
-28797: Enemy Scrapper OnHurt: Calculated Knockback Direction=(0.3820866, -0.9154577, 0.12628165)
-3.8461103
-3.0723042
-4.1932364
-3.6609585
-3.1238554
-2.3500447
-2.0028121
-1.779863
-1.581143
-4.4634633
-1.2257924
-37844: Enemy @CharacterBody3D@101 OnHurt: GlobalPosition=(-8.609495, 0.0008923148, -138.08595), SourcePosition=(-9.058646, 1.230174, -138.54417)
-37844: Enemy @CharacterBody3D@101 OnHurt: Calculated Knockback Direction=(0.3239076, -0.88650286, 0.33044878)
-39780: Enemy @CharacterBody3D@157 OnHurt: GlobalPosition=(-7.380488, 0.0003174838, -126.13449), SourcePosition=(-7.3580866, 1.0072961, -125.431595)
-39780: Enemy @CharacterBody3D@157 OnHurt: Calculated Knockback Direction=(-0.01823858, -0.81985563, -0.57227963)
-39780: Enemy @CharacterBody3D@161 OnHurt: GlobalPosition=(-7.380488, 0.0003174838, -126.13449), SourcePosition=(-7.3580866, 1.0072961, -125.431595)
-39780: Enemy @CharacterBody3D@161 OnHurt: Calculated Knockback Direction=(-0.01823858, -0.81985563, -0.57227963)
-39780: Enemy @CharacterBody3D@159 OnHurt: GlobalPosition=(-7.380488, 0.0003174838, -126.13449), SourcePosition=(-7.3580866, 1.0072961, -125.431595)
-39781: Enemy @CharacterBody3D@159 OnHurt: Calculated Knockback Direction=(-0.01823858, -0.81985563, -0.57227963)
+E 0:00:10:265   NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int): Path to node is invalid: 'StateViewport'.
+  <C++ Error>   Parameter "vpn" is null.
+  <C++ Source>  scene/main/viewport.cpp:197 @ _setup_local_to_scene()
+  <Stack Trace> NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int)
+				Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
+				ObjectPoolManager.cs:98 @ T ObjectPoolManager`1.Get()
+				EnemySpawner.cs:81 @ void EnemySpawner.OnSpawnTimerTimeout()
+				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
+E 0:00:18:512   NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int): Path to node is invalid: 'StateViewport'.
+  <C++ Error>   Parameter "vpn" is null.
+  <C++ Source>  scene/main/viewport.cpp:197 @ _setup_local_to_scene()
+  <Stack Trace> NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int)
+				Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
+				ObjectPoolManager.cs:98 @ T ObjectPoolManager`1.Get()
+				EnemySpawner.cs:81 @ void EnemySpawner.OnSpawnTimerTimeout()
+				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)

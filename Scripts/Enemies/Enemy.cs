@@ -433,6 +433,7 @@ public partial class Enemy : Combatant
 	{
 		if (body is Projectile projectile)
 		{
+			DebugManager.Instance.DEBUG.Info($"Enemy {Name} Hit with {projectile.Damage}");
 			// Take damage from the projectile
 			TakeDamage(projectile.Damage, projectile.GlobalPosition);
 

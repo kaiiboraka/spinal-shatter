@@ -2,49 +2,35 @@ using System.Collections.Generic;
 using Elythia;
 using Godot;
 
-public partial class Enemy : CharacterBody3D
+public partial class Enemy : CharacterBody3D, ITakeDamage
 {
-	private enum AIState
-	{
-		Idle,
-		Patrolling,
-		Chasing,
-		Attacking
-	}
-
-	private Dictionary<AIState, string> stateEmoji = new Dictionary<AIState, string>()
-	{
-		{ AIState.Idle, "⌚" },
-		{ AIState.Patrolling, "👁️" },
-		{ AIState.Chasing, "🏃‍♂️" },
-		{ AIState.Attacking, "⚔️" }
-	};
-
 	private AIState _currentState = AIState.Idle;
 
 	[ExportGroup("Components")]
 	[Export] private AnimationPlayer _animPlayer;
+
 	[Export] private AnimatedSprite3D _animatedSprite;
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;
 	[Export] private Area3D _hurtbox;
 	[Export] private HealthComponent HealthComponent { get; set; }
 	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
-	[Export] private RichTextLabel _stateLabel;
+	[Export] private StateSprite3d _stateVisual;
 
-	[ExportSubgroup("Audio","AudioStream")]
-	[Export] public AudioStreamPlayer3D AudioStream_Die { get; private set; }
-	[Export] public AudioStreamPlayer3D AudioStream_Hurt { get; private set; }
-	[Export] public AudioStreamPlayer3D AudioStream_Cast { get; private set; }
-	// [Export] public AudioStream AudioStream_Hurt { get; private set; }
-	// [Export] public AudioStream AudioStream_Movement { get; private set; }
+	[ExportSubgroup("Audio", "AudioStream")]
+	[Export] public AudioStreamPlayer3D AudioPlayer_Die { get; private set; }
+
+	[Export] public AudioStreamPlayer3D AudioPlayer_Hurt { get; private set; }
+	[Export] public AudioStreamPlayer3D AudioPlayer_Cast { get; private set; }
 
 	[ExportSubgroup("Timers", "_timer")]
 	[Export] private Timer _timerWalk;
+
 	[Export] private Timer _timerWait;
 	[Export] private Timer _timerAttackCooldown;
 
 	[ExportGroup("Patrol")]
 	[Export] public float WalkSpeed { get; private set; } = 3.0f;
+
 	[Export] public float MinWalkTime { get; private set; } = 1.0f;
 	[Export] public float MaxWalkTime { get; private set; } = 5.0f;
 	[Export] public float MinWaitTime { get; private set; } = 1.0f;
@@ -53,28 +39,39 @@ public partial class Enemy : CharacterBody3D
 	[ExportGroup("Combat")]
 	[ExportSubgroup("Mana", "Mana")]
 	[Export] public int ManaToDrop { get; private set; } = 10;
-	[Export(PropertyHint.Range, "0.0, 1.0")] private float Mana_minRefundPercent = 0.05f;
-	[Export(PropertyHint.Range, "0.0, 1.0")] private float Mana_maxRefundPercent = 0.30f;
+
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float Mana_minRefundPercent = 0.05f;
+
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float Mana_maxRefundPercent = 0.30f;
 
 	[ExportSubgroup("Detection", "Detection")]
 	[Export] private Area3D DetectionArea;
+
 	[Export] private RayCast3D Detection_lineOfSight;
+
+	[ExportSubgroup("Knockback", "Knockback")]
+	[Export] private float KnockbackWeight { get; set; } = 5.0f;
+	private float KnockbackDecay = 0.99f;
+	private Vector3 KnockbackVelocity = Vector3.Zero;
 
 	[ExportSubgroup("Attack", "Attack")]
 	[Export] private float AttackRange { get; set; } = 2.0f;
-	[Export] private float AttackCooldown { get; set; } = 1.5f;
-	[Export] private Area3D Attack_meleeHitbox;
-	[Export] private float AttackDamage { get; set; } = 10f;
-	[Export] private PackedScene _projectileScene;
-	[Export] private Node3D _projectileSpawnPoint;
 
-	[ExportSubgroup("Knockback", "Knockback")]
-	[Export] private float KnockbackStrength { get; set; } = 5.0f;
-	[Export] private float KnockbackUpwardForce { get; set; } = 2.0f;
+	[Export] private float AttackCooldown { get; set; } = 1.5f;
+	[Export] public float AttackDamage { get; private set; } = 10f;
+
+	[Export] private Area3D Attack_meleeHitbox;
+
+	[ExportSubgroup("Projectiles", "Projectile")]
+	[Export(PropertyHint.GroupEnable, "")] public bool ProjectileIsRanged { get; private set; }
+	[Export] private float ProjectileSpeed { get; set; } = 20.0f;
+	[Export] private PackedScene ProjectileScene;
+	[Export] private Node3D ProjectileSpawnPoint;
+
 
 	private PlayerBody _player;
-	private Vector3 _knockbackVelocity = Vector3.Zero;
-	[Export] private float _knockbackDecay = 0.9f;
 
 	private bool _isWalking = false;
 
@@ -92,16 +89,13 @@ public partial class Enemy : CharacterBody3D
 		OverheadHealthBar ??= GetNode<OverheadHealthBar>("%HealthBar");
 
 		HealthComponent.Died += OnDied;
-		HealthComponent.HealthChanged += OnHealthChanged;
+		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
 		HealthComponent.Hurt += OnHurt;
 
 		_hurtbox.BodyEntered += OnHurtboxBodyEntered;
 
 		DetectionArea.BodyEntered += OnDetectionAreaBodyEntered;
 		DetectionArea.BodyExited += OnDetectionAreaBodyExited;
-
-		// Initialize Health Bar
-		OverheadHealthBar.Initialize(HealthComponent.MaxHealth);
 
 		TryAddTimer(_timerWalk);
 		_timerWalk.Timeout += OnWalkTimerTimeout;
@@ -113,9 +107,17 @@ public partial class Enemy : CharacterBody3D
 
 		_animatedSprite.AnimationFinished += OnAnimationFinished;
 
-		if (Attack_meleeHitbox != null) Attack_meleeHitbox.BodyEntered += OnAttackMeleeHitboxBodyEntered;
+		if (!ProjectileIsRanged)
+		{
+			Attack_meleeHitbox.AreaEntered += area =>
+			{
+				if (area.Owner is PlayerBody player)
+				{
+					player.TakeDamage(AttackDamage, GlobalPosition);
+				}
+			};
+		}
 
-		_stateLabel.Text = "";
 		// Start patrolling
 		ChangeState(AIState.Patrolling);
 	}
@@ -131,33 +133,31 @@ public partial class Enemy : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector3 velocity = Velocity;
+		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
-		if (!IsOnFloor())
-			velocity.Y -= _gravity * (float)delta;
-
-		Velocity = velocity;
+		if (!IsOnFloor()) newVelocity.Y -= _gravity * (float)delta;
 
 		switch (_currentState)
 		{
 			case AIState.Idle:
 				ProcessIdle(delta);
+				newVelocity = Vector3.Zero;
 				break;
 			case AIState.Patrolling:
-				ProcessPatrolling(delta);
+				ProcessPatrolling(ref newVelocity);
 				break;
 			case AIState.Chasing:
-				ProcessChasing(delta);
+				ProcessChasing(ref newVelocity);
 				break;
 			case AIState.Attacking:
-				ProcessAttacking(delta);
+				ProcessAttacking(ref newVelocity);
 				break;
 		}
 
 		// Apply knockback
-		Velocity += _knockbackVelocity;
-		_knockbackVelocity = _knockbackVelocity.Lerp(Vector3.Zero, _knockbackDecay * (float)delta);
+		newVelocity += KnockbackVelocity;
+		KnockbackVelocity = KnockbackVelocity.Lerp(Vector3.Zero, KnockbackDecay * (float)delta);
 
 		if (_player != null)
 		{
@@ -166,31 +166,32 @@ public partial class Enemy : CharacterBody3D
 			{
 				ChangeState(AIState.Chasing);
 			}
+
+			// Update animation based on angle to player
+			if (_currentState != AIState.Attacking)
+			{
+				Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
+				Vector3 enemyForward = -GlobalTransform.Basis.Z;
+				float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
+				UpdateAnimation(angleToPlayer);
+			}
 		}
 
-		// Update animation based on angle to player
-		if (_player != null && _currentState != AIState.Attacking)
-		{
-			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
-			Vector3 enemyForward = -GlobalTransform.Basis.Z;
-			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
-			UpdateAnimation(angleToPlayer);
-		}
-
+		Velocity = newVelocity;
 		MoveAndSlide();
 	}
 
-	private void ChangeState(AIState newState)
+	private void ChangeState(AIState newState, bool force = false)
 	{
-		if (_currentState == newState) return;
+		if (_currentState == newState && !force) return;
 
 		ExitState(_currentState);
 		_currentState = newState;
 		EnterState(_currentState);
 
-		if (_stateLabel != null)
+		if (_stateVisual != null)
 		{
-			_stateLabel.Text = stateEmoji[newState];
+			_stateVisual.CurrentState = newState;
 		}
 	}
 
@@ -200,42 +201,50 @@ public partial class Enemy : CharacterBody3D
 		{
 			case AIState.Idle:
 				_animPlayer.Play("Front_Idle");
+
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Patrolling:
 				_animPlayer.Play("Front_Idle");
+
 				// PlayAnimationOnSprites("Front_Idle");
 				StartWaiting();
 				break;
 			case AIState.Chasing:
 				_animPlayer.Play("Front_Idle");
+
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Attacking:
-				Velocity = Vector3.Zero;
+
 				_animPlayer.Play("Front_Attack");
+
 				// PlayAnimationOnSprites("Front_Attack");
+				// PerformAttack();
 				_timerAttackCooldown.WaitTime = AttackCooldown;
 				_timerAttackCooldown.Start();
-
-				if (_projectileScene != null && _player != null)
-				{
-					var projectile = _projectileScene.Instantiate<Projectile>();
-					GetTree().Root.AddChild(projectile);
-					projectile.GlobalPosition = _projectileSpawnPoint.GlobalPosition;
-					projectile.Initialize(this, _player.GlobalPosition, AttackDamage);
-				}
-				else if (Attack_meleeHitbox != null)
-				{
-					// Melee attack logic (handled by animation keyframes)
-				}
 				break;
+		}
+	}
+
+	private void PerformAttack()
+	{
+		if (ProjectileIsRanged)
+		{
+			var projectile = ProjectileScene.Instantiate<Projectile>();
+			GetTree().Root.AddChild(projectile);
+			projectile.GlobalPosition = ProjectileSpawnPoint.GlobalPosition;
+			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
+			projectile.Launch(Owner, AttackDamage, 0, direction * ProjectileSpeed);
+		}
+		else //if (Attack_meleeHitbox != null)
+		{
+			// Melee attack logic (handled by animation keyframes)
 		}
 	}
 
 	private void PlayAnimationOnSprites(string which)
 	{
-
 		_animatedSprite.Play(which);
 		_animatedSprite_Eye.Play(which);
 	}
@@ -277,22 +286,17 @@ public partial class Enemy : CharacterBody3D
 	private void ProcessIdle(double delta)
 	{
 		// Not moving
-		Velocity = Vector3.Zero;
 	}
 
-	private void ProcessPatrolling(double delta)
+	private void ProcessPatrolling(ref Vector3 newVelocity)
 	{
 		if (_isWalking)
 		{
-			Wander(delta);
-		}
-		else
-		{
-			Velocity = new Vector3(0, Velocity.Y, 0);
+			Wander(ref newVelocity);
 		}
 	}
 
-	private void ProcessChasing(double delta)
+	private void ProcessChasing(ref Vector3 newVelocity)
 	{
 		if (_player == null)
 		{
@@ -305,10 +309,7 @@ public partial class Enemy : CharacterBody3D
 		if (GlobalPosition.DistanceTo(_player.GlobalPosition) > AttackRange)
 		{
 			// Move towards player
-			var velocity = Velocity;
-			velocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
-			velocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
-			Velocity = velocity;
+			WalkForward(ref newVelocity);
 		}
 		else
 		{
@@ -319,17 +320,17 @@ public partial class Enemy : CharacterBody3D
 		}
 	}
 
-	private void ProcessAttacking(double delta)
+	private void WalkForward(ref Vector3 newVelocity)
 	{
-		// Waiting for animation to finish
+		newVelocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
+		newVelocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
 	}
 
-	private void OnAttackMeleeHitboxBodyEntered(Node3D body)
+	private void ProcessAttacking(ref Vector3 newVelocity)
 	{
-		if (body is PlayerBody player)
-		{
-			player.HealthComponent.TakeDamage(AttackDamage, GlobalPosition);
-		}
+		// Waiting for animation to finish
+		newVelocity = Vector3.Zero;
+		;
 	}
 
 	private void OnAnimationFinished()
@@ -340,13 +341,10 @@ public partial class Enemy : CharacterBody3D
 		}
 	}
 
-	private void Wander(double delta)
+	private void Wander(ref Vector3 newVelocity)
 	{
 		// Set horizontal velocity to move forward.
-		var velocity = Velocity;
-		velocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
-		velocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
-		Velocity = velocity;
+		WalkForward(ref newVelocity);
 
 		// Check for wall collision and change direction.
 		if (IsOnWall())
@@ -356,19 +354,10 @@ public partial class Enemy : CharacterBody3D
 		}
 	}
 
-	private void OnWalkTimerTimeout()
-	{
-		_isWalking = false;
-		_timerWait.WaitTime = GD.RandRange(MinWaitTime, MaxWaitTime);
-		_timerWait.Start();
-	}
-
 	private void OnWaitTimerTimeout()
 	{
-		_isWalking = true;
-		_timerWalk.WaitTime = GD.RandRange(MinWalkTime, MaxWalkTime);
-		_timerWalk.Start();
 		Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
+		StartWalking();
 	}
 
 	private void StartWalking()
@@ -376,6 +365,11 @@ public partial class Enemy : CharacterBody3D
 		_isWalking = true;
 		_timerWalk.WaitTime = GD.RandRange(MinWalkTime, MaxWalkTime);
 		_timerWalk.Start();
+	}
+
+	private void OnWalkTimerTimeout()
+	{
+		StartWaiting();
 	}
 
 	private void StartWaiting()
@@ -439,23 +433,7 @@ public partial class Enemy : CharacterBody3D
 		_animatedSprite_Eye.FlipH = flipH;
 	}
 
-	// private void OnHurt(Vector3 sourcePosition)
-	// {
-	// 	var direction = (GlobalPosition - sourcePosition).Normalized();
-	// 	Velocity = direction * KnockbackStrength + Vector3.Up * KnockbackUpwardForce;
-	// 	ChangeState(AIState.Chasing);
-	// }
-
-	private void OnHurt(Vector3 sourcePosition)
-	{
-		GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: GlobalPosition={{GlobalPosition}}, SourcePosition={{sourcePosition}}");
-		var direction = (sourcePosition - GlobalPosition).Normalized() * -1;
-		GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: Calculated Knockback Direction={{direction}}");
-		_knockbackVelocity = direction * KnockbackStrength + Vector3.Up * KnockbackUpwardForce;
-		ChangeState(AIState.Chasing);
-	}
-
-	private void OnHurtboxBodyEntered(Node3D body)
+	public void OnHurtboxBodyEntered(Node3D body)
 	{
 		if (body is Projectile projectile)
 		{
@@ -475,25 +453,31 @@ public partial class Enemy : CharacterBody3D
 		}
 	}
 
-	private void OnHealthChanged(float oldHealth, float newHealth)
-	{
-		OverheadHealthBar.OnHealthChanged(newHealth, HealthComponent.MaxHealth);
-	}
-
 	public void TakeDamage(float amount, Vector3 sourcePosition)
 	{
 		HealthComponent.TakeDamage(amount, sourcePosition);
-		FlashRed();
 	}
 
-	private void FlashRed()
+	public void OnHurt(Vector3 sourcePosition, float damage)
+	{
+		PlayOnHurtFX();
+
+		// GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: GlobalPosition={{GlobalPosition}}, SourcePosition={{sourcePosition}}");
+		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
+
+		// GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: Calculated Knockback Direction={{direction}}");
+		KnockbackVelocity = direction * (damage / KnockbackWeight);// + Vector3.Up;
+		ChangeState(AIState.Chasing);
+	}
+
+	public void PlayOnHurtFX()
 	{
 		var tween = GetTree().CreateTween();
 		tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
 		tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
 	}
 
-	private void OnDied()
+	public void OnDied()
 	{
 		EmitSignal(SignalName.EnemyDied, this);
 
@@ -513,4 +497,13 @@ public partial class Enemy : CharacterBody3D
 	{
 		HealthComponent.Reset();
 	}
+}
+
+public interface ITakeDamage
+{
+	public void OnHurt(Vector3 sourcePosition, float damage);
+	public void OnHurtboxBodyEntered(Node3D body);
+	public void TakeDamage(float amount, Vector3 sourcePosition);
+	public void PlayOnHurtFX();
+	public void OnDied();
 }

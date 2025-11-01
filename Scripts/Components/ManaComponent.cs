@@ -40,4 +40,9 @@ public partial class ManaComponent : Node
     {
         CurrentMana += amount;
     }
+
+    public void RefillMana()
+    {
+        CurrentMana = MaxMana;
+    }
 }

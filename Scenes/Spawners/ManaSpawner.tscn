@@ -14,5 +14,5 @@ script = ExtResource("1_spawner_script")
 _spawnInterval = 2.5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+transform = Transform3D(0.814166, 0.44590738, -0.37188727, -0.5792279, 0.5792279, -0.57357645, -0.040354457, 0.68239397, 0.72986984, 0, -0.25, 0)
 mesh = SubResource("BoxMesh_iqpnp")

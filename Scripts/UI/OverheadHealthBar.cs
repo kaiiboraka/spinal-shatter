@@ -5,13 +5,18 @@ public partial class OverheadHealthBar : Sprite3D
 {
     [Export] private float _renderDistance = 25.0f;
 
-    [Export] private ProgressBar _progressBar;
+    private SubViewport viewport;
+    private ProgressBar progressBar;
     private Camera3D _camera;
 
-    public override void _Ready()
+    public async override void _Ready()
     {
-        _progressBar ??= GetNode<ProgressBar>("SubViewport/ProgressBar");
         Visible = false; // Start invisible
+        viewport = GetNode<SubViewport>("%HealthbarViewport");
+        progressBar = viewport.GetNode<ProgressBar>("%LifeBar");
+
+        await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+        this.Texture = viewport.GetTexture();
     }
 
     public override void _Process(double delta)
@@ -31,19 +36,13 @@ public partial class OverheadHealthBar : Sprite3D
         this.Modulate = new Color(alpha, alpha, alpha, alpha);
     }
 
-    public void Initialize(float maxHealth)
-    {
-        _progressBar.MaxValue = maxHealth;
-        _progressBar.Value = maxHealth;
-    }
-
     public void OnHealthChanged(float currentHealth, float maxHealth)
     {
-        if (!Visible && currentHealth < maxHealth)
+        if (!Visible)
         {
             Visible = true;
-            Initialize(maxHealth);
+            progressBar.MaxValue = maxHealth;
         }
-        _progressBar.Value = currentHealth;
+        progressBar.Value = currentHealth;
     }
 }

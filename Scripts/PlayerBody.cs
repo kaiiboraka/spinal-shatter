@@ -1,9 +1,11 @@
 using Godot;
 using System;
+using Elythia;
 using FPS_Mods.Scripts;
 using Godot.Collections;
 
-public partial class PlayerBody : CharacterBody3D
+[GlobalClass]
+public partial class PlayerBody : CharacterBody3D, ITakeDamage
 {
 	public static PlayerBody Instance;
 
@@ -24,7 +26,6 @@ public partial class PlayerBody : CharacterBody3D
 	[Export] float DECEL = 16;
 	const float MAX_SLOPE_ANGLE = 40;
 
-	[Export] private float KnockbackStrength { get; set; } = 10.0f;
 
 	[ExportGroup("CameraSettings")]
 	[Export] private float cameraLookSensitivity = 0.006f;
@@ -51,7 +52,8 @@ public partial class PlayerBody : CharacterBody3D
 
 	private Vector2 inputDir = Vector2.Zero;
 	private Vector3 direction = Vector3.Zero;
-	private Vector3 velocityTmp = Vector3.Zero;
+	private Vector3 newVelocity = Vector3.Zero;
+
 
 	private bool MouseIsCaptured => Input.MouseMode == Input.MouseModeEnum.Captured;
 
@@ -74,15 +76,21 @@ public partial class PlayerBody : CharacterBody3D
 
 	public HealthComponent HealthComponent { get; private set; }
 	[Export] private Area3D pickupArea;
+	[Export] private Area3D _hurtbox;
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
 	[Export] private PackedScene _levelLostMenuScene;
 
+	[ExportGroup("Combat")]
+	[ExportSubgroup("Knockback", "Knockback")]
+	[Export] private float KnockbackWeight { get; set; } = 5.0f;
+	private float KnockbackDecay = 0.99f;
+	private Vector3 KnockbackVelocity = Vector3.Zero;
+
 	[ExportSubgroup("Audio", "Audio")]
-
-
 	[Export] private AudioStreamPlayer3D AudioPlayer_MiscFX;
+
 	[Export] private AudioStreamPlayer3D AudioPlayer_Hurt;
 	[Export] private AudioStream Audio_Hurt;
 	[Export] private AudioStream Audio_DieSFX;
@@ -105,6 +113,9 @@ public partial class PlayerBody : CharacterBody3D
 	public Node3D ParentLevel => parentLevel;
 
 
+	// TODO : put the main scene back to this one : res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn
+
+
 	public override void _Ready()
 	{
 		Instance = this;
@@ -123,18 +134,29 @@ public partial class PlayerBody : CharacterBody3D
 
 		_manaComponent ??= GetNode<ManaComponent>("%ManaComponent");
 		_manaComponent.ManaChanged += UpdateManaHUD;
+
+		_hurtbox.BodyEntered += OnHurtboxBodyEntered;
+
 		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
 		HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
 		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
-		        HealthComponent.HealthChanged += UpdateHealthHUD;
-		        HealthComponent.Hurt += OnHurt;
-		        HealthComponent.Died += OnPlayerDied;
-		        UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
+		HealthComponent.HealthChanged += UpdateHealthHUD;
+		HealthComponent.Hurt += OnHurt;
+		HealthComponent.Died += OnDied;
+		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
 		pickupArea ??= GetNode<Area3D>("PickupArea");
 
 		// pickupArea.BodyEntered += OnBodyEnteredPickupArea;
 		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
+
+		// meleeHitbox.AreaEntered += area =>
+		// {
+		// 	if (area.Owner is Enemy enemy)
+		// 	{
+		// 		enemy.TakeDamage(AttackDamage, GlobalPosition);
+		// 	}
+		// };
 
 		parentLevel = GetParent() as Node3D;
 
@@ -170,7 +192,6 @@ public partial class PlayerBody : CharacterBody3D
 		}
 	}
 
-
 	public override void _PhysicsProcess(double delta)
 	{
 		ProcessInput(delta);
@@ -194,7 +215,7 @@ public partial class PlayerBody : CharacterBody3D
 
 		if (Input.IsActionPressed("Player_Shoot"))
 		{
-			TryShoot();
+			// TryShoot();
 		}
 
 		if (Input.IsActionJustPressed("Player_Reload"))
@@ -227,6 +248,7 @@ public partial class PlayerBody : CharacterBody3D
 		{
 			var pauseMenu = _pauseMenuScene.Instantiate();
 			controlRoot.AddChild(pauseMenu);
+
 			// GetTree().Paused = true;
 		}
 	}
@@ -244,7 +266,7 @@ public partial class PlayerBody : CharacterBody3D
 		grounded = IsOnFloor();
 
 		if (!grounded)
-			velocityTmp.Y -= GRAVITY * (float)delta;
+			newVelocity.Y -= GRAVITY * (float)delta;
 
 		var hVel = Velocity.XZ();
 
@@ -292,10 +314,14 @@ public partial class PlayerBody : CharacterBody3D
 
 		PlayFootsteps(hVel);
 
-		velocityTmp.X = hVel.X;
-		velocityTmp.Z = hVel.Z;
+		newVelocity.X = hVel.X;
+		newVelocity.Z = hVel.Z;
 
-		Velocity = velocityTmp;
+		// Apply knockback
+		newVelocity += KnockbackVelocity;
+		KnockbackVelocity = KnockbackVelocity.Lerp(Vector3.Zero, KnockbackDecay * (float)delta);
+
+		Velocity = newVelocity;
 
 		FOVJuice(delta);
 
@@ -378,7 +404,7 @@ public partial class PlayerBody : CharacterBody3D
 	{
 		if (CanJump())
 		{
-			velocityTmp.Y = JUMP_VELOCITY;
+			newVelocity.Y = JUMP_VELOCITY;
 			curJumps += 1;
 		}
 	}
@@ -418,29 +444,63 @@ public partial class PlayerBody : CharacterBody3D
 		_playerHealthBar.OnHealthChanged(newCurr, newMax);
 	}
 
-	private void OnHurt(Vector3 sourcePosition)
+	public void OnHurtboxBodyEntered(Node3D body)
 	{
-		var direction = (GlobalPosition - sourcePosition).Normalized();
-		velocityTmp = direction * KnockbackStrength;
+		DebugManager.Instance.DEBUG.Trace("hurtboxbody entered");
+		if (body is Projectile projectile)
+		{
+			DebugManager.Instance.DEBUG.Trace("projectile");
+			// Take damage from the projectile
+			TakeDamage(projectile.Damage, projectile.GlobalPosition);
 
-		AudioPlayer_Hurt.Stream = Audio_Hurt;
-		AudioPlayer_Hurt.Play();
+			// Spawn mana particles as a refund
+			// Destroy the projectile
+			projectile.QueueFree();
+		}
 	}
 
-	    private async void OnPlayerDied()
-	    {
-	        AudioPlayer_Hurt.Stream = Audio_DieVoice;
-	        AudioPlayer_Hurt.Play();
-	
-	        AudioPlayer_MiscFX.Stream = Audio_DieSFX;
-	        AudioPlayer_MiscFX.Play();
+	public void TakeDamage(float amount, Vector3 sourcePosition)
+	{
+		HealthComponent.TakeDamage(amount, sourcePosition);
+	}
 
-			await ToSignal(AudioPlayer_MiscFX, AudioStreamPlayer3D.SignalName.Finished);
+	public void PlayOnHurtFX()
+	{
+		// var tween = GetTree().CreateTween();
+		// tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
+		// tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
+		AudioPlayer_Hurt.Stream = Audio_Hurt;
+		AudioPlayer_Hurt.Play();
+		//TODO: add UI overlay
+	}
 
-	        var levelLostMenu = _levelLostMenuScene.Instantiate();
-	        controlRoot.AddChild(levelLostMenu);
-	        // GetTree().Paused = true;
-	    }
+
+	public void OnHurt(Vector3 sourcePosition, float damage)
+	{
+		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
+		KnockbackVelocity = direction * (damage / KnockbackWeight);
+		PlayOnHurtFX();
+	}
+
+	public void OnDied()
+	{
+		AudioPlayer_Hurt.Stream = Audio_DieVoice;
+		AudioPlayer_Hurt.Play();
+
+		AudioPlayer_MiscFX.Stream = Audio_DieSFX;
+		AudioPlayer_MiscFX.Play();
+
+		AudioPlayer_MiscFX.Finished += () =>
+			{
+				// GetTree().CreateTimer(2f, true).Timeout += () =>
+				{
+					var levelLostMenu = _levelLostMenuScene.Instantiate();
+					controlRoot.AddChild(levelLostMenu);
+				};
+			};
+
+	}
+
 	// private void OnBodyEnteredPickupArea(Node3D body)
 	// {
 	//     if (body is ManaParticle particle)
@@ -448,7 +508,6 @@ public partial class PlayerBody : CharacterBody3D
 	//         PickupManaParticle(particle);
 	//     }
 	// }
-
 
 	private void OnAreaEnteredPickupArea(Area3D area)
 	{
@@ -460,12 +519,22 @@ public partial class PlayerBody : CharacterBody3D
 	}
 
 	private void PickupManaParticle(ManaParticle particle)
-	    {
-	        if (particle.State == ManaParticle.ManaParticleState.Collected) return; // Already collected
-	
-	        _manaComponent.AddMana(particle.ManaValue);
-	        particle.Collect();
-	
-	        ManaParticleManager.Instance.Release(particle);
-	    }
+	{
+		if (particle.State == ManaParticle.ManaParticleState.Collected) return; // Already collected
+
+		_manaComponent.AddMana(particle.ManaValue);
+		particle.Collect();
+
+		ManaParticleManager.Instance.Release(particle);
+	}
+
+	public void RefillMana()
+	{
+		_manaComponent.RefillMana();
+	}
+
+	public static void FillPlayerMana()
+	{
+		Instance.RefillMana();
+	}
 }

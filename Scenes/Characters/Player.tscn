@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=37 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -29,6 +29,10 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
 radius = 1.0
 height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vnku"]
+radius = 0.6459961
+height = 2.25
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
 radius = 0.3
@@ -88,7 +92,7 @@ _data = {
 &"Siphon_Spin": SubResource("Animation_gc10f")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("controlRoot", "_manaComponent", "pickupArea", "AudioPlayer_MiscFX", "AudioPlayer_Hurt", "AudioPlayer_Footsteps") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("controlRoot", "_manaComponent", "pickupArea", "_hurtbox", "AudioPlayer_MiscFX", "AudioPlayer_Hurt", "AudioPlayer_Footsteps") groups=["Player"]]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
@@ -97,8 +101,10 @@ platform_wall_layers = 512
 script = ExtResource("1_gjot8")
 controlRoot = NodePath("Control")
 WALK_SPEED = 15.0
+KnockbackWeight = 15.0
 _manaComponent = NodePath("ManaComponent")
 pickupArea = NodePath("PickupArea")
+_hurtbox = NodePath("Hurtbox")
 _pauseMenuScene = ExtResource("2_3vnku")
 _levelLostMenuScene = ExtResource("3_hqlak")
 AudioPlayer_MiscFX = NodePath("Audio/MiscFX_AudioStreamPlayer3D")
@@ -146,6 +152,15 @@ priority = 10
 [node name="PickupRadius" type="CollisionShape3D" parent="PickupArea"]
 shape = SubResource("CapsuleShape3D_7qdam")
 debug_color = Color(0.76919794, 0.44635576, 1.92523e-07, 0.41960785)
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 49152
+
+[node name="HurtboxRadius" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2037842, 0.181)
+shape = SubResource("CapsuleShape3D_3vnku")
+debug_color = Color(0, 0.77, 0.42350015, 0.41960785)
 
 [node name="Mesh_Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.328861)

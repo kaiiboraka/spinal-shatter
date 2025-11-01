@@ -17,7 +17,7 @@ project_layer_names/c#_namespace="SpinalShatter"
 
 config/name="Spinal Shatter"
 config/description="BYU Game Dev Club Game Jam Fall 2025 - SPOOKY"
-run/main_scene="res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn"
+run/main_scene="uid://c8d51hgqbd1dq"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 boot_splash/image="uid://cwk1ukdg6oxn4"
 config/icon="uid://cwk1ukdg6oxn4"
@@ -221,7 +221,7 @@ Player_Pause={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/maaacks_menus_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_menus_template/base/translations/menus_translations.fr.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
+locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
 
 [layer_names]
 

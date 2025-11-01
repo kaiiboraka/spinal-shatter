@@ -4,11 +4,11 @@
 [ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/enemies_small_swooper.ase" id="2_j01h3"]
 [ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/enemies_small_swooper_eye.ase" id="3_oupyy"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ej8im"]
-viewport_path = NodePath("HealthBar/SubViewport")
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_j01h3"]
-viewport_path = NodePath("StateSprite3D/StateSubViewport")
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_oupyy"]
+viewport_path = NodePath("StateSubViewport")
 
 [node name="Swooper" instance=ExtResource("1_7c1fy")]
 motion_mode = 1
@@ -17,13 +17,13 @@ MinWalkTime = 1.0
 MinWaitTime = 0.1
 MaxWaitTime = 1.0
 
-[node name="HealthBar" parent="." index="2"]
-texture = SubResource("ViewportTexture_ej8im")
-
-[node name="StateSprite3D" parent="." index="3"]
+[node name="HealthBar" parent="." index="5"]
 texture = SubResource("ViewportTexture_j01h3")
 
-[node name="Body_AnimatedSprite3D" parent="." index="4"]
+[node name="StateSprite3D" parent="." index="6"]
+texture = SubResource("ViewportTexture_oupyy")
+
+[node name="Body_AnimatedSprite3D" parent="." index="7"]
 sprite_frames = ExtResource("2_j01h3")
 
 [node name="SpotLight3D" parent="Body_AnimatedSprite3D" index="0"]

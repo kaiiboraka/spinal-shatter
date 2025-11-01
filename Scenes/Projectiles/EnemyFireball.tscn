@@ -10,7 +10,7 @@
 
 [node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape", "AudioStreamPlayer3D")]
 collision_layer = 49152
-collision_mask = 41614
+collision_mask = 41612
 physics_material_override = ExtResource("1_ou870")
 gravity_scale = 0.0
 contact_monitor = true
@@ -33,7 +33,7 @@ autoplay = "default"
 shape = SubResource("SphereShape3D_12345")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-light_color = Color(1, 0.25, 0, 1)
+light_color = Color(0, 0.93333316, 1, 1)
 light_energy = 1.1
 
 [node name="Audio_Layer1" type="AudioStreamPlayer3D" parent="."]

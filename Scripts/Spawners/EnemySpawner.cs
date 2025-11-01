@@ -91,7 +91,7 @@ public partial class EnemySpawner : Node3D
                 {
                     // Fallback for nodes that aren't enemies, just place them
                     GetParent().AddChild(newEnemyNode);
-                    newEnemyNode.GlobalPosition = this.GlobalPosition;
+                    newEnemyNode.GlobalPosition = this.GlobalPosition + Vector3.Up;
                 }
             }
         }

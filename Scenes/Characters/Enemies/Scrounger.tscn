@@ -1,27 +1,16 @@
-[gd_scene load_steps=24 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=21 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_s0m4p"]
-[ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="2_fhuh0"]
+[ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="2_vypru"]
 [ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/enemies_small_scrounger.ase" id="3_0uo32"]
-[ext_resource type="Script" uid="uid://ehcmdsf25yi2" path="res://Scripts/UI/OverheadHealthBar.cs" id="3_bnk72"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="3_health"]
 [ext_resource type="AudioStream" uid="uid://rt8muaiwrhg2" path="res://assets/Audio/SFX/Skeleton Move.wav" id="4_y5nsj"]
 [ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="5_uhmmm"]
 [ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/enemies_small_scrounger_eye.ase" id="6_fhuh0"]
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="6_vypru"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_uhmmm"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_bnk72"]
-viewport_path = NodePath("HealthBar/SubViewport")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
-bg_color = Color(1, 0, 0, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_fhuh0"]
-viewport_path = NodePath("StateSprite3D/SubViewport2")
+[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="8_uhmmm"]
+[ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/Characters/Enemies/state_sprite_3d.tscn" id="8_vypru"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7338867
@@ -32,8 +21,8 @@ radius = 0.8564453
 height = 2.4355469
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_bnk72"]
-height = 5.696228
-radius = 9.180176
+height = 6.0
+radius = 20.0
 
 [sub_resource type="Animation" id="Animation_gcvnd"]
 resource_name = "Back"
@@ -159,7 +148,7 @@ tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:playing")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.375),
+"times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -171,7 +160,7 @@ tracks/6/path = NodePath("Charge_AudioStreamPlayer3D2:playing")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.125),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -183,11 +172,11 @@ tracks/7/path = NodePath(".")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.8125),
+"times": PackedFloat32Array(0.6875),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [2],
-"method": &"ChangeState"
+"args": [],
+"method": &"PerformAttack"
 }]
 }
 
@@ -393,9 +382,9 @@ _data = {
 &"Side": SubResource("Animation_fhuh0")
 }
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "OverheadHealthBar", "_stateLabel", "AudioStream_Die", "AudioStream_Hurt", "AudioStream_Cast", "_timerWalk", "_timerWait", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "_projectileSpawnPoint") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "_hurtbox", "HealthComponent", "OverheadHealthBar", "_stateVisual", "AudioPlayer_Die", "AudioPlayer_Hurt", "AudioPlayer_Cast", "_timerWalk", "_timerWait", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "ProjectileSpawnPoint") groups=["Enemies"]]
 collision_layer = 1024
-collision_mask = 653
+collision_mask = 1677
 floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
@@ -406,10 +395,10 @@ _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _hurtbox = NodePath("Hurtbox")
 HealthComponent = NodePath("HealthComponent")
 OverheadHealthBar = NodePath("HealthBar")
-_stateLabel = NodePath("StateSprite3D/SubViewport2/State_RichTextLabel")
-AudioStream_Die = NodePath("Die_AudioStreamPlayer3D")
-AudioStream_Hurt = NodePath("Hurt_AudioStreamPlayer3D")
-AudioStream_Cast = NodePath("Cast_AudioStreamPlayer3D")
+_stateVisual = NodePath("StateSprite3D")
+AudioPlayer_Die = NodePath("Die_AudioStreamPlayer3D")
+AudioPlayer_Hurt = NodePath("Hurt_AudioStreamPlayer3D")
+AudioPlayer_Cast = NodePath("Cast_AudioStreamPlayer3D")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerWait = NodePath("Timers/WaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
@@ -420,8 +409,13 @@ MaxWaitTime = 4.0
 ManaToDrop = 35
 DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
-_projectileScene = ExtResource("2_fhuh0")
-_projectileSpawnPoint = NodePath("SpellOrigin")
+KnockbackWeight = 20.0
+AttackRange = 50.0
+AttackCooldown = 2.5
+AttackDamage = 20.0
+ProjectileIsRanged = true
+ProjectileScene = ExtResource("2_vypru")
+ProjectileSpawnPoint = NodePath("SpellOrigin")
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -455,57 +449,11 @@ bus = &"SFX"
 stream = ExtResource("7_uhmmm")
 bus = &"SFX"
 
-[node name="HealthBar" type="Sprite3D" parent="." node_paths=PackedStringArray("_progressBar")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7027788, 0)
-visible = false
-gi_mode = 2
-billboard = 1
-texture = SubResource("ViewportTexture_bnk72")
-script = ExtResource("3_bnk72")
-_renderDistance = 50.0
-_progressBar = NodePath("SubViewport/ProgressBar")
+[node name="HealthBar" parent="." instance=ExtResource("8_uhmmm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
 
-[node name="SubViewport" type="SubViewport" parent="HealthBar"]
-unique_name_in_owner = true
-transparent_bg = true
-size = Vector2i(100, 15)
-render_target_update_mode = 3
-
-[node name="ProgressBar" type="ProgressBar" parent="HealthBar/SubViewport"]
-custom_minimum_size = Vector2(150, 15)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
-value = 50.0
-show_percentage = false
-
-[node name="StateSprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9821777, 0)
-visible = false
-pixel_size = 0.03
-billboard = 1
-texture_filter = 0
-texture = SubResource("ViewportTexture_fhuh0")
-
-[node name="SubViewport2" type="SubViewport" parent="StateSprite3D"]
-transparent_bg = true
-size = Vector2i(22, 16)
-render_target_update_mode = 3
-
-[node name="State_RichTextLabel" type="RichTextLabel" parent="StateSprite3D/SubViewport2"]
-unique_name_in_owner = true
-clip_contents = false
-offset_right = 1.0
-offset_bottom = 16.0
-bbcode_enabled = true
-text = "😭"
-fit_content = true
+[node name="StateSprite3D" parent="." instance=ExtResource("8_vypru")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)
@@ -521,7 +469,6 @@ autoplay = "Front_Idle"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
-visible = false
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 20.0
@@ -565,12 +512,12 @@ debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 [node name="DetectionArea3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.851654, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 shape = SubResource("CylinderShape3D_bnk72")
 
 [node name="LOS_RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9361892, 0)
-target_position = Vector3(0, 0, -10)
+target_position = Vector3(0, 0, -50)
 collision_mask = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

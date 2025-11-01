@@ -3,161 +3,157 @@ using System;
 
 public partial class Projectile : RigidBody3D
 {
-    private enum ProjectileState
-    {
-        Charging,
-        Fired
-    }
+	private enum ProjectileState
+	{
+		Charging,
+		Fired
+	}
 
-    [Export] private SpriteBase3D _sprite;
-    [Export] private CollisionShape3D _collisionShape;
-    [Export] public AudioStreamPlayer3D AudioStreamPlayer3D { get; private set; }
-    [Export] public AudioStream AudioStream_Fireball { get; private set; }
-    [Export] public AudioStream AudioStream_FireHit { get; private set; }
+	[Export] private SpriteBase3D _sprite;
+	[Export] private CollisionShape3D _collisionShape;
+	[Export] public AudioStreamPlayer3D AudioStreamPlayer3D { get; private set; }
+	[Export] public AudioStream AudioStream_Fireball { get; private set; }
+	[Export] public AudioStream AudioStream_FireHit { get; private set; }
 
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float _minRefundPercent = 0.1f;
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float _maxRefundPercent = 0.25f;
-    [Export(PropertyHint.Range, "0.1, 100.0")] private float _lifetime = 10f;
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float _minRefundPercent = 0.1f;
 
-    public Node3D LevelParent { get; set; }
-    public float Damage { get; private set; }
-    public float InitialManaCost { get; private set; }
-    public Node3D Owner { get; private set; }
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float _maxRefundPercent = 0.25f;
 
-    private ProjectileState _state = ProjectileState.Charging;
-    private Timer _lifetimeTimer;
+	[Export(PropertyHint.Range, "0.1, 100.0")]
+	private float _lifetime = 10f;
 
-    [Export] private float initialDb = 46;
+	public Node3D LevelParent { get; set; }
+	public float Damage { get; private set; }
+	public float InitialManaCost { get; private set; }
 
-    public override void _Ready()
-    {
-        if (_sprite == null) _sprite = GetNode<SpriteBase3D>("Sprite3D");
-        if (_collisionShape == null) _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
+	// public Node3D Owner { get; private set; }
 
-        _lifetimeTimer = new Timer();
-        _lifetimeTimer.WaitTime = _lifetime;
-        _lifetimeTimer.OneShot = true;
-        _lifetimeTimer.Timeout += () => QueueFree();
-        AddChild(_lifetimeTimer);
+	private ProjectileState _state = ProjectileState.Charging;
+	private Timer _lifetimeTimer;
 
-        // Disable physics until launched
-        this.Freeze = true;
-        _collisionShape.Disabled = true;
+	[Export] private float initialDb = 46;
+
+	public override void _Ready()
+	{
+		if (_sprite == null) _sprite = GetNode<SpriteBase3D>("Sprite3D");
+		if (_collisionShape == null) _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
+
+		_lifetimeTimer = new Timer();
+		_lifetimeTimer.WaitTime = _lifetime;
+		_lifetimeTimer.OneShot = true;
+		_lifetimeTimer.Timeout += () => QueueFree();
+		AddChild(_lifetimeTimer);
+
+		// Disable physics until launched
+		this.Freeze = true;
+		_collisionShape.Disabled = true;
 
 
-        BodyEntered += OnBodyEntered;
-    }
+		BodyEntered += OnBodyEntered;
+	}
 
-    public void Initialize(Node3D owner, Vector3 targetPosition, float damage)
-    {
-        Owner = owner;
-        Damage = damage;
+	public void BeginCharge(Node3D parent)
+	{
+		parent.AddChild(this);
+		initialDb = AudioStreamPlayer3D.VolumeDb;
+		this.Position = Vector3.Zero;
+		UpdateChargeVisuals(0.1f); // Start at 10% size
+	}
 
-        // Calculate initial velocity towards target
-        Vector3 direction = (targetPosition - GlobalPosition).Normalized();
-        Vector3 initialVelocity = direction * 20.0f; // Adjust speed as needed
+	public void UpdateChargeVisuals(float size)
+	{
+		if (_state != ProjectileState.Charging) return;
 
-        Launch(owner, damage, 0, initialVelocity); // InitialManaCost is not relevant for enemy projectiles
-    }
+		if (_sprite != null)
+		{
+			_sprite.Scale = Vector3.One * size;
+		}
 
-    public void BeginCharge(Node3D parent)
-    {
-        parent.AddChild(this);
-        initialDb = AudioStreamPlayer3D.VolumeDb;
-        this.Position = Vector3.Zero;
-        UpdateChargeVisuals(0.1f); // Start at 10% size
-    }
+		if (_collisionShape != null && _collisionShape.Shape is SphereShape3D sphere)
+		{
+			// Ensure the collision shape doesn't get too small
+			sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
+		}
+	}
 
-    public void UpdateChargeVisuals(float size)
-    {
-        if (_state != ProjectileState.Charging) return;
+	public void Launch(Node owner, float damage, float initialManaCost, Vector3 initialVelocity)
+	{
+		if (_state != ProjectileState.Charging) return;
 
-        if (_sprite != null)
-        {
-            _sprite.Scale = Vector3.One * size;
-        }
-        if (_collisionShape != null && _collisionShape.Shape is SphereShape3D sphere)
-        {
-            // Ensure the collision shape doesn't get too small
-            sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
-        }
-    }
+		_state = ProjectileState.Fired;
+		this.Damage = damage;
+		this.InitialManaCost = initialManaCost;
+		Reparent(owner);
+		this.Owner = owner;
 
-    public void Launch(Node3D owner, float damage, float initialManaCost, Vector3 initialVelocity)
-    {
-        if (_state != ProjectileState.Charging) return;
+		// Re-parent to the root and maintain global position
+		// var globalTransform = this.GlobalTransform;
+		// if (GetParent() is Node3D parent)
+		// {
+		//     parent.RemoveChild(this);
+		// }
+		// LevelParent.AddChild(this);
+		// this.GlobalTransform = globalTransform;
 
-        _state = ProjectileState.Fired;
-        this.Damage = damage;
-        this.InitialManaCost = initialManaCost;
-        this.Owner = owner;
+		// Enable physics and launch
+		this.Freeze = false;
+		_collisionShape.Disabled = false;
+		this.LinearVelocity = initialVelocity;
+		this.Mass = _sprite.Scale.X; // Set mass based on final size
 
-        // Re-parent to the root and maintain global position
-        // var globalTransform = this.GlobalTransform;
-        // if (GetParent() is Node3D parent)
-        // {
-        //     parent.RemoveChild(this);
-        // }
-        // LevelParent.AddChild(this);
-        // this.GlobalTransform = globalTransform;
+		_lifetimeTimer.Start();
+	}
 
-        // Enable physics and launch
-        this.Freeze = false;
-        _collisionShape.Disabled = false;
-        this.LinearVelocity = initialVelocity;
-        this.Mass = _sprite.Scale.X; // Set mass based on final size
+	private void OnBodyEntered(Node body)
+	{
+		// Assuming walls and ground are on specific physics layers you can check.
+		// For now, we'll just check if the body is NOT an enemy.
+		// A more robust way is to use physics layers (e.g., if (body.IsInLayer(LayerNames.PHYSICS_3D.SOLID_WALL_BIT)))
 
-        _lifetimeTimer.Start();
-    }
+		AudioStreamPlayer3D.PitchScale = 1f;
+		if (!body.IsInGroup("Enemies"))
+		{
+			HandleWallBounce();
+		}
+		else
+		{
+			AudioStreamPlayer3D.VolumeDb = initialDb;
+			AudioStreamPlayer3D.Stream = AudioStream_FireHit;
+			AudioStreamPlayer3D.Play();
+		}
+	}
 
-    private void OnBodyEntered(Node body)
-    {
-        // Assuming walls and ground are on specific physics layers you can check.
-        // For now, we'll just check if the body is NOT an enemy.
-        // A more robust way is to use physics layers (e.g., if (body.IsInLayer(LayerNames.PHYSICS_3D.SOLID_WALL_BIT)))
+	private void HandleWallBounce()
+	{
+		float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+		int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
 
-        AudioStreamPlayer3D.PitchScale = 1f;
-        if (!body.IsInGroup("Enemies") && !body.IsInGroup("Player"))
-        {
-            HandleWallBounce();
-        }
-        else
-        {
-            AudioStreamPlayer3D.VolumeDb = initialDb;
-            AudioStreamPlayer3D.Stream = AudioStream_FireHit;
-            AudioStreamPlayer3D.Play();
-        }
-    }
+		if (manaToSpawn > 0)
+		{
+			ManaParticleManager.Instance.SpawnMana(manaToSpawn, this.GlobalPosition);
+		}
 
-    private void HandleWallBounce()
-    {
+		// Reduce size and damage
+		this.Damage *= (1.0f - refundPercent);
+		_sprite.Scale *= (1.0f - refundPercent);
+		if (_collisionShape.Shape is SphereShape3D sphere)
+		{
+			sphere.Radius *= (1.0f - refundPercent);
+		}
 
-        float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
-        int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
+		this.Mass *= (1.0f - refundPercent);
 
-        if (manaToSpawn > 0)
-        {
-            ManaParticleManager.Instance.SpawnMana(manaToSpawn, this.GlobalPosition);
-        }
+		AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
+		// GD.Print(AudioStreamPlayer3D.VolumeDb);
+		AudioStreamPlayer3D.Stream = AudioStream_Fireball;
+		AudioStreamPlayer3D.Play();
 
-        // Reduce size and damage
-        this.Damage *= (1.0f - refundPercent);
-        _sprite.Scale *= (1.0f - refundPercent);
-        if (_collisionShape.Shape is SphereShape3D sphere)
-        {
-            sphere.Radius *= (1.0f - refundPercent);
-        }
-        this.Mass *= (1.0f - refundPercent);
-
-        AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
-        GD.Print(AudioStreamPlayer3D.VolumeDb);
-        AudioStreamPlayer3D.Stream = AudioStream_Fireball;
-        AudioStreamPlayer3D.Play();
-
-        // Destroy if too small
-        if (_sprite.Scale.X < 0.1f)
-        {
-            QueueFree();
-        }
-    }
+		// Destroy if too small
+		if (_sprite.Scale.X < 0.1f)
+		{
+			QueueFree();
+		}
+	}
 }

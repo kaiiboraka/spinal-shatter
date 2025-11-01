@@ -400,6 +400,7 @@ AudioPlayer_Cast = NodePath("Cast_AudioStreamPlayer3D")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerAction = NodePath("Timers/ActionWaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
+RecoveryTime = 2.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
 MaxWaitTime = 4.0

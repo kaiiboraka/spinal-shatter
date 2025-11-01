@@ -1,4 +1,90 @@
-  MagicCaster.cs(144, 19): [CS0136] A local or parameter named 'damageMultiplier' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
-	MagicCaster.cs(145, 19): [CS0136] A local or parameter named 'damage' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
-	  MagicCaster.cs(146, 19): [CS0136] A local or parameter named 'speed' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
-		MagicCaster.cs(147, 21): [CS0136] A local or parameter named 'initialVelocity' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+ERROR: Path to node is invalid: 'StateViewport'.
+   at: _setup_local_to_scene (scene/main/viewport.cpp:197)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7676)
+       [1] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:834)
+       [2] T ObjectPoolManager`1.Get() (C:\Projects\spinal-shatter\Scripts\Utility\ObjectPoolManager.cs:98)
+       [3] void EnemySpawner.OnSpawnTimerTimeout() (C:\Projects\spinal-shatter\Scripts\Spawners\EnemySpawner.cs:81)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)

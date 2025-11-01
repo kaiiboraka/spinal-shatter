@@ -32,7 +32,7 @@ public partial class StateSprite3d : Sprite3D
 	public async override void _Ready()
 	{
 		viewport = GetNode<SubViewport>("StateViewport");
-		_stateText = viewport.GetNode<RichTextLabel>("%State_RichTextLabel");
+		_stateText = GetNode<RichTextLabel>("StateViewport/MarginContainer/State_RichTextLabel");
 
 		await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
 		this.Texture = viewport.GetTexture();

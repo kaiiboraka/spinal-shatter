@@ -27,7 +27,8 @@ public partial class Enemy : Combatant
 	[Export] private Timer _timerAttackCooldown;
 
 	[ExportGroup("Patrol")]
-	[Export] public float RecoveryTime { get; set; } = 2.0f;
+	[Export] public float RecoveryTime { get; set; } = 1.0f;
+	[Export] public float ChaseRotationSpeed { get; set; } = 5.0f;
 
 	[Export] public float WalkSpeed { get; private set; } = 8.0f;
 
@@ -114,55 +115,64 @@ public partial class Enemy : Combatant
 		ChangeState(AIState.Patrolling);
 	}
 
-	public override void _PhysicsProcess(double delta)
-	{
-		base._PhysicsProcess(delta); // Decays knockback
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta); // Decays knockback
 
-		Vector3 newVelocity = Velocity;
+        if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
+        {
+            if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
+            {
+                _player = player;
+                ChangeState(AIState.Chasing);
+            }
+        }
 
-		// Add gravity.
-		if (!IsOnFloor())
-		{
-			newVelocity.Y -= _gravity * (float)delta;
-		}
-		else
-		{
-			switch (_currentState)
-			{
-				case AIState.Idle:
-					ProcessIdle(delta);
-					newVelocity = Vector3.Zero;
-					break;
-				case AIState.Patrolling:
-					ProcessPatrolling(ref newVelocity);
-					break;
-				case AIState.Chasing:
-					ProcessChasing(ref newVelocity);
-					break;
-				case AIState.Attacking:
-					ProcessAttacking(ref newVelocity);
-					break;
-				case AIState.Recovery:
-					ProcessRecovery(ref newVelocity);
-					break;
-			}
-		}
+        Vector3 newVelocity = Velocity;
 
-		// Apply knockback
-		newVelocity += _knockbackVelocity;
+        // Add gravity.
+        if (!IsOnFloor())
+        {
+            newVelocity.Y -= _gravity * (float)delta;
+        }
+        else
+        {
+            switch (_currentState)
+            {
+                case AIState.Idle:
+                    ProcessIdle(delta);
+                    newVelocity = Vector3.Zero;
+                    break;
+                case AIState.Patrolling:
+                    ProcessPatrolling(ref newVelocity);
+                    break;
+                case AIState.Chasing:
+                    ProcessChasing(ref newVelocity, delta);
+                    break;
+                case AIState.Attacking:
+                    ProcessAttacking(ref newVelocity);
+                    break;
+                case AIState.Recovery:
+                    ProcessRecovery(ref newVelocity);
+                    break;
+            }
+        }
 
-		if (_player != null)
-		{
-			Detection_lineOfSight.TargetPosition = _player.GlobalPosition - GlobalPosition;
-			if (Detection_lineOfSight.GetCollider() is PlayerBody)
-			{
-				ChangeState(AIState.Chasing);
-			}
-		}
+        // Apply knockback
+        newVelocity += _knockbackVelocity;
 
-		Velocity = newVelocity;
-		MoveAndSlide();
-	}
+        // Update sprite animation based on angle to player, if we have a target.
+        if (_player != null && _currentState != AIState.Attacking)
+        {
+            Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
+            Vector3 enemyForward = -GlobalTransform.Basis.Z;
+            float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
+            UpdateAnimation(angleToPlayer);
+        }
+
+        Velocity = newVelocity;
+        MoveAndSlide();
+    }
 
 	public override void _Process(double delta)
 	{
@@ -285,7 +295,10 @@ public partial class Enemy : Combatant
 		if (body is PlayerBody player)
 		{
 			_player = player;
-			ChangeState(AIState.Chasing);
+			if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
+			{
+				ChangeState(AIState.Chasing);
+			}
 		}
 	}
 
@@ -311,7 +324,7 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void ProcessChasing(ref Vector3 newVelocity)
+	private void ProcessChasing(ref Vector3 newVelocity, double delta)
 	{
 		if (_player == null)
 		{
@@ -319,7 +332,8 @@ public partial class Enemy : Combatant
 			return;
 		}
 
-		LookAt(_player.GlobalPosition, Vector3.Up);
+		var targetRotation = Transform.LookingAt(_player.GlobalPosition, Vector3.Up).Basis;
+		Basis = Basis.Orthonormalized().Slerp(targetRotation, (float)delta * ChaseRotationSpeed);
 
 		if (GlobalPosition.DistanceTo(_player.GlobalPosition) > AttackRange)
 		{

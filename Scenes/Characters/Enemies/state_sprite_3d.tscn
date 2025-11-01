@@ -22,7 +22,6 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_bottom = 4
 
 [node name="State_RichTextLabel" type="RichTextLabel" parent="StateViewport/MarginContainer"]
-unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
 bbcode_enabled = true

@@ -560,7 +560,7 @@ shape = SubResource("CylinderShape3D_3nwgj")
 
 [node name="LOS_RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9361892, 0)
-target_position = Vector3(0, 0, -30)
+target_position = Vector3(0, 0, -20)
 collision_mask = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

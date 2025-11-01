@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Elythia;
 
 public partial class Projectile : RigidBody3D
 {
@@ -26,13 +27,16 @@ public partial class Projectile : RigidBody3D
 
 	public Node3D LevelParent { get; set; }
 	public float Damage { get; private set; }
-	public float InitialManaCost { get; private set; }
+	public float ManaCost { get; private set; }
+	public float Charge { get; set; }
 
 	private ProjectileState _state = ProjectileState.Charging;
+	private Node ProjectileOwner;
 	private Timer _lifetimeTimer;
 	private float _bounceCooldown = 0;
 
 	[Export] private float initialDb = 46;
+
 
 	public override void _Ready()
 	{
@@ -50,17 +54,17 @@ public partial class Projectile : RigidBody3D
 		_collisionShape.Disabled = true;
 
 		ContactMonitor = true;
-        MaxContactsReported = 4;
+		MaxContactsReported = 4;
 	}
 
 	public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-        if (_bounceCooldown > 0)
-        {
-            _bounceCooldown -= (float)delta;
-        }
-    }
+	{
+		base._PhysicsProcess(delta);
+		if (_bounceCooldown > 0)
+		{
+			_bounceCooldown -= (float)delta;
+		}
+	}
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
@@ -76,25 +80,25 @@ public partial class Projectile : RigidBody3D
 
 		for (int i = 0; i < state.GetContactCount(); i++)
 		{
-			Node collider = state.GetContactColliderObject(i) as Node;
-			if (collider != null)
+			if (state.GetContactColliderObject(i) is Node collider)
 			{
-				if (!collider.IsInGroup("Enemies"))
+				if (collider == ProjectileOwner || ProjectileOwner.IsAncestorOf(collider)) return;
+				if (collider.IsInGroup("Enemies"))
+				{
+					// Enemy hit
+					AudioStreamPlayer3D.VolumeDb = initialDb;
+					AudioStreamPlayer3D.Stream = AudioStream_FireHit;
+					AudioStreamPlayer3D.Play();
+
+					// The projectile will be destroyed by the enemy's hurtbox logic.
+				}
+				else
 				{
 					// Wall bounce
 					Vector3 impactPoint = state.GetContactColliderPosition(i);
 					HandleWallBounce(impactPoint);
 					_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
 					return; // Handle one bounce per frame
-				}
-				else
-				{
-					// Enemy hit
-					AudioStreamPlayer3D.VolumeDb = initialDb;
-					AudioStreamPlayer3D.Stream = AudioStream_FireHit;
-					AudioStreamPlayer3D.Play();
-					// The projectile will be destroyed by the enemy's hurtbox logic.
-					return;
 				}
 			}
 		}
@@ -105,11 +109,13 @@ public partial class Projectile : RigidBody3D
 		parent.AddChild(this);
 		initialDb = AudioStreamPlayer3D.VolumeDb;
 		this.Position = Vector3.Zero;
-		UpdateChargeVisuals(0.1f); // Start at 10% size
+		Charge = 0;
+		UpdateChargeState(); // Start at 10% size
 	}
 
-	public void UpdateChargeVisuals(float size)
+	public void UpdateChargeState()
 	{
+		float size = Mathf.Lerp(0.1f, 1.2f, Charge);
 		if (_state != ProjectileState.Charging) return;
 
 		if (_sprite != null)
@@ -117,53 +123,94 @@ public partial class Projectile : RigidBody3D
 			_sprite.Scale = Vector3.One * size;
 		}
 
-		if (_collisionShape != null && _collisionShape.Shape is SphereShape3D sphere)
+		if (_collisionShape is { Shape: SphereShape3D sphere })
 		{
 			// Ensure the collision shape doesn't get too small
 			sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
 		}
+
+		Mass = size;
 	}
 
-	public void Launch(Node owner, float damage, float initialManaCost, Vector3 initialVelocity)
+	public void Launch(Node owner, float damage, float manaCost, Vector3 velocity, float chargeRatio)
 	{
-		if (_state != ProjectileState.Charging) return;
+		if (_state != ProjectileState.Charging)
+			return;
 
 		_state = ProjectileState.Fired;
 		this.Damage = damage;
-		this.InitialManaCost = initialManaCost;
-		Reparent(owner);
-		this.Owner = owner;
+		this.ManaCost = manaCost;
+		this.Charge = chargeRatio;
+		UpdateChargeState();
+		ProjectileOwner = owner;
+		Reparent(owner.Owner);
+		Owner = owner.Owner;
 
 		// Enable physics and launch
 		this.Freeze = false;
 		_collisionShape.Disabled = false;
-		this.LinearVelocity = initialVelocity;
-		this.Mass = _sprite.Scale.X; // Set mass based on final size
+		this.LinearVelocity = velocity;
 
 		_lifetimeTimer.Start();
 	}
 
-	private void HandleWallBounce(Vector3 impactPoint)
+	public void HandleImpact(float impactDamage)
 	{
-		float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
-		int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
-
-		if (manaToSpawn > 0)
+		if (impactDamage >= Damage)
 		{
-			ManaParticleManager.Instance.SpawnMana(manaToSpawn, impactPoint);
+			Expire();
+			return;
 		}
 
-		// Reduce size and damage
-		this.Damage *= (1.0f - refundPercent);
-		_sprite.Scale *= (1.0f - refundPercent);
-		if (_collisionShape.Shape is SphereShape3D sphere)
+		// Damage -= impactDamage;
+		// ManaCost;
+		// Damage is Expo;
+		// Mana is Linear;
+		// dmg = (base ^ charge)*mana;
+		// dmg` = dmg-impactDamage;
+		// dmg` = (base ^ charge`)*mana`
+		// log_base(dmg/mana) = charge;
+		// charge` = ?
+		// x = mana/charge
+		// mana`=charge`*x
+		// charge = lb(dmg) - lb(charge*X)));
+		// c = log_base(d) - lb(c)+lb(X);
+		// rCh= ch/ch` = ln(dmg)-ln(mana)/ln(dmg`)-ln(mana`)
+		// rCh= (A/x*mana`)ln(Z)== ln(Y)-ln(X)-(A/x*mana`)ln(mana`)
+		// 40->20 DMG -> much smaller mana change
+		// int manaToSpawn = Mathf.RoundToInt(ManaCost * refundPercent);
+		float T = Mathf.Log(Damage / ManaCost) / (Mathf.Log(4) * Charge);
+		// D = M * 4^CT;
+		// X = (min / max);
+		// M = XC + min
+		// D` = D - I;
+		// D` = M` * 4^C`T;
+		// M` = XC` + min
+		var MaxManaCost = 50;
+		// binary search for D`:
+		var f = (float C) => Mathf.Lerp(0, MaxManaCost, C) * Mathf.Pow(4,C * T);
+		float new_dmg = Damage - impactDamage;
+		float new_charge = .5f;
+		while (true)
 		{
-			sphere.Radius *= (1.0f - refundPercent);
+			float approx = f(new_charge);
+			if (approx.FloatEqualsApprox(new_dmg, 10)) break;
+			if (approx > new_dmg) new_charge *= .5f;
+			else new_charge *= 1.5f;
 		}
+		DebugManager.Trace($"C: {new_charge}");
+		float new_mana = new_charge * (ManaCost / Charge);
 
-		this.Mass *= (1.0f - refundPercent);
+		DebugManager.Trace($"IMPACT:{impactDamage} N_DMG:{new_dmg} N_CRG:{new_charge} D_CRG:{Charge-new_charge} N_M:{new_mana} D_M:{ManaCost-new_charge}");
 
-		AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
+		// 40->20 DMG -> much smaller mana change as dmg is 4^x mana is linear
+		EjectMana(ManaCost -  new_mana);
+		Damage = new_dmg;
+		ManaCost = new_mana;
+		Charge = new_charge;
+		UpdateChargeState();
+
+		AudioStreamPlayer3D.VolumeDb *= 1.0f - Charge;
 		AudioStreamPlayer3D.Stream = AudioStream_Fireball;
 		AudioStreamPlayer3D.Play();
 
@@ -172,5 +219,60 @@ public partial class Projectile : RigidBody3D
 		{
 			QueueFree();
 		}
+	}
+	private static double LambertW0(double x)
+	{
+		if (x < 0)
+		{
+			throw new ArgumentException("LambertW0 is not defined for negative x in this simple real-valued implementation.");
+		}
+		if (x == 0)
+		{
+			return 0;
+		}
+
+		// Initial guess (good approximation for large x)
+		double w = Math.Log(x);
+		if (x > 10)
+		{
+			w = Math.Log(x / Math.Log(x));
+		}
+
+		// Halley's method for refinement (usually 3-5 iterations suffice for machine precision)
+		for (int i = 0; i < 10; i++)
+		{
+			double expW = Math.Exp(w);
+			double wExpW = w * expW;
+			double wPlusOne = w + 1;
+			// Halley's method iteration formula
+			double nextW = w - (wExpW - x) / (expW * wPlusOne - (w + 2) * (wExpW - x) / (2 * wPlusOne));
+
+			if (Math.Abs(nextW - w) < 1e-15) // Check for convergence
+			{
+				return nextW;
+			}
+			w = nextW;
+		}
+		return w; // Return the result after max iterations
+	}
+
+	public void Expire()
+	{
+		Damage = 0;
+		EjectMana(ManaCost);
+		QueueFree();
+	}
+
+	public void EjectMana(float amount)
+	{
+		float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+
+		ManaParticleManager.Instance.SpawnMana((amount * (1.0f - refundPercent)).FloorToInt(), GlobalPosition);
+	}
+
+	private void HandleWallBounce(Vector3 impactPoint)
+	{
+		DebugManager.Trace($"HandleWallBounce: LinearVelocity: {LinearVelocity}, ");
+		HandleImpact(Damage * (LinearVelocity.Length()/100));
 	}
 }

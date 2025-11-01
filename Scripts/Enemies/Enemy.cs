@@ -209,7 +209,7 @@ public partial class Enemy : Combatant
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Attacking:
-
+				Velocity = Vector3.Zero with { Y = Velocity.Y };
 				_animPlayer.Play("Front_Attack");
 
 				// PlayAnimationOnSprites("Front_Attack");
@@ -256,7 +256,7 @@ public partial class Enemy : Combatant
 			GetTree().Root.AddChild(projectile);
 			projectile.GlobalPosition = ProjectileSpawnPoint.GlobalPosition;
 			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
-			projectile.Launch(Owner, AttackDamage, 0, direction * ProjectileSpeed);
+			projectile.Launch(Owner, AttackDamage, 0, direction * ProjectileSpeed, 1);
 		}
 		else //if (Attack_meleeHitbox != null)
 		{
@@ -482,7 +482,7 @@ public partial class Enemy : Combatant
 		{
 			// Enemy-specific: Spawn mana particles as a refund
 			float refundPercent = (float)GD.RandRange(Mana_minRefundPercent, Mana_maxRefundPercent);
-			int manaToSpawn = Mathf.RoundToInt(projectile.InitialManaCost * refundPercent);
+			int manaToSpawn = Mathf.RoundToInt(projectile.ManaCost * refundPercent);
 			if (manaToSpawn > 0)
 			{
 				ManaParticleManager.Instance.SpawnMana(manaToSpawn, projectile.GlobalPosition);

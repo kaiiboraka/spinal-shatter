@@ -91,6 +91,31 @@ public partial class DebugManager : CanvasLayer
 		VisualsActive = visualsActive;
 	}
 
+	public static void Trace(string message)
+	{
+		Instance?.DEBUG.Trace(message);
+	}
+
+	public static void Debug(string message)
+	{
+		Instance?.DEBUG.Debug(message);
+	}
+
+	public static void Warning(string message)
+	{
+		Instance?.DEBUG.Warning(message);
+	}
+
+	public static void Error(string message)
+	{
+		Instance?.DEBUG.Error(message);
+	}
+
+	public static void Info(string message)
+	{
+		Instance?.DEBUG.Info(message);
+	}
+
 
 	private void FillDebugHUD()
 	{

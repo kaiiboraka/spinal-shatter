@@ -36,7 +36,7 @@ public partial class Combatant : CharacterBody3D
             if (projectile.Owner == this) return;
 
             TakeDamage(projectile.Damage, projectile.GlobalPosition);
-            projectile.QueueFree(); // Destroy projectile on impact
+            projectile.HandleImpact(HealthComponent.CurrentHealth);
         }
     }
 

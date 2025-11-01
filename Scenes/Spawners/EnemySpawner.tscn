@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://3qks0y7n1ats"]
+[gd_scene load_steps=11 format=3 uid="uid://3qks0y7n1ats"]
 
 [ext_resource type="Script" uid="uid://di84l61pcnw7j" path="res://Scripts/Spawners/EnemySpawner.cs" id="1_spawner_script"]
 [ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger.tscn" id="2_vxqah"]
@@ -6,19 +6,93 @@
 [ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper.tscn" id="4_xd55u"]
 [ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper.tscn" id="5_ipidq"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt1v8"]
-albedo_color = Color(0, 0.4, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xd55u"]
+transparency = 2
+alpha_scissor_threshold = 0.365
+alpha_antialiasing_mode = 0
+albedo_color = Color(0, 0.63333344, 1, 0.4)
+emission_enabled = true
+emission = Color(0, 0.63529414, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iqpnp"]
-material = SubResource("StandardMaterial3D_qt1v8")
+material = SubResource("StandardMaterial3D_xd55u")
 size = Vector3(0.5, 0.5, 0.5)
 
-[node name="EnemySpawner" type="Node3D"]
+[sub_resource type="Animation" id="Animation_iqpnp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshParent:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_qt1v8"]
+resource_name = "spin"
+length = 4.0000033
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4, 8.000001),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.2831855, 0), Vector3(0, 12.566371, 0)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshParent:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0.25, -1, 0, 1, 0, -0.25, -1, 0, 1, 0, 0.25, -1, 0, 1, 0, -0.25, -1, 0, 1, 0),
+"times": PackedFloat32Array(-1.0000001, 1, 3, 5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dfknm"]
+_data = {
+&"RESET": SubResource("Animation_iqpnp"),
+&"spin": SubResource("Animation_qt1v8")
+}
+
+[node name="ManaSpawner" type="Node3D"]
 script = ExtResource("1_spawner_script")
-_enemyScenes = Array[PackedScene]([ExtResource("2_vxqah"), ExtResource("3_c7tgn"), ExtResource("4_xd55u"), ExtResource("5_ipidq")])
+_enemyScenes = Array[PackedScene]([ExtResource("3_c7tgn"), ExtResource("5_ipidq"), ExtResource("2_vxqah"), ExtResource("4_xd55u")])
 _spawnInterval = 3.0
 _spawnInRandomOrder = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+[node name="MeshParent" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshParent"]
+transform = Transform3D(0.814166, 0.44590738, -0.37188727, -0.5792279, 0.5792279, -0.57357645, -0.040354457, 0.68239397, 0.72986984, 0, 0, 0)
 mesh = SubResource("BoxMesh_iqpnp")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_dfknm")
+}
+autoplay = "spin"

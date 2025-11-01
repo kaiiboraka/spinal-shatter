@@ -53,6 +53,7 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] private float KnockbackWeight { get; set; } = 5.0f;
+
 	private float KnockbackDecay = 0.99f;
 	private Vector3 KnockbackVelocity = Vector3.Zero;
 
@@ -66,6 +67,7 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 
 	[ExportSubgroup("Projectiles", "Projectile")]
 	[Export(PropertyHint.GroupEnable, "")] public bool ProjectileIsRanged { get; private set; }
+
 	[Export] private float ProjectileSpeed { get; set; } = 20.0f;
 	[Export] private PackedScene ProjectileScene;
 	[Export] private Node3D ProjectileSpawnPoint;
@@ -136,23 +138,28 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
-		if (!IsOnFloor()) newVelocity.Y -= _gravity * (float)delta;
-
-		switch (_currentState)
+		if (!IsOnFloor())
 		{
-			case AIState.Idle:
-				ProcessIdle(delta);
-				newVelocity = Vector3.Zero;
-				break;
-			case AIState.Patrolling:
-				ProcessPatrolling(ref newVelocity);
-				break;
-			case AIState.Chasing:
-				ProcessChasing(ref newVelocity);
-				break;
-			case AIState.Attacking:
-				ProcessAttacking(ref newVelocity);
-				break;
+			newVelocity.Y -= _gravity * (float)delta;
+		}
+		else
+		{
+			switch (_currentState)
+			{
+				case AIState.Idle:
+					ProcessIdle(delta);
+					newVelocity = Vector3.Zero;
+					break;
+				case AIState.Patrolling:
+					ProcessPatrolling(ref newVelocity);
+					break;
+				case AIState.Chasing:
+					ProcessChasing(ref newVelocity);
+					break;
+				case AIState.Attacking:
+					ProcessAttacking(ref newVelocity);
+					break;
+			}
 		}
 
 		// Apply knockback
@@ -466,7 +473,7 @@ public partial class Enemy : CharacterBody3D, ITakeDamage
 		var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);
 
 		// GD.Print($"{Time.GetTicksMsec()}: Enemy {Name} OnHurt: Calculated Knockback Direction={{direction}}");
-		KnockbackVelocity = direction * (damage / KnockbackWeight);// + Vector3.Up;
+		KnockbackVelocity = direction * (damage / KnockbackWeight); // + Vector3.Up;
 		ChangeState(AIState.Chasing);
 	}
 

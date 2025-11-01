@@ -451,9 +451,11 @@ bus = &"SFX"
 
 [node name="HealthBar" parent="." instance=ExtResource("8_uhmmm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
+texture = null
 
 [node name="StateSprite3D" parent="." instance=ExtResource("8_vypru")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+texture = null
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)

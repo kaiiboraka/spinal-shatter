@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bl1y0kt6e7sod"]
+[gd_scene load_steps=20 format=3 uid="uid://bl1y0kt6e7sod"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_y5818"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="2_3nwgj"]
@@ -9,12 +9,6 @@
 [ext_resource type="SpriteFrames" uid="uid://b5efiy1ix8gna" path="res://assets/Images/enemies_small_scrapper_eye.ase" id="6_43jap"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="6_h7ptk"]
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/Characters/Enemies/state_sprite_3d.tscn" id="7_5tux7"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_5tux7"]
-viewport_path = NodePath("HealthbarViewport")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_e1fve"]
-viewport_path = NodePath("StateViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7402344
@@ -445,11 +439,11 @@ AudioPlayer_Cast = NodePath("Cast_AudioStreamPlayer3D")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerWait = NodePath("Timers/WaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
-WalkSpeed = 12.0
+WalkSpeed = 10.0
 MinWalkTime = 3.0
 MaxWalkTime = 10.0
-MinWaitTime = 0.5
-MaxWaitTime = 2.0
+MinWaitTime = 2.0
+MaxWaitTime = 3.0
 ManaToDrop = 30
 Mana_minRefundPercent = 0.1
 Mana_maxRefundPercent = 0.4
@@ -485,11 +479,9 @@ stream = ExtResource("5_h7ptk")
 
 [node name="HealthBar" parent="." instance=ExtResource("6_h7ptk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
-texture = SubResource("ViewportTexture_5tux7")
 
 [node name="StateSprite3D" parent="." instance=ExtResource("7_5tux7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-texture = SubResource("ViewportTexture_e1fve")
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)

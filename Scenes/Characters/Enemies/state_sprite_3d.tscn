@@ -1,15 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://duqlhbd81gtaq"]
+[gd_scene load_steps=2 format=3 uid="uid://duqlhbd81gtaq"]
 
 [ext_resource type="Script" uid="uid://dd6t57pgfiabi" path="res://Scenes/Characters/Enemies/StateSprite3d.cs" id="1_xoxx2"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_xoxx2"]
-viewport_path = NodePath("StateViewport")
 
 [node name="StateSprite3D" type="Sprite3D"]
 pixel_size = 0.03
 billboard = 1
 texture_filter = 0
-texture = SubResource("ViewportTexture_xoxx2")
 script = ExtResource("1_xoxx2")
 
 [node name="StateViewport" type="SubViewport" parent="."]

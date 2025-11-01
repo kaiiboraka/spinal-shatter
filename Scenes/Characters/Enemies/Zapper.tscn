@@ -6,7 +6,7 @@
 
 [node name="Zapper" instance=ExtResource("1_ekt2s")]
 motion_mode = 1
-WalkSpeed = 15.0
+WalkSpeed = 10.0
 MinWaitTime = 2.0
 MaxWaitTime = 5.0
 KnockbackWeight = 8.0

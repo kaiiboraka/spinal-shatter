@@ -323,20 +323,20 @@ _spawnInterval = 16.0
 _enemiesPerSpawn = 2
 
 [node name="ScrapperEnemySpawner2" parent="West/West_Room" instance=ExtResource("12_68nw1")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -37.127453, 0.741472, 28.897346)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.127453, 0.741472, 28.897346)
 _enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h")])
 _maxActiveEnemies = 12
 _spawnInterval = 5.0
 _enemiesPerSpawn = 2
 
 [node name="ScroungerEnemySpawner3" parent="West/West_Room" instance=ExtResource("12_68nw1")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -84.61925, 0.52, 35.205296)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.61925, 0.52, 35.205296)
 _enemyScenes = Array[PackedScene]([ExtResource("6_2e4mj")])
 _maxActiveEnemies = 6
 _spawnInterval = 14.0
 
 [node name="ScroungerEnemySpawner4" parent="West/West_Room" instance=ExtResource("12_68nw1")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 23.317822, 0.52, 35.205307)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.317822, 0.52, 35.205307)
 _enemyScenes = Array[PackedScene]([ExtResource("6_2e4mj")])
 _maxActiveEnemies = 6
 _spawnInterval = 16.0

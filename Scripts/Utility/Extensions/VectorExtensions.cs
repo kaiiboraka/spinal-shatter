@@ -76,6 +76,11 @@ public static class VectorExtensions
 		return new Vector3(v.X, 0, v.Z);
 	}
 
+	public static Vector3 RandomRange(this Vector3 v, float radius)
+	{
+		return new Vector3((float)GD.RandRange(-radius, radius), (float)GD.RandRange(-radius, radius), (float)GD.RandRange(-radius, radius));
+	}
+
 	#region Vector Rounders
 
 

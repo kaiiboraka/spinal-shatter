@@ -78,7 +78,7 @@ public partial class ManaParticleManager : Node
         if (particle == null) return null; // Pool is full
 
         // Add a random offset to the spawn position
-        Vector3 offset = new Vector3((float)GD.RandRange(-0.5, 0.5), (float)GD.RandRange(0, 0.5), (float)GD.RandRange(-0.5, 0.5));
+        Vector3 offset = new Vector3().RandomRange(.5f) + Vector3.Up;
         particle.GlobalPosition = position + offset;
         particle.Initialize(data);
         return particle;

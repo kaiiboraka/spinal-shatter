@@ -83,7 +83,8 @@ public partial class EnemySpawner : Node3D
                 if (newEnemyNode is Enemy newEnemy)
                 {
                     newEnemy.OwningPool = pool;
-                    newEnemy.GlobalPosition = this.GlobalPosition;
+                    var pos= GlobalPosition;
+                    newEnemy.GlobalPosition = pos + pos.RandomRange(1) + Vector3.Up;
                     newEnemy.EnemyDied += OnEnemyDied;
                     _activeEnemyCount++;
                 }

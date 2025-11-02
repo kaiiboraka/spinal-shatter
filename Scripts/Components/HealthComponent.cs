@@ -37,10 +37,13 @@ public partial class HealthComponent : Node
         CurrentHealth = MaxHealth;
     }
 
-    public void TakeDamage(float amount, Vector3 sourcePosition)
+    public float TakeDamage(float amount, Vector3 sourcePosition)
     {
+        float previousHealth = CurrentHealth;
         CurrentHealth -= amount;
-        EmitSignal(SignalName.Hurt, sourcePosition, amount);
+        float actualDamageDealt = previousHealth - CurrentHealth; // Calculate actual damage dealt
+        EmitSignal(SignalName.Hurt, sourcePosition, actualDamageDealt);
+        return actualDamageDealt;
     }
 
     public void Heal(float amount)

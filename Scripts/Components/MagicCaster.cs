@@ -179,16 +179,17 @@ public partial class MagicCaster : Node
 
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{
+			Caster = PlayerBody.Instance,
 			Damage = damage,
 			ManaCost = manaCost,
+			InitialVelocity = initialVelocity,
 			ChargeRatio = chargeRatio,
 			DamageGrowthConstant = damageGrowthConstant,
-			AbsoluteMaxProjectileSpeed = absoluteMaxProjectileSpeed
+			AbsoluteMaxProjectileSpeed = _maxSpeed,
+			MaxInitialManaCost = _maxManaCost
 		};
 
-		// Play sounds and launch
-		PlaySoundEffects();
-		_chargingProjectile.Launch(PlayerBody.Instance, initialVelocity, launchData);
+			_chargingProjectile.Launch(launchData);
 
 		ResetChargeState();
 	}

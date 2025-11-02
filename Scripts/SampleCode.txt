@@ -1,0 +1,424 @@
+/* magic caster old
+
+using Godot;
+using Godot.Collections;
+using System;
+using System.Linq;
+
+public partial class MagicCaster : Node
+{
+    [Export] private PackedScene _projectileScene;
+    [Export] private Node3D _spellOrigin;
+    [Export] private ManaComponent _manaComponent;
+
+    [ExportSubgroup("Audio", "_audio")]
+    [Export] private AudioStreamPlayer3D _audioPlayer_Spell;
+    [Export] private AudioStreamPlayer3D _audioPlayer_Charge;
+    [Export] private AudioStream _audio_Charge;
+    [Export] private AudioStream _audio_Cast;
+
+    [ExportGroup("Charging")]
+    [Export] private float _maxChargeTime = 2.0f;
+    [Export(PropertyHint.Range, "1,100,1")] private float _minManaCost = 1.0f;
+    [Export(PropertyHint.Range, "1,200,1")] private float _maxManaCost = 50.0f;
+    [Export(PropertyHint.Range, "1,16,1")] private int _chargeIntervals = 8;
+
+    /// <summary>
+    /// Damage multiplier per mana point for each charge interval.
+    /// Size should be ChargeIntervals + 1 (for 0-charge and each interval).
+    /// </summary>
+    private Array<float> DamageMultipliers => new(Enumerable.Range(0, _chargeIntervals + 1)
+                                                            .Select(i =>
+                                                                 Mathf.Pow(4,
+                                                                     (i * _maxChargeTime / _chargeIntervals)))
+                                                            .ToArray());
+
+    [Export] private float _minSpeed = 20f;
+    [Export] private float _maxSpeed = 40f;
+
+    private float _currentChargeTime = 0f;
+    private Projectile _chargingProjectile = null;
+    private bool _isCharging = false;
+    private int _lastInterval = -1;
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Player_Shoot"))
+        {
+            _isCharging = true;
+            StartCharge();
+        }
+        else if (@event.IsActionReleased("Player_Shoot"))
+        {
+            _isCharging = false;
+            ReleaseCharge();
+        }
+        SetProcess(_isCharging);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (_isCharging)
+        {
+            ContinueCharge((float)delta);
+        }
+    }
+
+    private void StartCharge()
+    {
+        if (_chargingProjectile != null || _projectileScene == null || _manaComponent.CurrentMana < _minManaCost)
+        {
+            return;
+        }
+
+        _currentChargeTime = 0f;
+        _lastInterval = -1;
+        _chargingProjectile = _projectileScene.Instantiate<Projectile>();
+        _chargingProjectile.BeginCharge(_spellOrigin);
+
+        // Set initial visuals for charge level 0 to prevent invisible quick-casts
+        float chargeRatio = 0;
+        float size = Mathf.Lerp(0.1f, 1.2f, chargeRatio);
+        _chargingProjectile.UpdateChargeVisuals(size);
+
+        _audioPlayer_Charge.Play();
+    }
+
+    private void ContinueCharge(float delta)
+    {
+        if (_chargingProjectile == null) return;
+
+        // 1. Calculate max possible charge time based on current mana
+        float manaPerInterval = _chargeIntervals > 0 ? _maxManaCost / _chargeIntervals : 0;
+        int maxIntervalsByMana = 0;
+        if (manaPerInterval > 0)
+        {
+            maxIntervalsByMana = Mathf.FloorToInt(_manaComponent.CurrentMana / manaPerInterval);
+        }
+        float intervalDuration = _maxChargeTime > 0 ? _maxChargeTime / _chargeIntervals : 0;
+        float maxChargeTimeByMana = intervalDuration > 0 ? maxIntervalsByMana * intervalDuration : 0;
+
+        // 2. Increment charge time, clamping by various limits
+        _currentChargeTime += delta;
+        _currentChargeTime = Mathf.Min(_currentChargeTime, _maxChargeTime);
+        _currentChargeTime = Mathf.Min(_currentChargeTime, maxChargeTimeByMana); // Always clamp by mana, even if max charge time by mana is zero.
+
+        // 3. Determine current charge interval
+        int currentInterval = 0;
+        if (intervalDuration > 0)
+        {
+            currentInterval = Mathf.FloorToInt(_currentChargeTime / intervalDuration);
+        }
+        currentInterval = Mathf.Clamp(currentInterval, 0, _chargeIntervals);
+
+        // 4. Update visuals and audio only when the interval changes
+        if (currentInterval != _lastInterval)
+        {
+            _lastInterval = currentInterval;
+            float chargeRatio = _chargeIntervals > 0 ? (float)currentInterval / _chargeIntervals : 0;
+
+            float size = Mathf.Lerp(0.1f, 1.2f, chargeRatio);
+            _audioPlayer_Spell.PitchScale = size * 4 / 6f;
+            _audioPlayer_Spell.Stream = _audio_Charge;
+            if (!_audioPlayer_Spell.IsPlaying()) _audioPlayer_Spell.Play();
+            _chargingProjectile.UpdateChargeVisuals(size);
+        }
+    }
+
+    private void ReleaseCharge()
+    {
+        if (_chargingProjectile == null) return;
+
+        float intervalDuration = _maxChargeTime > 0 ? _maxChargeTime / _chargeIntervals : 0;
+
+        if (intervalDuration == 0 || _currentChargeTime < intervalDuration)
+        {
+            HandleQuickShot();
+        }
+        else
+        {
+            HandleChargedShot(intervalDuration);
+        }
+    }
+
+    private void HandleQuickShot()
+    {
+        float manaCost = _minManaCost;
+
+        if (!_manaComponent.HasEnoughMana(manaCost))
+        {
+            _chargingProjectile.QueueFree();
+            ResetChargeState();
+            return;
+        }
+
+        _manaComponent.ConsumeMana(manaCost);
+
+        float damageMultiplier = (DamageMultipliers != null && DamageMultipliers.Count > 0) ? DamageMultipliers[0] : 1.0f;
+        float damage = Mathf.Max(1.0f, manaCost * damageMultiplier);
+        float speed = _minSpeed;
+        Vector3 initialVelocity = CalculateInitialVelocity(speed);
+
+        // Play sounds and launch
+        PlaySoundEffects();
+        _chargingProjectile.Launch(PlayerBody.Instance.Owner, damage, manaCost, initialVelocity);
+
+        ResetChargeState();
+    }
+
+    private void HandleChargedShot(float intervalDuration)
+    {
+        int intervalsCharged = Mathf.FloorToInt(_currentChargeTime / intervalDuration);
+        intervalsCharged = Mathf.Clamp(intervalsCharged, 1, _chargeIntervals);
+
+        float manaPerInterval = _chargeIntervals > 0 ? _maxManaCost / _chargeIntervals : 0;
+        float manaCost = intervalsCharged * manaPerInterval;
+
+        if (!_manaComponent.HasEnoughMana(manaCost))
+        {
+            _chargingProjectile.QueueFree();
+            ResetChargeState();
+            return;
+        }
+
+        _manaComponent.ConsumeMana(manaCost);
+
+        float damageMultiplier = 1.0f;
+        if (DamageMultipliers != null && intervalsCharged < DamageMultipliers.Count)
+        {
+            damageMultiplier = DamageMultipliers[intervalsCharged];
+        }
+        float damage = Mathf.Max(1.0f, manaCost * damageMultiplier);
+
+        float chargeRatio = _chargeIntervals > 0 ? (float)intervalsCharged / _chargeIntervals : 0;
+        float speed = Mathf.Lerp(_minSpeed, _maxSpeed, chargeRatio);
+        Vector3 initialVelocity = CalculateInitialVelocity(speed);
+
+        // Play sounds and launch
+        PlaySoundEffects();
+        _chargingProjectile.Launch(PlayerBody.Instance.Owner, damage, manaCost, initialVelocity);
+
+        ResetChargeState();
+    }
+
+    private Vector3 CalculateInitialVelocity(float speed)
+    {
+        Vector3 projectileVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
+
+        if (GetOwner() is PlayerBody player)
+        {
+            Vector3 playerMomentum = player.Velocity.XZ();
+            return projectileVelocity + playerMomentum;
+        }
+
+        return projectileVelocity;
+    }
+
+    private void ResetChargeState()
+    {
+        _chargingProjectile = null;
+        _currentChargeTime = 0f;
+        _lastInterval = -1;
+        _audioPlayer_Charge.Stop();
+        _audioPlayer_Spell.Stop();
+    }
+
+    private void PlaySoundEffects()
+    {
+        _audioPlayer_Spell.PitchScale = 1;
+        _audioPlayer_Spell.Stream = _audio_Cast;
+        _audioPlayer_Spell.Play();
+
+        _chargingProjectile.AudioStreamPlayer3D.PitchScale = .55f;
+        _chargingProjectile.AudioStreamPlayer3D.Play();
+    }
+}
+
+end magic caster
+*/ 
+
+/* projectile old
+
+using Godot;
+using System;
+
+public partial class Projectile : RigidBody3D
+{
+	private enum ProjectileState
+	{
+		Charging,
+		Fired
+	}
+
+	[Export] private SpriteBase3D _sprite;
+	[Export] private CollisionShape3D _collisionShape;
+	[Export] public AudioStreamPlayer3D AudioStreamPlayer3D { get; private set; }
+	[Export] public AudioStream AudioStream_Fireball { get; private set; }
+	[Export] public AudioStream AudioStream_FireHit { get; private set; }
+
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float _minRefundPercent = 0.1f;
+
+	[Export(PropertyHint.Range, "0.0, 1.0")]
+	private float _maxRefundPercent = 0.25f;
+
+	[Export(PropertyHint.Range, "0.1, 100.0")]
+	private float _lifetime = 10f;
+
+	public Node3D LevelParent { get; set; }
+	public float Damage { get; private set; }
+	public float InitialManaCost { get; private set; }
+
+	private ProjectileState _state = ProjectileState.Charging;
+	private Timer _lifetimeTimer;
+	private float _bounceCooldown = 0;
+
+	[Export] private float initialDb = 46;
+
+	public override void _Ready()
+	{
+		if (_sprite == null) _sprite = GetNode<SpriteBase3D>("Sprite3D");
+		if (_collisionShape == null) _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
+
+		_lifetimeTimer = new Timer();
+		_lifetimeTimer.WaitTime = _lifetime;
+		_lifetimeTimer.OneShot = true;
+		_lifetimeTimer.Timeout += () => QueueFree();
+		AddChild(_lifetimeTimer);
+
+		// Disable physics until launched
+		this.Freeze = true;
+		_collisionShape.Disabled = true;
+
+		ContactMonitor = true;
+        MaxContactsReported = 4;
+	}
+
+	public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+        if (_bounceCooldown > 0)
+        {
+            _bounceCooldown -= (float)delta;
+        }
+    }
+
+	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+	{
+		if (_bounceCooldown > 0 || _state != ProjectileState.Fired)
+		{
+			return;
+		}
+
+		if (state.GetContactCount() > 0)
+		{
+			AudioStreamPlayer3D.PitchScale = 1f; // Reset pitch on any collision
+		}
+
+		for (int i = 0; i < state.GetContactCount(); i++)
+		{
+			Node collider = state.GetContactColliderObject(i) as Node;
+			if (collider != null)
+			{
+				if (!collider.IsInGroup("Enemies"))
+				{
+					// Wall bounce
+					Vector3 impactPoint = state.GetContactColliderPosition(i);
+					HandleWallBounce(impactPoint);
+					_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
+					return; // Handle one bounce per frame
+				}
+				else
+				{
+					// Enemy hit
+					AudioStreamPlayer3D.VolumeDb = initialDb;
+					AudioStreamPlayer3D.Stream = AudioStream_FireHit;
+					AudioStreamPlayer3D.Play();
+					// The projectile will be destroyed by the enemy's hurtbox logic.
+					return;
+				}
+			}
+		}
+	}
+
+	public void BeginCharge(Node3D parent)
+	{
+		parent.AddChild(this);
+		initialDb = AudioStreamPlayer3D.VolumeDb;
+		this.Position = Vector3.Zero;
+		UpdateChargeVisuals(0.1f); // Start at 10% size
+	}
+
+	public void UpdateChargeVisuals(float size)
+	{
+		if (_state != ProjectileState.Charging) return;
+
+		if (_sprite != null)
+		{
+			_sprite.Scale = Vector3.One * size;
+		}
+
+		if (_collisionShape != null && _collisionShape.Shape is SphereShape3D sphere)
+		{
+			// Ensure the collision shape doesn't get too small
+			sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
+		}
+	}
+
+	public void Launch(Node owner, float damage, float initialManaCost, Vector3 initialVelocity)
+	{
+		if (_state != ProjectileState.Charging) return;
+
+		_state = ProjectileState.Fired;
+		this.Damage = damage;
+		this.InitialManaCost = initialManaCost;
+		Reparent(owner);
+		this.Owner = owner;
+
+		// Enable physics and launch
+		this.Freeze = false;
+		_collisionShape.Disabled = false;
+		this.LinearVelocity = initialVelocity;
+		this.Mass = _sprite.Scale.X; // Set mass based on final size
+
+		_lifetimeTimer.Start();
+	}
+
+	private void HandleWallBounce(Vector3 impactPoint)
+	{
+		float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+		int manaToSpawn = Mathf.RoundToInt(InitialManaCost * refundPercent);
+
+		if (manaToSpawn > 0)
+		{
+			ManaParticleManager.Instance.SpawnMana(manaToSpawn, impactPoint);
+		}
+
+		// Reduce size and damage
+		this.Damage *= (1.0f - refundPercent);
+		_sprite.Scale *= (1.0f - refundPercent);
+		if (_collisionShape.Shape is SphereShape3D sphere)
+		{
+			sphere.Radius *= (1.0f - refundPercent);
+		}
+
+		this.Mass *= (1.0f - refundPercent);
+
+		AudioStreamPlayer3D.VolumeDb *= (1.0f - refundPercent);
+		AudioStreamPlayer3D.Stream = AudioStream_Fireball;
+		AudioStreamPlayer3D.Play();
+
+		// Destroy if too small
+		if (_sprite.Scale.X < 0.1f)
+		{
+			QueueFree();
+		}
+	}
+}
+
+*/

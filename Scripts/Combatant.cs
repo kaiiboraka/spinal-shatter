@@ -35,14 +35,16 @@ public partial class Combatant : CharacterBody3D
             // Don't get hurt by our own projectiles
             if (projectile.Owner == this) return;
 
-            TakeDamage(projectile.Damage, projectile.GlobalPosition);
-            projectile.HandleImpact(HealthComponent.CurrentHealth);
+            float actualDamageDealt = TakeDamage(projectile.Damage, projectile.GlobalPosition);
+            // Calculate mana lost based on actual damage dealt
+            float manaLostAmount = actualDamageDealt * (projectile.ManaCost / projectile.Damage);
+            projectile.ApplyManaLoss(manaLostAmount, projectile.GlobalPosition, true);
         }
     }
 
-    public virtual void TakeDamage(float amount, Vector3 sourcePosition)
+    public virtual float TakeDamage(float amount, Vector3 sourcePosition)
     {
-        HealthComponent.TakeDamage(amount, sourcePosition);
+        return HealthComponent.TakeDamage(amount, sourcePosition);
     }
 
     protected void ApplyKnockback(float damage, Vector3 direction)

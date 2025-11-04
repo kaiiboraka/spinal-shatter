@@ -428,14 +428,14 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_MiscFX.Stream = Audio_DieSFX;
 		AudioPlayer_MiscFX.Play();
 
-		AudioPlayer_MiscFX.Finished += () =>
-			{
-				// GetTree().CreateTimer(2f, true).Timeout += () =>
-				{
-					var levelLostMenu = _levelLostMenuScene.Instantiate();
-					controlRoot.AddChild(levelLostMenu);
-				};
-			};
+		// AudioPlayer_MiscFX.Finished += () =>
+		// 	{
+		// 		// GetTree().CreateTimer(2f, true).Timeout += () =>
+		// 		{
+		// 			var levelLostMenu = _levelLostMenuScene.Instantiate();
+		// 			controlRoot.AddChild(levelLostMenu);
+		// 		};
+		// 	};
 
 	}
 

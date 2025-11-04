@@ -25,6 +25,8 @@ public partial class Projectile : RigidBody3D
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
 
+	[Export] private bool IsFixed { get; set; }
+
 	public Node3D LevelParent { get; set; }
 	public float Damage { get; private set; }
 	public float ManaCost { get; private set; }
@@ -126,6 +128,8 @@ public partial class Projectile : RigidBody3D
 	{
 		float size = Mathf.Lerp(0.1f, 1.2f, Charge);
 
+		if (IsFixed) return;
+
 		// if (_state != ProjectileState.Charging) return;
 
 
@@ -143,11 +147,11 @@ public partial class Projectile : RigidBody3D
 		Mass = size;
 	}
 
-	public void Launch(Node owner, float damage, Vector3 initialVelocity)
+	public void Launch(Node3D caster, float damage, Vector3 initialVelocity)
 	{
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{
-			Caster = owner,
+			Caster = caster,
 			Damage = damage,
 			ManaCost = 1.0f, // Fixed-damage projectiles have a nominal mana cost of 1
 			InitialVelocity = initialVelocity,
@@ -282,7 +286,7 @@ public partial class Projectile : RigidBody3D
 
 	public void EjectMana(float amount)
 	{
-		DebugManager.Debug($"EM: Amount received: {amount}");
+		// DebugManager.Debug($"EM: Amount received: {amount}");
 
 		// float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
 		// DebugManager.Debug($"EM: RefundPercent: {refundPercent}");
@@ -291,22 +295,22 @@ public partial class Projectile : RigidBody3D
 
 		float manaToFloor = amount;
 		int manaToSpawn = manaToFloor.FloorToInt();
-		DebugManager.Debug($"EM: Mana to floor: {manaToFloor}, Mana to spawn (raw): {manaToSpawn}");
+		// DebugManager.Debug($"EM: Mana to floor: {manaToFloor}, Mana to spawn (raw): {manaToSpawn}");
 
 		if (manaToSpawn <= 0 && amount > 0)
 		{
 			manaToSpawn = 1; // Ensure at least 1 mana is spawned if there was a loss
-			DebugManager.Debug($"EM: Mana to spawn adjusted to 1 (was 0, amount > 0)");
+			// DebugManager.Debug($"EM: Mana to spawn adjusted to 1 (was 0, amount > 0)");
 		}
 
 		if (manaToSpawn > 0)
 		{
 			ManaParticleManager.Instance.SpawnMana(manaToSpawn, GlobalPosition);
-			DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
+			// DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
 		}
 		else
 		{
-			DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
+			// DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
 		}
 	}
 

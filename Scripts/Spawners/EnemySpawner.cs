@@ -12,6 +12,8 @@ public partial class EnemySpawner : Node3D
     [Export] private bool _spawnInRandomOrder = false;
     [Export] private bool _useGrabBag = false;
 
+    private LevelRoom _owningRoom;
+
     private Timer _spawnTimer;
     private int _spawnIndex = 0;
     private int _activeEnemyCount = 0;
@@ -21,6 +23,14 @@ public partial class EnemySpawner : Node3D
 
     public override void _Ready()
     {
+        _owningRoom = GetParent<LevelRoom>();
+        if (_owningRoom == null)
+        {
+            GD.PrintErr($"EnemySpawner '{Name}' is not a child of a LevelRoom. It will not function correctly.");
+            IsEnabled = false;
+            return;
+        }
+
         // Create a pool for each unique scene
         foreach (var scene in _enemyScenes)
         {
@@ -86,6 +96,7 @@ public partial class EnemySpawner : Node3D
                     var pos= GlobalPosition;
                     newEnemy.GlobalPosition = pos + pos.RandomRange(1) + Vector3.Up;
                     newEnemy.EnemyDied += OnEnemyDied;
+                    _owningRoom.RegisterEnemy(newEnemy);
                     _activeEnemyCount++;
                 }
                 else

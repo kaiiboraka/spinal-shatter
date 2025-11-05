@@ -621,6 +621,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.93833315, -0.10661903)
 [node name="MagicOrb" parent="SpellOrigin" instance=ExtResource("2_vypru")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 visible = false
+collision_layer = 0
+collision_mask = 0
 
 [node name="Hurtbox" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58596015, 0)

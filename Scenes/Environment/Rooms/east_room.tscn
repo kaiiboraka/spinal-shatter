@@ -15,15 +15,15 @@ size = Vector3(45, 20, 51)
 size = Vector3(77, 20, 58)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a4iyx"]
-size = Vector3(6.5, 5, 33)
+size = Vector3(6.5, 5, 25)
 
-[node name="East_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_otherRooms")]
+[node name="East_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_spawners")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.2, 0, 51)
 collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_ne2ld")
 _triggerVolume = NodePath("LevelRegion")
-_otherRooms = []
+_spawners = []
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
@@ -54,7 +54,7 @@ shape = SubResource("BoxShape3D_ne2ld")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -68.182556, 2.500002, 0.07772064)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -64.1826, 2.500002, 0.07772064)
 shape = SubResource("BoxShape3D_a4iyx")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 

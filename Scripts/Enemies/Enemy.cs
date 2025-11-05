@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+using System.Linq;
 using Elythia;
 using Godot;
 
 public partial class Enemy : Combatant
 {
+	public LevelRoom AssociatedRoom { get; set; }
+	private bool _isActive = true;
+
+	private List<CollisionShape3D> _collisionShapes = new();
 	private AIState _currentState = AIState.Idle;
 
 	[ExportGroup("Components")]
@@ -84,6 +89,18 @@ public partial class Enemy : Combatant
 	{
 		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
 
+		// Collect all collision shapes for activation/deactivation
+		_collisionShapes = GetChildren().OfType<CollisionShape3D>().ToList();
+		if (DetectionArea != null)
+		{
+			_collisionShapes.AddRange(DetectionArea.GetChildren().OfType<CollisionShape3D>());
+		}
+		if (Attack_meleeHitbox != null)
+		{
+			_collisionShapes.AddRange(Attack_meleeHitbox.GetChildren().OfType<CollisionShape3D>());
+		}
+
+
 		OverheadHealthBar ??= GetNode<OverheadHealthBar>("%HealthBar");
 		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
 
@@ -117,6 +134,8 @@ public partial class Enemy : Combatant
 
     public override void _PhysicsProcess(double delta)
     {
+		if (!_isActive) return;
+
         base._PhysicsProcess(delta); // Decays knockback
 
         if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
@@ -176,6 +195,8 @@ public partial class Enemy : Combatant
 
 	public override void _Process(double delta)
 	{
+		if (!_isActive) return;
+
 		base._Process(delta);
 		if (_player != null)
 		{
@@ -523,5 +544,41 @@ public partial class Enemy : Combatant
 	{
 		base.Reset();
 		// Add any enemy-specific reset logic here
+		Activate();
+	}
+
+	public void Deactivate()
+	{
+		if (!_isActive) return;
+
+		_isActive = false;
+		Visible = false;
+		SetProcess(false);
+		SetPhysicsProcess(false);
+		Velocity = Vector3.Zero;
+
+		foreach (var shape in _collisionShapes)
+		{
+			shape.Disabled = true;
+		}
+
+		_timerWalk?.Stop();
+		_timerAction?.Stop();
+		_timerAttackCooldown?.Stop();
+	}
+
+	public void Activate()
+	{
+		if (_isActive) return;
+
+		_isActive = true;
+		Visible = true;
+		SetProcess(true);
+		SetPhysicsProcess(true);
+
+		foreach (var shape in _collisionShapes)
+		{
+			shape.Disabled = false;
+		}
 	}
 }

@@ -12,9 +12,9 @@ public partial class Projectile : RigidBody3D
 
 	[Export] private SpriteBase3D _sprite;
 	[Export] private CollisionShape3D _collisionShape;
-	[Export] public AudioStreamPlayer3D AudioStreamPlayer3D { get; private set; }
 	[Export] public AudioStream AudioStream_Fireball { get; private set; }
 	[Export] public AudioStream AudioStream_FireHit { get; private set; }
+
 
 	[Export(PropertyHint.Range, "0.0, 1.0")]
 	private float _minRefundPercent = 0.5f;
@@ -41,7 +41,6 @@ public partial class Projectile : RigidBody3D
 	private float _bounceCooldown = 0;
 	private float _minManaThreshold = 1.0f;
 
-	[Export] private float initialDb = 46;
 
 
 	public override void _Ready()
@@ -73,6 +72,8 @@ public partial class Projectile : RigidBody3D
 	}
 
 	[Export] private float ManaLossPercentageOnEnemyHit = 0.1f;
+	[Export] private float EnemyManaRefundFraction = 0.25f;
+
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
@@ -81,10 +82,6 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
-		if (state.GetContactCount() > 0)
-		{
-			AudioStreamPlayer3D.PitchScale = 1f; // Reset pitch on any collision
-		}
 
 		for (int i = 0; i < state.GetContactCount(); i++)
 		{
@@ -105,7 +102,6 @@ public partial class Projectile : RigidBody3D
 	public void BeginCharge(Node3D parent)
 	{
 		parent.AddChild(this);
-		initialDb = AudioStreamPlayer3D.VolumeDb;
 		this.Position = Vector3.Zero;
 		Charge = 0;
 		UpdateChargeState(); // Start at 10% size
@@ -226,11 +222,30 @@ public partial class Projectile : RigidBody3D
 	public void OnEnemyHit(Vector3 impactPoint)
 	{
 		float manaLostAmount = ManaCost * ManaLossPercentageOnEnemyHit;
+		AudioManager.Instance.PlaySoundAtPosition(AudioStream_FireHit, impactPoint);
 		ApplyManaLoss(manaLostAmount, impactPoint, true);
+	}
 
-		AudioStreamPlayer3D.VolumeDb = initialDb;
-		AudioStreamPlayer3D.Stream = AudioStream_FireHit;
-		AudioStreamPlayer3D.Play();
+	private void HandleWallBounce(Vector3 impactPoint)
+	{
+		DebugManager.Instance.DEBUG.Info($"HWB: Wall Bounce! Current Mana: {ManaCost}");
+
+		// If DamageGrowthConstant is 0, this is a fixed-damage projectile (e.g., enemy projectile).
+		// It should not scale or eject mana, just expire.
+		if (DamageGrowthConstant.IsZero())
+		{
+			Expire();
+			return;
+		}
+
+		float reductionPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
+		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
+		float manaLostAmount = ManaCost * reductionPercent; // * velocityFactor;
+
+		AudioManager.Instance.PlaySoundAttachedToNode(AudioStream_Fireball, this, 1.0f - Charge);
+		ApplyManaLoss(manaLostAmount, impactPoint, false);
+
+		_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
 	}
 
 	public void Expire()
@@ -239,8 +254,6 @@ public partial class Projectile : RigidBody3D
 		EjectMana(ManaCost);
 		QueueFree();
 	}
-
-	[Export] private float EnemyManaRefundFraction = 0.25f;
 
 	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition, bool isEnemyHit)
 	{
@@ -276,10 +289,6 @@ public partial class Projectile : RigidBody3D
 		// Update visual state
 		UpdateChargeState();
 
-		// Play audio
-		AudioStreamPlayer3D.VolumeDb *= 1.0f - Charge;
-		AudioStreamPlayer3D.Stream = AudioStream_Fireball;
-		AudioStreamPlayer3D.Play();
 
 		// Destroy if too small
 		if (_sprite.Scale.X < 0.1f)
@@ -316,26 +325,5 @@ public partial class Projectile : RigidBody3D
 		{
 			// DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
 		}
-	}
-
-	private void HandleWallBounce(Vector3 impactPoint)
-	{
-		DebugManager.Instance.DEBUG.Info($"HWB: Wall Bounce! Current Mana: {ManaCost}");
-
-		// If DamageGrowthConstant is 0, this is a fixed-damage projectile (e.g., enemy projectile).
-		// It should not scale or eject mana, just expire.
-		if (DamageGrowthConstant.IsZero())
-		{
-			Expire();
-			return;
-		}
-
-		float reductionPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
-		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
-		float manaLostAmount = ManaCost * reductionPercent; // * velocityFactor;
-
-		ApplyManaLoss(manaLostAmount, impactPoint, false);
-
-		_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
 	}
 }

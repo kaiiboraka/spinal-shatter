@@ -7,7 +7,6 @@ public partial class ManaParticle : RigidBody3D
 
 	[Signal] public delegate void ReleasedEventHandler(ManaParticle particle);
 
-	[Export] private AudioStreamPlayer AudioPlayer_ManaPickups;
 
 	public enum ManaParticleState
 	{
@@ -88,24 +87,21 @@ public partial class ManaParticle : RigidBody3D
         // GD.Print($"{Time.GetTicksMsec()}: ManaParticle {Name} is being attracted. New state: {_state}");
     }
 
-    public void Collect()
-    {
-        // GD.Print($"{Time.GetTicksMsec()}: ManaParticle {Name} is being collected. Old state: {_state}");
-        _state = ManaParticleState.Collected;
-        StopMoving();
-        _blinkTween?.Kill();
-
-		AudioPlayer_ManaPickups.Stream = ManaParticleManager.Instance.ParticleData[Size].AudioStream;
-		AudioPlayer_ManaPickups.PitchScale = (float)(GD.RandRange(.95, 1.05) *
-													 ManaParticleManager.Instance.ParticleData[Size]
-																		.AudioPitch);
-		AudioPlayer_ManaPickups.Play();
-
-        EmitSignal(SignalName.Collected, this);
-        EmitSignal(SignalName.Released, this);
-        // GD.Print($"{Time.GetTicksMsec()}: ManaParticle {Name} is being collected. New state: {_state}");
-    }
-
+        public void Collect()
+        {
+            // GD.Print($"{Time.GetTicksMsec()}: ManaParticle {Name} is being collected. Old state: {_state}");
+            _state = ManaParticleState.Collected;
+            StopMoving();
+            _blinkTween?.Kill();
+    
+    		var audioStream = ManaParticleManager.Instance.ParticleData[Size].AudioStream;
+    		var pitch = (float)(GD.RandRange(.95, 1.05) * ManaParticleManager.Instance.ParticleData[Size].AudioPitch);
+    		AudioManager.Instance.PlaySoundAtPosition(audioStream, GlobalPosition, pitch);
+    
+            EmitSignal(SignalName.Collected, this);
+            EmitSignal(SignalName.Released, this);
+            // GD.Print($"{Time.GetTicksMsec()}: ManaParticle {Name} is being collected. New state: {_state}");
+        }
     // Called by the ManaParticleManager when a particle is spawned from the pool.
     public void Initialize(ManaParticleData data)
     {

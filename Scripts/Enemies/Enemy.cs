@@ -20,10 +20,9 @@ public partial class Enemy : Combatant
 	[Export] private StateSprite3d _stateVisual;
 
 	[ExportSubgroup("Audio", "AudioStream")]
-	[Export] public AudioStreamPlayer3D AudioPlayer_Die { get; private set; }
-
-	[Export] public AudioStreamPlayer3D AudioPlayer_Hurt { get; private set; }
-	[Export] public AudioStreamPlayer3D AudioPlayer_Cast { get; private set; }
+	[Export] public AudioStream AudioStream_Die { get; private set; }
+	[Export] public AudioStream AudioStream_Hurt { get; private set; }
+	[Export] public AudioStream AudioStream_Cast { get; private set; }
 
 	[ExportSubgroup("Timers", "_timer")]
 	[Export] private Timer _timerWalk;
@@ -196,7 +195,6 @@ public partial class Enemy : Combatant
 	public override void _Process(double delta)
 	{
 		if (!_isActive) return;
-
 		base._Process(delta);
 		if (_player != null)
 		{
@@ -535,6 +533,8 @@ public partial class Enemy : Combatant
 		EmitSignal(SignalName.EnemyDied, this);
 
 		ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
+
+		AudioManager.Instance.PlaySoundAtPosition(AudioStream_Die, GlobalPosition);
 
 		if (OwningPool != null)
 		{

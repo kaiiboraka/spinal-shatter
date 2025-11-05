@@ -33,7 +33,8 @@ AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/a
 SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
-RoomManager="*res://Scripts/Levels/RoomManager.cs"
+RoomManager="*res://Scripts/Autoloads/RoomManager.cs"
+AudioManager="*res://Scripts/Autoloads/AudioManager.cs"
 
 [display]
 

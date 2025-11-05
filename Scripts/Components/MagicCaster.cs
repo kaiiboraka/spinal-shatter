@@ -218,15 +218,6 @@ public partial class MagicCaster : Node
 		_audioPlayer_Spell.Stop();
 	}
 
-	private void PlaySoundEffects()
-	{
-		_audioPlayer_Spell.PitchScale = 1;
-		_audioPlayer_Spell.Stream = _audio_Cast;
-		_audioPlayer_Spell.Play();
-
-		_chargingProjectile.AudioStreamPlayer3D.PitchScale = .55f;
-		_chargingProjectile.AudioStreamPlayer3D.Play();
-	}
 }
 
 /* OLD PRE-REWORK MAGICCASTER.CS FOR COMPARISON

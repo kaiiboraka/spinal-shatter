@@ -1,12 +1,12 @@
-E 0:00:03:500   NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int): Can't add child 'MagicOrb' to 'RoomManager', already has a parent 'SpellOrigin'.
-  <C++ Error>   Condition "p_child->data.parent" is true.
-  <C++ Source>  scene/main/node.cpp:1685 @ add_child()
-  <Stack Trace> NativeCalls.cs:7676 @ void Godot.NativeCalls.godot_icall_3_864(nint, nint, nint, Godot.NativeInterop.godot_bool, int)
-                Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
-                Projectile.cs:181 @ void Projectile.Launch(ProjectileLaunchData)
-                MagicCaster.cs:191 @ void MagicCaster.HandleChargedShot(float)
-                MagicCaster.cs:144 @ void MagicCaster.ReleaseCharge()
-                MagicCaster.cs:63 @ void MagicCaster._Input(Godot.InputEvent)
-                Node.cs:2642 @ bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-                MagicCaster_ScriptMethods.generated.cs:128 @ bool MagicCaster.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-                CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+E 0:00:09:193   void System.ThrowHelper.ThrowObjectDisposedException(object): System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'Godot.AudioStreamPlayer3D'.
+  <C++ Error>   System.ObjectDisposedException
+  <C++ Source>  :0 @ void System.ThrowHelper.ThrowObjectDisposedException(object)
+  <Stack Trace> :0 @ void System.ThrowHelper.ThrowObjectDisposedException(object)
+				:0 @ void System.ObjectDisposedException.ThrowIf(bool, object)
+				GodotObject.base.cs:93 @ nint Godot.GodotObject.GetPtr(Godot.GodotObject)
+				AudioStreamPlayer3D.cs:420 @ void Godot.AudioStreamPlayer3D.SetStream(Godot.AudioStream)
+				AudioStreamPlayer3D.cs:64 @ void Godot.AudioStreamPlayer3D.set_Stream(Godot.AudioStream)
+				AudioManager.cs:53 @ void AudioManager+<>c__DisplayClass8_0.<PlaySoundAttachedToNode>b__0()
+				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)

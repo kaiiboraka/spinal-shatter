@@ -154,37 +154,13 @@ tracks/4/keys = {
 "update": 1,
 "values": [0, 1]
 }
-tracks/5/type = "value"
+tracks/5/type = "method"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:stream")
+tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("5_h7ptk")]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Cast_AudioStreamPlayer3D:playing")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0.0625),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "method"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0.0625),
 "transitions": PackedFloat32Array(1),
 "values": [{
@@ -320,30 +296,6 @@ tracks/4/keys = {
 "update": 1,
 "values": [0]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:stream")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("5_h7ptk")]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Cast_AudioStreamPlayer3D:playing")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_h7ptk"]
 resource_name = "Side"
@@ -419,7 +371,7 @@ _data = {
 &"Side": SubResource("Animation_h7ptk")
 }
 
-[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "AudioPlayer_Die", "AudioPlayer_Hurt", "AudioPlayer_Cast", "_timerWalk", "_timerAction", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox", "HealthComponent", "_hurtbox") groups=["Enemies"]]
+[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "_timerWalk", "_timerAction", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox", "HealthComponent", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -431,9 +383,9 @@ _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
-AudioPlayer_Die = NodePath("Die_AudioStreamPlayer3D")
-AudioPlayer_Hurt = NodePath("Hurt_AudioStreamPlayer3D")
-AudioPlayer_Cast = NodePath("Cast_AudioStreamPlayer3D")
+AudioStream_Die = ExtResource("3_h7ptk")
+AudioStream_Hurt = ExtResource("5_e1fve")
+AudioStream_Cast = ExtResource("5_h7ptk")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerAction = NodePath("Timers/ActionWaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
@@ -466,24 +418,6 @@ one_shot = true
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_3nwgj")
-
-[node name="Die_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1105374, 0)
-stream = ExtResource("3_h7ptk")
-max_distance = 30.0
-area_mask = 1677
-
-[node name="Hurt_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1105374, 0)
-stream = ExtResource("5_e1fve")
-max_distance = 30.0
-area_mask = 1677
-
-[node name="Cast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1105374, 0)
-stream = ExtResource("5_h7ptk")
-max_distance = 30.0
-area_mask = 1677
 
 [node name="HealthBar" parent="." instance=ExtResource("6_h7ptk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)

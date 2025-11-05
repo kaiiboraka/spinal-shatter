@@ -1,111 +1,131 @@
 using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
+using Elythia;
 
 public partial class LevelRoom : Node3D
 {
-    [Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
-    [Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
+	[Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
 
-    [Export] private Area3D _triggerVolume;
-    [Export] private Array<EnemySpawner> _spawners;
+	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
 
-    private readonly List<Enemy> _enemiesInRoom = new();
+	[Export] private Area3D _triggerVolume;
+	[Export] private Array<EnemySpawner> _spawners;
+	[Export] private bool alwaysShow = false;
 
-    public override void _Ready()
-    {
-        if (_triggerVolume != null)
-        {
-            _triggerVolume.BodyEntered += OnBodyEntered;
-            _triggerVolume.BodyExited += OnBodyExited;
-        }
+	public bool IsActive { get; private set; }
+	private readonly List<Enemy> _enemiesInRoom = new();
 
-        _spawners ??= new Array<EnemySpawner>();
-        foreach (var child in GetChildren())
-        {
-            if (child is EnemySpawner spawner)
-            {
-                _spawners.Add(spawner);
-            }
-        }
+	public override void _Ready()
+	{
+		if (_triggerVolume != null)
+		{
+			_triggerVolume.BodyEntered += OnBodyEntered;
+			_triggerVolume.BodyExited += OnBodyExited;
+		}
 
-        // Find any enemies that are pre-placed in the room in the editor
-        FindEnemiesRecursively(this);
-    }
+		_spawners ??= new Array<EnemySpawner>();
+		foreach (var child in GetChildren())
+		{
+			if (child is EnemySpawner spawner)
+			{
+				_spawners.Add(spawner);
+			}
+		}
 
-    private void FindEnemiesRecursively(Node node)
-    {
-        foreach (var child in node.GetChildren())
-        {
-            if (child is Enemy enemy)
-            {
-                RegisterEnemy(enemy);
-            }
-            else
-            {
-                FindEnemiesRecursively(child);
-            }
-        }
-    }
+		// Find any enemies that are pre-placed in the room in the editor
+		FindEnemiesRecursively(this);
+	}
 
-    public void RegisterEnemy(Enemy enemy)
-    {
-        if (_enemiesInRoom.Contains(enemy)) return;
-        _enemiesInRoom.Add(enemy);
-        enemy.AssociatedRoom = this;
-    }
+	private void FindEnemiesRecursively(Node node)
+	{
+		foreach (var child in node.GetChildren())
+		{
+			if (child is Enemy enemy)
+			{
+				RegisterEnemy(enemy);
+			}
+			else
+			{
+				FindEnemiesRecursively(child);
+			}
+		}
+	}
 
-    public void UnregisterEnemy(Enemy enemy)
-    {
-        _enemiesInRoom.Remove(enemy);
-    }
+	public void RegisterEnemy(Enemy enemy)
+	{
+		if (_enemiesInRoom.Contains(enemy)) return;
+		_enemiesInRoom.Add(enemy);
+		enemy.AssociatedRoom = this;
+	}
 
-    private void OnBodyEntered(Node3D body)
-    {
-        if (body is PlayerBody)
-        {
-            EmitSignal(SignalName.PlayerEntered, this);
-        }
-        else if (body is Enemy enemy && enemy.AssociatedRoom != this)
-        { 
-            enemy.AssociatedRoom?.UnregisterEnemy(enemy);
-            RegisterEnemy(enemy);
-        }
-    }
+	public void UnregisterEnemy(Enemy enemy)
+	{
+		_enemiesInRoom.Remove(enemy);
+	}
 
-        private void OnBodyExited(Node3D body)
-        {
-            if (body is PlayerBody)
-            {
-                EmitSignal(SignalName.PlayerExited, this);
-            }
-        }
-    
-        public void Activate()
-        {
-            Visible = true;
-            foreach (var enemySpawner in _spawners)
-            {
-                enemySpawner.IsEnabled = true;
-            }
-    
-            foreach (var enemy in _enemiesInRoom)
-            {
-                enemy.Activate();
-            }
-        }
-    
-        public void Deactivate()
-        {
-            Visible = false;
-            foreach (var enemySpawner in _spawners)
-            {
-                enemySpawner.IsEnabled = false;
-            }
-    
-            foreach (var enemy in _enemiesInRoom)
-            {
-                enemy.Deactivate();
-            }
-        }
-    }
+	private void OnBodyEntered(Node3D body)
+	{
+		DebugManager.Trace($"{body.Name} entered {this.Name}");
+		if (body is PlayerBody)
+		{
+			EmitSignalPlayerEntered(this);
+			Activate();
+		}
+		else if (body is Enemy enemy && enemy.AssociatedRoom != this)
+		{
+			enemy.AssociatedRoom?.UnregisterEnemy(enemy);
+			RegisterEnemy(enemy);
+		}
+	}
+
+	private void OnBodyExited(Node3D body)
+	{
+		DebugManager.Trace($"{body.Name} entered {this.Name}");
+		if (body is PlayerBody)
+		{
+			EmitSignalPlayerExited(this);
+			Deactivate();
+		}
+	}
+
+	public void ShowRoom()
+	{
+		Visible = true;
+	}
+
+	public void HideRoom()
+	{
+		Visible = alwaysShow;
+	}
+
+	public void Activate()
+	{
+		IsActive = true;
+		ShowRoom();
+		foreach (var enemySpawner in _spawners)
+		{
+			enemySpawner.IsEnabled = true;
+		}
+
+		foreach (var enemy in _enemiesInRoom)
+		{
+			enemy.Activate();
+		}
+	}
+
+	public void Deactivate()
+	{
+		IsActive = false;
+		if (!alwaysShow) HideRoom();
+		foreach (var enemySpawner in _spawners)
+		{
+			enemySpawner.IsEnabled = false;
+		}
+
+		foreach (var enemy in _enemiesInRoom)
+		{
+			enemy.Deactivate();
+		}
+	}
+}

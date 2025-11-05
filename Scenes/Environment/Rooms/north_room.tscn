@@ -21,15 +21,15 @@ size = Vector3(115, 20, 55.17344)
 size = Vector3(59.092712, 20, 57.58899)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6l7bu"]
-size = Vector3(6.5, 5, 33)
+size = Vector3(6.5, 5, 25)
 
-[node name="North_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_otherRooms")]
+[node name="North_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_spawners")]
 collision_layer = 516
 collision_mask = 42001
 physics_material_override = SubResource("PhysicsMaterial_hnwvy")
 script = ExtResource("1_g2g5o")
 _triggerVolume = NodePath("LevelRegion")
-_otherRooms = []
+_spawners = []
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_hnwvy")
@@ -62,7 +62,7 @@ shape = SubResource("BoxShape3D_xlqql")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
 [node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 16.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 12.5)
 shape = SubResource("BoxShape3D_6l7bu")
 
 [node name="Torches" type="Node3D" parent="."]

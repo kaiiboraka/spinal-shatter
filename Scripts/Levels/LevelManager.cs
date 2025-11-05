@@ -1,3 +1,4 @@
+using Elythia;
 using Godot;
 using Godot.Collections;
 
@@ -37,7 +38,7 @@ public partial class LevelManager : Node
     public void OnPlayerExitedRoomBoundary(LevelRoom exitedRoom)
     {
         _previousRoom = exitedRoom;
-        _currentRoom = null; // Player is in a hallway
+        // _currentRoom = null; // Player is in a hallway
         UpdateRoomStates();
     }
 
@@ -45,16 +46,14 @@ public partial class LevelManager : Node
     {
         foreach (var room in _rooms)
         {
-            // A room is active if it's the one the player is currently in,
-            // or the one they just came from.
-            bool shouldBeActive = (room == _currentRoom || room == _previousRoom);
-
-            if (shouldBeActive)
+            if (room == _currentRoom && !room.IsActive)
             {
+                DebugManager.Debug($"UpdateRoomStates.Activate: {room.Name}");
                 room.Activate();
             }
-            else
+            else if (room.IsActive)
             {
+                DebugManager.Debug($"UpdateRoomStates.Deactivate: {room.Name}");
                 room.Deactivate();
             }
         }

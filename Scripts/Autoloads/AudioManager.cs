@@ -5,7 +5,8 @@ public partial class AudioManager : Node
 {
     public static AudioManager Instance { get; private set; }
 
-    private List<AudioStreamPlayer3D> _pool = new List<AudioStreamPlayer3D>();
+    private List<AudioStreamPlayer3D> _stationaryPool = new List<AudioStreamPlayer3D>();
+    private List<AttachedAudioStreamPlayer3D> _attachedPool = new List<AttachedAudioStreamPlayer3D>();
     private int _poolSize = 10;
 
     public override void _Ready()
@@ -13,15 +14,19 @@ public partial class AudioManager : Node
         Instance = this;
         for (int i = 0; i < _poolSize; i++)
         {
-            var player = new AudioStreamPlayer3D();
-            AddChild(player);
-            _pool.Add(player);
+            var stationaryPlayer = new AudioStreamPlayer3D();
+            AddChild(stationaryPlayer);
+            _stationaryPool.Add(stationaryPlayer);
+
+            var attachedPlayer = new AttachedAudioStreamPlayer3D();
+            AddChild(attachedPlayer);
+            _attachedPool.Add(attachedPlayer);
         }
     }
 
     public void PlaySoundAtPosition(AudioStream sound, Vector3 position, float pitch = 1.0f, float volumeDb = 0.0f)
     {
-        AudioStreamPlayer3D player = GetAvailablePlayer();
+        AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
         player.Stream = sound;
         player.GlobalPosition = position;
         player.PitchScale = pitch;
@@ -35,34 +40,22 @@ public partial class AudioManager : Node
 
     public void PlaySoundAttachedToNode(AudioStream sound, Node3D targetNode, float pitch = 1.0f, float volumeDb = 0.0f)
     {
-        AudioStreamPlayer3D player = GetAvailablePlayer();
+        AttachedAudioStreamPlayer3D player = GetAvailableAttachedPlayer();
         player.Stream = sound;
         player.PitchScale = pitch;
         player.VolumeDb = volumeDb;
-
-        Node originalParent = player.GetParent();
-        originalParent.RemoveChild(player);
-        targetNode.AddChild(player);
-        player.Position = Vector3.Zero;
+        player.TargetNode = targetNode;
 
         player.Play();
 
         player.Finished += () => {
-            if (GodotObject.IsInstanceValid(player))
-            {
-                player.Stream = null;
-                if (player.GetParent() != null)
-                {
-                    player.GetParent().RemoveChild(player);
-                }
-                originalParent.AddChild(player);
-            }
+            player.TargetNode = null;
         };
     }
 
-    private AudioStreamPlayer3D GetAvailablePlayer()
+    private AudioStreamPlayer3D GetAvailableStationaryPlayer()
     {
-        foreach (var player in _pool)
+        foreach (var player in _stationaryPool)
         {
             if (!player.Playing)
             {
@@ -70,10 +63,25 @@ public partial class AudioManager : Node
             }
         }
 
-        // If no player is available, create a new one and add it to the pool.
         var newPlayer = new AudioStreamPlayer3D();
         AddChild(newPlayer);
-        _pool.Add(newPlayer);
+        _stationaryPool.Add(newPlayer);
+        return newPlayer;
+    }
+
+    private AttachedAudioStreamPlayer3D GetAvailableAttachedPlayer()
+    {
+        foreach (var player in _attachedPool)
+        {
+            if (!player.Playing)
+            {
+                return player;
+            }
+        }
+
+        var newPlayer = new AttachedAudioStreamPlayer3D();
+        AddChild(newPlayer);
+        _attachedPool.Add(newPlayer);
         return newPlayer;
     }
 }

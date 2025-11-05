@@ -397,6 +397,17 @@ public partial class Enemy : Combatant
 		{
 			ChangeState(AIState.Recovery);
 		}
+		else if (animName == "Die")
+		{
+			if (OwningPool != null)
+			{
+				OwningPool.Release(this);
+			}
+			else
+			{
+				QueueFree(); // Failsafe for enemies not spawned from a pool
+			}
+		}
 	}
 
 	private void Wander(ref Vector3 newVelocity)
@@ -534,16 +545,12 @@ public partial class Enemy : Combatant
 
 		ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
 
-		AudioManager.Instance.PlaySoundAtPosition(AudioStream_Die, GlobalPosition);
+		AudioManager.Instance.PlaySoundAtPosition(AudioPlayer_Die.Stream, GlobalPosition);
 
-		if (OwningPool != null)
-		{
-			OwningPool.Release(this);
-		}
-		else
-		{
-			QueueFree(); // Failsafe for enemies not spawned from a pool
-		}
+		// Disable collisions and visuals
+		Deactivate();
+
+		_animPlayer.Play("Die");
 	}
 
 	public override void Reset()

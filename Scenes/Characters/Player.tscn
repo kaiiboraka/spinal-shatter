@@ -125,12 +125,12 @@ script = ExtResource("7_u2vuf")
 unique_name_in_owner = true
 script = ExtResource("3_mana")
 
-[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("_spellOrigin", "_manaComponent", "_audioPlayer_Spell", "_audioPlayer_Charge")]
+[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("_manaComponent", "_spellOrigin", "_audioPlayer_Spell", "_audioPlayer_Charge")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
 _projectileScene = ExtResource("4_orb")
-_spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 _manaComponent = NodePath("../ManaComponent")
+_spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 _audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 _audioPlayer_Charge = NodePath("../Audio/SpellCharge_AudioStreamPlayer3D")
 _audio_Charge = ExtResource("8_w6cdd")

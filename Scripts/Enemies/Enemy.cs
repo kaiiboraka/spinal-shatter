@@ -274,10 +274,15 @@ public partial class Enemy : Combatant
 		if (ProjectileIsRanged)
 		{
 			var projectile = ProjectileScene.Instantiate<Projectile>();
-			GetTree().Root.AddChild(projectile);
-			projectile.GlobalPosition = ProjectileSpawnPoint.GlobalPosition;
 			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
-			projectile.Launch(this, AttackDamage, direction * ProjectileSpeed);
+			var launchData = new ProjectileLaunchData
+			{
+				Caster = this,
+				Damage = AttackDamage,
+				InitialVelocity = direction * ProjectileSpeed,
+				StartPosition = ProjectileSpawnPoint.GlobalPosition
+			};
+			projectile.Launch(launchData);
 		}
 		else //if (Attack_meleeHitbox != null)
 		{
@@ -501,6 +506,7 @@ public partial class Enemy : Combatant
 
 		if (body is Projectile projectile && projectile.Owner != this)
 		{
+			projectile.OnEnemyHit(projectile.GlobalPosition);
 			// Enemy-specific: Spawn mana particles as a refund
 			float refundPercent = (float)GD.RandRange(Mana_minRefundPercent, Mana_maxRefundPercent);
 			int manaToSpawn = Mathf.RoundToInt(projectile.ManaCost * refundPercent);

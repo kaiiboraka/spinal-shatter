@@ -1,14 +1,13 @@
 using Godot;
 using Godot.Collections;
-using System;
 using System.Linq;
 using Elythia;
 
 public partial class MagicCaster : Node
 {
 	[Export] private PackedScene _projectileScene;
-	[Export] private Node3D _spellOrigin;
 	[Export] private ManaComponent _manaComponent;
+	[Export] private Node3D _spellOrigin;
 
 	[ExportSubgroup("Audio", "_audio")]
 	[Export] private AudioStreamPlayer3D _audioPlayer_Spell;
@@ -40,6 +39,8 @@ public partial class MagicCaster : Node
 
 	[Export] private float _minSpeed = 20f;
 	[Export] private float _maxSpeed = 40f;
+
+	[Export] private bool usePlayerMomentum = false;
 
 	private float _currentChargeTime = 0f;
 	private Projectile _chargingProjectile = null;
@@ -163,7 +164,6 @@ public partial class MagicCaster : Node
 			return;
 		}
 
-		_manaComponent.ConsumeMana(manaCost);
 
 		float damageMultiplier = DamageMultipliers?[intervalsCharged] ?? 1.0f;
 		float damage = Mathf.Max(1.0f, manaCost * damageMultiplier);
@@ -186,11 +186,13 @@ public partial class MagicCaster : Node
 			ChargeRatio = chargeRatio,
 			DamageGrowthConstant = damageGrowthConstant,
 			AbsoluteMaxProjectileSpeed = _maxSpeed,
-			MaxInitialManaCost = _maxManaCost
+			MaxInitialManaCost = _maxManaCost,
+			StartPosition = _spellOrigin.GlobalPosition,
 		};
 
-			_chargingProjectile.Launch(launchData);
+		_chargingProjectile.Launch(launchData);
 
+		_manaComponent.ConsumeMana(manaCost);
 		ResetChargeState();
 	}
 
@@ -198,7 +200,7 @@ public partial class MagicCaster : Node
 	{
 		Vector3 projectileVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
 
-		if (GetOwner() is PlayerBody player)
+		if (usePlayerMomentum && GetOwner() is PlayerBody player)
 		{
 			Vector3 playerMomentum = player.Velocity.XZ();
 			return projectileVelocity + playerMomentum;

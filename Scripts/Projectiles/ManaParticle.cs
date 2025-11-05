@@ -125,11 +125,13 @@ public partial class ManaParticle : RigidBody3D
         if (_collisionShape is { Shape: SphereShape3D sphere })
         {
             sphere.Radius = data.CollisionShapeRadius;
+            _collisionShape.Disabled = false;
         }
 
         if (_areaShape is { Shape: SphereShape3D areaSphere })
         {
             areaSphere.Radius = data.AreaShapeRadius;
+            _areaShape.Disabled = false;
         }
 
         // Set initial state for a new life
@@ -212,6 +214,9 @@ public partial class ManaParticle : RigidBody3D
         ResetVisuals(null);
         StopMoving();
         _lifetimeTimer.Stop();
+
+        if (_collisionShape != null) _collisionShape.Disabled = true;
+        if (_areaShape != null) _areaShape.Disabled = true;
 
         // _blinkTween?.Kill();
         // _blinkTween = null;

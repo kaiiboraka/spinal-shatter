@@ -1,7 +1,6 @@
-[gd_scene load_steps=31 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=30 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
-[ext_resource type="Script" uid="uid://3ppasc8ug0hb" path="res://Scripts/Levels/LevelManager.cs" id="1_oghjx"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
 [ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1_orange.tscn" id="2_jwnvx"]
 [ext_resource type="PackedScene" uid="uid://0ngmpcu0p57w" path="res://Scenes/Environment/HubRoom.tscn" id="2_ubqhk"]
@@ -57,13 +56,11 @@ rough = true
 bounce = 0.01
 absorbent = true
 
-[node name="LevelRoot" type="Node3D" node_paths=PackedStringArray("_rooms")]
-script = ExtResource("1_oghjx")
-_rooms = [NodePath("North/North_Room"), NodePath("East/East_Room"), NodePath("South/South_Room"), NodePath("West/West_Room"), NodePath("CentralHub")]
+[node name="LevelRoot" type="Node3D"]
 
 [node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_lf5qn")
-volume_db = -27.5
+volume_db = -24.0
 pitch_scale = 1.1
 autoplay = true
 bus = &"Music"
@@ -71,10 +68,10 @@ bus = &"Music"
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kwiqg")
 
-[node name="CentralHub" parent="." node_paths=PackedStringArray("_spawners") instance=ExtResource("2_ubqhk")]
+[node name="CentralHub" parent="." instance=ExtResource("2_ubqhk")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 collision_layer = 516
-_spawners = []
+alwaysShow = false
 
 [node name="Torches" type="Node3D" parent="CentralHub"]
 transform = Transform3D(-0.27176, 0, 1.014222, 0, 1.05, 0, -1.014222, 0, -0.27176, 0, 0, 0)

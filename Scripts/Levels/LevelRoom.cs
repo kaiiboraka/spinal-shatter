@@ -35,6 +35,8 @@ public partial class LevelRoom : Node3D
 
 		// Find any enemies that are pre-placed in the room in the editor
 		FindEnemiesRecursively(this);
+
+		RoomManager.Instance.RegisterRoom(this);
 	}
 
 	private void FindEnemiesRecursively(Node node)
@@ -66,11 +68,11 @@ public partial class LevelRoom : Node3D
 
 	private void OnBodyEntered(Node3D body)
 	{
-		DebugManager.Trace($"{body.Name} entered {this.Name}");
+		//DebugManager.Trace($"{body.Name} entered {this.Name}");
 		if (body is PlayerBody)
 		{
-			EmitSignalPlayerEntered(this);
 			Activate();
+			EmitSignalPlayerEntered(this);
 		}
 		else if (body is Enemy enemy && enemy.AssociatedRoom != this)
 		{
@@ -81,7 +83,7 @@ public partial class LevelRoom : Node3D
 
 	private void OnBodyExited(Node3D body)
 	{
-		DebugManager.Trace($"{body.Name} entered {this.Name}");
+		//DebugManager.Trace($"{body.Name} entered {this.Name}");
 		if (body is PlayerBody)
 		{
 			EmitSignalPlayerExited(this);

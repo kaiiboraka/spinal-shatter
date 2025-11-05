@@ -98,19 +98,6 @@ public partial class Projectile : RigidBody3D
 					HandleWallBounce(impactPoint);
 					return; // Handle one bounce per frame
 				}
-				else
-				{
-					// Enemy hit
-					Vector3 impactPoint = state.GetContactColliderPosition(i);
-					float manaLostAmount = ManaCost * ManaLossPercentageOnEnemyHit;
-					ApplyManaLoss(manaLostAmount, impactPoint, true);
-
-					AudioStreamPlayer3D.VolumeDb = initialDb;
-					AudioStreamPlayer3D.Stream = AudioStream_FireHit;
-					AudioStreamPlayer3D.Play();
-
-					// Do NOT return here to allow piercing
-				}
 			}
 		}
 	}
@@ -176,8 +163,15 @@ public partial class Projectile : RigidBody3D
 		this.MaxInitialManaCost = data.MaxInitialManaCost;
 		UpdateChargeState();
 		ProjectileOwner = data.Caster;
-		Reparent(data.Caster.Owner);
-		Owner = data.Caster.Owner;
+		
+		// Ensure the projectile is removed from its current parent before adding to RoomManager
+		if (GetParent() != null)
+		{
+			GetParent().RemoveChild(this);
+		}
+		var parent = RoomManager.Instance;
+		parent.AddChild(this);
+		GlobalPosition = data.StartPosition;
 
 		// Enable physics and launch
 		this.Freeze = false;
@@ -227,6 +221,16 @@ public partial class Projectile : RigidBody3D
 		}
 
 		return w; // Return the result after max iterations
+	}
+
+	public void OnEnemyHit(Vector3 impactPoint)
+	{
+		float manaLostAmount = ManaCost * ManaLossPercentageOnEnemyHit;
+		ApplyManaLoss(manaLostAmount, impactPoint, true);
+
+		AudioStreamPlayer3D.VolumeDb = initialDb;
+		AudioStreamPlayer3D.Stream = AudioStream_FireHit;
+		AudioStreamPlayer3D.Play();
 	}
 
 	public void Expire()

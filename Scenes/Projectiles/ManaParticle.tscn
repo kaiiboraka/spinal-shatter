@@ -5,10 +5,12 @@
 [ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/magic_spark.ase" id="2_ulyup"]
 [ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="3_ts6fd"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_puym1"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_ulyup"]
+resource_local_to_scene = true
 radius = 0.1
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_ts6fd"]
+resource_local_to_scene = true
 radius = 0.2
 
 [node name="ManaParticle" type="RigidBody3D" node_paths=PackedStringArray("AudioPlayer_ManaPickups", "_lifetimeTimer", "_sprite", "_collisionShape", "_areaShape") groups=["ManaParticles"]]
@@ -47,14 +49,14 @@ autoplay = "default"
 frame_progress = 0.5780864
 
 [node name="BodyCollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_puym1")
+shape = SubResource("SphereShape3D_ulyup")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 65536
 collision_mask = 131072
 
 [node name="AreaCollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_1")
+shape = SubResource("SphereShape3D_ts6fd")
 debug_color = Color(0.82745004, 0.83317846, 1.92523e-06, 0.41960785)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]

@@ -11,8 +11,7 @@ public partial class Enemy : Combatant
 	private List<CollisionShape3D> _collisionShapes = new();
 	private AIState _currentState = AIState.Idle;
 
-	[ExportGroup("Components")]
-	[Export] private AnimationPlayer _animPlayer;
+	[ExportGroup("Components")] [Export] private AnimationPlayer _animPlayer;
 
 	[Export] private AnimatedSprite3D _animatedSprite;
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;
@@ -21,14 +20,13 @@ public partial class Enemy : Combatant
 
 	[Export] private EnemyAudioData AudioData;
 
-	[ExportSubgroup("Timers", "_timer")]
-	[Export] private Timer _timerWalk;
+	[ExportSubgroup("Timers", "_timer")] [Export]
+	private Timer _timerWalk;
 
 	[Export] private Timer _timerAction;
 	[Export] private Timer _timerAttackCooldown;
 
-	[ExportGroup("Patrol")]
-	[Export] public float RecoveryTime { get; set; } = 1.0f;
+	[ExportGroup("Patrol")] [Export] public float RecoveryTime { get; set; } = 1.0f;
 	[Export] public float ChaseRotationSpeed { get; set; } = 5.0f;
 
 	[Export] public float WalkSpeed { get; private set; } = 8.0f;
@@ -40,9 +38,12 @@ public partial class Enemy : Combatant
 
 	[ExportGroup("Combat")]
 	[ExportSubgroup("Money", "Money")]
-	[Export] public int MoneyAmountToDrop { get; private set; } = 10;
+	[Export]
+	public int MoneyAmountToDrop { get; private set; } = 10;
+
 	[ExportSubgroup("Mana", "Mana")]
-	[Export] public int ManaAmountToDrop { get; private set; } = 10;
+	[Export]
+	public int ManaAmountToDrop { get; private set; } = 10;
 
 	[Export(PropertyHint.Range, "0.0, 1.0")]
 	private float Mana_minRefundPercent = 0.05f;
@@ -50,13 +51,14 @@ public partial class Enemy : Combatant
 	[Export(PropertyHint.Range, "0.0, 1.0")]
 	private float Mana_maxRefundPercent = 0.30f;
 
-	[ExportSubgroup("Detection", "Detection")]
-	[Export] private Area3D DetectionArea;
+	[ExportSubgroup("Detection", "Detection")] [Export]
+	private Area3D DetectionArea;
 
 	[Export] private RayCast3D Detection_lineOfSight;
 
 	[ExportSubgroup("Attack", "Attack")]
-	[Export] private float AttackRange { get; set; } = 2.0f;
+	[Export]
+	private float AttackRange { get; set; } = 2.0f;
 
 	[Export] private float AttackCooldown { get; set; } = 1.5f;
 	[Export] public float AttackDamage { get; private set; } = 10f;
@@ -64,7 +66,8 @@ public partial class Enemy : Combatant
 	[Export] private Area3D Attack_meleeHitbox;
 
 	[ExportSubgroup("Projectiles", "Projectile")]
-	[Export(PropertyHint.GroupEnable, "")] public bool ProjectileIsRanged { get; private set; }
+	[Export(PropertyHint.GroupEnable, "")]
+	public bool ProjectileIsRanged { get; private set; }
 
 	[Export] private float ProjectileSpeed { get; set; } = 20.0f;
 	[Export] private PackedScene ProjectileScene;
@@ -93,6 +96,7 @@ public partial class Enemy : Combatant
 		{
 			_collisionShapes.AddRange(DetectionArea.GetChildren().OfType<CollisionShape3D>());
 		}
+
 		if (Attack_meleeHitbox != null)
 		{
 			_collisionShapes.AddRange(Attack_meleeHitbox.GetChildren().OfType<CollisionShape3D>());
@@ -130,66 +134,66 @@ public partial class Enemy : Combatant
 		ChangeState(AIState.Patrolling);
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
+	public override void _PhysicsProcess(double delta)
+	{
 		if (!_isActive) return;
 
-        base._PhysicsProcess(delta); // Decays knockback
+		base._PhysicsProcess(delta); // Decays knockback
 
-        if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
-        {
-            if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
-            {
-                _player = player;
-                ChangeState(AIState.Chasing);
-            }
-        }
+		if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
+		{
+			if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
+			{
+				_player = player;
+				ChangeState(AIState.Chasing);
+			}
+		}
 
-        Vector3 newVelocity = Velocity;
+		Vector3 newVelocity = Velocity;
 
-        // Add gravity.
-        if (!IsOnFloor())
-        {
-            newVelocity.Y -= _gravity * (float)delta;
-        }
-        else
-        {
-            switch (_currentState)
-            {
-                case AIState.Idle:
-                    ProcessIdle(delta);
-                    newVelocity = Vector3.Zero;
-                    break;
-                case AIState.Patrolling:
-                    ProcessPatrolling(ref newVelocity);
-                    break;
-                case AIState.Chasing:
-                    ProcessChasing(ref newVelocity, delta);
-                    break;
-                case AIState.Attacking:
-                    ProcessAttacking(ref newVelocity);
-                    break;
-                case AIState.Recovery:
-                    ProcessRecovery(ref newVelocity);
-                    break;
-            }
-        }
+		// Add gravity.
+		if (!IsOnFloor())
+		{
+			newVelocity.Y -= _gravity * (float)delta;
+		}
+		else
+		{
+			switch (_currentState)
+			{
+				case AIState.Idle:
+					ProcessIdle(delta);
+					newVelocity = Vector3.Zero;
+					break;
+				case AIState.Patrolling:
+					ProcessPatrolling(ref newVelocity);
+					break;
+				case AIState.Chasing:
+					ProcessChasing(ref newVelocity, delta);
+					break;
+				case AIState.Attacking:
+					ProcessAttacking(ref newVelocity);
+					break;
+				case AIState.Recovery:
+					ProcessRecovery(ref newVelocity);
+					break;
+			}
+		}
 
-        // Apply knockback
-        newVelocity += _knockbackVelocity;
+		// Apply knockback
+		newVelocity += _knockbackVelocity;
 
-        // Update sprite animation based on angle to player, if we have a target.
-        if (_player != null && _currentState != AIState.Attacking)
-        {
-            Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
-            Vector3 enemyForward = -GlobalTransform.Basis.Z;
-            float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
-            UpdateAnimation(angleToPlayer);
-        }
+		// Update sprite animation based on angle to player, if we have a target.
+		if (_player != null && _currentState != AIState.Attacking)
+		{
+			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
+			Vector3 enemyForward = -GlobalTransform.Basis.Z;
+			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
+			UpdateAnimation(angleToPlayer);
+		}
 
-        Velocity = newVelocity;
-        MoveAndSlide();
-    }
+		Velocity = newVelocity;
+		MoveAndSlide();
+	}
 
 	public override void _Process(double delta)
 	{
@@ -423,17 +427,17 @@ public partial class Enemy : Combatant
 	}
 
 	private void OnActionTimerTimeout()
-    {
-        if (_currentState == AIState.Patrolling)
-        {
-            Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
-            StartWalking();
-        }
-        else if (_currentState == AIState.Recovery)
-        {
-            ChangeState(AIState.Patrolling);
-        }
-    }
+	{
+		if (_currentState == AIState.Patrolling)
+		{
+			Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
+			StartWalking();
+		}
+		else if (_currentState == AIState.Recovery)
+		{
+			ChangeState(AIState.Patrolling);
+		}
+	}
 
 	private void StartWalking()
 	{
@@ -515,6 +519,7 @@ public partial class Enemy : Combatant
 		if (body is Projectile projectile && projectile.Owner != this)
 		{
 			projectile.OnEnemyHit(projectile.GlobalPosition);
+
 			// Enemy-specific: Spawn mana particles as a refund
 			float refundPercent = (float)GD.RandRange(Mana_minRefundPercent, Mana_maxRefundPercent);
 			int manaToSpawn = Mathf.RoundToInt(projectile.ManaCost * refundPercent);
@@ -540,21 +545,22 @@ public partial class Enemy : Combatant
 
 	public override void OnDied()
 	{
-		EmitSignal(SignalName.EnemyDied, this);
-
-		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop, this.GlobalPosition);
-
+		_animPlayer.Play("Die");
 		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 
-		// Disable collisions and visuals
-		Deactivate();
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop, this.GlobalPosition);
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop, this.GlobalPosition);
 
-		_animPlayer.Play("Die");
+		StopMoving();
+		StopTimers();
+		DisableCollisions();
+		EmitSignalEnemyDied(this);
 	}
 
 	public override void Reset()
 	{
 		base.Reset();
+
 		// Add any enemy-specific reset logic here
 		Activate();
 	}
@@ -562,18 +568,45 @@ public partial class Enemy : Combatant
 	public void Deactivate()
 	{
 		if (!_isActive) return;
-
 		_isActive = false;
+
+		HideVisuals();
+
+		StopProcessing();
+
+		StopMoving();
+
+		DisableCollisions();
+
+		StopTimers();
+	}
+
+	private void HideVisuals()
+	{
 		Visible = false;
+	}
+
+	private void StopProcessing()
+	{
 		SetProcess(false);
 		SetPhysicsProcess(false);
-		Velocity = Vector3.Zero;
+	}
 
+	private void StopMoving()
+	{
+		Velocity = Vector3.Zero;
+	}
+
+	private void DisableCollisions()
+	{
 		foreach (var shape in _collisionShapes)
 		{
 			shape.Disabled = true;
 		}
+	}
 
+	private void StopTimers()
+	{
 		_timerWalk?.Stop();
 		_timerAction?.Stop();
 		_timerAttackCooldown?.Stop();

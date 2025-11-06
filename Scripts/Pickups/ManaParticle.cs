@@ -4,19 +4,20 @@ using Godot;
 public partial class ManaParticle : Pickup
 {
     public SizeType SizeType { get; private set; }
-    private ManaParticleData _manaParticleData;
+    public override ManaParticleData Data => data as ManaParticleData;
 
-    public void Initialize(ManaParticleData data)
+    public override void Initialize(PickupData data)
     {
         base.Initialize(data);
-        SizeType = data.SizeType;
-        _manaParticleData = data;
+        this.data = data as ManaParticleData;
+        if (Data == null) return;
+        SizeType = Data.SizeType;
     }
 
     public override void Collect()
     {
-        var audioStream = _manaParticleData.AudioStream;
-        var pitch = (float)(GD.RandRange(.95, 1.05) * _manaParticleData.AudioPitch);
+        var audioStream = Data.AudioStream;
+        var pitch = (float)(GD.RandRange(.95, 1.05) * Data.AudioPitch);
         AudioManager.Instance.PlaySoundAtPosition(audioStream, GlobalPosition, pitch);
 
         base.Collect();

@@ -5,19 +5,16 @@ extends EditorInspectorPlugin
 var _editor_interface: EditorInterface
 
 func _can_handle(object: Object) -> bool:
-	return object is AnimatedSprite2D
+	return object is AnimatedSprite2D or object is AnimatedSprite3D
 
 func _parse_begin(object: Object):
-	if not (object is AnimatedSprite2D):
-		return
-
 	var button := Button.new()
 	button.text = "Auto-Key SpriteFrames Animation"
 	button.icon = preload("res://addons/AutoKey_SpriteFrames/icon.svg")
 	button.pressed.connect(_on_auto_keyframe_button_pressed.bind(object))
 	add_custom_control(button)
 
-func _on_auto_keyframe_button_pressed(animated_sprite: AnimatedSprite2D):
+func _on_auto_keyframe_button_pressed(animated_sprite: Node):
 	# --- 1. Get all necessary objects and data ---
 	if not is_instance_valid(animated_sprite):
 		push_error("AnimatedSprite2D instance is not valid.")

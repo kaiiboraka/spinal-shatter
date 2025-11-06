@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dlnm3x4j36fvu"]
 
-[ext_resource type="PhysicsMaterial" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_ou870"]
+[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_ou870"]
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_w5pg0"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="3_bucxx"]
 [ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="4_xddv2"]

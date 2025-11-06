@@ -4,11 +4,15 @@ using Godot;
 public partial class Money : Pickup
 {
     public MoneyType Type { get; private set; }
+    public override MoneyData Data => data as MoneyData;
 
-    public void Initialize(MoneyData data)
+    public override void Initialize(PickupData data)
     {
         base.Initialize(data);
-        Type = data.Type;
+        this.data = data as MoneyData;
+        if (Data == null) return;
+        Type = Data.MoneyType;
+        Sprite.Play();
     }
 
     public override void Collect()

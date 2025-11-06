@@ -1,15 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=21 format=3 uid="uid://dnmdbgy6un26g"]
 
-[ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_s0m4p"]
-[ext_resource type="Resource" uid="uid://cw63gshfvvofv" path="res://assets/Audio/AudioData/AudioData_Scrounger.tres" id="2_uhmmm"]
-[ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="2_vypru"]
-[ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/Enemies/enemies_small_scrounger.ase" id="3_0uo32"]
-[ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="3_health"]
-[ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/Enemies/enemies_small_scrounger_eye.ase" id="6_fhuh0"]
-[ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="6_vypru"]
-[ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_uhmmm"]
-[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="8_uhmmm"]
-[ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/Characters/Enemies/state_sprite_3d.tscn" id="8_vypru"]
+[ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_80mbd"]
+[ext_resource type="Resource" uid="uid://cw63gshfvvofv" path="res://assets/Audio/AudioData/AudioData_Scrounger.tres" id="2_n8h2i"]
+[ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="3_u2p2u"]
+[ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_b5b24"]
+[ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_kadss"]
+[ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="6_c2t5b"]
+[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/Characters/Enemies/health_bar.tscn" id="7_vu5fj"]
+[ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/Characters/Enemies/state_sprite_3d.tscn" id="8_j76ox"]
+[ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/Enemies/enemies_small_scrounger.ase" id="9_cj65v"]
+[ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/Enemies/enemies_small_scrounger_eye.ase" id="10_qkoog"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7338867
@@ -87,6 +87,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector3(-2.3841858e-07, 1.0177423, -0.21740839)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_3nwgj"]
 resource_name = "Front_Attack"
@@ -150,7 +162,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("6_vypru")]
+"values": [ExtResource("5_kadss")]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -226,6 +238,18 @@ tracks/10/keys = {
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(0.4, 0.4, 0.4), Vector3(1, 1, 1)]
 }
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_ltrpb"]
 resource_name = "Front_Idle"
@@ -291,6 +315,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector3(-2.3841858e-07, 1.0177423, -0.21740839)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_43jap"]
 length = 0.001
@@ -352,7 +388,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("6_vypru")]
+"values": [ExtResource("5_kadss")]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -413,6 +449,18 @@ tracks/9/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.4, 0.4, 0.4)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_fhuh0"]
@@ -479,10 +527,63 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector3(-2.3841858e-07, 1.1796955, 0.70508194)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_80mbd"]
+length = 0.50000834
+step = 0.083333336
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"Die"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.083333336, 0.16666667, 0.25, 0.33333334, 0.4166667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ltrpb"]
 _data = {
 &"Back": SubResource("Animation_gcvnd"),
+&"Die": SubResource("Animation_80mbd"),
 &"Front_Attack": SubResource("Animation_3nwgj"),
 &"Front_Idle": SubResource("Animation_ltrpb"),
 &"RESET": SubResource("Animation_43jap"),
@@ -495,13 +596,13 @@ collision_mask = 1677
 floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
-script = ExtResource("1_s0m4p")
+script = ExtResource("1_80mbd")
 _animPlayer = NodePath("AnimationPlayer")
 _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
-AudioData = ExtResource("2_uhmmm")
+AudioData = ExtResource("2_n8h2i")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerAction = NodePath("Timers/ActionWaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
@@ -509,21 +610,20 @@ RecoveryTime = 2.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
 MaxWaitTime = 4.0
-ManaToDrop = 35
 DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
 AttackRange = 50.0
 AttackCooldown = 2.5
 AttackDamage = 20.0
 ProjectileIsRanged = true
-ProjectileScene = ExtResource("2_vypru")
+ProjectileScene = ExtResource("3_u2p2u")
 ProjectileSpawnPoint = NodePath("SpellOrigin")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
 KnockbackWeight = 20.0
 
 [node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("3_health")
+script = ExtResource("4_b5b24")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -539,22 +639,22 @@ one_shot = true
 
 [node name="Cast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
-stream = ExtResource("6_vypru")
+stream = ExtResource("5_kadss")
 max_distance = 30.0
 bus = &"SFX"
 area_mask = 1677
 
 [node name="Charge_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
-stream = ExtResource("7_uhmmm")
+stream = ExtResource("6_c2t5b")
 max_distance = 30.0
 bus = &"SFX"
 area_mask = 1677
 
-[node name="HealthBar" parent="." instance=ExtResource("8_uhmmm")]
+[node name="HealthBar" parent="." instance=ExtResource("7_vu5fj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
 
-[node name="StateSprite3D" parent="." instance=ExtResource("8_vypru")]
+[node name="StateSprite3D" parent="." instance=ExtResource("8_j76ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
@@ -565,7 +665,7 @@ billboard = 2
 shaded = true
 double_sided = false
 texture_filter = 0
-sprite_frames = ExtResource("3_0uo32")
+sprite_frames = ExtResource("9_cj65v")
 animation = &"Front_Idle"
 autoplay = "Front_Idle"
 
@@ -589,7 +689,7 @@ billboard = 2
 double_sided = false
 texture_filter = 0
 render_priority = 2
-sprite_frames = ExtResource("6_fhuh0")
+sprite_frames = ExtResource("10_qkoog")
 animation = &"Front_Idle"
 autoplay = "Front_Idle"
 
@@ -601,7 +701,7 @@ shape = SubResource("CapsuleShape3D_0uo32")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.93833315, -0.10661903)
 
-[node name="MagicOrb" parent="SpellOrigin" instance=ExtResource("2_vypru")]
+[node name="MagicOrb" parent="SpellOrigin" instance=ExtResource("3_u2p2u")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 visible = false
 collision_layer = 0

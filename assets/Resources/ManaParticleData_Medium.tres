@@ -5,7 +5,6 @@
 
 [resource]
 script = ExtResource("1_aflkb")
-Size = 1
 Value = 3
 DriftSpeed = 1.0
 Lifetime = 13.0

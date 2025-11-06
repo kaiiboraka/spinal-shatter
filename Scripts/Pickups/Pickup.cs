@@ -30,6 +30,9 @@ public partial class Pickup : RigidBody3D
 	[Export] protected PickupState CurrentState = PickupState.Idle;
 	public PickupState State => CurrentState;
 
+	[Export] protected PickupData data;
+	public virtual  PickupData Data => data;
+
 	protected Vector3 Velocity = Vector3.Zero;
 	protected Node3D Target = null;
 
@@ -41,6 +44,12 @@ public partial class Pickup : RigidBody3D
 		LifetimeTimer.Timeout += OnLifetimeTimeout;
 	}
 
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		BlinkRoutine();
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
 		if (CurrentState == PickupState.Attracted && Target != null)
@@ -48,12 +57,6 @@ public partial class Pickup : RigidBody3D
 			Vector3 direction = (Target.GlobalPosition - GlobalPosition).Normalized();
 			Velocity = direction * AttractSpeed;
 		}
-	}
-
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
-		BlinkRoutine();
 	}
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
@@ -67,6 +70,7 @@ public partial class Pickup : RigidBody3D
 
 	public virtual void Initialize(PickupData data)
 	{
+		this.data  = data;
 		CurrentState = PickupState.Idle;
 		Visible = true;
 		Value = data.Value;

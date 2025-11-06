@@ -11,6 +11,7 @@ public partial class PickupManager : Node
     [Export] public Array<ManaParticleData> ManaPickupData { get; private set; } = new();
     [Export] public Array<MoneyData> MoneyPickupData { get; private set; } = new();
     [Export] private float _moneyBreakdownChance = 0.3f; // 30% chance to break down a coin
+    [Export] private float _moneyAmountRandomization = 0.15f; // +- 15% of total
     [Export] private Dictionary<PickupType, PackedScene> _pickupScenes = new(); // The scene for all pickups
 
     private ObjectPoolManager<Pickup> _pool;
@@ -45,29 +46,21 @@ public partial class PickupManager : Node
         _pool.Release(pickup);
     }
 
-    public Pickup SpawnPickup(PickupData data, Vector3 position)
-    {
-        _pool.Scene = _pickupScenes[data.PickupType];
-        Pickup pickup = _pool.Get();
-        if (pickup == null) return null; // Pool is full
-
-        // Add a random offset to the spawn position
-        Vector3 offset = new Vector3().RandomRange(.5f) + Vector3.Up;
-        pickup.GlobalPosition = position + offset;
-        pickup.Initialize(data);
-        return pickup;
-    }
-
     public Array<Pickup> SpawnPickupAmount(PickupType type, int totalAmount, Vector3 position)
     {
+        double newTotal = totalAmount * (1 + _moneyAmountRandomization); // 1.15 x 100 = 115
+        double range = (_moneyAmountRandomization * 2.0f);
+
+        newTotal -= (totalAmount * GD.RandRange(0, range)); // 100 * .2 = 20
         Array<Pickup> spawnedPickups = new Array<Pickup>();
+        int roundUpTotal = newTotal.CeilingToInt();
         switch (type)
         {
             case PickupType.Mana:
-                spawnedPickups = SpawnGreedy(ManaPickupData, totalAmount, position);
+                spawnedPickups = SpawnGreedy(ManaPickupData, roundUpTotal, position);
                 break;
             case PickupType.Money:
-                foreach (MoneyData moneyData in GenerateVariedMoneyDrop(totalAmount))
+                foreach (MoneyData moneyData in GenerateVariedMoneyDrop(roundUpTotal))
                 {
                     spawnedPickups.Add(SpawnPickup(moneyData, position));
                 }
@@ -104,6 +97,19 @@ public partial class PickupManager : Node
             }
         }
         return spawnedPickups;
+    }
+
+    private Pickup SpawnPickup(PickupData data, Vector3 position)
+    {
+        _pool.Scene = _pickupScenes[data.PickupType];
+        Pickup pickup = _pool.Get();
+        if (pickup == null) return null; // Pool is full
+
+        // Add a random offset to the spawn position
+        Vector3 offset = new Vector3().RandomRange(.5f) + Vector3.Up;
+        pickup.GlobalPosition = position + offset;
+        pickup.Initialize(data);
+        return pickup;
     }
 
     private Array<MoneyData> GenerateVariedMoneyDrop(int totalAmount)

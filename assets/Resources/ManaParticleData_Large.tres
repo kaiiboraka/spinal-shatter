@@ -5,7 +5,6 @@
 
 [resource]
 script = ExtResource("1_4fmbn")
-Size = 2
 Value = 12
 DriftSpeed = 0.8
 AttractSpeed = 12.0

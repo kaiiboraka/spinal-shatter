@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://3mci4bqbc8g6"]
 
-[ext_resource type="PhysicsMaterial" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_lkpyv"]
+[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_lkpyv"]
 [ext_resource type="Script" uid="uid://b3jsk6jtlrkc7" path="res://Scripts/Pickups/ManaParticle.cs" id="2_lkpyv"]
 [ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="3_ev4g8"]
 [ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Enemies/magic_spark.ase" id="4_8lofv"]
@@ -45,7 +45,7 @@ billboard = 1
 texture_filter = 0
 sprite_frames = ExtResource("4_8lofv")
 autoplay = "default"
-frame_progress = 0.13204311
+frame_progress = 0.45326
 
 [node name="BodyCollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_ulyup")

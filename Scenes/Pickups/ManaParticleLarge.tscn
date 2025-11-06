@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7hopu7o7rdrd"]
+
+[ext_resource type="PackedScene" uid="uid://3mci4bqbc8g6" path="res://Scenes/Pickups/ManaParticle.tscn" id="1_uesoq"]
+
+[node name="ManaParticle" instance=ExtResource("1_uesoq")]
+Size = 2
+_attractSpeed = 12.0
+Lifetime = 20.0
+
+[node name="AnimatedSprite3D" parent="." index="1"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+modulate = Color(1.186, 1.572, 0, 1)
+frame_progress = 0.6184592
+
+[node name="OmniLight3D" parent="." index="4"]
+light_color = Color(0.99215686, 0.49803922, 0, 1)

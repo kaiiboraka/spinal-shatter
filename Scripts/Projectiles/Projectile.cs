@@ -318,7 +318,7 @@ public partial class Projectile : RigidBody3D
 
 		if (manaToSpawn > 0)
 		{
-			ManaParticleManager.Instance.SpawnMana(manaToSpawn, GlobalPosition);
+			PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, GlobalPosition);
 			// DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
 		}
 		else

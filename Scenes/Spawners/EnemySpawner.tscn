@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://3qks0y7n1ats"]
 
 [ext_resource type="Script" uid="uid://di84l61pcnw7j" path="res://Scripts/Spawners/EnemySpawner.cs" id="1_spawner_script"]
-[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger.tscn" id="2_vxqah"]
-[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper.tscn" id="3_c7tgn"]
-[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper.tscn" id="4_xd55u"]
-[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper.tscn" id="5_ipidq"]
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger_Enemy_SmallGroundRanged.tscn" id="2_vxqah"]
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="3_c7tgn"]
+[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper_Enemy_SmallFlyingRanged.tscn" id="4_xd55u"]
+[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper_Enemy_SmallFlyingMelee.tscn" id="5_ipidq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xd55u"]
 transparency = 2

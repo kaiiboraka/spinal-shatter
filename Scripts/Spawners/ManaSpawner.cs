@@ -62,28 +62,28 @@ public partial class ManaSpawner : Node3D
             ? GD.RandRange(_minManaToSpawn, _maxManaToSpawn)
             : _maxManaToSpawn;
 
-        Array<ManaParticle> spawnedParticles = ManaParticleManager.Instance.SpawnMana(amountToSpawn, this.GlobalPosition);
+        Array<Pickup> spawnedPickups = PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, amountToSpawn, this.GlobalPosition);
 
-        foreach (var particle in spawnedParticles)
+        foreach (var pickup in spawnedPickups)
         {
-            if (particle == null) continue;
+            if (pickup == null) continue;
 
             if (_activeInstanceCount >= _maxActiveInstances)
             {
-                // Stop if we hit the cap mid-spawn and release the extra particle
-                ManaParticleManager.Instance.Release(particle);
+                // Stop if we hit the cap mid-spawn and release the extra pickup
+                PickupManager.Instance.Release(pickup);
                 continue;
             }
 
-            particle.Collected += OnManaCollected;
-            particle.DriftIdle();
+            pickup.Collected += OnPickupCollected;
+            pickup.DriftIdle();
             _activeInstanceCount++;
         }
     }
 
-    private void OnManaCollected(ManaParticle who)
+    private void OnPickupCollected(Pickup who)
     {
         _activeInstanceCount--;
-        who.Collected -= OnManaCollected;
+        who.Collected -= OnPickupCollected;
     }
 }

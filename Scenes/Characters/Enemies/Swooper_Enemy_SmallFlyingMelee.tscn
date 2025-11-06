@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddskdsst6e3hl"]
+
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="1_uw3m6"]
+[ext_resource type="Resource" uid="uid://dygy25aq3r1lw" path="res://assets/Audio/AudioData/AudioData_Swooper.tres" id="2_eyvvc"]
+[ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/Enemies/enemies_small_swooper.ase" id="3_qnpwa"]
+[ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/Enemies/enemies_small_swooper_eye.ase" id="4_hlt6g"]
+
+[node name="Swooper" instance=ExtResource("1_uw3m6")]
+motion_mode = 1
+AudioData = ExtResource("2_eyvvc")
+WalkSpeed = 12.0
+MinWalkTime = 1.0
+MinWaitTime = 1.0
+
+[node name="Body_AnimatedSprite3D" parent="." index="4"]
+sprite_frames = ExtResource("3_qnpwa")
+
+[node name="SpotLight3D" parent="Body_AnimatedSprite3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090061545, -0.01)
+
+[node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+sprite_frames = ExtResource("4_hlt6g")

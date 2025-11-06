@@ -49,6 +49,7 @@ public partial class PlayerBody : Combatant
 
 	private int curJumps = 0;
 	int maxJumps = 2;
+	private int _currentMoney = 0;
 
 	private Vector2 inputDir = Vector2.Zero;
 	private Vector3 direction = Vector3.Zero;
@@ -454,16 +455,30 @@ public partial class PlayerBody : Combatant
 			// GD.Print($"{Time.GetTicksMsec()}: PlayerBody: PickupArea entered by ManaParticle {particle.Name}");
 			PickupManaParticle(particle);
 		}
+		else if (area.GetOwner() is Money moneyPickup)
+		{
+			CollectMoneyPickup(moneyPickup);
+		}
 	}
 
 	private void PickupManaParticle(ManaParticle particle)
 	{
-		if (particle.State == ManaParticle.ManaParticleState.Collected) return; // Already collected
+		if (particle.State == Pickup.PickupState.Collected) return; // Already collected
 
-		_manaComponent.AddMana(particle.ManaValue);
+		_manaComponent.AddMana(particle.Value);
 		particle.Collect();
 
-		ManaParticleManager.Instance.Release(particle);
+		PickupManager.Instance.Release(particle);
+	}
+
+	private void CollectMoneyPickup(Money moneyParticle)
+	{
+		if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
+
+		_currentMoney += moneyParticle.Value;
+		moneyParticle.Collect();
+
+		PickupManager.Instance.Release(moneyParticle);
 	}
 
 	public void RefillMana()

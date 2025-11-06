@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyAudioData" load_steps=5 format=3 uid="uid://cw63gshfvvofv"]
+
+[ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="1_s8fc7"]
+[ext_resource type="AudioStream" uid="uid://rt8muaiwrhg2" path="res://assets/Audio/SFX/Skeleton Move.wav" id="2_7w6uc"]
+[ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="3_pnucv"]
+[ext_resource type="Script" uid="uid://bvg586is8exck" path="res://Scripts/Enemies/EnemyAudioData.cs" id="4_guq6h"]
+
+[resource]
+script = ExtResource("4_guq6h")
+DieSound = ExtResource("2_7w6uc")
+HurtSound = ExtResource("3_pnucv")
+AttackSound = ExtResource("1_s8fc7")
+metadata/_custom_type_script = "uid://bvg586is8exck"

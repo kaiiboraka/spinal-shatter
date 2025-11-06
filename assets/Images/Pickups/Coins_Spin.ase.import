@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://dp5b62k5d0jbb"
+path="res://.godot/imported/Coins_Spin.ase-d1d2571748329fbea0202cec49fe701a.res"
+
+[deps]
+
+source_file="res://assets/Images/Pickups/Coins_Spin.ase"
+dest_files=["res://.godot/imported/Coins_Spin.ase-d1d2571748329fbea0202cec49fe701a.res"]
+
+[params]
+

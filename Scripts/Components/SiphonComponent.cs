@@ -8,7 +8,7 @@ public partial class SiphonComponent : Node
 	[Export] private Node3D _target;
 	[Export] public AudioStreamPlayer3D AudioStreamPlayer_Siphon { get; private set; }
 
-	private HashSet<ManaParticle> _attractedParticles = new();
+	private HashSet<Pickup> _attractedPickups = new();
 
 	private bool _siphonPressed;
 
@@ -23,7 +23,6 @@ public partial class SiphonComponent : Node
 	{
 		if (@event.IsActionPressed("Player_Shoot"))
 		{
-
 		}
 		else if (@event.IsActionPressed("Player_Siphon"))
 		{
@@ -31,14 +30,14 @@ public partial class SiphonComponent : Node
 			_siphonField.Visible = true;
 			_siphonPressed = true;
 			while (!AudioStreamPlayer_Siphon.IsPlaying()) AudioStreamPlayer_Siphon.Play(1.54f);
-			AttractParticles();
+			AttractPickups();
 		}
 
 		if (@event.IsActionReleased("Player_Siphon"))
 		{
 			_siphonPressed = false;
 			_siphonField.Visible = false;
-			ReleaseAllParticles();
+			ReleaseAllPickups();
 			AudioStreamPlayer_Siphon.Stop();
 			_siphonField.Monitoring = false;
 		}
@@ -48,52 +47,53 @@ public partial class SiphonComponent : Node
 	{
 		if (_siphonPressed)
 		{
-			AttractParticles();
+			AttractPickups();
 		}
 		else
 		{
-			ReleaseAllParticles();
+			ReleaseAllPickups();
 		}
 	}
 
-	private void AttractParticles()
+	private void AttractPickups()
 	{
 		if (_siphonField == null) return;
 
 		foreach (var area in _siphonField.GetOverlappingAreas())
 		{
-			if (area.GetOwner() is ManaParticle particle)
+			if (area.GetOwner() is Pickup pickup)
 			{
-				// Attract the particle if it's not already being attracted
-				if (_attractedParticles.Add(particle) && particle.State != ManaParticle.ManaParticleState.Collected &&
-					particle.State != ManaParticle.ManaParticleState.Expired)
+				// Attract the pickup if it's not already being attracted
+				if (_attractedPickups.Add(pickup) &&
+					pickup.State != Pickup.PickupState.Collected &&
+					pickup.State != Pickup.PickupState.Expired)
 				{
-					// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Attracting particle {particle.Name}, current state: {particle.State}");
-					particle.Attract(_target);
-					particle.Released += OnParticleReleased;
+					// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Attracting pickup {pickup.Name}, current state: {pickup.State}");
+					pickup.Attract(_target);
+					pickup.Released += OnPickupReleased;
 				}
 			}
 		}
 	}
 
-	private void ReleaseAllParticles()
+	private void ReleaseAllPickups()
 	{
-		if (_attractedParticles.Count == 0) return;
+		if (_attractedPickups.Count == 0) return;
 
-		foreach (var particle in _attractedParticles)
+		foreach (var pickup in _attractedPickups)
 		{
-			if (IsInstanceValid(particle) && particle.State == ManaParticle.ManaParticleState.Attracted)
+			if (IsInstanceValid(pickup) && pickup.State == Pickup.PickupState.Attracted)
 			{
-				particle.DriftIdle();
+				pickup.DriftIdle();
 			}
 		}
 
-		_attractedParticles.Clear();
+		_attractedPickups.Clear();
 	}
 
-	private void OnParticleReleased(ManaParticle particle)
+	private void OnPickupReleased(Pickup pickup)
 	{
-		// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Removing particle {particle.Name} from attracted set.");
-		_attractedParticles.Remove(particle);
+		// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Removing pickup {pickup.Name} from attracted set.");
+		_attractedPickups.Remove(pickup);
 	}
 }

@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://5ou8wlwv5mf1"]
+
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger_Enemy_SmallGroundRanged.tscn" id="1_u3vh1"]
+[ext_resource type="Resource" uid="uid://bnev8vqtyy2h3" path="res://assets/Audio/AudioData/AudioData_Zapper.tres" id="2_f3tho"]
+[ext_resource type="SpriteFrames" uid="uid://cqr5851apyyhs" path="res://assets/Images/Enemies/enemies_small_zapper.ase" id="3_h832s"]
+[ext_resource type="SpriteFrames" uid="uid://fpsefbsgn0bo" path="res://assets/Images/Enemies/enemies_small_zapper_eye.ase" id="4_c1i5h"]
+
+[node name="Zapper" instance=ExtResource("1_u3vh1")]
+motion_mode = 1
+AudioData = ExtResource("2_f3tho")
+WalkSpeed = 10.0
+MinWaitTime = 2.0
+MaxWaitTime = 5.0
+KnockbackWeight = 8.0
+
+[node name="Body_AnimatedSprite3D" parent="." index="6"]
+sprite_frames = ExtResource("3_h832s")
+
+[node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+sprite_frames = ExtResource("4_c1i5h")

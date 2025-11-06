@@ -19,10 +19,7 @@ public partial class Enemy : Combatant
 	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
 	[Export] private StateSprite3d _stateVisual;
 
-	[ExportSubgroup("Audio", "AudioStream")]
-	[Export] public AudioStream AudioStream_Die { get; private set; }
-	[Export] public AudioStream AudioStream_Hurt { get; private set; }
-	[Export] public AudioStream AudioStream_Cast { get; private set; }
+	[Export] private EnemyAudioData AudioData;
 
 	[ExportSubgroup("Timers", "_timer")]
 	[Export] private Timer _timerWalk;
@@ -42,8 +39,10 @@ public partial class Enemy : Combatant
 	[Export] public float MaxWaitTime { get; private set; } = 5.0f;
 
 	[ExportGroup("Combat")]
+	[ExportSubgroup("Money", "Money")]
+	[Export] public int MoneyAmountToDrop { get; private set; } = 10;
 	[ExportSubgroup("Mana", "Mana")]
-	[Export] public int ManaToDrop { get; private set; } = 10;
+	[Export] public int ManaAmountToDrop { get; private set; } = 10;
 
 	[Export(PropertyHint.Range, "0.0, 1.0")]
 	private float Mana_minRefundPercent = 0.05f;
@@ -521,7 +520,7 @@ public partial class Enemy : Combatant
 			int manaToSpawn = Mathf.RoundToInt(projectile.ManaCost * refundPercent);
 			if (manaToSpawn > 0)
 			{
-				ManaParticleManager.Instance.SpawnMana(manaToSpawn, projectile.GlobalPosition);
+				PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, projectile.GlobalPosition);
 			}
 		}
 	}
@@ -543,9 +542,9 @@ public partial class Enemy : Combatant
 	{
 		EmitSignal(SignalName.EnemyDied, this);
 
-		ManaParticleManager.Instance.SpawnMana(ManaToDrop, this.GlobalPosition);
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop, this.GlobalPosition);
 
-		AudioManager.Instance.PlaySoundAtPosition(AudioPlayer_Die.Stream, GlobalPosition);
+		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 
 		// Disable collisions and visuals
 		Deactivate();

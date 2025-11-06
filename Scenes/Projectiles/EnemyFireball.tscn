@@ -1,14 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://dlnm3x4j36fvu"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://3bjci421vr1q" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_ou870"]
+[ext_resource type="PhysicsMaterial" path="res://Scenes/Projectiles/Bouncy_PhysicsMaterial.tres" id="1_ou870"]
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_w5pg0"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="3_bucxx"]
 [ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="4_xddv2"]
-[ext_resource type="SpriteFrames" uid="uid://cmdvtn2o3op81" path="res://assets/Images/enemy_fireball.ase" id="5_ou870"]
+[ext_resource type="SpriteFrames" uid="uid://cmdvtn2o3op81" path="res://assets/Images/Enemies/enemy_fireball.ase" id="5_ou870"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
-[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape", "AudioStreamPlayer3D")]
+[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("_sprite", "_collisionShape")]
 collision_layer = 49152
 collision_mask = 41612
 physics_material_override = ExtResource("1_ou870")
@@ -18,7 +18,6 @@ max_contacts_reported = 1
 script = ExtResource("2_w5pg0")
 _sprite = NodePath("Sprite3D")
 _collisionShape = NodePath("CollisionShape3D")
-AudioStreamPlayer3D = NodePath("Audio_Layer1")
 AudioStream_Fireball = ExtResource("3_bucxx")
 AudioStream_FireHit = ExtResource("4_xddv2")
 IsFixed = true

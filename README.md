@@ -1,4 +1,75 @@
 # Spinal Shatter
+
+## this game is most like...
+
+Vampire Survivors + Hades + Halo Firefight
+
+
+## objective
+
+Don't Die for as long as possible, trying to last until the end
+
+Lasting for number of waves instead of amount of time, but could have timed waves too
+set of waves in a room could end with a "boss"
+
+
+## game loop
+
+enter a room, kill some dudes, get paid, get out.
+
+finishing a room, come out, your hallway candle dark, 2 other random ones lit
+each has a reward associated with it, like Hades
+ensures variety of rooms played, not just picking your favorite every SINGLE time, because it could be the one missing
+
+
+### Reward Types
+
+- Abilities
+- Stats
+- Currency
+
+
+## Rewards - Abilities
+
+in this game the weapons / abilities are all spells.
+every spell changes how your attack works.
+
+charge orb: charge increases size, damage, mana cost
+slice wave: charge increases width, decreases damage
+energy stream: continuous steady damage in a cone in front of you
+force field: charge increases size, lowers damage, higher defense. lower charge is denser higher damage.
+and more
+
+
+## Rewards -- Stats
+
+max health
+max mana
+move speed
+defense
+money drop rate
+pickup radius
+jump count or height?
+
+
+## Rewards -- Currency
+
+Gold, darn it, gold!
+
+put a shop in the middle hub
+
+
+## The Shop
+
+Shop accessible in the central room
+randomizes stock every time a wave is completed
+2 permanent shop items: refill health/mana, maybe something else
+3-5 randomized items, with the option to freeze one between rounds so you can save for something you like
+
+
+
+# History and Original Design Pitch (semi-outdated)
+
 The Game Jam theme was spooky
 Because next week is Halloween
 Aaaaaaand all I could think of was this maniacal cackle: Spinal from the fighting game "Killer Instinct".

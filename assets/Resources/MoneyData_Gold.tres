@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MoneyData" load_steps=3 format=3 uid="uid://sg4eop8fbym6"]
+
+[ext_resource type="SpriteFrames" uid="uid://bmxj7tnywa4s4" path="res://assets/Images/Pickups/Bubble_Money_Gold.ase" id="1_6342e"]
+[ext_resource type="Script" uid="uid://b47npq5yf0ktu" path="res://Scripts/Resources/MoneyData.cs" id="2_hfspc"]
+
+[resource]
+script = ExtResource("2_hfspc")
+Type = 2
+PickupType = 1
+Value = 50
+Lifetime = 20.0
+SpriteFrames = ExtResource("1_6342e")
+CollisionShapeRadius = 0.14
+AreaShapeRadius = 0.2
+metadata/_custom_type_script = "uid://k0l10vg5lr3g"

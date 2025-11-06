@@ -1,95 +1,33 @@
-@ -1,93 +1,111 @@
-using Godot;
-using Godot.Collections;
+so the enemies should drop currency on death
+ I want multiple coin types worth different amounts such that from any given drop, i get a hearty variety of coins that appear. for instance, if I put down a large number, I still want to see a decent number of smaller-change pieces. I'm considering 4 coin types so far, whose colors are Bronze Silver Gold and a blue-ish color
+for instance I would give an enemy either a drop amount with a variability percent, or a min and max amount effectively pre-baking in the variability. then when it dies, it polls a random number from that data, and that's the value of how much currency should drop. I was considering 1 10 50 100, but I was worried that with enough inflation (which is its own problem, obvs), that I would start to get disproportionately high representation from the largest size
 
-public partial class LevelRoom : Node3D
-{
-	[Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
-	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
+With denominations of 1, 10, 50, and 100, a simple greedy change-making algorithm would indeed result in an overrepresentation of the largest coin, especially with inflation driving up drop values. To ensure a hearty variety of coins, even with large drops, you need to use an algorithm that actively promotes a mix of all coin types. 
 
-	[Export] private Area3D _triggerVolume;
-	[Export] private Array<Node3D> _otherRooms;
+## Recommended algorithm for variety
 
-	[Export] private Array<EnemySpawner> _spawners;
+Instead of relying on the standard "fewest coins" method, you can implement a randomized change-making algorithm that ensures small denominations are not ignored. This can be done by processing the currency amount piece by piece, with a chance to "break down" a higher-value coin into lower-value ones. 
 
-	public override void _Ready()
-	{
-		if (_triggerVolume != null)
-		{
-			_triggerVolume.BodyEntered += OnBodyEntered;
-			_triggerVolume.BodyExited += OnBodyExited;
-		}
+Here is a step-by-step example for a 124-value drop, using your proposed 1, 10, 50, and 100 coin denominations:
 
-		_spawners = new Array<EnemySpawner>();
-		foreach (var child in GetChildren())
-		{
-			if (child is EnemySpawner spawner)
-			{
-				_spawners.Add(spawner);
-			}
-		}
-	}
+1. Start with the total drop amount: current_value = 124
+2. Process the highest denomination (100):
+	1) Normally, you would drop one 100-coin.
+	2) Instead, use a random check. For instance, have a 70% chance to drop one 100-coin, and a 30% chance to break it down.
+	3) If you choose to break it down, subtract 100 from the total and add its value in smaller coins. For example, add one 50-coin, four 10-coins, and ten 1-coins.
+	4) This ensures that some of the largest-value drops still contribute to the smaller denominations.
+3. Process the remaining value: current_value = 24
+4. Process the next highest denomination (50): current_value is less than 50, so move on.
+5. Process the next highest denomination (10):
+	1) Divide 24 by 10, so you get two 10-coins and a remainder of 4.
+	2) Apply a similar random check. With each of the two 10-coins, have a chance to drop it as a single coin or break it into smaller values.
+	3) If you break one, add ten 1-coins instead.
+6. Process the final remainder (4): Drop four 1-coins. 
 
-	private void OnBodyEntered(Node3D body)
-	{
-		if (body is PlayerBody)
-		{
-			EmitSignal(SignalName.PlayerEntered, this);
-			// ShowOtherRooms();
-			ShowRoom();
-		}
-	}
+## How to implement this in your game
 
-	private void OnBodyExited(Node3D body)
-	{
-		if (body is PlayerBody)
-	{
-			EmitSignal(SignalName.PlayerExited, this);
-			HideRoom();
-			// HideOtherRooms();
-		}
-	}
+- Define break-down ratios: Decide on how a coin "breaks down." For example, a 100-coin could break into two 50-coins, or one 50-coin and five 10-coins. A 10-coin could break into ten 1-coins, or two 5-coins.
+- Create probability thresholds: For each denomination, define the probability of dropping it as a single coin versus breaking it down.
+- Iterate and randomize: The algorithm iterates through each denomination from highest to lowest. For each step, it calculates how many of that coin are possible and, for each one, uses a random check to decide whether to drop the coin or a smaller set. 
 
-	private void ShowOtherRooms()
-	{
-		if (!_otherRooms.IsNullOrEmpty())
-	{
-			foreach (Node3D room in _otherRooms)
-		{
-				room.Visible = true;
-		}
-		}
-	}
-
-	private void HideOtherRooms()
-	{
-		if (!_otherRooms.IsNullOrEmpty())
-		{
-			foreach (Node3D room in _otherRooms)
-			{
-				room.Visible = false;
-			}
-			}
-		}
-	
-	public void ShowRoom()
-			{
-		ToggleRoom(true);
-			}
-	
-	public void HideRoom()
-			{
-		ToggleRoom(false);
-		}
-	
-	private void ToggleRoom(bool which)
-		{
-		this.Visible = which;
-		// HideOtherRooms();
-			foreach (var enemySpawner in _spawners)
-			{
-			enemySpawner.IsEnabled = which;
-			}
-		}
-	}
-	
+This dynamic process will ensure that even when an enemy drops a high total value, you will see a mix of coins, keeping the smaller denominations relevant and the drops visually more varied and rewarding. You can also adjust the probability thresholds as inflation increases to ensure smaller denominations remain in circulation.

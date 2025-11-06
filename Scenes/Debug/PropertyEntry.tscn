@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://te6kw365wgn0"]
 
 [ext_resource type="Script" uid="uid://dwjqedfpgetm0" path="res://Scripts/Utility/Debug/PropertyEntry.cs" id="1_35xff"]
-[ext_resource type="FontFile" uid="uid://86r6mfkypltq" path="res://Assets/Fonts/JetBrainsMono-Medium.ttf" id="2_7sbyx"]
+[ext_resource type="FontFile" uid="uid://86r6mfkypltq" path="res://assets/Fonts/JetBrainsMono-Medium.ttf" id="2_7sbyx"]
 
 [node name="PropertyEntry" type="HBoxContainer" node_paths=PackedStringArray("propertyLabel", "valueLabel")]
 offset_right = 125.0

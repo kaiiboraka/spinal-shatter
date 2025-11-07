@@ -11,6 +11,7 @@ AudioData = ExtResource("2_eyvvc")
 WalkSpeed = 12.0
 MinWalkTime = 1.0
 MinWaitTime = 1.0
+MoneyAmountToDrop = 50
 
 [node name="Body_AnimatedSprite3D" parent="." index="4"]
 sprite_frames = ExtResource("3_qnpwa")

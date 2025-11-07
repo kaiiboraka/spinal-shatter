@@ -18,7 +18,7 @@ public partial class Pickup : RigidBody3D
 
 	[ExportGroup("Components")]
 	[Export] protected Timer LifetimeTimer;
-	[Export] protected AnimatedSprite3D Sprite;
+	[Export] public AnimatedSprite3D Sprite { get; set; }
 	[Export] protected CollisionShape3D CollisionShape;
 	[Export] protected CollisionShape3D AreaShape;
 
@@ -132,17 +132,13 @@ public partial class Pickup : RigidBody3D
 	protected void ResetVisuals(PickupData data)
 	{
 		Scale = Vector3.One;
-		if (Sprite == null) return;
-
 		Sprite.Modulate = Colors.White;
+
 		if (data == null) return;
 
 		Sprite.Modulate = data.Modulate;
 		Sprite.Scale = data.Scale;
-		if (data.SpriteFrames != null)
-		{
-			Sprite.SpriteFrames = data.SpriteFrames;
-		}
+		Sprite.SpriteFrames = data.SpriteFrames;
 	}
 
 	public void Reset()

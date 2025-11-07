@@ -3,7 +3,7 @@
 [ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_lkpyv"]
 [ext_resource type="Script" uid="uid://b3jsk6jtlrkc7" path="res://Scripts/Pickups/ManaParticle.cs" id="2_lkpyv"]
 [ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="3_ev4g8"]
-[ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Enemies/magic_spark.ase" id="4_8lofv"]
+[ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Pickups/magic_spark.ase" id="4_8lofv"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ulyup"]
 resource_local_to_scene = true

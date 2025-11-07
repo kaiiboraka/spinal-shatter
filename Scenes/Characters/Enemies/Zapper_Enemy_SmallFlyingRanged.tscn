@@ -11,6 +11,7 @@ AudioData = ExtResource("2_f3tho")
 WalkSpeed = 10.0
 MinWaitTime = 2.0
 MaxWaitTime = 5.0
+MoneyAmountToDrop = 75
 KnockbackWeight = 8.0
 
 [node name="Body_AnimatedSprite3D" parent="." index="6"]

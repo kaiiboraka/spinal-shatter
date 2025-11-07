@@ -25,6 +25,8 @@ public partial class MagicCaster : Node
 	[Export(PropertyHint.Range, "1,200,1")]
 	private float _maxManaCost = 50.0f;
 
+	[Export] private ValueRange<float> DamageRange = new FloatValueRange(1,10);
+
 	[Export(PropertyHint.Range, "1,16,1")] private int _chargeIntervals = 8;
 
 	/// <summary>

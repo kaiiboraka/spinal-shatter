@@ -51,6 +51,20 @@ public static class AnimationExtensions
         }
     }
 
+    public static int RandomizeAnimation(this AnimatedSprite2D sprite)
+    {
+        var whichFrame = sprite.SpriteFrames.GetFrameCount(sprite.Animation).RandomRangeFromMax();
+        sprite.Frame = whichFrame;
+        return whichFrame;
+    }
+
+    public static int RandomizeAnimation(this AnimatedSprite3D sprite)
+    {
+        var whichFrame = sprite.SpriteFrames.GetFrameCount(sprite.Animation).RandomRangeFromMax();
+        sprite.Frame = whichFrame;
+        return whichFrame;
+    }
+
     public static SignalAwaiter WaitForAnimationFinished(this Node parent, AnimationPlayer player)
     {
         return parent.ToSignal(player, AnimationPlayer.SignalName.AnimationFinished);

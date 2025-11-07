@@ -3,12 +3,12 @@
 importer="aseprite_wizard.plugin.spriteframes"
 type="SpriteFrames"
 uid="uid://dfgkcuh2svppw"
-path="res://.godot/imported/magic_spark.ase-5ed4541b6134b2e4f6c76a0c7aa6d900.res"
+path="res://.godot/imported/magic_spark.ase-274e8daee5f24e8dd9d95fd5b91084b4.res"
 
 [deps]
 
-source_file="res://assets/Images/Enemies/magic_spark.ase"
-dest_files=["res://.godot/imported/magic_spark.ase-5ed4541b6134b2e4f6c76a0c7aa6d900.res"]
+source_file="res://assets/Images/Pickups/magic_spark.ase"
+dest_files=["res://.godot/imported/magic_spark.ase-274e8daee5f24e8dd9d95fd5b91084b4.res"]
 
 [params]
 

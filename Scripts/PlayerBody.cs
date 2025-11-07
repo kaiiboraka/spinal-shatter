@@ -71,6 +71,7 @@ public partial class PlayerBody : Combatant
 	private Label maxAmmoLabel;
 
 	private PlayerHealthBar _playerHealthBar;
+	private Label _playerMoneyAmountLabel;
 
 	[ExportGroup("Components")]
 	[Export] private ManaComponent _manaComponent;
@@ -82,14 +83,10 @@ public partial class PlayerBody : Combatant
 
 	[ExportGroup("Combat")]
 	[ExportSubgroup("Audio", "Audio")]
-	[Export] private AudioStreamPlayer3D AudioPlayer_MiscFX;
-
-	[Export] private AudioStreamPlayer3D AudioPlayer_Hurt;
 	[Export] private AudioStream Audio_Hurt;
 	[Export] private AudioStream Audio_DieSFX;
 	[Export] private AudioStream Audio_DieVoice;
 
-	[Export] private AudioStreamPlayer3D AudioPlayer_Footsteps;
 	[Export] private Array<AudioStream> Audio_FootstepSounds;
 	[Export] private Array<AudioStream> Audio_FootstepSprintSounds;
 
@@ -98,6 +95,7 @@ public partial class PlayerBody : Combatant
 	private RayCast3D footSoundRay;
 
 	private bool standUpBlocked;
+	private Timer _footstepCooldownTimer;
 
 	// public Loadout loadout;
 	private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
@@ -131,6 +129,8 @@ public partial class PlayerBody : Combatant
 		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
 
 		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
+		_playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
+
 		HealthComponent.HealthChanged += UpdateHealthHUD;
 		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
 		
@@ -140,6 +140,9 @@ public partial class PlayerBody : Combatant
 		parentLevel = GetParent() as Node3D;
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		
+		_footstepCooldownTimer = new Timer { OneShot = true };
+		AddChild(_footstepCooldownTimer);
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -286,25 +289,31 @@ public partial class PlayerBody : Combatant
 		MoveAndSlide();
 	}
 
-	private async void PlayFootsteps(Vector3 hVel)
+	private void PlayFootsteps(Vector3 hVel)
 	{
-		if (!grounded || Audio_FootstepSounds.IsNullOrEmpty()) return;
-		if ((hVel.Length() <= Mathf.Epsilon) || AudioPlayer_Footsteps.IsPlaying()) return;
+		if (!grounded || Audio_FootstepSounds.IsNullOrEmpty() || !_footstepCooldownTimer.IsStopped()) return;
+		if (hVel.Length() <= Mathf.Epsilon) return;
 
+		AudioStream sound;
+		float pitch;
+		double cooldown;
 
 		if (isSprinting)
 		{
-			AudioPlayer_Footsteps.PitchScale = 1;
-			AudioPlayer_Footsteps.Stream = Audio_FootstepSprintSounds.PickRandom();
-			AudioPlayer_Footsteps.Play();
+			sound = Audio_FootstepSprintSounds.PickRandom();
+			pitch = 1.0f;
+			cooldown = sound.GetLength() / 1.2f; // faster steps
 		}
 		else
 		{
-			AudioPlayer_Footsteps.PitchScale = 1.2f;
-			AudioPlayer_Footsteps.Stream = Audio_FootstepSounds.PickRandom();
-			await ToSignal(GetTree().CreateTimer(AudioPlayer_Footsteps.Stream.GetLength()), "timeout");
-			AudioPlayer_Footsteps.Play();
+			sound = Audio_FootstepSounds.PickRandom();
+			pitch = 1.2f;
+			cooldown = sound.GetLength();
 		}
+
+		AudioManager.Instance.PlaySoundAttachedToNode(sound, this, pitch);
+		_footstepCooldownTimer.WaitTime = cooldown;
+		_footstepCooldownTimer.Start();
 	}
 
 	private void FOVJuice(double delta)
@@ -410,8 +419,7 @@ public partial class PlayerBody : Combatant
 		// var tween = GetTree().CreateTween();
 		// tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
 		// tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
-		AudioPlayer_Hurt.Stream = Audio_Hurt;
-		AudioPlayer_Hurt.Play();
+		AudioManager.Instance.PlaySoundAttachedToNode(Audio_Hurt, this);
 		//TODO: add UI overlay
 	}
 
@@ -423,11 +431,8 @@ public partial class PlayerBody : Combatant
 
 	public override void OnDied()
 	{
-		AudioPlayer_Hurt.Stream = Audio_DieVoice;
-		AudioPlayer_Hurt.Play();
-
-		AudioPlayer_MiscFX.Stream = Audio_DieSFX;
-		AudioPlayer_MiscFX.Play();
+		AudioManager.Instance.PlaySoundAttachedToNode(Audio_DieVoice, this);
+		AudioManager.Instance.PlaySoundAtPosition(Audio_DieSFX, GlobalPosition);
 
 		// AudioPlayer_MiscFX.Finished += () =>
 		// 	{
@@ -476,8 +481,9 @@ public partial class PlayerBody : Combatant
 		if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
 
 		_currentMoney += moneyParticle.Value;
+		_currentMoney = _currentMoney.AtLeastZero();
 		moneyParticle.Collect();
-
+		_playerMoneyAmountLabel.Text = _currentMoney.ToString();
 		PickupManager.Instance.Release(moneyParticle);
 	}
 

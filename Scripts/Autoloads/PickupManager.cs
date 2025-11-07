@@ -14,7 +14,7 @@ public partial class PickupManager : Node
     [Export] private float _moneyAmountRandomization = 0.15f; // +- 15% of total
     [Export] private Dictionary<PickupType, PackedScene> _pickupScenes = new(); // The scene for all pickups
 
-    private ObjectPoolManager<Pickup> _pool;
+    private readonly Dictionary<PickupType, ObjectPoolManager<Pickup>> _pools = new();
 
     [ExportToolButton("Sort Lists", Icon = "Array")]
     public Callable SortListsButton => Callable.From(SortLists);
@@ -33,34 +33,50 @@ public partial class PickupManager : Node
         }
         Instance = this;
 
-        _pool = new ObjectPoolManager<Pickup>();
-        _pool.PoolParent = this; // Assign this manager as the parent for pooled objects
-        _pool.Name = "PickupPool";
-        AddChild(_pool);
+        foreach (var type in _pickupScenes.Keys)
+        {
+            var pool = new ObjectPoolManager<Pickup>
+            {
+                PoolParent = this,
+                Name = $"{type}Pool",
+                Scene = _pickupScenes[type]
+            };
+            AddChild(pool);
+            _pools[type] = pool;
+        }
     }
 
     public void Release(Pickup pickup)
     {
         if (pickup == null) return;
 
-        _pool.Release(pickup);
+        if (_pools.TryGetValue(pickup.Type, out var pool))
+        {
+            pool.Release(pickup);
+        }
+        else
+        {
+            // Failsafe for pickups not managed by a pool
+            pickup.QueueFree();
+        }
     }
 
     public Array<Pickup> SpawnPickupAmount(PickupType type, int totalAmount, Vector3 position)
     {
-        double newTotal = totalAmount * (1 + _moneyAmountRandomization); // 1.15 x 100 = 115
-        double range = (_moneyAmountRandomization * 2.0f);
-
-        newTotal -= (totalAmount * GD.RandRange(0, range)); // 100 * .2 = 20
         Array<Pickup> spawnedPickups = new Array<Pickup>();
-        int roundUpTotal = newTotal.CeilingToInt();
         switch (type)
         {
             case PickupType.Mana:
-                spawnedPickups = SpawnGreedy(ManaPickupData, roundUpTotal, position);
+                spawnedPickups = SpawnGreedy(ManaPickupData, totalAmount, position);
                 break;
             case PickupType.Money:
-                foreach (MoneyData moneyData in GenerateVariedMoneyDrop(roundUpTotal))
+                double newTotal = totalAmount * (1 + _moneyAmountRandomization); // 1.15 x 100 = 115
+                double range = (_moneyAmountRandomization * 2.0f);
+                newTotal -= (totalAmount * GD.RandRange(0, range)); // 100 * .2 = 20
+                int roundUpTotal = newTotal.CeilingToInt();
+                Array<MoneyData> generateVariedMoneyDrop = GenerateVariedMoneyDrop(roundUpTotal);
+                DebugManager.Debug($"{type}: original {totalAmount}, new {newTotal}, rounded {roundUpTotal} -- {generateVariedMoneyDrop.Count} coins");
+                foreach (MoneyData moneyData in generateVariedMoneyDrop)
                 {
                     spawnedPickups.Add(SpawnPickup(moneyData, position));
                 }
@@ -101,64 +117,52 @@ public partial class PickupManager : Node
 
     private Pickup SpawnPickup(PickupData data, Vector3 position)
     {
-        _pool.Scene = _pickupScenes[data.PickupType];
-        Pickup pickup = _pool.Get();
+        if (!_pools.TryGetValue(data.PickupType, out var pool))
+        {
+            return null;
+        }
+
+        Pickup pickup = pool.Get();
         if (pickup == null) return null; // Pool is full
 
         // Add a random offset to the spawn position
         Vector3 offset = new Vector3().RandomRange(.5f) + Vector3.Up;
         pickup.GlobalPosition = position + offset;
         pickup.Initialize(data);
+        pickup.Sprite.RandomizeAnimation();
         return pickup;
     }
 
-    private Array<MoneyData> GenerateVariedMoneyDrop(int totalAmount)
-    {
-        Array<MoneyData> generatedCoins = new Array<MoneyData>();
-        int currentAmount = totalAmount;
-
-        // Use the pre-sorted MoneyPickupData array directly
-        Dictionary<int, MoneyData> moneyDataMap = new Dictionary<int, MoneyData>();
-        foreach (MoneyData md in MoneyPickupData)
+        private Array<MoneyData> GenerateVariedMoneyDrop(int totalAmount)
         {
-            moneyDataMap[md.Value] = md;
-        }
+            int currentAmount = totalAmount;
 
-        foreach (MoneyData currentDenominationData in MoneyPickupData)
-        {
-            int currentDenominationValue = currentDenominationData.Value;
+            // Use the pre-sorted MoneyPickupData array directly
+            // Dictionary<int, MoneyData> moneyDataMap = new Dictionary<int, MoneyData>();
+            // foreach (MoneyData md in MoneyPickupData)
+            // {
+            //     moneyDataMap[md.Value] = md;
+            // }
 
-            // Smallest denomination (1-coin) is always added greedily for any remaining amount
-            if (currentDenominationValue == 1)
+            Array<MoneyData> generatedCoins = new Array<MoneyData>();
+            foreach (MoneyData moneyData in MoneyPickupData)
             {
-                while (currentAmount >= 1)
-                {
-                    if (moneyDataMap.TryGetValue(1, out var moneyData))
-                    {
-                        generatedCoins.Add(moneyData);
-                    }
-                    currentAmount -= 1;
-                }
-                break; // All remaining amount is now 1-coins, so we are done.
-            }
+                int currentDenominationValue = moneyData.Value;
 
-            // For larger denominations, apply the randomized breakdown logic
-            while (currentAmount >= currentDenominationValue)
-            {
-                if (GD.Randf() < _moneyBreakdownChance)
+                if (GD.Randf() < _moneyBreakdownChance && currentDenominationValue > 1)
                 {
                     // Decide to 'break down' this coin.
                     // Its value remains in currentAmount to be processed by smaller denominations.
-                    currentAmount -= currentDenominationValue; // Remove the value of the coin that *would have been* dropped
                 }
                 else
                 {
-                    // Decide to drop this coin as is
-                    generatedCoins.Add(currentDenominationData);
-                    currentAmount -= currentDenominationValue;
+                    int numCoins = currentAmount / currentDenominationValue;
+                    for (int i = 0; i < numCoins; i++)
+                    {
+                        generatedCoins.Add(moneyData);
+                    }
+                    currentAmount %= currentDenominationValue;
                 }
             }
-        }
-        return generatedCoins;
-    }
-}
+            return generatedCoins;
+        }}

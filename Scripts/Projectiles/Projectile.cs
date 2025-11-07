@@ -228,7 +228,7 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		DebugManager.Instance.DEBUG.Info($"HWB: Wall Bounce! Current Mana: {ManaCost}");
+		// DebugManager.Instance.DEBUG.Info($"HWB: Wall Bounce! Current Mana: {ManaCost}");
 
 		// If DamageGrowthConstant is 0, this is a fixed-damage projectile (e.g., enemy projectile).
 		// It should not scale or eject mana, just expire.

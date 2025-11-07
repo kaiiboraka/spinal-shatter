@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ManaParticleData" load_steps=3 format=3 uid="uid://6g1ukl8gec4s"]
+[gd_resource type="Resource" script_class="ManaParticleData" load_steps=4 format=3 uid="uid://6g1ukl8gec4s"]
 
 [ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="1_3krc5"]
 [ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_74omd"]
+[ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Pickups/magic_spark.ase" id="2_8qayj"]
 
 [resource]
 script = ExtResource("1_74omd")
@@ -9,6 +10,7 @@ DriftSpeed = 1.2
 AttractSpeed = 18.0
 Lifetime = 10.0
 Scale = Vector3(0.5, 0.5, 0.5)
+SpriteFrames = ExtResource("2_8qayj")
 AudioStream = ExtResource("1_3krc5")
 AudioPitch = 1.2
 metadata/_custom_type_script = "uid://q3g48qmmmpch"

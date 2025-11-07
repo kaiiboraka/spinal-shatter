@@ -17,16 +17,21 @@ public partial class HealthComponent : Node
     public float MaxHealth { get; set; } = 100f;
 
     private float _currentHealth;
+    private bool _isDead = false;
+
     public float CurrentHealth
     {
         get => _currentHealth;
         private set
         {
+            if (_isDead) return;
+
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
             EmitSignal(SignalName.HealthChanged, _currentHealth, MaxHealth);
 
             if (_currentHealth <= 0)
             {
+                _isDead = true;
                 EmitSignal(SignalName.Died);
             }
         }
@@ -39,6 +44,8 @@ public partial class HealthComponent : Node
 
     public float TakeDamage(float amount, Vector3 sourcePosition)
     {
+        if (_isDead) return 0;
+
         float previousHealth = CurrentHealth;
         CurrentHealth -= amount;
         float actualDamageDealt = previousHealth - CurrentHealth; // Calculate actual damage dealt
@@ -48,11 +55,13 @@ public partial class HealthComponent : Node
 
     public void Heal(float amount)
     {
+        if (_isDead) return;
         CurrentHealth += amount;
     }
 
     public void Reset()
     {
+        _isDead = false;
         CurrentHealth = MaxHealth;
     }
 }

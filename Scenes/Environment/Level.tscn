@@ -64,6 +64,10 @@ pitch_scale = 1.1
 autoplay = true
 bus = &"Music"
 
+[node name="RoundTimer" type="Timer" parent="."]
+wait_time = 300.0
+one_shot = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kwiqg")
 
@@ -95,9 +99,8 @@ _maxManaToSpawn = 51
 
 [node name="North_Ice" type="Node3D" parent="."]
 
-[node name="North_Room" parent="North_Ice" node_paths=PackedStringArray("_spawners") instance=ExtResource("7_wrgjc")]
+[node name="North_Room" parent="North_Ice" instance=ExtResource("7_wrgjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
-_spawners = [NodePath("Ranged_EnemySpawner"), NodePath("Ranged_EnemySpawner2"), NodePath("Ranged_EnemySpawner3")]
 
 [node name="Ranged_EnemySpawner" parent="North_Ice/North_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 0, -60)
@@ -141,9 +144,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="East_Abyss" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="East_Room" parent="East_Abyss" node_paths=PackedStringArray("_spawners") instance=ExtResource("8_2e4mj")]
+[node name="East_Room" parent="East_Abyss" instance=ExtResource("8_2e4mj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 0)
-_spawners = [NodePath("Ground_EnemySpawner"), NodePath("Ground_EnemySpawner2"), NodePath("Ground_EnemySpawner3"), NodePath("Ground_EnemySpawner4"), NodePath("Scrap_EnemySpawner5")]
 
 [node name="Ground_EnemySpawner" parent="East_Abyss/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.828766, 0, -39.19426)
@@ -222,9 +224,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="South_Crater" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="South_Room" parent="South_Crater" node_paths=PackedStringArray("_spawners") instance=ExtResource("9_qf3oj")]
+[node name="South_Room" parent="South_Crater" instance=ExtResource("9_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.191006)
-_spawners = [NodePath("Swooper_EnemySpawner"), NodePath("Melee_EnemySpawner"), NodePath("Melee_EnemySpawner2"), NodePath("Melee_EnemySpawner3")]
 
 [node name="Swooper_EnemySpawner" parent="South_Crater/South_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 0, 92)
@@ -295,9 +296,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="West_Nest" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="West_Room" parent="West_Nest" node_paths=PackedStringArray("_spawners") instance=ExtResource("10_68nw1")]
+[node name="West_Room" parent="West_Nest" instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51.195103, 0, 0)
-_spawners = [NodePath("Swooper_EnemySpawner"), NodePath("Zapper_EnemySpawner"), NodePath("Swooper_EnemySpawner2"), NodePath("Flying_EnemySpawner2"), NodePath("Zapper_EnemySpawner2"), NodePath("Flying_EnemySpawner3")]
 
 [node name="Swooper_EnemySpawner" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.491802, 0.741472, -28.692049)

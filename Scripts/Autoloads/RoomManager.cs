@@ -13,7 +13,8 @@ public partial class RoomManager : Node
 
     public override void _Ready()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
+        else QueueFree();
 
         Callable.From(_LateReady).CallDeferred();
     }

@@ -19,28 +19,21 @@ public partial class MagicCaster : Node
 	[ExportGroup("Charging")]
 	[Export] private float _maxChargeTime = 2.0f;
 
-	[Export(PropertyHint.Range, "1,100,1")]
-	private float _minManaCost = 1.0f;
-
-	[Export(PropertyHint.Range, "1,200,1")]
-	private float _maxManaCost = 50.0f;
-
-	[Export] private ValueRange<float> DamageRange = new FloatValueRange(1,10);
+	[Export] private FloatValueRange ManaCostRange = new(1.0f, 50.0f);
+	[Export] private FloatValueRange DamageRange = new(10f, 200f);
+	[Export] private FloatValueRange SpeedRange = new(20f, 40f);
 
 	[Export(PropertyHint.Range, "1,16,1")] private int _chargeIntervals = 8;
 
-	/// <summary>
-	/// Damage multiplier per mana point for each charge interval.
-	/// Size should be ChargeIntervals + 1 (for 0-charge and each interval).
-	/// </summary>
-	private Array<float> DamageMultipliers => new(Enumerable.Range(0, _chargeIntervals + 1)
-															.Select(i =>
-																 Mathf.Pow(4,
-																	 (i * _maxChargeTime / _chargeIntervals)))
-															.ToArray());
-
-	[Export] private float _minSpeed = 20f;
-	[Export] private float _maxSpeed = 40f;
+	// /// <summary>
+	// /// Damage multiplier per mana point for each charge interval.
+	// /// Size should be ChargeIntervals + 1 (for 0-charge and each interval).
+	// /// </summary>
+	// private Array<float> DamageMultipliers => new(Enumerable.Range(0, _chargeIntervals + 1)
+	// 														.Select(i =>
+	// 															 Mathf.Pow(4,
+	// 																 (i * _maxChargeTime / _chargeIntervals)))
+	// 														.ToArray());
 
 	[Export] private bool usePlayerMomentum = false;
 
@@ -80,7 +73,7 @@ public partial class MagicCaster : Node
 
 	private void StartCharge()
 	{
-		if (_chargingProjectile != null || _projectileScene == null || _manaComponent.CurrentMana < _minManaCost)
+		if (_chargingProjectile != null || _projectileScene == null || _manaComponent.CurrentMana < ManaCostRange.Min)
 		{
 			return;
 		}
@@ -96,31 +89,22 @@ public partial class MagicCaster : Node
 	{
 		if (_chargingProjectile == null) return;
 
-		// 1. Calculate max possible charge time based on current mana
-		float manaPerInterval = _chargeIntervals > 0 ? _maxManaCost / _chargeIntervals : 0;
-		int maxIntervalsByMana = 0;
-		if (manaPerInterval > 0)
-		{
-			maxIntervalsByMana = Mathf.FloorToInt(_manaComponent.CurrentMana / manaPerInterval);
-		}
-
-		float intervalDuration = _maxChargeTime > 0 ? _maxChargeTime / _chargeIntervals : 0;
-		float maxChargeTimeByMana = intervalDuration > 0 ? maxIntervalsByMana * intervalDuration : 0;
+		// 1. Calculate max possible charge ratio based on current mana
+		float maxChargeRatioByMana = Mathf.InverseLerp(ManaCostRange.Min, ManaCostRange.Max, _manaComponent.CurrentMana);
+		float maxChargeTimeByMana = maxChargeRatioByMana * _maxChargeTime;
 
 		// 2. Increment charge time, clamping by various limits
 		_currentChargeTime += delta;
 		_currentChargeTime = Mathf.Min(_currentChargeTime, _maxChargeTime);
-		_currentChargeTime =
-			Mathf.Min(_currentChargeTime,
-				maxChargeTimeByMana); // Always clamp by mana, even if max charge time by mana is zero.
+		_currentChargeTime = Mathf.Min(_currentChargeTime, maxChargeTimeByMana);
 
 		// 3. Determine current charge interval
 		int currentInterval = 0;
+		float intervalDuration = _maxChargeTime > 0 ? _maxChargeTime / _chargeIntervals : 0;
 		if (intervalDuration > 0)
 		{
 			currentInterval = Mathf.FloorToInt(_currentChargeTime / intervalDuration);
 		}
-
 		currentInterval = Mathf.Clamp(currentInterval, 0, _chargeIntervals);
 
 		// 4. Update visuals and audio only when the interval changes
@@ -153,31 +137,23 @@ public partial class MagicCaster : Node
 		int intervalsCharged = Mathf.FloorToInt(_currentChargeTime / intervalDuration);
 		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, _chargeIntervals);
 
-		float manaPerInterval = _maxManaCost / _chargeIntervals;
-		float manaCost = Mathf.Clamp(intervalsCharged * manaPerInterval, _minManaCost, _maxManaCost);
 		float chargeRatio = (float)intervalsCharged / _chargeIntervals;
 
-		DebugManager.Trace(
-			$"manaCost: {manaCost}, manaPerInterval: {manaPerInterval},  intervalsCharged: {intervalsCharged}");
+		float manaCost = Mathf.Lerp(ManaCostRange.Min, ManaCostRange.Max, chargeRatio);
+		
 		if (!_manaComponent.HasEnoughMana(manaCost))
 		{
 			_chargingProjectile.QueueFree();
 			ResetChargeState();
 			return;
 		}
-
-
-		float damageMultiplier = DamageMultipliers?[intervalsCharged] ?? 1.0f;
-		float damage = Mathf.Max(1.0f, manaCost * damageMultiplier);
-
-		float speed = Mathf.Lerp(_minSpeed, _maxSpeed, chargeRatio.Clamp01());
+		
+		float damage = Mathf.Lerp(DamageRange.Min, DamageRange.Max, chargeRatio);
+		float speed = Mathf.Lerp(SpeedRange.Min, SpeedRange.Max, chargeRatio);
 		Vector3 initialVelocity = CalculateInitialVelocity(speed);
 
-		float damageGrowthConstant = _maxChargeTime;
-		float absoluteMaxProjectileSpeed = Mathf.Max(_minSpeed, _maxSpeed);
-
 		DebugManager.Debug(
-			$"Speed: {speed}, chargeRatio: {chargeRatio}, damageMultiplier: {damageMultiplier}, damage: {damage}");
+			$"Speed: {speed}, chargeRatio: {chargeRatio}, damage: {damage}, manaCost: {manaCost}");
 
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{
@@ -186,9 +162,9 @@ public partial class MagicCaster : Node
 			ManaCost = manaCost,
 			InitialVelocity = initialVelocity,
 			ChargeRatio = chargeRatio,
-			DamageGrowthConstant = damageGrowthConstant,
-			AbsoluteMaxProjectileSpeed = _maxSpeed,
-			MaxInitialManaCost = _maxManaCost,
+			DamageGrowthConstant = _maxChargeTime,
+			AbsoluteMaxProjectileSpeed = SpeedRange.Max,
+			MaxInitialManaCost = ManaCostRange.Max,
 			StartPosition = _spellOrigin.GlobalPosition,
 		};
 

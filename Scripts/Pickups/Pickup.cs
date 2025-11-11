@@ -115,6 +115,7 @@ public partial class Pickup : RigidBody3D
 		StopMoving();
 		BlinkTween?.Kill();
 
+
 		EmitSignal(SignalName.Collected, this);
 		EmitSignal(SignalName.Released, this);
 	}
@@ -134,7 +135,13 @@ public partial class Pickup : RigidBody3D
 		Scale = Vector3.One;
 		Sprite.Modulate = Colors.White;
 
-		if (data == null) return;
+		if (data == null) 
+		{
+			Sprite.SpriteFrames = null;
+			GravityScale = 0;
+			PhysicsMaterialOverride = null;
+			return;
+		};
 
 		Sprite.Modulate = data.Modulate;
 		Sprite.Scale = data.Scale;

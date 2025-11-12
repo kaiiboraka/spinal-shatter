@@ -64,10 +64,6 @@ pitch_scale = 1.1
 autoplay = true
 bus = &"Music"
 
-[node name="RoundTimer" type="Timer" parent="."]
-wait_time = 300.0
-one_shot = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kwiqg")
 

@@ -480,12 +480,18 @@ public partial class PlayerBody : Combatant
 	{
 		if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
 
-		_currentMoney += moneyParticle.Value;
-		_currentMoney = _currentMoney.AtLeastZero();
+		AddMoney(moneyParticle.Value);
 		moneyParticle.Collect();
-		_playerMoneyAmountLabel.Text = _currentMoney.ToString();
 		PickupManager.Instance.Release(moneyParticle);
 	}
+
+	public void AddMoney(int amount)
+	{
+		_currentMoney += amount;
+		_currentMoney = _currentMoney.AtLeastZero();
+		_playerMoneyAmountLabel.Text = _currentMoney.ToString();
+	}
+
 
 	public void RefillMana()
 	{

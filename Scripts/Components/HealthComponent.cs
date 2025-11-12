@@ -4,20 +4,19 @@ using System;
 [GlobalClass]
 public partial class HealthComponent : Node
 {
-    [Signal]
-    public delegate void HealthChangedEventHandler(float currentHealth, float maxHealth);
+    [Signal] public delegate void HealthChangedEventHandler(float currentHealth, float maxHealth);
 
-    [Signal]
-    public delegate void DiedEventHandler();
+    [Signal] public delegate void DiedEventHandler();
 
-    [Signal]
-    public delegate void HurtEventHandler(Vector3 sourcePosition, float damage);
+    [Signal]  public delegate void HurtEventHandler(Vector3 sourcePosition, float damage);
 
-    [Export]
-    public float MaxHealth { get; set; } = 100f;
+    [Export] public float MaxHealth { get; set; } = 100f;
 
     private float _currentHealth;
+
     private bool _isDead = false;
+
+    public float CurrentPercent => CurrentHealth / MaxHealth;
 
     public float CurrentHealth
     {

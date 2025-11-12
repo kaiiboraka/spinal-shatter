@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckntcsepyti1b"]
+
+[ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
+
+[node name="WaveDirector" type="Node"]
+script = ExtResource("1_fhtwo")
+
+[node name="RoundTimer" type="Timer" parent="."]
+wait_time = 300.0
+one_shot = true

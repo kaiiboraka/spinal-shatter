@@ -21,6 +21,44 @@ finishing a room, come out, your hallway candle dark, 2 other random ones lit
 each has a reward associated with it, like Hades
 ensures variety of rooms played, not just picking your favorite every SINGLE time, because it could be the one missing
 
+### scenario
+
+Perfect analysis. To explain a little bit further, this old project code is a quick and dirty implementation of the Knapsack greedy algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, given an allotted budget based on progression, as you determined. So now consider @Scenes/Autoloads/WaveDirector.tscn @Scripts/Autoloads/WaveDirector.cs . I would like a robust and simple way to implement a similar structure of the old code, but for this game and its enemies, written in C#. This may involve a refactor of enemy that involves creating a new EnemyData resource if need be.
+
+I would like this game to have a structure that allows for the following gameplay loop, allow me to explain with a hypothetical scenario:
+
+The game begins. I am in the central room. Two of the 4 hallways have their torches lit, with an icon showing what the reward would be for me were I to go down that hallway into that room and complete the challenge beyond. I choose the path in front of me simply by going down into the chamber at the end of the hallway. Once I enter the room, the Door locks behind me, and the Round starts. The Round is comprised of multiple Waves of randomly selected enemies. Internally, the game is keeping track of the number of waves and rounds I have completed. Each successful wave increases the game's "budget" for spawning by a small amount, and each Round completed increases it by a significantly larger amount.  
+
+Because of the "survival" theme, I would like a secondary victory / lose condition to be that the timer expires. It can be considered a "draw". Basically, the game is about a balance of offense and defense... Offense is high risk, high reward. The more aggressive you are, the easier it is to hit enemies, but the easier for them to hit you and for you to lose. So Defense would be considered playing at range, since it's a shooter, and not risking getting hit as much. In this case, you will take less damage, but then your DPS (damage per second) is not high enough to clear the wave. 
+
+I'm trying to decide upon the purpose of the Timer in my shooter. Currently I'm caught between 2 main versions, where in either case it means "you didn't kill everything":
+
+- Win Condition: Survive until the timer runs out. Permits campy defensive play. Softens failure state with smaller rewards.
+- Lose Condition: Fail if the timer runs out. Disallows campy play, rewards aggression. 
+
+Escape the Reaper Timer Clock Demon
+
+1 HP Challenge modifier
+
+Perfect Bonus for Health? 
+allows the fixed HP bonus per HP left, allows healing to factor into bonuses
+
+
+diegetic wave counter? num of torches above the door that are lit?
+
+any of the bonuses measured per wave instead of per round?
+if you got FULL PERFECT
+
+~~or~~ AND streak bonuses? starts to accrue on the SECOND time getting a certain bonus
+
+
+BEAT FIVE WAVES, CLEAR A ROUND, REWARD SCREEN
+
+then go back to the center room, maybe teleported after a few seconds
+
+the shop guy opens his stock in front of you, then get to spend your gold
+
+
 
 ### Reward Types
 

@@ -43,13 +43,18 @@ and more
 
 ## Rewards -- Stats
 
+Up to 3 passive slots -- select them again to rank up
+
 max health
 max mana
 move speed
 defense
 money drop rate
-pickup radius
-jump count or height?
+pickup radius 
+Jump Height / Air Jumps
+Siphon Range / Speed
+Projectile Speed
+Projectile Size
 
 
 ## Rewards -- Currency
@@ -61,11 +66,16 @@ put a shop in the middle hub
 
 ## The Shop
 
-Shop accessible in the central room
-randomizes stock every time a wave is completed
-2 permanent shop items: refill health/mana, maybe something else
-3-5 randomized items, with the option to freeze one between rounds so you can save for something you like
+Shop accessible in the central room   
+randomizes stock every time a wave is completed   
+2 permanent shop items: refill health/mana, maybe something else   
+3-5 randomized items, with the option to freeze one between rounds so you can save for something you like   
 
+meta upgrades to unlock more freezing
+
+the more rounds you have completed, the higher the quality of shop items, including finding items at higher ranks, but at a discount
+
+Be able to sell existing perks, allowing you to "trade-in" for a replacement
 
 
 # History and Original Design Pitch (semi-outdated)
@@ -131,32 +141,41 @@ Larger things have lower acceleration
 Smaller things have high acceleration
 Projectiles hue shifts with damage for visual clarity
 
-Parry flies in the direction you're aiming
+Parry flies in the direction you're aiming  
 
-Orbs bounce on the walls and eject 5-10% of current mass on collision
+Orbs bounce on the walls and eject 5-10% of current mass on collision   
 
-Small under 10 explode on collision and don't bounce 
+Small under 10 explode on collision and don't bounce    
 
-Shape:
-	Line
-	Plane 
-	Orb 
+Shape:   
+	Line   
+	Plane    
+	Orb    
 
-Wall: +defense -pierce -dmg
-Arrow: +Pierce(armor pen) -Defense -dmg
-Orb: +Explode(dmg) -defense -pierce
-Wave: + Spread(trample) - Pierce
-Shotgun: +Count - Size(dmg)
-Big: +Size -UpCost
+Wall: +defense -pierce -dmg   
+Arrow: +Pierce(armor pen) -Defense -dmg   
+Orb: +Explode(dmg) -defense -pierce   
+Wave: + Spread(trample) - Pierce   
+Shotgun: +Count - Size(dmg)   
+Big: +Size -UpCost   
 
-Orb / Point: 0
-Wave / Slash: +X (width)
-Slice / Chop: +Y (height)
-Lance / Arrow / Spear: +Z (pierce)
-Sheet / Card: +XZ (niche application)
-Plane / Slip: +YZ (niche application)
-Barrier / Wall: +XY (defense)
-Box / Cube / Field: +XZY (lower skill, simple to use, decent defense, low damage)
+Orb / Point: 0   
+Wave / Slash: +X (width)   
+Slice / Chop: +Y (height)   
+Lance / Arrow / Spear: +Z (pierce)   
+Sheet / Card: +XZ (niche application)   
+Plane / Slip: +YZ (niche application)   
+Barrier / Wall: +XY (defense)   
+Box / Cube / Field: +XZY (lower skill, simple to use, decent defense, low damage)   
+
+## Siphon
+
+right now it IS alt-fire (other trigger/MB)
+
+instead, it could be "another weapon", where pressing 2 or scroll wheel will switch, 
+then it can have a primary and alt mode for firing as well
+maybe push vs pull
+OH YEAH SPELL SLINGERS HAD PARRY
 
 ## Spell Slinger's pitch script
 
@@ -173,17 +192,17 @@ There were also crystals that could spawn in the arena that serve as a big "ammo
 
 # back to this game, Spinal Shatter
 
-So, now it's going to be a PvE (player vs. "environment" i.e. non-players) DOOM like FPS. I don't need all of the complexity of the old system designs, but I do want some degree of the core essence of it somehow.
-I'm wondering about how to translate it, but I think the core things that I want are a charge-able projectile attack that bounces off of walls. 
-Siphoning may be cool to keep still, potentially, again very Metroid inspired.
+So, now it's going to be a PvE (player vs. "environment" i.e. non-players) DOOM like FPS. I don't need all of the complexity of the old system designs, but I do want some degree of the core essence of it somehow.   
+I'm wondering about how to translate it, but I think the core things that I want are a charge-able projectile attack that bounces off of walls.    
+Siphoning may be cool to keep still, potentially, again very Metroid inspired.   
 
 ## Enemies
 
-enemies are a combination of several attributes
-SIZE: small(or medium, counts in the same size category) or large
-MOVEMENT: ground or flying
-RANGE: melee or range(variable distances, but all projectile type attacks greater than melee range)
-2 * 2 * 2 = 8
+enemies are a combination of several attributes   
+SIZE: small(or medium, counts in the same size category) or large   
+MOVEMENT: ground or flying   
+RANGE: melee or range(variable distances, but all projectile type attacks greater than melee range)   
+2 * 2 * 2 = 8   
 
 then ALL of these units can have simple "artificial-difficulty" ranks. Rank 1 is easy, 2 is normal, and 3 is hard. They will be simple recolors that make them stronger, with more health and damage and speed probably.
 
@@ -216,26 +235,36 @@ I already have a first person character controller with sprint aim and crouch. I
 
 ## powerups
 
-I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs
+I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs   
 
-Spells / Weapons:
-Orb (bounces, main attack)
-Slash (horizontal wave)
-Force Wall (upright and flat, offensive shield)
-Dice (shotgun)
-Lance (sniper-ish, spear)
 
-Traps:
-Icy floor lowers friction
-Floor is Lava, take damage and lose mana
-Goopy floor, slowed down
-Spike ball rolls through and knocks back
+Spells / Weapons:   
+Orb (bounces, main attack)   
+Slash (horizontal wave)   
+Force Wall (upright and flat, offensive shield)   
+Dice (shotgun)   
+Lance (sniper-ish, spear)   
 
-temporary buffs:
-infinite ammo
-invincibility
-Invisibility while not attacking
-super speed
+add alt+fire to each
+visual differences to differentiate
+
+Traps:   
+Icy floor lowers friction   
+Floor is Lava, take damage and lose mana   
+Goopy floor, slowed down   
+Spike ball rolls through and knocks back  
+
+temporary buffs:  
+infinite ammo   
+invincibility   
+Invisibility while not attacking   
+super speed   
+
+Avowed? might have good first-person magic reference
+A mix of guns and spells
+Borderlands - Dragon Keep expac?
+Tiny Tina's Wunderlands? - Spellshot class
+
 
 ## objective
 

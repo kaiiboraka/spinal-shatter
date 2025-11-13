@@ -1,3 +1,7 @@
+Perfect analysis. To explain a little bit further, this old project code is a quick and dirty implementation of the Knapsack greedy algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, given an allotted budget based on progression, as you determined. So now consider @Scenes/Autoloads/WaveDirector.tscn @Scripts/Autoloads/WaveDirector.cs . I would like a robust and simple way to implement a similar structure of the old code, but for this game and its enemies, written in C#. This may involve a refactor of enemy that involves creating a new EnemyData resource if need be.
+
+
+
 # Spinal Shatter
 
 ## this game is most like...
@@ -21,13 +25,111 @@ finishing a room, come out, your hallway candle dark, 2 other random ones lit
 each has a reward associated with it, like Hades
 ensures variety of rooms played, not just picking your favorite every SINGLE time, because it could be the one missing
 
-### scenario
-
-Perfect analysis. To explain a little bit further, this old project code is a quick and dirty implementation of the Knapsack greedy algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, given an allotted budget based on progression, as you determined. So now consider @Scenes/Autoloads/WaveDirector.tscn @Scripts/Autoloads/WaveDirector.cs . I would like a robust and simple way to implement a similar structure of the old code, but for this game and its enemies, written in C#. This may involve a refactor of enemy that involves creating a new EnemyData resource if need be.
-
 I would like this game to have a structure that allows for the following gameplay loop, allow me to explain with a hypothetical scenario:
 
-The game begins. I am in the central room. Two of the 4 hallways have their torches lit, with an icon showing what the reward would be for me were I to go down that hallway into that room and complete the challenge beyond. I choose the path in front of me simply by going down into the chamber at the end of the hallway. Once I enter the room, the Door locks behind me, and the Round starts. The Round is comprised of multiple Waves of randomly selected enemies. Internally, the game is keeping track of the number of waves and rounds I have completed. Each successful wave increases the game's "budget" for spawning by a small amount, and each Round completed increases it by a significantly larger amount.  
+The game begins. I am in the central room. Two of the 4 hallways have their torches lit, with an icon showing what the reward would be for me were I to go down that hallway into that room and complete the challenge beyond. I choose the path in front of me simply by going down into the chamber at the end of the hallway. Once I enter the room, the Door locks behind me, and the Round starts. The Round is comprised of multiple Waves of randomly selected enemies. Internally, the game is keeping track of the number of waves and rounds I have completed. Each successful wave increases the game's "budget" for spawning by a small amount, and each Round completed increases it by a significantly larger amount.  It then spends this budget on a randomized selection of enemies utilizing greedy Knapsack algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, and filling in the rest with smaller and smaller foes until it's filled.
+
+I beat some number of waves, I make it back through the open door, it closes behind me and the round ends, resulting in a payout screen that gives me a bunch of money. I am also granted the reward promised in the hallway before I chose it.
+
+Then I may visit the Shop in the center, then pick another room and begin again.
+
+## The Shop
+
+Shop accessible in the central room   
+randomizes stock every time a wave is completed   
+2 permanent shop items: refill health/mana, maybe something else   
+3-5 randomized items (TBD), with the option to freeze one between rounds so you can save for something you like  
+
+meta upgrades to unlock more freezing.
+
+the more rounds you have completed, the higher the quality of shop items, including finding items at higher ranks, but at a discount.
+
+Be able to sell existing perks in your inventory, allowing you to "trade-in" for replacements
+
+## Item Types
+
+### Spells / Weapons / Attacks
+
+in this game the weapons / abilities are all spells.
+every spell changes how your attack works.
+
+Orb: bounces, main attack 
+- charge: increases size, damage 
+- ALT FIRE: Explodes on impact, effectively a rocket launcher with high knockback
+Slash: horizontal slice wave 
+- charge: increases width: individual hit chunks, decreases damage 
+- ALT FIRE: Spin attack / Nova? sends everything out away from you
+Force Wall: upright and flat, offensive shield 
+- charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
+- ALT FIRE: Shield Bash/Chargemoves quickly, massively increases knockback directly away from you, lowers damage
+DICE: shotgun, shatters on impact into smaller projectiles 
+- charge: increases ball size->number of shatter "generations", child, grand, etc. 
+- ALT FIRE:  ... trap? paint surfaces? idk
+Lance: sniper-ish, spear 
+- charge: fan of beams? 
+- ALT FIRE: stun?
+GARLIC: passive AoE damage 
+- charge: continual drain to empower it temporarily, Maybe like Bible visual with spinners 
+- ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes slightly
+Chakram / Glaive: boomerang, bounces between targets 
+- charge: increases number of bounces before returning 
+- ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
+Missiles: Arcane Mage, locks on to targets 
+- charge: increases missile / lock-on count 
+- ALT FIRE: Lift / pull from ME, anti-gravity bubble from KH, suspends targets in the air helplessly
+visual differences to differentiate
+
+ 
+ maybe for lance? maybe for dice?
+
+### Stats
+
+Up to 3 passive slots -- select them again to rank up
+
+max health
+max mana
+move speed
+defense
+money drop rate
+pickup radius 
+Jump Height / Air Jumps
+Siphon Range / Speed
+Projectile Speed
+Projectile Size
+
+## Meta Upgrades
+
+"Account" progression, grows slower than boosts in-game, stacks with in-game boosts.
+
+Unsure of the design of how these are unlocked, if it's a "meta" currency, or if it's the same as Gold.
+
+### RNG 
+
+Reroll hallways
+Reroll shop
+Freeze count in the shop
+Sell Value - up to at most 100% of original cost, TBD
+Banish ?
+
+### permanent upgrades to minimum stats (individually toggleable)
+
+max health
+max mana
+move speed
+defense
+money drop rate
+pickup radius 
+Jump Height / Air Jumps
+Siphon Range / Speed
+Projectile Speed
+Projectile Size
+
+
+### 
+
+
+# old info
+
 
 Because of the "survival" theme, I would like a secondary victory / lose condition to be that the timer expires. It can be considered a "draw". Basically, the game is about a balance of offense and defense... Offense is high risk, high reward. The more aggressive you are, the easier it is to hit enemies, but the easier for them to hit you and for you to lose. So Defense would be considered playing at range, since it's a shooter, and not risking getting hit as much. In this case, you will take less damage, but then your DPS (damage per second) is not high enough to clear the wave. 
 
@@ -67,32 +169,7 @@ the shop guy opens his stock in front of you, then get to spend your gold
 - Currency
 
 
-## Rewards - Abilities
 
-in this game the weapons / abilities are all spells.
-every spell changes how your attack works.
-
-charge orb: charge increases size, damage, mana cost
-slice wave: charge increases width, decreases damage
-energy stream: continuous steady damage in a cone in front of you
-force field: charge increases size, lowers damage, higher defense. lower charge is denser higher damage.
-and more
-
-
-## Rewards -- Stats
-
-Up to 3 passive slots -- select them again to rank up
-
-max health
-max mana
-move speed
-defense
-money drop rate
-pickup radius 
-Jump Height / Air Jumps
-Siphon Range / Speed
-Projectile Speed
-Projectile Size
 
 
 ## Rewards -- Currency
@@ -102,18 +179,6 @@ Gold, darn it, gold!
 put a shop in the middle hub
 
 
-## The Shop
-
-Shop accessible in the central room   
-randomizes stock every time a wave is completed   
-2 permanent shop items: refill health/mana, maybe something else   
-3-5 randomized items, with the option to freeze one between rounds so you can save for something you like   
-
-meta upgrades to unlock more freezing
-
-the more rounds you have completed, the higher the quality of shop items, including finding items at higher ranks, but at a discount
-
-Be able to sell existing perks, allowing you to "trade-in" for a replacement
 
 
 # History and Original Design Pitch (semi-outdated)
@@ -275,16 +340,6 @@ I already have a first person character controller with sprint aim and crouch. I
 
 I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs   
 
-
-Spells / Weapons:   
-Orb (bounces, main attack)   
-Slash (horizontal wave)   
-Force Wall (upright and flat, offensive shield)   
-Dice (shotgun)   
-Lance (sniper-ish, spear)   
-
-add alt+fire to each
-visual differences to differentiate
 
 Traps:   
 Icy floor lowers friction   

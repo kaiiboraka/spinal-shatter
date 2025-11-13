@@ -56,24 +56,35 @@ every spell changes how your attack works.
 Orb: bounces, main attack 
 - charge: increases size, damage 
 - ALT FIRE: Explodes on impact, effectively a rocket launcher with high knockback
+
 Slash: horizontal slice wave 
 - charge: increases width: individual hit chunks, decreases damage 
 - ALT FIRE: Spin attack / Nova? sends everything out away from you
+
 Force Wall: upright and flat, offensive shield 
 - charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
-- ALT FIRE: Shield Bash/Chargemoves quickly, massively increases knockback directly away from you, lowers damage
+- ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage
+
 DICE: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
-- ALT FIRE:  ... trap? paint surfaces? idk
+- ALT FIRE:  ... Globulea of Tar trap to slow? idk
+
 Lance: sniper-ish, spear 
 - charge: fan of beams? 
 - ALT FIRE: stun?
+
 GARLIC: passive AoE damage 
 - charge: continual drain to empower it temporarily, Maybe like Bible visual with spinners 
 - ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes slightly
+
+Shards: volley of 3 small high damage pts, a la Model PX or VS Knife
+- charge: increase in volley count and shards per volley
+- ALT FIRE: 
+
 Chakram / Glaive: boomerang, bounces between targets 
 - charge: increases number of bounces before returning 
 - ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
+
 Missiles: Arcane Mage, locks on to targets 
 - charge: increases missile / lock-on count 
 - ALT FIRE: Lift / pull from ME, anti-gravity bubble from KH, suspends targets in the air helplessly

@@ -1,21 +1,57 @@
 Perfect analysis. To explain a little bit further, this old project code is a quick and dirty implementation of the Knapsack greedy algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, given an allotted budget based on progression, as you determined. So now consider @Scenes/Autoloads/WaveDirector.tscn @Scripts/Autoloads/WaveDirector.cs . I would like a robust and simple way to implement a similar structure of the old code, but for this game and its enemies, written in C#. This may involve a refactor of enemy that involves creating a new EnemyData resource if need be.
 
 
-
 # Spinal Shatter
+
+You are a lone sorceror, trapped in a decaying dungeon by a wicked necromancer. Mow down waves of undead hordes, or simply fight to survive, and grow in your magic power as you destroy
 
 ## this game is most like...
 
 Vampire Survivors + Hades + Halo Firefight
 
-
 ## objective
+
+
 
 Don't Die for as long as possible, trying to last until the end
 
 Lasting for number of waves instead of amount of time, but could have timed waves too
 set of waves in a room could end with a "boss"
 
+## Mechanics
+
+### Controls
+
+KBM / Controller = action
+---
+WASD / leftStick = Move
+Mouse / rightStick = Aim
+LMB / rightTrigger = (Press) Attack / (Hold) Charge Magic
+RMB / leftTrigger = Secondary Weapon ability (a.k.a. "Alt fire)
+MB4 (maybe E? maybe Ctrl?) / rightBumper = Siphon 
+MB5 / leftBumper = EITHER : (Parry / Guard?) or (use consumable, like trap?)
+Space / southButton = Jump (vertical)
+Shift / eastButton = Dodge (Horizontal)
+??? / northButton = ???
+F / westButton = Melee attack
+
+### Mana System
+
+The player is a spell caster that uses mechanics from other FPS games. we want physics based projectiles that you can charge to make bigger/stronger, with enemies dropping the mana you need to cast.
+We draw from DOOM 2016, and be able to beat enemies in melee if you're out of ammo. 
+
+IDEA: a special melee attack and/or takedown type move that will cause the enemy to eject a bunch of extra mana, refilling your "ammo" and sending you on your way to doom and glory. 
+
+IDEA: melee always ejects mana from an enemy, so if you're out of ammo, you can beat it out of them no matter what. Then you still have to siphon to draw it in.
+
+But how do you pick up all of these floating mana particles everywhere? That's where Siphon comes in.
+
+#### Siphon
+
+While the siphon button is held, firing new attack is disabled. Instead, you get a large vacuuming cone in front of you that draws in collectibles and pickups of any kind and slurps them in towards the player. I am considering it functioning akin to another of your weapons, but that seems like an unideal solution.
+
+TBD: If Siphon, like any other weapon, has a main "charge" functionality, and a secondary Alt Fire. If it does, its alt fire would be in the form of:
+Expel / Guard / Parry / Reflect: Instead of inhaling, release a burst of energy outward that will convert any successfully reflected enemy projectiles into your own projectiles and get sent back in the direction you're aiming.
 
 ## game loop
 
@@ -33,6 +69,40 @@ I beat some number of waves, I make it back through the open door, it closes beh
 
 Then I may visit the Shop in the center, then pick another room and begin again.
 
+### Challenges
+
+There are a number of ways to increase the risk/reward factor quite literally. Make the game harder, and increase reward multipliers. 
+
+#### Base game difficulty	
+
+This is a global modifer to enemy damage dealt, health, potentially an AI aggressiveness factor, and an increase of a global reward multiplier.
+
+	- D0_Braindead,
+	- D1_Easy,
+	- D2_Normal,
+	- D3_Hard,
+	- D4_Expert,
+	- D5_Brutal
+
+THOUGHT: Tiers within the secondary challenges... such as "no damage" --> "1 hp", or timer having less and less time and reaper getting faster, 10m -> 5m -> 2m.
+
+#### Timed mode
+
+A cursed Hourglass sits on a shelf in the central hub room. Activating this will enable a timer for the main combat arenas. Completing a round within the time limit will award increasing bonuses based on how much time remained, with less bonus the closer to 0, and more bonus the less time it took. If the timer runs out before the player clears all waves, a larger reaper-like enemy will appear and slowly move towards you, permanently accelerating its movespeed at a very slow rate (with time), but susceptible to all the player's crowd-control effects (knockback, stun, slow, root in place, etc.). If the player manages to clear the rest of the waves and finish the round, without getting one-shot killed by the Reaper, then they may try to escape out the room's door, locking the reaper in behind them. They get no time bonus if this happens, but their run may continue. The acceleration bonus of the reaper stops accruing once the round is over, but it persists to what it ended at the next time it spawns at a timeout (i.e. speed starts at 1. time runs out, speed accelerates up to 5 before the player escapes, then freezes. the next time the reaper spawns, it starts at 5 where it left off).
+
+Timed mode can be enabled from the central room any time it is disabled. It can only be disabled with a small (increasing) gold fee.
+
+
+#### Masochist mode
+
+1-HP challenge. If you get hurt, you die. Instantly, period. Must be enabled before the first round starts, and cannot be disabled until the whole run is over from success or death failure. Highest reward multiplier.
+
+#### Streaks and bonuses
+
+If you have a challenge enabled, there is another multiplier that starts to accrue on the SECOND time getting its bonus, that increases (likely to a cap) for continuing to get it round over round. The moment you fail the challenge, the bonus is lost/resets. For instance, clearing 3 timer challenges in a row might build up to a 1.3x reward multiplier, but if the timer runs out and the reaper spawns, then the bonus is reset to 1x.
+
+In addition to timer, there is also damage-taken as a "penalty" type bonus. In other words, you start with a max amount of bonus that gets subtracted for each point of damage you take, making it zero out once you have taken 100% of your max life in damage (healing mechanics would let you persist, despite bonus lost). But if you did the challenge perfectly, with zero infractions, then you get a fixed "PERFECT!" bonus on top of that.
+
 ## The Shop
 
 Shop accessible in the central room   
@@ -48,10 +118,13 @@ Be able to sell existing perks in your inventory, allowing you to "trade-in" for
 
 ## Item Types
 
-### Spells / Weapons / Attacks
+### Spells a.k.a. Weapons a.k.a. Attacks
 
 in this game the weapons / abilities are all spells.
 every spell changes how your attack works.
+
+Main weapon: spammable, can alternatively charge
+Secondary slot: can only Alt-fire, but can use main charge (interrupt main charge with alt-fire press)
 
 Orb: bounces, main attack 
 - charge: increases size, damage 
@@ -59,39 +132,37 @@ Orb: bounces, main attack
 
 Slash: horizontal slice wave 
 - charge: increases width: individual hit chunks, decreases damage 
-- ALT FIRE: Spin attack / Nova? sends everything out away from you
+- ALT FIRE: Spin attack / Nova, sends everything out away from you
 
 Force Wall: upright and flat, offensive shield 
 - charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
-- ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage
+- ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage 
 
 DICE: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
 - ALT FIRE:  ... Globulea of Tar trap to slow? idk
 
-Lance: sniper-ish, spear 
-- charge: fan of beams? 
-- ALT FIRE: stun?
+Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
+- charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.
+- ALT FIRE: ... stun beam? charge attack?
 
 GARLIC: passive AoE damage 
 - charge: continual drain to empower it temporarily, Maybe like Bible visual with spinners 
-- ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes slightly
-
-Shards: volley of 3 small high damage pts, a la Model PX or VS Knife
-- charge: increase in volley count and shards per volley
-- ALT FIRE: 
+- ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes or slows slightly
 
 Chakram / Glaive: boomerang, bounces between targets 
 - charge: increases number of bounces before returning 
 - ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
 
-Missiles: Arcane Mage, locks on to targets 
-- charge: increases missile / lock-on count 
-- ALT FIRE: Lift / pull from ME, anti-gravity bubble from KH, suspends targets in the air helplessly
+Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
+- charge: turns into lock on, increases missile / lock-on count 
+- ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly
 visual differences to differentiate
 
  
- maybe for lance? maybe for dice?
+mana drain?
+self buffs?
+
 
 ### Stats
 
@@ -118,9 +189,9 @@ Unsure of the design of how these are unlocked, if it's a "meta" currency, or if
 
 Reroll hallways
 Reroll shop
+Banish ?
 Freeze count in the shop
 Sell Value - up to at most 100% of original cost, TBD
-Banish ?
 
 ### permanent upgrades to minimum stats (individually toggleable)
 
@@ -136,63 +207,67 @@ Projectile Speed
 Projectile Size
 
 
-### 
+## Enemies
+
+enemies are described by a combination of several attributes:   
+
+SIZE: small(or medium, counts in the same size category) or large   
+
+MOVEMENT: GROUND or FLYING
+
+RANGE: MELEE or RANGED(variable distances, but all projectile type attacks greater than melee range)   
+2 * 2 * 2 = 8   
+
+That is all that defines the core unit types / varieties, is these combinations. 4 Small types, and 4 large types. Then ALL of these units can have simple "artificial-difficulty" ranks, or difficulty tiers. Rank 1 is easy, 2 is normal, 3 is hard, and 4 is brutal. They will be simple reskins that make them measurably stronger, with more health and damage, probably speed, and an aggressiveness factor. Perhaps they may even unlock extra abilities.
+
+RANK:    
+	- Tier1_Bone,   
+	- Tier2_Cloth,   
+	- Tier3_Iron,   
+	- Tier4_Obsidian,   
 
 
-# old info
-
-
-Because of the "survival" theme, I would like a secondary victory / lose condition to be that the timer expires. It can be considered a "draw". Basically, the game is about a balance of offense and defense... Offense is high risk, high reward. The more aggressive you are, the easier it is to hit enemies, but the easier for them to hit you and for you to lose. So Defense would be considered playing at range, since it's a shooter, and not risking getting hit as much. In this case, you will take less damage, but then your DPS (damage per second) is not high enough to clear the wave. 
-
-I'm trying to decide upon the purpose of the Timer in my shooter. Currently I'm caught between 2 main versions, where in either case it means "you didn't kill everything":
-
-- Win Condition: Survive until the timer runs out. Permits campy defensive play. Softens failure state with smaller rewards.
-- Lose Condition: Fail if the timer runs out. Disallows campy play, rewards aggression. 
-
-Escape the Reaper Timer Clock Demon
-
-1 HP Challenge modifier
-
-Perfect Bonus for Health? 
-allows the fixed HP bonus per HP left, allows healing to factor into bonuses
-
-
-diegetic wave counter? num of torches above the door that are lit?
-
-any of the bonuses measured per wave instead of per round?
-if you got FULL PERFECT
-
-~~or~~ AND streak bonuses? starts to accrue on the SECOND time getting a certain bonus
-
-
-BEAT FIVE WAVES, CLEAR A ROUND, REWARD SCREEN
-
-then go back to the center room, maybe teleported after a few seconds
-
-the shop guy opens his stock in front of you, then get to spend your gold
+| Unit Name | Priority Objective | Speed  | Size / Armor / HP | Movement | Attack Range   | Attack Rate | Attack Damage | Spawn Cost | Description                                        | Inspiration Reference                                                            |
+|-----------|--------------------|--------|-------------------|----------|----------------|-------------|---------------|------------|----------------------------------------------------|----------------------------------------------------------------------------------|
+| Scrounger | Ship/Cargo         | Fast   | Light             | Grounded | Melee          | Fast        | Low           | 0.5        | Tenacious pawns, brainless cannon fodder           | WarCraft Ghouls, Destiny Hive Thralls                                            |
+| Scrapper  | Ship/Engine        | Medium | Medium            | Grounded | Variable Range | Medium      | Medium        | 1          | Assault solider. Can wield any ranged weapon.      | SW Battle Droid, Destiny Hive Acolytes, Destiny Vex Goblins                      |
+| Lunker    | Player             | Medium | Heavy             | Grounded | Melee          | Slow        | High          | 2          | Front-line Bruiser, Normal walk, SLOW melee attack | LotR Troll, Overwatch Reinhardt, Warcraft 3 Mountain Giant, Destiny Hive Knights |
+| Buster    | Ship/Engine        | Slow   | Heavy             | Grounded | Mid Ranged     | Fast        | Medium        | 4          | Heavy Artillery, SLOW walk, fast midrange attack   | Team Fortress 2 The Heavy, Overwatch Mauga                                       |
+| Swooper   | Ship/Cargo         | Fast   | Light             | Flying   | Melee          | Medium      | Low           | 0.5        | Buzzing flies, vultures, pests, thieves            | SW Geonosian, Stormgate Spriggan, Warcraft Harpies                               |
+| Zapper    | Player             | Medium | Medium            | Flying   | Long Ranged    | Slow        | High          | 2          | Flying Snipers.                                    | Mass Effect Geth Hopper                                                          |
+| Boomer    | Player             | Slow   | Heavy             | Flying   | Mid Ranged     | Fast        | High          | 3          | Death from above, the Flame Comes.                 | SW Flametrooper, Yer average firebreathing dragon                                |
+| Shredder  | Ship/Hull          | Medium | Medium            | Flying   | Melee          | Medium      | Medium        | 3          | my what huge CLAWS YOU HAVE                        | Metroid Dread Emmi with Wings, tears things apart with ease                      |
 
 
 
-### Reward Types
+## powerups
 
-- Abilities
-- Stats
-- Currency
+I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs   
 
 
+Traps:   
+Icy floor lowers friction   
+Floor is Lava, take damage and lose mana   
+Goopy floor, slowed down   
+Spike ball rolls through and knocks back  
+
+temporary buffs:  
+infinite ammo   
+invincibility   
+Invisibility while not attacking   
+super speed   
+
+Avowed? might have good first-person magic reference
+A mix of guns and spells
+Borderlands - Dragon Keep expac?
+Tiny Tina's Wunderlands? - Spellshot class
 
 
+---
 
-## Rewards -- Currency
+old information
 
-Gold, darn it, gold!
-
-put a shop in the middle hub
-
-
-
-
-# History and Original Design Pitch (semi-outdated)
+# History and Original Design Pitch (outdated concept info)
 
 The Game Jam theme was spooky
 Because next week is Halloween
@@ -303,71 +378,6 @@ the neutral particles were purple, yours were blue, and the enemies were red. so
 There were large negation zones akin to "soccer goals" on the walls on the opposite side, where freeflying particles would be brought back into the arena's pool.
 then once the pool hit a certain threshold, the same cannons that emit particles at the start of the match would fire again, releasing more neutral energy into the play space.
 There were also crystals that could spawn in the arena that serve as a big "ammo refill"
-
-# back to this game, Spinal Shatter
-
-So, now it's going to be a PvE (player vs. "environment" i.e. non-players) DOOM like FPS. I don't need all of the complexity of the old system designs, but I do want some degree of the core essence of it somehow.   
-I'm wondering about how to translate it, but I think the core things that I want are a charge-able projectile attack that bounces off of walls.    
-Siphoning may be cool to keep still, potentially, again very Metroid inspired.   
-
-## Enemies
-
-enemies are a combination of several attributes   
-SIZE: small(or medium, counts in the same size category) or large   
-MOVEMENT: ground or flying   
-RANGE: melee or range(variable distances, but all projectile type attacks greater than melee range)   
-2 * 2 * 2 = 8   
-
-then ALL of these units can have simple "artificial-difficulty" ranks. Rank 1 is easy, 2 is normal, and 3 is hard. They will be simple recolors that make them stronger, with more health and damage and speed probably.
-
-| Unit Name | Priority Objective | Speed  | Size / Armor / HP | Movement | Attack Range   | Attack Rate | Attack Damage | Spawn Cost | Description                                        | Inspiration Reference                                                            |
-|-----------|--------------------|--------|-------------------|----------|----------------|-------------|---------------|------------|----------------------------------------------------|----------------------------------------------------------------------------------|
-| Scrounger | Ship/Cargo         | Fast   | Light             | Grounded | Melee          | Fast        | Low           | 0.5        | Tenacious pawns, brainless cannon fodder           | WarCraft Ghouls, Destiny Hive Thralls                                            |
-| Scrapper  | Ship/Engine        | Medium | Medium            | Grounded | Variable Range | Medium      | Medium        | 1          | Assault solider. Can wield any ranged weapon.      | SW Battle Droid, Destiny Hive Acolytes, Destiny Vex Goblins                      |
-| Lunker    | Player             | Medium | Heavy             | Grounded | Melee          | Slow        | High          | 2          | Front-line Bruiser, Normal walk, SLOW melee attack | LotR Troll, Overwatch Reinhardt, Warcraft 3 Mountain Giant, Destiny Hive Knights |
-| Buster    | Ship/Engine        | Slow   | Heavy             | Grounded | Mid Ranged     | Fast        | Medium        | 4          | Heavy Artillery, SLOW walk, fast midrange attack   | Team Fortress 2 The Heavy, Overwatch Mauga                                       |
-| Swooper   | Ship/Cargo         | Fast   | Light             | Flying   | Melee          | Medium      | Low           | 0.5        | Buzzing flies, vultures, pests, thieves            | SW Geonosian, Stormgate Spriggan, Warcraft Harpies                               |
-| Zapper    | Player             | Medium | Medium            | Flying   | Long Ranged    | Slow        | High          | 2          | Flying Snipers.                                    | Mass Effect Geth Hopper                                                          |
-| Boomer    | Player             | Slow   | Heavy             | Flying   | Mid Ranged     | Fast        | High          | 3          | Death from above, the Flame Comes.                 | SW Flametrooper, Yer average firebreathing dragon                                |
-| Shredder  | Ship/Hull          | Medium | Medium            | Flying   | Melee          | Medium      | Medium        | 3          | my what huge CLAWS YOU HAVE                        | Metroid Dread Emmi with Wings, tears things apart with ease                      |
-
-these originally came from a steampunk roguelike game where you were a mercenary on airships defending them against robot attackers
-these enemies need to be adapted into medieval gothic fantasy creatures instead with the same mechanical structure and game design.
-
-Enemy AI should be simple, driven by positioning predominantly. Detection is a big question, but I'd love if it was dead simple, like automatic upon entering a room or something. But after that, they just need to try and get into proximity to do their main attack, and then have a cooldown before they re-evaluate and try it again.
-
-the content inside @Scripts\proto-wave-sim has a knapsack-problem implementation of assigning weights based on the data in the chart, as well as multipliers based on rank, and then creating random waves of enemies based on this grab bag.
-
-I might do something similar in this game. It may just start in a small arena. But I'd love to have actual levels eventually. Maybe what I can do is have a hub that connects to like 3-4 different arena rooms at the end of hallways, then we can apply the detection logic plan, and after defeating them we can have a round spawning in another room and you run over and do it in that room. or maybe it just teleports you back to the hub after it's over via some portal. either way, it's a simple way to try different things.
-
-## player
-
-so again, we want to be a spell caster that uses mechanics from other FPS games. we want physics based projectiles that you can charge to make bigger/stronger, with enemies dropping the mana you need to cast.
-I want to draw from DOOM 2016 and be able to beat enemies if you're out of ammo. I imagine a special melee attack and/or takedown type move that will cause the enemy to eject a bunch of extra mana, refilling your "ammo" and sending you on your way to doom and glory. I can imagine melee always ejects mana from an enemy, so if you're out of ammo, you can beat it out of them no matter what. Then you still have to siphon to draw it in.
-
-I already have a first person character controller with sprint aim and crouch. I would love to add other mobility later, but that's TBD. Now it's just a matter of extending it.
-
-## powerups
-
-I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs   
-
-
-Traps:   
-Icy floor lowers friction   
-Floor is Lava, take damage and lose mana   
-Goopy floor, slowed down   
-Spike ball rolls through and knocks back  
-
-temporary buffs:  
-infinite ammo   
-invincibility   
-Invisibility while not attacking   
-super speed   
-
-Avowed? might have good first-person magic reference
-A mix of guns and spells
-Borderlands - Dragon Keep expac?
-Tiny Tina's Wunderlands? - Spellshot class
 
 
 ## objective

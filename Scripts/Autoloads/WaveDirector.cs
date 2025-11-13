@@ -36,14 +36,14 @@ public partial class WaveDirector : Node
 	};
 	public Dictionary<DifficultyTier, float> DifficultyMultipliers => difficultyMultipliers;
 
-	[Export] private Dictionary<EnemyStrengthTier, float> enemyStrengthMultipliers = new()
+	[Export] private Dictionary<EnemyRank, float> enemyStrengthMultipliers = new()
 	{
-		{ EnemyStrengthTier.Tier1_Bone, 1 },
-		{ EnemyStrengthTier.Tier2_Cloth, 2 },
-		{ EnemyStrengthTier.Tier3_Iron, 3 },
-		{ EnemyStrengthTier.Tier4_Obsidian, 4 }
+		{ EnemyRank.Rank1_Bone, 1 },
+		{ EnemyRank.Rank2_Cloth, 2 },
+		{ EnemyRank.Rank3_Iron, 3 },
+		{ EnemyRank.Rank4_Obsidian, 4 }
 	};
-	public Dictionary<EnemyStrengthTier, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
+	public Dictionary<EnemyRank, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

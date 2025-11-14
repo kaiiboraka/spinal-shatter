@@ -1,13 +1,55 @@
-Perfect analysis. To explain a little bit further, this old project code is a quick and dirty implementation of the Knapsack greedy algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, given an allotted budget based on progression, as you determined. So now consider @Scenes/Autoloads/WaveDirector.tscn @Scripts/Autoloads/WaveDirector.cs . I would like a robust and simple way to implement a similar structure of the old code, but for this game and its enemies, written in C#. This may involve a refactor of enemy that involves creating a new EnemyData resource if need be.
-
-
 # Spinal Shatter
 
-You are a lone sorceror, trapped in a decaying dungeon by a wicked necromancer. Mow down waves of undead hordes, or simply fight to survive, and grow in your magic power as you destroy
+A retro-styled First-Person roguelite Shooter, inspired by Arcade Hard games of old. Originally developed for the BYU Game Development Club's Fall 2025 Game Jam, to the theme of "SPOOKY".
+
+## Fantasy
+
+You, a lone sorceror, awaken in a dark, dank dungeon. The last thing you remember is the cackling of the wicked necromancer who had cornered and captured you. With no natural light to speak of, you conclude that the only way out is through. Armed with only your knack for spellcraft, you must now venture out into the darkness to chew through an onslaught of undead hordes, and grow in your magic power enough to claim your revenge, and your freedom...
 
 ## this game is most like...
 
-Vampire Survivors + Hades + Halo Firefight
+### Aesthetic Inspriation
+
+- DOOM (1993) 
+- Vampire Survivors
+
+### Mechanic Inspiration
+
+- Vampire Survivors
+- Halo Firefight 
+- DOOM 2016
+- Hades
+
+## Game loop
+
+### Context: Map structure
+
+A central hub connects to 4 hallways, in each of the cardinal directions, each with its own unique arena room at the other end. The entrance to each hallway is identified by a torch of a unique color. The torches being lit represents them being "open"/"active" to choose, while being unlit represents them being closed and unavailable. Also in the central hub are a number of interactable items and/or NPCs that modify game mode settings, or provide progression systems for the player.
+
+At the start of a new run, or amid a run and directly after finishing a round and exiting its arena room, 2 randomly selected hallways torches are lit (excluding the one that was just completed, if any). Each of the lit hallways has a completion reward associated with it, displayed diegetically.
+
+Each quadrant has a different visual and mechanical theme to it.
+
+### Scenario walkthrough
+
+#### Introduction
+
+The game begins. I am in the central room. Two of the 4 hallways have their torches lit, with an icon of some sort showing what the reward would be for me were I to go down that hallway into that room and complete the challenge beyond. I choose the path in front of me simply by going down into the chamber at the end of the hallway. Once I enter the room, its Door locks behind me, and the Round starts. The Round is comprised of multiple Waves of randomly selected enemies. 
+
+#### Enemy Spawning
+
+Internally, the game is keeping track of the number of waves and rounds I have completed. Each successful wave increases the game's "budget" for spawning by a small amount, and each Round completed increases it by a significantly larger amount.  It then spends this budget on a randomized selection of enemies utilizing greedy Knapsack algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, and filling in the rest with smaller and smaller foes until it's filled.
+
+#### What happens after a round is beaten?
+
+I beat some number of enemy waves with my life intanct, so I make it back through the now-open Door. It then closes behind me and the round ends, resulting in a payout screen that gives me a bunch of money. I am also granted the reward promised in the hallway before I chose it.
+
+Then I re-enter the central hub and visit the Shop to spend some of the money I gained on acquiring upgrades for my character on this run.
+
+After I'm content, I then pick another room and begin the loop again.
+
+#### TL;DR
+choose a hallway, enter a room, kill the monsters, get out, get paid, get buff.
 
 ## objective
 
@@ -53,21 +95,24 @@ While the siphon button is held, firing new attack is disabled. Instead, you get
 TBD: If Siphon, like any other weapon, has a main "charge" functionality, and a secondary Alt Fire. If it does, its alt fire would be in the form of:
 Expel / Guard / Parry / Reflect: Instead of inhaling, release a burst of energy outward that will convert any successfully reflected enemy projectiles into your own projectiles and get sent back in the direction you're aiming.
 
-## game loop
+Control wise, right now it IS alt-fire (other trigger/MB)
+instead, it should be "another weapon", where pressing 2 will jump to it, or scrolling wheel will cycle through, 
 
-enter a room, kill some dudes, get paid, get out.
+### Powerups
 
-finishing a room, come out, your hallway candle dark, 2 other random ones lit
-each has a reward associated with it, like Hades
-ensures variety of rooms played, not just picking your favorite every SINGLE time, because it could be the one missing
+There will be arcadey powerups that make you temporarily stronger. For instance, consumable traps to crowd control enemies, and buffs of various sorts.
 
-I would like this game to have a structure that allows for the following gameplay loop, allow me to explain with a hypothetical scenario:
+Traps:   
+- Icy floor lowers friction, lose directional control  
+- Floor is Lava, take damage and lose mana   
+- Goopy floor, slowed down   
+- Spike ball rolls through and knocks back  
 
-The game begins. I am in the central room. Two of the 4 hallways have their torches lit, with an icon showing what the reward would be for me were I to go down that hallway into that room and complete the challenge beyond. I choose the path in front of me simply by going down into the chamber at the end of the hallway. Once I enter the room, the Door locks behind me, and the Round starts. The Round is comprised of multiple Waves of randomly selected enemies. Internally, the game is keeping track of the number of waves and rounds I have completed. Each successful wave increases the game's "budget" for spawning by a small amount, and each Round completed increases it by a significantly larger amount.  It then spends this budget on a randomized selection of enemies utilizing greedy Knapsack algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, and filling in the rest with smaller and smaller foes until it's filled.
-
-I beat some number of waves, I make it back through the open door, it closes behind me and the round ends, resulting in a payout screen that gives me a bunch of money. I am also granted the reward promised in the hallway before I chose it.
-
-Then I may visit the Shop in the center, then pick another room and begin again.
+temporary buffs:  
+- infinite ammo   
+- invincibility   
+- Invisibility while not attacking   
+- super speed   
 
 ### Challenges
 
@@ -140,7 +185,7 @@ Force Wall: upright and flat, offensive shield
 
 DICE: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
-- ALT FIRE:  ... Globulea of Tar trap to slow? idk
+- ALT FIRE:  ... Globules of Tar trap to slow? Caltrops?
 
 Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
 - charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.
@@ -238,151 +283,3 @@ RANK:
 | Boomer    | Player             | Slow   | Heavy             | Flying   | Mid Ranged     | Fast        | High          | 3          | Death from above, the Flame Comes.                 | SW Flametrooper, Yer average firebreathing dragon                                |
 | Shredder  | Ship/Hull          | Medium | Medium            | Flying   | Melee          | Medium      | Medium        | 3          | my what huge CLAWS YOU HAVE                        | Metroid Dread Emmi with Wings, tears things apart with ease                      |
 
-
-
-## powerups
-
-I still want some kind of arcadey powerups that make you temporarily stronger. I imagine, changing your main attack to a different shape, consumable traps to crowd control enemies, and buffs   
-
-
-Traps:   
-Icy floor lowers friction   
-Floor is Lava, take damage and lose mana   
-Goopy floor, slowed down   
-Spike ball rolls through and knocks back  
-
-temporary buffs:  
-infinite ammo   
-invincibility   
-Invisibility while not attacking   
-super speed   
-
-Avowed? might have good first-person magic reference
-A mix of guns and spells
-Borderlands - Dragon Keep expac?
-Tiny Tina's Wunderlands? - Spellshot class
-
-
----
-
-old information
-
-# History and Original Design Pitch (outdated concept info)
-
-The Game Jam theme was spooky
-Because next week is Halloween
-Aaaaaaand all I could think of was this maniacal cackle: Spinal from the fighting game "Killer Instinct".
-And then Joseph, of course he did, had a whole section in his master doc of game ideas dedicated to Spooky
-And one of them sounded cool, but it really just made me think of the original DOOM
-so then I had an image of pixel art skeleton and a jump scare
-But I was stumped, because I was doing it top down design (theme first) and not bottom up (mechanics first)
-So I didn't have a clue as to actual mechanics. 
-I had a DOOM aesthetic but not necessarily those mechanics.
-Aaaaaaand then BRAIN BLAST
-
-I'm gonna freaking make "spell slingers"
-
-# Wait, what's Spell Slingers?
-
-## overview
-
-Spell Slingers was a First Person shooter idea I had for my school's capstone game project.
-It was originally going to be a 1v1 PvP game (player versus player) in an arena that gets smaller and more chaotic the longer the match goes on.
-The main mechanic was based on Metroid Prime's charge beam. Particles of magic would scatter into the arena, and you had two main verbs: siphon, and expel.
-If you charge your siphon, you will vacuum in magic energy, in a zero-sum contest for the raw material needed to fight.
-Then that would become your ammo reserves. then you could charge up your expel move which would create a ball-like projectile that would get bigger, using more stored energy, the longer you charged it.
-There were to be different properties, all physics based, to the projectiles. They were to bounce around the arena, ricocheting off walls based on the reflection of their collision angle.
-Then there were going to be powerups that temporarily changed the shape and behavior of your projectiles.
-For instance, instead of making a high density orb that does a lot of damage, you could get a wide spread wave, or a flat sheet of particles that would serve to "block" enemy projectiles.
-the denser, the fast and more deadly. it was extremely emergent based on a simple set of rules for how the density of particles affected the interactions. in short, though, more particles would beat less particles.
-Just to reiterate, particles were the pieces of magic that would be vacuumed up.
-
-A note about these particles: they are supposed to "neutralize" each other. So when your particles collided with enemy particles, they both dissipate. 
-If you fire an orb, and the enemy launches a wall, the particles that collide turn neutral, the orb loses mass and slows down, dealing less damage on impact.
-
-here's a piece of the design info I wrote down
-
-## original projectile notes
-
-rightTrigger = Charge / Fire Magic
-leftTrigger = Siphon Magic
-rightBumper = Eject (impulse) / Cast Equipped Spell. impulse in front, can be charged
-leftBumper = Parry / Guard
-aButton = Jump (vertical)
-leftStick = Move
-rightStick = Aim
-bButton = Dodge (Horizontal). dodge using the impulse in your current direction of input. Charging with RB also empowers dodge, costing more energy.
-yButton = Switch Spells
-xButton = Punch
-
-Siphoning - happens passively in a small radius around you when not doing any other action (except moving). Heavy siphon becomes a strong focused dedicated channel as original
-
-Eject - impulse in the direction you're aiming at the cost of some energy
-It will do its math on all projectiles in its hitbox, and also push you in the opposite direction, including backwards, so be careful
-
-Size thresholds in particle counts
-So 0-10 small
-Medium 11-60
-61-90 Large
-91-100 Huge
-
-Larger things have lower acceleration
-Smaller things have high acceleration
-Projectiles hue shifts with damage for visual clarity
-
-Parry flies in the direction you're aiming  
-
-Orbs bounce on the walls and eject 5-10% of current mass on collision   
-
-Small under 10 explode on collision and don't bounce    
-
-Shape:   
-	Line   
-	Plane    
-	Orb    
-
-Wall: +defense -pierce -dmg   
-Arrow: +Pierce(armor pen) -Defense -dmg   
-Orb: +Explode(dmg) -defense -pierce   
-Wave: + Spread(trample) - Pierce   
-Shotgun: +Count - Size(dmg)   
-Big: +Size -UpCost   
-
-Orb / Point: 0   
-Wave / Slash: +X (width)   
-Slice / Chop: +Y (height)   
-Lance / Arrow / Spear: +Z (pierce)   
-Sheet / Card: +XZ (niche application)   
-Plane / Slip: +YZ (niche application)   
-Barrier / Wall: +XY (defense)   
-Box / Cube / Field: +XZY (lower skill, simple to use, decent defense, low damage)   
-
-## Siphon
-
-right now it IS alt-fire (other trigger/MB)
-
-instead, it could be "another weapon", where pressing 2 or scroll wheel will switch, 
-then it can have a primary and alt mode for firing as well
-maybe push vs pull
-OH YEAH SPELL SLINGERS HAD PARRY
-
-## Spell Slinger's pitch script
-
-It’s time to DUEL! Grow your magic power and blast away your opponents in this fast-paced first-person magic shooter. Vie for control of finite resources as you absorb, deflect, and retaliate the magic all around the arena in a contest for domination! 
-
-High in the towers of an arcane sanctum, two apprentice sorcerers stand face to face on an arena platform suspended high in the air. The timer counts down… and with a POP, clouds of magical energy burst into the air between you two. Wielding a specialized gauntlet, you rush to absorb as much of the mana particles as you can, siphoning them in from a distance, while keeping an eye on your opponent for any sudden moves. Then you see a flash, and an aggressive wave of magic comes flying your direction. You barely manage to guard against the blast, and then it flies off to shatter on the barrier behind you, dissipating its energy back into the field. You take advantage of the opportunity by barraging your opponent with a series of smaller blasts, trying to catch them off guard. As they hide behind their shield, you lob a much larger blast at them, but right at the last second, they deflect it back at you! You retaliate with a parry of your own, and the energized ball of magic picks up speed, magnetizing nearby floating energy and growing in size as it flies. After a few more volleys of increasing intensity, the ball becomes huge! The next missed parry will decide the match, as the massive orb explodes and sends someone flying… will you fall to your shameful demise? Or will you rise to defeat your adversaries in the spell slinging showdown?!
-
-## other details about Spell Slingers
-
-the neutral particles were purple, yours were blue, and the enemies were red. so when red and blue collide, they'd revert to purple.
-There were large negation zones akin to "soccer goals" on the walls on the opposite side, where freeflying particles would be brought back into the arena's pool.
-then once the pool hit a certain threshold, the same cannons that emit particles at the start of the match would fire again, releasing more neutral energy into the play space.
-There were also crystals that could spawn in the arena that serve as a big "ammo refill"
-
-
-## objective
-
-the original Spell Slingers had a PVP objective: last man standing, literally. the platform would shrink as the battle continued. the projectiles have knockback properties. once you blast someone off the stage, you win the round.
-
-In this game, I imagine waves of enemies that spawn. You just have to defeat them.
-I don't know what health looks like yet in this game, maybe it's just like Vampire Survivors where it really is just about survival until it's over. So last until time, or die. So we could have rare consumable pickups that heal.

@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Linq;
 using Godot.Collections;
 
 namespace SpinalShatter;
 
 public partial class WaveDirector : Node
 {
+	public int CurrentRound { get; private set; } = 1;
 	public DifficultyTier SelectedDifficulty = DifficultyTier.D2_Normal;
 	public bool IsRoundStarted { get; private set; } = false;
 	private Timer RoundTimer;
@@ -13,6 +15,7 @@ public partial class WaveDirector : Node
 	private int waveCurrent;
 	private int waveMax;
 
+	[ExportGroup("Rewards")]
 	[Export] private float moneyGivenPerSecondLeft = 5;
 	[Export] private float moneyGivenPerHealthLeft = 10;
 
@@ -25,6 +28,11 @@ public partial class WaveDirector : Node
 	private float startingPlayerHealth;
 	private float endingPlayerHealth;
 
+	[ExportGroup("Spawning")]
+	[Export] private Array<EnemyData> availableEnemies = new();
+	[Export] private float baseBudget = 50f;
+
+	[ExportGroup("Difficulty")]
 	[Export] private Dictionary<DifficultyTier, float> difficultyMultipliers = new()
 	{
 		{ DifficultyTier.D0_Braindead, .5f },
@@ -55,11 +63,64 @@ public partial class WaveDirector : Node
 		player.HealthComponent.Died += OnRoundLost;
 	}
 
+	private float CalculateBudget()
+    {
+        float difficultyMultiplier = difficultyMultipliers[SelectedDifficulty];
+        // Exponential growth for round scaling, similar to the old project
+        float roundMultiplier = Mathf.Pow(1.15f, CurrentRound - 1);
+        return baseBudget * roundMultiplier * difficultyMultiplier;
+    }
+
+	public Array<PackedScene> GenerateEnemyList()
+	{
+		float budget = CalculateBudget();
+		var enemiesToSpawn = new Array<PackedScene>();
+
+		if (availableEnemies.Count == 0)
+		{
+			GD.PrintErr("WaveDirector: No available enemies to spawn!");
+			return enemiesToSpawn;
+		}
+
+		// Cast to IEnumerable<EnemyData> to use LINQ, then calculate cost and sort.
+		var sortedEnemies = availableEnemies.Cast<EnemyData>()
+			.Select(data => new { Data = data, Cost = data.BaseCost * enemyStrengthMultipliers[data.Rank] })
+			.OrderByDescending(e => e.Cost)
+			.ToList();
+		
+		// Greedy algorithm: Prioritize spending budget on the most expensive units first.
+		foreach (var enemy in sortedEnemies)
+		{
+			if (enemy.Cost <= 0) continue;
+
+			while (budget >= enemy.Cost)
+			{
+				enemiesToSpawn.Add(enemy.Data.Scene);
+				budget -= enemy.Cost;
+			}
+		}
+
+		return enemiesToSpawn;
+	}
+
 	private void OnRoundStart()
 	{
 		IsRoundStarted = true;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;
 		RoundTimer.Start();
+
+		// --- Orchestration (Phase 4) ---
+		// 1. Get the list of enemies to spawn
+		// var enemies = GenerateEnemyList();
+		
+		// 2. Get the current LevelRoom and its spawners
+		// LevelRoom activeRoom = ...;
+		
+		// 3. Initialize spawner pools
+		// activeRoom.InitializeSpawners(enemies.Select(e => e.Scene).Distinct());
+		
+		// 4. Tell the room to start spawning
+		// activeRoom.StartSpawning(enemies);
 	}
 
 	private void OnRoundEnd()
@@ -86,6 +147,8 @@ public partial class WaveDirector : Node
 
 		moneyHealthBonus = (int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);
 		player.AddMoney(moneyHealthBonus);
+
+		CurrentRound++;
 	}
 
 	private void OnRoundTimerTimeout()

@@ -64,18 +64,19 @@ set of waves in a room could end with a "boss"
 
 ### Controls
 
-KBM / Controller = action
----
-WASD / leftStick = Move
-Mouse / rightStick = Aim
-LMB / rightTrigger = (Press) Attack / (Hold) Charge Magic
-RMB / leftTrigger = Secondary Weapon ability (a.k.a. "Alt fire)
-MB4 (maybe E? maybe Ctrl?) / rightBumper = Siphon 
-MB5 / leftBumper = EITHER : (Parry / Guard?) or (use consumable, like trap?)
-Space / southButton = Jump (vertical)
-Shift / eastButton = Dodge (Horizontal)
-??? / northButton = ???
-F / westButton = Melee attack
+| KBM / Controller | action  |
+| ---  | -- |
+| WASD / leftStick | Move |    
+| Mouse / rightStick | Aim |    
+| LMB / rightTrigger | (Press) Attack / (Hold) Charge Magic |       
+| RMB / leftTrigger | Secondary Weapon ability (a.k.a. "Alt fire) |    
+| MB4 (maybe E? maybe Ctrl?) / rightBumper | Siphon    
+| MB5 / leftBumper | EITHER : (Parry / Guard?) or (use consumable, like trap?)     
+| Space / southButton | Jump (vertical) |   
+| Shift / eastButton | Dodge (Horizontal) |    
+| ??? / northButton | ??? |    
+| F / westButton | Melee attack |    
+
 
 ### Mana System
 

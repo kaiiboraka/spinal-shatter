@@ -8,10 +8,37 @@ public partial class LevelRoom : Node3D
 	[Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
 
 	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
+	[Signal] public delegate void RoundWonEventHandler();
 
 	[Export] private Area3D _triggerVolume;
 	[Export] private Array<EnemySpawner> _spawners;
 	[Export] private bool alwaysShow = false;
+	private void OnEnemyDied(Enemy who)
+	{
+		UnregisterEnemy(who);
+	}
+
+	private void CheckRoundWon()
+	{
+		if (!IsActive) return;
+
+		// Check if all spawners are finished
+		foreach (var spawner in _spawners)
+		{
+			if (!spawner.IsFinished)
+			{
+				return; // At least one spawner is not done yet
+			}
+		}
+
+		// If all spawners are finished and no enemies are left, the round is won
+		if (_enemiesInRoom.Count == 0)
+		{
+			GD.Print("Round Won!");
+			EmitSignal(SignalName.RoundWon);
+		}
+	}
+
 
 	public bool IsActive { get; private set; }
 	private readonly List<Enemy> _enemiesInRoom = new();
@@ -59,11 +86,16 @@ public partial class LevelRoom : Node3D
 		if (_enemiesInRoom.Contains(enemy)) return;
 		_enemiesInRoom.Add(enemy);
 		enemy.AssociatedRoom = this;
+		enemy.EnemyDied += OnEnemyDied;
 	}
 
 	public void UnregisterEnemy(Enemy enemy)
 	{
-		_enemiesInRoom.Remove(enemy);
+		if (_enemiesInRoom.Remove(enemy))
+		{
+			enemy.EnemyDied -= OnEnemyDied;
+			CheckRoundWon();
+		}
 	}
 
 	private void OnBodyEntered(Node3D body)

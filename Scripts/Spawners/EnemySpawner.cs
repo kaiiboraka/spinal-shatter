@@ -6,15 +6,28 @@ public partial class EnemySpawner : Node3D
 {
     [Export] private Array<PackedScene> _enemyScenes = new();
     [Export] public bool IsEnabled { get; set; } = true;
+
+    [ExportGroup("Spawning Logic")]
     [Export] private int _maxActiveEnemies = 10;
     [Export] private float _spawnInterval = 5.0f;
     [Export] private int _enemiesPerSpawn = 1;
     [Export] private bool _spawnInRandomOrder = false;
     [Export] private bool _useGrabBag = false;
 
+    [ExportGroup("Finite Spawning")]
+    [Export] private int _totalEnemiesToSpawn = 10;
+    [Export] private int _waves = 1;
+    [Export] private float _timeBetweenWaves = 5.0f;
+
+    public bool IsFinished { get; private set; }
+    private int _spawnedThisWave = 0;
+    private int _spawnedTotal = 0;
+    private int _currentWave = 0;
+
     private LevelRoom _owningRoom;
 
     private Timer _spawnTimer;
+    private Timer _waveTimer;
     private int _spawnIndex = 0;
     private int _activeEnemyCount = 0;
     private Array<PackedScene> _grabBag = new();
@@ -51,18 +64,54 @@ public partial class EnemySpawner : Node3D
         _spawnTimer.Autostart = true;
         _spawnTimer.Timeout += OnSpawnTimerTimeout;
         AddChild(_spawnTimer);
+
+        _waveTimer = new Timer();
+        _waveTimer.WaitTime = _timeBetweenWaves;
+        _waveTimer.OneShot = true;
+        _waveTimer.Timeout += OnWaveTimerTimeout;
+        AddChild(_waveTimer);
+    }
+
+    private void OnWaveTimerTimeout()
+    {
+        _currentWave++;
+        _spawnedThisWave = 0;
+        _spawnTimer.Start();
     }
 
     private void OnSpawnTimerTimeout()
     {
-        if (!IsEnabled || _activeEnemyCount >= _maxActiveEnemies || _enemyScenes == null || _enemyScenes.Count == 0)
+        if (!IsEnabled || IsFinished || _activeEnemyCount >= _maxActiveEnemies || _enemyScenes == null || _enemyScenes.Count == 0)
         {
             return;
+        }
+
+        // If we are using waves, check if the current wave is finished.
+        if (_waves > 1)
+        {
+            int enemiesPerWave = _totalEnemiesToSpawn / _waves;
+            if (_spawnedThisWave >= enemiesPerWave)
+            {
+                _spawnTimer.Stop();
+                // Don't start the next wave if all waves are done
+                if (_currentWave < _waves -1)
+                {
+                    _waveTimer.Start();
+                }
+                return;
+            }
         }
 
         for (int i = 0; i < _enemiesPerSpawn; i++)
         {
             if (_activeEnemyCount >= _maxActiveEnemies) break;
+            
+            // Stop spawning if we've hit the total limit
+            if (_spawnedTotal >= _totalEnemiesToSpawn)
+            {
+                IsFinished = true;
+                return;
+            }
 
             PackedScene sceneToSpawn;
 
@@ -98,6 +147,8 @@ public partial class EnemySpawner : Node3D
                     newEnemy.EnemyDied += OnEnemyDied;
                     _owningRoom.RegisterEnemy(newEnemy);
                     _activeEnemyCount++;
+                    _spawnedTotal++;
+                    _spawnedThisWave++;
                 }
                 else
                 {
@@ -106,6 +157,12 @@ public partial class EnemySpawner : Node3D
                     newEnemyNode.GlobalPosition = this.GlobalPosition + Vector3.Up;
                 }
             }
+        }
+        
+        // Final check to see if we're done after this spawn cycle
+        if (_spawnedTotal >= _totalEnemiesToSpawn)
+        {
+            IsFinished = true;
         }
     }
 

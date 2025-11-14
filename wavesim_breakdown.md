@@ -935,17 +935,3 @@ The logic is separated from the data, making the system flexible.
 6.  The `squad.gd` node receives this list of enemies and, on a timer, calls `Generators.create_enemy()` to spawn the actual `Enemy` nodes into the scene.
 
 In essence, it's a cascade of generation, from a high-level `Trip` down to the individual `Enemy`, with each step controlled by timers and driven by a cost-based procedural generation system.
-
-
-
-
-
-
-
-
-
-
-///
-
-
-Perfect analysis. To explain a little bit further, this old project code is a quick and dirty implementation of the Knapsack greedy algorithm for selecting the largest, most difficult (and therefore most expensive) enemies first, given an allotted budget based on progression, as you determined. So now consider @Scenes/Autoloads/WaveDirector.tscn @Scripts/Autoloads/WaveDirector.cs . I would like a robust and simple way to implement a similar structure of the old code, but for this game and its enemies, written in C#. This may involve a refactor of enemy that involves creating a new EnemyData resource if need be.

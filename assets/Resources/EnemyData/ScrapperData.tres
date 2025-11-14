@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="2_fghij"]
+
+[resource]
+script = ExtResource("1_abcde")
+Name = "Scrapper"
+Scene = ExtResource("2_fghij")
+BaseCost = 1
+Rank = 0 ; Rank1_Bone

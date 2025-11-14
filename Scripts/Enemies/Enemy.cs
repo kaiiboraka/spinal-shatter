@@ -11,7 +11,9 @@ public partial class Enemy : Combatant
 	private List<CollisionShape3D> _collisionShapes = new();
 	private AIState _currentState = AIState.Idle;
 
-	[ExportGroup("Components")] [Export] private AnimationPlayer _animPlayer;
+	[ExportGroup("Components")] 
+	[Export] public EnemyData Data { get; private set; }
+	[Export] private AnimationPlayer _animPlayer;
 
 	[Export] private AnimatedSprite3D _animatedSprite;
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;

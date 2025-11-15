@@ -1,12 +1,26 @@
-[TRACE][DebugManager @ DebugManager: CanvasLayer] manaCost: 50, manaPerInterval: 5,  intervalsCharged: 10
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 20, chargeRatio: 1, damageMultiplier: 16, damage: 800
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 10, new 10.540589603506518, rounded 11 -- 2 coins
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 6.25, CurrentMana: 50, IsEnemyHit: True
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 4.375, CurrentMana: 43.75, IsEnemyHit: True
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.70129, CurrentMana: 39.375, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 10, new 10.099641660789151, rounded 11 -- 11 coins
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 18.67371, IsEnemyHit: True
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.867371, CurrentMana: 18.67371, IsEnemyHit: True
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 8.586972, CurrentMana: 16.80634, IsEnemyHit: False
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 5.9449587, CurrentMana: 8.219367, IsEnemyHit: False
-[INFO][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.3908212, CurrentMana: 2.2744083, IsEnemyHit: False
+E 0:00:04:014   void PlayerBody.PlayFootsteps(Godot.Vector3): System.NullReferenceException: Object reference not set to an instance of an object.
+  <C# Error>    System.NullReferenceException
+  <C# Source>   PlayerBody.cs:308 @ void PlayerBody.PlayFootsteps(Godot.Vector3)
+  <Stack Trace> PlayerBody.cs:308 @ void PlayerBody.PlayFootsteps(Godot.Vector3)
+				PlayerBody.cs:275 @ void PlayerBody.ProcessMovement(double)
+				PlayerBody.cs:166 @ void PlayerBody._PhysicsProcess(double)
+				Node.cs:2648 @ bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				Node3D.cs:1126 @ bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CollisionObject3D.cs:607 @ bool Godot.CollisionObject3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				PhysicsBody3D.cs:239 @ bool Godot.PhysicsBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CharacterBody3D.cs:797 @ bool Godot.CharacterBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				Combatant_ScriptMethods.generated.cs:118 @ bool Combatant.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				PlayerBody_ScriptMethods.generated.cs:278 @ bool PlayerBody.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+
+
+E 0:00:04:843   int AnimationExtensions.RandomizeAnimation(Godot.AnimatedSprite3D): System.NullReferenceException: Object reference not set to an instance of an object.
+  <C# Error>    System.NullReferenceException
+  <C# Source>   AnimationExtensions.cs:63 @ int AnimationExtensions.RandomizeAnimation(Godot.AnimatedSprite3D)
+  <Stack Trace> AnimationExtensions.cs:63 @ int AnimationExtensions.RandomizeAnimation(Godot.AnimatedSprite3D)
+				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
+				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
+				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
+				ManaSpawner.cs:65 @ void ManaSpawner.OnTimerTimeout()
+				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)

@@ -18,7 +18,7 @@ public partial class ManaParticle : Pickup
     {
         var audioStream = Data.AudioStream;
         var pitch = (float)(GD.RandRange(.95, 1.05) * Data.AudioPitch);
-        AudioManager.Instance.PlaySoundAtPosition(audioStream, GlobalPosition, pitch);
+        AudioManager.Instance.PlaySoundAtPosition(audioStream, GlobalPosition);
 
         base.Collect();
     }

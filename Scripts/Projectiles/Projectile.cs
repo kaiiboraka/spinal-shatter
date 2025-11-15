@@ -242,7 +242,7 @@ public partial class Projectile : RigidBody3D
 		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
 		float manaLostAmount = ManaCost * reductionPercent; // * velocityFactor;
 
-		AudioManager.Instance.PlaySoundAttachedToNode(AudioStream_Fireball, this, Mathf.Max(0.1f, 1.0f - Charge));
+		AudioManager.Instance.PlaySoundAttachedToNode(AudioStream_Fireball, this);
 		ApplyManaLoss(manaLostAmount, impactPoint, false);
 
 		_bounceCooldown = 0.1f; // Prevent rapid re-bouncing

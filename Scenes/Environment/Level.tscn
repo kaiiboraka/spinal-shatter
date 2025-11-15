@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=28 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
@@ -16,9 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bvlhic3q2d6q3" path="res://Scenes/Environment/Rooms/east_room.tscn" id="8_2e4mj"]
 [ext_resource type="PackedScene" uid="uid://b3np3lbhsv241" path="res://Scenes/Environment/Rooms/south_room.tscn" id="9_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://dhqr1q132v7k4" path="res://Scenes/Environment/Rooms/west_room.tscn" id="10_68nw1"]
-[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper_Enemy_SmallFlyingRanged.tscn" id="11_2mlx1"]
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="12_68nw1"]
-[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper_Enemy_SmallFlyingMelee.tscn" id="12_lf5qn"]
 [ext_resource type="AudioStream" uid="uid://c63l1h31o6f3b" path="res://assets/Audio/Ambience/dripping-water-in-cave-114694.mp3" id="13_uauu6"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="14_m8i8h"]
 [ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="14_o2f56"]
@@ -95,26 +93,21 @@ _maxManaToSpawn = 51
 
 [node name="North_Ice" type="Node3D" parent="."]
 
-[node name="North_Room" parent="North_Ice" instance=ExtResource("7_wrgjc")]
+[node name="North_Room" parent="North_Ice" node_paths=PackedStringArray("_spawners") instance=ExtResource("7_wrgjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
+_spawners = [NodePath("Ranged_EnemySpawner"), NodePath("Ranged_EnemySpawner2"), NodePath("Ranged_EnemySpawner3")]
 
 [node name="Ranged_EnemySpawner" parent="North_Ice/North_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 0, -60)
-_enemyScenes = Array[PackedScene]([ExtResource("11_2mlx1"), ExtResource("6_2e4mj")])
-_spawnInterval = 12.0
-_enemiesPerSpawn = 4
+_spawnInterval = 1.0
 
 [node name="Ranged_EnemySpawner2" parent="North_Ice/North_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 0, -60)
-_enemyScenes = Array[PackedScene]([ExtResource("11_2mlx1"), ExtResource("6_2e4mj")])
-_spawnInterval = 12.0
-_enemiesPerSpawn = 4
+_spawnInterval = 1.0
 
 [node name="Ranged_EnemySpawner3" parent="North_Ice/North_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -89)
-_enemyScenes = Array[PackedScene]([ExtResource("11_2mlx1"), ExtResource("6_2e4mj")])
-_spawnInterval = 12.0
-_enemiesPerSpawn = 4
+_spawnInterval = 1.0
 
 [node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="North_Ice/North_Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19, -59.615)
@@ -140,42 +133,29 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="East_Abyss" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="East_Room" parent="East_Abyss" instance=ExtResource("8_2e4mj")]
+[node name="East_Room" parent="East_Abyss" node_paths=PackedStringArray("_spawners") instance=ExtResource("8_2e4mj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 0)
+_spawners = [NodePath("Ground_EnemySpawner"), NodePath("Ground_EnemySpawner2"), NodePath("Ground_EnemySpawner3"), NodePath("Ground_EnemySpawner4"), NodePath("Scrap_EnemySpawner5")]
 
 [node name="Ground_EnemySpawner" parent="East_Abyss/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.828766, 0, -39.19426)
-_enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h"), ExtResource("6_2e4mj")])
-_maxActiveEnemies = 12
-_spawnInterval = 12.0
-_enemiesPerSpawn = 4
+_spawnInterval = 1.0
 
 [node name="Ground_EnemySpawner2" parent="East_Abyss/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.171238, 0, 43.80574)
-_enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h"), ExtResource("6_2e4mj")])
-_maxActiveEnemies = 12
-_spawnInterval = 12.0
-_enemiesPerSpawn = 4
+_spawnInterval = 1.0
 
 [node name="Ground_EnemySpawner3" parent="East_Abyss/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.828762, 0, 54.80574)
-_enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h"), ExtResource("14_m8i8h"), ExtResource("6_2e4mj")])
-_maxActiveEnemies = 5
-_spawnInterval = 6.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="Ground_EnemySpawner4" parent="East_Abyss/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8289986, 0, -54.806)
-_enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h"), ExtResource("14_m8i8h"), ExtResource("6_2e4mj")])
-_maxActiveEnemies = 5
-_spawnInterval = 6.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="Scrap_EnemySpawner5" parent="East_Abyss/East_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.829, 0, 0)
-_enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h")])
-_maxActiveEnemies = 5
-_spawnInterval = 10.0
+_spawnInterval = 1.0
 
 [node name="AudioStreamPlayer3D8" type="AudioStreamPlayer3D" parent="East_Abyss/East_Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.828655, -14, 0)
@@ -220,35 +200,25 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="South_Crater" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="South_Room" parent="South_Crater" instance=ExtResource("9_qf3oj")]
+[node name="South_Room" parent="South_Crater" node_paths=PackedStringArray("_spawners") instance=ExtResource("9_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.191006)
+_spawners = [NodePath("Swooper_EnemySpawner"), NodePath("Melee_EnemySpawner"), NodePath("Melee_EnemySpawner2"), NodePath("Melee_EnemySpawner3")]
 
 [node name="Swooper_EnemySpawner" parent="South_Crater/South_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 0, 92)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn")])
-_spawnInterval = 12.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="Melee_EnemySpawner" parent="South_Crater/South_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -94, 0, 14.999996)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn"), ExtResource("14_m8i8h")])
-_maxActiveEnemies = 12
-_spawnInterval = 15.0
-_enemiesPerSpawn = 3
-_useGrabBag = true
+_spawnInterval = 1.0
 
 [node name="Melee_EnemySpawner2" parent="South_Crater/South_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 0, 45.999996)
-_enemyScenes = Array[PackedScene]([ExtResource("14_m8i8h"), ExtResource("12_lf5qn")])
-_spawnInterval = 11.0
-_enemiesPerSpawn = 3
+_spawnInterval = 1.0
 
 [node name="Melee_EnemySpawner3" parent="South_Crater/South_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 77)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn"), ExtResource("14_m8i8h")])
-_maxActiveEnemies = 14
-_spawnInterval = 8.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="South_Crater/South_Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66, -69, 70)
@@ -292,48 +262,33 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="West_Nest" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="West_Room" parent="West_Nest" instance=ExtResource("10_68nw1")]
+[node name="West_Room" parent="West_Nest" node_paths=PackedStringArray("_spawners") instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51.195103, 0, 0)
+_spawners = [NodePath("Swooper_EnemySpawner"), NodePath("Swooper_EnemySpawner2"), NodePath("Zapper_EnemySpawner"), NodePath("Zapper_EnemySpawner2"), NodePath("Flying_EnemySpawner2"), NodePath("Flying_EnemySpawner3")]
 
 [node name="Swooper_EnemySpawner" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.491802, 0.741472, -28.692049)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn")])
-_maxActiveEnemies = 12
-_spawnInterval = 5.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="Swooper_EnemySpawner2" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.127453, 0.741472, 28.897346)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn")])
-_maxActiveEnemies = 12
-_spawnInterval = 5.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="Zapper_EnemySpawner" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0.52, -35)
-_enemyScenes = Array[PackedScene]([ExtResource("11_2mlx1")])
-_maxActiveEnemies = 6
-_spawnInterval = 14.0
+_spawnInterval = 1.0
 
 [node name="Zapper_EnemySpawner2" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.61925, 0.52, 35.205296)
-_enemyScenes = Array[PackedScene]([ExtResource("11_2mlx1")])
-_maxActiveEnemies = 6
-_spawnInterval = 14.0
+_spawnInterval = 1.0
 
 [node name="Flying_EnemySpawner2" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.93707, 0.52, -35)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn"), ExtResource("11_2mlx1")])
-_maxActiveEnemies = 6
-_spawnInterval = 16.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="Flying_EnemySpawner3" parent="West_Nest/West_Room" instance=ExtResource("12_68nw1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.317822, 0.52, 35.205307)
-_enemyScenes = Array[PackedScene]([ExtResource("12_lf5qn"), ExtResource("11_2mlx1")])
-_maxActiveEnemies = 6
-_spawnInterval = 16.0
-_enemiesPerSpawn = 2
+_spawnInterval = 1.0
 
 [node name="AudioStreamPlayer3D7" type="AudioStreamPlayer3D" parent="West_Nest/West_Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.804996, -17, 0)
@@ -413,6 +368,8 @@ MoneyAmountToDrop = 10
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
 WALK_SPEED = 13.0
 MAX_SPRINT_SPEED = 24.0
+Audio_FootstepSounds = null
+Audio_FootstepSprintSounds = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 physics_interpolation_mode = 1

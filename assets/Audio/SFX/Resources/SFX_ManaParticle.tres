@@ -1,0 +1,10 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://decle8stlyhkg"]
+
+[ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="1_dkpm8"]
+
+[resource]
+playback_mode = 2
+random_pitch = 1.1
+random_volume_offset_db = 0.15
+streams_count = 1
+stream_0/stream = ExtResource("1_dkpm8")

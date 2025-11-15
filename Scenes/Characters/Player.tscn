@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=32 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -7,20 +7,15 @@
 [ext_resource type="AudioStream" uid="uid://n2yv2xx4y83b" path="res://assets/Audio/SFX/dsoof.wav" id="2_qeewm"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="3_hqlak"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
-[ext_resource type="AudioStream" uid="uid://6ij54gcnufa1" path="res://assets/Audio/SFX/step_lth2.ogg" id="3_ypuv8"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
-[ext_resource type="AudioStream" uid="uid://di8aqel3ldjnx" path="res://assets/Audio/SFX/step_lth3.ogg" id="4_toq76"]
-[ext_resource type="AudioStream" uid="uid://d0f7pdfx748wo" path="res://assets/Audio/SFX/step_lth4.ogg" id="5_hl70s"]
 [ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/siphon_cone.res" id="6_gc10f"]
-[ext_resource type="AudioStream" uid="uid://ujyk7plt0cdc" path="res://assets/Audio/SFX/step_metal (1).ogg" id="6_ibpri"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
-[ext_resource type="AudioStream" uid="uid://dxfhu4chq0iae" path="res://assets/Audio/SFX/step_metal (2).ogg" id="7_qd2bg"]
+[ext_resource type="AudioStream" uid="uid://cisnb6ksg8tgq" path="res://assets/Audio/SFX/Resources/SFX_Footsteps_Move.tres" id="7_ltdul"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
-[ext_resource type="AudioStream" uid="uid://besrfasltde3d" path="res://assets/Audio/SFX/step_metal (3).ogg" id="8_qeewm"]
+[ext_resource type="AudioStream" uid="uid://bmjytv4b2j12o" path="res://assets/Audio/SFX/Resources/SFX_Footsteps_Sprint.tres" id="8_ibpri"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://butus1yqi3skm" path="res://assets/Audio/SFX/Powerup_02.wav" id="8_w6cdd"]
-[ext_resource type="AudioStream" uid="uid://daj6b6305ixgx" path="res://assets/Audio/SFX/step_metal (4).ogg" id="9_81gbe"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
@@ -108,8 +103,8 @@ _levelLostMenuScene = ExtResource("3_hqlak")
 Audio_Hurt = ExtResource("2_qeewm")
 Audio_DieSFX = ExtResource("2_qd2bg")
 Audio_DieVoice = ExtResource("17_ibpri")
-Audio_FootstepSounds = Array[AudioStream]([ExtResource("10_aal88"), ExtResource("3_ypuv8"), ExtResource("4_toq76"), ExtResource("5_hl70s")])
-Audio_FootstepSprintSounds = Array[AudioStream]([ExtResource("6_ibpri"), ExtResource("7_qd2bg"), ExtResource("8_qeewm"), ExtResource("9_81gbe")])
+Audio_FootstepSounds = ExtResource("7_ltdul")
+Audio_FootstepSprintSounds = ExtResource("8_ibpri")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
 KnockbackWeight = 15.0
@@ -142,6 +137,11 @@ _target = NodePath("../PickupArea")
 AudioStreamPlayer_Siphon = NodePath("../Audio/ManaSiphon_AudioStreamPlayer3D")
 
 [node name="ManaRegenTimer" type="Timer" parent="."]
+
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+doppler_tracking = 2
+current = true
 
 [node name="PickupArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.208, 0.181)

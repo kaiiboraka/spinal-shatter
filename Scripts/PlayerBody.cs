@@ -87,8 +87,8 @@ public partial class PlayerBody : Combatant
 	[Export] private AudioStream Audio_DieSFX;
 	[Export] private AudioStream Audio_DieVoice;
 
-	[Export] private Array<AudioStream> Audio_FootstepSounds;
-	[Export] private Array<AudioStream> Audio_FootstepSprintSounds;
+	[Export] private AudioStreamRandomizer Audio_FootstepSounds;
+	[Export] private AudioStreamRandomizer Audio_FootstepSprintSounds;
 
 	private CollisionShape3D collider;
 	private RayCast3D canStandUpRay;
@@ -291,27 +291,24 @@ public partial class PlayerBody : Combatant
 
 	private void PlayFootsteps(Vector3 hVel)
 	{
-		if (!grounded || Audio_FootstepSounds.IsNullOrEmpty() || !_footstepCooldownTimer.IsStopped()) return;
+		if (!grounded || !_footstepCooldownTimer.IsStopped()) return;
 		if (hVel.Length() <= Mathf.Epsilon) return;
 
 		AudioStream sound;
-		float pitch;
 		double cooldown;
 
 		if (isSprinting)
 		{
-			sound = Audio_FootstepSprintSounds.PickRandom();
-			pitch = 1.0f;
+			sound = Audio_FootstepSprintSounds;
 			cooldown = sound.GetLength() / 1.2f; // faster steps
 		}
 		else
 		{
-			sound = Audio_FootstepSounds.PickRandom();
-			pitch = 1.2f;
+			sound = Audio_FootstepSounds;
 			cooldown = sound.GetLength();
 		}
 
-		AudioManager.Instance.PlaySoundAttachedToNode(sound, this, pitch);
+		AudioManager.Instance.PlaySoundAttachedToNode(sound, this);
 		_footstepCooldownTimer.WaitTime = cooldown;
 		_footstepCooldownTimer.Start();
 	}

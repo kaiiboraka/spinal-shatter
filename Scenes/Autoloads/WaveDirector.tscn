@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=7 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
+[ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="2_gop7n"]
+[ext_resource type="Resource" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="3_oxf7n"]
+[ext_resource type="Resource" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="4_kpvn7"]
+[ext_resource type="Resource" path="res://assets/Resources/EnemyData/SwooperData.tres" id="5_gkeq4"]
+[ext_resource type="Resource" path="res://assets/Resources/EnemyData/ZapperData.tres" id="6_phwt4"]
 
 [node name="WaveDirector" type="Node"]
 script = ExtResource("1_fhtwo")
+availableEnemies = Array[ExtResource("2_gop7n")]([ExtResource("3_oxf7n"), ExtResource("4_kpvn7"), ExtResource("5_gkeq4"), ExtResource("6_phwt4")])
 
 [node name="RoundTimer" type="Timer" parent="."]
 wait_time = 300.0

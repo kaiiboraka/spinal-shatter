@@ -83,7 +83,7 @@ public partial class LevelRoom : Node3D
 		if (scene != null)
 		{
 			// Pick a random spawner
-			var spawner = _spawners[GD.Randi() % _spawners.Count];
+			var spawner = _spawners[(int)(GD.Randi() % _spawners.Count)];
 			spawner.Spawn(scene);
 		}
 	}

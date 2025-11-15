@@ -44,7 +44,7 @@ public partial class EnemySpawner : Node3D
         if (_enemiesToSpawn.Count == 0)
         {
             _spawnTimer.Stop();
-            EmitSignal(SignalName.SpawningFinished);
+            EmitSignalSpawningFinished();
             return;
         }
 

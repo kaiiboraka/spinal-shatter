@@ -8,6 +8,7 @@ public partial class RoomManager : Node
 
     public Array<LevelRoom> Rooms { get; set; } = new();
 
+    [Signal] public delegate void CurrentRoomChangedEventHandler(LevelRoom newRoom);
     public LevelRoom CurrentRoom { get; private set; }
     private LevelRoom _previousRoom;
 
@@ -36,6 +37,8 @@ public partial class RoomManager : Node
 
     public void OnPlayerEnteredRoomBoundary(LevelRoom enteredRoom)
     {
+        if (CurrentRoom == enteredRoom) return;
+        
         //DebugManager.Trace($"OnPlayerEnteredRoomBoundary: {enteredRoom.Name}");
         // Only update the previous room if we are coming from another room (not a hallway)
         if (CurrentRoom != null)
@@ -43,6 +46,7 @@ public partial class RoomManager : Node
             _previousRoom = CurrentRoom;
         }
         CurrentRoom = enteredRoom;
+        EmitSignalCurrentRoomChanged(CurrentRoom);
         //DebugManager.Debug($"Current Room: {CurrentRoom?.Name ?? "no current"}; Previous Room: {_previousRoom?.Name ?? "no previous"}");
         UpdateRoomStates();
     }
@@ -52,6 +56,7 @@ public partial class RoomManager : Node
         //DebugManager.Trace($"OnPlayerExitedRoomBoundary: {exitedRoom.Name}");
         _previousRoom = exitedRoom;
         // CurrentRoom = null; // Player is in a hallway
+        //EmitSignal(SignalName.CurrentRoomChanged, null);
         //DebugManager.Debug($"Current Room: {CurrentRoom.Name}; Previous Room: {_previousRoom.Name}");
         UpdateRoomStates();
     }

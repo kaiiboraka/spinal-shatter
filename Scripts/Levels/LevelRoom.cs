@@ -8,7 +8,7 @@ public partial class LevelRoom : Node3D
 {
 	[Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
 	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
-	[Signal] public delegate void RoundWonEventHandler();
+	[Signal] public delegate void WaveClearedEventHandler();
 
 	[Export] private Area3D _triggerVolume;
 	[Export] private Array<EnemySpawner> _spawners;
@@ -72,7 +72,7 @@ public partial class LevelRoom : Node3D
 	private void OnSpawningFinished()
 	{
 		_spawningFinished = true;
-		CheckRoundWon();
+		CheckWaveCleared();
 	}
 	
 	private void OnEnemyDied(Enemy who)
@@ -80,18 +80,18 @@ public partial class LevelRoom : Node3D
 		UnregisterEnemy(who);
 	}
 
-	private void CheckRoundWon()
+	private void CheckWaveCleared()
 	{
 		if (!IsActive || !_spawningFinished)
 		{
 			return;
 		}
 
-		// If spawning is finished and no enemies are left, the round is won
+		// If spawning is finished and no enemies are left, the wave is cleared
 		if (_enemiesInRoom.Count == 0)
 		{
-			GD.Print("Round Won!");
-			EmitSignal(SignalName.RoundWon);
+			GD.Print("Wave Cleared!");
+			EmitSignalWaveCleared();
 		}
 	}
 
@@ -123,7 +123,7 @@ public partial class LevelRoom : Node3D
 		if (_enemiesInRoom.Remove(enemy))
 		{
 			enemy.EnemyDied -= OnEnemyDied;
-			CheckRoundWon();
+			CheckWaveCleared();
 		}
 	}
 
@@ -151,6 +151,7 @@ public partial class LevelRoom : Node3D
 			Deactivate();
 		}
 	}
+
 
 	public void ShowRoom()
 	{

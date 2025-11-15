@@ -7,31 +7,38 @@ namespace SpinalShatter;
 
 public partial class WaveDirector : Node
 {
+	// --- State ---
 	public int CurrentRound { get; private set; } = 1;
+	public int TotalWavesCompleted { get; private set; } = 0;
 	public DifficultyTier SelectedDifficulty = DifficultyTier.D2_Normal;
-	public bool IsRoundStarted { get; private set; } = false;
+	public bool IsRoundInProgress { get; private set; } = false;
+	
+	private int _wavesCompletedThisRound = 0;
+	private LevelRoom _activeRoom;
+	
+	// --- Timers & Player ---
 	private Timer RoundTimer;
-
-	private int waveCurrent;
-	private int waveMax;
-
-	[ExportGroup("Rewards")]
-	[Export] private float moneyGivenPerSecondLeft = 5;
-	[Export] private float moneyGivenPerHealthLeft = 10;
-
-	private int moneyTimeBonus = 0;
-	private int moneyHealthBonus = 0;
-
-	private float enemySpawnCurrency;
-
 	private PlayerBody player;
 	private float startingPlayerHealth;
 	private float endingPlayerHealth;
 
+	// --- Rewards ---
+	[ExportGroup("Rewards")]
+	[Export] private float moneyGivenPerSecondLeft = 5;
+	[Export] private float moneyGivenPerHealthLeft = 10;
+	private int moneyTimeBonus = 0;
+	private int moneyHealthBonus = 0;
+
+	// --- Spawning & Budget ---
 	[ExportGroup("Spawning")]
 	[Export] private Array<EnemyData> availableEnemies = new();
-	[Export] private float baseBudget = 50f;
+	[Export] private int wavesPerRound = 3;
+	[Export(PropertyHint.ExpEasing)] private float baseBudget = 50f;
+	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 10f;
+	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerRound = 40f;
 
+
+	// --- Difficulty Multipliers ---
 	[ExportGroup("Difficulty")]
 	[Export] private Dictionary<DifficultyTier, float> difficultyMultipliers = new()
 	{
@@ -53,7 +60,6 @@ public partial class WaveDirector : Node
 	};
 	public Dictionary<EnemyRank, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		RoundTimer = GetNode<Timer>("%RoundTimer");
@@ -61,87 +67,65 @@ public partial class WaveDirector : Node
 
 		player = PlayerBody.Instance;
 		player.HealthComponent.Died += OnRoundLost;
+
+		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
+		// Immediately handle the starting room if it's already set
+		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
 	}
 
-	private float CalculateBudget()
-    {
-        float difficultyMultiplier = difficultyMultipliers[SelectedDifficulty];
-        // Exponential growth for round scaling, similar to the old project
-        float roundMultiplier = Mathf.Pow(1.15f, CurrentRound - 1);
-        return baseBudget * roundMultiplier * difficultyMultiplier;
-    }
-
-	public Array<PackedScene> GenerateEnemyList()
+	private void OnCurrentRoomChanged(LevelRoom newRoom)
 	{
-		float budget = CalculateBudget();
-		var enemiesToSpawn = new Array<PackedScene>();
-
-		if (availableEnemies.Count == 0)
+		if (_activeRoom != null)
 		{
-			GD.PrintErr("WaveDirector: No available enemies to spawn!");
-			return enemiesToSpawn;
+			_activeRoom.WaveCleared -= OnWaveCleared;
 		}
 
-		// Cast to IEnumerable<EnemyData> to use LINQ, then calculate cost and sort.
-		var sortedEnemies = availableEnemies.Cast<EnemyData>()
-			.Select(data => new { Data = data, Cost = data.BaseCost * enemyStrengthMultipliers[data.Rank] })
-			.OrderByDescending(e => e.Cost)
-			.ToList();
-		
-		// Greedy algorithm: Prioritize spending budget on the most expensive units first.
-		foreach (var enemy in sortedEnemies)
+		_activeRoom = newRoom;
+
+		if (_activeRoom != null)
 		{
-			if (enemy.Cost <= 0) continue;
-
-			while (budget >= enemy.Cost)
-			{
-				enemiesToSpawn.Add(enemy.Data.Scene);
-				budget -= enemy.Cost;
-			}
+			_activeRoom.WaveCleared += OnWaveCleared;
+			// A new room has been entered, start the round.
+			OnRoundStart();
 		}
-
-		return enemiesToSpawn;
 	}
 
 	private void OnRoundStart()
 	{
-		IsRoundStarted = true;
+		IsRoundInProgress = true;
+		_wavesCompletedThisRound = 0;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;
 		RoundTimer.Start();
-
-		// 1. Get the list of enemies to spawn
-		var enemiesToSpawn = GenerateEnemyList();
 		
-		// 2. Get the current LevelRoom
-		LevelRoom activeRoom = RoomManager.Instance.CurrentRoom;
+		StartNextWave();
+	}
 
-		if (activeRoom == null)
+	private void StartNextWave()
+	{
+		if (_wavesCompletedThisRound >= wavesPerRound)
 		{
-			GD.PrintErr("WaveDirector: No active room found to start spawning!");
+			OnRoundWon();
 			return;
 		}
 		
-		// 3. Tell the room to start spawning
-		activeRoom.StartSpawning(enemiesToSpawn);
+		var budget = CalculateBudget();
+		var enemies = GenerateEnemyList(budget);
+		_activeRoom.StartSpawning(enemies);
 	}
 
-	private void OnRoundEnd()
+	private void OnWaveCleared()
 	{
-		IsRoundStarted = false;
-		endingPlayerHealth = player.HealthComponent.CurrentPercent;
-	}
-
-	public void OnRoundLost()
-	{
-		OnRoundEnd();
-
-		RoundTimer.Stop();
+		TotalWavesCompleted++;
+		_wavesCompletedThisRound++;
+		
+		// Small delay before starting the next wave
+		GetTree().CreateTimer(2.0f).Timeout += StartNextWave;
 	}
 
 	private void OnRoundWon()
 	{
-		OnRoundEnd();
-
+		IsRoundInProgress = false;
+		endingPlayerHealth = player.HealthComponent.CurrentPercent;
 		RoundTimer.Paused = true;
 
 		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * RoundTimer.TimeLeft * DifficultyMultipliers[SelectedDifficulty]);
@@ -151,11 +135,55 @@ public partial class WaveDirector : Node
 		player.AddMoney(moneyHealthBonus);
 
 		CurrentRound++;
+		GD.Print($"Round {CurrentRound - 1} won! Starting next round.");
+		// The room's doors should now open, etc.
+	}
+	
+	public void OnRoundLost()
+	{
+		IsRoundInProgress = false;
+		endingPlayerHealth = player.HealthComponent.CurrentPercent;
+		RoundTimer.Stop();
+		GD.Print("Round Lost!");
+	}
+
+	private float CalculateBudget()
+    {
+        float difficultyMultiplier = difficultyMultipliers[SelectedDifficulty];
+		float roundBonus = (CurrentRound - 1) * budgetIncreasePerRound;
+		float waveBonus = TotalWavesCompleted * budgetIncreasePerWave;
+        
+        return (baseBudget + roundBonus + waveBonus) * difficultyMultiplier;
+    }
+
+	private Array<PackedScene> GenerateEnemyList(float budget)
+	{
+		var enemiesToSpawn = new Array<PackedScene>();
+		if (availableEnemies.Count == 0)
+		{
+			GD.PrintErr("WaveDirector: No available enemies to spawn!");
+			return enemiesToSpawn;
+		}
+
+		var sortedEnemies = availableEnemies.Cast<EnemyData>()
+			.Select(data => new { Data = data, Cost = data.BaseCost * enemyStrengthMultipliers[data.Rank] })
+			.OrderByDescending(e => e.Cost)
+			.ToList();
+		
+		foreach (var enemy in sortedEnemies)
+		{
+			if (enemy.Cost <= 0) continue;
+			while (budget >= enemy.Cost)
+			{
+				enemiesToSpawn.Add(enemy.Data.Scene);
+				budget -= enemy.Cost;
+			}
+		}
+		return enemiesToSpawn;
 	}
 
 	private void OnRoundTimerTimeout()
 	{
 		// Play timer alarm sound
-		// MAYBE: temporarily disconnect timer?
 	}
 }

@@ -368,8 +368,6 @@ MoneyAmountToDrop = 10
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
 WALK_SPEED = 13.0
 MAX_SPRINT_SPEED = 24.0
-Audio_FootstepSounds = null
-Audio_FootstepSprintSounds = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 physics_interpolation_mode = 1

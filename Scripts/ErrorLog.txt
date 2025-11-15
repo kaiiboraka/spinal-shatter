@@ -1,26 +1,6 @@
-E 0:00:04:014   void PlayerBody.PlayFootsteps(Godot.Vector3): System.NullReferenceException: Object reference not set to an instance of an object.
+E 0:00:03:862   void Enemy.OnDied(): System.NullReferenceException: Object reference not set to an instance of an object.
   <C# Error>    System.NullReferenceException
-  <C# Source>   PlayerBody.cs:308 @ void PlayerBody.PlayFootsteps(Godot.Vector3)
-  <Stack Trace> PlayerBody.cs:308 @ void PlayerBody.PlayFootsteps(Godot.Vector3)
-				PlayerBody.cs:275 @ void PlayerBody.ProcessMovement(double)
-				PlayerBody.cs:166 @ void PlayerBody._PhysicsProcess(double)
-				Node.cs:2648 @ bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				Node3D.cs:1126 @ bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CollisionObject3D.cs:607 @ bool Godot.CollisionObject3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				PhysicsBody3D.cs:239 @ bool Godot.PhysicsBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CharacterBody3D.cs:797 @ bool Godot.CharacterBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				Combatant_ScriptMethods.generated.cs:118 @ bool Combatant.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				PlayerBody_ScriptMethods.generated.cs:278 @ bool PlayerBody.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
-
-
-E 0:00:04:843   int AnimationExtensions.RandomizeAnimation(Godot.AnimatedSprite3D): System.NullReferenceException: Object reference not set to an instance of an object.
-  <C# Error>    System.NullReferenceException
-  <C# Source>   AnimationExtensions.cs:63 @ int AnimationExtensions.RandomizeAnimation(Godot.AnimatedSprite3D)
-  <Stack Trace> AnimationExtensions.cs:63 @ int AnimationExtensions.RandomizeAnimation(Godot.AnimatedSprite3D)
-				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
-				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
-				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
-				ManaSpawner.cs:65 @ void ManaSpawner.OnTimerTimeout()
-				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
+  <C# Source>   Enemy.cs:551 @ void Enemy.OnDied()
+  <Stack Trace> Enemy.cs:551 @ void Enemy.OnDied()
+				HealthComponent_ScriptSignals.generated.cs:78 @ void HealthComponent.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs)
+				ScriptManagerBridge.cs:387 @ void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*)

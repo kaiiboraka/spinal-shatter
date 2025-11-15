@@ -87,8 +87,11 @@ public partial class PlayerBody : Combatant
 	[Export] private AudioStream Audio_DieSFX;
 	[Export] private AudioStream Audio_DieVoice;
 
-	[Export] private AudioStreamRandomizer Audio_FootstepSounds;
-	[Export] private AudioStreamRandomizer Audio_FootstepSprintSounds;
+	[Export] private AudioStream _footstepSoundsStream;
+	private AudioStreamRandomizer Audio_FootstepSounds => _footstepSoundsStream as AudioStreamRandomizer;
+
+	[Export] private AudioStream _footstepSprintSoundsStream;
+	private AudioStreamRandomizer Audio_FootstepSprintSounds => _footstepSprintSoundsStream as AudioStreamRandomizer;
 
 	private CollisionShape3D collider;
 	private RayCast3D canStandUpRay;
@@ -96,6 +99,8 @@ public partial class PlayerBody : Combatant
 
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
+	private double _footstepMaxCooldown;
+	private double _sprintFootstepMaxCooldown;
 
 	// public Loadout loadout;
 	private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
@@ -143,6 +148,20 @@ public partial class PlayerBody : Combatant
 		
 		_footstepCooldownTimer = new Timer { OneShot = true };
 		AddChild(_footstepCooldownTimer);
+
+		if (_footstepSoundsStream != null && Audio_FootstepSounds == null)
+		{
+			DebugManager.Error("PlayerBody: _footstepSoundsStream is not a valid AudioStreamRandomizer.");
+		}
+		if (_footstepSprintSoundsStream != null && Audio_FootstepSprintSounds == null)
+		{
+			DebugManager.Error("PlayerBody: _footstepSprintSoundsStream is not a valid AudioStreamRandomizer.");
+		}
+
+		_footstepMaxCooldown = Audio_FootstepSounds.GetMaxLength();
+		_sprintFootstepMaxCooldown = Audio_FootstepSprintSounds.GetMaxLength() / 1.2f;
+		DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
+		DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -299,13 +318,33 @@ public partial class PlayerBody : Combatant
 
 		if (isSprinting)
 		{
+			if (Audio_FootstepSprintSounds == null)
+			{
+				DebugManager.Error("Audio_FootstepSprintSounds is null in PlayFootsteps (sprinting).");
+				return;
+			}
 			sound = Audio_FootstepSprintSounds;
-			cooldown = sound.GetLength() / 1.2f; // faster steps
+			cooldown = _sprintFootstepMaxCooldown; // faster steps
+			DebugManager.Info("Playing sprinting footstep sound.");
 		}
 		else
 		{
+			if (Audio_FootstepSounds == null)
+			{
+				DebugManager.Error("Audio_FootstepSounds is null in PlayFootsteps (walking).");
+				return;
+			}
 			sound = Audio_FootstepSounds;
-			cooldown = sound.GetLength();
+			cooldown = _footstepMaxCooldown;
+			// DebugManager.Info("Playing walking footstep sound.");
+		}
+		DebugManager.Info($"Footstep cooldown is {cooldown}.");
+
+		// Ensure cooldown is a positive value to prevent timer errors.
+		if (cooldown <= 0)
+		{
+			DebugManager.Warning($"Using default 0.5s to prevent crash.");
+			cooldown = 0.5;
 		}
 
 		AudioManager.Instance.PlaySoundAttachedToNode(sound, this);

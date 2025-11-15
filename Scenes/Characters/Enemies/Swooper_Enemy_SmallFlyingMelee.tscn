@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddskdsst6e3hl"]
+[gd_scene load_steps=6 format=3 uid="uid://ddskdsst6e3hl"]
 
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="1_uw3m6"]
 [ext_resource type="Resource" uid="uid://dygy25aq3r1lw" path="res://assets/Audio/AudioData/AudioData_Swooper.tres" id="2_eyvvc"]
+[ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/SwooperData.tres" id="2_qnpwa"]
 [ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/Enemies/enemies_small_swooper.ase" id="3_qnpwa"]
 [ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/Enemies/enemies_small_swooper_eye.ase" id="4_hlt6g"]
 
 [node name="Swooper" instance=ExtResource("1_uw3m6")]
 motion_mode = 1
+Data = ExtResource("2_qnpwa")
 AudioData = ExtResource("2_eyvvc")
 WalkSpeed = 12.0
 MinWalkTime = 1.0

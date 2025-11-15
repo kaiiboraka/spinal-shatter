@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dlu0kyq355mht"]
 
-[ext_resource type="Script" uid="uid://ehcmdsf25yi2" path="res://Scripts/UI/OverheadHealthBar.cs" id="1_abcde"]
+[ext_resource type="Script" uid="uid://ehcmdsf25yi2" path="res://Scripts/UI/OverheadHealthBar.cs" id="1_qyqjh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 1)
@@ -11,7 +11,7 @@ bg_color = Color(1, 0, 0, 1)
 [node name="HealthBar" type="Sprite3D"]
 gi_mode = 2
 billboard = 1
-script = ExtResource("1_abcde")
+script = ExtResource("1_qyqjh")
 _renderDistance = 50.0
 
 [node name="HealthbarViewport" type="SubViewport" parent="."]

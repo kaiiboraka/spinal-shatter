@@ -60,6 +60,21 @@ public static class AnimationExtensions
 
     public static int RandomizeAnimation(this AnimatedSprite3D sprite)
     {
+        if (sprite == null)
+        {
+            DebugManager.Error("AnimatedSprite3D is null in RandomizeAnimation.");
+            return 0;
+        }
+        if (sprite.SpriteFrames == null)
+        {
+            DebugManager.Error($"AnimatedSprite3D '{sprite.Name}' has no SpriteFrames assigned in RandomizeAnimation.");
+            return 0;
+        }
+        if (!sprite.SpriteFrames.HasAnimation(sprite.Animation))
+        {
+            DebugManager.Error($"AnimatedSprite3D '{sprite.Name}' does not have animation '{sprite.Animation}' in its SpriteFrames.");
+            return 0;
+        }
         var whichFrame = sprite.SpriteFrames.GetFrameCount(sprite.Animation).RandomRangeFromMax();
         sprite.Frame = whichFrame;
         return whichFrame;

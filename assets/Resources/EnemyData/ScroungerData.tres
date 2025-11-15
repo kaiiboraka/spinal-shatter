@@ -1,10 +1,8 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3 uid="uid://d24mb4cakhuxt"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://d24mb4cakhuxt"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
-[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger_Enemy_SmallGroundRanged.tscn" id="2_fghij"]
 
 [resource]
 script = ExtResource("1_abcde")
 Name = "Scrounger"
-Scene = ExtResource("2_fghij")
 BaseCost = 2

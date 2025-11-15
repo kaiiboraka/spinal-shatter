@@ -31,7 +31,7 @@ public partial class WaveDirector : Node
 
 	// --- Spawning & Budget ---
 	[ExportGroup("Spawning")]
-	[Export] private Array<EnemyData> availableEnemies = new();
+	[Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
 	[Export] private int wavesPerRound = 3;
 	[Export(PropertyHint.ExpEasing)] private float baseBudget = 50f;
 	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 10f;
@@ -159,14 +159,14 @@ public partial class WaveDirector : Node
 	private Array<PackedScene> GenerateEnemyList(float budget)
 	{
 		var enemiesToSpawn = new Array<PackedScene>();
-		if (availableEnemies.Count == 0)
+		if (_enemyDataToSceneMap.Count == 0)
 		{
 			GD.PrintErr("WaveDirector: No available enemies to spawn!");
 			return enemiesToSpawn;
 		}
 
-		var sortedEnemies = availableEnemies.Cast<EnemyData>()
-			.Select(data => new { Data = data, Cost = data.BaseCost * enemyStrengthMultipliers[data.Rank] })
+		var sortedEnemies = _enemyDataToSceneMap
+			.Select(pair => new { Data = pair.Key, Scene = pair.Value, Cost = pair.Key.BaseCost * enemyStrengthMultipliers[pair.Key.Rank] })
 			.OrderByDescending(e => e.Cost)
 			.ToList();
 		
@@ -175,7 +175,7 @@ public partial class WaveDirector : Node
 			if (enemy.Cost <= 0) continue;
 			while (budget >= enemy.Cost)
 			{
-				enemiesToSpawn.Add(enemy.Data.Scene);
+				enemiesToSpawn.Add(enemy.Scene);
 				budget -= enemy.Cost;
 			}
 		}

@@ -1,9 +1,7 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3 uid="uid://ckufkle75pln1"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://ckufkle75pln1"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
-[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper_Enemy_SmallFlyingMelee.tscn" id="2_fghij"]
 
 [resource]
 script = ExtResource("1_abcde")
 Name = "Swooper"
-Scene = ExtResource("2_fghij")

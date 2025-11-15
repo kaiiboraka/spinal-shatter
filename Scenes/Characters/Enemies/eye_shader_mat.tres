@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c6f1dexoopn1a"]
-
-[ext_resource type="Shader" uid="uid://3fqe33spp0kf" path="res://Scenes/Characters/Enemies/eye_glow.gdshader" id="1_720nb"]
-[ext_resource type="Texture2D" uid="uid://mtacq16sncce" path="res://assets/Images/enemies_small_scrounger_eye.png" id="2_lpn35"]
-
-[resource]
-render_priority = 0
-shader = ExtResource("1_720nb")
-shader_parameter/sprite_texture = ExtResource("2_lpn35")

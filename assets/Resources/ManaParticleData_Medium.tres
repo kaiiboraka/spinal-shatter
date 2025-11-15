@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ManaParticleData" load_steps=3 format=3 uid="uid://bsi0lgb3covqd"]
+[gd_resource type="Resource" script_class="ManaParticleData" load_steps=4 format=3 uid="uid://bsi0lgb3covqd"]
 
 [ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_aflkb"]
 [ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/SFX/Resources/SFX_ManaParticle.tres" id="1_qkvmj"]
+[ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Pickups/magic_spark.ase" id="2_kamxd"]
 
 [resource]
 script = ExtResource("1_aflkb")
@@ -10,6 +11,7 @@ DriftSpeed = 1.0
 Lifetime = 13.0
 Modulate = Color(1.572, 0.462, 0.338, 1)
 Scale = Vector3(0.85, 0.85, 0.85)
+SpriteFrames = ExtResource("2_kamxd")
 CollisionShapeRadius = 0.165
 AreaShapeRadius = 0.25
 AudioStream = ExtResource("1_qkvmj")

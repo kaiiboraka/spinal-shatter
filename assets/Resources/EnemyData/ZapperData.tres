@@ -1,10 +1,8 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3 uid="uid://cpjitr3gcxgjv"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://cpjitr3gcxgjv"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
-[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper_Enemy_SmallFlyingRanged.tscn" id="2_fghij"]
 
 [resource]
 script = ExtResource("1_abcde")
 Name = "Zapper"
-Scene = ExtResource("2_fghij")
 BaseCost = 2

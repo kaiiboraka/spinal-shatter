@@ -18,6 +18,7 @@ public partial class WaveDirector : Node
 	
 	// --- Timers & Player ---
 	private Timer RoundTimer;
+	private RichTextLabel _timerLabel;
 	private PlayerBody player;
 	private float startingPlayerHealth;
 	private float endingPlayerHealth;
@@ -63,6 +64,7 @@ public partial class WaveDirector : Node
 	public override void _Ready()
 	{
 		RoundTimer = GetNode<Timer>("%RoundTimer");
+		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
 		RoundTimer.Timeout += OnRoundLost;
 
 		player = PlayerBody.Instance;
@@ -71,6 +73,19 @@ public partial class WaveDirector : Node
 		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
 		// Immediately handle the starting room if it's already set
 		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
+	}
+
+	public override void _Process(double delta)
+	{
+		if (IsRoundInProgress && RoundTimer != null)
+		{
+			var time = TimeSpan.FromSeconds(RoundTimer.TimeLeft);
+			_timerLabel.Text = time.ToString(@"mm\:ss");
+		}
+		else if (_timerLabel.Text != "")
+		{
+			_timerLabel.Text = "";
+		}
 	}
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
@@ -85,8 +100,11 @@ public partial class WaveDirector : Node
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared += OnWaveCleared;
-			// A new room has been entered, start the round.
-			OnRoundStart();
+			// A new room has been entered, start the round if one isn't already running.
+			if (!IsRoundInProgress)
+			{
+				OnRoundStart();
+			}
 		}
 	}
 

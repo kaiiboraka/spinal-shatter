@@ -18,7 +18,13 @@ public partial class EnemySpawner : Node3D
 
     public override void _Ready()
     {
-        _owningRoom = GetParent<LevelRoom>();
+        var parent = GetParent();
+        while (parent is not LevelRoom)
+        {
+            parent = parent.GetParent();
+        }
+        _owningRoom = parent as LevelRoom;
+
         if (_owningRoom == null)
         {
             GD.PrintErr($"EnemySpawner '{Name}' is not a child of a LevelRoom. It will not function correctly.");

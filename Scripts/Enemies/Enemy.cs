@@ -11,12 +11,14 @@ public partial class Enemy : Combatant
 	private List<CollisionShape3D> _collisionShapes = new();
 	private AIState _currentState = AIState.Idle;
 
-	[ExportGroup("Components")] 
+	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
+
 	[Export] private AnimationPlayer _animPlayer;
 
 	[Export] private AnimatedSprite3D _animatedSprite;
 	[Export] private AnimatedSprite3D _animatedSprite_Eye;
+	[Export] private PackedScene _deathParticlesScene;
 	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
 	[Export] private StateSprite3d _stateVisual;
 
@@ -37,23 +39,23 @@ public partial class Enemy : Combatant
 	public float MaxWalkTime { get; private set; } = 5.0f;
 	public float MinWaitTime { get; private set; } = 1.0f;
 	public float MaxWaitTime { get; private set; } = 5.0f;
-	
+
 	// Combat
 	public int MoneyAmountToDrop { get; private set; } = 10;
 	public int ManaAmountToDrop { get; private set; } = 10;
 	private float Mana_minRefundPercent = 0.05f;
 	private float Mana_maxRefundPercent = 0.30f;
-	
+
 	// Attack
 	private float AttackRange { get; set; } = 2.0f;
 	private float AttackCooldown { get; set; } = 1.5f;
 	public float AttackDamage { get; private set; } = 10f;
-	
+
 	// Projectiles
 	public bool ProjectileIsRanged { get; private set; }
 	private float ProjectileSpeed { get; set; } = 20.0f;
 	private PackedScene ProjectileScene;
-	
+
 	[ExportSubgroup("Detection", "Detection")] [Export]
 	private Area3D DetectionArea;
 
@@ -69,7 +71,7 @@ public partial class Enemy : Combatant
 	private PlayerBody _player;
 
 	private bool _isWalking = false;
-
+	private bool isDying => _currentState == AIState.Dying;
 
 	[Signal]
 	public delegate void EnemyDiedEventHandler(Enemy who);
@@ -88,7 +90,7 @@ public partial class Enemy : Combatant
 		{
 			ApplyData(Data);
 		}
-		
+
 		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
 
 		// Collect all collision shapes for activation/deactivation
@@ -115,7 +117,6 @@ public partial class Enemy : Combatant
 
 		TryAddTimer(_timerAction);
 		_timerAction.Timeout += OnActionTimerTimeout;
-
 
 
 		TryAddTimer(_timerAttackCooldown);
@@ -175,7 +176,7 @@ public partial class Enemy : Combatant
 
 		base._PhysicsProcess(delta); // Decays knockback
 
-		if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
+		if (_currentState != AIState.Attacking && _currentState != AIState.Recovery && _currentState != AIState.Dying)
 		{
 			if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
 			{
@@ -184,10 +185,11 @@ public partial class Enemy : Combatant
 			}
 		}
 
+
 		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
-		if (!IsOnFloor())
+		if (!IsOnFloor() && !isDying)
 		{
 			newVelocity.Y -= _gravity * (float)delta;
 		}
@@ -197,6 +199,8 @@ public partial class Enemy : Combatant
 			{
 				case AIState.Idle:
 					ProcessIdle(delta);
+					goto case AIState.Dying;
+				case AIState.Dying:
 					newVelocity = Vector3.Zero;
 					break;
 				case AIState.Patrolling:
@@ -215,9 +219,8 @@ public partial class Enemy : Combatant
 		}
 
 		// Apply knockback
-		newVelocity += _knockbackVelocity;
-
-		// Update sprite animation based on angle to player, if we have a target.
+		if (!isDying) newVelocity += _knockbackVelocity;
+		Velocity = newVelocity;
 		if (_player != null && _currentState != AIState.Attacking)
 		{
 			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
@@ -225,9 +228,11 @@ public partial class Enemy : Combatant
 			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
 			UpdateAnimation(angleToPlayer);
 		}
+		else Velocity = Vector3.Zero;
 
-		Velocity = newVelocity;
 		MoveAndSlide();
+
+		// Update sprite animation based on angle to player, if we have a target.
 	}
 
 	public override void _Process(double delta)
@@ -278,6 +283,9 @@ public partial class Enemy : Combatant
 				_animPlayer.Play("Front_Idle");
 				_timerAction.WaitTime = RecoveryTime;
 				_timerAction.Start();
+				break;
+			case AIState.Dying:
+				_animPlayer.Play("Die");
 				break;
 		}
 	}
@@ -580,6 +588,13 @@ public partial class Enemy : Combatant
 
 	public override void OnDied()
 	{
+		ChangeState(AIState.Dying);
+
+		var deathParticles = _deathParticlesScene.Instantiate() as OneshotParticles;
+		GetParent().AddChild(deathParticles);
+		deathParticles.GlobalPosition = GlobalPosition;
+		deathParticles.PlayParticles();
+
 		_animPlayer.Play("Die");
 		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 

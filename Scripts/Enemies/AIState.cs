@@ -6,6 +6,7 @@ public partial class Enemy
 		Patrolling,
 		Chasing,
 		Attacking,
-		Recovery
+		Recovery,
+		Dying
 	}
 }

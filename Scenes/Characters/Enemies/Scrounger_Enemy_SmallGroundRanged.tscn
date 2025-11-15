@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=22 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_80mbd"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="2_u2p2u"]
+[ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_n8h2i"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="3_u2p2u"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_b5b24"]
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_kadss"]
@@ -601,6 +602,7 @@ Data = ExtResource("2_u2p2u")
 _animPlayer = NodePath("AnimationPlayer")
 _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
+_deathParticlesScene = ExtResource("3_n8h2i")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
 _timerWalk = NodePath("Timers/WalkTimer")

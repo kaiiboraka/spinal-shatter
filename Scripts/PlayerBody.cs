@@ -325,7 +325,7 @@ public partial class PlayerBody : Combatant
 			}
 			sound = Audio_FootstepSprintSounds;
 			cooldown = _sprintFootstepMaxCooldown; // faster steps
-			DebugManager.Info("Playing sprinting footstep sound.");
+			// DebugManager.Info("Playing sprinting footstep sound.");
 		}
 		else
 		{
@@ -338,7 +338,7 @@ public partial class PlayerBody : Combatant
 			cooldown = _footstepMaxCooldown;
 			// DebugManager.Info("Playing walking footstep sound.");
 		}
-		DebugManager.Info($"Footstep cooldown is {cooldown}.");
+		// DebugManager.Info($"Footstep cooldown is {cooldown}.");
 
 		// Ensure cooldown is a positive value to prevent timer errors.
 		if (cooldown <= 0)

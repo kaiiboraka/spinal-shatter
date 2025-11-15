@@ -13,6 +13,7 @@ public partial class StateSprite3d : Sprite3D
 		{ AIState.Chasing, "🏃‍♂️" },
 		{ AIState.Attacking, "⚔️" },
 		{ AIState.Recovery, "⌚" },
+		{ AIState.Dying , "☠️" }
 	};
 
 	private AIState _currentState = AIState.Idle;

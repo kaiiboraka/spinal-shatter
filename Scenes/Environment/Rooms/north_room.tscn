@@ -1,9 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dmf47bymxj2a7"]
+[gd_scene load_steps=14 format=3 uid="uid://dmf47bymxj2a7"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_g2g5o"]
 [ext_resource type="ArrayMesh" uid="uid://cdht6lyvqoy17" path="res://assets/Models/Room_North.res" id="2_hnwvy"]
 [ext_resource type="Material" uid="uid://dtsttpsmdvhu" path="res://assets/Textures/BrickWall_Ice_RoomScale.tres" id="3_g2g5o"]
 [ext_resource type="PackedScene" uid="uid://b85smra8ooe2k" path="res://Scenes/Environment/Doodads/torch_1_blue.tscn" id="3_hnwvy"]
+[ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="5_xlqql"]
+[ext_resource type="AudioStream" uid="uid://c63l1h31o6f3b" path="res://assets/Audio/Ambience/dripping-water-in-cave-114694.mp3" id="6_espfw"]
+[ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="7_v3os2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hnwvy"]
 friction = 0.2
@@ -29,9 +32,10 @@ collision_mask = 42001
 physics_material_override = SubResource("PhysicsMaterial_hnwvy")
 script = ExtResource("1_g2g5o")
 _triggerVolume = NodePath("LevelRegion")
-_spawners = []
+_spawners = [NodePath("Spawners/Ranged_EnemySpawner"), NodePath("Spawners/Ranged_EnemySpawner2"), NodePath("Spawners/Ranged_EnemySpawner3")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 17
 mesh = ExtResource("2_hnwvy")
 surface_material_override/0 = ExtResource("3_g2g5o")
 
@@ -81,3 +85,36 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 57
 
 [node name="Torch 5" parent="Torches" instance=ExtResource("3_hnwvy")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 0, 5, -95.80663)
+
+[node name="Spawners" type="Node3D" parent="."]
+
+[node name="Ranged_EnemySpawner" parent="Spawners" instance=ExtResource("5_xlqql")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 0, -60)
+_spawnInterval = 1.0
+
+[node name="Ranged_EnemySpawner2" parent="Spawners" instance=ExtResource("5_xlqql")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 0, -60)
+_spawnInterval = 1.0
+
+[node name="Ranged_EnemySpawner3" parent="Spawners" instance=ExtResource("5_xlqql")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -89)
+_spawnInterval = 1.0
+
+[node name="AudioPlayers" type="Node3D" parent="."]
+
+[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19, -59.615)
+stream = ExtResource("6_espfw")
+volume_db = -4.0
+max_db = 4.0
+autoplay = true
+max_distance = 80.0
+bus = &"Ambience"
+
+[node name="AudioStreamPlayer3D5" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -45, -67.615005)
+stream = ExtResource("7_v3os2")
+max_db = 4.0
+autoplay = true
+max_distance = 120.0
+bus = &"Ambience"

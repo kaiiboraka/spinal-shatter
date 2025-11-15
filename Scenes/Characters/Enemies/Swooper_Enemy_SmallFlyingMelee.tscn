@@ -1,25 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://ddskdsst6e3hl"]
+[gd_scene load_steps=5 format=3 uid="uid://ddskdsst6e3hl"]
 
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="1_uw3m6"]
 [ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/SwooperData.tres" id="2_qnpwa"]
 [ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/Enemies/enemies_small_swooper.ase" id="3_qnpwa"]
 [ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/Enemies/enemies_small_swooper_eye.ase" id="4_hlt6g"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_uw3m6"]
-viewport_path = NodePath("HealthbarViewport")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_eyvvc"]
-viewport_path = NodePath("StatusViewport")
-
 [node name="Swooper" instance=ExtResource("1_uw3m6")]
 motion_mode = 1
 Data = ExtResource("2_qnpwa")
-
-[node name="HealthBar" parent="." index="2"]
-texture = SubResource("ViewportTexture_uw3m6")
-
-[node name="StateSprite3D" parent="." index="3"]
-texture = SubResource("ViewportTexture_eyvvc")
 
 [node name="Body_AnimatedSprite3D" parent="." index="4"]
 sprite_frames = ExtResource("3_qnpwa")

@@ -235,6 +235,7 @@ locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/t
 3d_render/layer_2="Player"
 3d_render/layer_3="Enemy"
 3d_render/layer_4="Projectiles"
+3d_render/layer_5="Terrain"
 3d_physics/layer_1="PlayerCollision"
 3d_physics/layer_2="PlayerHurtbox"
 3d_physics/layer_3="SolidGround"

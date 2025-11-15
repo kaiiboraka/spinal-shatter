@@ -5,9 +5,16 @@ using System.Collections.Generic;
 
 public partial class EnemySpawner : Node3D
 {
+    [Signal] public delegate void SpawningFinishedEventHandler();
+    
+    [Export] private float _spawnRadius = 5.0f;
+    [Export] private float _spawnInterval = 1.0f;
+
     private LevelRoom _owningRoom;
+    private Timer _spawnTimer;
+    private Array<PackedScene> _enemiesToSpawn = new();
     private int _activeEnemyCount = 0;
-    private static readonly Godot.Collections.Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
+    private static readonly Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
 
     public override void _Ready()
     {
@@ -16,11 +23,40 @@ public partial class EnemySpawner : Node3D
         {
             GD.PrintErr($"EnemySpawner '{Name}' is not a child of a LevelRoom. It will not function correctly.");
             SetProcess(false);
+            return;
+        }
+
+        _spawnTimer = new Timer();
+        AddChild(_spawnTimer);
+        _spawnTimer.WaitTime = _spawnInterval;
+        _spawnTimer.Timeout += OnSpawnTimerTimeout;
+    }
+
+    public void StartSpawningWave(Array<PackedScene> enemies)
+    {
+        _enemiesToSpawn = new Array<PackedScene>(enemies);
+        _enemiesToSpawn.Shuffle();
+        _spawnTimer.Start();
+    }
+
+    private void OnSpawnTimerTimeout()
+    {
+        if (_enemiesToSpawn.Count == 0)
+        {
+            _spawnTimer.Stop();
+            EmitSignal(SignalName.SpawningFinished);
+            return;
+        }
+
+        var scene = _enemiesToSpawn.PopFront();
+        if (scene != null)
+        {
+            Spawn(scene);
         }
     }
 
     /// <summary>
-    /// Creates object pools for all the provided enemy scenes. This should be called by the WaveDirector
+    /// Creates object pools for all the provided enemy scenes. This should be called
     /// before a round begins to ensure all needed enemies are ready.
     /// </summary>
     public void InitializePools(IEnumerable<PackedScene> enemyScenes)
@@ -44,10 +80,7 @@ public partial class EnemySpawner : Node3D
         }
     }
 
-    /// <summary>
-    /// Spawns a single enemy instance using the provided scene.
-    /// </summary>
-    public void Spawn(PackedScene enemyScene)
+    private void Spawn(PackedScene enemyScene)
     {
         if (enemyScene == null || !_pools.ContainsKey(enemyScene))
         {
@@ -61,8 +94,10 @@ public partial class EnemySpawner : Node3D
         if (newEnemyNode is Enemy newEnemy)
         {
             newEnemy.OwningPool = pool;
-            var pos = GlobalPosition;
-            newEnemy.GlobalPosition = pos + pos.RandomRange(1) + Vector3.Up;
+
+            var randomOffset = new Vector2(GD.Randf(), GD.Randf()).Normalized() * (float)GD.RandRange(0, _spawnRadius);
+            newEnemy.GlobalPosition = GlobalPosition + new Vector3(randomOffset.X, 0, randomOffset.Y) + Vector3.Up;
+            
             newEnemy.EnemyDied += OnEnemyDied;
             _owningRoom.RegisterEnemy(newEnemy);
             _activeEnemyCount++;
@@ -83,4 +118,3 @@ public partial class EnemySpawner : Node3D
         who.EnemyDied -= OnEnemyDied;
     }
 }
-

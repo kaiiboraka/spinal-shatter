@@ -8,7 +8,7 @@ public partial class RoomManager : Node
 
     public Array<LevelRoom> Rooms { get; set; } = new();
 
-    private LevelRoom _currentRoom;
+    public LevelRoom CurrentRoom { get; private set; }
     private LevelRoom _previousRoom;
 
     public override void _Ready()
@@ -38,12 +38,12 @@ public partial class RoomManager : Node
     {
         //DebugManager.Trace($"OnPlayerEnteredRoomBoundary: {enteredRoom.Name}");
         // Only update the previous room if we are coming from another room (not a hallway)
-        if (_currentRoom != null)
+        if (CurrentRoom != null)
         {
-            _previousRoom = _currentRoom;
+            _previousRoom = CurrentRoom;
         }
-        _currentRoom = enteredRoom;
-        //DebugManager.Debug($"Current Room: {_currentRoom?.Name ?? "no current"}; Previous Room: {_previousRoom?.Name ?? "no previous"}");
+        CurrentRoom = enteredRoom;
+        //DebugManager.Debug($"Current Room: {CurrentRoom?.Name ?? "no current"}; Previous Room: {_previousRoom?.Name ?? "no previous"}");
         UpdateRoomStates();
     }
 
@@ -51,8 +51,8 @@ public partial class RoomManager : Node
     {
         //DebugManager.Trace($"OnPlayerExitedRoomBoundary: {exitedRoom.Name}");
         _previousRoom = exitedRoom;
-        // _currentRoom = null; // Player is in a hallway
-        //DebugManager.Debug($"Current Room: {_currentRoom.Name}; Previous Room: {_previousRoom.Name}");
+        // CurrentRoom = null; // Player is in a hallway
+        //DebugManager.Debug($"Current Room: {CurrentRoom.Name}; Previous Room: {_previousRoom.Name}");
         UpdateRoomStates();
     }
 
@@ -60,7 +60,7 @@ public partial class RoomManager : Node
     {
         foreach (var room in Rooms)
         {
-            if (room == _currentRoom && !room.IsActive)
+            if (room == CurrentRoom && !room.IsActive)
             {
                 //DebugManager.Debug($"UpdateRoomStates.Activate: {room.Name}");
                 room.Activate();

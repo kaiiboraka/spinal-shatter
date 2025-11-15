@@ -7,7 +7,7 @@ public partial class EnemySpawner : Node3D
 {
     private LevelRoom _owningRoom;
     private int _activeEnemyCount = 0;
-    private static readonly Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
+    private static readonly Godot.Collections.Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
 
     public override void _Ready()
     {

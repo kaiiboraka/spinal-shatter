@@ -109,18 +109,20 @@ public partial class WaveDirector : Node
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;
 		RoundTimer.Start();
 
-		// --- Orchestration (Phase 4) ---
 		// 1. Get the list of enemies to spawn
-		// var enemies = GenerateEnemyList();
+		var enemiesToSpawn = GenerateEnemyList();
 		
-		// 2. Get the current LevelRoom and its spawners
-		// LevelRoom activeRoom = ...;
+		// 2. Get the current LevelRoom
+		LevelRoom activeRoom = RoomManager.Instance.CurrentRoom;
+
+		if (activeRoom == null)
+		{
+			GD.PrintErr("WaveDirector: No active room found to start spawning!");
+			return;
+		}
 		
-		// 3. Initialize spawner pools
-		// activeRoom.InitializeSpawners(enemies.Select(e => e.Scene).Distinct());
-		
-		// 4. Tell the room to start spawning
-		// activeRoom.StartSpawning(enemies);
+		// 3. Tell the room to start spawning
+		activeRoom.StartSpawning(enemiesToSpawn);
 	}
 
 	private void OnRoundEnd()

@@ -1,45 +1,23 @@
 using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Elythia;
 
 public partial class LevelRoom : Node3D
 {
 	[Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
-
 	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
 	[Signal] public delegate void RoundWonEventHandler();
 
 	[Export] private Area3D _triggerVolume;
 	[Export] private Array<EnemySpawner> _spawners;
 	[Export] private bool alwaysShow = false;
-	private void OnEnemyDied(Enemy who)
-	{
-		UnregisterEnemy(who);
-	}
+	[Export] private float _spawnInterval = 1.0f;
 
-	private void CheckRoundWon()
-	{
-		if (!IsActive) return;
-
-		// Check if all spawners are finished
-		foreach (var spawner in _spawners)
-		{
-			if (!spawner.IsFinished)
-			{
-				return; // At least one spawner is not done yet
-			}
-		}
-
-		// If all spawners are finished and no enemies are left, the round is won
-		if (_enemiesInRoom.Count == 0)
-		{
-			GD.Print("Round Won!");
-			EmitSignal(SignalName.RoundWon);
-		}
-	}
-
-
+	private Timer _spawnTimer;
+	private Array<PackedScene> _enemiesToSpawn = new();
+	
 	public bool IsActive { get; private set; }
 	private readonly List<Enemy> _enemiesInRoom = new();
 
@@ -59,11 +37,78 @@ public partial class LevelRoom : Node3D
 				_spawners.Add(spawner);
 			}
 		}
+		
+		_spawnTimer = new Timer();
+		AddChild(_spawnTimer);
+		_spawnTimer.WaitTime = _spawnInterval;
+		_spawnTimer.Timeout += OnSpawnTimerTimeout;
 
 		// Find any enemies that are pre-placed in the room in the editor
 		FindEnemiesRecursively(this);
 
 		RoomManager.Instance.RegisterRoom(this);
+	}
+
+	public void StartSpawning(Array<PackedScene> enemies)
+	{
+		if (_spawners.Count == 0)
+		{
+			GD.PrintErr($"LevelRoom '{Name}' has no spawners, cannot start spawning.");
+			return;
+		}
+
+		_enemiesToSpawn = new Array<PackedScene>(enemies);
+		_enemiesToSpawn.Shuffle();
+
+		// Initialize pools for all unique scenes
+		var uniqueScenes = _enemiesToSpawn.Distinct();
+		foreach (var spawner in _spawners)
+		{
+			spawner.InitializePools(uniqueScenes);
+		}
+		
+		_spawnTimer.Start();
+	}
+
+	private void OnSpawnTimerTimeout()
+	{
+		if (_enemiesToSpawn.Count == 0)
+		{
+			_spawnTimer.Stop();
+			CheckRoundWon(); // Check if the round is won now that spawning is complete
+			return;
+		}
+
+		var scene = _enemiesToSpawn.PopFront();
+		if (scene != null)
+		{
+			// Pick a random spawner
+			var spawner = _spawners[GD.Randi() % _spawners.Count];
+			spawner.Spawn(scene);
+		}
+	}
+	
+	private void OnEnemyDied(Enemy who)
+	{
+		UnregisterEnemy(who);
+	}
+
+	private void CheckRoundWon()
+	{
+		if (!IsActive) return;
+
+		// If we are still spawning, the round isn't won yet.
+		if (_enemiesToSpawn.Count > 0 || !_spawnTimer.IsStopped())
+		{
+			return;
+		}
+
+		// If all spawners are finished and no enemies are left, the round is won
+		if (_enemiesInRoom.Count == 0)
+		{
+			GD.Print("Round Won!");
+			EmitSignal(SignalName.RoundWon);
+		}
 	}
 
 	private void FindEnemiesRecursively(Node node)
@@ -137,11 +182,8 @@ public partial class LevelRoom : Node3D
 	{
 		IsActive = true;
 		ShowRoom();
-		foreach (var enemySpawner in _spawners)
-		{
-			enemySpawner.IsEnabled = true;
-		}
-
+		
+		// Pre-placed enemies are activated here
 		foreach (var enemy in _enemiesInRoom)
 		{
 			enemy.Activate();
@@ -152,11 +194,8 @@ public partial class LevelRoom : Node3D
 	{
 		IsActive = false;
 		if (!alwaysShow) HideRoom();
-		foreach (var enemySpawner in _spawners)
-		{
-			enemySpawner.IsEnabled = false;
-		}
 
+		// Deactivate any remaining enemies
 		foreach (var enemy in _enemiesInRoom)
 		{
 			enemy.Deactivate();

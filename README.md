@@ -283,4 +283,3 @@ RANK:
 | Zapper    | Player             | Medium | Medium            | Flying   | Long Ranged    | Slow        | High          | 2          | Flying Snipers.                                    | Mass Effect Geth Hopper                                                          |
 | Boomer    | Player             | Slow   | Heavy             | Flying   | Mid Ranged     | Fast        | High          | 3          | Death from above, the Flame Comes.                 | SW Flametrooper, Yer average firebreathing dragon                                |
 | Shredder  | Ship/Hull          | Medium | Medium            | Flying   | Melee          | Medium      | Medium        | 3          | my what huge CLAWS YOU HAVE                        | Metroid Dread Emmi with Wings, tears things apart with ease                      |
-

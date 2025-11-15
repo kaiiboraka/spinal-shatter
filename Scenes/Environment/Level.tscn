@@ -356,13 +356,10 @@ visible = false
 
 [node name="Scrounger2" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
-AudioData = null
-MoneyAmountToDrop = 10
+KnockbackWeight = 20.0
 
 [node name="Scrapper" parent="EnemyPoolNode" instance=ExtResource("14_m8i8h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
-AudioData = null
-MoneyAmountToDrop = 10
 
 [node name="Player" parent="." instance=ExtResource("2_amuju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)

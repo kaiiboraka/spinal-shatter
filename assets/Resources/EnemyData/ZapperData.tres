@@ -1,8 +1,17 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://cpjitr3gcxgjv"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3 uid="uid://cpjitr3gcxgjv"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
+[ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="2_fghij"]
+[ext_resource type="Resource" uid="uid://bnev8vqtyy2h3" path="res://assets/Audio/AudioData/AudioData_Zapper.tres" id="3_audio"]
 
 [resource]
 script = ExtResource("1_abcde")
 Name = "Zapper"
 BaseCost = 2
+AudioData = ExtResource("3_audio")
+WalkSpeed = 10.0
+MinWaitTime = 2.0
+KnockbackWeight = 8.0
+MoneyAmountToDrop = 75
+IsRanged = true
+ProjectileScene = ExtResource("2_fghij")

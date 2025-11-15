@@ -1,7 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=21 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_80mbd"]
-[ext_resource type="Resource" uid="uid://cw63gshfvvofv" path="res://assets/Audio/AudioData/AudioData_Scrounger.tres" id="2_n8h2i"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="2_u2p2u"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="3_u2p2u"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_b5b24"]
@@ -604,26 +603,14 @@ _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
-AudioData = ExtResource("2_n8h2i")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerAction = NodePath("Timers/ActionWaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
-RecoveryTime = 2.0
-MinWalkTime = 2.0
-MaxWalkTime = 8.0
-MaxWaitTime = 4.0
-MoneyAmountToDrop = 150
 DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
-AttackRange = 50.0
-AttackCooldown = 2.5
-AttackDamage = 20.0
-ProjectileIsRanged = true
-ProjectileScene = ExtResource("3_u2p2u")
 ProjectileSpawnPoint = NodePath("SpellOrigin")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
-KnockbackWeight = 20.0
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("4_b5b24")

@@ -1,18 +1,17 @@
-[gd_scene load_steps=22 format=3 uid="uid://bl1y0kt6e7sod"]
+[gd_scene load_steps=21 format=3 uid="uid://bl1y0kt6e7sod"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_usy6x"]
 [ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="2_317k4"]
-[ext_resource type="Resource" uid="uid://dmgrvs0om4edm" path="res://assets/Audio/AudioData/AudioData_Scrapper.tres" id="2_g6587"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="3_317k4"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="4_nql3o"]
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="5_t5dp8"]
 [ext_resource type="SpriteFrames" uid="uid://ufkjesk8dxxt" path="res://assets/Images/Enemies/enemies_small_scrapper.ase" id="6_q4a7v"]
 [ext_resource type="SpriteFrames" uid="uid://b5efiy1ix8gna" path="res://assets/Images/Enemies/enemies_small_scrapper_eye.ase" id="7_74y76"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_g6587"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_usy6x"]
 viewport_path = NodePath("HealthbarViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_317k4"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_g6587"]
 viewport_path = NodePath("StatusViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
@@ -490,24 +489,14 @@ _animatedSprite = NodePath("Body_AnimatedSprite3D")
 _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
-AudioData = ExtResource("2_g6587")
 _timerWalk = NodePath("Timers/WalkTimer")
 _timerAction = NodePath("Timers/ActionWaitTimer")
 _timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
-WalkSpeed = 10.0
-MinWalkTime = 3.0
-MaxWalkTime = 10.0
-MinWaitTime = 2.0
-MaxWaitTime = 3.0
-MoneyAmountToDrop = 100
-Mana_minRefundPercent = 0.1
-Mana_maxRefundPercent = 0.4
 DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
 Attack_meleeHitbox = NodePath("MeleeHitbox")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
-KnockbackWeight = 15.0
 
 [node name="Timers" type="Node" parent="."]
 
@@ -526,11 +515,11 @@ script = ExtResource("3_317k4")
 
 [node name="HealthBar" parent="." instance=ExtResource("4_nql3o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
-texture = SubResource("ViewportTexture_g6587")
+texture = SubResource("ViewportTexture_usy6x")
 
 [node name="StateSprite3D" parent="." instance=ExtResource("5_t5dp8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-texture = SubResource("ViewportTexture_317k4")
+texture = SubResource("ViewportTexture_g6587")
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)

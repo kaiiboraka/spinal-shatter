@@ -20,7 +20,7 @@ public partial class Enemy : Combatant
 	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
 	[Export] private StateSprite3d _stateVisual;
 
-	[Export] private EnemyAudioData AudioData;
+	private EnemyAudioData AudioData;
 
 	[ExportSubgroup("Timers", "_timer")] [Export]
 	private Timer _timerWalk;
@@ -28,51 +28,41 @@ public partial class Enemy : Combatant
 	[Export] private Timer _timerAction;
 	[Export] private Timer _timerAttackCooldown;
 
-	[ExportGroup("Patrol")] [Export] public float RecoveryTime { get; set; } = 1.0f;
-	[Export] public float ChaseRotationSpeed { get; set; } = 5.0f;
-
-	[Export] public float WalkSpeed { get; private set; } = 8.0f;
-
-	[Export] public float MinWalkTime { get; private set; } = 1.0f;
-	[Export] public float MaxWalkTime { get; private set; } = 5.0f;
-	[Export] public float MinWaitTime { get; private set; } = 1.0f;
-	[Export] public float MaxWaitTime { get; private set; } = 5.0f;
-
-	[ExportGroup("Combat")]
-	[ExportSubgroup("Money", "Money")]
-	[Export]
+	// --- STATS (initialized from EnemyData) ---
+	// Patrol
+	public float RecoveryTime { get; private set; } = 1.0f;
+	public float ChaseRotationSpeed { get; private set; } = 5.0f;
+	public float WalkSpeed { get; private set; } = 8.0f;
+	public float MinWalkTime { get; private set; } = 1.0f;
+	public float MaxWalkTime { get; private set; } = 5.0f;
+	public float MinWaitTime { get; private set; } = 1.0f;
+	public float MaxWaitTime { get; private set; } = 5.0f;
+	
+	// Combat
 	public int MoneyAmountToDrop { get; private set; } = 10;
-
-	[ExportSubgroup("Mana", "Mana")]
-	[Export]
 	public int ManaAmountToDrop { get; private set; } = 10;
-
-	[Export(PropertyHint.Range, "0.0, 1.0")]
 	private float Mana_minRefundPercent = 0.05f;
-
-	[Export(PropertyHint.Range, "0.0, 1.0")]
 	private float Mana_maxRefundPercent = 0.30f;
-
+	
+	// Attack
+	private float AttackRange { get; set; } = 2.0f;
+	private float AttackCooldown { get; set; } = 1.5f;
+	public float AttackDamage { get; private set; } = 10f;
+	
+	// Projectiles
+	public bool ProjectileIsRanged { get; private set; }
+	private float ProjectileSpeed { get; set; } = 20.0f;
+	private PackedScene ProjectileScene;
+	
 	[ExportSubgroup("Detection", "Detection")] [Export]
 	private Area3D DetectionArea;
 
 	[Export] private RayCast3D Detection_lineOfSight;
 
 	[ExportSubgroup("Attack", "Attack")]
-	[Export]
-	private float AttackRange { get; set; } = 2.0f;
-
-	[Export] private float AttackCooldown { get; set; } = 1.5f;
-	[Export] public float AttackDamage { get; private set; } = 10f;
-
 	[Export] private Area3D Attack_meleeHitbox;
 
 	[ExportSubgroup("Projectiles", "Projectile")]
-	[Export(PropertyHint.GroupEnable, "")]
-	public bool ProjectileIsRanged { get; private set; }
-
-	[Export] private float ProjectileSpeed { get; set; } = 20.0f;
-	[Export] private PackedScene ProjectileScene;
 	[Export] private Node3D ProjectileSpawnPoint;
 
 
@@ -90,6 +80,15 @@ public partial class Enemy : Combatant
 
 	public override void _Ready()
 	{
+		if (Data == null)
+		{
+			GD.PrintErr($"Enemy '{Name}' is missing EnemyData!");
+		}
+		else
+		{
+			ApplyData(Data);
+		}
+		
 		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
 
 		// Collect all collision shapes for activation/deactivation
@@ -117,6 +116,8 @@ public partial class Enemy : Combatant
 		TryAddTimer(_timerAction);
 		_timerAction.Timeout += OnActionTimerTimeout;
 
+
+
 		TryAddTimer(_timerAttackCooldown);
 
 		_animPlayer.AnimationFinished += OnAnimationFinished;
@@ -134,6 +135,38 @@ public partial class Enemy : Combatant
 
 		// Start patrolling
 		ChangeState(AIState.Patrolling);
+	}
+
+	private void ApplyData(EnemyData data)
+	{
+		// Patrol
+		RecoveryTime = data.RecoveryTime;
+		ChaseRotationSpeed = data.ChaseRotationSpeed;
+		WalkSpeed = data.WalkSpeed;
+		MinWalkTime = data.MinWalkTime;
+		MaxWalkTime = data.MaxWalkTime;
+		MinWaitTime = data.MinWaitTime;
+		MaxWaitTime = data.MaxWaitTime;
+
+		// Combat
+		KnockbackWeight = data.KnockbackWeight;
+		MoneyAmountToDrop = data.MoneyAmountToDrop;
+		ManaAmountToDrop = data.ManaAmountToDrop;
+		Mana_minRefundPercent = data.ManaMinRefundPercent;
+		Mana_maxRefundPercent = data.ManaMaxRefundPercent;
+
+		// Attack
+		AttackRange = data.AttackRange;
+		AttackCooldown = data.AttackCooldown;
+		AttackDamage = data.AttackDamage;
+
+		// Projectiles
+		ProjectileIsRanged = data.IsRanged;
+		ProjectileSpeed = data.ProjectileSpeed;
+		ProjectileScene = data.ProjectileScene;
+
+		// Audio
+		AudioData = data.AudioData;
 	}
 
 	public override void _PhysicsProcess(double delta)

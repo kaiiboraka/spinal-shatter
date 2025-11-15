@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="2_gop7n"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="3_oxf7n"]
-[ext_resource type="Resource" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="4_kpvn7"]
+[ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="4_kpvn7"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="4_phwt4"]
 [ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/SwooperData.tres" id="5_gkeq4"]
 [ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger_Enemy_SmallGroundRanged.tscn" id="6_6lw2h"]
@@ -23,3 +23,29 @@ ExtResource("6_phwt4"): ExtResource("10_aege0")
 [node name="RoundTimer" type="Timer" parent="."]
 wait_time = 300.0
 one_shot = true
+
+[node name="TimerDisplay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimerTextLabel" type="RichTextLabel" parent="TimerDisplay"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.0
+offset_top = 72.0
+offset_right = 36.0
+offset_bottom = 126.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "99:59"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+justification_flags = 160

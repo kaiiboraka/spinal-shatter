@@ -13,6 +13,7 @@ public partial class LevelRoom : Node3D
 	[Export] private Area3D _triggerVolume;
 	[Export] private Array<EnemySpawner> _spawners;
 	[Export] private bool alwaysShow = false;
+	[Export] public bool IsCentralHub { get; set; } = false;
 
 	private bool _spawningFinished = false;
 	

@@ -20,6 +20,7 @@ script = ExtResource("1_ogqk4")
 _triggerVolume = NodePath("LevelRegion")
 _spawners = []
 alwaysShow = true
+is_central_hub = true
 
 [node name="HubRoom" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_5frwb")

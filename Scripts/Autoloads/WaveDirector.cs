@@ -20,7 +20,7 @@ public partial class WaveDirector : Node
 	// --- Timers & Player ---
 	private Timer RoundTimer;
 	private RichTextLabel _timerLabel;
-	private PlayerBody player;
+	private PlayerBody player; // PlayerBody instance will be set via SetPlayer method
 	private float startingPlayerHealth;
 	private float endingPlayerHealth;
 
@@ -32,8 +32,7 @@ public partial class WaveDirector : Node
 	private int moneyHealthBonus = 0;
 
 	// --- Spawning & Budget ---
-	[ExportGroup("Spawning")]
-	[Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
+	[ExportGroup("Spawning")]	[Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
 	[Export] private int wavesPerRound = 3;
 	[Export(PropertyHint.ExpEasing)] private float baseBudget = 50f;
 	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 10f;
@@ -70,33 +69,20 @@ public partial class WaveDirector : Node
 
 		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
 		
-		Callable.From(_LateReady).CallDeferred();
-	}
-
-	private async void _LateReady()
-	{
-		await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-		if (DebugManager.Instance == null)
-		{
-			GD.PrintErr("WaveDirector: DebugManager.Instance is null in _LateReady!");
-		}
-		else
-		{
-			DebugManager.Debug($"WaveDirector: _LateReady called. Initial RoomManager.CurrentRoom: {RoomManager.Instance?.CurrentRoom?.Name ?? "null"}");
-		}
-
-		// Initialize player here to ensure PlayerBody.Instance is available
-		player = PlayerBody.Instance;
-		if (player == null)
-		{
-			DebugManager.Error("WaveDirector: PlayerBody.Instance is null when _LateReady is called!");
-			return;
-		}
-		player.HealthComponent.Died += OnRoundLost;
-
 		// Immediately handle the starting room if it's already set
 		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
+	}
+
+	public void SetPlayer(PlayerBody playerInstance)
+	{
+		if (playerInstance == null)
+		{
+			DebugManager.Error("WaveDirector: Attempted to set player with a null instance!");
+			return;
+		}
+		player = playerInstance;
+		player.HealthComponent.Died += OnRoundLost;
+		DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
 	}
 
 	public override void _Process(double delta)
@@ -125,6 +111,19 @@ public partial class WaveDirector : Node
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared += OnWaveCleared;
+			// Prevent round from starting in central hub
+			if (_activeRoom.IsCentralHub) // Assuming LevelRoom has an IsCentralHub property
+			{
+				DebugManager.Debug($"WaveDirector: Not starting round in central hub: {_activeRoom.Name}");
+				// If a round was incorrectly marked as in progress, reset it
+				if (IsRoundInProgress)
+				{
+					IsRoundInProgress = false;
+					DebugManager.Debug("WaveDirector: Resetting IsRoundInProgress due to entering central hub.");
+				}
+				return;
+			}
+
 			// A new room has been entered, start the round if one isn't already running.
 			if (!IsRoundInProgress)
 			{
@@ -136,6 +135,14 @@ public partial class WaveDirector : Node
 	private void OnRoundStart()
 	{
 		DebugManager.Debug("WaveDirector: OnRoundStart called.");
+		// Ensure player is not null before proceeding
+		if (player == null)
+		{
+			DebugManager.Error("WaveDirector: Player instance is null. Cannot start round.");
+			IsRoundInProgress = false; // Reset flag if player is null
+			return;
+		}
+
 		IsRoundInProgress = true;
 		_wavesCompletedThisRound = 0;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;

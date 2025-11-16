@@ -65,6 +65,7 @@ public partial class Projectile : RigidBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
+		DebugManager.Debug($"Projectile: _PhysicsProcess current GlobalPosition: {GlobalPosition}");
 		if (_bounceCooldown > 0)
 		{
 			_bounceCooldown -= (float)delta;
@@ -175,6 +176,7 @@ public partial class Projectile : RigidBody3D
 		// Enable physics and launch
 		this.Freeze = false;
 		_collisionShape.Disabled = false;
+		DebugManager.Debug($"Projectile: Launch - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		this.LinearVelocity = data.InitialVelocity;
 
 		_lifetimeTimer.Start();
@@ -338,6 +340,7 @@ public partial class Projectile : RigidBody3D
 		AngularVelocity = Vector3.Zero;
 		Freeze = true;
 		_collisionShape.Disabled = true;
+		DebugManager.Debug($"Projectile: Reset - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		Charge = 0;
 		_lifetimeTimer.Stop();
 		GlobalPosition = Vector3.Zero; // Reset position to a default

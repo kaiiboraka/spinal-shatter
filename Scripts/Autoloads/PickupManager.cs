@@ -56,11 +56,11 @@ public partial class PickupManager : Node
 		{
 			pool.Release(pickup);
 		}
-		else
-		{
-			// Failsafe for pickups not managed by a pool
-			pickup.QueueFree();
-		}
+		// Removed: else
+		// Removed: {
+		// Removed: 	// Failsafe for pickups not managed by a pool
+		// Removed: 	pickup.QueueFree();
+		// Removed: }
 	}
 
 	public Array<Pickup> SpawnPickupAmount(PickupType type, int totalAmount, Vector3 position)

@@ -120,7 +120,7 @@ public partial class Pickup : RigidBody3D
 
 
 		EmitSignal(SignalName.Collected, this);
-		EmitSignal(SignalName.Released, this);
+		// Removed: EmitSignal(SignalName.Released, this);
 	}
 
 	protected virtual void OnLifetimeTimeout()
@@ -130,7 +130,7 @@ public partial class Pickup : RigidBody3D
 		var tween = CreateTween();
 		tween.TweenProperty(this, "scale", Vector3.One * 0.001f, 0.2f).SetTrans(Tween.TransitionType.Quad)
 			 .SetEase(Tween.EaseType.In);
-		tween.TweenCallback(Callable.From(QueueFree));
+		// Removed: tween.TweenCallback(Callable.From(QueueFree));
 	}
 
 	protected void ResetVisuals(PickupData data)

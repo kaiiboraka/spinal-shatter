@@ -63,6 +63,15 @@ public partial class WaveDirector : Node
 
 	public override void _Ready()
 	{
+		if (DebugManager.Instance == null)
+		{
+			GD.PrintErr("WaveDirector: DebugManager.Instance is null in _Ready!");
+		}
+		else
+		{
+			DebugManager.Debug("WaveDirector: _Ready called.");
+		}
+
 		RoundTimer = GetNode<Timer>("%RoundTimer");
 		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
 		RoundTimer.Timeout += OnRoundLost;
@@ -75,6 +84,11 @@ public partial class WaveDirector : Node
 
 	public void SetPlayer(PlayerBody playerInstance)
 	{
+		if (DebugManager.Instance == null)
+		{
+			GD.PrintErr("WaveDirector: DebugManager.Instance is null when setting player!");
+		}
+
 		if (playerInstance == null)
 		{
 			DebugManager.Error("WaveDirector: Attempted to set player with a null instance!");
@@ -160,7 +174,9 @@ public partial class WaveDirector : Node
 		}
 		
 		var budget = CalculateBudget();
+		DebugManager.Debug($"WaveDirector: StartNextWave - Budget: {budget}");
 		var enemies = GenerateEnemyList(budget);
+		DebugManager.Debug($"WaveDirector: StartNextWave - Generated {enemies.Count} enemies.");
 		_activeRoom.StartSpawning(enemies);
 	}
 
@@ -168,6 +184,7 @@ public partial class WaveDirector : Node
 	{
 		TotalWavesCompleted++;
 		_wavesCompletedThisRound++;
+		DebugManager.Debug($"WaveDirector: OnWaveCleared - TotalWavesCompleted: {TotalWavesCompleted}, WavesCompletedThisRound: {_wavesCompletedThisRound}");
 		
 		// Small delay before starting the next wave
 		GetTree().CreateTimer(2.0f).Timeout += StartNextWave;
@@ -216,20 +233,32 @@ public partial class WaveDirector : Node
 			return enemiesToSpawn;
 		}
 
-		var sortedEnemies = _enemyDataToSceneMap
+		var availableEnemies = _enemyDataToSceneMap
 			.Select(pair => new { Data = pair.Key, Scene = pair.Value, Cost = pair.Key.BaseCost * enemyStrengthMultipliers[pair.Key.Rank] })
-			.OrderByDescending(e => e.Cost)
+			.Where(e => e.Cost > 0)
 			.ToList();
-		
-		foreach (var enemy in sortedEnemies)
+
+		if (!availableEnemies.Any())
 		{
-			if (enemy.Cost <= 0) continue;
-			while (budget >= enemy.Cost)
-			{
-				enemiesToSpawn.Add(enemy.Scene);
-				budget -= enemy.Cost;
-			}
+			GD.PrintErr("WaveDirector: No available enemies with a cost greater than 0!");
+			return enemiesToSpawn;
 		}
+
+		// Attempt to fill the budget with a variety of enemies
+		while (budget > 0 && availableEnemies.Any(e => e.Cost <= budget))
+		{
+			// Filter enemies that fit the remaining budget
+			var affordableEnemies = availableEnemies.Where(e => e.Cost <= budget).ToList();
+			if (!affordableEnemies.Any()) break;
+
+			// Randomly select an enemy from the affordable ones
+			var chosenEnemy = affordableEnemies[(int)GD.Randi() % affordableEnemies.Count];
+			
+			enemiesToSpawn.Add(chosenEnemy.Scene);
+			budget -= chosenEnemy.Cost;
+			DebugManager.Debug($"WaveDirector: GenerateEnemyList - Added {chosenEnemy.Data.Name} (Cost: {chosenEnemy.Cost}). Remaining budget: {budget}");
+		}
+		
 		return enemiesToSpawn;
 	}
 

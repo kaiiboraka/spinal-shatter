@@ -1,13 +1,24 @@
 # Scenario playthrough breakdown:
 	
-I ran into each room, and killed a few enemies, and would run into a different room.
+I ran into each room, and killed a few enemies, and 
 Each time I entered a room, the timer would start over fresh. It seemed to be selecting one single spawner of the lot, for multiple waves.
 And then, no matter which wave, or which room, or how many times I entered, it only ever spawned one enemy type: Scrounger. None of the rest were EVER chosen.
 Enemies still are not playing a death animation, and then they stay around and never disappear. The death sequence that's supposed to send them back into a pool or queue_free them or whatever is supposed to happen is just... not.
 
 # Error
 
-None
+E 0:00:05:808   void System.ThrowHelper.ThrowArgumentOutOfRange_IndexMustBeLessException(): System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+  <C++ Error>   System.ArgumentOutOfRangeException
+  <C++ Source>  :0 @ void System.ThrowHelper.ThrowArgumentOutOfRange_IndexMustBeLessException()
+  <Stack Trace> :0 @ void System.ThrowHelper.ThrowArgumentOutOfRange_IndexMustBeLessException()
+                :0 @ T System.Collections.Generic.List`1.get_Item(int)
+                WaveDirector.cs:255 @ Godot.Collections.Array`1[Godot.PackedScene] SpinalShatter.WaveDirector.GenerateEnemyList(float)
+                WaveDirector.cs:178 @ void SpinalShatter.WaveDirector.StartNextWave()
+                WaveDirector.cs:165 @ void SpinalShatter.WaveDirector.OnRoundStart()
+                WaveDirector.cs:144 @ void SpinalShatter.WaveDirector.OnCurrentRoomChanged(SpinalShatter.LevelRoom)
+                SpinalShatter.RoomManager_ScriptSignals.generated.cs:46 @ void SpinalShatter.RoomManager.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs)
+                ScriptManagerBridge.cs:387 @ void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*)
+
 
 # Output
 

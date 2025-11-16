@@ -444,17 +444,17 @@ public partial class Enemy : Combatant
 		{
 			ChangeState(global::Enemy.AIState.Recovery);
 		}
-		else if (animName == "Die")
-		{
-			if (OwningPool != null)
-			{
-				OwningPool.Release(this);
-			}
-			else
-			{
-				QueueFree(); // Failsafe for enemies not spawned from a pool
-			}
-		}
+		// Removed: else if (animName == "Die")
+		// Removed: {
+		// Removed: 	if (OwningPool != null)
+		// Removed: 	{
+		// Removed: 		OwningPool.Release(this);
+		// Removed: 	}
+		// Removed: 	else
+		// Removed: 	{
+		// Removed: 		QueueFree(); // Failsafe for enemies not spawned from a pool
+		// Removed: 	}
+		// Removed: }
 	}
 
 	private void Wander(ref Vector3 newVelocity)
@@ -609,6 +609,8 @@ public partial class Enemy : Combatant
 		StopTimers();
 		DisableCollisions();
 		EmitSignalEnemyDied(this);
+		if (OwningPool != null) OwningPool.Release(this);
+			else QueueFree();
 	}
 
 	public override void Reset()
@@ -662,8 +664,7 @@ public partial class Enemy : Combatant
 	private void StopTimers()
 	{
 		_timerWalk?.Stop();
-		_timerAction?.Stop();
-		_timerAttackCooldown?.Stop();
+		_timerAction?.Stop();		_timerAttackCooldown?.Stop();
 	}
 
 	public void Activate()

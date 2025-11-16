@@ -12,15 +12,13 @@ size = Vector3(6.5, 5, 52.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ogqk4"]
 size = Vector3(15, 7, 15)
 
-[node name="CentralHub" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_spawners")]
+[node name="CentralHub" type="StaticBody3D"]
 transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 collision_layer = 512
 collision_mask = 42001
 script = ExtResource("1_ogqk4")
-_triggerVolume = NodePath("LevelRegion")
-_spawners = []
 alwaysShow = true
-is_central_hub = true
+IsCentralHub = true
 
 [node name="HubRoom" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_5frwb")
@@ -29,6 +27,7 @@ mesh = ExtResource("1_5frwb")
 shape = SubResource("ConcavePolygonShape3D_bd4wt")
 
 [node name="LevelRegion" type="Area3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
@@ -41,3 +40,6 @@ shape = SubResource("BoxShape3D_5frwb")
 [node name="Hallway_CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 3.5, 0)
 shape = SubResource("BoxShape3D_ogqk4")
+
+[node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true

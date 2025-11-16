@@ -164,8 +164,7 @@ public partial class PlayerBody : Combatant
 		DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
 
 		// Register player with WaveDirector
-		var waveDirector = GetTree().GetFirstNodeInGroup("WaveDirector") as WaveDirector;
-		if (waveDirector != null)
+		if (GetTree().GetRoot().GetNode<WaveDirector>("WaveDirector") is WaveDirector waveDirector)
 		{
 			waveDirector.SetPlayer(this);
 		}

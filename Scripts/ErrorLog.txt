@@ -1,13 +1,13 @@
+# Scenario playthrough breakdown:
+	
+I ran into each room, and killed a few enemies, and would run into a different room.
+Each time I entered a room, the timer would start over fresh. It seemed to be selecting one single spawner of the lot, for multiple waves.
+And then, no matter which wave, or which room, or how many times I entered, it only ever spawned one enemy type: Scrounger. None of the rest were EVER chosen.
+Enemies still are not playing a death animation, and then they stay around and never disappear. The death sequence that's supposed to send them back into a pool or queue_free them or whatever is supposed to happen is just... not.
+
 # Error
 
-E 0:00:01:851   void SpinalShatter.WaveDirector.OnRoundStart(): System.NullReferenceException: Object reference not set to an instance of an object.
-  <C# Error>    System.NullReferenceException
-  <C# Source>   WaveDirector.cs:141 @ void SpinalShatter.WaveDirector.OnRoundStart()
-  <Stack Trace> WaveDirector.cs:141 @ void SpinalShatter.WaveDirector.OnRoundStart()
-				WaveDirector.cs:131 @ void SpinalShatter.WaveDirector.OnCurrentRoomChanged(LevelRoom)
-				RoomManager_ScriptSignals.generated.cs:44 @ void RoomManager.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs)
-				ScriptManagerBridge.cs:387 @ void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*)
-
+None
 
 # Output
 
@@ -15,53 +15,217 @@ Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
 Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
 
 Embedded window only supports Windowed mode.
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: null, IsRoundInProgress: False
 [INFO][DebugManager @ DebugManager: CanvasLayer] PlayerBody: Calculated max footstep cooldown: 0.25
 [INFO][DebugManager @ DebugManager: CanvasLayer] PlayerBody: Calculated max sprint footstep cooldown: 0.20833332505491078
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: Player instance set and Died signal connected.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: Not starting round in central hub: CentralHub
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: North_Room, IsRoundInProgress: False
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnRoundStart called.
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: _LateReady called. Initial RoomManager.CurrentRoom: CentralHub
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: North_Room, IsRoundInProgress: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-0.53081244, 1.2744083, -53.947227), GlobalPosition after assignment: (-0.53081244, 1.2744083, -53.947227)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 32, chargeRatio: 0.6, damage: 124.00001, manaCost: 30.400002
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (0.76706445, 1.1250908, -45.775944), GlobalPosition after assignment: (0.76706445, 1.1250908, -45.775944)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 18.69152, CurrentMana: 30.400002, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 11.708481, CurrentMana: 11.708481, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (0.44110337, 1.0146959, -29.824736), GlobalPosition after assignment: (0.44110337, 1.0146959, -29.824736)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 32.00232, CurrentMana: 50, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (0.5312123, 1.2744082, -54.048584), GlobalPosition after assignment: (0.5312123, 1.2744082, -54.048584)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 38, chargeRatio: 0.9, damage: 181, manaCost: 45.1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-5.1669426, 3.3900268, -54.093075), GlobalPosition after assignment: (-5.1669426, 3.3900268, -54.093075)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 137.62627571977728, rounded 138 -- 40 coins
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 24.917126, CurrentMana: 45.1, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.0182874, CurrentMana: 20.182873, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 13.235597, CurrentMana: 18.164585, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 13.445078, CurrentMana: 17.99768, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.3983028, CurrentMana: 4.552603, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.6764446, CurrentMana: 1.1543, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-11.776449, 3.86724, -65.73377), GlobalPosition after assignment: (-11.776449, 3.86724, -65.73377)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (37.694675, 1.1444745, -93.26949), GlobalPosition after assignment: (37.694675, 1.1444745, -93.26949)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 129.7839384876718, rounded 130 -- 4 coins
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 25, CurrentMana: 50, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.5, CurrentMana: 25, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 15.373798, CurrentMana: 22.5, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 7.126204, CurrentMana: 7.1262016, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-19.512602, 1.2752719, -70.670135), GlobalPosition after assignment: (-19.512602, 1.2752719, -70.670135)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 36.490078, CurrentMana: 50, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 9.653837, CurrentMana: 13.509922, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.6382818, CurrentMana: 3.8560848, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.653347, 1.2748082, -107.50544), GlobalPosition after assignment: (43.653347, 1.2748082, -107.50544)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.267586, 1.2753313, -108.85737), GlobalPosition after assignment: (41.267586, 1.2753313, -108.85737)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.64874, 1.2748082, -108.460594), GlobalPosition after assignment: (45.64874, 1.2748082, -108.460594)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.68719, 1.2752466, -109.81856), GlobalPosition after assignment: (42.68719, 1.2752466, -109.81856)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.739227, 1.2748084, -110.78798), GlobalPosition after assignment: (41.739227, 1.2748084, -110.78798)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.877373, 1.2753365, -110.55217), GlobalPosition after assignment: (43.877373, 1.2753365, -110.55217)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.48147, 1.2748082, -111.44222), GlobalPosition after assignment: (45.48147, 1.2748082, -111.44222)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (44.68008, 1.2748089, -111.94494), GlobalPosition after assignment: (44.68008, 1.2748089, -111.94494)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.062107, 1.2744995, -111.24602), GlobalPosition after assignment: (43.062107, 1.2744995, -111.24602)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (44.383747, 2.6611633, -110.75692), GlobalPosition after assignment: (44.383747, 2.6611633, -110.75692)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 28, chargeRatio: 0.4, damage: 86, manaCost: 20.6
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-16.852385, 3.7022455, -70.367485), GlobalPosition after assignment: (-16.852385, 3.7022455, -70.367485)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 170.31628940071292, rounded 171 -- 5 coins
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.236603, CurrentMana: 50, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.9763398, CurrentMana: 29.763397, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 19.141119, CurrentMana: 26.787058, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 4.462357, CurrentMana: 7.645939, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.9411571, CurrentMana: 3.1835818, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.82513577, CurrentMana: 1.2424247, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.71699166, CurrentMana: 1.217803, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: East_Room, IsRoundInProgress: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 36, chargeRatio: 0.8, damage: 162, manaCost: 40.2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (31.771782, 1.0693498, -107.05325), GlobalPosition after assignment: (31.771782, 1.0693498, -107.05325)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.6, CurrentMana: 20.6, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (44.17742, 1.2743973, -108.371735), GlobalPosition after assignment: (44.17742, 1.2743973, -108.371735)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (40.527603, 1.2754117, -111.69079), GlobalPosition after assignment: (40.527603, 1.2754117, -111.69079)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.99026, 1.2753855, -111.00952), GlobalPosition after assignment: (41.99026, 1.2753855, -111.00952)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (40.219563, 1.2747142, -109.18359), GlobalPosition after assignment: (40.219563, 1.2747142, -109.18359)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (39.431778, 1.275166, -110.67838), GlobalPosition after assignment: (39.431778, 1.275166, -110.67838)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.759438, 2.4665747, -108.2465), GlobalPosition after assignment: (42.759438, 2.4665747, -108.2465)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 28, chargeRatio: 0.4, damage: 86, manaCost: 20.6
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (28.377934, 1.2889977, 0.40955865), GlobalPosition after assignment: (28.377934, 1.2889977, 0.40955865)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 100, new 105.40287515108487, rounded 106 -- 7 coins
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 24.814816, CurrentMana: 40.2, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.5385185, CurrentMana: 15.385185, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 7.7077703, CurrentMana: 13.846666, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 4.419797, CurrentMana: 6.138896, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.9243456, CurrentMana: 1.719099, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (50.673077, 1.2103033, -99.29799), GlobalPosition after assignment: (50.673077, 1.2103033, -99.29799)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.6, CurrentMana: 20.6, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.114532, 2.762788, -109.9511), GlobalPosition after assignment: (41.114532, 2.762788, -109.9511)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (49.00077, 1.2754103, -101.92098), GlobalPosition after assignment: (49.00077, 1.2754103, -101.92098)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 22, chargeRatio: 0.1, damage: 29, manaCost: 5.9
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (51.811146, 1.2939377, -95.89665), GlobalPosition after assignment: (51.811146, 1.2939377, -95.89665)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 171.272271960418, rounded 172 -- 73 coins
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.848276, CurrentMana: 5.9, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.3051724, CurrentMana: 3.0517242, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.9354428, CurrentMana: 2.7465518, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.62547, 1.2746013, -109.72335), GlobalPosition after assignment: (43.62547, 1.2746013, -109.72335)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.961845, 2.7992358, -108.3712), GlobalPosition after assignment: (43.961845, 2.7992358, -108.3712)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+(3) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.850822, 1.275411, -113.279594), GlobalPosition after assignment: (41.850822, 1.275411, -113.279594)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+Round Lost!
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (54.933727, 1.2754097, -115.03243), GlobalPosition after assignment: (54.933727, 1.2754097, -115.03243)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.93774, 1.2754104, -113.797295), GlobalPosition after assignment: (41.93774, 1.2754104, -113.797295)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (33.990673, 1.2754097, -106.82696), GlobalPosition after assignment: (33.990673, 1.2754097, -106.82696)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (34.674614, 1.2754098, -83.83497), GlobalPosition after assignment: (34.674614, 1.2754098, -83.83497)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.397537, 1.274845, -108.127655), GlobalPosition after assignment: (45.397537, 1.274845, -108.127655)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+(4) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 24, chargeRatio: 0.2, damage: 48, manaCost: 10.8
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.390648, 1.0498912, -86.10332), GlobalPosition after assignment: (42.390648, 1.0498912, -86.10332)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 7.7374396, CurrentMana: 10.8, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.062558, CurrentMana: 3.0625606, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.6226044E-07, CurrentMana: 2.6226044E-06, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.930065, 1.2750396, -108.26571), GlobalPosition after assignment: (42.930065, 1.2750396, -108.26571)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.620537, 1.2772107, -108.17055), GlobalPosition after assignment: (43.620537, 1.2772107, -108.17055)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.13977, 1.2743553, -108.435486), GlobalPosition after assignment: (45.13977, 1.2743553, -108.435486)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.04594, 2.412859, -108.54628), GlobalPosition after assignment: (41.04594, 2.412859, -108.54628)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.456844, 1.2736522, -109.789696), GlobalPosition after assignment: (43.456844, 1.2736522, -109.789696)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (54.07152, 1.2754097, -108.04241), GlobalPosition after assignment: (54.07152, 1.2754097, -108.04241)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (33.96234, 1.2754099, -106.88564), GlobalPosition after assignment: (33.96234, 1.2754099, -106.88564)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (40.365128, 1.2752652, -109.59847), GlobalPosition after assignment: (40.365128, 1.2752652, -109.59847)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.24527, 1.2741004, -110.14814), GlobalPosition after assignment: (41.24527, 1.2741004, -110.14814)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (39.30373, 1.2751702, -111.70137), GlobalPosition after assignment: (39.30373, 1.2751702, -111.70137)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
+(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True

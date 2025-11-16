@@ -35,7 +35,7 @@ collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_6igdy")
 _triggerVolume = NodePath("LevelRegion")
-_spawners = [NodePath("Spawners/Swooper_EnemySpawner"), NodePath("Spawners/Melee_EnemySpawner"), NodePath("Spawners/Melee_EnemySpawner2"), NodePath("Spawners/Melee_EnemySpawner3")]
+_spawners = []
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
@@ -48,6 +48,7 @@ transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0
 shape = SubResource("ConcavePolygonShape3D_wrgjc")
 
 [node name="LevelRegion" type="Area3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.11887, 0, 57.651375)
 collision_layer = 0
 
@@ -108,6 +109,7 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 14
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -38.406185, 5, 22.75547)
 
 [node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Swooper_EnemySpawner" parent="Spawners" instance=ExtResource("5_3aq0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 0, 92.00001)

@@ -89,9 +89,8 @@ _maxManaToSpawn = 51
 
 [node name="North_Ice" type="Node3D" parent="."]
 
-[node name="North_Room" parent="North_Ice" node_paths=PackedStringArray("_spawners") instance=ExtResource("7_wrgjc")]
+[node name="North_Room" parent="North_Ice" instance=ExtResource("7_wrgjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
-_spawners = []
 
 [node name="North_Hallway" parent="North_Ice" instance=ExtResource("4_okbu8")]
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000002, 0, 0, 0)
@@ -100,9 +99,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="East_Abyss" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="East_Room" parent="East_Abyss" node_paths=PackedStringArray("_spawners") instance=ExtResource("8_2e4mj")]
+[node name="East_Room" parent="East_Abyss" instance=ExtResource("8_2e4mj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 0)
-_spawners = []
 
 [node name="East_Hallway" parent="East_Abyss" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -4.3711392e-08, 0, 0, 0)
@@ -111,9 +109,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="South_Crater" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="South_Room" parent="South_Crater" node_paths=PackedStringArray("_spawners") instance=ExtResource("9_qf3oj")]
+[node name="South_Room" parent="South_Crater" instance=ExtResource("9_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.191006)
-_spawners = []
 
 [node name="South_Hallway" parent="South_Crater" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-1.0000001, 0, -1.5099582e-07, 0, 1, 0, 1.5099582e-07, 0, -1.0000001, 0, 0, 0)
@@ -122,9 +119,8 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 [node name="West_Nest" type="Node3D" parent="."]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="West_Room" parent="West_Nest" node_paths=PackedStringArray("_spawners") instance=ExtResource("10_68nw1")]
+[node name="West_Room" parent="West_Nest" instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51.195103, 0, 0)
-_spawners = []
 
 [node name="West_Hallway" parent="West_Nest" instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)

@@ -20,13 +20,11 @@ size = Vector3(77, 20, 58)
 [sub_resource type="BoxShape3D" id="BoxShape3D_a4iyx"]
 size = Vector3(6.5, 5, 25)
 
-[node name="East_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_spawners")]
+[node name="East_Room" type="StaticBody3D"]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.2, 0, 51)
 collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_ne2ld")
-_triggerVolume = NodePath("LevelRegion")
-_spawners = [NodePath("Spawners/Ground_EnemySpawner"), NodePath("Spawners/Ground_EnemySpawner2"), NodePath("Spawners/Ground_EnemySpawner3"), NodePath("Spawners/Ground_EnemySpawner4"), NodePath("Spawners/Scrap_EnemySpawner5")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
@@ -39,6 +37,7 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0
 shape = SubResource("ConcavePolygonShape3D_okbu8")
 
 [node name="LevelRegion" type="Area3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.655876, 0, 0)
 collision_layer = 0
 
@@ -93,6 +92,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -39.
 transform = Transform3D(1, -1.0658141e-14, -6.352747e-22, 0, -4.371139e-08, 1, -1.0658141e-14, -1, -4.371139e-08, 42.336, 5, -44.362)
 
 [node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Ground_EnemySpawner" parent="Spawners" instance=ExtResource("5_gc8yr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.828766, 0, -39.194263)

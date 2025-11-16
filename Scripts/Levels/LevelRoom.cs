@@ -11,10 +11,11 @@ public partial class LevelRoom : Node3D
 	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
 	[Signal] public delegate void WaveClearedEventHandler();
 
-	[Export] private Area3D _triggerVolume;
-	[Export] private Array<EnemySpawner> _spawners;
 	[Export] private bool alwaysShow = false;
 	[Export] public bool IsCentralHub { get; set; } = false;
+
+	private Array<EnemySpawner> _spawners;
+	private Area3D _triggerVolume;
 
 	private bool _spawningFinished = false;
 	
@@ -23,14 +24,17 @@ public partial class LevelRoom : Node3D
 
 	public override void _Ready()
 	{
+		_triggerVolume = GetNode<Area3D>("%LevelRegion");
 		if (_triggerVolume != null)
 		{
 			_triggerVolume.BodyEntered += OnBodyEntered;
 			_triggerVolume.BodyExited += OnBodyExited;
 		}
 
+		var spawnerRoot = GetNode<Node3D>("%Spawners");
+
 		_spawners ??= new Array<EnemySpawner>();
-		foreach (var child in GetChildren())
+		foreach (var child in spawnerRoot.GetChildren())
 		{
 			if (child is EnemySpawner spawner)
 			{

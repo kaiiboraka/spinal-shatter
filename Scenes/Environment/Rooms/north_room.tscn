@@ -26,13 +26,11 @@ size = Vector3(59.092712, 20, 57.58899)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6l7bu"]
 size = Vector3(6.5, 5, 25)
 
-[node name="North_Room" type="StaticBody3D" node_paths=PackedStringArray("_triggerVolume", "_spawners")]
+[node name="North_Room" type="StaticBody3D"]
 collision_layer = 516
 collision_mask = 42001
 physics_material_override = SubResource("PhysicsMaterial_hnwvy")
 script = ExtResource("1_g2g5o")
-_triggerVolume = NodePath("LevelRegion")
-_spawners = [NodePath("Spawners/Ranged_EnemySpawner"), NodePath("Spawners/Ranged_EnemySpawner2"), NodePath("Spawners/Ranged_EnemySpawner3")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 17
@@ -43,6 +41,7 @@ surface_material_override/0 = ExtResource("3_g2g5o")
 shape = SubResource("ConcavePolygonShape3D_er001")
 
 [node name="LevelRegion" type="Area3D" parent="."]
+unique_name_in_owner = true
 collision_layer = 0
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion"]
@@ -87,6 +86,7 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 57
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 0, 5, -95.80663)
 
 [node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Ranged_EnemySpawner" parent="Spawners" instance=ExtResource("5_xlqql")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 0, -60)

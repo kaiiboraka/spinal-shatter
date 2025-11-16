@@ -67,7 +67,6 @@ public partial class Projectile : RigidBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		DebugManager.Debug($"Projectile: _PhysicsProcess current GlobalPosition: {GlobalPosition}");
 		if (_bounceCooldown > 0)
 		{
 			_bounceCooldown -= (float)delta;

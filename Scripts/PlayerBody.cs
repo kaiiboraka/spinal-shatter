@@ -1,8 +1,8 @@
 using Godot;
-using System;
 using Elythia;
-using FPS_Mods.Scripts;
 using Godot.Collections;
+
+namespace SpinalShatter;
 
 [GlobalClass]
 public partial class PlayerBody : Combatant

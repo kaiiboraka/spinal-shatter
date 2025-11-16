@@ -1,5 +1,7 @@
 using Godot;
 
+namespace SpinalShatter;
+
 [GlobalClass]
 public partial class OverheadHealthBar : Sprite3D
 {

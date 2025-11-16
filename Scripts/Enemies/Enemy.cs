@@ -3,13 +3,15 @@ using System.Linq;
 using Elythia;
 using Godot;
 
+namespace SpinalShatter;
+
 public partial class Enemy : Combatant
 {
 	public LevelRoom AssociatedRoom { get; set; }
 	private bool _isActive = true;
 
 	private List<CollisionShape3D> _collisionShapes = new();
-	private AIState _currentState = AIState.Idle;
+	private global::Enemy.AIState _currentState = global::Enemy.AIState.Idle;
 
 	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
@@ -71,7 +73,7 @@ public partial class Enemy : Combatant
 	private PlayerBody _player;
 
 	private bool _isWalking = false;
-	private bool isDying => _currentState == AIState.Dying;
+	private bool isDying => _currentState == global::Enemy.AIState.Dying;
 
 	[Signal]
 	public delegate void EnemyDiedEventHandler(Enemy who);
@@ -135,7 +137,7 @@ public partial class Enemy : Combatant
 		}
 
 		// Start patrolling
-		ChangeState(AIState.Patrolling);
+		ChangeState(global::Enemy.AIState.Patrolling);
 	}
 
 	private void ApplyData(EnemyData data)
@@ -172,17 +174,17 @@ public partial class Enemy : Combatant
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (_currentState == AIState.Dying) return;
+		if (_currentState == global::Enemy.AIState.Dying) return;
 		if (!_isActive) return;
 
 		base._PhysicsProcess(delta); // Decays knockback
 
-		if (_currentState != AIState.Attacking && _currentState != AIState.Recovery && _currentState != AIState.Dying)
+		if (_currentState != global::Enemy.AIState.Attacking && _currentState != global::Enemy.AIState.Recovery && _currentState != global::Enemy.AIState.Dying)
 		{
 			if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
 			{
 				_player = player;
-				ChangeState(AIState.Chasing);
+				ChangeState(global::Enemy.AIState.Chasing);
 			}
 		}
 
@@ -198,20 +200,20 @@ public partial class Enemy : Combatant
 		{
 			switch (_currentState)
 			{
-				case AIState.Idle:
+				case global::Enemy.AIState.Idle:
 					ProcessIdle(delta);
 					newVelocity = Vector3.Zero;
 					break;
-				case AIState.Patrolling:
+				case global::Enemy.AIState.Patrolling:
 					ProcessPatrolling(ref newVelocity);
 					break;
-				case AIState.Chasing:
+				case global::Enemy.AIState.Chasing:
 					ProcessChasing(ref newVelocity, delta);
 					break;
-				case AIState.Attacking:
+				case global::Enemy.AIState.Attacking:
 					ProcessAttacking(ref newVelocity);
 					break;
-				case AIState.Recovery:
+				case global::Enemy.AIState.Recovery:
 					ProcessRecovery(ref newVelocity);
 					break;
 			}
@@ -220,7 +222,7 @@ public partial class Enemy : Combatant
 		// Apply knockback
 		if (!isDying) newVelocity += _knockbackVelocity;
 		Velocity = newVelocity;
-		if (_player != null && _currentState != AIState.Attacking)
+		if (_player != null && _currentState != global::Enemy.AIState.Attacking)
 		{
 			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
 			Vector3 enemyForward = -GlobalTransform.Basis.Z;
@@ -241,7 +243,7 @@ public partial class Enemy : Combatant
 		if (_player != null)
 		{
 			// Update animation based on angle to player
-			if (_currentState == AIState.Attacking) return;
+			if (_currentState == global::Enemy.AIState.Attacking) return;
 			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
 			Vector3 enemyForward = -GlobalTransform.Basis.Z;
 			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
@@ -249,27 +251,27 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void EnterState(AIState state)
+	private void EnterState(global::Enemy.AIState state)
 	{
 		switch (state)
 		{
-			case AIState.Idle:
+			case global::Enemy.AIState.Idle:
 				_animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
-			case AIState.Patrolling:
+			case global::Enemy.AIState.Patrolling:
 				_animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				StartWaiting();
 				break;
-			case AIState.Chasing:
+			case global::Enemy.AIState.Chasing:
 				_animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
-			case AIState.Attacking:
+			case global::Enemy.AIState.Attacking:
 				Velocity = Vector3.Zero with { Y = Velocity.Y };
 				_animPlayer.Play("Front_Attack");
 
@@ -278,20 +280,20 @@ public partial class Enemy : Combatant
 				_timerAttackCooldown.WaitTime = AttackCooldown;
 				_timerAttackCooldown.Start();
 				break;
-			case AIState.Recovery:
+			case global::Enemy.AIState.Recovery:
 				_animPlayer.Play("Front_Idle");
 				_timerAction.WaitTime = RecoveryTime;
 				_timerAction.Start();
 				break;
-			case AIState.Dying:
+			case global::Enemy.AIState.Dying:
 				TryToDie();
 				break;
 		}
 	}
 
-	private void ChangeState(AIState newState, bool force = false)
+	private void ChangeState(global::Enemy.AIState newState, bool force = false)
 	{
-		if ((_currentState == newState && !force) || _currentState == AIState.Dying) return;
+		if ((_currentState == newState && !force) || _currentState == global::Enemy.AIState.Dying) return;
 
 		ExitState(_currentState);
 		_currentState = newState;
@@ -339,21 +341,21 @@ public partial class Enemy : Combatant
 		_animatedSprite_Eye.Play(which);
 	}
 
-	private void ExitState(AIState state)
+	private void ExitState(global::Enemy.AIState state)
 	{
 		switch (state)
 		{
-			case AIState.Idle:
+			case global::Enemy.AIState.Idle:
 				break;
-			case AIState.Patrolling:
+			case global::Enemy.AIState.Patrolling:
 				_timerWalk.Stop();
 				_timerAction.Stop();
 				break;
-			case AIState.Chasing:
+			case global::Enemy.AIState.Chasing:
 				break;
-			case AIState.Attacking:
+			case global::Enemy.AIState.Attacking:
 				break;
-			case AIState.Recovery:
+			case global::Enemy.AIState.Recovery:
 				_timerAction.Stop();
 				break;
 		}
@@ -364,9 +366,9 @@ public partial class Enemy : Combatant
 		if (body is PlayerBody player)
 		{
 			_player = player;
-			if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
+			if (_currentState != global::Enemy.AIState.Attacking && _currentState != global::Enemy.AIState.Recovery)
 			{
-				ChangeState(AIState.Chasing);
+				ChangeState(global::Enemy.AIState.Chasing);
 			}
 		}
 	}
@@ -376,7 +378,7 @@ public partial class Enemy : Combatant
 		if (body is PlayerBody player)
 		{
 			_player = null;
-			ChangeState(AIState.Patrolling);
+			ChangeState(global::Enemy.AIState.Patrolling);
 		}
 	}
 
@@ -397,7 +399,7 @@ public partial class Enemy : Combatant
 	{
 		if (_player == null)
 		{
-			ChangeState(AIState.Patrolling);
+			ChangeState(global::Enemy.AIState.Patrolling);
 			return;
 		}
 
@@ -413,7 +415,7 @@ public partial class Enemy : Combatant
 		{
 			if (_timerAttackCooldown.IsStopped())
 			{
-				ChangeState(AIState.Attacking);
+				ChangeState(global::Enemy.AIState.Attacking);
 			}
 		}
 	}
@@ -440,7 +442,7 @@ public partial class Enemy : Combatant
 	{
 		if (animName == "Front_Attack")
 		{
-			ChangeState(AIState.Recovery);
+			ChangeState(global::Enemy.AIState.Recovery);
 		}
 		else if (animName == "Die")
 		{
@@ -470,14 +472,14 @@ public partial class Enemy : Combatant
 
 	private void OnActionTimerTimeout()
 	{
-		if (_currentState == AIState.Patrolling)
+		if (_currentState == global::Enemy.AIState.Patrolling)
 		{
 			Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
 			StartWalking();
 		}
-		else if (_currentState == AIState.Recovery)
+		else if (_currentState == global::Enemy.AIState.Recovery)
 		{
-			ChangeState(AIState.Patrolling);
+			ChangeState(global::Enemy.AIState.Patrolling);
 		}
 	}
 
@@ -575,7 +577,7 @@ public partial class Enemy : Combatant
 	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		base.OnHurt(sourcePosition, damage);
-		ChangeState(AIState.Chasing);
+		ChangeState(global::Enemy.AIState.Chasing);
 	}
 
 	public override void PlayOnHurtFX()
@@ -587,7 +589,7 @@ public partial class Enemy : Combatant
 
 	public override void OnDied()
 	{
-		ChangeState(AIState.Dying);
+		ChangeState(global::Enemy.AIState.Dying);
 	}
 
 	private void TryToDie()

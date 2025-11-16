@@ -2,6 +2,8 @@ using Godot;
 using System;
 using Elythia;
 
+namespace SpinalShatter;
+
 public partial class Projectile : RigidBody3D
 {
 	private enum ProjectileState

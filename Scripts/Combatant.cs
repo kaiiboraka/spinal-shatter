@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace SpinalShatter;
 
 public partial class Combatant : CharacterBody3D
 {

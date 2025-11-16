@@ -1,7 +1,8 @@
-using Elythia;
 using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
+
+namespace SpinalShatter;
 
 public partial class EnemySpawner : Node3D
 {

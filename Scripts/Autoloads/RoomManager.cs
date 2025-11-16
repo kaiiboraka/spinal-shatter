@@ -1,6 +1,7 @@
-using Elythia;
 using Godot;
 using Godot.Collections;
+
+namespace SpinalShatter;
 
 public partial class RoomManager : Node
 {

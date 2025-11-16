@@ -1,5 +1,6 @@
-	namespace Elythia;
+namespace Elythia;
 
+using SpinalShatter;
 using System.Diagnostics;
 using Godot;
 using Godot.Collections;

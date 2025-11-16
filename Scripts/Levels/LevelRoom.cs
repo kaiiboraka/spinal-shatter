@@ -2,7 +2,8 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Elythia;
+
+namespace SpinalShatter;
 
 public partial class LevelRoom : Node3D
 {

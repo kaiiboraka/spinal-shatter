@@ -62,7 +62,9 @@ public partial class ManaSpawner : Node3D
             ? GD.RandRange(_minManaToSpawn, _maxManaToSpawn)
             : _maxManaToSpawn;
 
-        Array<Pickup> spawnedPickups = PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, amountToSpawn, this.GlobalPosition);
+        Vector3 offset = new Vector3().RandomRange(.5f) + Vector3.Up;
+        offset = GlobalPosition + offset;
+        Array<Pickup> spawnedPickups = PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, amountToSpawn, offset);
 
         foreach (var pickup in spawnedPickups)
         {

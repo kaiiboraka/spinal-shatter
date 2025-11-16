@@ -12,13 +12,13 @@ public partial class ManaParticle : Pickup
         this.data = data as ManaParticleData;
         if (Data == null) return;
         SizeType = Data.SizeType;
+        Sprite.Play();
     }
 
     public override void Collect()
     {
-        var audioStream = Data.AudioStream;
         var pitch = (float)(GD.RandRange(.95, 1.05) * Data.AudioPitch);
-        AudioManager.Instance.PlaySoundAtPosition(audioStream, GlobalPosition);
+        AudioManager.Instance.PlaySoundAtPosition(Data.AudioStream, GlobalPosition, pitch, -12f);
 
         base.Collect();
     }

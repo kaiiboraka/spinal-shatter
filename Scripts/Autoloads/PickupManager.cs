@@ -123,6 +123,8 @@ public partial class PickupManager : Node
 		return spawnedPickups;
 	}
 
+
+
 	private Pickup SpawnPickup(PickupData data, Vector3 position)
 	{
 		PickupType type;
@@ -149,8 +151,7 @@ public partial class PickupManager : Node
 		if (pickup == null) return null; // Pool is full
 
 		// Add a random offset to the spawn position
-		Vector3 offset = new Vector3().RandomRange(.5f) + Vector3.Up;
-		pickup.GlobalPosition = position + offset;
+		pickup.GlobalPosition = position;
 		pickup.Initialize(data);
 		pickup.Sprite.RandomizeAnimation();
 		return pickup;

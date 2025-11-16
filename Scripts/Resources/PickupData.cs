@@ -17,7 +17,8 @@ public partial class PickupData : Resource
 	[Export] public float CollisionShapeRadius { get; private set; } = 0.1f;
 	[Export] public float AreaShapeRadius { get; private set; } = 0.1f;
 
-	[ExportGroup("Audio")]
+	[ExportGroup("Audio", "Audio")]
 	[Export] public AudioStream AudioStream { get; private set; }
 	[Export] public double AudioPitch { get; private set; } = 1.0f;
+	[Export] public float AudioVolumeDb { get; private set; } = 0;
 }

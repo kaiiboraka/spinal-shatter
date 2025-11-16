@@ -172,6 +172,7 @@ public partial class Enemy : Combatant
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (_currentState == AIState.Dying) return;
 		if (!_isActive) return;
 
 		base._PhysicsProcess(delta); // Decays knockback
@@ -285,14 +286,14 @@ public partial class Enemy : Combatant
 				_timerAction.Start();
 				break;
 			case AIState.Dying:
-				_animPlayer.Play("Die");
+				TryToDie();
 				break;
 		}
 	}
 
 	private void ChangeState(AIState newState, bool force = false)
 	{
-		if (_currentState == newState && !force) return;
+		if ((_currentState == newState && !force) || _currentState == AIState.Dying) return;
 
 		ExitState(_currentState);
 		_currentState = newState;
@@ -589,7 +590,10 @@ public partial class Enemy : Combatant
 	public override void OnDied()
 	{
 		ChangeState(AIState.Dying);
+	}
 
+	private void TryToDie()
+	{
 		var deathParticles = _deathParticlesScene.Instantiate() as OneshotParticles;
 		GetParent().AddChild(deathParticles);
 		deathParticles.GlobalPosition = GlobalPosition;

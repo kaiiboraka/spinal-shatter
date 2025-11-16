@@ -251,7 +251,7 @@ public partial class Projectile : RigidBody3D
 	public void Expire()
 	{
 		Damage = 0;
-		EjectMana(ManaCost);
+		EjectMana(ManaCost, GlobalPosition);
 		QueueFree();
 	}
 
@@ -265,7 +265,7 @@ public partial class Projectile : RigidBody3D
 
 		// Eject mana particles
 		float manaToEject = isEnemyHit ? manaLostAmount * EnemyManaRefundFraction : manaLostAmount;
-		EjectMana(manaToEject);
+		EjectMana(manaToEject, impactPosition);
 
 		// Reduce projectile's mana
 		ManaCost -= manaLostAmount;
@@ -297,7 +297,7 @@ public partial class Projectile : RigidBody3D
 		}
 	}
 
-	public void EjectMana(float amount)
+	public void EjectMana(float amount, Vector3 spawnPoint)
 	{
 		// DebugManager.Debug($"EM: Amount received: {amount}");
 
@@ -318,7 +318,7 @@ public partial class Projectile : RigidBody3D
 
 		if (manaToSpawn > 0)
 		{
-			PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, GlobalPosition);
+			PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, spawnPoint);
 			// DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
 		}
 		else

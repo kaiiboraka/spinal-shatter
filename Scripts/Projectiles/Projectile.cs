@@ -165,19 +165,19 @@ public partial class Projectile : RigidBody3D
 		// Ensure the projectile is removed from its current parent before adding to RoomManager
 		if (GetParent() != null)
 		{
-			DebugManager.Debug($"Projectile: Launch - Removing from parent: {GetParent().Name}");
+			// DebugManager.Debug($"Projectile: Launch - Removing from parent: {GetParent().Name}");
 			GetParent().RemoveChild(this);
 		}
 		var parent = RoomManager.Instance;
 		parent.AddChild(this);
-		DebugManager.Debug($"Projectile: Launch - Added to parent: {parent.Name}");
+		// DebugManager.Debug($"Projectile: Launch - Added to parent: {parent.Name}");
 		GlobalPosition = data.StartPosition;
-		DebugManager.Debug($"Projectile: Launch - data.StartPosition: {data.StartPosition}, GlobalPosition after assignment: {GlobalPosition}");
+		// DebugManager.Debug($"Projectile: Launch - data.StartPosition: {data.StartPosition}, GlobalPosition after assignment: {GlobalPosition}");
 
 		// Enable physics and launch
 		this.Freeze = false;
 		_collisionShape.Disabled = false;
-		DebugManager.Debug($"Projectile: Launch - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
+		// DebugManager.Debug($"Projectile: Launch - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		this.LinearVelocity = data.InitialVelocity;
 
 		_lifetimeTimer.Start();

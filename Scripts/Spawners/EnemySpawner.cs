@@ -78,12 +78,13 @@ public partial class EnemySpawner : Node3D
                 Name = $"{scene.ResourcePath.GetFile().GetBaseName()}Pool"
             };
 
-            var subParent = new Node3D { Name = $"{newPool.Name}_Container" };
-            newPool.AddChild(subParent);
-            newPool.PoolParent = subParent;
+            // The ObjectPoolManager itself is a Node, so it can be added as a child
+            // The PoolParent for the *pooled objects* should be the EnemySpawner itself,
+            // or a dedicated container node within the spawner.
+            AddChild(newPool); // Add the pool manager as a child of the spawner
+            newPool.PoolParent = _owningRoom; // Pooled objects will be children of the owning room
             
             _pools[scene] = newPool;
-            GetTree().Root.AddChild(newPool);
         }
     }
 

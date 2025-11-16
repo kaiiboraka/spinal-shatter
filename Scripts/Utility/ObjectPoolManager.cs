@@ -42,10 +42,12 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
     {
         if (_activeObjects <= 0 || !IsInstanceValid(obj))
         {
+            DEBUG.Info($"ObjectPoolManager: Attempted to release invalid or already released object: {obj?.Name ?? "null"}");
             return;
         }
 
         _activeObjects--;
+        DEBUG.Info($"ObjectPoolManager: Releasing object {obj.Name}. Active objects: {_activeObjects}");
 
         obj.SetDeferred("visible", false);
         obj.SetPhysicsProcess(false);
@@ -67,10 +69,12 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
         if (_readyPool.Count < PoolMaxSize)
         {
             _readyPool.Enqueue(obj);
+            DEBUG.Info($"ObjectPoolManager: Enqueued {obj.Name}. Ready pool size: {_readyPool.Count}");
         }
         else
         {
             obj.QueueFree();
+            DEBUG.Info($"ObjectPoolManager: Pool full, QueueFree() {obj.Name}.");
         }
     }
 
@@ -78,6 +82,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
     {
         if (_activeObjects >= PoolMaxSize)
         {
+            DEBUG.Info($"ObjectPoolManager: Pool full, cannot get new object. Active objects: {_activeObjects}");
             return null;
         }
 
@@ -86,6 +91,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
         if (_readyPool.Count > 0)
         {
             obj = _readyPool.Dequeue();
+            DEBUG.Info($"ObjectPoolManager: Dequeued existing object {obj.Name}. Ready pool size: {_readyPool.Count}");
         }
         else
         {
@@ -96,6 +102,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
             }
             obj = Scene.Instantiate<T>();
             PoolParent.AddChild(obj);
+            DEBUG.Info($"ObjectPoolManager: Instantiated new object {obj.Name}.");
         }
 
         obj.SetProcess(true);
@@ -103,6 +110,7 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
         obj.SetDeferred("visible", true);
 
         _activeObjects++;
+        DEBUG.Info($"ObjectPoolManager: Got object {obj.Name}. Active objects: {_activeObjects}");
 
         return obj;
     }

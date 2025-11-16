@@ -249,10 +249,10 @@ public partial class WaveDirector : Node
 		{
 			// Filter enemies that fit the remaining budget
 			var affordableEnemies = availableEnemies.Where(e => e.Cost <= budget).ToList();
-			if (!affordableEnemies.Any()) break;
+			if (!affordableEnemies.Any()) break; // No more affordable enemies
 
 			// Randomly select an enemy from the affordable ones
-			var chosenEnemy = affordableEnemies[(int)GD.Randi() % affordableEnemies.Count];
+			var chosenEnemy = affordableEnemies[GD.RandRange(0, affordableEnemies.Count - 1)];
 			
 			enemiesToSpawn.Add(chosenEnemy.Scene);
 			budget -= chosenEnemy.Cost;

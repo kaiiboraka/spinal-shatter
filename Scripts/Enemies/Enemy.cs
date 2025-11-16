@@ -440,21 +440,17 @@ public partial class Enemy : Combatant
 
 	private void OnAnimationFinished(StringName animName)
 	{
+		DebugManager.Debug($"Enemy: {Name} AnimationFinished: {animName}");
 		if (animName == "Front_Attack")
 		{
 			ChangeState(global::Enemy.AIState.Recovery);
 		}
-		// Removed: else if (animName == "Die")
-		// Removed: {
-		// Removed: 	if (OwningPool != null)
-		// Removed: 	{
-		// Removed: 		OwningPool.Release(this);
-		// Removed: 	}
-		// Removed: 	else
-		// Removed: 	{
-		// Removed: 		QueueFree(); // Failsafe for enemies not spawned from a pool
-		// Removed: 	}
-		// Removed: }
+		else if (animName == "Die")
+		{
+			DebugManager.Debug($"Enemy: {Name} Die animation finished. Releasing enemy.");
+			if (OwningPool != null) OwningPool.Release(this);
+			else QueueFree();
+		}
 	}
 
 	private void Wander(ref Vector3 newVelocity)
@@ -589,11 +585,13 @@ public partial class Enemy : Combatant
 
 	public override void OnDied()
 	{
+		DebugManager.Debug($"Enemy: {Name} OnDied called.");
 		ChangeState(global::Enemy.AIState.Dying);
 	}
 
 	private void TryToDie()
 	{
+		DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}");
 		var deathParticles = _deathParticlesScene.Instantiate() as OneshotParticles;
 		GetParent().AddChild(deathParticles);
 		deathParticles.GlobalPosition = GlobalPosition;
@@ -609,8 +607,7 @@ public partial class Enemy : Combatant
 		StopTimers();
 		DisableCollisions();
 		EmitSignalEnemyDied(this);
-		if (OwningPool != null) OwningPool.Release(this);
-			else QueueFree();
+		// Removed immediate release: if (OwningPool != null) OwningPool.Release(this); else QueueFree();
 	}
 
 	public override void Reset()
@@ -619,6 +616,8 @@ public partial class Enemy : Combatant
 
 		// Add any enemy-specific reset logic here
 		Activate();
+		_animPlayer.Stop(); // Stop any playing animation
+		_animPlayer.Play("Front_Idle"); // Reset to a default idle animation
 	}
 
 	public void Deactivate()

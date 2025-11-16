@@ -1,242 +1,341 @@
 # Scenario playthrough breakdown:
-	
-I ran into each room, and killed a few enemies, and 
-Each time I entered a room, the timer would start over fresh. It seemed to be selecting one single spawner of the lot, for multiple waves.
-And then, no matter which wave, or which room, or how many times I entered, it only ever spawned one enemy type: Scrounger. None of the rest were EVER chosen.
-Enemies still are not playing a death animation, and then they stay around and never disappear. The death sequence that's supposed to send them back into a pool or queue_free them or whatever is supposed to happen is just... not.
+
+Some good news: enemies do finally disappear when they are killed. From what it seemed like to me, although I can't confirm it, 
+is that enemies were getting sent back to their spawner. I could see them finally playing the Die animation, only long after they had died, and it was on loop, though it shouldn't have been.
 
 # Error
 
-E 0:00:05:808   void System.ThrowHelper.ThrowArgumentOutOfRange_IndexMustBeLessException(): System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
-  <C++ Error>   System.ArgumentOutOfRangeException
-  <C++ Source>  :0 @ void System.ThrowHelper.ThrowArgumentOutOfRange_IndexMustBeLessException()
-  <Stack Trace> :0 @ void System.ThrowHelper.ThrowArgumentOutOfRange_IndexMustBeLessException()
-                :0 @ T System.Collections.Generic.List`1.get_Item(int)
-                WaveDirector.cs:255 @ Godot.Collections.Array`1[Godot.PackedScene] SpinalShatter.WaveDirector.GenerateEnemyList(float)
-                WaveDirector.cs:178 @ void SpinalShatter.WaveDirector.StartNextWave()
-                WaveDirector.cs:165 @ void SpinalShatter.WaveDirector.OnRoundStart()
-                WaveDirector.cs:144 @ void SpinalShatter.WaveDirector.OnCurrentRoomChanged(SpinalShatter.LevelRoom)
-                SpinalShatter.RoomManager_ScriptSignals.generated.cs:46 @ void SpinalShatter.RoomManager.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs)
-                ScriptManagerBridge.cs:387 @ void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*)
+E 0:00:45:452   instance_set_transform: Condition "!v.is_finite()" is true.
+  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
 
+this error seems to have something to do with the new OneshotParticles I made.
 
 # Output
 
 Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
 Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
-
 Embedded window only supports Windowed mode.
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: _Ready called.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: null, IsRoundInProgress: False
 [INFO][DebugManager @ DebugManager: CanvasLayer] PlayerBody: Calculated max footstep cooldown: 0.25
 [INFO][DebugManager @ DebugManager: CanvasLayer] PlayerBody: Calculated max sprint footstep cooldown: 0.20833332505491078
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: Player instance set and Died signal connected.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: False
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: Not starting round in central hub: CentralHub
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object ManaPickup.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object ManaPickup. Active objects: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@58.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@58. Active objects: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@59.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@59. Active objects: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@60.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@60. Active objects: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@61.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@61. Active objects: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@62.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@62. Active objects: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@63.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@63. Active objects: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@64.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@64. Active objects: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@65.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@65. Active objects: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@66.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@66. Active objects: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@67.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@67. Active objects: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@68.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@68. Active objects: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@69.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@69. Active objects: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@70.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@70. Active objects: 14
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: North_Room, IsRoundInProgress: False
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnRoundStart called.
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: StartNextWave - Budget: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 49
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 48
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 46
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 45
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 44
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 42
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 41
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 39
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 37
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 35
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 34
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 32
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 30
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 29
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 28
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 27
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 25
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 24
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 23
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 21
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 20
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 19
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 17
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 16
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 14
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 12
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 11
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 9
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 8
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 7
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 6
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 4
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 3
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 0
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: StartNextWave - Generated 36 enemies.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (0.44110337, 1.0146959, -29.824736), GlobalPosition after assignment: (0.44110337, 1.0146959, -29.824736)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 32.00232, CurrentMana: 50, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (0.5312123, 1.2744082, -54.048584), GlobalPosition after assignment: (0.5312123, 1.2744082, -54.048584)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 38, chargeRatio: 0.9, damage: 181, manaCost: 45.1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-5.1669426, 3.3900268, -54.093075), GlobalPosition after assignment: (-5.1669426, 3.3900268, -54.093075)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 137.62627571977728, rounded 138 -- 40 coins
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 24.917126, CurrentMana: 45.1, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.0182874, CurrentMana: 20.182873, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 13.235597, CurrentMana: 18.164585, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 13.445078, CurrentMana: 17.99768, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.3983028, CurrentMana: 4.552603, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.6764446, CurrentMana: 1.1543, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (37.694675, 1.1444745, -93.26949), GlobalPosition after assignment: (37.694675, 1.1444745, -93.26949)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 129.7839384876718, rounded 130 -- 4 coins
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Scrounger.
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Scrounger. Active objects: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Scrounger. Total enemies: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger2 OnDied called.
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger2 TryToDie called. Current state: Dying
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@84.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@84. Active objects: 15
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@85.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@85. Active objects: 16
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@86.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@86. Active objects: 17
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@87.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 18
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 155.2808875102956, rounded 156 -- 12 coins
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object MoneyPickup.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object MoneyPickup. Active objects: 1
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@88.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@88. Active objects: 2
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@89.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@89. Active objects: 3
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@90.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@90. Active objects: 4
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@91.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@91. Active objects: 5
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@92.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@92. Active objects: 6
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@93.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@93. Active objects: 7
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@94.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@94. Active objects: 8
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@95.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@95. Active objects: 9
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@96.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@96. Active objects: 10
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@97.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@97. Active objects: 11
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@98.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@98. Active objects: 12
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 25, CurrentMana: 50, IsEnemyHit: True
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@99.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@99. Active objects: 19
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@100.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@100. Active objects: 20
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.5, CurrentMana: 25, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 15.373798, CurrentMana: 22.5, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 7.126204, CurrentMana: 7.1262016, IsEnemyHit: True
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@101.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 21
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@102.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@102. Active objects: 22
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 16.42047, CurrentMana: 22.5, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@104.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@104. Active objects: 24
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@105.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@105. Active objects: 25
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@106.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@106. Active objects: 26
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@107.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@107. Active objects: 27
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@108.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@108. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@109.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@109. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@110.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@110. Active objects: 30
+[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Swooper.
+[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Swooper. Active objects: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Swooper. Total enemies: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.350977, CurrentMana: 6.0795307, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@112.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@112. Active objects: 31
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.6358806, CurrentMana: 2.7285538, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@113.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@113. Active objects: 32
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.6345728, CurrentMana: 1.0926732, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@114.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@114. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@115.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@115. Active objects: 34
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.653347, 1.2748082, -107.50544), GlobalPosition after assignment: (43.653347, 1.2748082, -107.50544)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.267586, 1.2753313, -108.85737), GlobalPosition after assignment: (41.267586, 1.2753313, -108.85737)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.64874, 1.2748082, -108.460594), GlobalPosition after assignment: (45.64874, 1.2748082, -108.460594)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.68719, 1.2752466, -109.81856), GlobalPosition after assignment: (42.68719, 1.2752466, -109.81856)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.739227, 1.2748084, -110.78798), GlobalPosition after assignment: (41.739227, 1.2748084, -110.78798)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.877373, 1.2753365, -110.55217), GlobalPosition after assignment: (43.877373, 1.2753365, -110.55217)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.48147, 1.2748082, -111.44222), GlobalPosition after assignment: (45.48147, 1.2748082, -111.44222)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (44.68008, 1.2748089, -111.94494), GlobalPosition after assignment: (44.68008, 1.2748089, -111.94494)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.062107, 1.2744995, -111.24602), GlobalPosition after assignment: (43.062107, 1.2744995, -111.24602)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (44.383747, 2.6611633, -110.75692), GlobalPosition after assignment: (44.383747, 2.6611633, -110.75692)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 28, chargeRatio: 0.4, damage: 86, manaCost: 20.6
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (31.771782, 1.0693498, -107.05325), GlobalPosition after assignment: (31.771782, 1.0693498, -107.05325)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.6, CurrentMana: 20.6, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (44.17742, 1.2743973, -108.371735), GlobalPosition after assignment: (44.17742, 1.2743973, -108.371735)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (40.527603, 1.2754117, -111.69079), GlobalPosition after assignment: (40.527603, 1.2754117, -111.69079)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.99026, 1.2753855, -111.00952), GlobalPosition after assignment: (41.99026, 1.2753855, -111.00952)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (40.219563, 1.2747142, -109.18359), GlobalPosition after assignment: (40.219563, 1.2747142, -109.18359)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (39.431778, 1.275166, -110.67838), GlobalPosition after assignment: (39.431778, 1.275166, -110.67838)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.759438, 2.4665747, -108.2465), GlobalPosition after assignment: (42.759438, 2.4665747, -108.2465)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 28, chargeRatio: 0.4, damage: 86, manaCost: 20.6
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (50.673077, 1.2103033, -99.29799), GlobalPosition after assignment: (50.673077, 1.2103033, -99.29799)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.6, CurrentMana: 20.6, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.114532, 2.762788, -109.9511), GlobalPosition after assignment: (41.114532, 2.762788, -109.9511)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (49.00077, 1.2754103, -101.92098), GlobalPosition after assignment: (49.00077, 1.2754103, -101.92098)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 22, chargeRatio: 0.1, damage: 29, manaCost: 5.9
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (51.811146, 1.2939377, -95.89665), GlobalPosition after assignment: (51.811146, 1.2939377, -95.89665)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 171.272271960418, rounded 172 -- 73 coins
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.848276, CurrentMana: 5.9, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.3051724, CurrentMana: 3.0517242, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.9354428, CurrentMana: 2.7465518, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.62547, 1.2746013, -109.72335), GlobalPosition after assignment: (43.62547, 1.2746013, -109.72335)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.961845, 2.7992358, -108.3712), GlobalPosition after assignment: (43.961845, 2.7992358, -108.3712)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-(3) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.850822, 1.275411, -113.279594), GlobalPosition after assignment: (41.850822, 1.275411, -113.279594)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-Round Lost!
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (54.933727, 1.2754097, -115.03243), GlobalPosition after assignment: (54.933727, 1.2754097, -115.03243)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.93774, 1.2754104, -113.797295), GlobalPosition after assignment: (41.93774, 1.2754104, -113.797295)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (33.990673, 1.2754097, -106.82696), GlobalPosition after assignment: (33.990673, 1.2754097, -106.82696)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (34.674614, 1.2754098, -83.83497), GlobalPosition after assignment: (34.674614, 1.2754098, -83.83497)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.397537, 1.274845, -108.127655), GlobalPosition after assignment: (45.397537, 1.274845, -108.127655)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-(4) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 24, chargeRatio: 0.2, damage: 48, manaCost: 10.8
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.390648, 1.0498912, -86.10332), GlobalPosition after assignment: (42.390648, 1.0498912, -86.10332)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 7.7374396, CurrentMana: 10.8, IsEnemyHit: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.062558, CurrentMana: 3.0625606, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.6226044E-07, CurrentMana: 2.6226044E-06, IsEnemyHit: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (42.930065, 1.2750396, -108.26571), GlobalPosition after assignment: (42.930065, 1.2750396, -108.26571)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.620537, 1.2772107, -108.17055), GlobalPosition after assignment: (43.620537, 1.2772107, -108.17055)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (45.13977, 1.2743553, -108.435486), GlobalPosition after assignment: (45.13977, 1.2743553, -108.435486)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.04594, 2.412859, -108.54628), GlobalPosition after assignment: (41.04594, 2.412859, -108.54628)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (43.456844, 1.2736522, -109.789696), GlobalPosition after assignment: (43.456844, 1.2736522, -109.789696)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (54.07152, 1.2754097, -108.04241), GlobalPosition after assignment: (54.07152, 1.2754097, -108.04241)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (33.96234, 1.2754099, -106.88564), GlobalPosition after assignment: (33.96234, 1.2754099, -106.88564)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (40.365128, 1.2752652, -109.59847), GlobalPosition after assignment: (40.365128, 1.2752652, -109.59847)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (41.24527, 1.2741004, -110.14814), GlobalPosition after assignment: (41.24527, 1.2741004, -110.14814)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (39.30373, 1.2751702, -111.70137), GlobalPosition after assignment: (39.30373, 1.2751702, -111.70137)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Freeze: False, CollisionShape.Disabled: False
-(2) [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@116.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@116. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@117.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@117. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@118.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@118. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@119.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@119. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@120.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@120. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@121.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@121. Active objects: 40
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@123.
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@123. Active objects: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@123. Total enemies: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@99. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@99. Ready pool size: 1
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@89. Active objects: 11
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@89. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@103. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@103. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@104. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@104. Ready pool size: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@84. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@84. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@106. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@106. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@105. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@105. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@100. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@100. Ready pool size: 7
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@96. Active objects: 10
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@96. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@87. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@87. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@101. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@101. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@85. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@85. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@102. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@102. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@86. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@86. Ready pool size: 12
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@94. Active objects: 9
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@94. Ready pool size: 3
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@97. Active objects: 8
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@97. Ready pool size: 4
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@91. Active objects: 7
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@91. Ready pool size: 5
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Scrapper.
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Scrapper. Active objects: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Scrapper. Total enemies: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@99. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@99. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@103. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@103. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@104. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@104. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@84. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@84. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@106. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@106. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@105. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@105. Active objects: 34
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object MoneyPickup. Active objects: 6
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued MoneyPickup. Ready pool size: 6
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@95. Active objects: 5
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@95. Ready pool size: 7
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@129.
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@129. Active objects: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@129. Total enemies: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@100. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@100. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@87. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@101. Ready pool size: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@85. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@85. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@102. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@102. Active objects: 39
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@131.
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@131. Active objects: 3
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@131. Total enemies: 6
+[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@133.
+[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@133. Active objects: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@133. Total enemies: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@86. Ready pool size: 0
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@86. Active objects: 40
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@134.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@134. Active objects: 41
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@135.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@135. Active objects: 42
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@136.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@136. Active objects: 43
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@139.
+[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@139. Active objects: 4
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@139. Total enemies: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@140.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@140. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@141.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@141. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@142.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@142. Active objects: 46
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@143.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@143. Active objects: 47
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@144.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@144. Active objects: 48
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@145.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@145. Active objects: 49
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@147.
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@147. Active objects: 3
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@147. Total enemies: 9
+[INFO][Zapper_Enemy_SmallFlyingRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Zapper.
+[INFO][Zapper_Enemy_SmallFlyingRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Zapper. Active objects: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Zapper. Total enemies: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@151.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@151. Active objects: 50
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@152.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@152. Active objects: 51
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@153.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@153. Active objects: 52
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@154.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@154. Active objects: 53
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@133 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@133 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@147 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@133 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@147 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back

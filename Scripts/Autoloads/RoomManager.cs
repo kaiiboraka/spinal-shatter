@@ -26,6 +26,10 @@ public partial class RoomManager : Node
 
         // Initially, hide all rooms except the first one (presumably the starting room)
         UpdateRoomStates();
+        if (CurrentRoom != null)
+        {
+            OnPlayerEnteredRoomBoundary(CurrentRoom);
+        }
     }
 
     public void RegisterRoom(LevelRoom room)

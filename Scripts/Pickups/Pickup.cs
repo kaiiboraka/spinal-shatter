@@ -95,8 +95,11 @@ public partial class Pickup : RigidBody3D
 
 		LifetimeTimer.Start();
 		StopMoving();
-		LinearVelocity = DriftIdle();
-		ApplyCentralImpulse(Velocity);
+		if (Type == PickupType.Mana)
+		{
+			LinearVelocity = DriftIdle();
+			ApplyCentralImpulse(Velocity);
+		}
 	}
 
 	public void Attract(Node3D target)

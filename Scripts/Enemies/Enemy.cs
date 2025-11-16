@@ -84,7 +84,7 @@ public partial class Enemy : Combatant
 	{
 		if (Data == null)
 		{
-			GD.PrintErr($"Enemy '{Name}' is missing EnemyData!");
+			DebugManager.Error($"Enemy '{Name}' is missing EnemyData!");
 		}
 		else
 		{
@@ -200,8 +200,6 @@ public partial class Enemy : Combatant
 			{
 				case AIState.Idle:
 					ProcessIdle(delta);
-					goto case AIState.Dying;
-				case AIState.Dying:
 					newVelocity = Vector3.Zero;
 					break;
 				case AIState.Patrolling:

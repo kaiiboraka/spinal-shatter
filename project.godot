@@ -36,6 +36,7 @@ ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloa
 RoomManager="*res://Scripts/Autoloads/RoomManager.cs"
 AudioManager="*res://Scripts/Autoloads/AudioManager.cs"
 PickupManager="*res://Scripts/Autoloads/PickupManager.cs"
+WaveDirector="*res://Scenes/Autoloads/WaveDirector.tscn"
 
 [display]
 

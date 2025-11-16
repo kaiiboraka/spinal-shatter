@@ -1,6 +1,67 @@
-E 0:00:03:862   void Enemy.OnDied(): System.NullReferenceException: Object reference not set to an instance of an object.
+# Error
+
+E 0:00:01:851   void SpinalShatter.WaveDirector.OnRoundStart(): System.NullReferenceException: Object reference not set to an instance of an object.
   <C# Error>    System.NullReferenceException
-  <C# Source>   Enemy.cs:551 @ void Enemy.OnDied()
-  <Stack Trace> Enemy.cs:551 @ void Enemy.OnDied()
-				HealthComponent_ScriptSignals.generated.cs:78 @ void HealthComponent.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs)
+  <C# Source>   WaveDirector.cs:141 @ void SpinalShatter.WaveDirector.OnRoundStart()
+  <Stack Trace> WaveDirector.cs:141 @ void SpinalShatter.WaveDirector.OnRoundStart()
+				WaveDirector.cs:131 @ void SpinalShatter.WaveDirector.OnCurrentRoomChanged(LevelRoom)
+				RoomManager_ScriptSignals.generated.cs:44 @ void RoomManager.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs)
 				ScriptManagerBridge.cs:387 @ void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*)
+
+
+# Output
+
+Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
+Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
+
+Embedded window only supports Windowed mode.
+[INFO][DebugManager @ DebugManager: CanvasLayer] PlayerBody: Calculated max footstep cooldown: 0.25
+[INFO][DebugManager @ DebugManager: CanvasLayer] PlayerBody: Calculated max sprint footstep cooldown: 0.20833332505491078
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnRoundStart called.
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: _LateReady called. Initial RoomManager.CurrentRoom: CentralHub
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: North_Room, IsRoundInProgress: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-0.53081244, 1.2744083, -53.947227), GlobalPosition after assignment: (-0.53081244, 1.2744083, -53.947227)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 32, chargeRatio: 0.6, damage: 124.00001, manaCost: 30.400002
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (0.76706445, 1.1250908, -45.775944), GlobalPosition after assignment: (0.76706445, 1.1250908, -45.775944)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 18.69152, CurrentMana: 30.400002, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 11.708481, CurrentMana: 11.708481, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: 0, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-11.776449, 3.86724, -65.73377), GlobalPosition after assignment: (-11.776449, 3.86724, -65.73377)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-19.512602, 1.2752719, -70.670135), GlobalPosition after assignment: (-19.512602, 1.2752719, -70.670135)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 36.490078, CurrentMana: 50, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 9.653837, CurrentMana: 13.509922, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.6382818, CurrentMana: 3.8560848, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (-16.852385, 3.7022455, -70.367485), GlobalPosition after assignment: (-16.852385, 3.7022455, -70.367485)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 170.31628940071292, rounded 171 -- 5 coins
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 20.236603, CurrentMana: 50, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.9763398, CurrentMana: 29.763397, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 19.141119, CurrentMana: 26.787058, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 4.462357, CurrentMana: 7.645939, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.9411571, CurrentMana: 3.1835818, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.82513577, CurrentMana: 1.2424247, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.71699166, CurrentMana: 1.217803, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: East_Room, IsRoundInProgress: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 36, chargeRatio: 0.8, damage: 162, manaCost: 40.2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Removing from parent: SpellOrigin
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - Added to parent: RoomManager
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Launch - data.StartPosition: (28.377934, 1.2889977, 0.40955865), GlobalPosition after assignment: (28.377934, 1.2889977, 0.40955865)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 100, new 105.40287515108487, rounded 106 -- 7 coins
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 24.814816, CurrentMana: 40.2, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.5385185, CurrentMana: 15.385185, IsEnemyHit: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 7.7077703, CurrentMana: 13.846666, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 4.419797, CurrentMana: 6.138896, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.9243456, CurrentMana: 1.719099, IsEnemyHit: False
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: CentralHub, IsRoundInProgress: True

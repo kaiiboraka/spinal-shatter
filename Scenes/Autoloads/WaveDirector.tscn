@@ -21,6 +21,7 @@ ExtResource("6_phwt4"): ExtResource("10_aege0")
 })
 
 [node name="RoundTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 300.0
 one_shot = true
 
@@ -33,6 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TimerTextLabel" type="RichTextLabel" parent="TimerDisplay"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

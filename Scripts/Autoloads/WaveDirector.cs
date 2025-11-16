@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using Elythia;
 using Godot.Collections;
 
 namespace SpinalShatter;
@@ -67,10 +68,33 @@ public partial class WaveDirector : Node
 		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
 		RoundTimer.Timeout += OnRoundLost;
 
+		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
+		
+		Callable.From(_LateReady).CallDeferred();
+	}
+
+	private async void _LateReady()
+	{
+		await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+		if (DebugManager.Instance == null)
+		{
+			GD.PrintErr("WaveDirector: DebugManager.Instance is null in _LateReady!");
+		}
+		else
+		{
+			DebugManager.Debug($"WaveDirector: _LateReady called. Initial RoomManager.CurrentRoom: {RoomManager.Instance?.CurrentRoom?.Name ?? "null"}");
+		}
+
+		// Initialize player here to ensure PlayerBody.Instance is available
 		player = PlayerBody.Instance;
+		if (player == null)
+		{
+			DebugManager.Error("WaveDirector: PlayerBody.Instance is null when _LateReady is called!");
+			return;
+		}
 		player.HealthComponent.Died += OnRoundLost;
 
-		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
 		// Immediately handle the starting room if it's already set
 		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
 	}
@@ -90,6 +114,7 @@ public partial class WaveDirector : Node
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
 	{
+		DebugManager.Debug($"WaveDirector: OnCurrentRoomChanged - New Room: {newRoom?.Name ?? "null"}, IsRoundInProgress: {IsRoundInProgress}");
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared -= OnWaveCleared;
@@ -110,6 +135,7 @@ public partial class WaveDirector : Node
 
 	private void OnRoundStart()
 	{
+		DebugManager.Debug("WaveDirector: OnRoundStart called.");
 		IsRoundInProgress = true;
 		_wavesCompletedThisRound = 0;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;

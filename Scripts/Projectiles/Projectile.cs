@@ -163,11 +163,14 @@ public partial class Projectile : RigidBody3D
 		// Ensure the projectile is removed from its current parent before adding to RoomManager
 		if (GetParent() != null)
 		{
+			DebugManager.Debug($"Projectile: Launch - Removing from parent: {GetParent().Name}");
 			GetParent().RemoveChild(this);
 		}
 		var parent = RoomManager.Instance;
 		parent.AddChild(this);
+		DebugManager.Debug($"Projectile: Launch - Added to parent: {parent.Name}");
 		GlobalPosition = data.StartPosition;
+		DebugManager.Debug($"Projectile: Launch - data.StartPosition: {data.StartPosition}, GlobalPosition after assignment: {GlobalPosition}");
 
 		// Enable physics and launch
 		this.Freeze = false;
@@ -252,12 +255,13 @@ public partial class Projectile : RigidBody3D
 	{
 		Damage = 0;
 		EjectMana(ManaCost, GlobalPosition);
+		Reset(); // Reset state before queuing for free
 		QueueFree();
 	}
 
 	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition, bool isEnemyHit)
 	{
-		DebugManager.Instance.DEBUG.Info(
+		DebugManager.Debug(
 			$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}, IsEnemyHit: {isEnemyHit}");
 
 		// Clamp manaLostAmount to current ManaCost to prevent negative mana
@@ -325,5 +329,18 @@ public partial class Projectile : RigidBody3D
 		{
 			// DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
 		}
+	}
+
+	public void Reset()
+	{
+		_state = ProjectileState.Charging;
+		LinearVelocity = Vector3.Zero;
+		AngularVelocity = Vector3.Zero;
+		Freeze = true;
+		_collisionShape.Disabled = true;
+		Charge = 0;
+		_lifetimeTimer.Stop();
+		GlobalPosition = Vector3.Zero; // Reset position to a default
+		// Reset any other relevant properties
 	}
 }

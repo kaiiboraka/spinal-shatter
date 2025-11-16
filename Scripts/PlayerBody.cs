@@ -162,6 +162,17 @@ public partial class PlayerBody : Combatant
 		_sprintFootstepMaxCooldown = Audio_FootstepSprintSounds.GetMaxLength() / 1.2f;
 		DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
 		DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
+
+		// Register player with WaveDirector
+		var waveDirector = GetTree().GetFirstNodeInGroup("WaveDirector") as WaveDirector;
+		if (waveDirector != null)
+		{
+			waveDirector.SetPlayer(this);
+		}
+		else
+		{
+			DebugManager.Error("PlayerBody: WaveDirector not found in scene tree!");
+		}
 	}
 
 	public override void _UnhandledInput(InputEvent @event)

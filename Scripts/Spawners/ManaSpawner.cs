@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 
+namespace SpinalShatter;
+
 public partial class ManaSpawner : Node3D
 {
     private bool _isEnabled = true;

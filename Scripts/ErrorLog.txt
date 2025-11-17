@@ -1,19 +1,86 @@
-# Scenario playthrough breakdown:
-
-Some good news: enemies do finally disappear when they are killed. From what it seemed like to me, although I can't confirm it, 
-is that enemies were getting sent back to their spawner. I could see them finally playing the Die animation, only long after they had died, and it was on loop, though it shouldn't have been.
-
 # Error
 
-E 0:00:45:452   instance_set_transform: Condition "!v.is_finite()" is true.
+E 0:01:39:592   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
+  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
+  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
+				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
+				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
+				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
+				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
+				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
+				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
+				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
+				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
+				Projectile.cs:275 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
+				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
+				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
+				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+
+E 0:01:39:592   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
+  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
+  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
+				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
+				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
+				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
+				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
+				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
+				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
+				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
+				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
+				Projectile.cs:275 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
+				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
+				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
+				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+
+E 0:01:39:593   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
+  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
+  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
+				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
+				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
+				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
+				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
+				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
+				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
+				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
+				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
+				Projectile.cs:260 @ void SpinalShatter.Projectile.Expire()
+				Projectile.cs:284 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
+				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
+				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
+				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+
+E 0:01:39:593   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
+  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
+  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
+				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
+				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
+				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
+				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
+				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
+				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
+				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
+				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
+				Projectile.cs:260 @ void SpinalShatter.Projectile.Expire()
+				Projectile.cs:284 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
+				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
+				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
+				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+
+and then 10000 of these:
+	
+	E 0:01:39:599   instance_set_transform: Condition "!v.is_finite()" is true.
   <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
 
-this error seems to have something to do with the new OneshotParticles I made.
 
 # Output
-
-Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
-Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
 Embedded window only supports Windowed mode.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: _Ready called.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: null, IsRoundInProgress: False
@@ -24,318 +91,437 @@ Embedded window only supports Windowed mode.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: Not starting round in central hub: CentralHub
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object ManaPickup.
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object ManaPickup. Active objects: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@57.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@57. Active objects: 2
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@58.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@58. Active objects: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@58. Active objects: 3
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@59.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@59. Active objects: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@59. Active objects: 4
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@60.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@60. Active objects: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@60. Active objects: 5
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@61.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@61. Active objects: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@61. Active objects: 6
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@62.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@62. Active objects: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@62. Active objects: 7
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@63.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@63. Active objects: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@63. Active objects: 8
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@64.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@64. Active objects: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@64. Active objects: 9
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@65.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@65. Active objects: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@65. Active objects: 10
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@66.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@66. Active objects: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@66. Active objects: 11
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@67.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@67. Active objects: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@67. Active objects: 12
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@68.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@68. Active objects: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@68. Active objects: 13
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@69.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@69. Active objects: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@69. Active objects: 14
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@70.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@70. Active objects: 14
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: North_Room, IsRoundInProgress: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@70. Active objects: 15
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@71.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@71. Active objects: 16
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@72.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@72. Active objects: 17
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@73.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@73. Active objects: 18
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@74.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@74. Active objects: 19
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@75.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@75. Active objects: 20
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@76.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@76. Active objects: 21
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@77.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@77. Active objects: 22
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@78.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@78. Active objects: 23
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@79.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@79. Active objects: 24
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@80.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@80. Active objects: 25
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@81.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@81. Active objects: 26
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@82.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@82. Active objects: 27
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@83.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@83. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@84.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@84. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@85.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@85. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@86.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@86. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@87.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@88.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@88. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@89.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@89. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@90.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@90. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@91.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@91. Active objects: 36
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 20, chargeRatio: 0, damage: 10, manaCost: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@93.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@93. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@94.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@94. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@95.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@95. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@96.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@96. Active objects: 40
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@97.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@97. Active objects: 41
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@76. Active objects: 40
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@76. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@81. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@81. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@86. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@86. Ready pool size: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@97. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@97. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@95. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@95. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@96. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@96. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@83. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@83. Ready pool size: 7
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.51348686, CurrentMana: 1, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@76. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@76. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@81. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@81. Active objects: 36
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@93. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@93. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@94. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@94. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@90. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@90. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@89. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@89. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@88. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@88. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@78. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@78. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@65. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@65. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@87. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@87. Ready pool size: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@75. Active objects: 27
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@75. Ready pool size: 14
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@86. Ready pool size: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@86. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@97. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@97. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@95. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@95. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@96. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@96. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@83. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@83. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@93. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@93. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@94. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@94. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@79. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@79. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@90. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@90. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@89. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@89. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@88. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@88. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@78. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@78. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@65. Ready pool size: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@65. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@87. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@75. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@75. Active objects: 40
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@79. Ready pool size: 0
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@79. Active objects: 41
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@101.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 42
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@102.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@102. Active objects: 43
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@103.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@103. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@104.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@104. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@105.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@105. Active objects: 46
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@65. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@65. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@90. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@90. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@101. Active objects: 43
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@101. Ready pool size: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@79. Active objects: 42
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@79. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@103. Active objects: 41
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@103. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@75. Active objects: 40
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@75. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@102. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@102. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@104. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@104. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@87. Active objects: 37
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@87. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@89. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@89. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@94. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@94. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@88. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@88. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@93. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@93. Ready pool size: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@85. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@85. Ready pool size: 14
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@97. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@97. Ready pool size: 15
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@83. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@83. Ready pool size: 16
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@65. Ready pool size: 15
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@65. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@90. Ready pool size: 14
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@90. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@101. Ready pool size: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@79. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@79. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@103. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@103. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@90. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@90. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@79. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@79. Ready pool size: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@65. Active objects: 32
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@65. Ready pool size: 14
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@103. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@103. Ready pool size: 15
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@101. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@101. Ready pool size: 16
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@69. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@69. Ready pool size: 17
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@72. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@72. Ready pool size: 18
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@73. Active objects: 27
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@73. Ready pool size: 19
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@91. Active objects: 26
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@91. Ready pool size: 20
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@75. Ready pool size: 19
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@75. Active objects: 27
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@102. Ready pool size: 18
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@102. Active objects: 28
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@104. Ready pool size: 17
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@104. Active objects: 29
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@87. Ready pool size: 16
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 30
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@89. Ready pool size: 15
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@89. Active objects: 31
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@94. Ready pool size: 14
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@94. Active objects: 32
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnCurrentRoomChanged - New Room: East_Room, IsRoundInProgress: False
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: OnRoundStart called.
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: StartNextWave - Budget: 50
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 49
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 48
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 46
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 45
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 44
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 49
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 47
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 45
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 44
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 42
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 41
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 39
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 37
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 35
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 34
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 41
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 40
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 38
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 37
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 35
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 34
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 32
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 30
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 29
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 28
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 27
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 25
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 24
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 23
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 21
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 20
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 19
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 17
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 16
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 14
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 12
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 31
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 30
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 28
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 26
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 24
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 22
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 20
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 18
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 16
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 15
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 13
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 12
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 11
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 9
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 8
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 7
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 6
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 4
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 3
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 2
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 0
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: StartNextWave - Generated 36 enemies.
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
-[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Scrounger.
-[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Scrounger. Active objects: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Scrounger. Total enemies: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger2 OnDied called.
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger2 TryToDie called. Current state: Dying
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@84.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@84. Active objects: 15
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@85.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@85. Active objects: 16
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@86.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@86. Active objects: 17
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@87.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 18
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 150, new 155.2808875102956, rounded 156 -- 12 coins
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object MoneyPickup.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object MoneyPickup. Active objects: 1
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@88.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@88. Active objects: 2
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@89.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@89. Active objects: 3
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@90.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@90. Active objects: 4
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@91.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@91. Active objects: 5
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@92.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@92. Active objects: 6
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@93.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@93. Active objects: 7
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@94.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@94. Active objects: 8
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@95.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@95. Active objects: 9
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@96.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@96. Active objects: 10
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@97.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@97. Active objects: 11
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@98.
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@98. Active objects: 12
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 25, CurrentMana: 50, IsEnemyHit: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@99.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@99. Active objects: 19
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@100.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@100. Active objects: 20
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.5, CurrentMana: 25, IsEnemyHit: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@101.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 21
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@102.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@102. Active objects: 22
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 16.42047, CurrentMana: 22.5, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@104.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@104. Active objects: 24
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@105.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@105. Active objects: 25
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@106.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@106. Active objects: 26
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@107.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@107. Active objects: 27
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@108.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@108. Active objects: 28
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@109.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@109. Active objects: 29
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@110.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@110. Active objects: 30
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Zapper (Cost: 2). Remaining budget: 9
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 7
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 6
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Swooper (Cost: 1). Remaining budget: 5
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrapper (Cost: 1). Remaining budget: 4
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: GenerateEnemyList - Added Scrounger (Cost: 2). Remaining budget: 0
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] WaveDirector: StartNextWave - Generated 32 enemies.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@88. Ready pool size: 13
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@88. Active objects: 33
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@93. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@93. Active objects: 34
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@85. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@85. Active objects: 35
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@97. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@97. Active objects: 36
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@83. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@83. Active objects: 37
 [INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Swooper.
 [INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Swooper. Active objects: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Swooper. Total enemies: 2
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.350977, CurrentMana: 6.0795307, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@112.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@112. Active objects: 31
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.6358806, CurrentMana: 2.7285538, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@113.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@113. Active objects: 32
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.6345728, CurrentMana: 1.0926732, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@114.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@114. Active objects: 33
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@115.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@115. Active objects: 34
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@116.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@116. Active objects: 35
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@117.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@117. Active objects: 36
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@118.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@118. Active objects: 37
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@119.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@119. Active objects: 38
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@120.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@120. Active objects: 39
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@121.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@121. Active objects: 40
-[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@123.
-[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@123. Active objects: 2
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@123. Total enemies: 3
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@99. Active objects: 39
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@99. Ready pool size: 1
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@89. Active objects: 11
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@89. Ready pool size: 1
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@103. Active objects: 38
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@103. Ready pool size: 2
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@104. Active objects: 37
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@104. Ready pool size: 3
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@84. Active objects: 36
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@84. Ready pool size: 4
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@106. Active objects: 35
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@106. Ready pool size: 5
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@105. Active objects: 34
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@105. Ready pool size: 6
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@100. Active objects: 33
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@100. Ready pool size: 7
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@96. Active objects: 10
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@96. Ready pool size: 2
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@87. Active objects: 32
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@87. Ready pool size: 8
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@101. Active objects: 31
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@101. Ready pool size: 9
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@85. Active objects: 30
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@85. Ready pool size: 10
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@102. Active objects: 29
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@102. Ready pool size: 11
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@86. Active objects: 28
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@86. Ready pool size: 12
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@94. Active objects: 9
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@94. Ready pool size: 3
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@97. Active objects: 8
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@97. Ready pool size: 4
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@91. Active objects: 7
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@91. Ready pool size: 5
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Scrapper.
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Scrapper. Active objects: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Scrapper. Total enemies: 4
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@99. Ready pool size: 11
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@99. Active objects: 29
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@103. Ready pool size: 10
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@103. Active objects: 30
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@104. Ready pool size: 9
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@104. Active objects: 31
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@84. Ready pool size: 8
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@84. Active objects: 32
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@106. Ready pool size: 7
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@106. Active objects: 33
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@105. Ready pool size: 6
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@105. Active objects: 34
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object MoneyPickup. Active objects: 6
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued MoneyPickup. Ready pool size: 6
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@95. Active objects: 5
-[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@95. Ready pool size: 7
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@129.
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@129. Active objects: 2
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@129. Total enemies: 5
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@100. Ready pool size: 5
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@100. Active objects: 35
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@87. Ready pool size: 4
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@87. Active objects: 36
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@101. Ready pool size: 3
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 37
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@85. Ready pool size: 2
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@85. Active objects: 38
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@102. Ready pool size: 1
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@102. Active objects: 39
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@131.
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@131. Active objects: 3
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@131. Total enemies: 6
-[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@133.
-[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@133. Active objects: 2
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@133. Total enemies: 7
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@86. Ready pool size: 0
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@86. Active objects: 40
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@134.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@134. Active objects: 41
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@135.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@135. Active objects: 42
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@136.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@136. Active objects: 43
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@139.
-[INFO][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@139. Active objects: 4
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@139. Total enemies: 8
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy Swooper. Total enemies: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper OnDied called.
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper TryToDie called. Current state: Dying
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper Death particles GlobalPosition before: (29.54136, 0.0009979374, -1.4484426)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper Death particles GlobalPosition after: (29.54136, 0.0009979374, -1.4484426)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper Playing Die animation. CurrentAnimation: Die, Length: 0.5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@90. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@90. Active objects: 38
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@79. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@79. Active objects: 39
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@65. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@65. Active objects: 40
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@103. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@103. Active objects: 41
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Money: original 100, new 92.10555728138542, rounded 93 -- 12 coins
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object MoneyPickup.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object MoneyPickup. Active objects: 1
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@129.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@129. Active objects: 2
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@130.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@130. Active objects: 3
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@131.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@131. Active objects: 4
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@132.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@132. Active objects: 5
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@133.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@133. Active objects: 6
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@134.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@134. Active objects: 7
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@135.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@135. Active objects: 8
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@136.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@136. Active objects: 9
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@137.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@137. Active objects: 10
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@138.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@138. Active objects: 11
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@139.
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@139. Active objects: 12
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 25, CurrentMana: 50, IsEnemyHit: True
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@101. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 42
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@69. Ready pool size: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@69. Active objects: 43
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.5, CurrentMana: 25, IsEnemyHit: True
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@72. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@72. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@73. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@73. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@91. Ready pool size: 0
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@91. Active objects: 46
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@140.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@140. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@140. Active objects: 47
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 16.356829, CurrentMana: 22.5, IsEnemyHit: False
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@141.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@141. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@141. Active objects: 48
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@142.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@142. Active objects: 46
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@142. Active objects: 49
 [INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@143.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@143. Active objects: 47
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@144.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@144. Active objects: 48
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@145.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@145. Active objects: 49
-[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@147.
-[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@147. Active objects: 3
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy @CharacterBody3D@147. Total enemies: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@143. Active objects: 50
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Scrounger.
+[INFO][Scrounger_Enemy_SmallGroundRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Scrounger. Active objects: 1
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy Scrounger. Total enemies: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.6891725, CurrentMana: 6.1431713, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@146.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@146. Active objects: 51
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@147.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@147. Active objects: 52
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@148.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@148. Active objects: 53
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@149.
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@149. Active objects: 54
 [INFO][Zapper_Enemy_SmallFlyingRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object Zapper.
 [INFO][Zapper_Enemy_SmallFlyingRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object Zapper. Active objects: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: North_Room Registered enemy Zapper. Total enemies: 10
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@151.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@151. Active objects: 50
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@152.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@152. Active objects: 51
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@153.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@153. Active objects: 52
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@154.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@154. Active objects: 53
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 40, chargeRatio: 1, damage: 200, manaCost: 50
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@133 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@133 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@147 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@131 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrounger AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Swooper AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@129 AnimationFinished: Side
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@133 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@147 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@123 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@139 AnimationFinished: Back
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Zapper AnimationFinished: Back
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy Zapper. Total enemies: 3
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@72. Active objects: 53
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@72. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@73. Active objects: 52
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@73. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@69. Active objects: 51
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@69. Ready pool size: 3
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@130. Active objects: 11
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@130. Ready pool size: 1
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@101. Active objects: 50
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@101. Ready pool size: 4
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@136. Active objects: 10
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@136. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@142. Active objects: 49
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@142. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@140. Active objects: 48
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@140. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@103. Active objects: 47
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@103. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@91. Active objects: 46
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@91. Ready pool size: 8
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@133. Active objects: 9
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@133. Ready pool size: 3
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@134. Active objects: 8
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@134. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@143. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@143. Ready pool size: 9
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@132. Active objects: 7
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@132. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@65. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@65. Ready pool size: 10
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@129. Active objects: 6
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@129. Ready pool size: 6
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@137. Active objects: 5
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@137. Ready pool size: 7
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@135. Active objects: 4
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@135. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@141. Active objects: 43
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@141. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@79. Active objects: 42
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@79. Ready pool size: 12
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object MoneyPickup. Active objects: 3
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued MoneyPickup. Ready pool size: 9
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@139. Active objects: 2
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@139. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@90. Active objects: 41
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@90. Ready pool size: 13
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@131. Active objects: 1
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@131. Ready pool size: 11
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@138. Active objects: 0
+[INFO][MoneyPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@138. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@72. Ready pool size: 12
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@72. Active objects: 42
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@73. Ready pool size: 11
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@73. Active objects: 43
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@69. Ready pool size: 10
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@69. Active objects: 44
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@101. Ready pool size: 9
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@101. Active objects: 45
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@142. Ready pool size: 8
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@142. Active objects: 46
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@140. Ready pool size: 7
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@140. Active objects: 47
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@103. Ready pool size: 6
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@103. Active objects: 48
+[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@153.
+[INFO][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@153. Active objects: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy @CharacterBody3D@153. Total enemies: 4
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 1.7079989, CurrentMana: 2.4539988, IsEnemyHit: False
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@91. Ready pool size: 5
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@91. Active objects: 49
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@143. Ready pool size: 4
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@143. Active objects: 50
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Enemy: Scrapper Animation timer finished. Releasing enemy.
+[INFO][Zapper_Enemy_SmallFlyingRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@155.
+[INFO][Zapper_Enemy_SmallFlyingRangedPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@155. Active objects: 2
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy @CharacterBody3D@155. Total enemies: 5

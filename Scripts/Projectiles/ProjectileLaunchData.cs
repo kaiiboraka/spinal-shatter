@@ -1,3 +1,4 @@
+using Elythia;
 using Godot;
 
 public struct ProjectileLaunchData
@@ -11,4 +12,5 @@ public struct ProjectileLaunchData
 	public float DamageGrowthConstant { get; set; }
 	public float AbsoluteMaxProjectileSpeed { get; set; }
 	public float MaxInitialManaCost { get; set; }
+	public FloatValueRange SizingScale { get; set; }
 }

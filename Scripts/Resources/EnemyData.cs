@@ -7,10 +7,12 @@ public partial class EnemyData : Resource
     [Export] public string Name { get; private set; }
     [Export] public int BaseCost { get; private set; } = 1;
     [Export] public EnemyRank Rank { get; private set; } = EnemyRank.Rank1_Bone;
+
     // Audio
-    [ExportGroup("Audio")]
+    [ExportGroup("Aesthetics")]
     [Export] public EnemyAudioData AudioData { get; private set; }
-    
+    [Export] public int DeathParticleCount { get; private set; } = 10;
+
     // Patrol
     [ExportGroup("Patrol")]
     [Export] public float RecoveryTime { get; private set; } = 1.0f;

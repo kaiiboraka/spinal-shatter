@@ -34,8 +34,8 @@ public partial class WaveDirector : Node
 	// --- Spawning & Budget ---
 	[ExportGroup("Spawning")]	[Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
 	[Export] private int wavesPerRound = 3;
-	[Export(PropertyHint.ExpEasing)] private float baseBudget = 50f;
-	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 10f;
+	[Export(PropertyHint.ExpEasing)] private float baseBudget = 10f;
+	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 2f;
 	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerRound = 40f;
 
 

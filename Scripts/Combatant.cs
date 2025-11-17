@@ -62,6 +62,7 @@ public partial class Combatant : CharacterBody3D
         PlayOnHurtFX();
     }
 
+
     public virtual void PlayOnHurtFX()
     {
         // Base implementation, can be overridden by children

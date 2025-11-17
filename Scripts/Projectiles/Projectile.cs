@@ -36,6 +36,7 @@ public partial class Projectile : RigidBody3D
 	public float DamageGrowthConstant { get; private set; }
 	public float AbsoluteMaxProjectileSpeed { get; private set; }
 	public float MaxInitialManaCost { get; private set; }
+	public FloatValueRange SizingScale { get; private set; }
 
 	private ProjectileState _state = ProjectileState.Charging;
 	private Node ProjectileOwner;
@@ -101,9 +102,10 @@ public partial class Projectile : RigidBody3D
 		}
 	}
 
-	public void BeginCharge(Node3D parent)
+	public void BeginChargingProjectile(Node3D parent, FloatValueRange sizeScale)
 	{
 		parent.AddChild(this);
+		this.SizingScale = sizeScale;
 		this.Position = Vector3.Zero;
 		Charge = 0;
 		UpdateChargeState(); // Start at 10% size
@@ -111,13 +113,9 @@ public partial class Projectile : RigidBody3D
 
 	public void UpdateChargeState()
 	{
-		float size = Mathf.Lerp(0.1f, 1.2f, Charge);
+		float size = Mathf.Lerp(SizingScale.Min, SizingScale.Max, Charge);
 
 		if (IsFixed) return;
-
-		// if (_state != ProjectileState.Charging) return;
-
-
 		if (_sprite != null)
 		{
 			_sprite.Scale = Vector3.One * size;
@@ -142,7 +140,8 @@ public partial class Projectile : RigidBody3D
 			InitialVelocity = initialVelocity,
 			DamageGrowthConstant = 0.0f, // Indicates fixed damage, no scaling
 			AbsoluteMaxProjectileSpeed = initialVelocity.Length(), // Use current speed as max for fixed projectiles
-			MaxInitialManaCost = 1.0f // Nominal max initial mana cost for fixed-damage projectiles
+			MaxInitialManaCost = 1.0f, // Nominal max initial mana cost for fixed-damage projectiles
+			SizingScale = new FloatValueRange(1, 1)
 		};
 		Launch(launchData);
 	}
@@ -159,6 +158,7 @@ public partial class Projectile : RigidBody3D
 		this.DamageGrowthConstant = data.DamageGrowthConstant;
 		this.AbsoluteMaxProjectileSpeed = data.AbsoluteMaxProjectileSpeed;
 		this.MaxInitialManaCost = data.MaxInitialManaCost;
+		this.SizingScale = data.SizingScale;
 		UpdateChargeState();
 		ProjectileOwner = data.Caster;
 		

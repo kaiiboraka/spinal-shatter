@@ -2,7 +2,7 @@ using Godot;
 using System;
 using Godot.Collections;
 
-using static Enemy;
+namespace SpinalShatter;
 
 public partial class StateSprite3d : Sprite3D
 {

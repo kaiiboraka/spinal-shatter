@@ -61,7 +61,7 @@ script = ExtResource("1_3esec")
 [node name="Particles" type="GPUParticles3D" parent="."]
 unique_name_in_owner = true
 emitting = false
-amount = 20
+amount = 10
 lifetime = 2.0
 one_shot = true
 explosiveness = 0.95

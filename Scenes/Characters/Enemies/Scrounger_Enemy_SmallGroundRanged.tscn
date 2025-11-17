@@ -140,6 +140,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"PauseAnimation"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_3nwgj"]
 resource_name = "Front_Attack"
@@ -236,11 +250,14 @@ tracks/7/path = NodePath(".")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.6875),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.6875, 0.8125),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"PerformAttack"
+}, {
+"args": [4, false],
+"method": &"ChangeState"
 }]
 }
 tracks/8/type = "value"
@@ -627,6 +644,13 @@ one_shot = true
 
 [node name="AttackCooldownTimer" type="Timer" parent="Timers"]
 wait_time = 5.0
+one_shot = true
+
+[node name="PoolTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="BlinkTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
 one_shot = true
 
 [node name="Cast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]

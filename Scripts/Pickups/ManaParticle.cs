@@ -1,4 +1,7 @@
 using Godot;
+using Elythia;
+
+namespace SpinalShatter;
 
 [GlobalClass]
 public partial class ManaParticle : Pickup
@@ -8,11 +11,13 @@ public partial class ManaParticle : Pickup
 
     public override void Initialize(PickupData data)
     {
+        DebugManager.Debug($"ManaParticle: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
         base.Initialize(data);
         this.data = data as ManaParticleData;
         if (Data == null) return;
         SizeType = Data.SizeType;
         Sprite.Play();
+        DebugManager.Debug($"ManaParticle: {Name} Initialized. Final GlobalPosition: {GlobalPosition}");
     }
 
     public override void Collect()

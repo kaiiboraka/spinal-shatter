@@ -1,12 +1,11 @@
-public partial class Enemy
+namespace SpinalShatter;
+
+public enum AIState
 {
-	public enum AIState
-	{
-		Idle,
-		Patrolling,
-		Chasing,
-		Attacking,
-		Recovery,
-		Dying
-	}
+	Idle,
+	Patrolling,
+	Chasing,
+	Attacking,
+	Recovery,
+	Dying
 }

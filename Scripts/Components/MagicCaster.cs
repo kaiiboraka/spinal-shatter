@@ -22,18 +22,9 @@ public partial class MagicCaster : Node
 	[Export] private FloatValueRange ManaCostRange = new(1.0f, 50.0f);
 	[Export] private FloatValueRange DamageRange = new(10f, 200f);
 	[Export] private FloatValueRange SpeedRange = new(20f, 40f);
+	[Export] private FloatValueRange SizeRange = new(.5f, 1.2f);
 
 	[Export(PropertyHint.Range, "1,16,1")] private int _chargeIntervals = 8;
-
-	// /// <summary>
-	// /// Damage multiplier per mana point for each charge interval.
-	// /// Size should be ChargeIntervals + 1 (for 0-charge and each interval).
-	// /// </summary>
-	// private Array<float> DamageMultipliers => new(Enumerable.Range(0, _chargeIntervals + 1)
-	// 														.Select(i =>
-	// 															 Mathf.Pow(4,
-	// 																 (i * _maxChargeTime / _chargeIntervals)))
-	// 														.ToArray());
 
 	[Export] private bool usePlayerMomentum = false;
 
@@ -42,22 +33,17 @@ public partial class MagicCaster : Node
 	private bool _isCharging = false;
 	private int _lastInterval = -1;
 
-	public override void _Ready()
-	{
-		base._Ready();
-	}
-
 	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("Player_Shoot"))
 		{
 			_isCharging = true;
-			StartCharge();
+			OnPressCharge();
 		}
 		else if (@event.IsActionReleased("Player_Shoot"))
 		{
 			_isCharging = false;
-			ReleaseCharge();
+			OnReleaseCharge();
 		}
 
 		SetProcess(_isCharging);
@@ -71,7 +57,50 @@ public partial class MagicCaster : Node
 		}
 	}
 
-	private void StartCharge()
+	private void HandleChargedShot(float intervalDuration)
+	{
+		int intervalsCharged = Mathf.FloorToInt(_currentChargeTime / intervalDuration);
+		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, _chargeIntervals);
+
+		float chargeRatio = (float)intervalsCharged / _chargeIntervals;
+
+		float manaCost = Mathf.Lerp(ManaCostRange.Min, ManaCostRange.Max, chargeRatio);
+
+		if (!_manaComponent.HasEnoughMana(manaCost))
+		{
+			_chargingProjectile.QueueFree();
+			ResetChargeState();
+			return;
+		}
+
+		float damage = Mathf.Lerp(DamageRange.Min, DamageRange.Max, chargeRatio);
+		float speed = Mathf.Lerp(SpeedRange.Min, SpeedRange.Max, chargeRatio);
+		Vector3 initialVelocity = CalculateInitialVelocity(speed);
+
+		DebugManager.Debug(
+			$"Speed: {speed}, chargeRatio: {chargeRatio}, damage: {damage}, manaCost: {manaCost}");
+
+		ProjectileLaunchData launchData = new ProjectileLaunchData
+		{
+			Caster = PlayerBody.Instance,
+			Damage = damage,
+			ManaCost = manaCost,
+			InitialVelocity = initialVelocity,
+			ChargeRatio = chargeRatio,
+			DamageGrowthConstant = _maxChargeTime,
+			AbsoluteMaxProjectileSpeed = SpeedRange.Max,
+			MaxInitialManaCost = ManaCostRange.Max,
+			StartPosition = _spellOrigin.GlobalPosition,
+			SizingScale = SizeRange,
+		};
+
+		_chargingProjectile.Launch(launchData);
+
+		_manaComponent.ConsumeMana(manaCost);
+		ResetChargeState();
+	}
+
+	private void OnPressCharge()
 	{
 		if (_chargingProjectile != null || _projectileScene == null || _manaComponent.CurrentMana < ManaCostRange.Min)
 		{
@@ -81,7 +110,7 @@ public partial class MagicCaster : Node
 		_currentChargeTime = 0f;
 		_lastInterval = -1;
 		_chargingProjectile = _projectileScene.Instantiate<Projectile>();
-		_chargingProjectile.BeginCharge(_spellOrigin);
+		_chargingProjectile.BeginChargingProjectile(_spellOrigin, SizeRange);
 		_audioPlayer_Charge.Play();
 	}
 
@@ -122,7 +151,7 @@ public partial class MagicCaster : Node
 		}
 	}
 
-	private void ReleaseCharge()
+	private void OnReleaseCharge()
 	{
 		if (_chargingProjectile == null)
 			return;
@@ -130,48 +159,6 @@ public partial class MagicCaster : Node
 		float intervalDuration = _maxChargeTime > 0 ? _maxChargeTime / _chargeIntervals : 0;
 
 		HandleChargedShot(intervalDuration);
-	}
-
-	private void HandleChargedShot(float intervalDuration)
-	{
-		int intervalsCharged = Mathf.FloorToInt(_currentChargeTime / intervalDuration);
-		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, _chargeIntervals);
-
-		float chargeRatio = (float)intervalsCharged / _chargeIntervals;
-
-		float manaCost = Mathf.Lerp(ManaCostRange.Min, ManaCostRange.Max, chargeRatio);
-		
-		if (!_manaComponent.HasEnoughMana(manaCost))
-		{
-			_chargingProjectile.QueueFree();
-			ResetChargeState();
-			return;
-		}
-		
-		float damage = Mathf.Lerp(DamageRange.Min, DamageRange.Max, chargeRatio);
-		float speed = Mathf.Lerp(SpeedRange.Min, SpeedRange.Max, chargeRatio);
-		Vector3 initialVelocity = CalculateInitialVelocity(speed);
-
-		DebugManager.Debug(
-			$"Speed: {speed}, chargeRatio: {chargeRatio}, damage: {damage}, manaCost: {manaCost}");
-
-		ProjectileLaunchData launchData = new ProjectileLaunchData
-		{
-			Caster = PlayerBody.Instance,
-			Damage = damage,
-			ManaCost = manaCost,
-			InitialVelocity = initialVelocity,
-			ChargeRatio = chargeRatio,
-			DamageGrowthConstant = _maxChargeTime,
-			AbsoluteMaxProjectileSpeed = SpeedRange.Max,
-			MaxInitialManaCost = ManaCostRange.Max,
-			StartPosition = _spellOrigin.GlobalPosition,
-		};
-
-		_chargingProjectile.Launch(launchData);
-
-		_manaComponent.ConsumeMana(manaCost);
-		ResetChargeState();
 	}
 
 	private Vector3 CalculateInitialVelocity(float speed)
@@ -197,134 +184,3 @@ public partial class MagicCaster : Node
 	}
 
 }
-
-/* OLD PRE-REWORK MAGICCASTER.CS FOR COMPARISON
-
- using Godot;
-using System;
-
-public partial class MagicCaster : Node
-{
-	[Export]
-	private PackedScene _projectileScene;
-
-	[Export]
-	private Node3D _spellOrigin;
-
-	[Export]
-	private ManaComponent _manaComponent;
-
-	[ExportSubgroup("Audio","_audio")]
-	[Export] private AudioStreamPlayer3D _audioPlayer_Spell;
-	[Export] private AudioStreamPlayer3D _audioPlayer_Charge;
-	[Export] private AudioStream _audio_Charge;
-	[Export] private AudioStream _audio_Cast;
-
-	[ExportGroup("Charging")]
-	[Export] private float _maxChargeTime = 2.0f; // Time in seconds to reach full charge
-	[Export] private float _minManaCost = 1.0f;
-	[Export] private float _maxManaCost = 50.0f;
-
-	private float _currentCharge = 0f; // 0.0 to 1.0
-	private Projectile _chargingProjectile = null;
-	private bool _isCharging = false;
-
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("Player_Siphon"))
-		{
-
-		}
-		else if (@event.IsActionPressed("Player_Shoot"))
-		{
-			_isCharging = true;
-			StartCharge();
-		}
-		else if (@event.IsActionReleased("Player_Shoot"))
-		{
-			_isCharging = false;
-			ReleaseCharge();
-		}
-		SetProcess(_isCharging);
-	}
-
-	public override void _Process(double delta)
-	{
-		if (_isCharging)
-		{
-			ContinueCharge((float)delta);
-		}
-	}
-
-	private void StartCharge()
-	{
-		if (_chargingProjectile != null || _projectileScene == null || _manaComponent.CurrentMana < _minManaCost)
-		{
-			return;
-		}
-
-		_currentCharge = 0f;
-		_chargingProjectile = _projectileScene.Instantiate<Projectile>();
-		// _chargingProjectile.LevelParent = PlayerBody.Instance.ParentLevel;
-		_chargingProjectile.BeginCharge(_spellOrigin);
-
-		_audioPlayer_Charge.Play();
-	}
-
-	private void ContinueCharge(float delta)
-	{
-		if (_chargingProjectile == null) return;
-
-		// Determine the maximum charge percentage allowed by the player's current mana
-		float maxChargeByMana = Mathf.InverseLerp(_minManaCost, _maxManaCost, _manaComponent.CurrentMana);
-		maxChargeByMana = Mathf.Clamp(maxChargeByMana, 0f, 1f);
-
-		// Increment charge, but clamp it by the mana limit
-		float newCharge = _currentCharge + delta / _maxChargeTime;
-		_currentCharge = Mathf.Min(newCharge, maxChargeByMana);
-
-		// Map charge (0-1) to size (0.1-1.2)
-		float size = Mathf.Lerp(0.1f, 1.2f, _currentCharge);
-		_audioPlayer_Spell.PitchScale = size * 4 / 6f;
-		_audioPlayer_Spell.Stream = _audio_Charge;
-		if (!_audioPlayer_Spell.IsPlaying()) _audioPlayer_Spell.Play();
-		_chargingProjectile.UpdateChargeVisuals(size);
-
-	}
-
-	private void ReleaseCharge()
-	{
-		if (_chargingProjectile == null) return;
-
-		float manaCost = Mathf.Lerp(_minManaCost, _maxManaCost, _currentCharge);
-
-		if (!_manaComponent.HasEnoughMana(manaCost))
-		{
-			_chargingProjectile.QueueFree(); // Fizzle if not enough mana
-			_chargingProjectile = null;
-			return;
-		}
-
-		_manaComponent.ConsumeMana(manaCost);
-
-		float damage = Mathf.Lerp(10f, 100f, _currentCharge);
-		float speed = Mathf.Lerp(20f, 40f, _currentCharge);
-		Vector3 initialVelocity = -_spellOrigin.GlobalTransform.Basis.Z * speed;
-
-		_audioPlayer_Spell.PitchScale = 1;
-		_audioPlayer_Spell.Stream = _audio_Cast;
-		_audioPlayer_Spell.Play();
-
-		_chargingProjectile.AudioStreamPlayer3D.PitchScale = .55f;
-		_chargingProjectile.AudioStreamPlayer3D.Play();
-		_chargingProjectile.Launch(PlayerBody.Instance.Owner, damage, manaCost, initialVelocity);
-
-		// Clear reference
-		_chargingProjectile = null;
-		_currentCharge = 0f;
-		_audioPlayer_Charge.Stop();
-	}
-}
-
-
-*/

@@ -1,4 +1,7 @@
+using Elythia;
 using Godot;
+
+namespace SpinalShatter;
 
 [GlobalClass]
 public partial class Pickup : RigidBody3D
@@ -70,6 +73,7 @@ public partial class Pickup : RigidBody3D
 
 	public virtual void Initialize(PickupData data)
 	{
+		DebugManager.Debug($"Pickup: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
 		this.data  = data;
 		CurrentState = PickupState.Idle;
 		Visible = true;
@@ -100,6 +104,7 @@ public partial class Pickup : RigidBody3D
 			LinearVelocity = DriftIdle();
 			ApplyCentralImpulse(Velocity);
 		}
+		DebugManager.Debug($"Pickup: {Name} Initialized. Final GlobalPosition: {GlobalPosition}, LinearVelocity: {LinearVelocity}");
 	}
 
 	public void Attract(Node3D target)

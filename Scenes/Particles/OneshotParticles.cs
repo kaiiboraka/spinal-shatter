@@ -17,8 +17,9 @@ public partial class OneshotParticles : Node3D
 		_freeTimer.Timeout += QueueFree;
 	}
 
-	public void PlayParticles()
+	public void PlayParticles(int amount = 10)
 	{
+		_gpuParticles.Amount = amount;
 		_freeTimer.Start();
 		_gpuParticles.Emitting = true;
 		_gpuParticles.Restart();

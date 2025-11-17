@@ -3,6 +3,8 @@ using Elythia;
 using Godot;
 using Godot.Collections;
 
+namespace SpinalShatter;
+
 [Tool]
 public partial class PickupManager : Node
 {

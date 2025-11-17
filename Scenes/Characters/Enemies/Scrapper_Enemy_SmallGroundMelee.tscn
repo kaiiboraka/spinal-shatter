@@ -140,6 +140,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"PauseAnimation"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_3nwgj"]
 resource_name = "Front_Attack"
@@ -212,11 +226,14 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.0625),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.0625, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"PerformAttack"
+}, {
+"args": [4, false],
+"method": &"ChangeState"
 }]
 }
 tracks/6/type = "value"
@@ -471,7 +488,7 @@ _data = {
 &"Side": SubResource("Animation_h7ptk")
 }
 
-[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "_timerWalk", "_timerAction", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox", "HealthComponent", "_hurtbox") groups=["Enemies"]]
+[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox", "HealthComponent", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -485,9 +502,6 @@ _animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _deathParticlesScene = ExtResource("3_g6587")
 OverheadHealthBar = NodePath("HealthBar")
 _stateVisual = NodePath("StateSprite3D")
-_timerWalk = NodePath("Timers/WalkTimer")
-_timerAction = NodePath("Timers/ActionWaitTimer")
-_timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
 DetectionArea = NodePath("DetectionArea3D")
 Detection_lineOfSight = NodePath("LOS_RayCast3D")
 Attack_meleeHitbox = NodePath("MeleeHitbox")
@@ -500,9 +514,17 @@ _hurtbox = NodePath("Hurtbox")
 one_shot = true
 
 [node name="ActionWaitTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
 one_shot = true
 
 [node name="AttackCooldownTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="PoolTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="BlinkTimer" type="Timer" parent="Timers"]
 wait_time = 3.0
 one_shot = true
 

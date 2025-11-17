@@ -9,6 +9,7 @@ script = ExtResource("1_abcde")
 Name = "Zapper"
 BaseCost = 2
 AudioData = ExtResource("3_audio")
+DeathParticleCount = 5
 WalkSpeed = 10.0
 MinWaitTime = 2.0
 KnockbackWeight = 8.0

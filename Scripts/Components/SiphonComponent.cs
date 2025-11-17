@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 
+namespace SpinalShatter;
+
 public partial class SiphonComponent : Node
 {
 	[Export] private Area3D _siphonField;

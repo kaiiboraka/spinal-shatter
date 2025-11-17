@@ -1,15 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://5ou8wlwv5mf1"]
+[gd_scene load_steps=5 format=3 uid="uid://5ou8wlwv5mf1"]
 
 [ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger_Enemy_SmallGroundRanged.tscn" id="1_u3vh1"]
 [ext_resource type="Resource" uid="uid://cpjitr3gcxgjv" path="res://assets/Resources/EnemyData/ZapperData.tres" id="2_h832s"]
-[ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_f3tho"]
 [ext_resource type="SpriteFrames" uid="uid://cqr5851apyyhs" path="res://assets/Images/Enemies/enemies_small_zapper.ase" id="3_h832s"]
 [ext_resource type="SpriteFrames" uid="uid://fpsefbsgn0bo" path="res://assets/Images/Enemies/enemies_small_zapper_eye.ase" id="4_c1i5h"]
 
 [node name="Zapper" instance=ExtResource("1_u3vh1")]
 motion_mode = 1
 Data = ExtResource("2_h832s")
-_deathParticlesScene = ExtResource("3_f3tho")
 
 [node name="Body_AnimatedSprite3D" parent="." index="6"]
 sprite_frames = ExtResource("3_h832s")

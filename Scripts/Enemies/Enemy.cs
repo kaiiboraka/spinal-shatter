@@ -11,7 +11,7 @@ public partial class Enemy : Combatant
 	private bool _isActive = true;
 
 	private List<CollisionShape3D> _collisionShapes = new();
-	private global::Enemy.AIState _currentState = global::Enemy.AIState.Idle;
+	private AIState _currentState = AIState.Idle;
 
 	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
@@ -26,11 +26,13 @@ public partial class Enemy : Combatant
 
 	private EnemyAudioData AudioData;
 
-	[ExportSubgroup("Timers", "_timer")] [Export]
+	[ExportSubgroup("Timers", "_timer")]
 	private Timer _timerWalk;
 
-	[Export] private Timer _timerAction;
-	[Export] private Timer _timerAttackCooldown;
+	private Timer _timerPool;
+	private Timer _timerAction;
+	private Timer _timerAttackCooldown;
+	private Timer _timerBlink;
 
 	// --- STATS (initialized from EnemyData) ---
 	// Patrol
@@ -73,7 +75,7 @@ public partial class Enemy : Combatant
 	private PlayerBody _player;
 
 	private bool _isWalking = false;
-	private bool isDying => _currentState == global::Enemy.AIState.Dying;
+	private bool isDying => _currentState == AIState.Dying;
 
 	[Signal]
 	public delegate void EnemyDiedEventHandler(Enemy who);
@@ -114,16 +116,21 @@ public partial class Enemy : Combatant
 		DetectionArea.BodyEntered += OnDetectionAreaBodyEntered;
 		DetectionArea.BodyExited += OnDetectionAreaBodyExited;
 
-		TryAddTimer(_timerWalk);
+		_timerWalk = GetNode<Timer>("Timers/WalkTimer");
+		_timerAction = GetNode<Timer>("Timers/ActionWaitTimer");
+		_timerAttackCooldown = GetNode<Timer>("Timers/AttackCooldownTimer");
+		_timerPool = GetNode<Timer>("Timers/PoolTimer");
+		_timerBlink = GetNode<Timer>("Timers/BlinkTimer");
+
+		_timerPool.WaitTime = Mathf.Max(
+			_timerBlink.WaitTime,
+			_animPlayer.GetAnimation("Die").Length);
+
 		_timerWalk.Timeout += OnWalkTimerTimeout;
-
-		TryAddTimer(_timerAction);
 		_timerAction.Timeout += OnActionTimerTimeout;
+		_timerPool.Timeout += Despawn;
 
-
-		TryAddTimer(_timerAttackCooldown);
-
-		_animPlayer.AnimationFinished += OnAnimationFinished;
+		// _animPlayer.AnimationFinished += OnAnimationFinished;
 
 		if (!ProjectileIsRanged)
 		{
@@ -137,7 +144,7 @@ public partial class Enemy : Combatant
 		}
 
 		// Start patrolling
-		ChangeState(global::Enemy.AIState.Patrolling);
+		ChangeState(AIState.Patrolling);
 	}
 
 	private void ApplyData(EnemyData data)
@@ -174,17 +181,17 @@ public partial class Enemy : Combatant
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (_currentState == global::Enemy.AIState.Dying) return;
+		if (_currentState == AIState.Dying) return;
 		if (!_isActive) return;
 
 		base._PhysicsProcess(delta); // Decays knockback
 
-		if (_currentState != global::Enemy.AIState.Attacking && _currentState != global::Enemy.AIState.Recovery && _currentState != global::Enemy.AIState.Dying)
+		if (_currentState != AIState.Attacking && _currentState != AIState.Recovery && _currentState != AIState.Dying)
 		{
 			if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
 			{
 				_player = player;
-				ChangeState(global::Enemy.AIState.Chasing);
+				ChangeState(AIState.Chasing);
 			}
 		}
 
@@ -200,20 +207,20 @@ public partial class Enemy : Combatant
 		{
 			switch (_currentState)
 			{
-				case global::Enemy.AIState.Idle:
+				case AIState.Idle:
 					ProcessIdle(delta);
 					newVelocity = Vector3.Zero;
 					break;
-				case global::Enemy.AIState.Patrolling:
+				case AIState.Patrolling:
 					ProcessPatrolling(ref newVelocity);
 					break;
-				case global::Enemy.AIState.Chasing:
+				case AIState.Chasing:
 					ProcessChasing(ref newVelocity, delta);
 					break;
-				case global::Enemy.AIState.Attacking:
+				case AIState.Attacking:
 					ProcessAttacking(ref newVelocity);
 					break;
-				case global::Enemy.AIState.Recovery:
+				case AIState.Recovery:
 					ProcessRecovery(ref newVelocity);
 					break;
 			}
@@ -222,7 +229,7 @@ public partial class Enemy : Combatant
 		// Apply knockback
 		if (!isDying) newVelocity += _knockbackVelocity;
 		Velocity = newVelocity;
-		if (_player != null && _currentState != global::Enemy.AIState.Attacking)
+		if (_player != null && _currentState != AIState.Attacking && _currentState != AIState.Dying)
 		{
 			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
 			Vector3 enemyForward = -GlobalTransform.Basis.Z;
@@ -240,38 +247,31 @@ public partial class Enemy : Combatant
 	{
 		if (!_isActive) return;
 		base._Process(delta);
-		if (_player != null)
-		{
-			// Update animation based on angle to player
-			if (_currentState == global::Enemy.AIState.Attacking) return;
-			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
-			Vector3 enemyForward = -GlobalTransform.Basis.Z;
-			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
-			UpdateAnimation(angleToPlayer);
-		}
+		BlinkRoutine();
+		FacePlayer();
 	}
 
-	private void EnterState(global::Enemy.AIState state)
+	private void EnterState(AIState state)
 	{
 		switch (state)
 		{
-			case global::Enemy.AIState.Idle:
+			case AIState.Idle:
 				_animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
-			case global::Enemy.AIState.Patrolling:
+			case AIState.Patrolling:
 				_animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				StartWaiting();
 				break;
-			case global::Enemy.AIState.Chasing:
+			case AIState.Chasing:
 				_animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
-			case global::Enemy.AIState.Attacking:
+			case AIState.Attacking:
 				Velocity = Vector3.Zero with { Y = Velocity.Y };
 				_animPlayer.Play("Front_Attack");
 
@@ -280,20 +280,20 @@ public partial class Enemy : Combatant
 				_timerAttackCooldown.WaitTime = AttackCooldown;
 				_timerAttackCooldown.Start();
 				break;
-			case global::Enemy.AIState.Recovery:
+			case AIState.Recovery:
 				_animPlayer.Play("Front_Idle");
 				_timerAction.WaitTime = RecoveryTime;
 				_timerAction.Start();
 				break;
-			case global::Enemy.AIState.Dying:
+			case AIState.Dying:
 				TryToDie();
 				break;
 		}
 	}
 
-	private void ChangeState(global::Enemy.AIState newState, bool force = false)
+	private void ChangeState(AIState newState, bool force = false)
 	{
-		if ((_currentState == newState && !force) || _currentState == global::Enemy.AIState.Dying) return;
+		if ((_currentState == newState && !force) || _currentState == AIState.Dying) return;
 
 		ExitState(_currentState);
 		_currentState = newState;
@@ -305,19 +305,16 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void TryAddTimer(Timer timer)
-	{
-		if (timer == null)
-		{
-			timer = new Timer { OneShot = true };
-			AddChild(timer);
-		}
-	}
-
 	private void PerformAttack()
 	{
 		if (ProjectileIsRanged)
 		{
+			if (ProjectileScene == null)
+			{
+				DebugManager.Error($"Enemy: {Name} ProjectileScene is null in PerformAttack!");
+				return;
+			}
+
 			var projectile = ProjectileScene.Instantiate<Projectile>();
 			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
 			var launchData = new ProjectileLaunchData
@@ -335,27 +332,35 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void PlayAnimationOnSprites(string which)
+	public void StopAnimation()
 	{
-		_animatedSprite.Play(which);
-		_animatedSprite_Eye.Play(which);
+		_animPlayer.Stop();
+		_animatedSprite.Stop();
+		_animatedSprite_Eye.Stop();
 	}
 
-	private void ExitState(global::Enemy.AIState state)
+	public void PauseAnimation()
+	{
+		_animPlayer.Pause();
+		_animatedSprite.Pause();
+		_animatedSprite_Eye.Pause();
+	}
+
+	private void ExitState(AIState state)
 	{
 		switch (state)
 		{
-			case global::Enemy.AIState.Idle:
+			case AIState.Idle:
 				break;
-			case global::Enemy.AIState.Patrolling:
+			case AIState.Patrolling:
 				_timerWalk.Stop();
 				_timerAction.Stop();
 				break;
-			case global::Enemy.AIState.Chasing:
+			case AIState.Chasing:
 				break;
-			case global::Enemy.AIState.Attacking:
+			case AIState.Attacking:
 				break;
-			case global::Enemy.AIState.Recovery:
+			case AIState.Recovery:
 				_timerAction.Stop();
 				break;
 		}
@@ -366,9 +371,9 @@ public partial class Enemy : Combatant
 		if (body is PlayerBody player)
 		{
 			_player = player;
-			if (_currentState != global::Enemy.AIState.Attacking && _currentState != global::Enemy.AIState.Recovery)
+			if (_currentState != AIState.Attacking && _currentState != AIState.Recovery)
 			{
-				ChangeState(global::Enemy.AIState.Chasing);
+				ChangeState(AIState.Chasing);
 			}
 		}
 	}
@@ -378,7 +383,7 @@ public partial class Enemy : Combatant
 		if (body is PlayerBody player)
 		{
 			_player = null;
-			ChangeState(global::Enemy.AIState.Patrolling);
+			ChangeState(AIState.Patrolling);
 		}
 	}
 
@@ -399,7 +404,7 @@ public partial class Enemy : Combatant
 	{
 		if (_player == null)
 		{
-			ChangeState(global::Enemy.AIState.Patrolling);
+			ChangeState(AIState.Patrolling);
 			return;
 		}
 
@@ -415,15 +420,9 @@ public partial class Enemy : Combatant
 		{
 			if (_timerAttackCooldown.IsStopped())
 			{
-				ChangeState(global::Enemy.AIState.Attacking);
+				ChangeState(AIState.Attacking);
 			}
 		}
-	}
-
-	private void WalkForward(ref Vector3 newVelocity)
-	{
-		newVelocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
-		newVelocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
 	}
 
 	private void ProcessAttacking(ref Vector3 newVelocity)
@@ -438,19 +437,38 @@ public partial class Enemy : Combatant
 		newVelocity = Vector3.Zero;
 	}
 
-	private void OnAnimationFinished(StringName animName)
+	// private void OnAnimationFinished(StringName animName)
+	// {
+	// 	DebugManager.Debug($"Enemy: {Name} AnimationFinished: {animName}");
+	// 	if (animName == "Front_Attack")
+	// 	{
+	// 		ChangeState(AIState.Recovery);
+	// 	}
+	// }
+	private void OnActionTimerTimeout()
 	{
-		DebugManager.Debug($"Enemy: {Name} AnimationFinished: {animName}");
-		if (animName == "Front_Attack")
+		if (_currentState == AIState.Patrolling)
 		{
-			ChangeState(global::Enemy.AIState.Recovery);
+			Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
+			StartWalking();
 		}
-		else if (animName == "Die")
+		else if (_currentState == AIState.Recovery)
 		{
-			DebugManager.Debug($"Enemy: {Name} Die animation finished. Releasing enemy.");
-			if (OwningPool != null) OwningPool.Release(this);
-			else QueueFree();
+			ChangeState(AIState.Patrolling);
 		}
+	}
+
+	private void WalkForward(ref Vector3 newVelocity)
+	{
+		newVelocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
+		newVelocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
+	}
+
+	private void StartWalking()
+	{
+		_isWalking = true;
+		_timerWalk.WaitTime = GD.RandRange(MinWalkTime, MaxWalkTime);
+		_timerWalk.Start();
 	}
 
 	private void Wander(ref Vector3 newVelocity)
@@ -464,26 +482,6 @@ public partial class Enemy : Combatant
 			float randomAngle = (float)GD.RandRange(0, Mathf.Pi * 2);
 			Rotation = new Vector3(0, randomAngle, 0);
 		}
-	}
-
-	private void OnActionTimerTimeout()
-	{
-		if (_currentState == global::Enemy.AIState.Patrolling)
-		{
-			Rotation = new Vector3(0, (float)GD.RandRange(0, Mathf.Pi * 2), 0);
-			StartWalking();
-		}
-		else if (_currentState == global::Enemy.AIState.Recovery)
-		{
-			ChangeState(global::Enemy.AIState.Patrolling);
-		}
-	}
-
-	private void StartWalking()
-	{
-		_isWalking = true;
-		_timerWalk.WaitTime = GD.RandRange(MinWalkTime, MaxWalkTime);
-		_timerWalk.Start();
 	}
 
 	private void OnWalkTimerTimeout()
@@ -552,6 +550,17 @@ public partial class Enemy : Combatant
 		_animatedSprite_Eye.FlipH = flipH;
 	}
 
+	// Update animation based on angle to player
+	private void FacePlayer()
+	{
+		if (_player == null || _currentState == AIState.Dying) return;
+		if (_currentState == AIState.Attacking) return;
+		Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
+		Vector3 enemyForward = -GlobalTransform.Basis.Z;
+		float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
+		UpdateAnimation(angleToPlayer);
+	}
+
 	public override void OnHurtboxBodyEntered(Node3D body)
 	{
 		base.OnHurtboxBodyEntered(body); // Handles damage + projectile destruction
@@ -573,7 +582,7 @@ public partial class Enemy : Combatant
 	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		base.OnHurt(sourcePosition, damage);
-		ChangeState(global::Enemy.AIState.Chasing);
+		ChangeState(AIState.Chasing);
 	}
 
 	public override void PlayOnHurtFX()
@@ -586,28 +595,45 @@ public partial class Enemy : Combatant
 	public override void OnDied()
 	{
 		DebugManager.Debug($"Enemy: {Name} OnDied called.");
-		ChangeState(global::Enemy.AIState.Dying);
+		ChangeState(AIState.Dying);
 	}
 
 	private void TryToDie()
 	{
 		DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}");
+		DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition before: {GlobalPosition}");
+
 		var deathParticles = _deathParticlesScene.Instantiate() as OneshotParticles;
+
 		GetParent().AddChild(deathParticles);
 		deathParticles.GlobalPosition = GlobalPosition;
-		deathParticles.PlayParticles();
+
+		DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
+		deathParticles.PlayParticles(Data.DeathParticleCount);
 
 		_animPlayer.Play("Die");
+		_timerBlink.Start();
+
+		DebugManager.Debug(
+			$"Enemy: {Name} Playing Die animation. CurrentAnimation: {_animPlayer.CurrentAnimation}, Length: {_animPlayer.CurrentAnimationLength}");
 		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop, this.GlobalPosition);
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop, this.GlobalPosition);
 
 		StopMoving();
-		StopTimers();
+		StopActionTimers();
 		DisableCollisions();
 		EmitSignalEnemyDied(this);
-		// Removed immediate release: if (OwningPool != null) OwningPool.Release(this); else QueueFree();
+
+		_timerPool.Start();
+	}
+
+	private void Despawn()
+	{
+		DebugManager.Debug($"Enemy: {Name} Animation timer finished. Releasing enemy.");
+		if (OwningPool != null) OwningPool.Release(this);
+		else QueueFree();
 	}
 
 	public override void Reset()
@@ -633,7 +659,7 @@ public partial class Enemy : Combatant
 
 		DisableCollisions();
 
-		StopTimers();
+		StopActionTimers();
 	}
 
 	private void HideVisuals()
@@ -660,10 +686,11 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void StopTimers()
+	private void StopActionTimers()
 	{
 		_timerWalk?.Stop();
-		_timerAction?.Stop();		_timerAttackCooldown?.Stop();
+		_timerAction?.Stop();
+		_timerAttackCooldown?.Stop();
 	}
 
 	public void Activate()
@@ -679,5 +706,40 @@ public partial class Enemy : Combatant
 		{
 			shape.Disabled = false;
 		}
+	}
+
+	private void BlinkRoutine()
+	{
+		if (_timerBlink.IsStopped()) return;
+
+		double timeLeft = _timerBlink.TimeLeft;
+
+		float duration = timeLeft switch
+		{
+			<= 5.0 and > 3.0 => .5f,
+			<= 3.0 and > 1.0 => 0.25f,
+			<= 1.0 and > 0.0 => 0.125f,
+			_ => 0
+		};
+		float alpha = timeLeft switch
+		{
+			<= 5.0 and > 3.0 => 0.5f,
+			<= 3.0 and > 1.0 => 0.375f,
+			<= 1.0 and > 0.0 => 0.25f,
+			_ => 0
+		};
+
+		Blink(alpha, duration);
+	}
+
+	protected Tween BlinkTween;
+
+	private void Blink(float alpha, float duration)
+	{
+		if (BlinkTween != null && BlinkTween.IsRunning() || _animatedSprite == null) return;
+
+		BlinkTween = CreateTween().SetLoops(2).SetTrans(Tween.TransitionType.Quart).SetEase(Tween.EaseType.InOut);
+		BlinkTween.TweenProperty(_animatedSprite, "modulate:a", alpha, duration / 2);
+		BlinkTween.TweenProperty(_animatedSprite, "modulate:a", 1.0f, duration / 2);
 	}
 }

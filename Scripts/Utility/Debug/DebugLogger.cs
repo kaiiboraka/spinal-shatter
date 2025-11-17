@@ -66,7 +66,8 @@ public partial class DebugLogger : RefCounted
 	private string GetHeader(LogLevel level)
 	{
 		var level_name = GetLevelName(level);
-		return $"{DELIMITERS[0]}[color={GetLevelColorHex(level)}]{level_name}[/color]{DELIMITERS[1]}" +
+		float time = Time.GetTicksMsec();
+		return $"{DELIMITERS[0]}[color={GetLevelColorHex(level)}]{level_name}[/color] : {time.MsToSec()}{DELIMITERS[1]}" +
 			   $"{DELIMITERS[0]}{objectName} @ {typeName}: {className}{DELIMITERS[1]}";
 	}
 

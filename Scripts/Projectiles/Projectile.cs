@@ -12,21 +12,16 @@ public partial class Projectile : RigidBody3D
 		Fired
 	}
 
-	[Export] private SpriteBase3D _sprite;
-	[Export] private CollisionShape3D _collisionShape;
+	[Export] private PackedScene _sparkParticlesScene;
+	private SpriteBase3D _sprite;
+	private CollisionShape3D _collisionShape;
 	[Export] public AudioStream AudioStream_Fireball { get; private set; }
 	[Export] public AudioStream AudioStream_FireHit { get; private set; }
 
 
-	[Export(PropertyHint.Range, "0.0, 1.0")]
-	private float _minRefundPercent = 0.5f;
-
-	[Export(PropertyHint.Range, "0.0, 1.0")]
-	private float _maxRefundPercent = 0.75f;
-
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
-
+	[Export] IntValueRange manaDroppedAmount = new IntValueRange(1, 5);
 	[Export] private bool IsFixed { get; set; }
 
 	public Node3D LevelParent { get; set; }
@@ -44,12 +39,12 @@ public partial class Projectile : RigidBody3D
 	private float _bounceCooldown = 0;
 	private float _minManaThreshold = 1.0f;
 
-
+	int ManaLostAmount => (int)Mathf.Min(manaDroppedAmount.GetRandomValue(), ManaCost);
 
 	public override void _Ready()
 	{
-		if (_sprite == null) _sprite = GetNode<SpriteBase3D>("Sprite3D");
-		if (_collisionShape == null) _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
+		_sprite ??= GetNode<SpriteBase3D>("Sprite3D");
+		_collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 
 		_lifetimeTimer = new Timer();
 		_lifetimeTimer.WaitTime = _lifetime;
@@ -74,10 +69,6 @@ public partial class Projectile : RigidBody3D
 		}
 	}
 
-	[Export] private float ManaLossPercentageOnEnemyHit = 0.1f;
-	[Export] private float EnemyManaRefundFraction = 0.25f;
-
-
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
 		if (_bounceCooldown > 0 || _state != ProjectileState.Fired)
@@ -91,6 +82,14 @@ public partial class Projectile : RigidBody3D
 			Node collider = state.GetContactColliderObject(i) as Node;
 			if (collider != null)
 			{
+				if (_sparkParticlesScene.Instantiate() is OneshotParticles sparkParticles)
+				{
+					GetTree().Root.AddChild(sparkParticles);
+					sparkParticles.GlobalPosition = GlobalPosition;
+					sparkParticles.LookAt(state.GetContactLocalNormal(i));
+					sparkParticles.PlayParticles((int)(ManaCost * 3));
+				}
+
 				if (!collider.IsInGroup("Enemies"))
 				{
 					// Wall bounce
@@ -227,9 +226,8 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit(Vector3 impactPoint)
 	{
-		float manaLostAmount = ManaCost * ManaLossPercentageOnEnemyHit;
 		AudioManager.Instance.PlaySoundAtPosition(AudioStream_FireHit, impactPoint);
-		ApplyManaLoss(manaLostAmount, impactPoint, true);
+		ApplyManaLoss(ManaLostAmount, impactPoint);
 	}
 
 	private void HandleWallBounce(Vector3 impactPoint)
@@ -244,14 +242,12 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
-		float reductionPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
 		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
-		float manaLostAmount = ManaCost * reductionPercent; // * velocityFactor;
 
 		AudioManager.Instance.PlaySoundAttachedToNode(AudioStream_Fireball, this);
 
 		// DebugManager.Trace($"projectile impact point: {impactPoint}");
-		ApplyManaLoss(manaLostAmount, impactPoint, false);
+		ApplyManaLoss(ManaLostAmount, impactPoint);
 
 		_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
 	}
@@ -264,17 +260,23 @@ public partial class Projectile : RigidBody3D
 		QueueFree();
 	}
 
-	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition, bool isEnemyHit)
+	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition)
 	{
+		if (float.IsNaN(ManaCost))
+		{
+			Expire();
+			return;
+		}
+		
 		DebugManager.Debug(
-			$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}, IsEnemyHit: {isEnemyHit}");
+			$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}");
 
 		// Clamp manaLostAmount to current ManaCost to prevent negative mana
 		manaLostAmount = Mathf.Min(ManaCost, manaLostAmount);
 
 		// Eject mana particles
-		float manaToEject = isEnemyHit ? manaLostAmount * EnemyManaRefundFraction : manaLostAmount;
-			// EjectMana(manaToEject, impactPosition);
+		// float manaToEject = isEnemyHit ? manaLostAmount * EnemyManaRefundFraction : manaLostAmount;
+		EjectMana(manaLostAmount, impactPosition);
 
 		// Reduce projectile's mana
 		ManaCost -= manaLostAmount;

@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://ycgo1ko7742e"]
+
+[ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_nw0dd"]
+[ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Textures/spark.png" id="2_h4mfb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m71ty"]
+transparency = 1
+albedo_color = Color(2.0792003, 0.7891305, 5.342319, 1)
+albedo_texture = ExtResource("2_h4mfb")
+emission_enabled = true
+emission = Color(0, 1.8247963, 1.6763129, 1)
+emission_texture = ExtResource("2_h4mfb")
+
+[sub_resource type="Curve" id="Curve_6p28k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.81838566, 0.82584274), -0.9187271, -0.9187271, 0, 0, Vector2(1, 0.028089881), -8.819785, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_gou08"]
+curve = SubResource("Curve_6p28k")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3esec"]
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 0.2
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -25, 0)
+attractor_interaction_enabled = false
+scale_min = 0.19999999
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_gou08")
+collision_mode = 1
+collision_friction = 0.05
+collision_bounce = 0.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_v8bk4"]
+size = Vector2(0.2, 1)
+
+[node name="HitEffects" type="Node3D"]
+script = ExtResource("1_nw0dd")
+
+[node name="FreeTimer" type="Timer" parent="."]
+
+[node name="Particles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("StandardMaterial3D_m71ty")
+amount = 30
+lifetime = 1.25
+explosiveness = 1.0
+randomness = 0.1
+transform_align = 3
+trail_enabled = true
+trail_lifetime = 1.95
+process_material = SubResource("ParticleProcessMaterial_3esec")
+draw_pass_1 = SubResource("QuadMesh_v8bk4")
+
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
+size = Vector3(12, 12, 12)
+resolution = 1
+heightfield_mask = 17

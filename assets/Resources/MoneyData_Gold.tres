@@ -6,13 +6,12 @@
 
 [resource]
 script = ExtResource("2_hfspc")
-MoneyType = 2
 PickupType = 1
 Value = 50
 Lifetime = 20.0
 SpriteFrames = ExtResource("1_6342e")
-CollisionShapeRadius = 0.14
-AreaShapeRadius = 0.2
+CollisionShapeRadius = 0.15
+AreaShapeRadius = 0.25
 AudioStream = ExtResource("1_hfspc")
 AudioPitch = 0.7
 metadata/_custom_type_script = "uid://k0l10vg5lr3g"

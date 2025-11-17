@@ -66,6 +66,8 @@ public partial class SiphonComponent : Node
 			if (area.GetOwner() is Pickup pickup)
 			{
 				pickup.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.SOLID_GROUND_NUM);
+				pickup.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.SOLID_WALL_NUM);
+				pickup.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLATFORM_NUM);
 
 				// Attract the pickup if it's not already being attracted
 				if (_attractedPickups.Add(pickup) &&
@@ -74,8 +76,8 @@ public partial class SiphonComponent : Node
 				{
 					// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Attracting pickup {pickup.Name}, current state: {pickup.State}");
 					pickup.Attract(_target);
-					pickup.Released += OnPickupReleased;
 				}
+					pickup.Released += OnPickupReleased;
 			}
 		}
 	}
@@ -87,6 +89,9 @@ public partial class SiphonComponent : Node
 		foreach (var pickup in _attractedPickups)
 		{
 			pickup.AddCollisionMask3D(LayerNames.PHYSICS_3D.SOLID_GROUND_NUM);
+			pickup.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLATFORM_NUM);
+			pickup.AddCollisionMask3D(LayerNames.PHYSICS_3D.SOLID_WALL_NUM);
+
 			if (IsInstanceValid(pickup) && pickup.State == Pickup.PickupState.Attracted)
 			{
 				pickup.DriftIdle();

@@ -10,6 +10,7 @@ script = ExtResource("2_b4k8k")
 options_packed_scene = ExtResource("3_2ntmu")
 main_menu_scene_path = ""
 pauses_game = true
+mouse_filter = 1
 
 [node name="MarginContainer" parent="MenuPanelContainer" index="0"]
 theme_override_constants/margin_left = 64

@@ -125,18 +125,19 @@ public partial class Pickup : RigidBody3D
 		BlinkTween?.Kill();
 
 
-		EmitSignal(SignalName.Collected, this);
+		EmitSignalCollected(this);
 		// Removed: EmitSignal(SignalName.Released, this);
 	}
 
 	protected virtual void OnLifetimeTimeout()
 	{
 		CurrentState = PickupState.Expired;
-		EmitSignal(SignalName.Released, this);
 		var tween = CreateTween();
 		tween.TweenProperty(this, "scale", Vector3.One * 0.001f, 0.2f).SetTrans(Tween.TransitionType.Quad)
 			 .SetEase(Tween.EaseType.In);
-		// Removed: tween.TweenCallback(Callable.From(QueueFree));
+		tween.TweenCallback(Callable.From(Reset));
+
+		EmitSignalReleased(this);
 	}
 
 	protected void ResetVisuals(PickupData data)

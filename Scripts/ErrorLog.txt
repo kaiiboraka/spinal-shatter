@@ -1,212 +1,36 @@
 # Error
 
-E 0:01:39:592   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
-  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
-  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
-				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
-				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
-				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
-				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
-				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
-				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
-				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
-				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
-				Projectile.cs:275 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
-				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
-				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
-				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+10000 of these:
 
-E 0:01:39:592   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
+E 0:04:16:147   instance_set_transform: Condition "!v.is_finite()" is true.
   <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
-  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
-				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
-				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
-				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
-				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
-				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
-				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
-				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
-				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
-				Projectile.cs:275 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
-				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
-				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
-				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
-
-E 0:01:39:593   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
-  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
-  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
-				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
-				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
-				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
-				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
-				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
-				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
-				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
-				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
-				Projectile.cs:260 @ void SpinalShatter.Projectile.Expire()
-				Projectile.cs:284 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
-				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
-				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
-				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
-
-E 0:01:39:593   NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool): Condition "!v.is_finite()" is true.
-  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
-  <Stack Trace> NativeCalls.cs:140 @ void Godot.NativeCalls.godot_icall_1_14(nint, nint, Godot.NativeInterop.godot_bool)
-				Node3D.cs:805 @ void Godot.Node3D.SetVisible(bool)
-				Node3D.cs:312 @ void Godot.Node3D.set_Visible(bool)
-				Pickup.cs:75 @ void Pickup.Initialize(PickupData)
-				ManaParticle.cs:11 @ void ManaParticle.Initialize(PickupData)
-				PickupManager.cs:155 @ Pickup PickupManager.SpawnPickup(PickupData, Godot.Vector3)
-				PickupManager.cs:107 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnGreedy<T>(Godot.Collections.Array`1[T], int, Godot.Vector3)
-				PickupManager.cs:72 @ Godot.Collections.Array`1[Pickup] PickupManager.SpawnPickupAmount(PickupType, int, Godot.Vector3)
-				Projectile.cs:328 @ void SpinalShatter.Projectile.EjectMana(float, Godot.Vector3)
-				Projectile.cs:260 @ void SpinalShatter.Projectile.Expire()
-				Projectile.cs:284 @ void SpinalShatter.Projectile.ApplyManaLoss(float, Godot.Vector3, bool)
-				Projectile.cs:252 @ void SpinalShatter.Projectile.HandleWallBounce(Godot.Vector3)
-				Projectile.cs:97 @ void SpinalShatter.Projectile._IntegrateForces(Godot.PhysicsDirectBodyState3D)
-				RigidBody3D.cs:1203 @ bool Godot.RigidBody3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				SpinalShatter.Projectile_ScriptMethods.generated.cs:160 @ bool SpinalShatter.Projectile.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
-
-and then 10000 of these:
-	
-	E 0:01:39:599   instance_set_transform: Condition "!v.is_finite()" is true.
-  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
-
 
 # Output
 Embedded window only supports Windowed mode.
-INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@418.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@418. Active objects: 148
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@418 at GlobalPosition: (-21.241499, 0.8351741, 37.193264), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@418 at GlobalPosition: (-21.241499, 0.8351741, 37.193264), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@418 Initialized. Final GlobalPosition: (-21.241499, 0.8351741, 37.193264), LinearVelocity: (0.35801893, -0.87989306, -0.7332195)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@418 Initialized. Final GlobalPosition: (-21.241499, 0.8351741, 37.193264)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@419.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@419. Active objects: 149
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@419 at GlobalPosition: (-21.121817, 0.831662, 37.147453), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@419 at GlobalPosition: (-21.121817, 0.831662, 37.147453), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@419 Initialized. Final GlobalPosition: (-21.121817, 0.831662, 37.147453), LinearVelocity: (-0.03763711, -1.1792687, -0.2188811)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@419 Initialized. Final GlobalPosition: (-21.121817, 0.831662, 37.147453)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@880 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@880 Initialized. Final GlobalPosition: (0, -1, 0), LinearVelocity: (1.0457046, -0.56840134, 0.15304199)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@880 Initialized. Final GlobalPosition: (0, -1, 0)
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@893. Ready pool size: 2
+[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@893. Active objects: 370
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@893 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@893 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@893 Initialized. Final GlobalPosition: (0, -1, 0), LinearVelocity: (-0.5356063, -0.44258717, 0.9783877)
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@893 Initialized. Final GlobalPosition: (0, -1, 0)
 [DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.7304034, CurrentMana: 1, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@420.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@420. Active objects: 150
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@420 at GlobalPosition: (-21.744942, 1.0892482, 35.836178), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@420 at GlobalPosition: (-21.744942, 1.0892482, 35.836178), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@420 Initialized. Final GlobalPosition: (-21.744942, 1.0892482, 35.836178), LinearVelocity: (-0.83649606, 0.7715371, -0.38079494)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@420 Initialized. Final GlobalPosition: (-21.744942, 1.0892482, 35.836178)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@421.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@421. Active objects: 151
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@421 at GlobalPosition: (-21.593706, 0.92025036, 36.010323), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@421 at GlobalPosition: (-21.593706, 0.92025036, 36.010323), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@421 Initialized. Final GlobalPosition: (-21.593706, 0.92025036, 36.010323), LinearVelocity: (-0.43906355, 0.5958088, -0.944582)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@421 Initialized. Final GlobalPosition: (-21.593706, 0.92025036, 36.010323)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 20, chargeRatio: 0, damage: 10, manaCost: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.6155789, CurrentMana: 1, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@423.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@423. Active objects: 152
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@423 at GlobalPosition: (-21.777586, 1.0999371, 35.74272), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@423 at GlobalPosition: (-21.777586, 1.0999371, 35.74272), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@423 Initialized. Final GlobalPosition: (-21.777586, 1.0999371, 35.74272), LinearVelocity: (-0.7220278, -0.780049, -0.5569555)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@423 Initialized. Final GlobalPosition: (-21.777586, 1.0999371, 35.74272)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@424.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@424. Active objects: 153
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@424 at GlobalPosition: (-21.477375, 0.94376945, 35.829018), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@424 at GlobalPosition: (-21.477375, 0.94376945, 35.829018), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@424 Initialized. Final GlobalPosition: (-21.477375, 0.94376945, 35.829018), LinearVelocity: (-0.8840433, -0.3628191, 0.7258306)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@424 Initialized. Final GlobalPosition: (-21.477375, 0.94376945, 35.829018)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 22, chargeRatio: 0.1, damage: 29, manaCost: 5.9
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 3.438447, CurrentMana: 5.9, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@426.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@426. Active objects: 154
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@426 at GlobalPosition: (-21.930286, 0.9479599, 35.52207), with data: res://assets/Resources/ManaParticleData_Medium.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@426 at GlobalPosition: (-21.930286, 0.9479599, 35.52207), with data: res://assets/Resources/ManaParticleData_Medium.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@426 Initialized. Final GlobalPosition: (-21.930286, 0.9479599, 35.52207), LinearVelocity: (-0.10166111, 0.7310433, 0.67471534)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@426 Initialized. Final GlobalPosition: (-21.930286, 0.9479599, 35.52207)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 20, chargeRatio: 0, damage: 10, manaCost: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.461551, CurrentMana: 2.461553, IsEnemyHit: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@428.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@428. Active objects: 155
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@428 at GlobalPosition: (-20.381104, 0.82523745, 36.998108), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@428 at GlobalPosition: (-20.381104, 0.82523745, 36.998108), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@428 Initialized. Final GlobalPosition: (-20.381104, 0.82523745, 36.998108), LinearVelocity: (0.73866034, 0.55046403, -0.7690061)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@428 Initialized. Final GlobalPosition: (-20.381104, 0.82523745, 36.998108)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@429.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@429. Active objects: 156
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@429 at GlobalPosition: (-20.381104, 0.82523745, 36.998108), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@429 at GlobalPosition: (-20.381104, 0.82523745, 36.998108), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@429 Initialized. Final GlobalPosition: (-20.381104, 0.82523745, 36.998108), LinearVelocity: (0.043298036, -0.79287577, -0.8997075)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@429 Initialized. Final GlobalPosition: (-20.381104, 0.82523745, 36.998108)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 2.1457673E-07, CurrentMana: 2.1457672E-06, IsEnemyHit: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@430.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@430. Active objects: 157
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@430 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@430 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@430 Initialized. Final GlobalPosition: (0, 0, 0), LinearVelocity: (-0.7127286, -0.24762666, 0.9331125)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@430 Initialized. Final GlobalPosition: (0, 0, 0)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@431.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@431. Active objects: 158
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@431 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@431 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@431 Initialized. Final GlobalPosition: (0, 0, 0), LinearVelocity: (0.5261879, -0.5490074, -0.9282873)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@431 Initialized. Final GlobalPosition: (0, 0, 0)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.5806193, CurrentMana: 1, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@432.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@432. Active objects: 159
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@432 at GlobalPosition: (-21.97103, 1.0197225, 35.44132), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@432 at GlobalPosition: (-21.97103, 1.0197225, 35.44132), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@432 Initialized. Final GlobalPosition: (-21.97103, 1.0197225, 35.44132), LinearVelocity: (0.8540838, -0.09255925, 0.8378388)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@432 Initialized. Final GlobalPosition: (-21.97103, 1.0197225, 35.44132)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@433.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@433. Active objects: 160
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@433 at GlobalPosition: (-21.80064, 0.98508507, 35.439735), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@433 at GlobalPosition: (-21.80064, 0.98508507, 35.439735), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@433 Initialized. Final GlobalPosition: (-21.80064, 0.98508507, 35.439735), LinearVelocity: (0.6392873, 0.42181894, -0.923786)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@433 Initialized. Final GlobalPosition: (-21.80064, 0.98508507, 35.439735)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@397. Active objects: 159
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@397. Ready pool size: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Speed: 20, chargeRatio: 0, damage: 10, manaCost: 1
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0.5530098, CurrentMana: 1, IsEnemyHit: False
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@397. Ready pool size: 0
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@397. Active objects: 160
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@397 at GlobalPosition: (-21.698994, 0.98589075, 35.66279), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@397 at GlobalPosition: (-21.698994, 0.98589075, 35.66279), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@397 Initialized. Final GlobalPosition: (-21.698994, 0.98589075, 35.66279), LinearVelocity: (-0.57198197, 1.0548867, -0.007116597)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@397 Initialized. Final GlobalPosition: (-21.698994, 0.98589075, 35.66279)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@435.
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@435. Active objects: 161
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@435 at GlobalPosition: (-21.622532, 0.96502906, 35.63526), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@435 at GlobalPosition: (-21.622532, 0.96502906, 35.63526), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@435 Initialized. Final GlobalPosition: (-21.622532, 0.96502906, 35.63526), LinearVelocity: (0.70459926, -0.85538906, -0.46027148)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@435 Initialized. Final GlobalPosition: (-21.622532, 0.96502906, 35.63526)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@421. Active objects: 160
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@421. Ready pool size: 1
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@423. Active objects: 159
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@423. Ready pool size: 2
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@415. Active objects: 158
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@415. Ready pool size: 3
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@429. Active objects: 157
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@429. Ready pool size: 4
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@418. Active objects: 156
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@418. Ready pool size: 5
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@435. Active objects: 155
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@435. Ready pool size: 6
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@419. Active objects: 154
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@419. Ready pool size: 7
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@426. Active objects: 153
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@426. Ready pool size: 8
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @RigidBody3D@432. Active objects: 152
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Enqueued @RigidBody3D@432. Ready pool size: 9
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN

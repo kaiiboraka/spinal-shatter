@@ -6,13 +6,12 @@
 
 [resource]
 script = ExtResource("2_ecp50")
-MoneyType = 3
 PickupType = 1
 Value = 100
 Lifetime = 20.0
 SpriteFrames = ExtResource("1_0gh2k")
-CollisionShapeRadius = 0.14
-AreaShapeRadius = 0.2
+CollisionShapeRadius = 0.15
+AreaShapeRadius = 0.25
 AudioStream = ExtResource("1_ecp50")
 AudioPitch = 0.55
 metadata/_custom_type_script = "uid://k0l10vg5lr3g"

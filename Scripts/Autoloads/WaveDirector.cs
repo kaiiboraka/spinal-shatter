@@ -111,21 +111,9 @@ public partial class WaveDirector : Node
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared += OnWaveCleared;
-			// Prevent round from starting in central hub
-			if (_activeRoom.IsCentralHub) // Assuming LevelRoom has an IsCentralHub property
-			{
-				DebugManager.Debug($"WaveDirector: Not starting round in central hub: {_activeRoom.Name}");
-				// If a round was incorrectly marked as in progress, reset it
-				if (IsRoundInProgress)
-				{
-					IsRoundInProgress = false;
-					DebugManager.Debug("WaveDirector: Resetting IsRoundInProgress due to entering central hub.");
-				}
-				return;
-			}
-
-			// A new room has been entered, start the round if one isn't already running.
-			if (!IsRoundInProgress)
+			
+			// Only start a new round if the new room is a combat room AND no round is currently in progress anywhere.
+			if (!_activeRoom.IsCentralHub && !IsRoundInProgress)
 			{
 				OnRoundStart();
 			}
@@ -180,9 +168,11 @@ public partial class WaveDirector : Node
 	{
 		IsRoundInProgress = false;
 		endingPlayerHealth = player.HealthComponent.CurrentPercent;
-		RoundTimer.Paused = true;
+		
+		double timeLeft = RoundTimer.TimeLeft;
+		RoundTimer.Stop();
 
-		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * RoundTimer.TimeLeft * DifficultyMultipliers[SelectedDifficulty]);
+		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * timeLeft * DifficultyMultipliers[SelectedDifficulty]);
 		player.AddMoney(moneyTimeBonus);
 
 		moneyHealthBonus = (int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);

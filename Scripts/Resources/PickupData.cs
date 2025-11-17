@@ -1,5 +1,7 @@
 using Godot;
 
+namespace SpinalShatter;
+
 [GlobalClass, Tool]
 public partial class PickupData : Resource
 {

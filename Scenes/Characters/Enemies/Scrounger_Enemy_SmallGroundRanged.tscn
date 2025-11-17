@@ -608,7 +608,7 @@ _data = {
 &"Side": SubResource("Animation_fhuh0")
 }
 
-[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "_timerWalk", "_timerAction", "_timerAttackCooldown", "DetectionArea", "Detection_lineOfSight", "ProjectileSpawnPoint", "HealthComponent", "_hurtbox") groups=["Enemies"]]
+[node name="Scrounger" type="CharacterBody3D" node_paths=PackedStringArray("HealthComponent", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -616,18 +616,7 @@ platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_80mbd")
 Data = ExtResource("2_u2p2u")
-_animPlayer = NodePath("AnimationPlayer")
-_animatedSprite = NodePath("Body_AnimatedSprite3D")
-_animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _deathParticlesScene = ExtResource("3_n8h2i")
-OverheadHealthBar = NodePath("HealthBar")
-_stateVisual = NodePath("StateSprite3D")
-_timerWalk = NodePath("Timers/WalkTimer")
-_timerAction = NodePath("Timers/ActionWaitTimer")
-_timerAttackCooldown = NodePath("Timers/AttackCooldownTimer")
-DetectionArea = NodePath("DetectionArea3D")
-Detection_lineOfSight = NodePath("LOS_RayCast3D")
-ProjectileSpawnPoint = NodePath("SpellOrigin")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
 

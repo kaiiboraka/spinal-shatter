@@ -74,6 +74,7 @@ public partial class Pickup : RigidBody3D
 	public virtual void Initialize(PickupData data)
 	{
 		DebugManager.Debug($"Pickup: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
+		GlobalPosition = Vector3.Down;
 		this.data  = data;
 		CurrentState = PickupState.Idle;
 		Visible = true;

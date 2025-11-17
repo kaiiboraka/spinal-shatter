@@ -19,10 +19,10 @@ public partial class MagicCaster : Node
 	[ExportGroup("Charging")]
 	[Export] private float _maxChargeTime = 2.0f;
 
-	[Export] private FloatValueRange ManaCostRange = new(1.0f, 50.0f);
-	[Export] private FloatValueRange DamageRange = new(10f, 200f);
-	[Export] private FloatValueRange SpeedRange = new(20f, 40f);
-	[Export] private FloatValueRange SizeRange = new(.5f, 1.2f);
+	[Export] private FloatValueRange ManaCostRange;
+	[Export] private FloatValueRange DamageRange;
+	[Export] private FloatValueRange SpeedRange;
+	[Export] private FloatValueRange SizeRange;
 
 	[Export(PropertyHint.Range, "1,16,1")] private int _chargeIntervals = 8;
 
@@ -74,11 +74,11 @@ public partial class MagicCaster : Node
 		}
 
 		float damage = Mathf.Lerp(DamageRange.Min, DamageRange.Max, chargeRatio);
+
 		float speed = Mathf.Lerp(SpeedRange.Min, SpeedRange.Max, chargeRatio);
 		Vector3 initialVelocity = CalculateInitialVelocity(speed);
 
-		DebugManager.Debug(
-			$"Speed: {speed}, chargeRatio: {chargeRatio}, damage: {damage}, manaCost: {manaCost}");
+		// DebugManager.Debug($"Speed: {speed}, chargeRatio: {chargeRatio}, damage: {damage}, manaCost: {manaCost}");
 
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{

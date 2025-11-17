@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 namespace SpinalShatter;
 
+[Tool, GlobalClass]
 public partial class EnemySpawner : Node3D
 {
     [Signal] public delegate void SpawningFinishedEventHandler();
     
-    [Export] private float _spawnRadius = 5.0f;
+
+    private float _spawnRadius = 10.0f;
     [Export] private float _spawnInterval = 1.0f;
 
     private LevelRoom _owningRoom;
@@ -17,8 +19,32 @@ public partial class EnemySpawner : Node3D
     private int _activeEnemyCount = 0;
     private readonly Godot.Collections.Dictionary<PackedScene, ObjectPoolManager<Node3D>> _pools = new();
 
+    private MeshInstance3D radiusViewerInstance;
+    private CylinderMesh radiusViewer;
+
+    [Export(PropertyHint.Range, ".5, 20")]
+    public float SpawnRadius
+    {
+        get => _spawnRadius;
+        private set
+        {
+            _spawnRadius = Mathf.Max(value, .5f);
+            SetRadius(_spawnRadius);
+        }
+    }
+
+
+    [ExportToolButton("SetSpawnRadius", Icon = "CylinderShape3D")]
+    public Callable SetSpawnRadiusButton => Callable.From(() => SetRadius(_spawnRadius));
+
+
     public override void _Ready()
     {
+        if (Engine.IsEditorHint()) return;
+
+        GetRadiusViewer();
+        radiusViewerInstance.QueueFree();
+
         var parent = GetParent();
         while (parent is not LevelRoom)
         {
@@ -37,6 +63,25 @@ public partial class EnemySpawner : Node3D
         AddChild(_spawnTimer);
         _spawnTimer.WaitTime = _spawnInterval;
         _spawnTimer.Timeout += OnSpawnTimerTimeout;
+    }
+
+    private void SetRadius(float newRadius)
+    {
+        if (!GetRadiusViewer()) return;
+
+        radiusViewer.TopRadius = newRadius;
+        radiusViewer.BottomRadius = newRadius;
+    }
+
+    private bool GetRadiusViewer()
+    {
+        if (radiusViewer != null) return false;
+        if (!this.IsReady()) return false;
+
+        radiusViewerInstance ??= GetNode<MeshInstance3D>("RadiusViewer");
+        radiusViewer ??= radiusViewerInstance.Mesh as CylinderMesh;
+
+        return  radiusViewer != null;
     }
 
     public void StartSpawningWave(Array<PackedScene> enemies)
@@ -103,7 +148,7 @@ public partial class EnemySpawner : Node3D
         {
             newEnemy.OwningPool = pool;
 
-            var randomOffset = new Vector2(GD.Randf(), GD.Randf()).Normalized() * (float)GD.RandRange(0, _spawnRadius);
+            var randomOffset = new Vector2(GD.Randf(), GD.Randf()).Normalized() * (float)GD.RandRange(0, SpawnRadius);
             newEnemy.GlobalPosition = GlobalPosition + new Vector3(randomOffset.X, 0, randomOffset.Y) + Vector3.Up;
             
             newEnemy.EnemyDied += OnEnemyDied;

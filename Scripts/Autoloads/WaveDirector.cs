@@ -63,15 +63,6 @@ public partial class WaveDirector : Node
 
 	public override void _Ready()
 	{
-		if (DebugManager.Instance == null)
-		{
-			GD.PrintErr("WaveDirector: DebugManager.Instance is null in _Ready!");
-		}
-		else
-		{
-			DebugManager.Debug("WaveDirector: _Ready called.");
-		}
-
 		RoundTimer = GetNode<Timer>("%RoundTimer");
 		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
 		RoundTimer.Timeout += OnRoundLost;
@@ -84,11 +75,6 @@ public partial class WaveDirector : Node
 
 	public void SetPlayer(PlayerBody playerInstance)
 	{
-		if (DebugManager.Instance == null)
-		{
-			GD.PrintErr("WaveDirector: DebugManager.Instance is null when setting player!");
-		}
-
 		if (playerInstance == null)
 		{
 			DebugManager.Error("WaveDirector: Attempted to set player with a null instance!");

@@ -95,24 +95,39 @@ transform = Transform3D(1, -1.0658141e-14, -6.352747e-22, 0, -4.371139e-08, 1, -
 unique_name_in_owner = true
 
 [node name="Ground_EnemySpawner" parent="Spawners" instance=ExtResource("5_gc8yr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.828766, 0, -39.194263)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.828766, 0, -39.19427)
 _spawnInterval = 1.0
+SpawnRadius = 8.0
 
 [node name="Ground_EnemySpawner2" parent="Spawners" instance=ExtResource("5_gc8yr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.17124, 0, 43.80574)
 _spawnInterval = 1.0
+SpawnRadius = 8.0
 
 [node name="Ground_EnemySpawner3" parent="Spawners" instance=ExtResource("5_gc8yr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.828762, 0, 54.80574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.828762, 0, 43.805733)
 _spawnInterval = 1.0
+SpawnRadius = 8.0
 
 [node name="Ground_EnemySpawner4" parent="Spawners" instance=ExtResource("5_gc8yr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8289986, 0, -54.806)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.828999, 0, -40.806)
 _spawnInterval = 1.0
+SpawnRadius = 8.0
 
 [node name="Scrap_EnemySpawner5" parent="Spawners" instance=ExtResource("5_gc8yr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.82899, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.82899, 0, -54.00001)
 _spawnInterval = 1.0
+SpawnRadius = 8.0
+
+[node name="Scrap_EnemySpawner6" parent="Spawners" instance=ExtResource("5_gc8yr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.828991, 0, 57.000008)
+_spawnInterval = 1.0
+SpawnRadius = 8.0
+
+[node name="Scrap_EnemySpawner7" parent="Spawners" instance=ExtResource("5_gc8yr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.82899, 0, -1)
+_spawnInterval = 1.0
+SpawnRadius = 8.0
 
 [node name="AudioPlayers" type="Node3D" parent="."]
 

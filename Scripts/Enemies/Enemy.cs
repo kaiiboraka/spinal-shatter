@@ -16,19 +16,17 @@ public partial class Enemy : Combatant
 	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
 
-	[Export] private AnimationPlayer _animPlayer;
+	private AnimationPlayer _animPlayer;
 
-	[Export] private AnimatedSprite3D _animatedSprite;
-	[Export] private AnimatedSprite3D _animatedSprite_Eye;
+	private AnimatedSprite3D _animatedSprite;
+	private AnimatedSprite3D _animatedSprite_Eye;
 	[Export] private PackedScene _deathParticlesScene;
-	[Export] private OverheadHealthBar OverheadHealthBar { get; set; }
-	[Export] private StateSprite3d _stateVisual;
+	private OverheadHealthBar OverheadHealthBar { get; set; }
+	private StateSprite3d _stateVisual;
 
 	private EnemyAudioData AudioData;
 
-	[ExportSubgroup("Timers", "_timer")]
 	private Timer _timerWalk;
-
 	private Timer _timerPool;
 	private Timer _timerAction;
 	private Timer _timerAttackCooldown;
@@ -60,16 +58,11 @@ public partial class Enemy : Combatant
 	private float ProjectileSpeed { get; set; } = 20.0f;
 	private PackedScene ProjectileScene;
 
-	[ExportSubgroup("Detection", "Detection")] [Export]
 	private Area3D DetectionArea;
-
-	[Export] private RayCast3D Detection_lineOfSight;
-
-	[ExportSubgroup("Attack", "Attack")]
-	[Export] private Area3D Attack_meleeHitbox;
-
-	[ExportSubgroup("Projectiles", "Projectile")]
-	[Export] private Node3D ProjectileSpawnPoint;
+	private RayCast3D Detection_lineOfSight;
+	private Area3D Combat_meleeHitbox;
+	private Area3D Combat_hurtbox;
+	private Node3D ProjectileSpawnPoint;
 
 
 	private PlayerBody _player;
@@ -97,30 +90,15 @@ public partial class Enemy : Combatant
 
 		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
 
+		GetComponents();
+
 		// Collect all collision shapes for activation/deactivation
 		_collisionShapes = GetChildren().OfType<CollisionShape3D>().ToList();
-		if (DetectionArea != null)
-		{
-			_collisionShapes.AddRange(DetectionArea.GetChildren().OfType<CollisionShape3D>());
-		}
 
-		if (Attack_meleeHitbox != null)
-		{
-			_collisionShapes.AddRange(Attack_meleeHitbox.GetChildren().OfType<CollisionShape3D>());
-		}
-
-
-		OverheadHealthBar ??= GetNode<OverheadHealthBar>("%HealthBar");
 		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
 
 		DetectionArea.BodyEntered += OnDetectionAreaBodyEntered;
 		DetectionArea.BodyExited += OnDetectionAreaBodyExited;
-
-		_timerWalk = GetNode<Timer>("Timers/WalkTimer");
-		_timerAction = GetNode<Timer>("Timers/ActionWaitTimer");
-		_timerAttackCooldown = GetNode<Timer>("Timers/AttackCooldownTimer");
-		_timerPool = GetNode<Timer>("Timers/PoolTimer");
-		_timerBlink = GetNode<Timer>("Timers/BlinkTimer");
 
 		_timerPool.WaitTime = Mathf.Max(
 			_timerBlink.WaitTime,
@@ -132,9 +110,9 @@ public partial class Enemy : Combatant
 
 		// _animPlayer.AnimationFinished += OnAnimationFinished;
 
-		if (!ProjectileIsRanged)
+		if (!ProjectileIsRanged && Combat_meleeHitbox != null)
 		{
-			Attack_meleeHitbox.AreaEntered += area =>
+			Combat_meleeHitbox.AreaEntered += area =>
 			{
 				if (area.Owner is PlayerBody player)
 				{
@@ -143,8 +121,40 @@ public partial class Enemy : Combatant
 			};
 		}
 
+		EnableCollisions();
+
 		// Start patrolling
 		ChangeState(AIState.Patrolling);
+	}
+
+	private void GetComponents()
+	{
+		_animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		_animatedSprite = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D");
+		_animatedSprite_Eye = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D/Eye_AnimatedSprite");
+		OverheadHealthBar = GetNode<OverheadHealthBar>("HealthBar");
+		_stateVisual = GetNode<StateSprite3d>("StateSprite3D");
+
+		_timerWalk = GetNode<Timer>("Timers/WalkTimer");
+		_timerAction = GetNode<Timer>("Timers/ActionWaitTimer");
+		_timerAttackCooldown = GetNode<Timer>("Timers/AttackCooldownTimer");
+		_timerPool = GetNode<Timer>("Timers/PoolTimer");
+		_timerBlink = GetNode<Timer>("Timers/BlinkTimer");
+
+		DetectionArea = GetNode<Area3D>("DetectionArea3D");
+		Detection_lineOfSight = GetNode<RayCast3D>("LOS_RayCast3D");
+
+		Combat_hurtbox = GetNode<Area3D>("Hurtbox");
+
+		if (HasNode("MeleeHitbox"))
+		{
+			Combat_meleeHitbox = GetNode<Area3D>("MeleeHitbox");
+		}
+
+		if (HasNode("SpellOrigin"))
+		{
+			ProjectileSpawnPoint = GetNode<Node3D>("SpellOrigin");
+		}
 	}
 
 	private void ApplyData(EnemyData data)
@@ -322,7 +332,8 @@ public partial class Enemy : Combatant
 				Caster = this,
 				Damage = AttackDamage,
 				InitialVelocity = direction * ProjectileSpeed,
-				StartPosition = ProjectileSpawnPoint.GlobalPosition
+				StartPosition = ProjectileSpawnPoint.GlobalPosition,
+				SizingScale = new FloatValueRange(1),
 			};
 			projectile.Launch(launchData);
 		}
@@ -600,22 +611,20 @@ public partial class Enemy : Combatant
 
 	private void TryToDie()
 	{
-		DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}");
-		DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition before: {GlobalPosition}");
+		DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}\n" +
+						   $"Death particles GlobalPosition before: {GlobalPosition}");
 
-		var deathParticles = _deathParticlesScene.Instantiate() as OneshotParticles;
-
-		GetParent().AddChild(deathParticles);
-		deathParticles.GlobalPosition = GlobalPosition;
-
-		DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
-		deathParticles.PlayParticles(Data.DeathParticleCount);
+		if (_deathParticlesScene.Instantiate() is OneshotParticles deathParticles)
+		{
+			GetParent().AddChild(deathParticles);
+			deathParticles.GlobalPosition = GlobalPosition;
+			DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
+			deathParticles.PlayParticles(Data.DeathParticleCount);
+		}
 
 		_animPlayer.Play("Die");
 		_timerBlink.Start();
 
-		DebugManager.Debug(
-			$"Enemy: {Name} Playing Die animation. CurrentAnimation: {_animPlayer.CurrentAnimation}, Length: {_animPlayer.CurrentAnimationLength}");
 		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop, this.GlobalPosition);
@@ -683,6 +692,39 @@ public partial class Enemy : Combatant
 		foreach (var shape in _collisionShapes)
 		{
 			shape.Disabled = true;
+		}
+
+		Combat_hurtbox.SetDeferred("Monitorable", false);
+		Combat_hurtbox.SetDeferred("Monitoring", false);
+
+		DetectionArea.SetDeferred("Monitorable", false);
+		DetectionArea.SetDeferred("Monitoring", false);
+
+		if (Combat_meleeHitbox != null)
+		{
+			Combat_meleeHitbox.SetDeferred("Monitorable", false);
+			Combat_meleeHitbox.SetDeferred("Monitoring", false);
+		}
+	}
+
+
+	private void EnableCollisions()
+	{
+		foreach (var shape in _collisionShapes)
+		{
+			shape.Disabled = false;
+		}
+
+		Combat_hurtbox.SetDeferred("Monitorable", true);
+		Combat_hurtbox.SetDeferred("Monitoring", true);
+
+		DetectionArea.SetDeferred("Monitorable", true);
+		DetectionArea.SetDeferred("Monitoring", true);
+
+		if (Combat_meleeHitbox != null)
+		{
+			Combat_meleeHitbox.SetDeferred("Monitorable", true);
+			Combat_meleeHitbox.SetDeferred("Monitoring", true);
 		}
 	}
 

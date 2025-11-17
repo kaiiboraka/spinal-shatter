@@ -18,7 +18,7 @@ public partial class PickupManager : Node
 
 	private readonly Dictionary<PickupType, ObjectPoolManager<Pickup>> _pools = new();
 
-	[ExportToolButton("Sort Lists", Icon = "Array")]
+	[ExportToolButton("SortLists", Icon = "Array")]
 	public Callable SortListsButton => Callable.From(SortLists);
 
 	public void SortLists()
@@ -67,31 +67,14 @@ public partial class PickupManager : Node
 
 	public Array<Pickup> SpawnPickupAmount(PickupType type, int totalAmount, Vector3 position)
 	{
-		Array<Pickup> spawnedPickups = new Array<Pickup>();
-		switch (type)
+		Array<PickupData> which = type switch
 		{
-			case PickupType.Mana:
-				spawnedPickups = SpawnGreedy(ManaPickupData, totalAmount, position);
-				break;
-			case PickupType.Money:
-				double newTotal = totalAmount * (1 + _moneyAmountRandomization); // 1.15 x 100 = 115
-				double range = (_moneyAmountRandomization * 2.0f);
-				newTotal -= (totalAmount * GD.RandRange(0, range)); // 100 * .2 = 20
-				int roundUpTotal = newTotal.CeilingToInt();
-				Array<MoneyData> generateVariedMoneyDrop = GenerateVariedMoneyDrop(roundUpTotal);
-				DebugManager.Debug(
-					$"{type}: original {totalAmount}, new {newTotal}, rounded {roundUpTotal} -- {generateVariedMoneyDrop.Count} coins");
-				foreach (MoneyData moneyData in generateVariedMoneyDrop)
-				{
-					spawnedPickups.Add(SpawnPickup(moneyData, position));
-				}
+			PickupType.Money => new Array<PickupData>(MoneyPickupData),
+			PickupType.Mana => new Array<PickupData>(ManaPickupData),
+			_ => new Array<PickupData>()
+		};
 
-				break;
-			default:
-				return new Array<Pickup>();
-		}
-
-		return spawnedPickups;
+		return SpawnGreedy(which, totalAmount, position);
 	}
 
 	private Array<Pickup> SpawnGreedy<[MustBeVariant] T>(Array<T> sortedPickupData, int totalAmount, Vector3 position)
@@ -153,45 +136,45 @@ public partial class PickupManager : Node
 		if (pickup == null) return null; // Pool is full
 
 		// Add a random offset to the spawn position
-		pickup.GlobalPosition = position;
 		pickup.Initialize(data);
+		pickup.GlobalPosition = position;
 		pickup.Sprite.RandomizeAnimation();
 		return pickup;
 	}
 
-	private Array<MoneyData> GenerateVariedMoneyDrop(int totalAmount)
-	{
-		int currentAmount = totalAmount;
-
-		// Use the pre-sorted MoneyPickupData array directly
-		// Dictionary<int, MoneyData> moneyDataMap = new Dictionary<int, MoneyData>();
-		// foreach (MoneyData md in MoneyPickupData)
-		// {
-		//     moneyDataMap[md.Value] = md;
-		// }
-
-		Array<MoneyData> generatedCoins = new Array<MoneyData>();
-		foreach (MoneyData moneyData in MoneyPickupData)
-		{
-			int currentDenominationValue = moneyData.Value;
-
-			if (GD.Randf() < _moneyBreakdownChance && currentDenominationValue > 1)
-			{
-				// Decide to 'break down' this coin.
-				// Its value remains in currentAmount to be processed by smaller denominations.
-			}
-			else
-			{
-				int numCoins = currentAmount / currentDenominationValue;
-				for (int i = 0; i < numCoins; i++)
-				{
-					generatedCoins.Add(moneyData);
-				}
-
-				currentAmount %= currentDenominationValue;
-			}
-		}
-
-		return generatedCoins;
-	}
+	// private Array<MoneyData> GenerateVariedMoneyDrop(int totalAmount)
+	// {
+	// 	int currentAmount = totalAmount;
+	//
+	// 	// Use the pre-sorted MoneyPickupData array directly
+	// 	// Dictionary<int, MoneyData> moneyDataMap = new Dictionary<int, MoneyData>();
+	// 	// foreach (MoneyData md in MoneyPickupData)
+	// 	// {
+	// 	//     moneyDataMap[md.Value] = md;
+	// 	// }
+	//
+	// 	Array<MoneyData> generatedCoins = new Array<MoneyData>();
+	// 	foreach (MoneyData moneyData in MoneyPickupData)
+	// 	{
+	// 		int currentDenominationValue = moneyData.Value;
+	//
+	// 		if (GD.Randf() < _moneyBreakdownChance && currentDenominationValue > 1)
+	// 		{
+	// 			// Decide to 'break down' this coin.
+	// 			// Its value remains in currentAmount to be processed by smaller denominations.
+	// 		}
+	// 		else
+	// 		{
+	// 			int numCoins = currentAmount / currentDenominationValue;
+	// 			for (int i = 0; i < numCoins; i++)
+	// 			{
+	// 				generatedCoins.Add(moneyData);
+	// 			}
+	//
+	// 			currentAmount %= currentDenominationValue;
+	// 		}
+	// 	}
+	//
+	// 	return generatedCoins;
+	// }
 }

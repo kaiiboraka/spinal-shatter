@@ -101,28 +101,28 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -95.
 unique_name_in_owner = true
 
 [node name="Swooper_EnemySpawner" parent="Spawners" instance=ExtResource("5_s21hx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.491798, 0.741472, -28.69205)
-_spawnInterval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.49179, 0.741472, -25.69205)
+SpawnRadius = 8.0
 
 [node name="Swooper_EnemySpawner2" parent="Spawners" instance=ExtResource("5_s21hx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.12745, 0.741472, 28.897339)
-_spawnInterval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.127441, 0.741472, 25.897339)
+SpawnRadius = 8.0
 
 [node name="Zapper_EnemySpawner" parent="Spawners" instance=ExtResource("5_s21hx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.000004, 0.52, -35)
-_spawnInterval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.000011, 0.52, -32)
 
 [node name="Zapper_EnemySpawner2" parent="Spawners" instance=ExtResource("5_s21hx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -84.61924, 0.52, 35.20529)
-_spawnInterval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85, 0.52, 32)
 
 [node name="Flying_EnemySpawner2" parent="Spawners" instance=ExtResource("5_s21hx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.93708, 0.52, -35)
-_spawnInterval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85, 0.52, -32)
 
 [node name="Flying_EnemySpawner3" parent="Spawners" instance=ExtResource("5_s21hx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.317823, 0.52, 35.205307)
-_spawnInterval = 1.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0.52, 32)
+
+[node name="Flying_EnemySpawner4" parent="Spawners" instance=ExtResource("5_s21hx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.000008, 0.52, 0)
+SpawnRadius = 8.0
 
 [node name="AudioPlayers" type="Node3D" parent="."]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=36 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -19,7 +19,11 @@
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
+[ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/PlayerData/Sphere_ManaCostRange.tres" id="15_81gbe"]
+[ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/PlayerData/Sphere_DamageRange.tres" id="16_3vnku"]
+[ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/PlayerData/Sphere_SpeedRange.tres" id="17_hqlak"]
 [ext_resource type="AudioStream" uid="uid://cm33h8bl2j42s" path="res://assets/Audio/SFX/Odead.wav" id="17_ibpri"]
+[ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/PlayerData/Sphere_SizeRange.tres" id="18_mc0oj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
 radius = 1.0
@@ -128,6 +132,10 @@ _audioPlayer_Charge = NodePath("../Audio/SpellCharge_AudioStreamPlayer3D")
 _audio_Charge = ExtResource("8_w6cdd")
 _audio_Cast = ExtResource("7_b4kmf")
 _maxChargeTime = 1.5
+ManaCostRange = ExtResource("15_81gbe")
+DamageRange = ExtResource("16_3vnku")
+SpeedRange = ExtResource("17_hqlak")
+SizeRange = ExtResource("18_mc0oj")
 _chargeIntervals = 10
 
 [node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
@@ -241,7 +249,7 @@ collide_with_areas = true
 
 [node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.60451174, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34480375, -0.60451174, -0.73695886)
 
 [node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)

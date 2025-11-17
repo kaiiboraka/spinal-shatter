@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Godot;
 
+namespace SpinalShatter;
+
 [GlobalClass, Tool]
 public partial class ManaParticleData : PickupData
 {

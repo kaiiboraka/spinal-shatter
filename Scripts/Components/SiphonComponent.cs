@@ -65,6 +65,8 @@ public partial class SiphonComponent : Node
 		{
 			if (area.GetOwner() is Pickup pickup)
 			{
+				pickup.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.SOLID_GROUND_NUM);
+
 				// Attract the pickup if it's not already being attracted
 				if (_attractedPickups.Add(pickup) &&
 					pickup.State != Pickup.PickupState.Collected &&
@@ -84,6 +86,7 @@ public partial class SiphonComponent : Node
 
 		foreach (var pickup in _attractedPickups)
 		{
+			pickup.AddCollisionMask3D(LayerNames.PHYSICS_3D.SOLID_GROUND_NUM);
 			if (IsInstanceValid(pickup) && pickup.State == Pickup.PickupState.Attracted)
 			{
 				pickup.DriftIdle();

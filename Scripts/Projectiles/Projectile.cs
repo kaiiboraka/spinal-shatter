@@ -141,7 +141,7 @@ public partial class Projectile : RigidBody3D
 			DamageGrowthConstant = 0.0f, // Indicates fixed damage, no scaling
 			AbsoluteMaxProjectileSpeed = initialVelocity.Length(), // Use current speed as max for fixed projectiles
 			MaxInitialManaCost = 1.0f, // Nominal max initial mana cost for fixed-damage projectiles
-			SizingScale = new FloatValueRange(1, 1)
+			SizingScale = new FloatValueRange(1)
 		};
 		Launch(launchData);
 	}
@@ -249,6 +249,8 @@ public partial class Projectile : RigidBody3D
 		float manaLostAmount = ManaCost * reductionPercent; // * velocityFactor;
 
 		AudioManager.Instance.PlaySoundAttachedToNode(AudioStream_Fireball, this);
+
+		// DebugManager.Trace($"projectile impact point: {impactPoint}");
 		ApplyManaLoss(manaLostAmount, impactPoint, false);
 
 		_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
@@ -272,7 +274,7 @@ public partial class Projectile : RigidBody3D
 
 		// Eject mana particles
 		float manaToEject = isEnemyHit ? manaLostAmount * EnemyManaRefundFraction : manaLostAmount;
-		EjectMana(manaToEject, impactPosition);
+			// EjectMana(manaToEject, impactPosition);
 
 		// Reduce projectile's mana
 		ManaCost -= manaLostAmount;

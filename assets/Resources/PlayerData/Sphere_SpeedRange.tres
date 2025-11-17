@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3 uid="uid://dqyu0ptyom3ia"]
+
+[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_ok74p"]
+
+[resource]
+script = ExtResource("1_ok74p")
+Min = 20.0
+Max = 40.0

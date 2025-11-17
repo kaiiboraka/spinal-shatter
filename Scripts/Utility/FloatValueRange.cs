@@ -11,10 +11,10 @@ public partial class FloatValueRange : ValueRange<float>
 		_max = 1;
 	}
 
-	public FloatValueRange(float min)
+	public FloatValueRange(float minMax)
 	{
-		_min = min;
-		_max = min;
+		_min = minMax;
+		_max = minMax;
 	}
 
 	public FloatValueRange(float min, float max)

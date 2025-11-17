@@ -488,7 +488,7 @@ _data = {
 &"Side": SubResource("Animation_h7ptk")
 }
 
-[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("_animPlayer", "_animatedSprite", "_animatedSprite_Eye", "OverheadHealthBar", "_stateVisual", "DetectionArea", "Detection_lineOfSight", "Attack_meleeHitbox", "HealthComponent", "_hurtbox") groups=["Enemies"]]
+[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("HealthComponent", "_hurtbox") groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -496,15 +496,7 @@ platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_usy6x")
 Data = ExtResource("2_317k4")
-_animPlayer = NodePath("AnimationPlayer")
-_animatedSprite = NodePath("Body_AnimatedSprite3D")
-_animatedSprite_Eye = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite")
 _deathParticlesScene = ExtResource("3_g6587")
-OverheadHealthBar = NodePath("HealthBar")
-_stateVisual = NodePath("StateSprite3D")
-DetectionArea = NodePath("DetectionArea3D")
-Detection_lineOfSight = NodePath("LOS_RayCast3D")
-Attack_meleeHitbox = NodePath("MeleeHitbox")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
 
@@ -590,7 +582,7 @@ debug_color = Color(1, 0.5498417, 0.3978175, 0.41960785)
 [node name="Hurtbox" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58596015, 0)
 collision_layer = 2048
-collision_mask = 8192
+collision_mask = 12288
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64926755, 0)
@@ -598,6 +590,7 @@ shape = SubResource("CapsuleShape3D_s0m4p")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 
 [node name="DetectionArea3D" type="Area3D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

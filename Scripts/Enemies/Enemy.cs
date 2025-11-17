@@ -45,8 +45,6 @@ public partial class Enemy : Combatant
 	// Combat
 	public int MoneyAmountToDrop { get; private set; } = 10;
 	public int ManaAmountToDrop { get; private set; } = 10;
-	private float Mana_minRefundPercent = 0.05f;
-	private float Mana_maxRefundPercent = 0.30f;
 
 	// Attack
 	private float AttackRange { get; set; } = 2.0f;
@@ -172,8 +170,6 @@ public partial class Enemy : Combatant
 		KnockbackWeight = data.KnockbackWeight;
 		MoneyAmountToDrop = data.MoneyAmountToDrop;
 		ManaAmountToDrop = data.ManaAmountToDrop;
-		Mana_minRefundPercent = data.ManaMinRefundPercent;
-		Mana_maxRefundPercent = data.ManaMaxRefundPercent;
 
 		// Attack
 		AttackRange = data.AttackRange;
@@ -303,7 +299,7 @@ public partial class Enemy : Combatant
 
 	private void ChangeState(AIState newState, bool force = false)
 	{
-		if ((_currentState == newState && !force) || _currentState == AIState.Dying) return;
+		if ((_currentState == newState && !force) || (_currentState == AIState.Dying && !force)) return;
 
 		ExitState(_currentState);
 		_currentState = newState;
@@ -574,19 +570,13 @@ public partial class Enemy : Combatant
 
 	public override void OnHurtboxBodyEntered(Node3D body)
 	{
+		if (isDying) return;
+
 		base.OnHurtboxBodyEntered(body); // Handles damage + projectile destruction
 
 		if (body is Projectile projectile && projectile.Owner != this)
 		{
 			projectile.OnEnemyHit(projectile.GlobalPosition);
-
-			// Enemy-specific: Spawn mana particles as a refund
-			float refundPercent = (float)GD.RandRange(Mana_minRefundPercent, Mana_maxRefundPercent);
-			int manaToSpawn = Mathf.RoundToInt(projectile.ManaCost * refundPercent);
-			if (manaToSpawn > 0)
-			{
-				PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, projectile.GlobalPosition);
-			}
 		}
 	}
 
@@ -648,11 +638,12 @@ public partial class Enemy : Combatant
 	public override void Reset()
 	{
 		base.Reset();
+		Activate();
 
 		// Add any enemy-specific reset logic here
-		Activate();
 		_animPlayer.Stop(); // Stop any playing animation
-		_animPlayer.Play("Front_Idle"); // Reset to a default idle animation
+		EnableCollisions();
+		ChangeState(AIState.Idle, true);
 	}
 
 	public void Deactivate()
@@ -689,43 +680,21 @@ public partial class Enemy : Combatant
 
 	private void DisableCollisions()
 	{
-		foreach (var shape in _collisionShapes)
-		{
-			shape.Disabled = true;
-		}
-
-		Combat_hurtbox.SetDeferred("Monitorable", false);
-		Combat_hurtbox.SetDeferred("Monitoring", false);
-
-		DetectionArea.SetDeferred("Monitorable", false);
-		DetectionArea.SetDeferred("Monitoring", false);
-
-		if (Combat_meleeHitbox != null)
-		{
-			Combat_meleeHitbox.SetDeferred("Monitorable", false);
-			Combat_meleeHitbox.SetDeferred("Monitoring", false);
-		}
+		// Remove enemy from its physics layers, making it undetectable.
+		this.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
+		Combat_hurtbox.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
+		Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
+		Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
 	}
 
 
 	private void EnableCollisions()
 	{
-		foreach (var shape in _collisionShapes)
-		{
-			shape.Disabled = false;
-		}
-
-		Combat_hurtbox.SetDeferred("Monitorable", true);
-		Combat_hurtbox.SetDeferred("Monitoring", true);
-
-		DetectionArea.SetDeferred("Monitorable", true);
-		DetectionArea.SetDeferred("Monitoring", true);
-
-		if (Combat_meleeHitbox != null)
-		{
-			Combat_meleeHitbox.SetDeferred("Monitorable", true);
-			Combat_meleeHitbox.SetDeferred("Monitoring", true);
-		}
+		// Restore enemy to its physics layers.
+		this.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
+		Combat_hurtbox.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
+		Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
+		Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
 	}
 
 	private void StopActionTimers()

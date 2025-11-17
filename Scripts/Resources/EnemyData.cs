@@ -30,8 +30,6 @@ public partial class EnemyData : Resource
     [Export] public int MoneyAmountToDrop { get; private set; } = 10;
     [ExportSubgroup("Mana", "Mana")]
     [Export] public int ManaAmountToDrop { get; private set; } = 10;
-    [Export(PropertyHint.Range, "0.0, 1.0")] public float ManaMinRefundPercent { get; private set; } = 0.05f;
-    [Export(PropertyHint.Range, "0.0, 1.0")] public float ManaMaxRefundPercent { get; private set; } = 0.30f;
 
     // Attack
     [ExportSubgroup("Attack", "Attack")]

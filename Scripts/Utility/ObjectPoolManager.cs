@@ -52,10 +52,6 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
         obj.SetDeferred("visible", false);
         obj.SetPhysicsProcess(false);
         obj.SetProcess(false);
-        if (obj.HasMethod("Reset"))
-        {
-	        obj.Call("Reset");
-        }
 
         if (obj is Node3D node3D)
         {
@@ -105,6 +101,11 @@ public partial class ObjectPoolManager<T> : Node where T : Node, new()
             DEBUG.Info($"ObjectPoolManager: Instantiated new object {obj.Name}.");
         }
 
+        if (obj.HasMethod("Reset"))
+        {
+	        obj.Call("Reset");
+        }
+        
         obj.SetProcess(true);
         obj.SetPhysicsProcess(true);
         obj.SetDeferred("visible", true);

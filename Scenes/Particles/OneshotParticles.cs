@@ -19,7 +19,7 @@ public partial class OneshotParticles : Node3D
 
 	public void PlayParticles(int amount = 10)
 	{
-		_gpuParticles.Amount = amount;
+		_gpuParticles.Amount = Mathf.Max(amount, 2);
 		_freeTimer.Start();
 		_gpuParticles.Emitting = true;
 		_gpuParticles.Restart();

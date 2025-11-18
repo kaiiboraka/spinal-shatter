@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://vwjp74dqswnl"]
 
-[ext_resource type="PackedScene" path="res://addons/maaacks_game_template/base/nodes/overlaid_menu/overlaid_menu_container.tscn" id="1_a132s"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Menu Templates/scenes/menus/options_menu/mini_options_menu_with_reset.tscn" id="2_3yh8d"]
+[ext_resource type="PackedScene" uid="uid://bqqngki8bm3iq" path="res://addons/maaacks_game_template/base/nodes/overlaid_menu/overlaid_menu_container.tscn" id="1_a132s"]
+[ext_resource type="PackedScene" uid="uid://cai1glbxpmne5" path="res://Scenes/UI/Menu Templates/scenes/menus/options_menu/mini_options_menu_with_reset.tscn" id="2_3yh8d"]
 
 [node name="OverlaidMenuContainer" instance=ExtResource("1_a132s")]
-menu_scene = ExtResource("2_3yh8d")
 mouse_filter = 1
+menu_scene = ExtResource("2_3yh8d")
 
 [node name="TitleLabel" parent="MenuPanelContainer/MarginContainer/BoxContainer/TitleMargin" index="0"]
 text = "Options"

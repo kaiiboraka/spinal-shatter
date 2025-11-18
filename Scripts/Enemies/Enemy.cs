@@ -13,7 +13,8 @@ public partial class Enemy : Combatant
 	private CollisionShape3D _collisionShape = new();
 	private AIState _currentState = AIState.Idle;
 
-	[ExportGroup("Components")] [Export] public EnemyData Data { get; private set; }
+	[ExportGroup("Components")]
+	[Export] public EnemyData Data { get; private set; }
 
 	private AnimationPlayer _animPlayer;
 

@@ -24,6 +24,8 @@ func _add_audio_control(bus_name : String, bus_value : float, bus_iter : int) ->
 func _add_audio_bus_controls() -> void:
 	for bus_iter in AudioServer.bus_count:
 		var bus_name : String = AppSettings.get_audio_bus_name(bus_iter)
+		# Only add the Master bus or buses that send directly to the Master bus
+		#if bus_name == "Master" or AudioServer.get_bus_send(bus_iter) == "Master":
 		var linear : float = AppSettings.get_bus_volume(bus_iter)
 		_add_audio_control(bus_name, linear, bus_iter)
 

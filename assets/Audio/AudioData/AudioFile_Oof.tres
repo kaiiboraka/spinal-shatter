@@ -1,0 +1,11 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://qmk80g5duni7"]
+
+[ext_resource type="AudioStream" uid="uid://cxqyhepdpana4" path="res://assets/Audio/AudioData/SFX_Oof.tres" id="1_7n2gd"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_5ckhk"]
+
+[resource]
+resource_name = "Oof"
+script = ExtResource("2_5ckhk")
+Stream = ExtResource("1_7n2gd")
+PitchScale = 0.88
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

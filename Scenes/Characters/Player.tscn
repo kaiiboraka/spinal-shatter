@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=42 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/PlayerData/Sphere_ManaCostRange.tres" id="15_81gbe"]
 [ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/PlayerData/Sphere_DamageRange.tres" id="16_3vnku"]
+[ext_resource type="AudioStream" uid="uid://cxqyhepdpana4" path="res://assets/Audio/AudioData/SFX_Oof.tres" id="16_mc0oj"]
 [ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="16_qd2bg"]
 [ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/AudioData/SFX_ManaParticle.tres" id="16_qeewm"]
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/PlayerData/Sphere_SpeedRange.tres" id="17_hqlak"]
@@ -129,7 +130,7 @@ _manaComponent = NodePath("../ManaComponent")
 _spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 _audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 _audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
-_audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D2")
+_audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D")
 _audio_Cast = ExtResource("7_b4kmf")
 _audio_Charge = ExtResource("8_w6cdd")
 _audio_ChargeComplete = ExtResource("9_ibpri")
@@ -188,12 +189,21 @@ shape = SubResource("CapsuleShape3D_1i50u")
 
 [node name="Audio" type="Node3D" parent="."]
 
-[node name="Hurt_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Global_AudioStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("17_ibpri")
-volume_db = 5.0
 unit_size = 20.0
 pitch_scale = 1.2
-bus = &"SFX"
+bus = &"Voice"
+doppler_tracking = 2
+
+[node name="Oof_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("16_mc0oj")
+unit_size = 20.0
+pitch_scale = 0.88
+max_polyphony = 2
+bus = &"_Oof"
 doppler_tracking = 2
 
 [node name="ManaFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
@@ -225,20 +235,18 @@ doppler_tracking = 2
 stream = ExtResource("7_b4kmf")
 pitch_scale = 2.5
 max_polyphony = 3
-bus = &"Spells"
+bus = &"_Spells"
 doppler_tracking = 2
 
 [node name="SpellChargeBack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("10_shd1k")
-volume_db = -8.0
 pitch_scale = 2.0
-bus = &"Charge_Back"
+bus = &"_Charge_Back"
 doppler_tracking = 2
 
-[node name="SpellChargeBeep_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="SpellChargeBeep_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("9_ibpri")
-volume_db = -21.0
-bus = &"Charge_Complete"
+bus = &"_Charge_Complete"
 doppler_tracking = 2
 
 [node name="StandUpRay" type="RayCast3D" parent="."]

@@ -1,0 +1,12 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://c66134p2k4fkl"]
+
+[ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="1_d55pv"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_rme0w"]
+
+[resource]
+resource_name = "SpellChargeBack"
+script = ExtResource("2_rme0w")
+Stream = ExtResource("1_d55pv")
+PitchScale = 2.0
+VolumeDbModifier = -8.0
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

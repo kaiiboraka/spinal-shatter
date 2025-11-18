@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=11 format=3 uid="uid://cgapug46f4s45"]
+[gd_resource type="AudioBusLayout" load_steps=13 format=3 uid="uid://cgapug46f4s45"]
 
 [sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_j3pel"]
 resource_name = "Amplify"
@@ -39,8 +39,8 @@ depth = 0.3
 [sub_resource type="AudioEffectDistortion" id="AudioEffectDistortion_g28q7"]
 resource_name = "Distortion"
 mode = 3
-pre_gain = 1.0
-drive = 0.8
+keep_hf_hz = 20500.0
+drive = 1.0
 
 [sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_g28q7"]
 resource_name = "LowPassFilter"
@@ -60,6 +60,14 @@ voice/3/depth_ms = 0.0
 voice/3/level_db = 0.0
 voice/3/cutoff_hz = 16000.0
 voice/3/pan = 0.0
+
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_n8wo2"]
+resource_name = "LowPassFilter"
+cutoff_hz = 1475.0
+
+[sub_resource type="AudioEffectPhaser" id="AudioEffectPhaser_g28q7"]
+resource_name = "Phaser"
+feedback = 0.8
 
 [resource]
 bus/0/volume_db = 0.06726074
@@ -93,7 +101,7 @@ bus/4/mute = false
 bus/4/bypass_fx = false
 bus/4/volume_db = 0.0
 bus/4/send = &"Master"
-bus/5/name = &"Spells"
+bus/5/name = &"_Spells"
 bus/5/solo = false
 bus/5/mute = false
 bus/5/bypass_fx = false
@@ -107,7 +115,7 @@ bus/5/effect/2/effect = SubResource("AudioEffectPhaser_j3pel")
 bus/5/effect/2/enabled = true
 bus/5/effect/3/effect = SubResource("AudioEffectDistortion_g28q7")
 bus/5/effect/3/enabled = true
-bus/6/name = &"Charge_Back"
+bus/6/name = &"_Charge_Back"
 bus/6/solo = false
 bus/6/mute = false
 bus/6/bypass_fx = false
@@ -117,7 +125,7 @@ bus/6/effect/0/effect = SubResource("AudioEffectPitchShift_j3pel")
 bus/6/effect/0/enabled = true
 bus/6/effect/1/effect = SubResource("AudioEffectLowPassFilter_g28q7")
 bus/6/effect/1/enabled = true
-bus/7/name = &"Charge_Complete"
+bus/7/name = &"_Charge_Complete"
 bus/7/solo = false
 bus/7/mute = false
 bus/7/bypass_fx = false
@@ -127,3 +135,13 @@ bus/7/effect/0/effect = SubResource("AudioEffectReverb_j3pel")
 bus/7/effect/0/enabled = true
 bus/7/effect/1/effect = SubResource("AudioEffectChorus_j3pel")
 bus/7/effect/1/enabled = true
+bus/8/name = &"_Oof"
+bus/8/solo = false
+bus/8/mute = false
+bus/8/bypass_fx = false
+bus/8/volume_db = 0.0
+bus/8/send = &"Voice"
+bus/8/effect/0/effect = SubResource("AudioEffectLowPassFilter_n8wo2")
+bus/8/effect/0/enabled = true
+bus/8/effect/1/effect = SubResource("AudioEffectPhaser_g28q7")
+bus/8/effect/1/enabled = true

@@ -1,0 +1,11 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://dlfxn1usva7jb"]
+
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="1_bad82"]
+[ext_resource type="AudioStream" uid="uid://cm33h8bl2j42s" path="res://assets/Audio/SFX/Odead.wav" id="1_nkuob"]
+
+[resource]
+resource_name = "PlayerDie_Voice"
+script = ExtResource("1_bad82")
+Stream = ExtResource("1_nkuob")
+PitchScale = 1.2
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

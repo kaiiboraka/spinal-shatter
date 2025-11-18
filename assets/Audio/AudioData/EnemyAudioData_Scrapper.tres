@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyAudioData" load_steps=5 format=3 uid="uid://dmgrvs0om4edm"]
+
+[ext_resource type="Script" uid="uid://bvg586is8exck" path="res://Scripts/Enemies/EnemyAudioData.cs" id="1_ctgn4"]
+[ext_resource type="AudioStream" uid="uid://cly1oxchbk3v0" path="res://assets/Audio/SFX/Punch.wav" id="1_luh0x"]
+[ext_resource type="AudioStream" uid="uid://rt8muaiwrhg2" path="res://assets/Audio/SFX/Skeleton Move.wav" id="2_1074j"]
+[ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="3_vlafn"]
+
+[resource]
+script = ExtResource("1_ctgn4")
+DieSound = ExtResource("2_1074j")
+HurtSound = ExtResource("3_vlafn")
+AttackSound = ExtResource("1_luh0x")
+metadata/_custom_type_script = "uid://bvg586is8exck"

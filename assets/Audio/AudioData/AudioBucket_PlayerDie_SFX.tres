@@ -1,0 +1,11 @@
+[gd_resource type="AudioStream" script_class="AudioBucket" load_steps=4 format=3 uid="uid://b831x1g38mrri"]
+
+[ext_resource type="AudioStream" uid="uid://dgxfiatt8g2x" path="res://assets/Audio/SFX/Exorcism.wav" id="1_3wgfd"]
+[ext_resource type="Script" uid="uid://dotxhewohd3yf" path="res://Scripts/Resources/AudioBucket.cs" id="1_gwyko"]
+[ext_resource type="AudioStream" uid="uid://j8bc5eq3u88u" path="res://assets/Audio/SFX/Slow.wav" id="2_tmh6n"]
+
+[resource]
+resource_name = "PlayerDie_SFX"
+script = ExtResource("1_gwyko")
+Bucket = Array[AudioStream]([ExtResource("1_3wgfd"), ExtResource("2_tmh6n")])
+metadata/_custom_type_script = "uid://dotxhewohd3yf"

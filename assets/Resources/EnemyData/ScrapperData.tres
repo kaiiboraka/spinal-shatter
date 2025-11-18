@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=6 format=3 uid="uid://c7gno2uhabeeb"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
-[ext_resource type="Resource" uid="uid://dmgrvs0om4edm" path="res://assets/Audio/AudioData/AudioData_Scrapper.tres" id="2_audi"]
+[ext_resource type="Resource" uid="uid://dmgrvs0om4edm" path="res://assets/Audio/AudioData/EnemyAudioData_Scrapper.tres" id="2_audi"]
 [ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValueRange.cs" id="2_esb67"]
 
 [sub_resource type="Resource" id="Resource_esb67"]

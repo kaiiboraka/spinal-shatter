@@ -1,0 +1,9 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://cxqyhepdpana4"]
+
+[ext_resource type="AudioStream" uid="uid://by6g5ikkxj3ic" path="res://assets/Audio/SFX/damage_Oof.wav" id="1_2x8u3"]
+
+[resource]
+random_pitch = 1.05
+random_volume_offset_db = 1.0
+streams_count = 1
+stream_0/stream = ExtResource("1_2x8u3")

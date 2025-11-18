@@ -73,10 +73,9 @@ public partial class PlayerBody : Combatant
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
-	private AudioStream Audio_Hurt;
-	private AudioStream Audio_DieSFX;
-	private AudioStream Audio_DieMusic;
-	private AudioStream Audio_DieVoice;
+
+	private AudioData AudioData;
+
 	private AudioStream Audio_footstepSoundsStream;
 	private AudioStreamRandomizer Audio_FootstepSounds => Audio_footstepSoundsStream as AudioStreamRandomizer;
 	private AudioStream Audio_footstepSprintSoundsStream;
@@ -100,7 +99,9 @@ public partial class PlayerBody : Combatant
 	private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
 
 	private Node3D parentLevel;
-	private AudioStreamPlayer3D AudioPlayer_Hurt;
+	private AudioStreamPlayer AudioPlayer_Global;
+	private AudioStreamPlayer3D AudioPlayer_Voice;
+	private AudioStreamPlayer3D AudioPlayer_Oof;
 	private AudioStreamPlayer3D AudioPlayer_MoneyFX;
 	private AudioStreamPlayer3D AudioPlayer_ManaFX;
 	public Node3D ParentLevel => parentLevel;
@@ -172,15 +173,14 @@ public partial class PlayerBody : Combatant
 		pickupArea = GetNode<Area3D>("PickupArea");
 
 		// Audio Players
-		AudioPlayer_Hurt = GetNode<AudioStreamPlayer3D>("Audio/Hurt_AudioStreamPlayer3D");
+		AudioPlayer_Oof = GetNode<AudioStreamPlayer3D>("Audio/Oof_AudioStreamPlayer3D");
+		AudioPlayer_Global = GetNode<AudioStreamPlayer>("Audio/Global_AudioStreamPlayer");
+		AudioPlayer_Voice = GetNode<AudioStreamPlayer3D>("Audio/Voice_AudioStreamPlayer3D");
 		AudioPlayer_ManaFX = GetNode<AudioStreamPlayer3D>("Audio/ManaFX_AudioStreamPlayer3D");
 		AudioPlayer_MoneyFX = GetNode<AudioStreamPlayer3D>("Audio/MoneyFX_AudioStreamPlayer3D");
 
+		AudioData = GD.Load<AudioData>("res://assets/Audio/AudioData/AudioData_Player.tres");
 		// AudioFiles
-		Audio_Hurt = GD.Load<AudioStream>("res://assets/Audio/SFX/dsoof.wav");
-		Audio_DieSFX = GD.Load<AudioStream>("res://assets/Audio/SFX/Slow.wav");
-		Audio_DieMusic = GD.Load<AudioStream>("res://assets/Audio/SFX/Exorcism.wav");
-		Audio_DieVoice = GD.Load<AudioStream>("res://assets/Audio/SFX/Odead.wav");
 		Audio_footstepSoundsStream = GD.Load<AudioStream>("res://assets/Audio/AudioData/SFX_Footsteps_Move.tres");
 		Audio_footstepSprintSoundsStream = GD.Load<AudioStream>("res://assets/Audio/AudioData/SFX_Footsteps_Sprint.tres");
 	}
@@ -501,56 +501,22 @@ public partial class PlayerBody : Combatant
 
 	private Action onDeathVoiceFinished;
 
-	private Action onDeathSFXFinished;
-
 	public override void OnDied()
 	{
 		deadNow = true;
-		AudioPlayer_Hurt.Play();
 
-		onDeathSFXFinished = () =>
-		{
-			// var levelLostMenu = _levelLostMenuScene.Instantiate();
-			// controlRoot.AddChild(levelLostMenu);
-		};
+		AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Voice, (AudioBucket)AudioData["PlayerDie_Voice"]);
+
 		onDeathVoiceFinished = () =>
 		{
-			AudioPlayer_Hurt.Finished -= onDeathVoiceFinished;
-			var sfxPlayer = AudioManager.Instance.PlaySoundAtPosition(Audio_DieSFX, GlobalPosition);
-			var musicPlayer = AudioManager.Instance.PlaySoundAtPosition(Audio_DieMusic, GlobalPosition);
-
-			if (sfxPlayer.Stream.GetLength() > musicPlayer.Stream.GetLength())
-			{
-				sfxPlayer.Finished += onDeathSFXFinished;
-			}
-			else if (musicPlayer.Stream.GetLength() > sfxPlayer.Stream.GetLength())
-			{
-				musicPlayer.Finished += onDeathSFXFinished;
-			}
+			AudioPlayer_Voice.Finished -= onDeathVoiceFinished;
+			AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Global, (AudioBucket)AudioData["PlayerDie_SFX"]);
 		};
 
-		AudioPlayer_Hurt.Finished += onDeathVoiceFinished;
+		AudioPlayer_Voice.Finished += onDeathVoiceFinished;
 		EmitSignal(SignalName.PlayerDied);
 	}
 
-	private void OnDeathVoiceFinished()
-	{
-
-	}
-
-	// private void OnBodyEnteredPickupArea(Node3D body)
-
-	// {
-
-	//     if (body is ManaParticle particle)
-
-	//     {
-
-	//         PickupManaParticle(particle);
-
-	//     }
-
-	// }
 
 	private void OnAreaEnteredPickupArea(Area3D area)
 	{

@@ -1,0 +1,9 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://djsbsdf4qsxob"]
+
+[ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="1_mrobu"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_5thx3"]
+
+[resource]
+resource_name = "Enemy_Small_Hurt"
+script = ExtResource("2_5thx3")
+Stream = ExtResource("1_mrobu")

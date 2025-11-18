@@ -1,0 +1,10 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://b6apxt58004l0"]
+
+[ext_resource type="AudioStream" uid="uid://rt8muaiwrhg2" path="res://assets/Audio/SFX/Skeleton Move.wav" id="1_6eeob"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_gpjvv"]
+
+[resource]
+resource_name = "Enemy_Small_Die"
+script = ExtResource("2_gpjvv")
+Stream = ExtResource("1_6eeob")
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

@@ -81,17 +81,21 @@ public partial class PlayerBody : Combatant
 	[Export] private PackedScene _pauseMenuScene;
 	[Export] private PackedScene _levelLostMenuScene;
 
-	[ExportGroup("Combat")]
-	[ExportSubgroup("Audio", "Audio")]
+	[ExportGroup("Audio", "Audio")]
 	[Export] private AudioStream Audio_Hurt;
 	[Export] private AudioStream Audio_DieSFX;
 	[Export] private AudioStream Audio_DieVoice;
 
-	[Export] private AudioStream _footstepSoundsStream;
-	private AudioStreamRandomizer Audio_FootstepSounds => _footstepSoundsStream as AudioStreamRandomizer;
+	[Export] private AudioStream Audio_footstepSoundsStream;
+	private AudioStreamRandomizer Audio_FootstepSounds => Audio_footstepSoundsStream as AudioStreamRandomizer;
 
-	[Export] private AudioStream _footstepSprintSoundsStream;
-	private AudioStreamRandomizer Audio_FootstepSprintSounds => _footstepSprintSoundsStream as AudioStreamRandomizer;
+	[Export] private AudioStream Audio_footstepSprintSoundsStream;
+	private AudioStreamRandomizer Audio_FootstepSprintSounds => Audio_footstepSprintSoundsStream as AudioStreamRandomizer;
+
+	[ExportCategory("Combat")]
+	[ExportSubgroup("Knockback", "Knockback")]
+	[Export] public new float KnockbackWeight { get; private set; } = 5f;
+	[Export] public new float KnockbackDamageScalar { get; set; } = 2.0f;
 
 	private CollisionShape3D collider;
 	private RayCast3D canStandUpRay;
@@ -149,19 +153,19 @@ public partial class PlayerBody : Combatant
 		_footstepCooldownTimer = new Timer { OneShot = true };
 		AddChild(_footstepCooldownTimer);
 
-		if (_footstepSoundsStream != null && Audio_FootstepSounds == null)
+		if (Audio_footstepSoundsStream != null && Audio_FootstepSounds == null)
 		{
 			DebugManager.Error("PlayerBody: _footstepSoundsStream is not a valid AudioStreamRandomizer.");
 		}
-		if (_footstepSprintSoundsStream != null && Audio_FootstepSprintSounds == null)
+		if (Audio_footstepSprintSoundsStream != null && Audio_FootstepSprintSounds == null)
 		{
 			DebugManager.Error("PlayerBody: _footstepSprintSoundsStream is not a valid AudioStreamRandomizer.");
 		}
 
 		_footstepMaxCooldown = Audio_FootstepSounds.GetMaxLength();
 		_sprintFootstepMaxCooldown = Audio_FootstepSprintSounds.GetMaxLength() / 1.2f;
-		DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
-		DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
+		// DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
+		// DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
 
 		// Register player with WaveDirector
 		if (GetTree().GetRoot().GetNode<WaveDirector>("WaveDirector") is WaveDirector waveDirector)
@@ -190,7 +194,6 @@ public partial class PlayerBody : Combatant
 
 	public override void _PhysicsProcess(double delta)
 	{
-		base._PhysicsProcess(delta); // Decays knockback
 		ProcessInput(delta);
 		ProcessMovement(delta);
 	}
@@ -469,10 +472,20 @@ public partial class PlayerBody : Combatant
 		//TODO: add UI overlay
 	}
 
-
 	public override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		base.OnHurt(sourcePosition, damage);
+	}
+
+	protected override void ApplyKnockback(float damage, Vector3 direction)
+	{
+		// Zero out current velocity and apply an impulse, as requested.
+		Velocity = Vector3.Zero;
+		float knockbackStrength = Mathf.Max(damage, 0) / KnockbackWeight;
+		Velocity +=  (direction + Lift) * knockbackStrength;
+		
+		// Prevent base class decay/application from interfering
+		_knockbackVelocity = Vector3.Zero;
 	}
 
 	public override void OnDied()
@@ -537,7 +550,6 @@ public partial class PlayerBody : Combatant
 		_currentMoney = _currentMoney.AtLeastZero();
 		_playerMoneyAmountLabel.Text = _currentMoney.ToString();
 	}
-
 
 	public void RefillMana()
 	{

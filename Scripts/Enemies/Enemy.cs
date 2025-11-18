@@ -13,8 +13,7 @@ public partial class Enemy : Combatant
 	private List<CollisionShape3D> _collisionShapes = new();
 	private AIState _currentState = AIState.Idle;
 
-	[ExportGroup("Components")]
-	[Export] public EnemyData Data { get; private set; }
+	[ExportGroup("Components")] [Export] public EnemyData Data { get; private set; }
 
 	private AnimationPlayer _animPlayer;
 
@@ -73,7 +72,8 @@ public partial class Enemy : Combatant
 
 	public ObjectPoolManager<Node3D> OwningPool { get; set; }
 
-	private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+	private const float GRAVITY_SCALAR = 5f;
+	private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle() * GRAVITY_SCALAR;
 
 	public override void _Ready()
 	{
@@ -168,6 +168,9 @@ public partial class Enemy : Combatant
 
 		// Combat
 		KnockbackWeight = data.KnockbackWeight;
+		KnockbackDamageScalar = data.KnockbackDamageScalar;
+
+		// Pickups
 		MoneyAmountToDrop = data.MoneyAmountToDrop;
 		ManaAmountToDrop = data.ManaAmountToDrop;
 
@@ -205,44 +208,42 @@ public partial class Enemy : Combatant
 		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
-		if (!IsOnFloor() && !isDying)
+		if (!IsOnFloor() && Data.IsGrounded)
 		{
-			newVelocity.Y -= _gravity * (float)delta;
+			newVelocity.Y -= _gravity * (float)delta * Data.KnockbackWeight;
 		}
-		else
+
+		switch (_currentState)
 		{
-			switch (_currentState)
-			{
-				case AIState.Idle:
-					ProcessIdle(delta);
-					newVelocity = Vector3.Zero;
-					break;
-				case AIState.Patrolling:
-					ProcessPatrolling(ref newVelocity);
-					break;
-				case AIState.Chasing:
-					ProcessChasing(ref newVelocity, delta);
-					break;
-				case AIState.Attacking:
-					ProcessAttacking(ref newVelocity);
-					break;
-				case AIState.Recovery:
-					ProcessRecovery(ref newVelocity);
-					break;
-			}
+			case AIState.Idle:
+				ProcessIdle(ref newVelocity);
+				break;
+			case AIState.Patrolling:
+				ProcessPatrolling(ref newVelocity);
+				break;
+			case AIState.Chasing:
+				ProcessChasing(ref newVelocity, delta);
+				break;
+			case AIState.Attacking:
+				ProcessAttacking(ref newVelocity);
+				break;
+			case AIState.Recovery:
+				ProcessRecovery(ref newVelocity);
+				break;
+			case AIState.Dying:
+				break;
 		}
 
 		// Apply knockback
-		if (!isDying) newVelocity += _knockbackVelocity;
-		Velocity = newVelocity;
-		if (_player != null && _currentState != AIState.Attacking && _currentState != AIState.Dying)
+		if (_knockbackVelocity.LengthSquared() > 0)
 		{
-			Vector3 toPlayer = _player.GlobalPosition - GlobalPosition;
-			Vector3 enemyForward = -GlobalTransform.Basis.Z;
-			float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
-			UpdateAnimation(angleToPlayer);
+			newVelocity += _knockbackVelocity;
+			_knockbackVelocity = Vector3.Zero;
 		}
-		else Velocity = Vector3.Zero;
+
+		Velocity = newVelocity;
+
+		FacePlayer();
 
 		MoveAndSlide();
 
@@ -394,9 +395,9 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	private void ProcessIdle(double delta)
+	private void ProcessIdle(ref Vector3 newVelocity)
 	{
-		// Not moving
+		newVelocity = Vector3.Zero;
 	}
 
 	private void ProcessPatrolling(ref Vector3 newVelocity)
@@ -595,20 +596,22 @@ public partial class Enemy : Combatant
 
 	public override void OnDied()
 	{
-		DebugManager.Debug($"Enemy: {Name} OnDied called.");
+		// DebugManager.Debug($"Enemy: {Name} OnDied called.");
 		ChangeState(AIState.Dying);
 	}
 
 	private void TryToDie()
 	{
-		DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}\n" +
-						   $"Death particles GlobalPosition before: {GlobalPosition}");
+
+		// DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}\n" +
+		// 				   $"Death particles GlobalPosition before: {GlobalPosition}");
 
 		if (_deathParticlesScene.Instantiate() is OneshotParticles deathParticles)
 		{
 			GetParent().AddChild(deathParticles);
 			deathParticles.GlobalPosition = GlobalPosition;
-			DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
+
+			// DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
 			deathParticles.PlayParticles(Data.DeathParticleCount);
 		}
 
@@ -630,7 +633,7 @@ public partial class Enemy : Combatant
 
 	private void Despawn()
 	{
-		DebugManager.Debug($"Enemy: {Name} Animation timer finished. Releasing enemy.");
+		// DebugManager.Debug($"Enemy: {Name} Animation timer finished. Releasing enemy.");
 		if (OwningPool != null) OwningPool.Release(this);
 		else QueueFree();
 	}

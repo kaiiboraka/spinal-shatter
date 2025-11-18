@@ -8,10 +8,8 @@ public partial class Combatant : CharacterBody3D
     [Export] public HealthComponent HealthComponent { get; set; }
     [Export] private Area3D _hurtbox; // Common hurtbox
 
-    [ExportSubgroup("Knockback", "Knockback")]
-    [Export] protected float KnockbackWeight { get; set; } = 5.0f;
-    [Export] private float KnockbackDecay { get; set; } = 0.99f;
-
+    protected float KnockbackDamageScalar { get; set; } = 2.0f;
+    protected float KnockbackWeight { get; set; } = 5.0f;
     protected Vector3 _knockbackVelocity = Vector3.Zero;
 
     public override void _Ready()
@@ -21,12 +19,6 @@ public partial class Combatant : CharacterBody3D
         HealthComponent.Hurt += OnHurt;
 
         _hurtbox.BodyEntered += OnHurtboxBodyEntered;
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        // Decay knockback. Children are responsible for applying it to their velocity.
-        _knockbackVelocity = _knockbackVelocity.Lerp(Vector3.Zero, KnockbackDecay * (float)delta);
     }
 
     public virtual void OnHurtboxBodyEntered(Node3D body)
@@ -54,10 +46,13 @@ public partial class Combatant : CharacterBody3D
         return HealthComponent.TakeDamage(amount, sourcePosition);
     }
 
-    protected void ApplyKnockback(float damage, Vector3 direction)
+    protected static Vector3 Lift => Vector3.Up * .1f;
+
+    protected virtual void ApplyKnockback(float damage, Vector3 direction)
     {
         float knockbackDamage = Mathf.Clamp(damage, 0, 30f);
-        _knockbackVelocity = direction * (knockbackDamage / KnockbackWeight);
+
+        _knockbackVelocity = (direction + Lift) * (knockbackDamage / KnockbackWeight);
     }
 
     public virtual void OnHurt(Vector3 sourcePosition, float damage)

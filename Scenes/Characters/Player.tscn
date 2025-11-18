@@ -107,11 +107,10 @@ _levelLostMenuScene = ExtResource("3_hqlak")
 Audio_Hurt = ExtResource("2_qeewm")
 Audio_DieSFX = ExtResource("2_qd2bg")
 Audio_DieVoice = ExtResource("17_ibpri")
-_footstepSoundsStream = ExtResource("7_ltdul")
-_footstepSprintSoundsStream = ExtResource("8_ibpri")
+Audio_footstepSoundsStream = ExtResource("7_ltdul")
+Audio_footstepSprintSoundsStream = ExtResource("8_ibpri")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
-KnockbackWeight = 15.0
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true

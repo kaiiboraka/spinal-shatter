@@ -7,5 +7,6 @@ public enum AIState
 	Chasing,
 	Attacking,
 	Recovery,
-	Dying
+	Dying,
+	Hurt
 }

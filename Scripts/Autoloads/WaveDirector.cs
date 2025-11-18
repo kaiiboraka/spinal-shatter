@@ -82,7 +82,7 @@ public partial class WaveDirector : Node
 		}
 		player = playerInstance;
 		player.HealthComponent.Died += OnRoundLost;
-		DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
+		// DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
 	}
 
 	public override void _Process(double delta)
@@ -100,7 +100,7 @@ public partial class WaveDirector : Node
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
 	{
-		DebugManager.Debug($"WaveDirector: OnCurrentRoomChanged - New Room: {newRoom?.Name ?? "null"}, IsRoundInProgress: {IsRoundInProgress}");
+		// DebugManager.Debug($"WaveDirector: OnCurrentRoomChanged - New Room: {newRoom?.Name ?? "null"}, IsRoundInProgress: {IsRoundInProgress}");
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared -= OnWaveCleared;
@@ -122,7 +122,7 @@ public partial class WaveDirector : Node
 
 	private void OnRoundStart()
 	{
-		DebugManager.Debug("WaveDirector: OnRoundStart called.");
+		// DebugManager.Debug("WaveDirector: OnRoundStart called.");
 		// Ensure player is not null before proceeding
 		if (player == null)
 		{
@@ -148,9 +148,9 @@ public partial class WaveDirector : Node
 		}
 		
 		var budget = CalculateBudget();
-		DebugManager.Debug($"WaveDirector: StartNextWave - Budget: {budget}");
+		// DebugManager.Debug($"WaveDirector: StartNextWave - Budget: {budget}");
 		var enemies = GenerateEnemyList(budget);
-		DebugManager.Debug($"WaveDirector: StartNextWave - Generated {enemies.Count} enemies.");
+		// DebugManager.Debug($"WaveDirector: StartNextWave - Generated {enemies.Count} enemies.");
 		_activeRoom.StartSpawning(enemies);
 	}
 
@@ -158,7 +158,7 @@ public partial class WaveDirector : Node
 	{
 		TotalWavesCompleted++;
 		_wavesCompletedThisRound++;
-		DebugManager.Debug($"WaveDirector: OnWaveCleared - TotalWavesCompleted: {TotalWavesCompleted}, WavesCompletedThisRound: {_wavesCompletedThisRound}");
+		// DebugManager.Debug($"WaveDirector: OnWaveCleared - TotalWavesCompleted: {TotalWavesCompleted}, WavesCompletedThisRound: {_wavesCompletedThisRound}");
 		
 		// Small delay before starting the next wave
 		GetTree().CreateTimer(2.0f).Timeout += StartNextWave;
@@ -232,7 +232,7 @@ public partial class WaveDirector : Node
 			
 			enemiesToSpawn.Add(chosenEnemy.Scene);
 			budget -= chosenEnemy.Cost;
-			DebugManager.Debug($"WaveDirector: GenerateEnemyList - Added {chosenEnemy.Data.Name} (Cost: {chosenEnemy.Cost}). Remaining budget: {budget}");
+			// DebugManager.Debug($"WaveDirector: GenerateEnemyList - Added {chosenEnemy.Data.Name} (Cost: {chosenEnemy.Cost}). Remaining budget: {budget}");
 		}
 		
 		return enemiesToSpawn;

@@ -84,7 +84,7 @@ public partial class LevelRoom : Node3D
 	
 	private void OnEnemyDied(Enemy who)
 	{
-		DebugManager.Debug($"LevelRoom: {Name} OnEnemyDied called for {who.Name}.");
+		// DebugManager.Debug($"LevelRoom: {Name} OnEnemyDied called for {who.Name}.");
 		UnregisterEnemy(who);
 	}
 
@@ -124,7 +124,7 @@ public partial class LevelRoom : Node3D
 		_enemiesInRoom.Add(enemy);
 		enemy.AssociatedRoom = this;
 		enemy.EnemyDied += OnEnemyDied;
-		DebugManager.Debug($"LevelRoom: {Name} Registered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
+		// DebugManager.Debug($"LevelRoom: {Name} Registered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
 	}
 
 	public void UnregisterEnemy(Enemy enemy)
@@ -132,7 +132,7 @@ public partial class LevelRoom : Node3D
 		if (_enemiesInRoom.Remove(enemy))
 		{
 			enemy.EnemyDied -= OnEnemyDied;
-			DebugManager.Debug($"LevelRoom: {Name} Unregistered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
+			// DebugManager.Debug($"LevelRoom: {Name} Unregistered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
 			CheckWaveCleared();
 		}
 	}

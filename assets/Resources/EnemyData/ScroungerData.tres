@@ -8,12 +8,12 @@
 script = ExtResource("1_abcde")
 Name = "Scrounger"
 BaseCost = 2
+RangeType = 1
 AudioData = ExtResource("3_audio")
 RecoveryTime = 2.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
 MaxWaitTime = 4.0
-KnockbackWeight = 20.0
 MoneyAmountToDrop = 150
 AttackRange = 50.0
 AttackCooldown = 2.5

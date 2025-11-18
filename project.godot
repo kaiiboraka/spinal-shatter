@@ -274,6 +274,7 @@ disable_install_wizard=true
 common/physics_ticks_per_second=75
 common/max_physics_steps_per_frame=9
 3d/physics_engine="Jolt Physics"
+3d/default_gravity=15.0
 
 [rendering]
 

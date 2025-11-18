@@ -274,8 +274,8 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 		
-		DebugManager.Debug(
-			$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}");
+		// DebugManager.Debug(
+		// 	$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}");
 
 		// Clamp manaLostAmount to current ManaCost to prevent negative mana
 		manaLostAmount = Mathf.Min(ManaCost, manaLostAmount);
@@ -351,7 +351,7 @@ public partial class Projectile : RigidBody3D
 		AngularVelocity = Vector3.Zero;
 		Freeze = true;
 		_collisionShape.Disabled = true;
-		DebugManager.Debug($"Projectile: Reset - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
+		// DebugManager.Debug($"Projectile: Reset - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		Charge = 0;
 		_lifetimeTimer.Stop();
 		GlobalPosition = Vector3.Zero; // Reset position to a default

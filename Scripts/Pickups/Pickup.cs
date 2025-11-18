@@ -73,7 +73,7 @@ public partial class Pickup : RigidBody3D
 
 	public virtual void Initialize(PickupData data)
 	{
-		DebugManager.Debug($"Pickup: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
+		// DebugManager.Debug($"Pickup: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
 		GlobalPosition = Vector3.Down;
 		this.data  = data;
 		CurrentState = PickupState.Idle;
@@ -105,7 +105,7 @@ public partial class Pickup : RigidBody3D
 			LinearVelocity = DriftIdle();
 			ApplyCentralImpulse(Velocity);
 		}
-		DebugManager.Debug($"Pickup: {Name} Initialized. Final GlobalPosition: {GlobalPosition}, LinearVelocity: {LinearVelocity}");
+		// DebugManager.Debug($"Pickup: {Name} Initialized. Final GlobalPosition: {GlobalPosition}, LinearVelocity: {LinearVelocity}");
 	}
 
 	public void Attract(Node3D target)

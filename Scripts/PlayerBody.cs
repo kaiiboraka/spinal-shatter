@@ -43,6 +43,7 @@ public partial class PlayerBody : Combatant
 	private double fovJuiceWeight = 8.0f;
 
 	[Signal] public delegate void ViewChangeEventHandler();
+	[Signal] public delegate void PlayerDiedEventHandler();
 
 	private bool grounded = false;
 	private bool isCrouching = false;
@@ -65,11 +66,7 @@ public partial class PlayerBody : Combatant
 
 	private Camera3D camera;
 
-	// private Camera3D camera3P;
-	private SpringArm3D arm;
-
-	private Label currAmmoLabel;
-	private Label maxAmmoLabel;
+	private MinMaxValuesLabel _manaMinMaxLabel;
 
 	private PlayerHealthBar _playerHealthBar;
 	private Label _playerMoneyAmountLabel;
@@ -153,6 +150,10 @@ public partial class PlayerBody : Combatant
 		// DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
 		// DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
 
+		AddMoney(0);
+		RefillMana();
+		RefillLife();
+
 		// Register player with WaveDirector
 		if (GetTree().GetRoot().GetNode<WaveDirector>("WaveDirector") is WaveDirector waveDirector)
 		{
@@ -168,12 +169,10 @@ public partial class PlayerBody : Combatant
 	{
 		controlRoot = GetNode<Control>("Control");
 		headNode = GetNode<Node3D>("%Head");
-		arm = GetNode<SpringArm3D>("%CameraArm");
 		camera = GetNode<Camera3D>("%Camera1P");
 		collider = GetNode<CollisionShape3D>("%PlayerCollider");
 		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
-		currAmmoLabel = GetNode<Label>("%CurrAmmoText");
-		maxAmmoLabel = GetNode<Label>("%MaxAmmoText");
+		_manaMinMaxLabel = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
 		_manaComponent = GetNode<ManaComponent>("%ManaComponent");
 		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
 		_playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
@@ -466,8 +465,8 @@ public partial class PlayerBody : Combatant
 
 	public void UpdateManaHUD(float newCurr, float newMax)
 	{
-		currAmmoLabel.Text = Mathf.RoundToInt(newCurr).ToString();
-		maxAmmoLabel.Text = Mathf.RoundToInt(newMax).ToString();
+		_manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
+		_manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
 	}
 
 	public void UpdateHealthHUD(float newCurr, float newMax)
@@ -508,12 +507,14 @@ public partial class PlayerBody : Combatant
 	}
 
 	private Action onDeathVoiceFinished;
+
 	private Action onDeathSFXFinished;
 
 	public override void OnDied()
 	{
 		deadNow = true;
-		var player = AudioManager.Instance.PlaySoundAttachedToNode(Audio_DieVoice, this);
+		AudioPlayer_Hurt.Play();
+
 		onDeathSFXFinished = () =>
 		{
 			var levelLostMenu = _levelLostMenuScene.Instantiate();
@@ -521,7 +522,7 @@ public partial class PlayerBody : Combatant
 		};
 		onDeathVoiceFinished = () =>
 		{
-			player.Finished -= onDeathVoiceFinished;
+			AudioPlayer_Hurt.Finished -= onDeathVoiceFinished;
 			var sfxPlayer = AudioManager.Instance.PlaySoundAtPosition(Audio_DieSFX, GlobalPosition);
 			var musicPlayer = AudioManager.Instance.PlaySoundAtPosition(Audio_DieMusic, GlobalPosition);
 
@@ -535,8 +536,8 @@ public partial class PlayerBody : Combatant
 			}
 		};
 
-
-		player.Finished += onDeathVoiceFinished;
+		AudioPlayer_Hurt.Finished += onDeathVoiceFinished;
+		EmitSignal(SignalName.PlayerDied);
 	}
 
 	private void OnDeathVoiceFinished()
@@ -545,11 +546,17 @@ public partial class PlayerBody : Combatant
 	}
 
 	// private void OnBodyEnteredPickupArea(Node3D body)
+
 	// {
+
 	//     if (body is ManaParticle particle)
+
 	//     {
+
 	//         PickupManaParticle(particle);
+
 	//     }
+
 	// }
 
 	private void OnAreaEnteredPickupArea(Area3D area)
@@ -598,6 +605,11 @@ public partial class PlayerBody : Combatant
 		_currentMoney += amount;
 		_currentMoney = _currentMoney.AtLeastZero();
 		_playerMoneyAmountLabel.Text = _currentMoney.ToString();
+	}
+
+	private void RefillLife()
+	{
+		HealthComponent.Refill();
 	}
 
 	public void RefillMana()

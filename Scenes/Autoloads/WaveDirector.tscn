@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=13 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="2_phwt4"]
@@ -10,9 +10,13 @@
 [ext_resource type="Resource" uid="uid://cpjitr3gcxgjv" path="res://assets/Resources/EnemyData/ZapperData.tres" id="6_phwt4"]
 [ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper_Enemy_SmallFlyingMelee.tscn" id="8_omfed"]
 [ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper_Enemy_SmallFlyingRanged.tscn" id="10_aege0"]
+[ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="11_6lw2h"]
+[ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="11_omfed"]
 
 [node name="WaveDirector" type="Node"]
 script = ExtResource("1_fhtwo")
+moneyGivenPerSecondLeft = 2.5
+moneyGivenPerHealthLeft = 1.5
 _enemyDataToSceneMap = Dictionary[ExtResource("2_phwt4"), PackedScene]({
 ExtResource("4_kpvn7"): ExtResource("4_phwt4"),
 ExtResource("3_oxf7n"): ExtResource("6_6lw2h"),
@@ -28,7 +32,7 @@ unique_name_in_owner = true
 wait_time = 300.0
 one_shot = true
 
-[node name="TimerDisplay" type="Control" parent="."]
+[node name="DirectorDisplay" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,21 +40,336 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TimerTextLabel" type="RichTextLabel" parent="TimerDisplay"]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="DirectorDisplay"]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -34.0
-offset_top = 72.0
-offset_right = 36.0
-offset_bottom = 126.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Objective_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TimerTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("11_omfed")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "99:59"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 2
+justification_flags = 160
+
+[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Enemies left: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+justification_flags = 160
+
+[node name="VictoryLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Round Complete!"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+justification_flags = 160
+
+[node name="DefeatLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("11_omfed")
+theme_override_colors/default_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "YOU LOSE"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+justification_flags = 160
+
+[node name="WaveRound_Container" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+layout_mode = 2
+
+[node name="Wave_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/WaveRound_Container"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="WaveTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Wave_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Wave: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="Wave_MinMaxValuesLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Wave_HBoxContainer" instance=ExtResource("11_6lw2h")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 0
+TextCurrent = "00"
+TextMaximum = "99"
+TextSize = 32
+
+[node name="Round_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/WaveRound_Container"]
+layout_mode = 2
+
+[node name="RoundTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Round_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Round: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="RoundTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Round_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="RoomLabels_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="North_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="NorthTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/North_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "North: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="NorthTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/North_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="East_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="EastTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/East_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "East: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="EastTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/East_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="South_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="SouthTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/South_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "South: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="SouthTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/South_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="West_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="WestTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/West_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "West: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="WestTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/West_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="Bonus_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="TimeBonus_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer"]
+layout_mode = 2
+
+[node name="TimeBonus_TextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/TimeBonus_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "TIME BONUS: +"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="TimeBonus_TextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/TimeBonus_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "1000"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="LifeBonus_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer"]
+layout_mode = 2
+
+[node name="LifeBonus_TextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/LifeBonus_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "LIFE BONUS: +"
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="LifeBonus_TextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/LifeBonus_HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "1000"
+fit_content = true
+autowrap_mode = 0
 justification_flags = 160

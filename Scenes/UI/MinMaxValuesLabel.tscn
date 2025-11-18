@@ -1,0 +1,131 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1hrwm72m604c"]
+
+[ext_resource type="Script" uid="uid://cqkhq2mnfyutx" path="res://Scripts/UI/MinMaxValuesLabel.cs" id="1_fikkk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ey0s4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sm0ed"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4snty"]
+
+[node name="MinMaxValuesLabel" type="HBoxContainer" node_paths=PackedStringArray("labelCurrent", "labelDivider", "labelMax", "panelCurrent", "panelDivider", "panelMax")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+alignment = 1
+script = ExtResource("1_fikkk")
+labelCurrent = NodePath("PanelCurrent/AspectRatioContainer/LabelCurrent")
+labelDivider = NodePath("PanelDivider/AspectRatioContainer/LabelDivider")
+labelMax = NodePath("PanelMax/AspectRatioContainer/LabelMax")
+panelCurrent = NodePath("PanelCurrent")
+panelDivider = NodePath("PanelDivider")
+panelMax = NodePath("PanelMax")
+
+[node name="PanelCurrent" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ey0s4")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelCurrent"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(53, 8)
+stretch_mode = 0
+alignment_horizontal = 2
+
+[node name="LabelCurrent" type="Label" parent="PanelCurrent/AspectRatioContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 0)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PanelDivider" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxEmpty_sm0ed")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelDivider"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -8.0
+offset_right = 3.5
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(3.5, 8)
+stretch_mode = 0
+
+[node name="LabelDivider" type="Label" parent="PanelDivider/AspectRatioContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 12
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_font_sizes/font_size = 16
+text = "/"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelMax" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4snty")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelMax"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_right = 35.0
+offset_bottom = 8.0
+grow_vertical = 2
+pivot_offset = Vector2(0, 8)
+stretch_mode = 0
+alignment_horizontal = 0
+
+[node name="LabelMax" type="Label" parent="PanelMax/AspectRatioContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_font_sizes/font_size = 16
+text = "9999"
+vertical_alignment = 1

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Text;
 using Elythia;
 using Godot.Collections;
 
@@ -17,13 +18,28 @@ public partial class WaveDirector : Node
 	private int _wavesCompletedThisRound = 0;
 	private int _enemiesThisWave = 0;
 	private LevelRoom _activeRoom;
+	private LevelRoom _roundInProgressRoom;
 
 	// --- Timers & Player ---
 	private Timer RoundTimer;
-	private RichTextLabel _timerLabel;
 	private PlayerBody player; // PlayerBody instance will be set via SetPlayer method
 	private float startingPlayerHealth;
 	private float endingPlayerHealth;
+
+	// --- UI References ---
+	private RichTextLabel _timerLabel;
+	private MinMaxValuesLabel _waveMinMaxLabel;
+	private RichTextLabel _roundTextValue;
+	private RichTextLabel _activeEnemyCountTextValue;
+	private HBoxContainer _activeEnemyCountHBoxContainer; // Added
+	private VBoxContainer _roomLabelsVBoxContainer; // Added
+	private readonly Godot.Collections.Dictionary<string, RichTextLabel> _roomEnemyLabels = new();
+	private RichTextLabel _victoryLabel;
+	private RichTextLabel _defeatLabel;
+	private VBoxContainer _waveRoundContainer;
+	private VBoxContainer _bonusContainer;
+	private RichTextLabel _timeBonusTextValue;
+	private RichTextLabel _lifeBonusTextValue;
 
 	// --- Rewards ---
 	[ExportGroup("Rewards")]
@@ -68,13 +84,35 @@ public partial class WaveDirector : Node
 	public override void _Ready()
 	{
 		RoundTimer = GetNode<Timer>("%RoundTimer");
-		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
 		RoundTimer.Timeout += OnRoundLost;
+
+		// --- Initialize UI References ---
+		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
+		_waveMinMaxLabel = GetNode<MinMaxValuesLabel>("%Wave_MinMaxValuesLabel");
+		_roundTextValue = GetNode<RichTextLabel>("%RoundTextValue");
+		_activeEnemyCountTextValue = GetNode<RichTextLabel>("DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer/ActiveEnemyCountTextValue");
+		_activeEnemyCountHBoxContainer = GetNode<HBoxContainer>("%ActiveEnemyCount_HBoxContainer"); // Added
+		_roomLabelsVBoxContainer = GetNode<VBoxContainer>("%RoomLabels_VBoxContainer"); // Added
+		_victoryLabel = GetNode<RichTextLabel>("%VictoryLabel");
+		_defeatLabel = GetNode<RichTextLabel>("%DefeatLabel");
+		_waveRoundContainer = GetNode<VBoxContainer>("DirectorDisplay/MarginContainer/WaveRound_Container");
+		_bonusContainer = GetNode<VBoxContainer>("DirectorDisplay/MarginContainer/Bonus_VBoxContainer");
+		_timeBonusTextValue = GetNode<RichTextLabel>("%TimeBonus_TextValue");
+		_lifeBonusTextValue = GetNode<RichTextLabel>("%LifeBonus_TextValue");
+
+		_roomEnemyLabels["North"] = GetNode<RichTextLabel>("%NorthTextValue");
+		_roomEnemyLabels["East"] = GetNode<RichTextLabel>("%EastTextValue");
+		_roomEnemyLabels["South"] = GetNode<RichTextLabel>("%SouthTextValue");
+		_roomEnemyLabels["West"] = GetNode<RichTextLabel>("%WestTextValue");
+		// --- End UI Initialization ---
 
 		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
 
 		// Immediately handle the starting room if it's already set
 		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
+		
+		// Initial UI state
+		ResetAllUI();
 	}
 
 	public void SetPlayer(PlayerBody playerInstance)
@@ -96,17 +134,38 @@ public partial class WaveDirector : Node
 		if (IsRoundInProgress && RoundTimer != null)
 		{
 			var time = TimeSpan.FromSeconds(RoundTimer.TimeLeft);
-			int waves = _wavesCompletedThisRound + 1;
-			var wave = $"\nWave:{(waves > wavesPerRound ? wavesPerRound : waves)} / {wavesPerRound}";
-			var enemies = $"\nEnemies:{_activeRoom.EnemyCount} / {_enemiesThisWave}";
-			_timerLabel.Text = time.ToString(@"mm\:ss") + wave + enemies;
-		}
-		else if (_timerLabel.Text != "")
-		{
-			_timerLabel.Text = "";
-			if (_wavesCompletedThisRound == wavesPerRound)
+			int currentWaveNumber = _wavesCompletedThisRound + 1;
+			
+			// Update Timer
+			_timerLabel.Text = time.ToString(@"mm\:ss");
+			
+			// Update Wave MinMaxValuesLabel
+			_waveMinMaxLabel.TextCurrent = (_wavesCompletedThisRound >= wavesPerRound ? wavesPerRound : currentWaveNumber).ToString();
+			_waveMinMaxLabel.TextMaximum = wavesPerRound.ToString();
+
+			// Update Round Text Value
+			_roundTextValue.Text = CurrentRound.ToString();
+			
+			// Update Active Room Enemy Count
+			_activeEnemyCountTextValue.Text = _activeRoom?.EnemyCount.ToString() ?? "0";
+
+			// Update Room-specific Breakdown
+			var combatRooms = GetTree().GetNodesInGroup("CombatRooms").Cast<LevelRoom>();
+			foreach (var room in combatRooms)
 			{
-				_timerLabel.Text += $"\nRound Completed!";
+				if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
+				{
+					int totalEnemiesForWave = (IsRoundInProgress && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
+					label.Text = $"{room.EnemyCount} / {totalEnemiesForWave}";
+				}
+			}
+		}
+		else // Round is not in progress
+		{
+			// Clear timer label if it's still showing old data
+			if (_timerLabel.Text != "")
+			{
+				_timerLabel.Text = "";
 			}
 		}
 	}
@@ -136,6 +195,7 @@ public partial class WaveDirector : Node
 	private void OnRoundStart()
 	{
 		_wavesCompletedThisRound = -1;
+		_roundInProgressRoom = _activeRoom;
 
 		// DebugManager.Debug("WaveDirector: OnRoundStart called.");
 		// Ensure player is not null before proceeding
@@ -151,6 +211,13 @@ public partial class WaveDirector : Node
 		RoundTimer.Start();
 		StartNextWave();
 		_wavesCompletedThisRound = 0;
+		
+		// UI Visibility for Round Start
+		_timerLabel.Visible = true;
+		_activeEnemyCountTextValue.Visible = true;
+		_activeEnemyCountHBoxContainer.Visible = true; // Added
+		_roomLabelsVBoxContainer.Visible = true; // Added
+		_waveRoundContainer.Visible = true;
 	}
 
 	private void StartNextWave()
@@ -184,33 +251,68 @@ public partial class WaveDirector : Node
 
 	private void OnRoundWon()
 	{
+		ResetAllUI(); // Added
 		IsRoundInProgress = false;
-		endingPlayerHealth = player.HealthComponent.CurrentPercent;
+		_roundInProgressRoom = null;
+		
+		endingPlayerHealth = player.HealthComponent.CurrentHealth;
 
 		double timeLeft = RoundTimer.TimeLeft;
 		RoundTimer.Stop();
 
 		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * timeLeft * DifficultyMultipliers[SelectedDifficulty]);
 		player.AddMoney(moneyTimeBonus);
-		DebugManager.Info($"Money Time Bonus:{moneyTimeBonus}");
 
 		moneyHealthBonus =
 			(int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);
 		player.AddMoney(moneyHealthBonus);
-		DebugManager.Info($"Money Health Bonus:{moneyHealthBonus}");
 
 		CurrentRound++;
+		if (wavesPerRound < 5)
+		{
+			wavesPerRound++;
+		}
+		
 		GD.Print($"Round {CurrentRound - 1} won! Starting next round.");
+
+		// UI Visibility for Round Won
+		_victoryLabel.Visible = true;
+		_bonusContainer.Visible = true;
+		_timerLabel.Visible = false;
+		_activeEnemyCountTextValue.Visible = false;
+		_activeEnemyCountHBoxContainer.Visible = false; // Added
+		_roomLabelsVBoxContainer.Visible = false; // Added
+		_waveRoundContainer.Visible = false;
+		_defeatLabel.Visible = false; // Ensure defeat label is hidden
+
+		_timeBonusTextValue.Text = moneyTimeBonus.ToString();
+		_lifeBonusTextValue.Text = moneyHealthBonus.ToString();
 
 		// The room's doors should now open, etc.
 	}
 
 	public void OnRoundLost()
 	{
+		ResetAllUI(); // Added
 		IsRoundInProgress = false;
-		endingPlayerHealth = player.HealthComponent.CurrentPercent;
+		_roundInProgressRoom = null;
+		
+		endingPlayerHealth = player.HealthComponent.CurrentHealth;
 		RoundTimer.Stop();
 		GD.Print("Round Lost!");
+
+		// UI Visibility for Round Lost
+		_defeatLabel.Visible = true;
+		_bonusContainer.Visible = true;
+		_timerLabel.Visible = false;
+		_activeEnemyCountTextValue.Visible = false;
+		_activeEnemyCountHBoxContainer.Visible = false; // Added
+		_roomLabelsVBoxContainer.Visible = false; // Added
+		_waveRoundContainer.Visible = false;
+		_victoryLabel.Visible = false; // Ensure victory label is hidden
+
+		_timeBonusTextValue.Text = "0"; // No time bonus on loss
+		_lifeBonusTextValue.Text = "0"; // No health bonus on loss
 	}
 
 	private float CalculateBudget()
@@ -268,5 +370,17 @@ public partial class WaveDirector : Node
 	private void OnRoundTimerTimeout()
 	{
 		// Play timer alarm sound
+	}
+
+	private void ResetAllUI()
+	{
+		_timerLabel.Visible = false;
+		_activeEnemyCountTextValue.Visible = false;
+		_activeEnemyCountHBoxContainer.Visible = false;
+		_roomLabelsVBoxContainer.Visible = false;
+		_waveRoundContainer.Visible = false;
+		_victoryLabel.Visible = false;
+		_defeatLabel.Visible = false;
+		_bonusContainer.Visible = false;
 	}
 }

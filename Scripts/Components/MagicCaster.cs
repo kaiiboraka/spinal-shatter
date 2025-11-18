@@ -110,12 +110,13 @@ public partial class MagicCaster : Node
 			_chargingProjectile.UpdateChargeState();
 		}
 
-		// if (chargeRatio >= 1.0f)
-		// {
-		// 	if (_audioPlayer_Charge.IsPlaying()) _audioPlayer_Charge.Stop();
-		// 	_audioPlayer_Charge.SetStream(_audio_ChargeComplete);
-		// 	_audioPlayer_Charge.Play();
-		// }
+		if (chargeRatio >= 1.0f)
+		{
+			_chargingProjectile.Modulate(new Color(4,4,3,1));
+			if (_audioPlayer_ChargeBeep.IsPlaying()) _audioPlayer_ChargeBeep.Stop();
+			_audioPlayer_ChargeBeep.SetStream(_audio_ChargeComplete);
+			_audioPlayer_ChargeBeep.Play(.15f);
+		}
 	}
 
 	private void OnReleaseCharge()

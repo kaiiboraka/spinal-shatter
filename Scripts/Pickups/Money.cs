@@ -8,17 +8,27 @@ public partial class Money : Pickup
     public MoneyTier MoneyTier { get; private set; }
     public override MoneyData Data => data as MoneyData;
 
-    public override void _PhysicsProcess(double delta)
+    public override void _IntegrateForces(PhysicsDirectBodyState3D state)
     {
-        // Once the pickup can be attracted to the player, switch from default physics
-        // to the custom integrator in the base Pickup class, which handles attraction.
-        CustomIntegrator = CanAttract;
-
-        // The base class might have attraction logic in _PhysicsProcess as well.
+        // When not attracting, let the default physics engine handle bouncing and gravity.
+        base._IntegrateForces(state);
         if (CanAttract)
         {
-            base._PhysicsProcess(delta);
+            // When attracting, take over the physics state to move towards the player.
+            state.LinearVelocity = Velocity;
         }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        // If we can attract, update the custom Velocity property.
+        // _IntegrateForces will then use this value.
+        if (CanAttract)
+        {
+            CustomIntegrator = true;
+            Attract();
+        }
+        else CustomIntegrator = false;
     }
 
     public override void Initialize(PickupData data)
@@ -28,9 +38,5 @@ public partial class Money : Pickup
         if (Data == null) return;
         MoneyTier = Data.MoneyTier;
         Sprite.Play();
-        
-        // Start with default physics integration to allow bouncing.
-        // _PhysicsProcess will switch to custom integration when it's time to attract the player.
-        CustomIntegrator = false;
     }
 }

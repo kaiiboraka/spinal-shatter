@@ -78,6 +78,6 @@ public partial class Combatant : CharacterBody3D
 
     public virtual void Reset()
     {
-        HealthComponent.Reset();
+        HealthComponent.Refill();
     }
 }

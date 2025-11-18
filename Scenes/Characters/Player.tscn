@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=42 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -23,6 +23,10 @@
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/PlayerData/Sphere_SpeedRange.tres" id="17_hqlak"]
 [ext_resource type="AudioStream" uid="uid://cm33h8bl2j42s" path="res://assets/Audio/SFX/Odead.wav" id="17_ibpri"]
 [ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/PlayerData/Sphere_SizeRange.tres" id="18_mc0oj"]
+[ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="23_3vnku"]
+[ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="24_fxftb"]
+[ext_resource type="Texture2D" uid="uid://dp5b62k5d0jbb" path="res://assets/Images/Pickups/Coins_Spin.ase" id="24_hqlak"]
+[ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
 radius = 1.0
@@ -48,6 +52,14 @@ points = PackedVector3Array(1.1616907, -1.2823802, 0.27702412, -1.2082909, -1.44
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gc10f"]
 radius = 3.0439453
 height = 9.577691
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mc0oj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxftb"]
+atlas = ExtResource("24_hqlak")
+region = Rect2(0, 0, 30, 30)
 
 [sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
 font_size = 32
@@ -226,10 +238,9 @@ bus = &"Charge_Back"
 doppler_tracking = 2
 
 [node name="SpellChargeBeep_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Audio"]
-stream = ExtResource("8_w6cdd")
-volume_db = -21.622
-pitch_scale = 1.01
-bus = &"SFX"
+stream = ExtResource("9_ibpri")
+volume_db = -21.0
+bus = &"Charge_Complete"
 doppler_tracking = 2
 
 [node name="StandUpRay" type="RayCast3D" parent="."]
@@ -277,26 +288,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8443651, 1.1920929e-07)
 shape = SubResource("CapsuleShape3D_gc10f")
 debug_color = Color(0.88235295, 0, 0.81960785, 0.41960785)
 
-[node name="CameraArm" type="SpringArm3D" parent="Head"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
-visible = false
-spring_length = 2.5
-
-[node name="Camera3P" type="Camera3D" parent="Head/CameraArm"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-doppler_tracking = 2
-near = 0.3
-far = 3000.0
-
-[node name="AimCast3P" type="RayCast3D" parent="Head/CameraArm/Camera3P"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, -4)
-target_position = Vector3(0, 0, -200)
-collision_mask = 9
-collide_with_areas = true
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -326,81 +317,116 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer"]
+[node name="Mana_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 72
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Mana"
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="CurrAmmoText" type="Label" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "5"
-label_settings = SubResource("LabelSettings_e12tg")
-horizontal_alignment = 2
-
-[node name="Slash" type="Label" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "/"
-label_settings = SubResource("LabelSettings_e12tg")
-horizontal_alignment = 2
-
-[node name="MaxAmmoText" type="Label" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "10"
-label_settings = SubResource("LabelSettings_e12tg")
-horizontal_alignment = 2
-
-[node name="MoneyPanelContainer2" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/MoneyPanelContainer2"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyPanelContainer2/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyPanelContainer2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Money"
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyPanelContainer2/MarginContainer/VBoxContainer"]
+[node name="Mana_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/Mana_MarginContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyPanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ManaLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/Mana_MarginContainer/Mana_VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("23_3vnku")
+text = "Mana "
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="ManaPanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/Mana_MarginContainer/Mana_VBoxContainer"]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/Mana_MarginContainer/Mana_VBoxContainer/ManaPanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+theme_override_constants/separation = 64
+alignment = 2
+
+[node name="Mana_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/Mana_MarginContainer/Mana_VBoxContainer/ManaPanelContainer/HBoxContainer" instance=ExtResource("24_fxftb")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("23_3vnku")
+theme_override_constants/separation = 12
+alignment = 2
+TextCurrent = "100"
+TextDivider = "|"
+TextMaximum = "100"
+TextSize = 32
+AlignmentDivider = 3
+
+[node name="TextureRect" type="TextureRect" parent="Control/HUD/ScreenMarginContainer/ManaPanelContainer/Mana_MarginContainer/Mana_VBoxContainer/ManaPanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("24_mc0oj")
+expand_mode = 3
+stretch_mode = 4
+flip_h = true
+
+[node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fxftb")
+
+[node name="Money_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MoneyLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("23_3vnku")
+theme_override_font_sizes/normal_font_size = 18
+text = "Money"
+fit_content = true
+vertical_alignment = 2
+
+[node name="MoneyContainer_Panel" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 6
+
+[node name="Money_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_VBoxContainer/MoneyContainer_Panel"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_VBoxContainer/MoneyContainer_Panel/Money_MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_VBoxContainer/MoneyContainer_Panel/Money_MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_fxftb")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_VBoxContainer/MoneyContainer_Panel/Money_MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "0"
+theme = ExtResource("23_3vnku")
+text = "1000"
 label_settings = SubResource("LabelSettings_e12tg")
 horizontal_alignment = 2
 
 [node name="healthbarPanel" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
 size_flags_vertical = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/healthbarPanel"]

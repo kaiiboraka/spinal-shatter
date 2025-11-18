@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dmf47bymxj2a7"]
+[gd_scene load_steps=15 format=3 uid="uid://dmf47bymxj2a7"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_g2g5o"]
 [ext_resource type="ArrayMesh" uid="uid://cdht6lyvqoy17" path="res://assets/Models/Room_North.res" id="2_hnwvy"]
@@ -25,6 +25,8 @@ size = Vector3(59.092712, 20, 57.58899)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6l7bu"]
 size = Vector3(6.5, 5, 25)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_xlqql"]
 
 [node name="North_Room" type="StaticBody3D"]
 collision_layer = 516
@@ -118,3 +120,6 @@ max_db = 4.0
 autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_xlqql")

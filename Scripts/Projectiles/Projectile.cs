@@ -76,24 +76,26 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
-
 		for (int i = 0; i < state.GetContactCount(); i++)
 		{
 			Node collider = state.GetContactColliderObject(i) as Node;
 			if (collider != null)
 			{
+				var contactLocalNormal = state.GetContactLocalNormal(i);
+				var contactLocalPosition = state.GetContactColliderPosition(i);
+
 				if (_sparkParticlesScene.Instantiate() is OneshotParticles sparkParticles)
 				{
 					GetTree().Root.AddChild(sparkParticles);
 					sparkParticles.GlobalPosition = GlobalPosition;
-					sparkParticles.LookAt(state.GetContactLocalNormal(i));
+					sparkParticles.LookAt(contactLocalNormal);
 					sparkParticles.PlayParticles((int)(ManaCost * 3));
 				}
 
 				if (!collider.IsInGroup("Enemies"))
 				{
 					// Wall bounce
-					Vector3 impactPoint = state.GetContactColliderPosition(i);
+					Vector3 impactPoint = contactLocalPosition.MoveToward(contactLocalNormal, contactLocalNormal.Length());
 					HandleWallBounce(impactPoint);
 					return; // Handle one bounce per frame
 				}
@@ -342,6 +344,11 @@ public partial class Projectile : RigidBody3D
 		{
 			// DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
 		}
+	}
+
+	public void Modulate(Color newColor)
+	{
+		_sprite.Modulate = newColor;
 	}
 
 	public void Reset()

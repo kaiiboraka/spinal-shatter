@@ -1,7 +1,7 @@
 [remap]
 
-importer="aseprite_wizard.plugin.noop"
-type="PackedDataContainer"
+importer="aseprite_wizard.plugin.static-texture"
+type="PortableCompressedTexture2D"
 uid="uid://dp5b62k5d0jbb"
 path="res://.godot/imported/Coins_Spin.ase-d1d2571748329fbea0202cec49fe701a.res"
 
@@ -12,3 +12,9 @@ dest_files=["res://.godot/imported/Coins_Spin.ase-d1d2571748329fbea0202cec49fe70
 
 [params]
 
+layer/exclude_layers_pattern=""
+layer/only_visible_layers=false
+first_frame_only=true
+sheet/sheet_type="packed"
+sheet/sheet_columns=12
+sheet/scale=1

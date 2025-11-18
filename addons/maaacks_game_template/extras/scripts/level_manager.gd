@@ -171,6 +171,7 @@ func _on_level_changed(next_level : String):
 
 func _connect_level_signals() -> void:
 	_try_connecting_signal_to_level(&"level_lost", _on_level_lost)
+	_try_connecting_signal_to_level(&"PlayerDied", _on_level_lost)
 	_try_connecting_signal_to_level(&"level_won", _on_level_won)
 	_try_connecting_signal_to_level(&"level_won_and_changed", _on_level_won_and_changed)
 	_try_connecting_signal_to_level(&"level_changed", _on_level_changed)

@@ -4,6 +4,8 @@ extends OverlaidMenu
 signal restart_pressed
 signal main_menu_pressed
 
+@onready var confirm_restart = $ConfirmRestart
+
 func _ready():
 	if OS.has_feature("web"):
 		%ExitButton.hide()
@@ -22,5 +24,8 @@ func _on_confirm_exit_confirmed():
 	get_tree().quit()
 
 func _on_close_button_pressed():
-	restart_pressed.emit()
+	confirm_restart.popup_centered()
+
+func _on_confirm_restart_confirmed():
+	SceneLoader.reload_current_scene()
 	close()

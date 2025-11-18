@@ -1,52 +1,28 @@
 # Error
 
-10000 of these:
+E 0:01:33:228   NativeCalls.cs:1139 @ Godot.Vector3 Godot.NativeCalls.godot_icall_0_125(nint, nint): Condition "!is_inside_tree()" is true. Returning: Transform3D()
+  <C++ Source>  scene/3d/node_3d.cpp:621 @ get_global_transform()
+  <Stack Trace> NativeCalls.cs:1139 @ Godot.Vector3 Godot.NativeCalls.godot_icall_0_125(nint, nint)
+				Node3D.cs:566 @ Godot.Vector3 Godot.Node3D.GetGlobalPosition()
+				Node3D.cs:241 @ Godot.Vector3 Godot.Node3D.get_GlobalPosition()
+				AttachedAudioStreamPlayer3D.cs:11 @ void AttachedAudioStreamPlayer3D._Process(double)
+				Node.cs:2654 @ bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				Node3D.cs:1126 @ bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				AudioStreamPlayer3D.cs:905 @ bool Godot.AudioStreamPlayer3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				AttachedAudioStreamPlayer3D_ScriptMethods.generated.cs:38 @ bool AttachedAudioStreamPlayer3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
 
-E 0:02:17:121   instance_set_transform: Condition "!v.is_finite()" is true.
-  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
-
-1500 more between the previous and the next 
-
-E 0:02:27:332   instance_set_transform: Condition "!v.is_finite()" is true.
-  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
+E 0:02:21:741   void System.ThrowHelper.ThrowObjectDisposedException(object): System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'Godot.Control'.
+  <C++ Error>   System.ObjectDisposedException
+  <C++ Source>  :0 @ void System.ThrowHelper.ThrowObjectDisposedException(object)
+  <Stack Trace> :0 @ void System.ThrowHelper.ThrowObjectDisposedException(object)
+				:0 @ void System.ObjectDisposedException.ThrowIf(bool, object)
+				GodotObject.base.cs:93 @ nint Godot.GodotObject.GetPtr(Godot.GodotObject)
+				Node.cs:834 @ void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode)
+				PlayerBody.cs:520 @ void SpinalShatter.PlayerBody+<>c__DisplayClass102_0.<OnDied>b__0()
+				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
 
 
 # Output
-
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@590 Initialized. Final GlobalPosition: (0, -1, 0)
-[INFO : 137.13][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@591.
-[INFO : 137.13][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@591. Active objects: 221
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@591 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@591 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@591 Initialized. Final GlobalPosition: (0, -1, 0), LinearVelocity: (-0.73011357, -0.102056116, 0.9468468)
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@591 Initialized. Final GlobalPosition: (0, -1, 0)
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: NaN, CurrentMana: 0.33333302
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[INFO : 137.46][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@593.
-[INFO : 137.46][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@593. Active objects: 8
-[DEBUG : 137.46][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy @CharacterBody3D@593. Total enemies: 21
-[DEBUG : 137.46][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@456 Animation timer finished. Releasing enemy.
-[INFO : 137.46][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @CharacterBody3D@456. Active objects: 8

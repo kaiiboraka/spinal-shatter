@@ -143,6 +143,8 @@ public partial class LevelRoom : Node3D
 		//DebugManager.Trace($"{body.Name} entered {this.Name}");
 		if (body is PlayerBody)
 		{
+			RoomManager.Instance.RegisterRoom(this);
+
 			Activate();
 			EmitSignalPlayerEntered(this);
 		}

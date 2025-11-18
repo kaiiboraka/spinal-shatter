@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Godot;
-using Godot.Collections;
 
 namespace SpinalShatter;
 
@@ -7,7 +7,7 @@ public partial class RoomManager : Node
 {
     public static RoomManager Instance;
 
-    public Array<LevelRoom> Rooms { get; set; } = new();
+    public Godot.Collections.Dictionary<string,LevelRoom> Rooms { get; set; } = new();
 
     [Signal] public delegate void CurrentRoomChangedEventHandler(LevelRoom newRoom);
     public LevelRoom CurrentRoom { get; private set; }
@@ -35,9 +35,13 @@ public partial class RoomManager : Node
 
     public void RegisterRoom(LevelRoom room)
     {
-        Rooms.Add(room);
-        room.PlayerEntered += OnPlayerEnteredRoomBoundary;
-        room.PlayerExited += OnPlayerExitedRoomBoundary;
+        if (Rooms.ContainsKey(room.Name) && Rooms[room.Name] is null)
+        {
+            Rooms.Remove(room.Name);
+            Rooms.Add(room.Name, room);
+        }
+        room.SafeSubscribe<LevelRoom>(LevelRoom.SignalName.PlayerEntered, OnPlayerEnteredRoomBoundary);
+        room.SafeSubscribe<LevelRoom>(LevelRoom.SignalName.PlayerExited, OnPlayerExitedRoomBoundary);
     }
 
     public void OnPlayerEnteredRoomBoundary(LevelRoom enteredRoom)
@@ -68,8 +72,9 @@ public partial class RoomManager : Node
 
     private void UpdateRoomStates()
     {
-        foreach (var room in Rooms)
+        foreach (var roomEntry in Rooms)
         {
+            var room = roomEntry.Value;
             if (room == CurrentRoom && !room.IsActive)
             {
                 //DebugManager.Debug($"UpdateRoomStates.Activate: {room.Name}");

@@ -72,8 +72,7 @@ public partial class Enemy : Combatant
 
 	public ObjectPoolManager<Node3D> OwningPool { get; set; }
 
-	private const float GRAVITY_SCALAR = 5f;
-	private float _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle() * GRAVITY_SCALAR;
+	private float _gravity => Constants.GRAVITY;
 
 	public override void _Ready()
 	{
@@ -188,6 +187,10 @@ public partial class Enemy : Combatant
 		AudioData = data.AudioData;
 	}
 
+	private bool InActionableState => _currentState != AIState.Attacking &&
+									  _currentState != AIState.Recovery &&
+									  _currentState != AIState.Dying;
+
 	public override void _PhysicsProcess(double delta)
 	{
 		if (_currentState == AIState.Dying) return;
@@ -195,20 +198,28 @@ public partial class Enemy : Combatant
 
 		base._PhysicsProcess(delta); // Decays knockback
 
-		if (_currentState != AIState.Attacking && _currentState != AIState.Recovery && _currentState != AIState.Dying)
+		// --- Player Target Acquisition (if _player is null) ---
+		if (_player == null)
 		{
-			if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() is PlayerBody player)
+			var bodies = DetectionArea.GetOverlappingBodies();
+			foreach (var body in bodies)
 			{
-				_player = player;
-				ChangeState(AIState.Chasing);
+				if (body is PlayerBody player)
+				{
+					_player = player;
+					break; // Found player, no need to check other bodies
+				}
 			}
 		}
+
+		// --- Existing LOS check (now _player should be set if in area) ---
+		TryToChase();
 
 
 		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
-		if (!IsOnFloor() && Data.IsGrounded)
+		if (!IsOnFloor())
 		{
 			newVelocity.Y -= _gravity * (float)delta * Data.KnockbackWeight;
 		}
@@ -312,6 +323,38 @@ public partial class Enemy : Combatant
 		}
 	}
 
+	private void ExitState(AIState state)
+	{
+		switch (state)
+		{
+			case AIState.Idle:
+				break;
+			case AIState.Patrolling:
+				_timerWalk.Stop();
+				_timerAction.Stop();
+				break;
+			case AIState.Chasing:
+				break;
+			case AIState.Attacking:
+				break;
+			case AIState.Recovery:
+				_timerAction.Stop();
+				break;
+		}
+	}
+
+	private void TryToChase()
+	{
+		if (!InActionableState) return;
+		if (_player == null) return; // This check is now more reliable
+
+		Detection_lineOfSight.TargetPosition = ToLocal(_player.GlobalPosition);
+		if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() == _player)
+		{
+			ChangeState(AIState.Chasing);
+		}
+	}
+
 	private void PerformAttack()
 	{
 		if (ProjectileIsRanged)
@@ -352,26 +395,6 @@ public partial class Enemy : Combatant
 		_animPlayer.Pause();
 		_animatedSprite.Pause();
 		_animatedSprite_Eye.Pause();
-	}
-
-	private void ExitState(AIState state)
-	{
-		switch (state)
-		{
-			case AIState.Idle:
-				break;
-			case AIState.Patrolling:
-				_timerWalk.Stop();
-				_timerAction.Stop();
-				break;
-			case AIState.Chasing:
-				break;
-			case AIState.Attacking:
-				break;
-			case AIState.Recovery:
-				_timerAction.Stop();
-				break;
-		}
 	}
 
 	private void OnDetectionAreaBodyEntered(Node3D body)
@@ -416,7 +439,7 @@ public partial class Enemy : Combatant
 			return;
 		}
 
-		var targetRotation = Transform.LookingAt(_player.GlobalPosition, Vector3.Up).Basis;
+		var targetRotation = new Transform3D(Basis, GlobalPosition).LookingAt(_player.GlobalPosition, Vector3.Up).Basis;
 		Basis = Basis.Orthonormalized().Slerp(targetRotation, (float)delta * ChaseRotationSpeed);
 
 		if (GlobalPosition.DistanceTo(_player.GlobalPosition) > AttackRange)
@@ -487,8 +510,19 @@ public partial class Enemy : Combatant
 		// Check for wall collision and change direction.
 		if (IsOnWall())
 		{
-			float randomAngle = (float)GD.RandRange(0, Mathf.Pi * 2);
-			Rotation = new Vector3(0, randomAngle, 0);
+			var collision = GetLastSlideCollision();
+			if (collision != null)
+			{
+				var forward = -GlobalTransform.Basis.Z.Normalized();
+				var reflectDir = forward.Bounce(collision.GetNormal());
+				LookAt(GlobalPosition + reflectDir, Vector3.Up);
+			}
+			else
+			{
+				// Fallback to random rotation if no collision data
+				float randomAngle = (float)GD.RandRange(0, Mathf.Pi * 2);
+				Rotation = new Vector3(0, randomAngle, 0);
+			}
 		}
 	}
 
@@ -600,9 +634,15 @@ public partial class Enemy : Combatant
 		ChangeState(AIState.Dying);
 	}
 
+	private void Despawn()
+	{
+		// DebugManager.Debug($"Enemy: {Name} Animation timer finished. Releasing enemy.");
+		if (OwningPool != null) OwningPool.Release(this);
+		else QueueFree();
+	}
+
 	private void TryToDie()
 	{
-
 		// DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}\n" +
 		// 				   $"Death particles GlobalPosition before: {GlobalPosition}");
 
@@ -620,8 +660,10 @@ public partial class Enemy : Combatant
 
 		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 
-		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop.GetRandomValue(), _collisionShape.GlobalPosition);
-		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop.GetRandomValue(), _collisionShape.GlobalPosition);
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop.GetRandomValue(),
+			_collisionShape.GlobalPosition);
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop.GetRandomValue(),
+			_collisionShape.GlobalPosition);
 
 		StopMoving();
 		StopActionTimers();
@@ -629,13 +671,6 @@ public partial class Enemy : Combatant
 		EmitSignalEnemyDied(this);
 
 		_timerPool.Start();
-	}
-
-	private void Despawn()
-	{
-		// DebugManager.Debug($"Enemy: {Name} Animation timer finished. Releasing enemy.");
-		if (OwningPool != null) OwningPool.Release(this);
-		else QueueFree();
 	}
 
 	public override void Reset()
@@ -646,6 +681,18 @@ public partial class Enemy : Combatant
 		// Add any enemy-specific reset logic here
 		_animPlayer.Stop(); // Stop any playing animation
 		ChangeState(AIState.Idle, true);
+	}
+
+	public void Activate()
+	{
+		if (_isActive) return;
+
+		_isActive = true;
+		Visible = true;
+		SetProcess(true);
+		SetPhysicsProcess(true);
+
+		EnableCollisions();
 	}
 
 	public void Deactivate()
@@ -704,19 +751,6 @@ public partial class Enemy : Combatant
 		_timerWalk?.Stop();
 		_timerAction?.Stop();
 		_timerAttackCooldown?.Stop();
-	}
-
-	public void Activate()
-	{
-		if (_isActive) return;
-
-		_isActive = true;
-		Visible = true;
-		SetProcess(true);
-		SetPhysicsProcess(true);
-
-
-		EnableCollisions();
 	}
 
 	private void BlinkRoutine()

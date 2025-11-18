@@ -47,6 +47,7 @@ public partial class PlayerBody : Combatant
 	private bool grounded = false;
 	private bool isCrouching = false;
 	private bool isSprinting = false;
+	private bool deadNow = false;
 
 	private int curJumps = 0;
 	int maxJumps = 2;
@@ -214,6 +215,8 @@ public partial class PlayerBody : Combatant
 
 	private void ProcessInput(double delta)
 	{
+		if (deadNow) return;
+
 		direction = Vector3.Zero;
 
 		inputDir = Input
@@ -509,6 +512,7 @@ public partial class PlayerBody : Combatant
 
 	public override void OnDied()
 	{
+		deadNow = true;
 		var player = AudioManager.Instance.PlaySoundAttachedToNode(Audio_DieVoice, this);
 		onDeathSFXFinished = () =>
 		{

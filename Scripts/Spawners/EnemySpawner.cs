@@ -177,7 +177,6 @@ public partial class EnemySpawner : Node3D
 
     private void OnEnemyDied(Enemy who)
     {
-        who.Deactivate();
         _activeEnemyCount--;
         // It's good practice to disconnect signals from objects that might be reused
         who.EnemyDied -= OnEnemyDied;

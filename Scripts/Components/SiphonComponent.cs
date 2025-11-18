@@ -75,9 +75,10 @@ public partial class SiphonComponent : Node
 					pickup.State != Pickup.PickupState.Expired)
 				{
 					// GD.Print($"{Time.GetTicksMsec()}: SiphonComponent: Attracting pickup {pickup.Name}, current state: {pickup.State}");
-					pickup.Attract(_target);
+					pickup.BeginAttraction(_target);
 				}
-					pickup.Released += OnPickupReleased;
+
+				pickup.Released += OnPickupReleased;
 			}
 		}
 	}
@@ -94,7 +95,13 @@ public partial class SiphonComponent : Node
 
 			if (IsInstanceValid(pickup) && pickup.State == Pickup.PickupState.Attracted)
 			{
-				pickup.DriftIdle();
+				if (pickup.Data.PickupType == PickupType.Mana) pickup.DriftIdle();
+				else
+				{
+					pickup.Sleeping = true;
+					pickup.Sleeping = false;
+					pickup.ApplyCentralImpulse(Vector3.Down);
+				}
 			}
 		}
 

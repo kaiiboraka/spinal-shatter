@@ -44,6 +44,13 @@ public partial class Pickup : RigidBody3D
 	private Tween _decayTween;
 	protected Tween BlinkTween;
 
+	private float _gravity => Constants.GRAVITY;
+	protected bool CanAttract => (CurrentState == PickupState.Attracted && Target != null);
+
+	protected bool CannotAttract => (CurrentState != PickupState.Attracted || Target == null);
+
+
+
 	public override void _Ready()
 	{
 		LifetimeTimer.Timeout += OnLifetimeTimeout;
@@ -56,23 +63,12 @@ public partial class Pickup : RigidBody3D
 		BlinkRoutine();
 	}
 
-	public override void _PhysicsProcess(double delta)
-	{
-		base._PhysicsProcess(delta);
-		if (CurrentState == PickupState.Attracted && Target != null)
-		{
-			Vector3 direction = (Target.GlobalPosition - GlobalPosition).Normalized();
-			Velocity = direction * AttractSpeed;
-		}
-	}
 
-	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+
+	protected void Attract()
 	{
-		base._IntegrateForces(state);
-		if (CurrentState == PickupState.Attracted || (Type == PickupType.Mana && CurrentState == PickupState.Idle))
-		{
-			state.LinearVelocity = Velocity;
-		}
+		Vector3 direction = (Target.GlobalPosition - GlobalPosition).Normalized();
+		Velocity = direction * AttractSpeed;
 	}
 
 	public virtual void Initialize(PickupData data)
@@ -104,17 +100,28 @@ public partial class Pickup : RigidBody3D
 
 		LifetimeTimer.Start();
 		StopMoving();
-		if (Type == PickupType.Mana)
-		{
-			LinearVelocity = DriftIdle();
-			ApplyCentralImpulse(Velocity);
-		}
+		ResetMotion();
 		// DebugManager.Debug($"Pickup: {Name} Initialized. Final GlobalPosition: {GlobalPosition}, LinearVelocity: {LinearVelocity}");
 	}
 
-	public void Attract(Node3D target)
+	private void ResetMotion()
 	{
-		if (CurrentState == PickupState.Collected || CurrentState == PickupState.Expired) return;
+		switch (Type)
+		{
+			case PickupType.Mana:
+				LinearVelocity = DriftIdle();
+				ApplyCentralImpulse(Velocity);
+				break;
+			case PickupType.Money:
+				LinearVelocity = Vector3.Zero;
+				ApplyCentralImpulse(Vector3.Down);
+				break;
+		}
+	}
+
+	public void BeginAttraction(Node3D target)
+	{
+		if (CurrentState is PickupState.Collected or PickupState.Expired) return;
 
 		CurrentState = PickupState.Attracted;
 		Target = target;

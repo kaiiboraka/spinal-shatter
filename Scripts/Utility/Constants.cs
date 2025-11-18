@@ -39,4 +39,8 @@ public static class Constants
 	public const float MOVE_SPEED_MAX = 2000f;
 
 	public const float CRIT_MULTIPLIER = 2f;
+
+	public const float GRAVITY_SCALAR = 5f;
+	public static float GRAVITY = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle() * GRAVITY_SCALAR;
+
 }

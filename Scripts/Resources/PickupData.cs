@@ -8,9 +8,9 @@ public partial class PickupData : Resource
 	[ExportGroup("Parameters")]
 	[Export] public PickupType PickupType { get; set; }
 	[Export] public int Value { get; private set; } = 1;
-	[Export] public float DriftSpeed { get; private set; } = 0.5f;
+	[Export] public float DriftSpeed { get; private set; }
 	[Export] public float AttractSpeed { get; private set; } = 15.0f;
-	[Export] public double Lifetime { get; private set; } = 5f;
+	[Export] public double Lifetime { get; private set; } = 15f;
 
 	[ExportGroup("Visuals")]
 	[Export] public Color Modulate { get; set; } = Colors.White;

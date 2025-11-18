@@ -37,8 +37,14 @@ public partial class Combatant : CharacterBody3D
             if (projectile.Owner == this) return;
 
             float actualDamageDealt = TakeDamage(projectile.Damage, projectile.GlobalPosition);
-            // Calculate mana lost based on actual damage dealt
-            float manaLostAmount = actualDamageDealt * (projectile.ManaCost / projectile.Damage);
+            
+            // Calculate mana lost based on actual damage dealt, checking for division by zero.
+            float manaLostAmount = 0;
+            if (projectile.Damage > 0)
+            {
+                manaLostAmount = actualDamageDealt * (projectile.ManaCost / projectile.Damage);
+            }
+            
             projectile.ApplyManaLoss(manaLostAmount, projectile.GlobalPosition);
         }
     }

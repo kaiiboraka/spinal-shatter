@@ -2,35 +2,51 @@
 
 10000 of these:
 
-E 0:04:16:147   instance_set_transform: Condition "!v.is_finite()" is true.
+E 0:02:17:121   instance_set_transform: Condition "!v.is_finite()" is true.
   <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
 
+1500 more between the previous and the next 
+
+E 0:02:27:332   instance_set_transform: Condition "!v.is_finite()" is true.
+  <C++ Source>  servers/rendering/renderer_scene_cull.cpp:991 @ instance_set_transform()
+
+
 # Output
-Embedded window only supports Windowed mode.
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@880 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@880 Initialized. Final GlobalPosition: (0, -1, 0), LinearVelocity: (1.0457046, -0.56840134, 0.15304199)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@880 Initialized. Final GlobalPosition: (0, -1, 0)
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Dequeued existing object @RigidBody3D@893. Ready pool size: 2
-[INFO][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@893. Active objects: 370
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@893 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@893 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@893 Initialized. Final GlobalPosition: (0, -1, 0), LinearVelocity: (-0.5356063, -0.44258717, 0.9783877)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@893 Initialized. Final GlobalPosition: (0, -1, 0)
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
-[DEBUG][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: 0, CurrentMana: NaN
+
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@590 Initialized. Final GlobalPosition: (0, -1, 0)
+[INFO : 137.13][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @RigidBody3D@591.
+[INFO : 137.13][ManaPool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @RigidBody3D@591. Active objects: 221
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] ManaParticle: Initializing @RigidBody3D@591 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Pickup: Initializing @RigidBody3D@591 at GlobalPosition: (0, 0, 0), with data: res://assets/Resources/ManaParticleData_Small.tres
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Pickup: @RigidBody3D@591 Initialized. Final GlobalPosition: (0, -1, 0), LinearVelocity: (-0.73011357, -0.102056116, 0.9468468)
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] ManaParticle: @RigidBody3D@591 Initialized. Final GlobalPosition: (0, -1, 0)
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] AML: ManaLostAmount: NaN, CurrentMana: 0.33333302
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[DEBUG : 137.13][DebugManager @ DebugManager: CanvasLayer] Projectile: Reset - Freeze: True, CollisionShape.Disabled: True
+[INFO : 137.46][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Instantiated new object @CharacterBody3D@593.
+[INFO : 137.46][Swooper_Enemy_SmallFlyingMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Got object @CharacterBody3D@593. Active objects: 8
+[DEBUG : 137.46][DebugManager @ DebugManager: CanvasLayer] LevelRoom: East_Room Registered enemy @CharacterBody3D@593. Total enemies: 21
+[DEBUG : 137.46][DebugManager @ DebugManager: CanvasLayer] Enemy: @CharacterBody3D@456 Animation timer finished. Releasing enemy.
+[INFO : 137.46][Scrapper_Enemy_SmallGroundMeleePool @ ObjectPoolManager`1: Node] ObjectPoolManager: Releasing object @CharacterBody3D@456. Active objects: 8

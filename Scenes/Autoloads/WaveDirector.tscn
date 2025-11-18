@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=10 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
-[ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="2_gop7n"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="3_oxf7n"]
 [ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="4_kpvn7"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="4_phwt4"]
@@ -13,12 +12,14 @@
 
 [node name="WaveDirector" type="Node"]
 script = ExtResource("1_fhtwo")
-_enemyDataToSceneMap = Dictionary[ExtResource("2_gop7n"), PackedScene]({
+_enemyDataToSceneMap = Dictionary[Variant, PackedScene]({
 ExtResource("4_kpvn7"): ExtResource("4_phwt4"),
 ExtResource("3_oxf7n"): ExtResource("6_6lw2h"),
 ExtResource("5_gkeq4"): ExtResource("8_omfed"),
 ExtResource("6_phwt4"): ExtResource("10_aege0")
 })
+budgetIncreasePerWave = 1.0
+budgetIncreasePerRound = 5.0
 
 [node name="RoundTimer" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -262,6 +262,12 @@ public partial class Projectile : RigidBody3D
 
 	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition)
 	{
+		if (float.IsNaN(manaLostAmount))
+		{
+			Expire();
+			return;
+		}
+		
 		if (float.IsNaN(ManaCost))
 		{
 			Expire();

@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Elythia;
 using Godot.Collections;
@@ -10,7 +11,7 @@ public partial class PlayerBody : Combatant
 	public static PlayerBody Instance;
 
 	const float GRAVITY_MULTIPLIER = 2.00f;
-	[Export] private Control controlRoot;
+	private Control controlRoot;
 
 	// private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	[ExportGroup("PlayerMovementSettings")]
@@ -55,7 +56,6 @@ public partial class PlayerBody : Combatant
 	private Vector3 direction = Vector3.Zero;
 	private Vector3 newVelocity = Vector3.Zero;
 
-
 	private bool MouseIsCaptured => Input.MouseMode == Input.MouseModeEnum.Captured;
 
 	public Vector2 InputDir => inputDir;
@@ -73,23 +73,22 @@ public partial class PlayerBody : Combatant
 	private PlayerHealthBar _playerHealthBar;
 	private Label _playerMoneyAmountLabel;
 
-	[ExportGroup("Components")]
-	[Export] private ManaComponent _manaComponent;
-	[Export] private Area3D pickupArea;
+	private ManaComponent _manaComponent;
+	private Area3D pickupArea;
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
 	[Export] private PackedScene _levelLostMenuScene;
 
-	[ExportGroup("Audio", "Audio")]
-	[Export] private AudioStream Audio_Hurt;
-	[Export] private AudioStream Audio_DieSFX;
-	[Export] private AudioStream Audio_DieVoice;
+	private AudioStream Audio_Hurt;
+	private AudioStream Audio_DieSFX;
+	private AudioStream Audio_DieMusic;
+	private AudioStream Audio_DieVoice;
 
-	[Export] private AudioStream Audio_footstepSoundsStream;
+	private AudioStream Audio_footstepSoundsStream;
 	private AudioStreamRandomizer Audio_FootstepSounds => Audio_footstepSoundsStream as AudioStreamRandomizer;
 
-	[Export] private AudioStream Audio_footstepSprintSoundsStream;
+	private AudioStream Audio_footstepSprintSoundsStream;
 	private AudioStreamRandomizer Audio_FootstepSprintSounds => Audio_footstepSprintSoundsStream as AudioStreamRandomizer;
 
 	[ExportCategory("Combat")]
@@ -110,40 +109,26 @@ public partial class PlayerBody : Combatant
 	private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
 
 	private Node3D parentLevel;
+	private AudioStreamPlayer3D AudioPlayer_Hurt;
+	private AudioStreamPlayer3D AudioPlayer_MoneyFX;
+	private AudioStreamPlayer3D AudioPlayer_ManaFX;
 	public Node3D ParentLevel => parentLevel;
 
-
 	// TODO : put the main scene back to this one : res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn
-
 
 	public override void _Ready()
 	{
 		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
 		Instance = this;
 
-		headNode = GetNode<Node3D>("%Head");
-		arm = GetNode<SpringArm3D>("%CameraArm");
-		camera = GetNode<Camera3D>("%Camera1P");
+		GetComponents();
 
-		// camera3P = GetNode<Camera3D>("%Camera3P");
-		collider = GetNode<CollisionShape3D>("%PlayerCollider");
-		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
-
-		// loadout = GetNode<Loadout>("%Loadout");
-		currAmmoLabel = GetNode<Label>("%CurrAmmoText");
-		maxAmmoLabel = GetNode<Label>("%MaxAmmoText");
-
-		_manaComponent ??= GetNode<ManaComponent>("%ManaComponent");
 		_manaComponent.ManaChanged += UpdateManaHUD;
 		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
-
-		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
-		_playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 
 		HealthComponent.HealthChanged += UpdateHealthHUD;
 		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
 		
-		pickupArea ??= GetNode<Area3D>("PickupArea");
 		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
 
 		parentLevel = GetParent() as Node3D;
@@ -176,6 +161,35 @@ public partial class PlayerBody : Combatant
 		{
 			DebugManager.Error("PlayerBody: WaveDirector not found in scene tree!");
 		}
+	}
+
+	private void GetComponents()
+	{
+		controlRoot = GetNode<Control>("Control");
+		headNode = GetNode<Node3D>("%Head");
+		arm = GetNode<SpringArm3D>("%CameraArm");
+		camera = GetNode<Camera3D>("%Camera1P");
+		collider = GetNode<CollisionShape3D>("%PlayerCollider");
+		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
+		currAmmoLabel = GetNode<Label>("%CurrAmmoText");
+		maxAmmoLabel = GetNode<Label>("%MaxAmmoText");
+		_manaComponent = GetNode<ManaComponent>("%ManaComponent");
+		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
+		_playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
+		pickupArea = GetNode<Area3D>("PickupArea");
+
+		// Audio Players
+		AudioPlayer_Hurt = GetNode<AudioStreamPlayer3D>("Audio/Hurt_AudioStreamPlayer3D");
+		AudioPlayer_ManaFX = GetNode<AudioStreamPlayer3D>("Audio/ManaFX_AudioStreamPlayer3D");
+		AudioPlayer_MoneyFX = GetNode<AudioStreamPlayer3D>("Audio/MoneyFX_AudioStreamPlayer3D");
+
+		// AudioFiles
+		Audio_Hurt = GD.Load<AudioStream>("res://assets/Audio/SFX/dsoof.wav");
+		Audio_DieSFX = GD.Load<AudioStream>("res://assets/Audio/SFX/Slow.wav");
+		Audio_DieMusic = GD.Load<AudioStream>("res://assets/Audio/SFX/Exorcism.wav");
+		Audio_DieVoice = GD.Load<AudioStream>("res://assets/Audio/SFX/Odead.wav");
+		Audio_footstepSoundsStream = GD.Load<AudioStream>("res://assets/Audio/AudioData/SFX_Footsteps_Move.tres");
+		Audio_footstepSprintSoundsStream = GD.Load<AudioStream>("res://assets/Audio/AudioData/SFX_Footsteps_Sprint.tres");
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -468,7 +482,8 @@ public partial class PlayerBody : Combatant
 		// var tween = GetTree().CreateTween();
 		// tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
 		// tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
-		AudioManager.Instance.PlaySoundAttachedToNode(Audio_Hurt, this);
+		// AudioManager.Instance.PlaySoundAttachedToNode(Audio_Hurt, this);
+
 		//TODO: add UI overlay
 	}
 
@@ -486,21 +501,42 @@ public partial class PlayerBody : Combatant
 		
 		// Prevent base class decay/application from interfering
 		_knockbackVelocity = Vector3.Zero;
+		Elythia.DebugManager.Info($"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
 	}
+
+	private Action onDeathVoiceFinished;
+	private Action onDeathSFXFinished;
 
 	public override void OnDied()
 	{
-		AudioManager.Instance.PlaySoundAttachedToNode(Audio_DieVoice, this);
-		AudioManager.Instance.PlaySoundAtPosition(Audio_DieSFX, GlobalPosition);
+		var player = AudioManager.Instance.PlaySoundAttachedToNode(Audio_DieVoice, this);
+		onDeathSFXFinished = () =>
+		{
+			var levelLostMenu = _levelLostMenuScene.Instantiate();
+			controlRoot.AddChild(levelLostMenu);
+		};
+		onDeathVoiceFinished = () =>
+		{
+			player.Finished -= onDeathVoiceFinished;
+			var sfxPlayer = AudioManager.Instance.PlaySoundAtPosition(Audio_DieSFX, GlobalPosition);
+			var musicPlayer = AudioManager.Instance.PlaySoundAtPosition(Audio_DieMusic, GlobalPosition);
 
-		// AudioPlayer_MiscFX.Finished += () =>
-		// 	{
-		// 		// GetTree().CreateTimer(2f, true).Timeout += () =>
-		// 		{
-		// 			var levelLostMenu = _levelLostMenuScene.Instantiate();
-		// 			controlRoot.AddChild(levelLostMenu);
-		// 		};
-		// 	};
+			if (sfxPlayer.Stream.GetLength() > musicPlayer.Stream.GetLength())
+			{
+				sfxPlayer.Finished += onDeathSFXFinished;
+			}
+			else if (musicPlayer.Stream.GetLength() > sfxPlayer.Stream.GetLength())
+			{
+				musicPlayer.Finished += onDeathSFXFinished;
+			}
+		};
+
+
+		player.Finished += onDeathVoiceFinished;
+	}
+
+	private void OnDeathVoiceFinished()
+	{
 
 	}
 
@@ -525,14 +561,18 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
-	private void PickupManaParticle(ManaParticle particle)
+	private void PickupManaParticle(ManaParticle manaParticle)
 	{
-		if (particle.State == Pickup.PickupState.Collected) return; // Already collected
+		if (manaParticle.State == Pickup.PickupState.Collected) return; // Already collected
 
-		_manaComponent.AddMana(particle.Value);
-		particle.Collect();
+		_manaComponent.AddMana(manaParticle.Value);
+		manaParticle.Collect();
 
-		PickupManager.Instance.Release(particle);
+		AudioPlayer_ManaFX.Stream = manaParticle.Data.AudioStream;
+		AudioPlayer_ManaFX.PitchScale = manaParticle.Data.AudioPitch;
+		AudioPlayer_ManaFX.Play();
+
+		PickupManager.Instance.Release(manaParticle);
 	}
 
 	private void CollectMoneyPickup(Money moneyParticle)
@@ -541,6 +581,11 @@ public partial class PlayerBody : Combatant
 
 		AddMoney(moneyParticle.Value);
 		moneyParticle.Collect();
+
+		AudioPlayer_MoneyFX.Stream = moneyParticle.Data.AudioStream;
+		AudioPlayer_MoneyFX.PitchScale = moneyParticle.Data.AudioPitch;
+		AudioPlayer_MoneyFX.Play();
+
 		PickupManager.Instance.Release(moneyParticle);
 	}
 

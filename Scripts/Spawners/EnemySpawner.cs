@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 namespace SpinalShatter;
 
-[Tool, GlobalClass]
+[GlobalClass, Tool]
 public partial class EnemySpawner : Node3D
 {
     [Signal] public delegate void SpawningFinishedEventHandler();
-    
 
     private float _spawnRadius = 10.0f;
     [Export] private float _spawnInterval = 1.0f;
@@ -73,15 +72,24 @@ public partial class EnemySpawner : Node3D
         radiusViewer.BottomRadius = newRadius;
     }
 
+    public override void _Notification(int what)
+    {
+        if (this.IsInGame()) return;
+        base._Notification(what);
+        if (what == NotificationEnterTree)
+        {
+            SetRadius(_spawnRadius);
+        }
+    }
+
     private bool GetRadiusViewer()
     {
-        if (radiusViewer != null) return false;
         if (!this.IsReady()) return false;
 
-        radiusViewerInstance ??= GetNode<MeshInstance3D>("RadiusViewer");
-        radiusViewer ??= radiusViewerInstance.Mesh as CylinderMesh;
+        radiusViewerInstance = GetNode<MeshInstance3D>("RadiusViewer");
+        radiusViewer = radiusViewerInstance.Mesh as CylinderMesh;
 
-        return  radiusViewer != null;
+        return radiusViewer != null;
     }
 
     public void StartSpawningWave(Array<PackedScene> enemies)
@@ -149,11 +157,14 @@ public partial class EnemySpawner : Node3D
             newEnemy.OwningPool = pool;
 
             var randomOffset = new Vector2(GD.Randf(), GD.Randf()).Normalized() * (float)GD.RandRange(0, SpawnRadius);
-            newEnemy.GlobalPosition = GlobalPosition + new Vector3(randomOffset.X, 0, randomOffset.Y) + Vector3.Up;
-            
+            newEnemy.GlobalPosition = GlobalPosition + new Vector3(randomOffset.X, 0, randomOffset.Y);
+
+            newEnemy.Activate();
+
             newEnemy.EnemyDied += OnEnemyDied;
             _owningRoom.RegisterEnemy(newEnemy);
             _activeEnemyCount++;
+
         }
         else
         {
@@ -166,6 +177,7 @@ public partial class EnemySpawner : Node3D
 
     private void OnEnemyDied(Enemy who)
     {
+        who.Deactivate();
         _activeEnemyCount--;
         // It's good practice to disconnect signals from objects that might be reused
         who.EnemyDied -= OnEnemyDied;

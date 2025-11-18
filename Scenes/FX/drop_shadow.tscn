@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqwofs7cc4nx3"]
+
+[ext_resource type="Material" uid="uid://dnk2a3wc84xvg" path="res://assets/Textures/DropShadow.tres" id="1_hrgdc"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0q40n"]
+
+[node name="DropShadow" type="MeshInstance3D"]
+material_override = ExtResource("1_hrgdc")
+mesh = SubResource("PlaneMesh_0q40n")

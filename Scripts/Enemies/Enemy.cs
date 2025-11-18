@@ -10,7 +10,7 @@ public partial class Enemy : Combatant
 	public LevelRoom AssociatedRoom { get; set; }
 	private bool _isActive = true;
 
-	private List<CollisionShape3D> _collisionShapes = new();
+	private CollisionShape3D _collisionShape = new();
 	private AIState _currentState = AIState.Idle;
 
 	[ExportGroup("Components")] [Export] public EnemyData Data { get; private set; }
@@ -42,8 +42,8 @@ public partial class Enemy : Combatant
 	public float MaxWaitTime { get; private set; } = 5.0f;
 
 	// Combat
-	public int MoneyAmountToDrop { get; private set; } = 10;
-	public int ManaAmountToDrop { get; private set; } = 10;
+	public IntValueRange MoneyAmountToDrop { get; private set; } = new(10);
+	public IntValueRange ManaAmountToDrop { get; private set; } = new(10);
 
 	// Attack
 	private float AttackRange { get; set; } = 2.0f;
@@ -91,7 +91,7 @@ public partial class Enemy : Combatant
 		GetComponents();
 
 		// Collect all collision shapes for activation/deactivation
-		_collisionShapes = GetChildren().OfType<CollisionShape3D>().ToList();
+		_collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
 
 		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
 
@@ -620,8 +620,8 @@ public partial class Enemy : Combatant
 
 		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
 
-		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop, this.GlobalPosition);
-		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop, this.GlobalPosition);
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop.GetRandomValue(), _collisionShape.GlobalPosition);
+		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop.GetRandomValue(), _collisionShape.GlobalPosition);
 
 		StopMoving();
 		StopActionTimers();
@@ -645,7 +645,6 @@ public partial class Enemy : Combatant
 
 		// Add any enemy-specific reset logic here
 		_animPlayer.Stop(); // Stop any playing animation
-		EnableCollisions();
 		ChangeState(AIState.Idle, true);
 	}
 
@@ -716,10 +715,8 @@ public partial class Enemy : Combatant
 		SetProcess(true);
 		SetPhysicsProcess(true);
 
-		foreach (var shape in _collisionShapes)
-		{
-			shape.Disabled = false;
-		}
+
+		EnableCollisions();
 	}
 
 	private void BlinkRoutine()

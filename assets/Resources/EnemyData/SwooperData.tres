@@ -1,7 +1,18 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3 uid="uid://ckufkle75pln1"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3 uid="uid://ckufkle75pln1"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
 [ext_resource type="Resource" uid="uid://dygy25aq3r1lw" path="res://assets/Audio/AudioData/AudioData_Swooper.tres" id="2_audio"]
+[ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValueRange.cs" id="2_ga3do"]
+
+[sub_resource type="Resource" id="Resource_ga3do"]
+script = ExtResource("2_ga3do")
+Min = 3
+Max = 10
+
+[sub_resource type="Resource" id="Resource_uowma"]
+script = ExtResource("2_ga3do")
+Min = 3
+Max = 20
 
 [resource]
 script = ExtResource("1_abcde")
@@ -12,4 +23,5 @@ AudioData = ExtResource("2_audio")
 DeathParticleCount = 5
 WalkSpeed = 12.0
 KnockbackWeight = 1.0
-MoneyAmountToDrop = 50
+MoneyAmountToDrop = SubResource("Resource_uowma")
+ManaAmountToDrop = SubResource("Resource_ga3do")

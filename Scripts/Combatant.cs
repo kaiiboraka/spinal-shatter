@@ -1,3 +1,4 @@
+using Elythia;
 using Godot;
 
 namespace SpinalShatter;
@@ -53,6 +54,7 @@ public partial class Combatant : CharacterBody3D
         float knockbackDamage = Mathf.Clamp(damage, 0, 30f);
 
         _knockbackVelocity = (direction + Lift) * (knockbackDamage / KnockbackWeight);
+        // DebugManager.Info($"Combatant Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackDamage={knockbackDamage}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={_knockbackVelocity}");
     }
 
     public virtual void OnHurt(Vector3 sourcePosition, float damage)

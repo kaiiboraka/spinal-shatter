@@ -2,7 +2,7 @@
 
 [ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_8u2q1"]
 [ext_resource type="Script" uid="uid://co8bxmfjbymyd" path="res://Scripts/Pickups/Money.cs" id="2_8u2q1"]
-[ext_resource type="AudioStream" uid="uid://cbayb78unjlmm" path="res://assets/Audio/SFX/Pickup6.wav" id="3_8u2q1"]
+[ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="3_8u2q1"]
 [ext_resource type="SpriteFrames" uid="uid://posi3l54iqof" path="res://assets/Images/Pickups/Bubble_Money_Bronze.ase" id="4_8u2q1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ulyup"]
@@ -32,7 +32,7 @@ AreaShape = NodePath("Area3D/AreaCollisionShape3D")
 one_shot = true
 autostart = true
 
-[node name="ManaAbsorbtion_AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Pickup_AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_8u2q1")
 pitch_scale = 0.55
 bus = &"SFX"

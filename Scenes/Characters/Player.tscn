@@ -1,26 +1,25 @@
-[gd_scene load_steps=36 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=35 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
-[ext_resource type="AudioStream" uid="uid://j8bc5eq3u88u" path="res://assets/Audio/SFX/Slow.wav" id="2_qd2bg"]
-[ext_resource type="AudioStream" uid="uid://n2yv2xx4y83b" path="res://assets/Audio/SFX/dsoof.wav" id="2_qeewm"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="3_hqlak"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
 [ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/siphon_cone.res" id="6_gc10f"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
-[ext_resource type="AudioStream" uid="uid://cisnb6ksg8tgq" path="res://assets/Audio/SFX/Resources/SFX_Footsteps_Move.tres" id="7_ltdul"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
-[ext_resource type="AudioStream" uid="uid://bmjytv4b2j12o" path="res://assets/Audio/SFX/Resources/SFX_Footsteps_Sprint.tres" id="8_ibpri"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://butus1yqi3skm" path="res://assets/Audio/SFX/Powerup_02.wav" id="8_w6cdd"]
+[ext_resource type="AudioStream" uid="uid://bpncnqqruey3i" path="res://assets/Audio/SFX/Powerup_04.wav" id="9_ibpri"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/PlayerData/Sphere_ManaCostRange.tres" id="15_81gbe"]
 [ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/PlayerData/Sphere_DamageRange.tres" id="16_3vnku"]
+[ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="16_qd2bg"]
+[ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/AudioData/SFX_ManaParticle.tres" id="16_qeewm"]
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/PlayerData/Sphere_SpeedRange.tres" id="17_hqlak"]
 [ext_resource type="AudioStream" uid="uid://cm33h8bl2j42s" path="res://assets/Audio/SFX/Odead.wav" id="17_ibpri"]
 [ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/PlayerData/Sphere_SizeRange.tres" id="18_mc0oj"]
@@ -91,24 +90,16 @@ _data = {
 &"Siphon_Spin": SubResource("Animation_gc10f")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("controlRoot", "_manaComponent", "pickupArea", "HealthComponent", "_hurtbox") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("HealthComponent", "_hurtbox") groups=["Player"]]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
 platform_floor_layers = 12
 platform_wall_layers = 512
 script = ExtResource("1_gjot8")
-controlRoot = NodePath("Control")
 WALK_SPEED = 15.0
-_manaComponent = NodePath("ManaComponent")
-pickupArea = NodePath("PickupArea")
 _pauseMenuScene = ExtResource("2_3vnku")
 _levelLostMenuScene = ExtResource("3_hqlak")
-Audio_Hurt = ExtResource("2_qeewm")
-Audio_DieSFX = ExtResource("2_qd2bg")
-Audio_DieVoice = ExtResource("17_ibpri")
-Audio_footstepSoundsStream = ExtResource("7_ltdul")
-Audio_footstepSprintSoundsStream = ExtResource("8_ibpri")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
 
@@ -120,16 +111,18 @@ script = ExtResource("7_u2vuf")
 unique_name_in_owner = true
 script = ExtResource("3_mana")
 
-[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("_manaComponent", "_spellOrigin", "_audioPlayer_Spell", "_audioPlayer_Charge")]
+[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("_manaComponent", "_spellOrigin", "_audioPlayer_Spell", "_audioPlayer_ChargeBack", "_audioPlayer_ChargeBeep")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
 _projectileScene = ExtResource("4_orb")
 _manaComponent = NodePath("../ManaComponent")
 _spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 _audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
-_audioPlayer_Charge = NodePath("../Audio/SpellCharge_AudioStreamPlayer3D")
-_audio_Charge = ExtResource("8_w6cdd")
+_audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
+_audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D2")
 _audio_Cast = ExtResource("7_b4kmf")
+_audio_Charge = ExtResource("8_w6cdd")
+_audio_ChargeComplete = ExtResource("9_ibpri")
 _maxChargeTime = 1.5
 ManaCostRange = ExtResource("15_81gbe")
 DamageRange = ExtResource("16_3vnku")
@@ -185,17 +178,23 @@ shape = SubResource("CapsuleShape3D_1i50u")
 
 [node name="Audio" type="Node3D" parent="."]
 
-[node name="MiscFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Hurt_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("17_ibpri")
 volume_db = 5.0
 unit_size = 20.0
+pitch_scale = 1.2
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="Hurt_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Audio"]
-stream = ExtResource("17_ibpri")
-volume_db = 5.0
-unit_size = 20.0
+[node name="ManaFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("16_qeewm")
+max_polyphony = 3
+bus = &"SFX"
+doppler_tracking = 2
+
+[node name="MoneyFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("16_qd2bg")
+max_polyphony = 3
 bus = &"SFX"
 doppler_tracking = 2
 
@@ -213,14 +212,21 @@ bus = &"SFX"
 doppler_tracking = 2
 
 [node name="SpellCast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
-stream = ExtResource("8_w6cdd")
-volume_db = -29.151
-pitch_scale = 0.51
-bus = &"SFX"
+stream = ExtResource("7_b4kmf")
+pitch_scale = 2.5
+max_polyphony = 3
+bus = &"Spells"
 doppler_tracking = 2
 
-[node name="SpellCharge_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="SpellChargeBack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("10_shd1k")
+volume_db = -8.0
+pitch_scale = 2.0
+bus = &"Charge_Back"
+doppler_tracking = 2
+
+[node name="SpellChargeBeep_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Audio"]
+stream = ExtResource("8_w6cdd")
 volume_db = -21.622
 pitch_scale = 1.01
 bus = &"SFX"

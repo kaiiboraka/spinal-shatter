@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="MoneyData" load_steps=4 format=3 uid="uid://dutvvj3iw5ms7"]
 
 [ext_resource type="SpriteFrames" uid="uid://dvplenrvo5m6y" path="res://assets/Images/Pickups/Bubble_Money_Silver.ase" id="1_4qbyd"]
-[ext_resource type="AudioStream" uid="uid://cbayb78unjlmm" path="res://assets/Audio/SFX/Pickup6.wav" id="1_t4b3b"]
+[ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="1_t4b3b"]
 [ext_resource type="Script" uid="uid://b47npq5yf0ktu" path="res://Scripts/Resources/MoneyData.cs" id="2_t4b3b"]
 
 [resource]
 script = ExtResource("2_t4b3b")
+MoneyTier = 1
 PickupType = 1
 Value = 10
 Lifetime = 20.0

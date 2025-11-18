@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ManaParticleData" load_steps=4 format=3 uid="uid://cuiwba3mt2lap"]
 
 [ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="1_4fmbn"]
-[ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/SFX/Resources/SFX_ManaParticle.tres" id="1_5xgct"]
+[ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/AudioData/SFX_ManaParticle.tres" id="1_5xgct"]
 [ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Pickups/magic_spark.ase" id="2_h51yk"]
 
 [resource]

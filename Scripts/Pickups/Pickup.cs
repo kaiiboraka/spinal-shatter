@@ -36,6 +36,8 @@ public partial class Pickup : RigidBody3D
 	[Export] protected PickupData data;
 	public virtual  PickupData Data => data;
 
+	protected AudioStreamPlayer globalPickupPlayer;
+
 	protected Vector3 Velocity = Vector3.Zero;
 	protected Node3D Target = null;
 
@@ -45,6 +47,7 @@ public partial class Pickup : RigidBody3D
 	public override void _Ready()
 	{
 		LifetimeTimer.Timeout += OnLifetimeTimeout;
+		globalPickupPlayer = GetNode<AudioStreamPlayer>("Pickup_AudioStreamPlayer");
 	}
 
 	public override void _Process(double delta)
@@ -55,6 +58,7 @@ public partial class Pickup : RigidBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
 		if (CurrentState == PickupState.Attracted && Target != null)
 		{
 			Vector3 direction = (Target.GlobalPosition - GlobalPosition).Normalized();
@@ -64,11 +68,11 @@ public partial class Pickup : RigidBody3D
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
+		base._IntegrateForces(state);
 		if (CurrentState == PickupState.Attracted || (Type == PickupType.Mana && CurrentState == PickupState.Idle))
 		{
 			state.LinearVelocity = Velocity;
 		}
-		base._IntegrateForces(state);
 	}
 
 	public virtual void Initialize(PickupData data)
@@ -118,13 +122,13 @@ public partial class Pickup : RigidBody3D
 		Sleeping = false;
 	}
 
-	public virtual void Collect()
+	public void Collect()
 	{
 		CurrentState = PickupState.Collected;
 		StopMoving();
 		BlinkTween?.Kill();
 
-
+		// globalPickupPlayer.Play();
 		EmitSignalCollected(this);
 		// Removed: EmitSignal(SignalName.Released, this);
 	}

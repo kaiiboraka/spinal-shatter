@@ -19,12 +19,4 @@ public partial class ManaParticle : Pickup
         Sprite.Play();
         // DebugManager.Debug($"ManaParticle: {Name} Initialized. Final GlobalPosition: {GlobalPosition}");
     }
-
-    public override void Collect()
-    {
-        var pitch = (float)(GD.RandRange(.95, 1.05) * Data.AudioPitch);
-        AudioManager.Instance.PlaySoundAtPosition(Data.AudioStream, GlobalPosition, pitch, -12f);
-
-        base.Collect();
-    }
 }

@@ -1,3 +1,4 @@
+using Elythia;
 using Godot;
 using SpinalShatter;
 
@@ -5,10 +6,10 @@ using SpinalShatter;
 public partial class EnemyData : Resource
 {
     [Export] public string Name { get; private set; }
-    [Export] public int BaseCost { get; private set; } = 1;
-    [Export] public EnemyRank Rank { get; private set; } = EnemyRank.Rank1_Bone;
-    [Export] public EnemyMovementType MovementType { get; private set; } = EnemyMovementType.Grounded;
-    [Export] public EnemyRangeType RangeType { get; private set; } = EnemyRangeType.Melee;
+    [Export] public int BaseCost { get; private set; }
+    [Export] public EnemyRank Rank { get; private set; }
+    [Export] public EnemyMovementType MovementType { get; private set; }
+    [Export] public EnemyRangeType RangeType { get; private set; }
 
     public bool IsFlying => MovementType == EnemyMovementType.Flying;
     public bool IsGrounded => MovementType == EnemyMovementType.Grounded;
@@ -35,9 +36,9 @@ public partial class EnemyData : Resource
     [Export] public float KnockbackDecayRate { get; set; } = 10.0f;
 
     [ExportSubgroup("Money", "Money")]
-    [Export] public int MoneyAmountToDrop { get; private set; } = 10;
+    [Export] public IntValueRange MoneyAmountToDrop { get; private set; } = new(10);
     [ExportSubgroup("Mana", "Mana")]
-    [Export] public int ManaAmountToDrop { get; private set; } = 10;
+    [Export] public IntValueRange ManaAmountToDrop { get; private set; } = new(10);
 
     // Attack
     [ExportSubgroup("Attack", "Attack")]

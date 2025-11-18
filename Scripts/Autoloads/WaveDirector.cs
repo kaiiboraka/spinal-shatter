@@ -13,10 +13,11 @@ public partial class WaveDirector : Node
 	public int TotalWavesCompleted { get; private set; } = 0;
 	public DifficultyTier SelectedDifficulty = DifficultyTier.D2_Normal;
 	public bool IsRoundInProgress { get; private set; } = false;
-	
+
 	private int _wavesCompletedThisRound = 0;
+	private int _enemiesThisWave = 0;
 	private LevelRoom _activeRoom;
-	
+
 	// --- Timers & Player ---
 	private Timer RoundTimer;
 	private RichTextLabel _timerLabel;
@@ -27,12 +28,13 @@ public partial class WaveDirector : Node
 	// --- Rewards ---
 	[ExportGroup("Rewards")]
 	[Export] private float moneyGivenPerSecondLeft = 5;
+
 	[Export] private float moneyGivenPerHealthLeft = 10;
 	private int moneyTimeBonus = 0;
 	private int moneyHealthBonus = 0;
 
 	// --- Spawning & Budget ---
-	[ExportGroup("Spawning")]	[Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
+	[ExportGroup("Spawning")] [Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
 	[Export] private int wavesPerRound = 3;
 	[Export(PropertyHint.ExpEasing)] private float baseBudget = 10f;
 	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 2f;
@@ -50,6 +52,7 @@ public partial class WaveDirector : Node
 		{ DifficultyTier.D4_Expert, 4.0f },
 		{ DifficultyTier.D5_Brutal, 10.0f }
 	};
+
 	public Dictionary<DifficultyTier, float> DifficultyMultipliers => difficultyMultipliers;
 
 	[Export] private Dictionary<EnemyRank, float> enemyStrengthMultipliers = new()
@@ -59,6 +62,7 @@ public partial class WaveDirector : Node
 		{ EnemyRank.Rank3_Iron, 3 },
 		{ EnemyRank.Rank4_Obsidian, 4 }
 	};
+
 	public Dictionary<EnemyRank, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
 
 	public override void _Ready()
@@ -68,7 +72,7 @@ public partial class WaveDirector : Node
 		RoundTimer.Timeout += OnRoundLost;
 
 		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
-		
+
 		// Immediately handle the starting room if it's already set
 		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
 	}
@@ -80,8 +84,10 @@ public partial class WaveDirector : Node
 			DebugManager.Error("WaveDirector: Attempted to set player with a null instance!");
 			return;
 		}
+
 		player = playerInstance;
 		player.HealthComponent.Died += OnRoundLost;
+
 		// DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
 	}
 
@@ -90,11 +96,18 @@ public partial class WaveDirector : Node
 		if (IsRoundInProgress && RoundTimer != null)
 		{
 			var time = TimeSpan.FromSeconds(RoundTimer.TimeLeft);
-			_timerLabel.Text = time.ToString(@"mm\:ss");
+			int waves = _wavesCompletedThisRound + 1;
+			var wave = $"\nWave:{(waves > wavesPerRound ? wavesPerRound : waves)} / {wavesPerRound}";
+			var enemies = $"\nEnemies:{_activeRoom.EnemyCount} / {_enemiesThisWave}";
+			_timerLabel.Text = time.ToString(@"mm\:ss") + wave + enemies;
 		}
 		else if (_timerLabel.Text != "")
 		{
 			_timerLabel.Text = "";
+			if (_wavesCompletedThisRound == wavesPerRound)
+			{
+				_timerLabel.Text += $"\nRound Completed!";
+			}
 		}
 	}
 
@@ -111,7 +124,7 @@ public partial class WaveDirector : Node
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared += OnWaveCleared;
-			
+
 			// Only start a new round if the new room is a combat room AND no round is currently in progress anywhere.
 			if (!_activeRoom.IsCentralHub && !IsRoundInProgress)
 			{
@@ -122,6 +135,8 @@ public partial class WaveDirector : Node
 
 	private void OnRoundStart()
 	{
+		_wavesCompletedThisRound = -1;
+
 		// DebugManager.Debug("WaveDirector: OnRoundStart called.");
 		// Ensure player is not null before proceeding
 		if (player == null)
@@ -132,11 +147,10 @@ public partial class WaveDirector : Node
 		}
 
 		IsRoundInProgress = true;
-		_wavesCompletedThisRound = 0;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;
 		RoundTimer.Start();
-		
 		StartNextWave();
+		_wavesCompletedThisRound = 0;
 	}
 
 	private void StartNextWave()
@@ -146,11 +160,14 @@ public partial class WaveDirector : Node
 			OnRoundWon();
 			return;
 		}
-		
+
 		var budget = CalculateBudget();
+
 		// DebugManager.Debug($"WaveDirector: StartNextWave - Budget: {budget}");
 		var enemies = GenerateEnemyList(budget);
+
 		// DebugManager.Debug($"WaveDirector: StartNextWave - Generated {enemies.Count} enemies.");
+		_enemiesThisWave = enemies.Count;
 		_activeRoom.StartSpawning(enemies);
 	}
 
@@ -158,31 +175,36 @@ public partial class WaveDirector : Node
 	{
 		TotalWavesCompleted++;
 		_wavesCompletedThisRound++;
+
 		// DebugManager.Debug($"WaveDirector: OnWaveCleared - TotalWavesCompleted: {TotalWavesCompleted}, WavesCompletedThisRound: {_wavesCompletedThisRound}");
-		
+
 		// Small delay before starting the next wave
-		GetTree().CreateTimer(2.0f).Timeout += StartNextWave;
+		GetTree().CreateTimer(3.0f).Timeout += StartNextWave;
 	}
 
 	private void OnRoundWon()
 	{
 		IsRoundInProgress = false;
 		endingPlayerHealth = player.HealthComponent.CurrentPercent;
-		
+
 		double timeLeft = RoundTimer.TimeLeft;
 		RoundTimer.Stop();
 
 		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * timeLeft * DifficultyMultipliers[SelectedDifficulty]);
 		player.AddMoney(moneyTimeBonus);
+		DebugManager.Info($"Money Time Bonus:{moneyTimeBonus}");
 
-		moneyHealthBonus = (int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);
+		moneyHealthBonus =
+			(int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);
 		player.AddMoney(moneyHealthBonus);
+		DebugManager.Info($"Money Health Bonus:{moneyHealthBonus}");
 
 		CurrentRound++;
 		GD.Print($"Round {CurrentRound - 1} won! Starting next round.");
+
 		// The room's doors should now open, etc.
 	}
-	
+
 	public void OnRoundLost()
 	{
 		IsRoundInProgress = false;
@@ -192,13 +214,13 @@ public partial class WaveDirector : Node
 	}
 
 	private float CalculateBudget()
-    {
-        float difficultyMultiplier = difficultyMultipliers[SelectedDifficulty];
+	{
+		float difficultyMultiplier = difficultyMultipliers[SelectedDifficulty];
 		float roundBonus = (CurrentRound - 1) * budgetIncreasePerRound;
 		float waveBonus = TotalWavesCompleted * budgetIncreasePerWave;
-        
-        return (baseBudget + roundBonus + waveBonus) * difficultyMultiplier;
-    }
+
+		return (baseBudget + roundBonus + waveBonus) * difficultyMultiplier;
+	}
 
 	private Array<PackedScene> GenerateEnemyList(float budget)
 	{
@@ -210,9 +232,13 @@ public partial class WaveDirector : Node
 		}
 
 		var availableEnemies = _enemyDataToSceneMap
-			.Select(pair => new { Data = pair.Key, Scene = pair.Value, Cost = pair.Key.BaseCost * enemyStrengthMultipliers[pair.Key.Rank] })
-			.Where(e => e.Cost > 0)
-			.ToList();
+							  .Select(pair => new
+							   {
+								   Data = pair.Key, Scene = pair.Value,
+								   Cost = pair.Key.BaseCost * enemyStrengthMultipliers[pair.Key.Rank]
+							   })
+							  .Where(e => e.Cost > 0)
+							  .ToList();
 
 		if (!availableEnemies.Any())
 		{
@@ -229,12 +255,13 @@ public partial class WaveDirector : Node
 
 			// Randomly select an enemy from the affordable ones
 			var chosenEnemy = affordableEnemies[GD.RandRange(0, affordableEnemies.Count - 1)];
-			
+
 			enemiesToSpawn.Add(chosenEnemy.Scene);
 			budget -= chosenEnemy.Cost;
+
 			// DebugManager.Debug($"WaveDirector: GenerateEnemyList - Added {chosenEnemy.Data.Name} (Cost: {chosenEnemy.Cost}). Remaining budget: {budget}");
 		}
-		
+
 		return enemiesToSpawn;
 	}
 

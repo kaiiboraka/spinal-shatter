@@ -21,7 +21,8 @@ public partial class LevelRoom : Node3D
 	private bool _spawningFinished = false;
 	
 	public bool IsActive { get; private set; }
-	private readonly List<Enemy> _enemiesInRoom = new();
+	public List<Enemy> EnemiesInRoom { get; private set; } = new();
+	public int EnemyCount => EnemiesInRoom.Count;
 
 	public override void _Ready()
 	{
@@ -96,10 +97,10 @@ public partial class LevelRoom : Node3D
 		}
 
 		// If spawning is finished and no enemies are left, the wave is cleared
-		if (_enemiesInRoom.Count == 0)
+		if (EnemiesInRoom.Count == 0)
 		{
-			GD.Print("Wave Cleared!");
 			EmitSignalWaveCleared();
+			GD.Print("Wave Cleared!");
 		}
 	}
 
@@ -120,8 +121,8 @@ public partial class LevelRoom : Node3D
 
 	public void RegisterEnemy(Enemy enemy)
 	{
-		if (_enemiesInRoom.Contains(enemy)) return;
-		_enemiesInRoom.Add(enemy);
+		if (EnemiesInRoom.Contains(enemy)) return;
+		EnemiesInRoom.Add(enemy);
 		enemy.AssociatedRoom = this;
 		enemy.EnemyDied += OnEnemyDied;
 		// DebugManager.Debug($"LevelRoom: {Name} Registered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
@@ -129,7 +130,7 @@ public partial class LevelRoom : Node3D
 
 	public void UnregisterEnemy(Enemy enemy)
 	{
-		if (_enemiesInRoom.Remove(enemy))
+		if (EnemiesInRoom.Remove(enemy))
 		{
 			enemy.EnemyDied -= OnEnemyDied;
 			// DebugManager.Debug($"LevelRoom: {Name} Unregistered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
@@ -179,7 +180,7 @@ public partial class LevelRoom : Node3D
 		ShowRoom();
 		
 		// Pre-placed enemies are activated here
-		foreach (var enemy in _enemiesInRoom)
+		foreach (var enemy in EnemiesInRoom)
 		{
 			enemy.Activate();
 		}
@@ -191,7 +192,7 @@ public partial class LevelRoom : Node3D
 		if (!alwaysShow) HideRoom();
 
 		// Deactivate any remaining enemies
-		foreach (var enemy in _enemiesInRoom)
+		foreach (var enemy in EnemiesInRoom)
 		{
 			enemy.Deactivate();
 		}

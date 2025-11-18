@@ -1,4 +1,4 @@
-[gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://3xllpqqae83a"]
+[gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://cf2wxowvuv3jl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m4eio"]
 transparency = 1
@@ -7,6 +7,6 @@ albedo_color = Color(0, 0.6901961, 1, 0.23921569)
 [resource]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_m4eio")
-top_radius = 10.0
-bottom_radius = 10.0
+top_radius = 10.047
+bottom_radius = 10.047
 height = 1.0

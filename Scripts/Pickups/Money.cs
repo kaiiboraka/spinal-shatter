@@ -17,9 +17,5 @@ public partial class Money : Pickup
         Sprite.Play();
     }
 
-    public override void Collect()
-    {
-        // Add money specific collection logic here
-        base.Collect();
-    }
+
 }

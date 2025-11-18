@@ -11,10 +11,10 @@ public partial class IntValueRange : ValueRange<int>
 		_max = int.MaxValue;
 	}
 
-	public IntValueRange(int min)
+	public IntValueRange(int minMax)
 	{
-		_min = min;
-		_max = min;
+		_min = minMax;
+		_max = minMax;
 	}
 
 	public IntValueRange(int min, int max)

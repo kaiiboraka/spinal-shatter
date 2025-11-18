@@ -24,7 +24,7 @@ public partial class AudioManager : Node
 		}
 	}
 
-	public void PlaySoundAtPosition(AudioStream sound, Vector3 position, float pitch = 1.0f, float volume = 0.0f)
+	public AudioStreamPlayer3D PlaySoundAtPosition(AudioStream sound, Vector3 position, float pitch = 1.0f, float volume = 0.0f)
 	{
 		AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
 		player.Stream = sound;
@@ -34,9 +34,11 @@ public partial class AudioManager : Node
 		player.Play();
 
 		player.Finished += () => { player.Stream = null; };
+
+		return player;
 	}
 
-	public void PlaySoundAttachedToNode(AudioStream sound, Node3D targetNode, float pitch = 1.0f, float volume = 0.0f)
+	public AttachedAudioStreamPlayer3D PlaySoundAttachedToNode(AudioStream sound, Node3D targetNode, float pitch = 1.0f, float volume = 0.0f)
 	{
 		AttachedAudioStreamPlayer3D player = GetAvailableAttachedPlayer();
 		player.Stream = sound;
@@ -47,6 +49,8 @@ public partial class AudioManager : Node
 		player.Play();
 
 		player.Finished += () => { player.TargetNode = null; };
+
+		return player;
 	}
 
 	private AudioStreamPlayer3D GetAvailableStationaryPlayer()

@@ -11,7 +11,8 @@ public partial class PlayerBody : Combatant
 	public static PlayerBody Instance;
 
 	const float GRAVITY_MULTIPLIER = 2.00f;
-	private Control controlRoot;
+
+	public Control ControlRoot { get; private set; }
 
 	// private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	[ExportGroup("PlayerMovementSettings")]
@@ -63,29 +64,21 @@ public partial class PlayerBody : Combatant
 	public Vector2 InputDir => inputDir;
 
 	private Node3D headNode;
-
 	private Camera3D camera;
-
 	private MinMaxValuesLabel _manaMinMaxLabel;
-
 	private PlayerHealthBar _playerHealthBar;
 	private Label _playerMoneyAmountLabel;
-
 	private ManaComponent _manaComponent;
 	private Area3D pickupArea;
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
-	[Export] private PackedScene _levelLostMenuScene;
-
 	private AudioStream Audio_Hurt;
 	private AudioStream Audio_DieSFX;
 	private AudioStream Audio_DieMusic;
 	private AudioStream Audio_DieVoice;
-
 	private AudioStream Audio_footstepSoundsStream;
 	private AudioStreamRandomizer Audio_FootstepSounds => Audio_footstepSoundsStream as AudioStreamRandomizer;
-
 	private AudioStream Audio_footstepSprintSoundsStream;
 	private AudioStreamRandomizer Audio_FootstepSprintSounds => Audio_footstepSprintSoundsStream as AudioStreamRandomizer;
 
@@ -167,7 +160,7 @@ public partial class PlayerBody : Combatant
 
 	private void GetComponents()
 	{
-		controlRoot = GetNode<Control>("Control");
+		ControlRoot = GetNode<Control>("Control");
 		headNode = GetNode<Node3D>("%Head");
 		camera = GetNode<Camera3D>("%Camera1P");
 		collider = GetNode<CollisionShape3D>("%PlayerCollider");
@@ -263,7 +256,7 @@ public partial class PlayerBody : Combatant
 		if (Input.IsActionJustPressed("Player_Pause"))
 		{
 			var pauseMenu = _pauseMenuScene.Instantiate();
-			controlRoot.AddChild(pauseMenu);
+			ControlRoot.AddChild(pauseMenu);
 
 			// GetTree().Paused = true;
 		}
@@ -517,8 +510,8 @@ public partial class PlayerBody : Combatant
 
 		onDeathSFXFinished = () =>
 		{
-			var levelLostMenu = _levelLostMenuScene.Instantiate();
-			controlRoot.AddChild(levelLostMenu);
+			// var levelLostMenu = _levelLostMenuScene.Instantiate();
+			// controlRoot.AddChild(levelLostMenu);
 		};
 		onDeathVoiceFinished = () =>
 		{

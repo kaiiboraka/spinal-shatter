@@ -64,3 +64,4 @@ dialog_text = "Restart the game?"
 [connection signal="confirmed" from="ConfirmMainMenu" to="." method="_on_confirm_main_menu_confirmed"]
 [connection signal="confirmed" from="ConfirmExit" to="." method="_on_confirm_exit_confirmed"]
 [connection signal="confirmed" from="ConfirmRestart" to="." method="_on_confirm_restart_confirmed"]
+[connection signal="confirmed" from="ConfirmRestart" to="." method="queue_free"]

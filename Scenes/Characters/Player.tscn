@@ -1,9 +1,8 @@
-[gd_scene load_steps=42 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=41 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
-[ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="3_hqlak"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
 [ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
@@ -111,7 +110,6 @@ platform_wall_layers = 512
 script = ExtResource("1_gjot8")
 WALK_SPEED = 15.0
 _pauseMenuScene = ExtResource("2_3vnku")
-_levelLostMenuScene = ExtResource("3_hqlak")
 HealthComponent = NodePath("HealthComponent")
 _hurtbox = NodePath("Hurtbox")
 

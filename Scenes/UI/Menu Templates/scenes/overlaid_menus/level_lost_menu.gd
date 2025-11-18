@@ -27,5 +27,5 @@ func _on_close_button_pressed():
 	confirm_restart.popup_centered()
 
 func _on_confirm_restart_confirmed():
-	SceneLoader.reload_current_scene()
 	close()
+	SceneLoader.reload_current_scene()

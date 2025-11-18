@@ -27,6 +27,7 @@ public partial class WaveDirector : Node
 	private float endingPlayerHealth;
 
 	// --- UI References ---
+	private Control _directorDisplay;
 	private RichTextLabel _timerLabel;
 	private MinMaxValuesLabel _waveMinMaxLabel;
 	private RichTextLabel _roundTextValue;
@@ -40,6 +41,9 @@ public partial class WaveDirector : Node
 	private VBoxContainer _bonusContainer;
 	private RichTextLabel _timeBonusTextValue;
 	private RichTextLabel _lifeBonusTextValue;
+
+	[ExportGroup("Menus")]
+	[Export] private PackedScene _levelLostMenuScene;
 
 	// --- Rewards ---
 	[ExportGroup("Rewards")]
@@ -79,6 +83,7 @@ public partial class WaveDirector : Node
 		{ EnemyRank.Rank4_Obsidian, 4 }
 	};
 
+
 	public Dictionary<EnemyRank, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
 
 	public override void _Ready()
@@ -87,6 +92,7 @@ public partial class WaveDirector : Node
 		RoundTimer.Timeout += OnRoundLost;
 
 		// --- Initialize UI References ---
+		_directorDisplay = GetNode<Control>("DirectorDisplay");
 		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
 		_waveMinMaxLabel = GetNode<MinMaxValuesLabel>("%Wave_MinMaxValuesLabel");
 		_roundTextValue = GetNode<RichTextLabel>("%RoundTextValue");
@@ -125,6 +131,7 @@ public partial class WaveDirector : Node
 
 		player = playerInstance;
 		player.HealthComponent.Died += OnRoundLost;
+		player.PlayerDied += OnPlayerDiedSignalReceived;
 
 		// DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
 	}
@@ -162,11 +169,7 @@ public partial class WaveDirector : Node
 		}
 		else // Round is not in progress
 		{
-			// Clear timer label if it's still showing old data
-			if (_timerLabel.Text != "")
-			{
-				_timerLabel.Text = "";
-			}
+			ResetAllUI();
 		}
 	}
 
@@ -277,13 +280,13 @@ public partial class WaveDirector : Node
 
 		// UI Visibility for Round Won
 		_victoryLabel.Visible = true;
+		_defeatLabel.Visible = false; // Ensure defeat label is hidden
 		_bonusContainer.Visible = true;
 		_timerLabel.Visible = false;
 		_activeEnemyCountTextValue.Visible = false;
 		_activeEnemyCountHBoxContainer.Visible = false; // Added
 		_roomLabelsVBoxContainer.Visible = false; // Added
 		_waveRoundContainer.Visible = false;
-		_defeatLabel.Visible = false; // Ensure defeat label is hidden
 
 		_timeBonusTextValue.Text = moneyTimeBonus.ToString();
 		_lifeBonusTextValue.Text = moneyHealthBonus.ToString();
@@ -302,17 +305,27 @@ public partial class WaveDirector : Node
 		GD.Print("Round Lost!");
 
 		// UI Visibility for Round Lost
+		_victoryLabel.Visible = false; // Ensure victory label is hidden
 		_defeatLabel.Visible = true;
-		_bonusContainer.Visible = true;
+		_bonusContainer.Visible = false;
 		_timerLabel.Visible = false;
 		_activeEnemyCountTextValue.Visible = false;
 		_activeEnemyCountHBoxContainer.Visible = false; // Added
 		_roomLabelsVBoxContainer.Visible = false; // Added
 		_waveRoundContainer.Visible = false;
-		_victoryLabel.Visible = false; // Ensure victory label is hidden
 
 		_timeBonusTextValue.Text = "0"; // No time bonus on loss
 		_lifeBonusTextValue.Text = "0"; // No health bonus on loss
+		
+		if (_levelLostMenuScene != null)
+		{
+			var levelLostMenu = _levelLostMenuScene.Instantiate();
+			PlayerBody.Instance.ControlRoot.AddChild(levelLostMenu);
+		}
+		else
+		{
+			DebugManager.Error("WaveDirector: _levelLostMenuScene is not assigned!");
+		}
 	}
 
 	private float CalculateBudget()
@@ -370,6 +383,21 @@ public partial class WaveDirector : Node
 	private void OnRoundTimerTimeout()
 	{
 		// Play timer alarm sound
+	}
+
+	private void OnPlayerDiedSignalReceived()
+	{
+		ResetAllUI(); // Hide all other UI elements first
+
+		if (_levelLostMenuScene != null)
+		{
+			var levelLostMenu = _levelLostMenuScene.Instantiate();
+			_directorDisplay.AddChild(levelLostMenu);
+		}
+		else
+		{
+			DebugManager.Error("WaveDirector: _levelLostMenuScene is not assigned!");
+		}
 	}
 
 	private void ResetAllUI()

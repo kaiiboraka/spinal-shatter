@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3 uid="uid://ckufkle75pln1"]
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://ckufkle75pln1"]
 
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
 [ext_resource type="Resource" uid="uid://dygy25aq3r1lw" path="res://assets/Audio/AudioData/AudioData_Swooper.tres" id="2_audio"]

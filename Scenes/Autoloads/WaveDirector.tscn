@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=14 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
+[ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="2_aege0"]
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="2_phwt4"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="3_oxf7n"]
 [ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="4_kpvn7"]
@@ -15,6 +16,7 @@
 
 [node name="WaveDirector" type="Node"]
 script = ExtResource("1_fhtwo")
+_levelLostMenuScene = ExtResource("2_aege0")
 moneyGivenPerSecondLeft = 2.5
 moneyGivenPerHealthLeft = 1.5
 _enemyDataToSceneMap = Dictionary[ExtResource("2_phwt4"), PackedScene]({
@@ -33,12 +35,14 @@ wait_time = 300.0
 one_shot = true
 
 [node name="DirectorDisplay" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="DirectorDisplay"]
 layout_mode = 1

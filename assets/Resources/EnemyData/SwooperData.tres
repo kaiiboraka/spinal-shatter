@@ -25,3 +25,4 @@ WalkSpeed = 12.0
 KnockbackWeight = 1.0
 MoneyAmountToDrop = SubResource("Resource_uowma")
 ManaAmountToDrop = SubResource("Resource_ga3do")
+AttackRange = 3.0

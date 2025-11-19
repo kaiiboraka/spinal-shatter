@@ -172,7 +172,6 @@ public partial class Enemy : Combatant
 
 		// Combat
 		KnockbackWeight = data.KnockbackWeight;
-		KnockbackDamageScalar = data.KnockbackDamageScalar;
 
 		// Pickups
 		MoneyAmountToDrop = data.MoneyAmountToDrop;
@@ -224,7 +223,7 @@ public partial class Enemy : Combatant
 		Vector3 newVelocity = Velocity;
 
 		// Add gravity.
-		if (!IsOnFloor())
+		if (Data.IsGrounded && !IsOnFloor())
 		{
 			newVelocity.Y -= _gravity * (float)delta * Data.KnockbackWeight;
 		}
@@ -258,8 +257,6 @@ public partial class Enemy : Combatant
 		}
 
 		Velocity = newVelocity;
-
-		FacePlayer();
 
 		MoveAndSlide();
 
@@ -448,7 +445,14 @@ public partial class Enemy : Combatant
 		if (GlobalPosition.DistanceTo(_player.GlobalPosition) > AttackRange)
 		{
 			// Move towards player
-			WalkForward(ref newVelocity);
+			if (Data.IsFlying)
+			{
+				newVelocity = -GlobalTransform.Basis.Z * WalkSpeed;
+			}
+			else
+			{
+				WalkForward(ref newVelocity);
+			}
 		}
 		else
 		{
@@ -506,11 +510,18 @@ public partial class Enemy : Combatant
 
 	private void Wander(ref Vector3 newVelocity)
 	{
-		// Set horizontal velocity to move forward.
-		WalkForward(ref newVelocity);
+		// Set velocity to move forward.
+		if (Data.IsFlying)
+		{
+			newVelocity = -GlobalTransform.Basis.Z * WalkSpeed;
+		}
+		else
+		{
+			WalkForward(ref newVelocity);
+		}
 
-		// Check for wall collision and change direction.
-		if (IsOnWall())
+		// Check for wall collision and change direction for grounded enemies.
+		if (Data.IsGrounded && IsOnWall())
 		{
 			var collision = GetLastSlideCollision();
 			if (collision != null)
@@ -582,7 +593,10 @@ public partial class Enemy : Combatant
 			}
 		}
 
-		animPlayer.Play(animName);
+		if (animPlayer.CurrentAnimation != animName)
+		{
+			animPlayer.Play(animName);
+		}
 
 		animatedSprite.FlipH = flipH;
 		animatedSprite_Eye.FlipH = flipH;

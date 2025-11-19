@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b3np3lbhsv241"]
+[gd_scene load_steps=17 format=3 uid="uid://b3np3lbhsv241"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_6igdy"]
 [ext_resource type="Material" uid="uid://dm8uxtucinjau" path="res://assets/Textures/BrickWall_Fire_RoomScale.tres" id="2_6igdy"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="5_3aq0b"]
 [ext_resource type="AudioStream" uid="uid://dsdulwdvl4vj0" path="res://assets/Audio/Ambience/fireplace-loop-original-noise-178209.mp3" id="6_jsd1r"]
 [ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="7_53bcf"]
+[ext_resource type="PackedScene" uid="uid://db56agth77h12" path="res://Scenes/Environment/Doodads/Door_orange.tscn" id="8_jsd1r"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_3aq0b"]
 vertices = PackedVector3Array(15.449989, 0.5, 16.499992, 15.449989, 0.5, 6.7499914, 6.4499893, 0.5, 0.74999166, -6.3000107, 0.5, 0.74999166, 2.6999893, 0.5, 82.49999, 25.69999, 0.5, 82.49999, 27.44999, 0.5, 28.499992, -21.55001, 0.5, 101.74999, -16.30001, 0.5, 101.74999, -27.55001, 0.5, 22.249992, -108.05001, 0.5, 19.249992, -108.05001, 0.5, 38.249992, -95.30001, 0.5, 50.749992, -55.55001, 0.5, 15.999991, -70.55001, 0.5, 0.74999166, -89.55001, 0.5, 0.74999166, -89.05001, 0.5, 64.24999, -70.55001, 0.5, 82.49999, -63.55001, 0.5, 82.49999, -48.30001, 0.5, 22.999992, -89.05001, 0.5, 56.999992, -49.30001, 0.5, 96.74999, -44.55001, 0.5, 101.74999, -28.30001, 0.5, 22.999992, 73.44999, 0.5, 88.99999, 85.69999, 0.5, 76.74999, 85.69999, 0.5, 51.249992, 32.19999, 0.5, 88.99999, 63.94999, 0.5, 29.499992, 28.44999, 0.5, 29.499992, -108.05001, 0.5, 95.74999, -102.05001, 0.5, 101.74999, -89.80001, 0.5, 101.74999, -108.05001, 0.5, 83.24999)
@@ -170,3 +171,7 @@ max_db = 4.0
 autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
+
+[node name="Door" parent="." instance=ExtResource("8_jsd1r")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.25)
+IsOpen = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvlhic3q2d6q3"]
+[gd_scene load_steps=14 format=3 uid="uid://bvlhic3q2d6q3"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_ne2ld"]
 [ext_resource type="Material" uid="uid://uektliug0kmc" path="res://assets/Textures/BrickWall_Shadow_RoomScale.tres" id="2_ne2ld"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="5_gc8yr"]
 [ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="6_8c6rd"]
 [ext_resource type="AudioStream" uid="uid://c6nujm1exmjr0" path="res://assets/Audio/Ambience/lava-flow.ogg" id="7_ysw8r"]
+[ext_resource type="PackedScene" uid="uid://civa5ud2fn8dx" path="res://Scenes/Environment/Doodads/Door_Purple.tscn" id="8_8c6rd"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_gc8yr"]
 vertices = PackedVector3Array(50.74999, 0.5, -13.5, 70.249985, 0.5, -13.5, 76.249985, 0.5, -19.5, 76.249985, 0.5, -57.25, 70.249985, 0.5, -63.25, 0.74998856, 0.5, -6.75, 44.24999, 0.5, -6.75, 6.4999886, 0.5, -63.25, 0.74998856, 0.5, -57.5, 0.74998856, 0.5, 9.75, 44.24999, 0.5, 9.75, -6.0000114, 0.5, 16.75, -25.500011, 0.5, 16.75, -31.250011, 0.5, 22.5, -31.250011, 0.5, 60.75, -25.500011, 0.5, 66.5, 38.24999, 0.5, 66.5, 44.24999, 0.5, 60.5)
@@ -167,3 +168,7 @@ pitch_scale = 0.75
 autoplay = true
 max_distance = 75.0
 bus = &"Ambience"
+
+[node name="Door" parent="." instance=ExtResource("8_8c6rd")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.25, 0, 0)
+IsOpen = false

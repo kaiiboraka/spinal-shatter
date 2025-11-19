@@ -8,7 +8,6 @@ public partial class Combatant : CharacterBody3D
     public HealthComponent HealthComponent { get; private set; }
     private Area3D hurtbox; // Common hurtbox
 
-    protected float KnockbackDamageScalar { get; set; } = 2.0f;
     protected float KnockbackWeight { get; set; } = 5.0f;
     protected Vector3 knockbackVelocity = Vector3.Zero;
 

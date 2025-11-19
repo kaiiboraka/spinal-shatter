@@ -34,8 +34,6 @@ public partial class EnemyData : Resource
 	[ExportCategory("Combat")]
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] public float KnockbackWeight { get; private set; } = 5f;
-	[Export] public float KnockbackDamageScalar { get; set; } = 2.0f;
-	[Export] public float KnockbackDecayRate { get; set; } = 10.0f;
 
 	[ExportSubgroup("Money", "Money")]
 	[Export] public IntValueRange MoneyAmountToDrop { get; private set; } = new(10);

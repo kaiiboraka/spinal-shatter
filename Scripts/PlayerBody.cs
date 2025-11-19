@@ -80,8 +80,6 @@ public partial class PlayerBody : Combatant
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] public new float KnockbackWeight { get; private set; } = 5f;
 
-	[Export] public new float KnockbackDamageScalar { get; set; } = 2.0f;
-
 	private CollisionShape3D collider;
 	private RayCast3D canStandUpRay;
 	private RayCast3D footSoundRay;

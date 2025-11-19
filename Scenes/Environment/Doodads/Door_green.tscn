@@ -1,0 +1,222 @@
+[gd_scene load_steps=15 format=3 uid="uid://cs86u5irxi628"]
+
+[ext_resource type="Script" uid="uid://bojnxo1kgywjl" path="res://Scripts/Levels/Door.cs" id="1_at0af"]
+[ext_resource type="Texture2D" uid="uid://dbgnyy71qdiyv" path="res://assets/Images/brick_dark.png" id="1_m522s"]
+[ext_resource type="Material" uid="uid://cy1hdvkxnbtly" path="res://assets/Textures/BrickWall.tres" id="1_wqjuh"]
+[ext_resource type="Texture2D" uid="uid://c56p0ojaf4ida" path="res://assets/Images/brick.png" id="2_sjxw3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3by08"]
+albedo_color = Color(0.8570991, 1.0928305, 0, 1)
+albedo_texture = ExtResource("1_m522s")
+roughness_texture = ExtResource("2_sjxw3")
+roughness_texture_channel = 3
+heightmap_enabled = true
+heightmap_scale = 2.139
+heightmap_texture = ExtResource("2_sjxw3")
+uv1_scale = Vector3(3, 3, 3)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_3qcmb"]
+size = Vector3(6.5, 5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r2lki"]
+size = Vector3(6.5, 5, 0.5)
+
+[sub_resource type="Animation" id="Animation_2s7f4"]
+resource_name = "CloseUp"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NavigationObstacle3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -2.525, 0), Vector3(0, 2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -2.525, 0), Vector3(0, 2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_r2lki"]
+resource_name = "Closed"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NavigationObstacle3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_b16f8"]
+resource_name = "Open"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NavigationObstacle3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -2.525, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -2.525, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pubj7"]
+resource_name = "OpenDown"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NavigationObstacle3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 2, 0), Vector3(0, -2.525, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 2, 0), Vector3(0, -2.525, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_at0af"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NavigationObstacle3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2s7f4"]
+_data = {
+&"CloseUp": SubResource("Animation_2s7f4"),
+&"Closed": SubResource("Animation_r2lki"),
+&"Open": SubResource("Animation_b16f8"),
+&"OpenDown": SubResource("Animation_pubj7"),
+&"RESET": SubResource("Animation_at0af")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_at0af"]
+size = Vector3(6.5, 5, 0.5)
+
+[node name="Door" type="CharacterBody3D" node_paths=PackedStringArray("animator", "entrance", "exit")]
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("1_at0af")
+animator = NodePath("AnimationPlayer")
+entrance = NodePath("EntranceArea")
+exit = NodePath("ExitArea")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+vertices = PackedVector3Array(3.2437844, 0, -0.2608306, -3.2627544, 0, -0.2513459, -3.243785, 0, 0.2608308, 3.2437844, 0, 0.25134608)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationObstacle3D"]
+material_override = SubResource("StandardMaterial3D_3by08")
+mesh = SubResource("BoxMesh_3qcmb")
+surface_material_override/0 = ExtResource("1_wqjuh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_r2lki")
+debug_color = Color(0, 0.64574856, 0.23920518, 0.41960785)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2s7f4")
+}
+autoplay = "Open"
+
+[node name="EntranceArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EntranceArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_r2lki")
+debug_color = Color(0, 0.64574856, 0.23920518, 0.41960785)
+
+[node name="ExitArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_at0af")
+debug_color = Color(0.9980511, 0, 0.12821624, 0.41960785)

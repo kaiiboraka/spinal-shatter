@@ -132,9 +132,6 @@ visible = false
 
 [node name="EnemyPoolNode" type="Node3D" parent="."]
 
-[node name="Scrounger2" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
-
 [node name="Scrapper" parent="EnemyPoolNode" instance=ExtResource("14_m8i8h")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 36.888336, 0, -0.83233833)
 
@@ -143,6 +140,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 46.42856)
 
 [node name="Zapper" parent="EnemyPoolNode" instance=ExtResource("17_m8i8h")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -44.39151, 0, 0)
+
+[node name="Scrounger" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
 
 [node name="Player" parent="." instance=ExtResource("2_amuju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)

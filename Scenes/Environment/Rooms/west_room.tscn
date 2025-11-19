@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dhqr1q132v7k4"]
+[gd_scene load_steps=14 format=3 uid="uid://dhqr1q132v7k4"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_d5enq"]
 [ext_resource type="Material" uid="uid://dfsf5yu0v5t6r" path="res://assets/Textures/BrickWall_Acid_RoomScale.tres" id="2_d5enq"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="5_s21hx"]
 [ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="6_hvkgj"]
 [ext_resource type="AudioStream" uid="uid://cn23hyhj30efw" path="res://assets/Audio/Ambience/Ambience_AlienHive_00.wav" id="7_e41oa"]
+[ext_resource type="PackedScene" uid="uid://cs86u5irxi628" path="res://Scenes/Environment/Doodads/Door_green.tscn" id="8_hvkgj"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_s21hx"]
 vertices = PackedVector3Array(-89.5, 0.5, -47.25, -95.25, 0.5, -41.5, -95.25, 0.5, -22.5, -89.25, 0.5, -16.5, -64.75, 0.5, -16.5, -64.5, 0.5, -47.25, -63.25, 0.5, -16.5, -57, 0.5, -10, -54.75, 0.5, -12.25, -52, 0.5, -47.25, -38.5, 0.5, -34.5, -51.25, 0.5, -47.25, -19, 0.5, -34.5, -2.75, 0.5, -11.5, -5.5, 0.5, -47.25, -6.25, 0.5, -47.25, -0.75, 0.5, -9.75, 5.75, 0.5, -16.5, 7, 0.5, -47.25, 7.25, 0.5, -16.5, 37.75, 0.5, -22.5, 37.75, 0.5, -41.5, 37, 0.5, -41.75, 31.75, 0.5, -47.25, 31.75, 0.5, -16.5, -2.75, 0.5, 11.5, -0.75, 0.5, 9.75, -57, 0.5, 10, -54.5, 0.5, 12.25, -19, 0.5, 34.5, -38.5, 0.5, 34.5, 5.75, 0.5, 16.5, -5.5, 0.5, 47.25, 7, 0.5, 47.25, 7.25, 0.5, 16.5, -63.25, 0.5, 16.5, -64.5, 0.5, 47.25, -52, 0.5, 47.25, -64.75, 0.5, 16.5, -6.25, 0.5, 47.25, -51.25, 0.5, 47.25, -89.5, 0.5, 16.75, -95.25, 0.5, 22.5, -95.25, 0.5, 41.5, -89.5, 0.5, 47.25, 37.75, 0.5, 41.5, 37.75, 0.5, 22.5, 32, 0.5, 16.75, 31.75, 0.5, 47.25)
@@ -45,7 +46,6 @@ shape = SubResource("ConcavePolygonShape3D_2e4mj")
 
 [node name="LevelRegion" type="Area3D" parent="."]
 unique_name_in_owner = true
-visible = false
 collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
@@ -189,3 +189,7 @@ pitch_scale = 0.9
 autoplay = true
 max_distance = 20.0
 bus = &"Ambience"
+
+[node name="Door" parent="." instance=ExtResource("8_hvkgj")]
+unique_name_in_owner = true
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.25, 0, 0)

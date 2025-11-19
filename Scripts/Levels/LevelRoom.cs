@@ -17,6 +17,7 @@ public partial class LevelRoom : Node3D
 
 	private Array<EnemySpawner> _spawners;
 	private Area3D _triggerVolume;
+	private Door levelDoor;
 
 	private bool _spawningFinished = false;
 	
@@ -26,6 +27,8 @@ public partial class LevelRoom : Node3D
 
 	public override void _Ready()
 	{
+		if (!IsCentralHub) levelDoor = GetNode<Door>("Door");
+
 		_triggerVolume = GetNode<Area3D>("%LevelRegion");
 		if (_triggerVolume != null)
 		{

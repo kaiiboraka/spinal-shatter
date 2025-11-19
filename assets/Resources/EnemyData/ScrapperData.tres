@@ -26,3 +26,4 @@ MinWaitTime = 2.0
 MaxWaitTime = 3.0
 MoneyAmountToDrop = SubResource("Resource_tn01f")
 ManaAmountToDrop = SubResource("Resource_esb67")
+AttackRange = 3.0

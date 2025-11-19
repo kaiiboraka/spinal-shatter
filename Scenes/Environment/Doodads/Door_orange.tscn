@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://db56agth77h12"]
+
+[ext_resource type="PackedScene" uid="uid://cs86u5irxi628" path="res://Scenes/Environment/Doodads/Door_green.tscn" id="1_bkt7e"]
+[ext_resource type="Texture2D" uid="uid://dbgnyy71qdiyv" path="res://assets/Images/brick_dark.png" id="2_7qwso"]
+[ext_resource type="Texture2D" uid="uid://c56p0ojaf4ida" path="res://assets/Images/brick.png" id="3_81t5f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ea43y"]
+albedo_color = Color(1.0928305, 0.36750323, 0, 1)
+albedo_texture = ExtResource("2_7qwso")
+roughness_texture = ExtResource("3_81t5f")
+roughness_texture_channel = 3
+heightmap_enabled = true
+heightmap_scale = 2.139
+heightmap_texture = ExtResource("3_81t5f")
+uv1_scale = Vector3(3, 3, 3)
+texture_filter = 0
+
+[node name="Door" instance=ExtResource("1_bkt7e")]
+IsOpen = true
+
+[node name="MeshInstance3D" parent="NavigationObstacle3D" index="0"]
+material_override = SubResource("StandardMaterial3D_ea43y")

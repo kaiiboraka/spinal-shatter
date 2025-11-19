@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dk3vegspif145"]
+[gd_scene load_steps=4 format=3 uid="uid://dk3vegspif145"]
 
 [ext_resource type="ArrayMesh" uid="uid://ccdob2udobyem" path="res://assets/Models/Hallway_North.res" id="1_qvshh"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_qvshh"]
+vertices = PackedVector3Array(-2.45, 0.5, -50.7, -2.45, 0.5, -8.200001, 2.55, 0.5, -8.200001, 2.55, 0.5, -50.7)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_qvshh"]
 data = PackedVector3Array(3.1999998, 0, -51.199997, 3.1999998, 0, -7.7801, -3.1999998, 0, -7.7801, -3.1999998, 0, -7.7801, -3.1999998, 0, -51.199997, 3.1999998, 0, -51.199997, -3.1999998, 0, -51.199997, -3.1999998, 0, -7.7801, -3.1999998, 4.4487, -7.7801, -3.1999998, 4.4487, -7.7801, -3.1999998, 4.4487, -51.199997, -3.1999998, 0, -51.199997, -3.1999998, 4.4487, -51.199997, -3.1999998, 4.4487, -7.7801, 3.1999998, 4.4487, -7.7801, 3.1999998, 4.4487, -7.7801, 3.1999998, 4.4487, -51.199997, -3.1999998, 4.4487, -51.199997, 3.1999998, 4.4487, -7.7801, 3.1999998, 0, -7.7801, 3.1999998, 0, -51.199997, 3.1999998, 0, -51.199997, 3.1999998, 4.4487, -51.199997, 3.1999998, 4.4487, -7.7801)
@@ -10,8 +14,12 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 collision_layer = 516
 collision_mask = 42001
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_qvshh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
 mesh = ExtResource("1_qvshh")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConcavePolygonShape3D_qvshh")

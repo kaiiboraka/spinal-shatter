@@ -7,7 +7,6 @@
 [resource]
 script = ExtResource("3_bt70b")
 PickupType = 1
-DriftSpeed = 0.0
 Lifetime = 20.0
 SpriteFrames = ExtResource("2_t5r3d")
 CollisionShapeRadius = 0.15

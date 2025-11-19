@@ -8,5 +8,5 @@ resource_name = "SpellChargeBack"
 script = ExtResource("2_rme0w")
 Stream = ExtResource("1_d55pv")
 PitchScale = 2.0
-VolumeDb = -15.0
+VolumeDb = -17.0
 metadata/_custom_type_script = "uid://cobrtm7ta40hq"

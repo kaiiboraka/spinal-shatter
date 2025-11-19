@@ -9,7 +9,6 @@ script = ExtResource("2_t4b3b")
 MoneyTier = 1
 PickupType = 1
 Value = 10
-DriftSpeed = 0.0
 Lifetime = 20.0
 SpriteFrames = ExtResource("1_4qbyd")
 CollisionShapeRadius = 0.15

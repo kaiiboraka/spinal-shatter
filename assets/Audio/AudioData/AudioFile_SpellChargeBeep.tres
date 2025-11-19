@@ -7,5 +7,5 @@
 resource_name = "SpellChargeBeep"
 script = ExtResource("2_erqda")
 Stream = ExtResource("1_6wru3")
-VolumeDb = -20.0
+VolumeDb = -21.0
 metadata/_custom_type_script = "uid://cobrtm7ta40hq"

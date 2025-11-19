@@ -9,7 +9,7 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
-[node name="MagicOrb" type="RigidBody3D"]
+[node name="MagicOrb" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41612
 physics_material_override = ExtResource("1_q3rrb")

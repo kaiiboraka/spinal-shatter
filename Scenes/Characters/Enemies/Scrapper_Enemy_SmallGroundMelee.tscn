@@ -606,4 +606,4 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-max_distance = 60.0
+max_distance = 150.0

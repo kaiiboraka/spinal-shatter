@@ -7,6 +7,9 @@ public partial class AudioBucket : AudioStream
 	[Export] public Array<AudioStream> Bucket;
 	public int Count => Bucket?.Count ?? 0;
 
+	[Export] public float PitchScale = 1f;
+	[Export] public float VolumeDb = 0;
+
 	private AudioStream GetRandomStream()
 	{
 		return Count == 0 ? null : Bucket[GD.RandRange(0, Count - 1)];

@@ -205,7 +205,6 @@ doppler_tracking = 2
 [node name="Oof_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("16_mc0oj")
 unit_size = 20.0
-pitch_scale = 0.88
 max_polyphony = 2
 bus = &"_Oof"
 doppler_tracking = 2

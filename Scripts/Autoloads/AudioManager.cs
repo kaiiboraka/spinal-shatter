@@ -31,6 +31,8 @@ public partial class AudioManager : Node
 		player3D.MaxPolyphony = bucket.Count;
 		foreach (var audioStream in bucket.Bucket)
 		{
+			player3D.VolumeDb = bucket.VolumeDb;
+			player3D.PitchScale = bucket.PitchScale;
 			Play(player3D, audioStream);
 		}
 	}
@@ -40,6 +42,8 @@ public partial class AudioManager : Node
 		player.MaxPolyphony = bucket.Count;
 		foreach (var audioStream in bucket.Bucket)
 		{
+			player.VolumeDb = bucket.VolumeDb;
+			player.PitchScale = bucket.PitchScale;
 			Play(player, audioStream);
 		}
 	}
@@ -50,6 +54,8 @@ public partial class AudioManager : Node
 			return;
 
 		int currentIndex = 0;
+		player.VolumeDb = bucket.VolumeDb;
+		player.PitchScale = bucket.PitchScale;
 		Action onFinished = null;
 
 		onFinished = () =>
@@ -88,8 +94,10 @@ public partial class AudioManager : Node
 			return;
 
 		int currentIndex = 0;
-		Action onFinished = null;
+		player3D.VolumeDb = bucket.VolumeDb;
+		player3D.PitchScale = bucket.PitchScale;
 
+		Action onFinished = null;
 		onFinished = () =>
 		{
 			// Unsubscribe before potentially subscribing again
@@ -108,6 +116,7 @@ public partial class AudioManager : Node
 				}
 			}
 		};
+
 
 		// Start playing the first sound
 		Play(player3D, bucket.Bucket[0]);

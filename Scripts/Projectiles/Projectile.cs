@@ -83,6 +83,7 @@ public partial class Projectile : RigidBody3D
 			Node collider = state.GetContactColliderObject(i) as Node;
 			if (collider != null)
 			{
+				bool hitProjectile = collider.IsInGroup("Projectile");
 				var contactLocalNormal = state.GetContactLocalNormal(i);
 				var contactLocalPosition = state.GetContactColliderPosition(i);
 
@@ -91,7 +92,8 @@ public partial class Projectile : RigidBody3D
 					GetTree().Root.AddChild(sparkParticles);
 					sparkParticles.GlobalPosition = GlobalPosition;
 					sparkParticles.LookAt(contactLocalNormal);
-					sparkParticles.PlayParticles((int)(ManaCost * 3));
+					int particleCount = hitProjectile ? 20 : (int)(ManaCost * 3);
+					sparkParticles.PlayParticles(particleCount);
 				}
 
 				if (!collider.IsInGroup("Enemies"))
@@ -101,6 +103,14 @@ public partial class Projectile : RigidBody3D
 					HandleWallBounce(impactPoint);
 					return; // Handle one bounce per frame
 				}
+
+				if (hitProjectile)
+				{
+					int more = 0;
+					if  (collider is Projectile other) more = Mathf.Max(other.ManaCost.CeilingToInt(), other.Damage.CeilingToInt());
+					EjectMana(more + ManaCost.CeilingToInt(), contactLocalPosition);
+				}
+
 			}
 		}
 	}

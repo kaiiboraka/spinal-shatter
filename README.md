@@ -214,16 +214,16 @@ self buffs?
 
 Up to 3 passive slots -- select them again to rank up
 
-max health
-max mana
-move speed
-defense
-money drop rate
-pickup radius 
-Jump Height / Air Jumps
-Siphon Range / Speed
-Projectile Speed
-Projectile Size
+- max health
+- max mana
+- move speed
+- defense
+- money drop rate
+- pickup radius 
+- Jump Height / Air Jumps
+- Siphon Range / Speed
+- Projectile Speed
+- Projectile Size
 
 ## Meta Upgrades
 

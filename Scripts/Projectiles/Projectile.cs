@@ -13,10 +13,11 @@ public partial class Projectile : RigidBody3D
 	}
 
 	[Export] private PackedScene _sparkParticlesScene;
-	private SpriteBase3D _sprite;
-	private CollisionShape3D _collisionShape;
+	private SpriteBase3D sprite;
+	private CollisionShape3D collisionShape;
+
 	[Export] public AudioData AudioData { get; private set; }
-	// [Export] public AudioStream AudioStream_Fireball { get; private set; }
+	private AudioStreamPlayer3D audioStreamPlayer;
 	// [Export] public AudioStream AudioStream_FireHit { get; private set; }
 
 	[Export(PropertyHint.Range, "0.1, 100.0")]
@@ -33,28 +34,29 @@ public partial class Projectile : RigidBody3D
 	public float MaxInitialManaCost { get; private set; }
 	public FloatValueRange SizingScale { get; private set; }
 
-	private ProjectileState _state = ProjectileState.Charging;
+	private ProjectileState state = ProjectileState.Charging;
 	private Node ProjectileOwner;
-	private Timer _lifetimeTimer;
-	private float _bounceCooldown = 0;
-	private float _minManaThreshold = 1.0f;
+	private Timer lifetimeTimer;
+	private float bounceCooldown = 0;
+	private float minManaThreshold = 1.0f;
 
 	int ManaLostAmount => (int)Mathf.Min(manaDroppedAmount.GetRandomValue(), ManaCost);
 
 	public override void _Ready()
 	{
-		_sprite ??= GetNode<SpriteBase3D>("Sprite3D");
-		_collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
+		sprite ??= GetNode<SpriteBase3D>("Sprite3D");
+		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
+		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
 
-		_lifetimeTimer = new Timer();
-		_lifetimeTimer.WaitTime = _lifetime;
-		_lifetimeTimer.OneShot = true;
-		_lifetimeTimer.Timeout += () => QueueFree();
-		AddChild(_lifetimeTimer);
+		lifetimeTimer = new Timer();
+		lifetimeTimer.WaitTime = _lifetime;
+		lifetimeTimer.OneShot = true;
+		lifetimeTimer.Timeout += () => QueueFree();
+		AddChild(lifetimeTimer);
 
 		// Disable physics until launched
 		this.Freeze = true;
-		_collisionShape.Disabled = true;
+		collisionShape.Disabled = true;
 
 		ContactMonitor = true;
 		MaxContactsReported = 4;
@@ -63,15 +65,15 @@ public partial class Projectile : RigidBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		if (_bounceCooldown > 0)
+		if (bounceCooldown > 0)
 		{
-			_bounceCooldown -= (float)delta;
+			bounceCooldown -= (float)delta;
 		}
 	}
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
-		if (_bounceCooldown > 0 || _state != ProjectileState.Fired)
+		if (bounceCooldown > 0 || this.state != ProjectileState.Fired)
 		{
 			return;
 		}
@@ -117,12 +119,12 @@ public partial class Projectile : RigidBody3D
 		float size = Mathf.Lerp(SizingScale.Min, SizingScale.Max, Charge);
 
 		if (IsFixed) return;
-		if (_sprite != null)
+		if (sprite != null)
 		{
-			_sprite.Scale = Vector3.One * size;
+			sprite.Scale = Vector3.One * size;
 		}
 
-		if (_collisionShape is { Shape: SphereShape3D sphere })
+		if (collisionShape is { Shape: SphereShape3D sphere })
 		{
 			// Ensure the collision shape doesn't get too small
 			sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
@@ -149,10 +151,10 @@ public partial class Projectile : RigidBody3D
 
 	public void Launch(ProjectileLaunchData data)
 	{
-		if (_state != ProjectileState.Charging)
+		if (state != ProjectileState.Charging)
 			return;
 
-		_state = ProjectileState.Fired;
+		state = ProjectileState.Fired;
 		this.Damage = data.Damage;
 		this.ManaCost = data.ManaCost;
 		this.Charge = data.ChargeRatio;
@@ -177,11 +179,11 @@ public partial class Projectile : RigidBody3D
 
 		// Enable physics and launch
 		this.Freeze = false;
-		_collisionShape.Disabled = false;
+		collisionShape.Disabled = false;
 		// DebugManager.Debug($"Projectile: Launch - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		this.LinearVelocity = data.InitialVelocity;
 
-		_lifetimeTimer.Start();
+		lifetimeTimer.Start();
 	}
 
 
@@ -226,10 +228,11 @@ public partial class Projectile : RigidBody3D
 		return w; // Return the result after max iterations
 	}
 
-	public void OnEnemyHit(Vector3 impactPoint)
+	public void OnEnemyHit()
 	{
-		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], impactPoint);
-		ApplyManaLoss(ManaLostAmount, impactPoint);
+		ApplyManaLoss(ManaLostAmount, GlobalPosition);
+		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
+		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Hit"]);
 	}
 
 	private void HandleWallBounce(Vector3 impactPoint)
@@ -246,12 +249,11 @@ public partial class Projectile : RigidBody3D
 
 		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
 
-		AudioManager.PlayAttachedToNode((AudioFile)AudioData["Bounce"], this);
-
+		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Bounce"]);
 		// DebugManager.Trace($"projectile impact point: {impactPoint}");
 		ApplyManaLoss(ManaLostAmount, impactPoint);
 
-		_bounceCooldown = 0.1f; // Prevent rapid re-bouncing
+		bounceCooldown = 0.1f; // Prevent rapid re-bouncing
 	}
 
 	public void Expire()
@@ -291,7 +293,7 @@ public partial class Projectile : RigidBody3D
 		ManaCost = Mathf.Max(0, ManaCost); // Ensure ManaCost doesn't go below zero
 
 		// If ManaCost drops below threshold, expire the projectile
-		if (ManaCost < _minManaThreshold)
+		if (ManaCost < minManaThreshold)
 		{
 			Expire();
 			return;
@@ -310,7 +312,7 @@ public partial class Projectile : RigidBody3D
 
 
 		// Destroy if too small
-		if (_sprite.Scale.X < 0.1f)
+		if (sprite.Scale.X < 0.1f)
 		{
 			QueueFree();
 		}
@@ -348,19 +350,19 @@ public partial class Projectile : RigidBody3D
 
 	public void Modulate(Color newColor)
 	{
-		_sprite.Modulate = newColor;
+		sprite.Modulate = newColor;
 	}
 
 	public void Reset()
 	{
-		_state = ProjectileState.Charging;
+		state = ProjectileState.Charging;
 		LinearVelocity = Vector3.Zero;
 		AngularVelocity = Vector3.Zero;
 		Freeze = true;
-		_collisionShape.Disabled = true;
+		collisionShape.Disabled = true;
 		// DebugManager.Debug($"Projectile: Reset - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		Charge = 0;
-		_lifetimeTimer.Stop();
+		lifetimeTimer.Stop();
 		GlobalPosition = Vector3.Zero; // Reset position to a default
 		// Reset any other relevant properties
 	}

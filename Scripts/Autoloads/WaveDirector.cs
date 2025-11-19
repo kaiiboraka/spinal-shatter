@@ -130,8 +130,8 @@ public partial class WaveDirector : Node
 		}
 
 		player = playerInstance;
-		player.HealthComponent.Died += OnRoundLost;
-		player.PlayerDied += OnPlayerDiedSignalReceived;
+		player.HealthComponent.OutOfHealth += ProcessRoundLostState;
+		player.PlayerDied += ShowGameOverMenu;
 
 		// DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
 	}
@@ -298,9 +298,11 @@ public partial class WaveDirector : Node
 		// The room's doors should now open, etc.
 	}
 
-	public void OnRoundLost()
+	private void ProcessRoundLostState()
 	{
-		ResetAllUI(); // Added
+		if (!IsRoundInProgress && RoundTimer.IsStopped()) return;
+
+		ResetAllUI();
 		IsRoundInProgress = false;
 		_roundInProgressRoom = null;
 		
@@ -320,16 +322,30 @@ public partial class WaveDirector : Node
 
 		_timeBonusTextValue.Text = "0"; // No time bonus on loss
 		_lifeBonusTextValue.Text = "0"; // No health bonus on loss
-		
+	}
+
+	private void ShowGameOverMenu()
+	{
 		if (_levelLostMenuScene != null)
 		{
-			var levelLostMenu = _levelLostMenuScene.Instantiate();
-			PlayerBody.Instance.ControlRoot.AddChild(levelLostMenu);
+			// A simple check to prevent adding the menu multiple times.
+			if (PlayerBody.Instance.ControlRoot.FindChild("LevelLostMenu", recursive: false) == null)
+			{
+				var levelLostMenu = _levelLostMenuScene.Instantiate();
+				levelLostMenu.Name = "LevelLostMenu";
+				PlayerBody.Instance.ControlRoot.AddChild(levelLostMenu);
+			}
 		}
 		else
 		{
 			DebugManager.Error("WaveDirector: _levelLostMenuScene is not assigned!");
 		}
+	}
+
+	public void OnRoundLost()
+	{
+		ProcessRoundLostState();
+		ShowGameOverMenu();
 	}
 
 	private float CalculateBudget()
@@ -387,21 +403,6 @@ public partial class WaveDirector : Node
 	private void OnRoundTimerTimeout()
 	{
 		// Play timer alarm sound
-	}
-
-	private void OnPlayerDiedSignalReceived()
-	{
-		ResetAllUI(); // Hide all other UI elements first
-
-		if (_levelLostMenuScene != null)
-		{
-			var levelLostMenu = _levelLostMenuScene.Instantiate();
-			_directorDisplay.AddChild(levelLostMenu);
-		}
-		else
-		{
-			DebugManager.Error("WaveDirector: _levelLostMenuScene is not assigned!");
-		}
 	}
 
 	private void ResetAllUI()

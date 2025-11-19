@@ -7,4 +7,6 @@
 resource_name = "Enemy_Small_Die"
 script = ExtResource("2_gpjvv")
 Stream = ExtResource("1_6eeob")
+PitchScale = 0.9
+VolumeDb = 1.0
 metadata/_custom_type_script = "uid://cobrtm7ta40hq"

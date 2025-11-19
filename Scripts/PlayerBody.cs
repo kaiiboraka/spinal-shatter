@@ -104,25 +104,16 @@ public partial class PlayerBody : Combatant
 	private AudioStreamPlayer AudioPlayer_Global;
 	private AudioStreamPlayer3D AudioPlayer_Voice;
 	private AudioStreamPlayer3D AudioPlayer_Oof;
-	private AudioStreamPlayer3D AudioPlayer_MoneyFX;
-	private AudioStreamPlayer3D AudioPlayer_ManaFX;
+	private AudioStreamPlayer3D AudioPlayer_Money;
+	private AudioStreamPlayer3D AudioPlayer_Mana;
+	private AudioStreamPlayer3D AudioPlayer_Footsteps;
 
 	// TODO : put the main scene back to this one : res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn
 
 	public override void _Ready()
 	{
-		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
+		base._Ready(); // GetComponents, ConnectEvents
 		Instance = this;
-
-		GetComponents();
-
-		_manaComponent.ManaChanged += UpdateManaHUD;
-		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
-
-		HealthComponent.HealthChanged += UpdateHealthHUD;
-		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
-
-		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
 
 		parentLevel = GetParent() as Node3D;
 
@@ -152,8 +143,10 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
-	private void GetComponents()
+	protected override void GetComponents()
 	{
+		base.GetComponents();
+
 		ControlRoot = GetNode<Control>("Control");
 		headNode = GetNode<Node3D>("%Head");
 		camera = GetNode<Camera3D>("%Camera1P");
@@ -169,11 +162,25 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_Oof = GetNode<AudioStreamPlayer3D>("Audio/Oof_AudioStreamPlayer3D");
 		AudioPlayer_Global = GetNode<AudioStreamPlayer>("Audio/Global_AudioStreamPlayer");
 		AudioPlayer_Voice = GetNode<AudioStreamPlayer3D>("Audio/Voice_AudioStreamPlayer3D");
-		AudioPlayer_ManaFX = GetNode<AudioStreamPlayer3D>("Audio/ManaFX_AudioStreamPlayer3D");
-		AudioPlayer_MoneyFX = GetNode<AudioStreamPlayer3D>("Audio/MoneyFX_AudioStreamPlayer3D");
+		AudioPlayer_Mana = GetNode<AudioStreamPlayer3D>("Audio/Mana_AudioStreamPlayer3D");
+		AudioPlayer_Money = GetNode<AudioStreamPlayer3D>("Audio/Money_AudioStreamPlayer3D");
+		AudioPlayer_Footsteps = GetNode<AudioStreamPlayer3D>("Audio/Footsteps_AudioStreamPlayer3D");
 
 		var audioData = GD.Load<Resource>("res://assets/Audio/AudioData/AudioData_Player.tres");
 		AudioData =  audioData as AudioData;
+	}
+
+	protected override void ConnectEvents()
+	{
+		base.ConnectEvents();
+
+		_manaComponent.ManaChanged += UpdateManaHUD;
+		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
+
+		HealthComponent.HealthChanged += UpdateHealthHUD;
+		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
+
+		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -236,7 +243,7 @@ public partial class PlayerBody : Combatant
 
 		if (Input.IsActionJustPressed("Debug_ViewChange"))
 		{
-			EmitSignal(SignalName.ViewChange);
+			EmitSignalViewChange();
 		}
 
 		SprintAndCrouch();
@@ -310,7 +317,7 @@ public partial class PlayerBody : Combatant
 		newVelocity.Z = hVel.Z;
 
 		// Apply knockback
-		newVelocity += _knockbackVelocity;
+		newVelocity += knockbackVelocity;
 
 		Velocity = newVelocity;
 
@@ -353,8 +360,7 @@ public partial class PlayerBody : Combatant
 			cooldown = 0.5;
 		}
 
-
-		AudioManager.PlayAttachedToNode(sound, this);
+		AudioManager.Play(AudioPlayer_Footsteps, sound);
 		_footstepCooldownTimer.WaitTime = cooldown;
 		_footstepCooldownTimer.Start();
 	}
@@ -465,7 +471,7 @@ public partial class PlayerBody : Combatant
 		Velocity += (direction + Lift) * knockbackStrength;
 
 		// Prevent base class decay/application from interfering
-		_knockbackVelocity = Vector3.Zero;
+		knockbackVelocity = Vector3.Zero;
 		Elythia.DebugManager.Info(
 			$"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
 	}
@@ -473,7 +479,7 @@ public partial class PlayerBody : Combatant
 	private Action onDeathVoiceFinished;
 	private Action onDeathSfxFinished;
 
-	public override void OnDied()
+	public override void OnRanOutOfHealth()
 	{
 		deadNow = true;
 
@@ -482,7 +488,7 @@ public partial class PlayerBody : Combatant
 		onDeathSfxFinished = () =>
 		{
 			AudioPlayer_Global.Finished -= onDeathSfxFinished;
-			EmitSignal(SignalName.PlayerDied);
+			EmitSignalPlayerDied();
 		};
 		onDeathVoiceFinished = () =>
 		{
@@ -513,9 +519,9 @@ public partial class PlayerBody : Combatant
 		_manaComponent.AddMana(manaParticle.Value);
 		manaParticle.Collect();
 
-		AudioPlayer_ManaFX.Stream = manaParticle.Data.AudioStream;
-		AudioPlayer_ManaFX.PitchScale = manaParticle.Data.AudioPitch;
-		AudioPlayer_ManaFX.Play();
+		AudioPlayer_Mana.Stream = manaParticle.Data.AudioStream;
+		AudioPlayer_Mana.PitchScale = manaParticle.Data.AudioPitch;
+		AudioPlayer_Mana.Play();
 
 		PickupManager.Instance.Release(manaParticle);
 	}
@@ -527,9 +533,9 @@ public partial class PlayerBody : Combatant
 		AddMoney(moneyParticle.Value);
 		moneyParticle.Collect();
 
-		AudioPlayer_MoneyFX.Stream = moneyParticle.Data.AudioStream;
-		AudioPlayer_MoneyFX.PitchScale = moneyParticle.Data.AudioPitch;
-		AudioPlayer_MoneyFX.Play();
+		AudioPlayer_Money.Stream = moneyParticle.Data.AudioStream;
+		AudioPlayer_Money.PitchScale = moneyParticle.Data.AudioPitch;
+		AudioPlayer_Money.Play();
 
 		PickupManager.Instance.Release(moneyParticle);
 	}

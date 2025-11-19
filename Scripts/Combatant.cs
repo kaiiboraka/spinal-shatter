@@ -5,21 +5,30 @@ namespace SpinalShatter;
 
 public partial class Combatant : CharacterBody3D
 {
-    [ExportGroup("Components")]
-    [Export] public HealthComponent HealthComponent { get; set; }
-    [Export] private Area3D _hurtbox; // Common hurtbox
+    public HealthComponent HealthComponent { get; private set; }
+    private Area3D hurtbox; // Common hurtbox
 
     protected float KnockbackDamageScalar { get; set; } = 2.0f;
     protected float KnockbackWeight { get; set; } = 5.0f;
-    protected Vector3 _knockbackVelocity = Vector3.Zero;
+    protected Vector3 knockbackVelocity = Vector3.Zero;
 
     public override void _Ready()
     {
-        HealthComponent ??= GetNode<HealthComponent>("%HealthComponent");
-        HealthComponent.Died += OnDied;
-        HealthComponent.Hurt += OnHurt;
+        GetComponents();
+        ConnectEvents();
+    }
 
-        _hurtbox.BodyEntered += OnHurtboxBodyEntered;
+    protected virtual void GetComponents()
+    {
+        HealthComponent ??= GetNode<HealthComponent>("HealthComponent");
+        hurtbox = GetNode<Area3D>("Hurtbox");
+    }
+
+    protected virtual void ConnectEvents()
+    {
+        HealthComponent.Hurt += OnHurt;
+        HealthComponent.OutOfHealth += OnRanOutOfHealth;
+        hurtbox.BodyEntered += OnHurtboxBodyEntered;
     }
 
     public virtual void OnHurtboxBodyEntered(Node3D body)
@@ -53,7 +62,7 @@ public partial class Combatant : CharacterBody3D
     {
         float knockbackDamage = Mathf.Clamp(damage, 0, 30f);
 
-        _knockbackVelocity = (direction + Lift) * (knockbackDamage / KnockbackWeight);
+        knockbackVelocity = (direction + Lift) * (knockbackDamage / KnockbackWeight);
         // DebugManager.Info($"Combatant Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackDamage={knockbackDamage}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={_knockbackVelocity}");
     }
 
@@ -71,7 +80,7 @@ public partial class Combatant : CharacterBody3D
         // Base implementation, can be overridden by children
     }
 
-    public virtual void OnDied()
+    public virtual void OnRanOutOfHealth()
     {
         // Base implementation, can be overridden by children
     }

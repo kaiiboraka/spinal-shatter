@@ -17,7 +17,7 @@ public partial class ManaComponent : Node
         private set
         {
             _currentMana = Mathf.Clamp(value, 0, MaxMana);
-            EmitSignal(SignalName.ManaChanged, _currentMana, MaxMana);
+            EmitSignalManaChanged(_currentMana, MaxMana);
         }
     }
 

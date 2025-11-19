@@ -162,7 +162,7 @@ public partial class DebugManager : CanvasLayer
 
 		string propertyValue = value.ToString();
 		HUDProperties[which] = propertyValue;
-		EmitSignal(SignalName.PropertyChanged, which, propertyValue);
+		EmitSignalPropertyChanged(which, propertyValue);
 	}
 
 	private void UpdateHUDValues()

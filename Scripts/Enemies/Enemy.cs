@@ -10,28 +10,29 @@ public partial class Enemy : Combatant
 	public LevelRoom AssociatedRoom { get; set; }
 	private bool _isActive = true;
 
-	private CollisionShape3D _collisionShape = new();
+	private CollisionShape3D collisionShape = new();
 	private AIState _currentState = AIState.Idle;
 
 	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
 
-	private AnimationPlayer _animPlayer;
+	private AnimationPlayer animPlayer;
 
-	private AnimatedSprite3D _animatedSprite;
-	private AnimatedSprite3D _animatedSprite_Eye;
+	private AnimatedSprite3D animatedSprite;
+	private AnimatedSprite3D animatedSprite_Eye;
 	[Export] private PackedScene _deathParticlesScene;
 	private OverheadHealthBar OverheadHealthBar { get; set; }
-	private StateSprite3d _stateVisual;
+	private StateSprite3d stateVisual;
 
 
 	private AudioData AudioData;
+	public AudioStreamPlayer3D AudioPlayer { get; private set; }
 
-	private Timer _timerWalk;
-	private Timer _timerPool;
-	private Timer _timerAction;
-	private Timer _timerAttackCooldown;
-	private Timer _timerBlink;
+	private Timer timerWalk;
+	private Timer timerPool;
+	private Timer timerAction;
+	private Timer timerAttackCooldown;
+	private Timer timerBlink;
 
 	// --- STATS (initialized from EnemyData) ---
 	// Patrol
@@ -78,6 +79,8 @@ public partial class Enemy : Combatant
 
 	public override void _Ready()
 	{
+		base._Ready(); // GetComponents, ConnectEvents
+
 		if (Data == null)
 		{
 			DebugManager.Error($"Enemy '{Name}' is missing EnemyData!");
@@ -86,28 +89,6 @@ public partial class Enemy : Combatant
 		{
 			ApplyData(Data);
 		}
-
-		base._Ready(); // Sets up HealthComponent, hurtbox, etc.
-
-		GetComponents();
-
-		// Collect all collision shapes for activation/deactivation
-		_collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
-
-		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
-
-		DetectionArea.BodyEntered += OnDetectionAreaBodyEntered;
-		DetectionArea.BodyExited += OnDetectionAreaBodyExited;
-
-		_timerPool.WaitTime = Mathf.Max(
-			_timerBlink.WaitTime,
-			_animPlayer.GetAnimation("Die").Length);
-
-		_timerWalk.Timeout += OnWalkTimerTimeout;
-		_timerAction.Timeout += OnActionTimerTimeout;
-		_timerPool.Timeout += Despawn;
-
-		// _animPlayer.AnimationFinished += OnAnimationFinished;
 
 		if (!ProjectileIsRanged && Combat_meleeHitbox != null)
 		{
@@ -126,19 +107,24 @@ public partial class Enemy : Combatant
 		ChangeState(AIState.Patrolling);
 	}
 
-	private void GetComponents()
-	{
-		_animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-		_animatedSprite = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D");
-		_animatedSprite_Eye = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D/Eye_AnimatedSprite");
-		OverheadHealthBar = GetNode<OverheadHealthBar>("HealthBar");
-		_stateVisual = GetNode<StateSprite3d>("StateSprite3D");
 
-		_timerWalk = GetNode<Timer>("Timers/WalkTimer");
-		_timerAction = GetNode<Timer>("Timers/ActionWaitTimer");
-		_timerAttackCooldown = GetNode<Timer>("Timers/AttackCooldownTimer");
-		_timerPool = GetNode<Timer>("Timers/PoolTimer");
-		_timerBlink = GetNode<Timer>("Timers/BlinkTimer");
+	protected override void GetComponents()
+	{
+		base.GetComponents();
+		collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
+		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		animatedSprite = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D");
+		animatedSprite_Eye = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D/Eye_AnimatedSprite");
+		OverheadHealthBar = GetNode<OverheadHealthBar>("HealthBar");
+		stateVisual = GetNode<StateSprite3d>("StateSprite3D");
+
+		timerWalk = GetNode<Timer>("Timers/WalkTimer");
+		timerAction = GetNode<Timer>("Timers/ActionWaitTimer");
+		timerAttackCooldown = GetNode<Timer>("Timers/AttackCooldownTimer");
+		timerPool = GetNode<Timer>("Timers/PoolTimer");
+		timerBlink = GetNode<Timer>("Timers/BlinkTimer");
+
+		AudioPlayer = GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
 
 		DetectionArea = GetNode<Area3D>("DetectionArea3D");
 		Detection_lineOfSight = GetNode<RayCast3D>("LOS_RayCast3D");
@@ -154,6 +140,23 @@ public partial class Enemy : Combatant
 		{
 			ProjectileSpawnPoint = GetNode<Node3D>("SpellOrigin");
 		}
+	}
+
+	protected override void ConnectEvents()
+	{
+		base.ConnectEvents();
+
+		HealthComponent.HealthChanged += OverheadHealthBar.OnHealthChanged;
+		DetectionArea.BodyEntered += OnDetectionAreaBodyEntered;
+		DetectionArea.BodyExited += OnDetectionAreaBodyExited;
+
+		timerPool.WaitTime = Mathf.Max(
+			timerBlink.WaitTime,
+			animPlayer.GetAnimation("Die").Length);
+
+		timerWalk.Timeout += OnWalkTimerTimeout;
+		timerAction.Timeout += OnActionTimerTimeout;
+		timerPool.Timeout += Despawn;
 	}
 
 	private void ApplyData(EnemyData data)
@@ -248,10 +251,10 @@ public partial class Enemy : Combatant
 		}
 
 		// Apply knockback
-		if (_knockbackVelocity.LengthSquared() > 0)
+		if (knockbackVelocity.LengthSquared() > 0)
 		{
-			newVelocity += _knockbackVelocity;
-			_knockbackVelocity = Vector3.Zero;
+			newVelocity += knockbackVelocity;
+			knockbackVelocity = Vector3.Zero;
 		}
 
 		Velocity = newVelocity;
@@ -276,34 +279,34 @@ public partial class Enemy : Combatant
 		switch (state)
 		{
 			case AIState.Idle:
-				_animPlayer.Play("Front_Idle");
+				animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Patrolling:
-				_animPlayer.Play("Front_Idle");
+				animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				StartWaiting();
 				break;
 			case AIState.Chasing:
-				_animPlayer.Play("Front_Idle");
+				animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Attacking:
 				Velocity = Vector3.Zero with { Y = Velocity.Y };
-				_animPlayer.Play("Front_Attack");
+				animPlayer.Play("Front_Attack");
 
 				// PlayAnimationOnSprites("Front_Attack");
 				// PerformAttack();
-				_timerAttackCooldown.WaitTime = AttackCooldown;
-				_timerAttackCooldown.Start();
+				timerAttackCooldown.WaitTime = AttackCooldown;
+				timerAttackCooldown.Start();
 				break;
 			case AIState.Recovery:
-				_animPlayer.Play("Front_Idle");
-				_timerAction.WaitTime = RecoveryTime;
-				_timerAction.Start();
+				animPlayer.Play("Front_Idle");
+				timerAction.WaitTime = RecoveryTime;
+				timerAction.Start();
 				break;
 			case AIState.Dying:
 				TryToDie();
@@ -319,9 +322,9 @@ public partial class Enemy : Combatant
 		_currentState = newState;
 		EnterState(_currentState);
 
-		if (_stateVisual != null)
+		if (stateVisual != null)
 		{
-			_stateVisual.CurrentState = newState;
+			stateVisual.CurrentState = newState;
 		}
 	}
 
@@ -332,15 +335,15 @@ public partial class Enemy : Combatant
 			case AIState.Idle:
 				break;
 			case AIState.Patrolling:
-				_timerWalk.Stop();
-				_timerAction.Stop();
+				timerWalk.Stop();
+				timerAction.Stop();
 				break;
 			case AIState.Chasing:
 				break;
 			case AIState.Attacking:
 				break;
 			case AIState.Recovery:
-				_timerAction.Stop();
+				timerAction.Stop();
 				break;
 		}
 	}
@@ -359,6 +362,7 @@ public partial class Enemy : Combatant
 
 	private void PerformAttack()
 	{
+		AudioManager.Play(AudioPlayer, (AudioFile)AudioData["Attack"]);
 		if (ProjectileIsRanged)
 		{
 			if (ProjectileScene == null)
@@ -379,24 +383,21 @@ public partial class Enemy : Combatant
 			};
 			projectile.Launch(launchData);
 		}
-		else //if (Attack_meleeHitbox != null)
-		{
-			// Melee attack logic (handled by animation keyframes)
-		}
+		// Melee attack logic (handled by animation keyframes)
 	}
 
 	public void StopAnimation()
 	{
-		_animPlayer.Stop();
-		_animatedSprite.Stop();
-		_animatedSprite_Eye.Stop();
+		animPlayer.Stop();
+		animatedSprite.Stop();
+		animatedSprite_Eye.Stop();
 	}
 
 	public void PauseAnimation()
 	{
-		_animPlayer.Pause();
-		_animatedSprite.Pause();
-		_animatedSprite_Eye.Pause();
+		animPlayer.Pause();
+		animatedSprite.Pause();
+		animatedSprite_Eye.Pause();
 	}
 
 	private void OnDetectionAreaBodyEntered(Node3D body)
@@ -451,7 +452,7 @@ public partial class Enemy : Combatant
 		}
 		else
 		{
-			if (_timerAttackCooldown.IsStopped())
+			if (timerAttackCooldown.IsStopped())
 			{
 				ChangeState(AIState.Attacking);
 			}
@@ -462,7 +463,6 @@ public partial class Enemy : Combatant
 	{
 		// Waiting for animation to finish
 		newVelocity = Vector3.Zero;
-		;
 	}
 
 	private void ProcessRecovery(ref Vector3 newVelocity)
@@ -500,8 +500,8 @@ public partial class Enemy : Combatant
 	private void StartWalking()
 	{
 		_isWalking = true;
-		_timerWalk.WaitTime = GD.RandRange(MinWalkTime, MaxWalkTime);
-		_timerWalk.Start();
+		timerWalk.WaitTime = GD.RandRange(MinWalkTime, MaxWalkTime);
+		timerWalk.Start();
 	}
 
 	private void Wander(ref Vector3 newVelocity)
@@ -536,8 +536,8 @@ public partial class Enemy : Combatant
 	private void StartWaiting()
 	{
 		_isWalking = false;
-		_timerAction.WaitTime = GD.RandRange(MinWaitTime, MaxWaitTime);
-		_timerAction.Start();
+		timerAction.WaitTime = GD.RandRange(MinWaitTime, MaxWaitTime);
+		timerAction.Start();
 	}
 
 	private void UpdateAnimation(float angleToPlayer)
@@ -582,16 +582,10 @@ public partial class Enemy : Combatant
 			}
 		}
 
-		_animPlayer.Play(animName);
+		animPlayer.Play(animName);
 
-		// if (_animatedSprite.Animation != animName)
-		// {
-		// 	_animatedSprite.Play(animName);
-		// 	_animatedSprite_Eye.Play(animName);
-		// }
-
-		_animatedSprite.FlipH = flipH;
-		_animatedSprite_Eye.FlipH = flipH;
+		animatedSprite.FlipH = flipH;
+		animatedSprite_Eye.FlipH = flipH;
 	}
 
 	// Update animation based on angle to player
@@ -613,7 +607,7 @@ public partial class Enemy : Combatant
 
 		if (body is Projectile projectile && projectile.Owner != this)
 		{
-			projectile.OnEnemyHit(projectile.GlobalPosition);
+			projectile.OnEnemyHit();
 		}
 	}
 
@@ -626,11 +620,14 @@ public partial class Enemy : Combatant
 	public override void PlayOnHurtFX()
 	{
 		var tween = GetTree().CreateTween();
-		tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
-		tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
+		tween.TweenProperty(animatedSprite, "modulate", Colors.Red, 0.1);
+		tween.TweenProperty(animatedSprite, "modulate", Colors.White, 0.1);
+
+		if (isDying) return;
+		AudioManager.Play(AudioPlayer, (AudioFile)AudioData["Hurt"]);
 	}
 
-	public override void OnDied()
+	public override void OnRanOutOfHealth()
 	{
 		// DebugManager.Debug($"Enemy: {Name} OnDied called.");
 		ChangeState(AIState.Dying);
@@ -656,24 +653,24 @@ public partial class Enemy : Combatant
 			// DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
 			deathParticles.PlayParticles(Data.DeathParticleCount);
 		}
+		if (AudioPlayer.IsPlaying()) AudioPlayer.Stop();
+		AudioManager.Play(AudioPlayer, (AudioFile)AudioData["Die"]);
 
-		_animPlayer.Play("Die");
-		_timerBlink.Start();
-
-		AudioManager.PlayAtPosition((AudioFile)AudioData["Die"], GlobalPosition);
+		animPlayer.Play("Die");
+		timerBlink.Start();
 
 
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop.GetRandomValue(),
-			_collisionShape.GlobalPosition);
+			collisionShape.GlobalPosition);
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Money, MoneyAmountToDrop.GetRandomValue(),
-			_collisionShape.GlobalPosition);
+			collisionShape.GlobalPosition);
 
 		StopMoving();
 		StopActionTimers();
 		DisableCollisions();
 		EmitSignalEnemyDied(this);
 
-		_timerPool.Start();
+		timerPool.Start();
 	}
 
 	public override void Reset()
@@ -682,7 +679,7 @@ public partial class Enemy : Combatant
 		Activate();
 
 		// Add any enemy-specific reset logic here
-		_animPlayer.Stop(); // Stop any playing animation
+		animPlayer.Stop(); // Stop any playing animation
 		ChangeState(AIState.Idle, true);
 	}
 
@@ -751,16 +748,16 @@ public partial class Enemy : Combatant
 
 	private void StopActionTimers()
 	{
-		_timerWalk?.Stop();
-		_timerAction?.Stop();
-		_timerAttackCooldown?.Stop();
+		timerWalk?.Stop();
+		timerAction?.Stop();
+		timerAttackCooldown?.Stop();
 	}
 
 	private void BlinkRoutine()
 	{
-		if (_timerBlink.IsStopped()) return;
+		if (timerBlink.IsStopped()) return;
 
-		double timeLeft = _timerBlink.TimeLeft;
+		double timeLeft = timerBlink.TimeLeft;
 
 		float duration = timeLeft switch
 		{
@@ -784,10 +781,10 @@ public partial class Enemy : Combatant
 
 	private void Blink(float alpha, float duration)
 	{
-		if (BlinkTween != null && BlinkTween.IsRunning() || _animatedSprite == null) return;
+		if (BlinkTween != null && BlinkTween.IsRunning() || animatedSprite == null) return;
 
 		BlinkTween = CreateTween().SetLoops(2).SetTrans(Tween.TransitionType.Quart).SetEase(Tween.EaseType.InOut);
-		BlinkTween.TweenProperty(_animatedSprite, "modulate:a", alpha, duration / 2);
-		BlinkTween.TweenProperty(_animatedSprite, "modulate:a", 1.0f, duration / 2);
+		BlinkTween.TweenProperty(animatedSprite, "modulate:a", alpha, duration / 2);
+		BlinkTween.TweenProperty(animatedSprite, "modulate:a", 1.0f, duration / 2);
 	}
 }

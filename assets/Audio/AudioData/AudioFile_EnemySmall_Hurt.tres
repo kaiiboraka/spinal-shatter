@@ -7,3 +7,5 @@
 resource_name = "Enemy_Small_Hurt"
 script = ExtResource("2_5thx3")
 Stream = ExtResource("1_mrobu")
+PitchScale = 0.9
+VolumeDb = -8.0

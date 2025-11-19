@@ -108,7 +108,7 @@ _data = {
 &"Siphon_Spin": SubResource("Animation_gc10f")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("HealthComponent", "_hurtbox") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
@@ -117,8 +117,6 @@ platform_wall_layers = 512
 script = ExtResource("1_gjot8")
 WALK_SPEED = 15.0
 _pauseMenuScene = ExtResource("2_3vnku")
-HealthComponent = NodePath("HealthComponent")
-_hurtbox = NodePath("Hurtbox")
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -212,13 +210,13 @@ max_polyphony = 2
 bus = &"_Oof"
 doppler_tracking = 2
 
-[node name="ManaFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Mana_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("16_qeewm")
 max_polyphony = 3
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="MoneyFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Money_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
 stream = ExtResource("16_qd2bg")
 max_polyphony = 3
 bus = &"SFX"

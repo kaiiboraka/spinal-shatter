@@ -6,7 +6,7 @@ public partial class HealthComponent : Node
 {
 	[Signal] public delegate void HealthChangedEventHandler(float currentHealth, float maxHealth);
 
-	[Signal] public delegate void DiedEventHandler();
+	[Signal] public delegate void OutOfHealthEventHandler();
 
 	[Signal] public delegate void HurtEventHandler(Vector3 sourcePosition, float damage);
 
@@ -26,12 +26,12 @@ public partial class HealthComponent : Node
 			if (_isDead) return;
 
 			_currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-			EmitSignal(SignalName.HealthChanged, _currentHealth, MaxHealth);
+			EmitSignalHealthChanged(_currentHealth, MaxHealth);
 
 			if (_currentHealth <= 0)
 			{
 				_isDead = true;
-				EmitSignal(SignalName.Died);
+				EmitSignalOutOfHealth();
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public partial class HealthComponent : Node
 		float previousHealth = CurrentHealth;
 		CurrentHealth -= amount;
 		float actualDamageDealt = previousHealth - CurrentHealth; // Calculate actual damage dealt
-		EmitSignal(SignalName.Hurt, sourcePosition, actualDamageDealt);
+		EmitSignalHurt(sourcePosition, actualDamageDealt);
 		return actualDamageDealt;
 	}
 

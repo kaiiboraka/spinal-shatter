@@ -488,7 +488,7 @@ _data = {
 &"Side": SubResource("Animation_h7ptk")
 }
 
-[node name="Scrapper" type="CharacterBody3D" node_paths=PackedStringArray("HealthComponent", "_hurtbox") groups=["Enemies"]]
+[node name="Scrapper" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -497,8 +497,10 @@ platform_wall_layers = 512
 script = ExtResource("1_usy6x")
 Data = ExtResource("2_317k4")
 _deathParticlesScene = ExtResource("3_g6587")
-HealthComponent = NodePath("HealthComponent")
-_hurtbox = NodePath("Hurtbox")
+
+[node name="HealthComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_317k4")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -519,9 +521,6 @@ one_shot = true
 [node name="BlinkTimer" type="Timer" parent="Timers"]
 wait_time = 3.0
 one_shot = true
-
-[node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("3_317k4")
 
 [node name="HealthBar" parent="." instance=ExtResource("4_nql3o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
@@ -605,3 +604,6 @@ collision_mask = 2
 libraries = {
 &"": SubResource("AnimationLibrary_ltrpb")
 }
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+max_distance = 60.0

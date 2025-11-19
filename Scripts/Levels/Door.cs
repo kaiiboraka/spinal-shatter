@@ -37,7 +37,7 @@ public partial class Door : CharacterBody3D
 		}
 	}
 
-	public bool Locked { get; set; }
+	[Export] public bool Locked { get; set; }
 
 	public override void _Ready()
 	{
@@ -48,6 +48,7 @@ public partial class Door : CharacterBody3D
 	{
 		base._EnterTree();
 		TrySubscribe();
+		IsOpen = isOpen;
 	}
 
 	public override void _ExitTree()
@@ -73,7 +74,7 @@ public partial class Door : CharacterBody3D
 	{
 		if (Locked) return;
 		animator.Play("CloseUp");
-		Locked = true;
+		if (this.IsInGame()) Locked = true;
 	}
 
 	private void OnAnimationFinished(StringName animation)

@@ -7,6 +7,6 @@ albedo_color = Color(0, 0.6901961, 1, 0.23921569)
 [resource]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_m4eio")
-top_radius = 10.047
-bottom_radius = 10.047
+top_radius = 10.0
+bottom_radius = 10.0
 height = 1.0

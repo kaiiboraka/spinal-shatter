@@ -191,15 +191,46 @@ public partial class LevelRoom : Node3D
 		}
 	}
 
-	public void Deactivate()
-	{
-		IsActive = false;
-		if (!alwaysShow) HideRoom();
+		public void Deactivate()
 
-		// Deactivate any remaining enemies
-		foreach (var enemy in EnemiesInRoom)
 		{
-			enemy.Deactivate();
+
+			IsActive = false;
+
+			if (!alwaysShow) HideRoom();
+
+	
+
+			// Deactivate any remaining enemies
+
+			foreach (var enemy in EnemiesInRoom)
+
+			{
+
+				enemy.Deactivate();
+
+			}
+
 		}
+
+	
+
+		public void OnRoundCompletion()
+
+		{
+
+			if (levelDoor != null)
+
+			{
+
+				levelDoor.Locked = false;
+
+				levelDoor.Open();
+
+			}
+
+		}
+
 	}
-}
+
+	

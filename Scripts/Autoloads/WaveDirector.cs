@@ -258,8 +258,9 @@ public partial class WaveDirector : Node
 
 	private void OnRoundWon()
 	{
-		// ResetAllUI(); // Added
 		IsRoundInProgress = false;
+
+		_roundInProgressRoom?.OnRoundCompletion();
 		_roundInProgressRoom = null;
 		
 		endingPlayerHealth = player.HealthComponent.CurrentHealth;

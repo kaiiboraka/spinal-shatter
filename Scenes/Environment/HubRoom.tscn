@@ -1,7 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://0ngmpcu0p57w"]
+[gd_scene load_steps=11 format=3 uid="uid://0ngmpcu0p57w"]
 
 [ext_resource type="ArrayMesh" uid="uid://danfgn12phtev" path="res://assets/Models/CentralRoom.res" id="1_5frwb"]
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_ogqk4"]
+[ext_resource type="PackedScene" uid="uid://cs86u5irxi628" path="res://Scenes/Environment/Doodads/Door_green.tscn" id="3_4qgch"]
+[ext_resource type="PackedScene" uid="uid://civa5ud2fn8dx" path="res://Scenes/Environment/Doodads/Door_Purple.tscn" id="4_yl1hc"]
+[ext_resource type="PackedScene" uid="uid://wahkuswnqfks" path="res://Scenes/Environment/Doodads/Door_blue.tscn" id="5_epkm8"]
+[ext_resource type="PackedScene" uid="uid://db56agth77h12" path="res://Scenes/Environment/Doodads/Door_orange.tscn" id="6_tjpda"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_5frwb"]
 vertices = PackedVector3Array(7.2177835, 0.5, 2.4698782, 2.4677835, 0.5, -7.280122, -7.2822165, 0.5, -2.5301218, -7.2822165, 0.5, 2.4698782, -2.5322165, 0.5, 7.219878, 2.4677835, 0.5, 7.219878, -2.5322165, 0.5, -7.280122, 7.2177835, 0.5, -2.5301218)
@@ -33,10 +37,12 @@ mesh = ExtResource("1_5frwb")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
 shape = SubResource("ConcavePolygonShape3D_bd4wt")
 
 [node name="LevelRegion" type="Area3D" parent="."]
 unique_name_in_owner = true
+visible = false
 
 [node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
@@ -52,3 +58,15 @@ shape = SubResource("BoxShape3D_ogqk4")
 
 [node name="Spawners" type="Node3D" parent="."]
 unique_name_in_owner = true
+
+[node name="Door_West" parent="." instance=ExtResource("3_4qgch")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -8.033, 0, 0)
+
+[node name="Door_East" parent="." instance=ExtResource("4_yl1hc")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 8.033, 0, 0)
+
+[node name="Door_North" parent="." instance=ExtResource("5_epkm8")]
+transform = Transform3D(-1, 0, 8.742277e-08, 0, 1, 0, -8.742277e-08, 0, -1, 0, 0, -8.033)
+
+[node name="Door_South" parent="." instance=ExtResource("6_tjpda")]
+transform = Transform3D(1, 0, 3.1974423e-14, 0, 1, 0, -3.1974423e-14, 0, 1, -1.6738767e-08, 0, 8.03294)

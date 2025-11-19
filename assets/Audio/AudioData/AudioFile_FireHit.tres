@@ -1,0 +1,10 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://c0t6gc0kfedwx"]
+
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="1_4obcc"]
+[ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="1_s6wqt"]
+
+[resource]
+resource_name = "FireHit"
+script = ExtResource("1_4obcc")
+Stream = ExtResource("1_s6wqt")
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

@@ -5,5 +5,5 @@ public partial class AudioFile : AudioStream
 {
 	[Export] public AudioStream Stream;
 	[Export] public float PitchScale = 1f;
-	[Export] public float VolumeDbModifier = 0;
+	[Export] public float VolumeDb = 0;
 }

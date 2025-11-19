@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=8 format=3 uid="uid://dkw6cu5jiynrs"]
+[gd_resource type="Resource" script_class="AudioData" load_steps=10 format=3 uid="uid://dkw6cu5jiynrs"]
 
 [ext_resource type="AudioStream" uid="uid://dosnrw3g58h5b" path="res://assets/Audio/AudioData/AudioBucket_Oof.tres" id="1_nnmed"]
 [ext_resource type="Script" uid="uid://c0tc37i3i6ume" path="res://Scripts/Resources/AudioData.cs" id="1_pl14s"]
@@ -7,12 +7,16 @@
 [ext_resource type="AudioStream" uid="uid://c66134p2k4fkl" path="res://assets/Audio/AudioData/AudioFile_SpellChargeBack.tres" id="4_c7yhm"]
 [ext_resource type="AudioStream" uid="uid://b24q1xpu1h77e" path="res://assets/Audio/AudioData/AudioFile_SpellChargeBeep.tres" id="5_asu13"]
 [ext_resource type="AudioStream" uid="uid://b831x1g38mrri" path="res://assets/Audio/AudioData/AudioBucket_PlayerDie_SFX.tres" id="6_blxu7"]
+[ext_resource type="AudioStream" uid="uid://35b44yo2qyg5" path="res://assets/Audio/AudioData/AudioFile_Move_Walk.tres" id="7_06w8i"]
+[ext_resource type="AudioStream" uid="uid://oooh2fulk8h0" path="res://assets/Audio/AudioData/AudioFile_Move_Sprint.tres" id="8_mii5v"]
 
 [resource]
 script = ExtResource("1_pl14s")
 Sounds = Dictionary[String, AudioStream]({
 "Die_Voice": ExtResource("2_nnmed"),
 "Hurt": ExtResource("1_nnmed"),
+"Move_Sprint": ExtResource("8_mii5v"),
+"Move_Walk": ExtResource("7_06w8i"),
 "PlayerDie_SFX": ExtResource("6_blxu7"),
 "SpellCast": ExtResource("3_40lsu"),
 "SpellChargeBack": ExtResource("4_c7yhm"),

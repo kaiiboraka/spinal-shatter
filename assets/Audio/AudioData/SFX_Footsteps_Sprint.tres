@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://daj6b6305ixgx" path="res://assets/Audio/SFX/step_metal (4).ogg" id="4_goov3"]
 
 [resource]
+resource_name = "Rand_Move_Sprint"
 random_pitch = 1.25
 streams_count = 4
 stream_0/stream = ExtResource("1_ngcln")

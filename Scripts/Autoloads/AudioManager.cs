@@ -128,7 +128,7 @@ public partial class AudioManager : Node
 		if (audioStream is AudioFile custom)
 		{
 			player3D.PitchScale = custom.PitchScale;
-			player3D.VolumeDb = baseVolume * custom.VolumeDbModifier;
+			player3D.VolumeDb = baseVolume * custom.VolumeDb;
 			player3D.Stream = custom.Stream;
 		}
 		player3D.Play();
@@ -142,15 +142,31 @@ public partial class AudioManager : Node
 		if (audioStream is AudioFile custom)
 		{
 			player.PitchScale = custom.PitchScale;
-			player.VolumeDb = baseVolume * custom.VolumeDbModifier;
+			player.VolumeDb = baseVolume * custom.VolumeDb;
 			player.Stream = custom.Stream;
 		}
 		player.Play();
 	}
 
-	public AudioStreamPlayer3D PlaySoundAtPosition(AudioStream sound, Vector3 position, float pitch = 1.0f, float volume = 0.0f)
+	public AudioStreamPlayer3D PlaySoundAtPosition(AudioFile sound, Vector3 position)
 	{
 		AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
+
+		player.Stream = sound.Stream;
+		player.GlobalPosition = position;
+		player.PitchScale = sound.PitchScale;
+		player.VolumeDb = sound.VolumeDb;
+		player.Play();
+
+		player.Finished += () => { player.Stream = null; };
+
+		return player;
+	}
+
+	public AudioStreamPlayer3D PlaySoundAtPosition(AudioStream sound, Vector3 position, float pitch, float volume)
+	{
+		AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
+
 		player.Stream = sound;
 		player.GlobalPosition = position;
 		player.PitchScale = pitch;
@@ -162,7 +178,23 @@ public partial class AudioManager : Node
 		return player;
 	}
 
-	public AttachedAudioStreamPlayer3D PlaySoundAttachedToNode(AudioStream sound, Node3D targetNode, float pitch = 1.0f, float volume = 0.0f)
+	public AttachedAudioStreamPlayer3D PlaySoundAttachedToNode(AudioFile sound, Node3D targetNode)
+	{
+		AttachedAudioStreamPlayer3D player = GetAvailableAttachedPlayer();
+		player.Stream = sound.Stream;
+		player.PitchScale = sound.PitchScale;
+		player.VolumeDb = sound.VolumeDb;
+		player.TargetNode = targetNode;
+
+		player.Play();
+
+		player.Finished += () => { player.TargetNode = null; };
+
+		return player;
+	}
+
+
+	public AttachedAudioStreamPlayer3D PlaySoundAttachedToNode(AudioStream sound, Node3D targetNode, float pitch, float volume)
 	{
 		AttachedAudioStreamPlayer3D player = GetAvailableAttachedPlayer();
 		player.Stream = sound;

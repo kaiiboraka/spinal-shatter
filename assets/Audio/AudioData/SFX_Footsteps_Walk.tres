@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://d0f7pdfx748wo" path="res://assets/Audio/SFX/step_lth4.ogg" id="4_tjfj6"]
 
 [resource]
+resource_name = "Rand_Move_Walk"
 random_pitch = 1.25
 streams_count = 4
 stream_0/stream = ExtResource("1_vme0a")

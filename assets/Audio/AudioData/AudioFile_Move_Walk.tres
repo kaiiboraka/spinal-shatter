@@ -1,0 +1,10 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://35b44yo2qyg5"]
+
+[ext_resource type="AudioStream" uid="uid://cisnb6ksg8tgq" path="res://assets/Audio/AudioData/SFX_Footsteps_Walk.tres" id="1_ccwpl"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="1_f1evv"]
+
+[resource]
+resource_name = "Move_Walk"
+script = ExtResource("1_f1evv")
+Stream = ExtResource("1_ccwpl")
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

@@ -76,11 +76,6 @@ public partial class PlayerBody : Combatant
 
 	private AudioData AudioData;
 
-	private AudioStream Audio_footstepSoundsStream;
-	private AudioStreamRandomizer Audio_FootstepSounds => Audio_footstepSoundsStream as AudioStreamRandomizer;
-	private AudioStream Audio_footstepSprintSoundsStream;
-	private AudioStreamRandomizer Audio_FootstepSprintSounds => Audio_footstepSprintSoundsStream as AudioStreamRandomizer;
-
 	[ExportCategory("Combat")]
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] public new float KnockbackWeight { get; private set; } = 5f;
@@ -92,19 +87,24 @@ public partial class PlayerBody : Combatant
 
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
-	private double _footstepMaxCooldown;
-	private double _sprintFootstepMaxCooldown;
+	private double _footstepMaxCooldown = 2f;
+	private double _sprintFootstepMaxCooldown = 2f / 1.2f;
 
 	// public Loadout loadout;
 	private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
 
 	private Node3D parentLevel;
+	public Node3D ParentLevel => parentLevel;
+
+
+	private AudioFile AudioFile_Walk => (AudioFile)AudioData["Move_Walk"];
+	private AudioFile AudioFile_Sprint => (AudioFile)AudioData["Move_Sprint"];
+
 	private AudioStreamPlayer AudioPlayer_Global;
 	private AudioStreamPlayer3D AudioPlayer_Voice;
 	private AudioStreamPlayer3D AudioPlayer_Oof;
 	private AudioStreamPlayer3D AudioPlayer_MoneyFX;
 	private AudioStreamPlayer3D AudioPlayer_ManaFX;
-	public Node3D ParentLevel => parentLevel;
 
 	// TODO : put the main scene back to this one : res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn
 
@@ -130,20 +130,11 @@ public partial class PlayerBody : Combatant
 		_footstepCooldownTimer = new Timer { OneShot = true };
 		AddChild(_footstepCooldownTimer);
 
-		if (Audio_footstepSoundsStream != null && Audio_FootstepSounds == null)
-		{
-			DebugManager.Error("PlayerBody: _footstepSoundsStream is not a valid AudioStreamRandomizer.");
-		}
-		if (Audio_footstepSprintSoundsStream != null && Audio_FootstepSprintSounds == null)
-		{
-			DebugManager.Error("PlayerBody: _footstepSprintSoundsStream is not a valid AudioStreamRandomizer.");
-		}
 
-		_footstepMaxCooldown = Audio_FootstepSounds.GetMaxLength();
-		_sprintFootstepMaxCooldown = Audio_FootstepSprintSounds.GetMaxLength() / 1.2f;
+		_footstepMaxCooldown = (AudioFile_Walk.Stream as AudioStreamRandomizer).GetMaxLength();
+		_sprintFootstepMaxCooldown = (AudioFile_Sprint.Stream as AudioStreamRandomizer).GetMaxLength() / 1.2f;
 		// DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
 		// DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
-
 		AddMoney(0);
 		RefillMana();
 		RefillLife();
@@ -180,9 +171,6 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_MoneyFX = GetNode<AudioStreamPlayer3D>("Audio/MoneyFX_AudioStreamPlayer3D");
 
 		AudioData = GD.Load<AudioData>("res://assets/Audio/AudioData/AudioData_Player.tres");
-		// AudioFiles
-		Audio_footstepSoundsStream = GD.Load<AudioStream>("res://assets/Audio/AudioData/SFX_Footsteps_Move.tres");
-		Audio_footstepSprintSoundsStream = GD.Load<AudioStream>("res://assets/Audio/AudioData/SFX_Footsteps_Sprint.tres");
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -335,28 +323,18 @@ public partial class PlayerBody : Combatant
 		if (!grounded || !_footstepCooldownTimer.IsStopped()) return;
 		if (hVel.Length() <= Mathf.Epsilon) return;
 
-		AudioStream sound;
+		AudioFile sound;
 		double cooldown;
 
 		if (isSprinting)
 		{
-			if (Audio_FootstepSprintSounds == null)
-			{
-				DebugManager.Error("Audio_FootstepSprintSounds is null in PlayFootsteps (sprinting).");
-				return;
-			}
-			sound = Audio_FootstepSprintSounds;
+			sound = AudioFile_Walk;
 			cooldown = _sprintFootstepMaxCooldown; // faster steps
 			// DebugManager.Info("Playing sprinting footstep sound.");
 		}
 		else
 		{
-			if (Audio_FootstepSounds == null)
-			{
-				DebugManager.Error("Audio_FootstepSounds is null in PlayFootsteps (walking).");
-				return;
-			}
-			sound = Audio_FootstepSounds;
+			sound = AudioFile_Sprint;
 			cooldown = _footstepMaxCooldown;
 			// DebugManager.Info("Playing walking footstep sound.");
 		}
@@ -368,6 +346,7 @@ public partial class PlayerBody : Combatant
 			DebugManager.Warning($"Using default 0.5s to prevent crash.");
 			cooldown = 0.5;
 		}
+
 
 		AudioManager.Instance.PlaySoundAttachedToNode(sound, this);
 		_footstepCooldownTimer.WaitTime = cooldown;
@@ -467,24 +446,9 @@ public partial class PlayerBody : Combatant
 		_playerHealthBar.OnHealthChanged(newCurr, newMax);
 	}
 
-	public override void OnHurtboxBodyEntered(Node3D body)
-	{
-		base.OnHurtboxBodyEntered(body);
-	}
-
 	public override void PlayOnHurtFX()
 	{
-		// var tween = GetTree().CreateTween();
-		// tween.TweenProperty(_animatedSprite, "modulate", Colors.Red, 0.1);
-		// tween.TweenProperty(_animatedSprite, "modulate", Colors.White, 0.1);
-		// AudioManager.Instance.PlaySoundAttachedToNode(Audio_Hurt, this);
-
-		//TODO: add UI overlay
-	}
-
-	public override void OnHurt(Vector3 sourcePosition, float damage)
-	{
-		base.OnHurt(sourcePosition, damage);
+		AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Oof, (AudioBucket)AudioData["Hurt"]);
 	}
 
 	protected override void ApplyKnockback(float damage, Vector3 direction)
@@ -503,7 +467,6 @@ public partial class PlayerBody : Combatant
 
 	public override void OnDied()
 	{
-		deadNow = true;
 
 		AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Voice, (AudioBucket)AudioData["PlayerDie_Voice"]);
 
@@ -515,6 +478,7 @@ public partial class PlayerBody : Combatant
 
 		AudioPlayer_Voice.Finished += onDeathVoiceFinished;
 		EmitSignal(SignalName.PlayerDied);
+		deadNow = true;
 	}
 
 

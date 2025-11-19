@@ -254,7 +254,7 @@ public partial class WaveDirector : Node
 
 	private void OnRoundWon()
 	{
-		ResetAllUI(); // Added
+		// ResetAllUI(); // Added
 		IsRoundInProgress = false;
 		_roundInProgressRoom = null;
 		

@@ -57,7 +57,7 @@ public partial class Combatant : CharacterBody3D
         // DebugManager.Info($"Combatant Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackDamage={knockbackDamage}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={_knockbackVelocity}");
     }
 
-    public virtual void OnHurt(Vector3 sourcePosition, float damage)
+    protected virtual void OnHurt(Vector3 sourcePosition, float damage)
     {
         // Common knockback direction for character bodies
         var direction = (GlobalPosition - sourcePosition).XZ().Normalized() + new Vector3(0, 0.1f, 0);

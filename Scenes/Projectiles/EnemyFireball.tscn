@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_w5pg0"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="3_bucxx"]
 [ext_resource type="PackedScene" uid="uid://ycgo1ko7742e" path="res://Scenes/Particles/HitEffects_SparksBlue.tscn" id="3_w5pg0"]
-[ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="4_xddv2"]
+[ext_resource type="Resource" uid="uid://crhnwkx8x6wx" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_w5pg0"]
 [ext_resource type="SpriteFrames" uid="uid://cmdvtn2o3op81" path="res://assets/Images/Enemies/enemy_fireball.ase" id="5_ou870"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
@@ -18,8 +18,7 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("2_w5pg0")
 _sparkParticlesScene = ExtResource("3_w5pg0")
-AudioStream_Fireball = ExtResource("3_bucxx")
-AudioStream_FireHit = ExtResource("4_xddv2")
+AudioData = ExtResource("4_w5pg0")
 IsFixed = true
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]

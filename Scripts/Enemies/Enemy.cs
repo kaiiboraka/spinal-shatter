@@ -24,7 +24,8 @@ public partial class Enemy : Combatant
 	private OverheadHealthBar OverheadHealthBar { get; set; }
 	private StateSprite3d _stateVisual;
 
-	private EnemyAudioData AudioData;
+	// private EnemyAudioData AudioData;
+	private AudioData AudioData;
 
 	private Timer _timerWalk;
 	private Timer _timerPool;
@@ -616,7 +617,7 @@ public partial class Enemy : Combatant
 		}
 	}
 
-	public override void OnHurt(Vector3 sourcePosition, float damage)
+	protected override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		base.OnHurt(sourcePosition, damage);
 		ChangeState(AIState.Chasing);
@@ -659,7 +660,8 @@ public partial class Enemy : Combatant
 		_animPlayer.Play("Die");
 		_timerBlink.Start();
 
-		AudioManager.Instance.PlaySoundAtPosition(AudioData.DieSound, GlobalPosition);
+		AudioManager.Instance.PlaySoundAtPosition((AudioFile)AudioData["Die"], GlobalPosition);
+
 
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop.GetRandomValue(),
 			_collisionShape.GlobalPosition);

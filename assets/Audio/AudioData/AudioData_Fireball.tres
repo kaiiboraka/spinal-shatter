@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AudioData" load_steps=4 format=3 uid="uid://crhnwkx8x6wx"]
+
+[ext_resource type="Script" path="res://Scripts/Resources/AudioData.cs" id="1_hregj"]
+[ext_resource type="AudioStream" uid="uid://c0t6gc0kfedwx" path="res://assets/Audio/AudioData/AudioFile_FireHit.tres" id="1_xor88"]
+[ext_resource type="AudioStream" uid="uid://cvbd88cg1372e" path="res://assets/Audio/AudioData/AudioFile_FireSwoosh.tres" id="2_6mnwk"]
+
+[resource]
+script = ExtResource("1_hregj")
+Sounds = Dictionary[String, AudioStream]({
+"Bounce": ExtResource("2_6mnwk"),
+"Hit": ExtResource("1_xor88")
+})
+metadata/_custom_type_script = "uid://c0tc37i3i6ume"

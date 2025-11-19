@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AudioData" load_steps=5 format=3 uid="uid://ybf2fn4iaogc"]
+
+[ext_resource type="AudioStream" uid="uid://c18a1p5os1105" path="res://assets/Audio/AudioData/AudioFile_EnemySmall_RangedAttack.tres" id="1_ab6jm"]
+[ext_resource type="AudioStream" uid="uid://b6apxt58004l0" path="res://assets/Audio/AudioData/AudioFile_EnemySmall_Die.tres" id="2_uup40"]
+[ext_resource type="AudioStream" uid="uid://djsbsdf4qsxob" path="res://assets/Audio/AudioData/AudioFile_EnemySmall_Hurt.tres" id="3_3rxw6"]
+[ext_resource type="Script" path="res://Scripts/Resources/AudioData.cs" id="4_k8dds"]
+
+[resource]
+script = ExtResource("4_k8dds")
+Sounds = Dictionary[String, AudioStream]({
+"Attack": ExtResource("1_ab6jm"),
+"Die": ExtResource("2_uup40"),
+"Hurt": ExtResource("3_3rxw6")
+})
+metadata/_custom_type_script = "uid://c0tc37i3i6ume"

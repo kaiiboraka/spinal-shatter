@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EnemyAudioData" load_steps=5 format=3 uid="uid://dmgrvs0om4edm"]
+[gd_resource type="Resource" script_class="EnemyAudioData" load_steps=5 format=3 uid="uid://cqhesrc27jkmd"]
 
 [ext_resource type="Script" uid="uid://bvg586is8exck" path="res://Scripts/Enemies/EnemyAudioData.cs" id="1_ctgn4"]
 [ext_resource type="AudioStream" uid="uid://cly1oxchbk3v0" path="res://assets/Audio/SFX/Punch.wav" id="1_luh0x"]

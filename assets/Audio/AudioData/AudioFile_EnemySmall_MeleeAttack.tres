@@ -1,9 +1,9 @@
 [gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://du7382uakh47d"]
 
 [ext_resource type="AudioStream" uid="uid://cly1oxchbk3v0" path="res://assets/Audio/SFX/Punch.wav" id="1_yx5ik"]
-[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_8xea8"]
+[ext_resource type="Script" path="res://Scripts/Resources/AudioFile.cs" id="2_8xea8"]
 
 [resource]
-resource_name = "Enemy_Small_Melee"
+resource_name = "EnemySmall_Melee"
 script = ExtResource("2_8xea8")
 Stream = ExtResource("1_yx5ik")

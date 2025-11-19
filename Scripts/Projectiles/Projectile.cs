@@ -15,8 +15,9 @@ public partial class Projectile : RigidBody3D
 	[Export] private PackedScene _sparkParticlesScene;
 	private SpriteBase3D _sprite;
 	private CollisionShape3D _collisionShape;
-	[Export] public AudioStream AudioStream_Fireball { get; private set; }
-	[Export] public AudioStream AudioStream_FireHit { get; private set; }
+	[Export] public AudioData AudioData { get; private set; }
+	// [Export] public AudioStream AudioStream_Fireball { get; private set; }
+	// [Export] public AudioStream AudioStream_FireHit { get; private set; }
 
 
 	[Export(PropertyHint.Range, "0.1, 100.0")]
@@ -228,7 +229,7 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit(Vector3 impactPoint)
 	{
-		AudioManager.Instance.PlaySoundAtPosition(AudioStream_FireHit, impactPoint);
+		AudioManager.Instance.PlaySoundAtPosition((AudioFile)AudioData["Hit"], impactPoint);
 		ApplyManaLoss(ManaLostAmount, impactPoint);
 	}
 
@@ -246,7 +247,7 @@ public partial class Projectile : RigidBody3D
 
 		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
 
-		AudioManager.Instance.PlaySoundAttachedToNode(AudioStream_Fireball, this);
+		AudioManager.Instance.PlaySoundAttachedToNode((AudioFile)AudioData["Bounce"], this);
 
 		// DebugManager.Trace($"projectile impact point: {impactPoint}");
 		ApplyManaLoss(ManaLostAmount, impactPoint);

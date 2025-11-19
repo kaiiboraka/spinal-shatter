@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_fa2tn"]
 [ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_q3rrb"]
 [ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_4w4lp"]
-[ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="4_4w4lp"]
+[ext_resource type="Resource" uid="uid://crhnwkx8x6wx" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_4w4lp"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="4_7dxrx"]
 [ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/fireball.ase" id="5_36qv7"]
 
@@ -18,8 +18,7 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_fa2tn")
 _sparkParticlesScene = ExtResource("3_4w4lp")
-AudioStream_Fireball = ExtResource("4_7dxrx")
-AudioStream_FireHit = ExtResource("4_4w4lp")
+AudioData = ExtResource("4_4w4lp")
 _lifetime = 20.0
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]

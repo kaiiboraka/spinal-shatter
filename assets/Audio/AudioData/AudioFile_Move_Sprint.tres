@@ -1,0 +1,10 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://oooh2fulk8h0"]
+
+[ext_resource type="AudioStream" uid="uid://bmjytv4b2j12o" path="res://assets/Audio/AudioData/SFX_Footsteps_Sprint.tres" id="1_0iaij"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_hqlx7"]
+
+[resource]
+resource_name = "Move_Sprint"
+script = ExtResource("2_hqlx7")
+Stream = ExtResource("1_0iaij")
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

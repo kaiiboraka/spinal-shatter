@@ -1,6 +1,6 @@
 [gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://djsbsdf4qsxob"]
 
-[ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="1_mrobu"]
+[ext_resource type="AudioStream" uid="uid://4lx3aa0kw07j" path="res://assets/Audio/AudioData/SFX_EnemySmall_Hurt.tres" id="1_mrobu"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_5thx3"]
 
 [resource]

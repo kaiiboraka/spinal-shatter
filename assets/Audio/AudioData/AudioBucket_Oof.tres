@@ -8,4 +8,5 @@
 resource_name = "Oofs"
 script = ExtResource("1_wg5l0")
 Bucket = Array[AudioStream]([ExtResource("1_g1uuw"), ExtResource("2_2vq1e")])
+VolumeDb = 2.0
 metadata/_custom_type_script = "uid://dotxhewohd3yf"

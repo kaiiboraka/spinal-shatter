@@ -17,6 +17,7 @@ Max = 20
 [resource]
 script = ExtResource("1_abcde")
 Name = "Scrapper"
+BaseCost = 1
 AudioData = ExtResource("1_esb67")
 WalkSpeed = 10.0
 MinWalkTime = 3.0

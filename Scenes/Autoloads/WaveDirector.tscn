@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=13 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="2_aege0"]
-[ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="2_phwt4"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="3_oxf7n"]
 [ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/ScrapperData.tres" id="4_kpvn7"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="4_phwt4"]
@@ -19,7 +18,7 @@ script = ExtResource("1_fhtwo")
 _levelLostMenuScene = ExtResource("2_aege0")
 moneyGivenPerSecondLeft = 2.5
 moneyGivenPerHealthLeft = 1.5
-_enemyDataToSceneMap = Dictionary[ExtResource("2_phwt4"), PackedScene]({
+_enemyDataToSceneMap = Dictionary[Variant, PackedScene]({
 ExtResource("4_kpvn7"): ExtResource("4_phwt4"),
 ExtResource("3_oxf7n"): ExtResource("6_6lw2h"),
 ExtResource("5_gkeq4"): ExtResource("8_omfed"),
@@ -109,7 +108,6 @@ justification_flags = 160
 
 [node name="VictoryLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0

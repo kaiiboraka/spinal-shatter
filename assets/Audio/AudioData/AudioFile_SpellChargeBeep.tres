@@ -1,11 +1,11 @@
 [gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://b24q1xpu1h77e"]
 
-[ext_resource type="AudioStream" uid="uid://bpncnqqruey3i" path="res://assets/Audio/SFX/Powerup_04.wav" id="1_6wru3"]
+[ext_resource type="AudioStream" uid="uid://butus1yqi3skm" path="res://assets/Audio/SFX/Powerup_02.wav" id="1_6wru3"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_erqda"]
 
 [resource]
 resource_name = "SpellChargeBeep"
 script = ExtResource("2_erqda")
 Stream = ExtResource("1_6wru3")
-VolumeDbModifier = -20.0
+VolumeDb = -20.0
 metadata/_custom_type_script = "uid://cobrtm7ta40hq"

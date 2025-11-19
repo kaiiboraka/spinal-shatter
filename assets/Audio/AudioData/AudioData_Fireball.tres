@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=4 format=3 uid="uid://crhnwkx8x6wx"]
+[gd_resource type="Resource" script_class="AudioData" load_steps=4 format=3 uid="uid://dto7uyqaw63oc"]
 
-[ext_resource type="Script" path="res://Scripts/Resources/AudioData.cs" id="1_hregj"]
+[ext_resource type="Script" uid="uid://c0tc37i3i6ume" path="res://Scripts/Resources/AudioData.cs" id="1_hregj"]
 [ext_resource type="AudioStream" uid="uid://c0t6gc0kfedwx" path="res://assets/Audio/AudioData/AudioFile_FireHit.tres" id="1_xor88"]
 [ext_resource type="AudioStream" uid="uid://cvbd88cg1372e" path="res://assets/Audio/AudioData/AudioFile_FireSwoosh.tres" id="2_6mnwk"]
 
 [resource]
+resource_name = "Fireball"
 script = ExtResource("1_hregj")
 Sounds = Dictionary[String, AudioStream]({
 "Bounce": ExtResource("2_6mnwk"),

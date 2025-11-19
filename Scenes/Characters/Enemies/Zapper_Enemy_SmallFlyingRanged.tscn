@@ -10,7 +10,9 @@ motion_mode = 1
 Data = ExtResource("2_h832s")
 
 [node name="Body_AnimatedSprite3D" parent="." index="6"]
+billboard = 1
 sprite_frames = ExtResource("3_h832s")
 
 [node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+billboard = 1
 sprite_frames = ExtResource("4_c1i5h")

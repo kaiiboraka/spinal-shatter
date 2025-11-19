@@ -1,6 +1,6 @@
 [gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://cvbd88cg1372e"]
 
-[ext_resource type="AudioStream" uid="uid://d2gitq0egu5nt" path="res://assets/Audio/SFX/Firehit.wav" id="1_rn5xo"]
+[ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="1_rn5xo"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_x0cn2"]
 
 [resource]

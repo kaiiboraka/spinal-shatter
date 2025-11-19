@@ -24,7 +24,7 @@ public partial class Enemy : Combatant
 	private OverheadHealthBar OverheadHealthBar { get; set; }
 	private StateSprite3d _stateVisual;
 
-	// private EnemyAudioData AudioData;
+
 	private AudioData AudioData;
 
 	private Timer _timerWalk;
@@ -660,7 +660,7 @@ public partial class Enemy : Combatant
 		_animPlayer.Play("Die");
 		_timerBlink.Start();
 
-		AudioManager.Instance.PlaySoundAtPosition((AudioFile)AudioData["Die"], GlobalPosition);
+		AudioManager.PlayAtPosition((AudioFile)AudioData["Die"], GlobalPosition);
 
 
 		PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, ManaAmountToDrop.GetRandomValue(),

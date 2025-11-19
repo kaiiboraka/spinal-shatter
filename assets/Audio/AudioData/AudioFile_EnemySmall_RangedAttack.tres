@@ -1,7 +1,7 @@
 [gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://c18a1p5os1105"]
 
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="1_yvbsy"]
-[ext_resource type="Script" path="res://Scripts/Resources/AudioFile.cs" id="2_0xrji"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_0xrji"]
 
 [resource]
 resource_name = "EnemySmall_Ranged"

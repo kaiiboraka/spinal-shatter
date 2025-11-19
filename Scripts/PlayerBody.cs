@@ -28,7 +28,6 @@ public partial class PlayerBody : Combatant
 	[Export] float DECEL = 16;
 	const float MAX_SLOPE_ANGLE = 40;
 
-
 	[ExportGroup("CameraSettings")]
 	[Export] private float cameraLookSensitivity = 0.006f;
 
@@ -44,6 +43,7 @@ public partial class PlayerBody : Combatant
 	private double fovJuiceWeight = 8.0f;
 
 	[Signal] public delegate void ViewChangeEventHandler();
+
 	[Signal] public delegate void PlayerDiedEventHandler();
 
 	private bool grounded = false;
@@ -79,6 +79,7 @@ public partial class PlayerBody : Combatant
 	[ExportCategory("Combat")]
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] public new float KnockbackWeight { get; private set; } = 5f;
+
 	[Export] public new float KnockbackDamageScalar { get; set; } = 2.0f;
 
 	private CollisionShape3D collider;
@@ -120,19 +121,20 @@ public partial class PlayerBody : Combatant
 
 		HealthComponent.HealthChanged += UpdateHealthHUD;
 		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
-		
+
 		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
 
 		parentLevel = GetParent() as Node3D;
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		
+
 		_footstepCooldownTimer = new Timer { OneShot = true };
 		AddChild(_footstepCooldownTimer);
 
 
 		_footstepMaxCooldown = (AudioFile_Walk.Stream as AudioStreamRandomizer).GetMaxLength();
 		_sprintFootstepMaxCooldown = (AudioFile_Sprint.Stream as AudioStreamRandomizer).GetMaxLength() / 1.2f;
+
 		// DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
 		// DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
 		AddMoney(0);
@@ -170,7 +172,8 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_ManaFX = GetNode<AudioStreamPlayer3D>("Audio/ManaFX_AudioStreamPlayer3D");
 		AudioPlayer_MoneyFX = GetNode<AudioStreamPlayer3D>("Audio/MoneyFX_AudioStreamPlayer3D");
 
-		AudioData = GD.Load<AudioData>("res://assets/Audio/AudioData/AudioData_Player.tres");
+		var audioData = GD.Load<Resource>("res://assets/Audio/AudioData/AudioData_Player.tres");
+		AudioData =  audioData as AudioData;
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -330,14 +333,17 @@ public partial class PlayerBody : Combatant
 		{
 			sound = AudioFile_Walk;
 			cooldown = _sprintFootstepMaxCooldown; // faster steps
+
 			// DebugManager.Info("Playing sprinting footstep sound.");
 		}
 		else
 		{
 			sound = AudioFile_Sprint;
 			cooldown = _footstepMaxCooldown;
+
 			// DebugManager.Info("Playing walking footstep sound.");
 		}
+
 		// DebugManager.Info($"Footstep cooldown is {cooldown}.");
 
 		// Ensure cooldown is a positive value to prevent timer errors.
@@ -348,7 +354,7 @@ public partial class PlayerBody : Combatant
 		}
 
 
-		AudioManager.Instance.PlaySoundAttachedToNode(sound, this);
+		AudioManager.PlayAttachedToNode(sound, this);
 		_footstepCooldownTimer.WaitTime = cooldown;
 		_footstepCooldownTimer.Start();
 	}
@@ -448,7 +454,7 @@ public partial class PlayerBody : Combatant
 
 	public override void PlayOnHurtFX()
 	{
-		AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Oof, (AudioBucket)AudioData["Hurt"]);
+		AudioManager.PlayBucketSimultaneous(AudioPlayer_Oof, (AudioBucket)AudioData["Hurt"]);
 	}
 
 	protected override void ApplyKnockback(float damage, Vector3 direction)
@@ -456,31 +462,36 @@ public partial class PlayerBody : Combatant
 		// Zero out current velocity and apply an impulse, as requested.
 		Velocity = Vector3.Zero;
 		float knockbackStrength = Mathf.Max(damage, 0) / KnockbackWeight;
-		Velocity +=  (direction + Lift) * knockbackStrength;
-		
+		Velocity += (direction + Lift) * knockbackStrength;
+
 		// Prevent base class decay/application from interfering
 		_knockbackVelocity = Vector3.Zero;
-		Elythia.DebugManager.Info($"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
+		Elythia.DebugManager.Info(
+			$"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
 	}
 
 	private Action onDeathVoiceFinished;
+	private Action onDeathSfxFinished;
 
 	public override void OnDied()
 	{
+		deadNow = true;
 
-		AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Voice, (AudioBucket)AudioData["PlayerDie_Voice"]);
+		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
 
+		onDeathSfxFinished = () =>
+		{
+			AudioPlayer_Global.Finished -= onDeathSfxFinished;
+			EmitSignal(SignalName.PlayerDied);
+		};
 		onDeathVoiceFinished = () =>
 		{
 			AudioPlayer_Voice.Finished -= onDeathVoiceFinished;
-			AudioManager.Instance.PlayBucketSimultaneous(AudioPlayer_Global, (AudioBucket)AudioData["PlayerDie_SFX"]);
+			AudioManager.PlayBucketSimultaneous(AudioPlayer_Global, (AudioBucket)AudioData["Die_SFX"]);
 		};
-
 		AudioPlayer_Voice.Finished += onDeathVoiceFinished;
-		EmitSignal(SignalName.PlayerDied);
-		deadNow = true;
+		AudioPlayer_Global.Finished += onDeathSfxFinished;
 	}
-
 
 	private void OnAreaEnteredPickupArea(Area3D area)
 	{

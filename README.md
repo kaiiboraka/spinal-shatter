@@ -65,7 +65,7 @@ set of waves in a room could end with a "boss"
 ### Controls
 
 | KBM / Controller | action  |
-| ---  | -- |
+| ---  | --- |
 | WASD / leftStick | Move |    
 | Mouse / rightStick | Aim |    
 | LMB / rightTrigger | (Press) Attack / (Hold) Charge Magic |       

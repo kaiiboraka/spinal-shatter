@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AudioData" load_steps=6 format=3 uid="uid://1owutv32awja"]
+
+[ext_resource type="AudioStream" uid="uid://4mnftyx80mxv" path="res://assets/Audio/AudioData/AudioFile_SpellCast.tres" id="5_daxpn"]
+[ext_resource type="AudioStream" uid="uid://c66134p2k4fkl" path="res://assets/Audio/AudioData/AudioFile_SpellChargeBack.tres" id="6_4bxl4"]
+[ext_resource type="AudioStream" uid="uid://b24q1xpu1h77e" path="res://assets/Audio/AudioData/AudioFile_SpellChargeBeep.tres" id="7_m5fsm"]
+[ext_resource type="AudioStream" uid="uid://d4f6j4x5acbfg" path="res://assets/Audio/AudioData/AudioFile_SpellChargeComplete.tres" id="9_p3geh"]
+[ext_resource type="Script" uid="uid://c0tc37i3i6ume" path="res://Scripts/Resources/AudioData.cs" id="10_0dvq6"]
+
+[resource]
+script = ExtResource("10_0dvq6")
+Sounds = Dictionary[String, AudioStream]({
+"SpellCast": ExtResource("5_daxpn"),
+"SpellChargeBack": ExtResource("6_4bxl4"),
+"SpellChargeBeep": ExtResource("7_m5fsm"),
+"SpellChargeComplete": ExtResource("9_p3geh")
+})
+metadata/_custom_type_script = "uid://c0tc37i3i6ume"

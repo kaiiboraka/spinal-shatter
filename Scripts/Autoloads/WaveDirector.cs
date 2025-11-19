@@ -167,10 +167,6 @@ public partial class WaveDirector : Node
 				}
 			}
 		}
-		else // Round is not in progress
-		{
-			ResetAllUI();
-		}
 	}
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
@@ -192,6 +188,14 @@ public partial class WaveDirector : Node
 			{
 				OnRoundStart();
 			}
+			else if (_activeRoom.IsCentralHub)
+			{
+				ResetAllUI();
+			}
+		}
+		else
+		{
+			ResetAllUI();
 		}
 	}
 

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=5 format=3 uid="uid://dcn5cq1bgwqwr"]
+[gd_resource type="Resource" script_class="AudioData" load_steps=5 format=3 uid="uid://dq0s7y87iq7xm"]
 
 [ext_resource type="AudioStream" uid="uid://du7382uakh47d" path="res://assets/Audio/AudioData/AudioFile_EnemySmall_MeleeAttack.tres" id="1_db5ht"]
 [ext_resource type="AudioStream" uid="uid://b6apxt58004l0" path="res://assets/Audio/AudioData/AudioFile_EnemySmall_Die.tres" id="2_50bsf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c0tc37i3i6ume" path="res://Scripts/Resources/AudioData.cs" id="4_7ykln"]
 
 [resource]
+resource_name = "EnemySmall_Melee"
 script = ExtResource("4_7ykln")
 Sounds = Dictionary[String, AudioStream]({
 "Attack": ExtResource("1_db5ht"),

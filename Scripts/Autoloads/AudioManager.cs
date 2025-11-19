@@ -26,25 +26,25 @@ public partial class AudioManager : Node
 	}
 
 
-	public void PlayBucketSimultaneous(AudioStreamPlayer3D player3D, AudioBucket bucket)
+	public static void PlayBucketSimultaneous(AudioStreamPlayer3D player3D, AudioBucket bucket)
 	{
 		player3D.MaxPolyphony = bucket.Count;
 		foreach (var audioStream in bucket.Bucket)
 		{
-			PlayAudio(player3D, audioStream);
+			Play(player3D, audioStream);
 		}
 	}
 
-	public void PlayBucketSimultaneous(AudioStreamPlayer player, AudioBucket bucket)
+	public static void PlayBucketSimultaneous(AudioStreamPlayer player, AudioBucket bucket)
 	{
 		player.MaxPolyphony = bucket.Count;
 		foreach (var audioStream in bucket.Bucket)
 		{
-			PlayAudio(player, audioStream);
+			Play(player, audioStream);
 		}
 	}
 
-	public void PlayBucketSequential(AudioStreamPlayer player, AudioBucket bucket)
+	public static void PlayBucketSequential(AudioStreamPlayer player, AudioBucket bucket)
 	{
 		if (bucket == null || bucket.Bucket == null || bucket.Count == 0)
 			return;
@@ -60,7 +60,7 @@ public partial class AudioManager : Node
 			// Play the next sound if there are more
 			if (currentIndex < bucket.Count)
 			{
-				PlayAudio(player, bucket.Bucket[currentIndex]);
+				Play(player, bucket.Bucket[currentIndex]);
 				currentIndex++;
 
 				// Subscribe again if there are more sounds to play
@@ -72,7 +72,7 @@ public partial class AudioManager : Node
 		};
 
 		// Start playing the first sound
-		PlayAudio(player, bucket.Bucket[0]);
+		Play(player, bucket.Bucket[0]);
 		currentIndex = 1;
 
 		// Subscribe to play the next sound if there are more
@@ -82,7 +82,7 @@ public partial class AudioManager : Node
 		}
 	}
 
-	public void PlayBucketSequential(AudioStreamPlayer3D player3D, AudioBucket bucket)
+	public static void PlayBucketSequential(AudioStreamPlayer3D player3D, AudioBucket bucket)
 	{
 		if (bucket == null || bucket.Bucket == null || bucket.Count == 0)
 			return;
@@ -98,7 +98,7 @@ public partial class AudioManager : Node
 			// Play the next sound if there are more
 			if (currentIndex < bucket.Count)
 			{
-				PlayAudio(player3D, bucket.Bucket[currentIndex]);
+				Play(player3D, bucket.Bucket[currentIndex]);
 				currentIndex++;
 
 				// Subscribe again if there are more sounds to play
@@ -110,7 +110,7 @@ public partial class AudioManager : Node
 		};
 
 		// Start playing the first sound
-		PlayAudio(player3D, bucket.Bucket[0]);
+		Play(player3D, bucket.Bucket[0]);
 		currentIndex = 1;
 
 		// Subscribe to play the next sound if there are more
@@ -120,65 +120,60 @@ public partial class AudioManager : Node
 		}
 	}
 
-	public void PlayAudio(AudioStreamPlayer3D player3D, AudioStream audioStream)
+	public static void Play(AudioStreamPlayer3D player3D, AudioStream audioStream, float fromPosition = 0)
 	{
-		float baseVolume = player3D.VolumeDb;
-
 		player3D.Stream = audioStream;
 		if (audioStream is AudioFile custom)
 		{
 			player3D.PitchScale = custom.PitchScale;
-			player3D.VolumeDb = baseVolume * custom.VolumeDb;
+			player3D.VolumeDb = custom.VolumeDb;
 			player3D.Stream = custom.Stream;
 		}
-		player3D.Play();
+		player3D.Play(fromPosition);
 	}
 
-	public void PlayAudio(AudioStreamPlayer player, AudioStream audioStream)
+	public static void Play(AudioStreamPlayer player, AudioStream audioStream, float fromPosition = 0)
 	{
-		float baseVolume = player.VolumeDb;
-
 		player.Stream = audioStream;
 		if (audioStream is AudioFile custom)
 		{
 			player.PitchScale = custom.PitchScale;
-			player.VolumeDb = baseVolume * custom.VolumeDb;
+			player.VolumeDb = custom.VolumeDb;
 			player.Stream = custom.Stream;
 		}
-		player.Play();
+		player.Play(fromPosition);
 	}
-
-	public AudioStreamPlayer3D PlaySoundAtPosition(AudioFile sound, Vector3 position)
+	public static AudioStreamPlayer3D PlayAtPosition(AudioFile sound, Vector3 location, float fromPosition = 0)
 	{
 		AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
 
 		player.Stream = sound.Stream;
-		player.GlobalPosition = position;
+		player.GlobalPosition = location;
 		player.PitchScale = sound.PitchScale;
 		player.VolumeDb = sound.VolumeDb;
-		player.Play();
+		player.Play(fromPosition);
 
 		player.Finished += () => { player.Stream = null; };
 
 		return player;
 	}
 
-	public AudioStreamPlayer3D PlaySoundAtPosition(AudioStream sound, Vector3 position, float pitch, float volume)
+	public static AudioStreamPlayer3D PlayAtPosition(AudioStream sound, Vector3 location, float pitch, float volume, float fromPosition = 0)
 	{
 		AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
 
 		player.Stream = sound;
-		player.GlobalPosition = position;
+		player.GlobalPosition = location;
 		player.PitchScale = pitch;
 		player.VolumeDb = volume;
-		player.Play();
+		player.Play(fromPosition);
 
 		player.Finished += () => { player.Stream = null; };
 
 		return player;
 	}
 
-	public AttachedAudioStreamPlayer3D PlaySoundAttachedToNode(AudioFile sound, Node3D targetNode)
+	public static AttachedAudioStreamPlayer3D PlayAttachedToNode(AudioFile sound, Node3D targetNode)
 	{
 		AttachedAudioStreamPlayer3D player = GetAvailableAttachedPlayer();
 		player.Stream = sound.Stream;
@@ -194,7 +189,7 @@ public partial class AudioManager : Node
 	}
 
 
-	public AttachedAudioStreamPlayer3D PlaySoundAttachedToNode(AudioStream sound, Node3D targetNode, float pitch, float volume)
+	public static AttachedAudioStreamPlayer3D PlayAttachedToNode(AudioStream sound, Node3D targetNode, float pitch, float volume)
 	{
 		AttachedAudioStreamPlayer3D player = GetAvailableAttachedPlayer();
 		player.Stream = sound;
@@ -209,9 +204,9 @@ public partial class AudioManager : Node
 		return player;
 	}
 
-	private AudioStreamPlayer3D GetAvailableStationaryPlayer()
+	private static AudioStreamPlayer3D GetAvailableStationaryPlayer()
 	{
-		foreach (var player in _stationaryPool)
+		foreach (var player in Instance._stationaryPool)
 		{
 			if (!player.Playing)
 			{
@@ -220,14 +215,14 @@ public partial class AudioManager : Node
 		}
 
 		var newPlayer = new AudioStreamPlayer3D();
-		AddChild(newPlayer);
-		_stationaryPool.Add(newPlayer);
+		Instance.AddChild(newPlayer);
+		Instance._stationaryPool.Add(newPlayer);
 		return newPlayer;
 	}
 
-	private AttachedAudioStreamPlayer3D GetAvailableAttachedPlayer()
+	private static AttachedAudioStreamPlayer3D GetAvailableAttachedPlayer()
 	{
-		foreach (var player in _attachedPool)
+		foreach (var player in Instance._attachedPool)
 		{
 			if (!player.Playing)
 			{
@@ -236,8 +231,8 @@ public partial class AudioManager : Node
 		}
 
 		var newPlayer = new AttachedAudioStreamPlayer3D();
-		AddChild(newPlayer);
-		_attachedPool.Add(newPlayer);
+		Instance.AddChild(newPlayer);
+		Instance._attachedPool.Add(newPlayer);
 		return newPlayer;
 	}
 }

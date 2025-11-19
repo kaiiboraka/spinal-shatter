@@ -19,7 +19,6 @@ public partial class Projectile : RigidBody3D
 	// [Export] public AudioStream AudioStream_Fireball { get; private set; }
 	// [Export] public AudioStream AudioStream_FireHit { get; private set; }
 
-
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
 	[Export] IntValueRange manaDroppedAmount = new IntValueRange(1, 5);
@@ -229,7 +228,7 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit(Vector3 impactPoint)
 	{
-		AudioManager.Instance.PlaySoundAtPosition((AudioFile)AudioData["Hit"], impactPoint);
+		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], impactPoint);
 		ApplyManaLoss(ManaLostAmount, impactPoint);
 	}
 
@@ -247,7 +246,7 @@ public partial class Projectile : RigidBody3D
 
 		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
 
-		AudioManager.Instance.PlaySoundAttachedToNode((AudioFile)AudioData["Bounce"], this);
+		AudioManager.PlayAttachedToNode((AudioFile)AudioData["Bounce"], this);
 
 		// DebugManager.Trace($"projectile impact point: {impactPoint}");
 		ApplyManaLoss(ManaLostAmount, impactPoint);

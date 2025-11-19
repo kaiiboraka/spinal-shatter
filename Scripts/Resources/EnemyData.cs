@@ -16,7 +16,7 @@ public partial class EnemyData : Resource
 
 	// Audio
 	[ExportGroup("Aesthetics")]
-	// [Export] public EnemyAudioData EnemyAudioData { get; private set; }
+
 	[Export] public AudioData AudioData { get; private set; }
 	[Export] public int DeathParticleCount { get; private set; } = 10;
 

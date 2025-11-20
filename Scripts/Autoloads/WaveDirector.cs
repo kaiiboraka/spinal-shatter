@@ -131,19 +131,51 @@ public partial class WaveDirector : Node
 		// Initial UI state
 		ResetAllUI();
 	}
-	
+
+	public override void _Process(double delta)
+	{
+		if (IsRoundInProgress && RoundTimer != null)
+		{
+			var time = TimeSpan.FromSeconds(RoundTimer.TimeLeft);
+			int currentWaveNumber = _wavesCompletedThisRound + 1;
+
+			// Update Timer
+			_timerLabel.Text = time.ToString(@"mm\:ss");
+
+			// Update Wave MinMaxValuesLabel
+			_waveMinMaxLabel.TextCurrent = (_wavesCompletedThisRound >= wavesPerRound ? wavesPerRound : currentWaveNumber).ToString();
+			_waveMinMaxLabel.TextMaximum = wavesPerRound.ToString();
+
+			// Update Round Text Value
+			_roundTextValue.Text = CurrentRound.ToString();
+
+			// Update Active Room Enemy Count
+			_activeEnemyCountTextValue.Text = _activeRoom?.EnemyCount.ToString() ?? "0";
+
+			// Update Room-specific Breakdown
+			var combatRoomsInGroup = GetTree().GetNodesInGroup("CombatRooms").Cast<LevelRoom>();
+			foreach (var room in combatRoomsInGroup)
+			{
+				if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
+				{
+					int totalEnemiesForWave = (IsRoundInProgress && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
+					label.Text = $"{room.EnemyCount} / {totalEnemiesForWave}";
+				}
+			}
+		}
+	}
+
 	public void RegisterHubDoor(Door door)
 	{
 		if (!_hubDoors.TryAdd(door.DoorDirection, door)) return;
-		door.DoorShut += OnHubDoorShut;
+		door.PlayerDoorShut += OnHubDoorShut;
 		CheckAllNodesReady();
 	}
 
 	public void RegisterCombatRoom(LevelRoom room)
 	{
-		if (room.IsCentralHub || _combatRooms.ContainsKey(room.RoomDirection)) return;
+		if (room.IsCentralHub || !_combatRooms.TryAdd(room.RoomDirection, room)) return;
 
-		_combatRooms.Add(room.RoomDirection, room);
 		CheckAllNodesReady();
 	}
 
@@ -152,6 +184,14 @@ public partial class WaveDirector : Node
 		// Once all doors and rooms have registered themselves, initialize the doors for the first time.
 		if (_hubDoors.Count == 4 && _combatRooms.Count == 4)
 		{
+			foreach (var keyValuePair in _hubDoors)
+			{
+				keyValuePair.Value.InstantClose();
+			}
+			foreach (var keyValuePair in _combatRooms)
+			{
+				keyValuePair.Value.LevelDoor.InstantOpen();
+			}
 			SelectNewDoors();
 		}
 	}
@@ -167,39 +207,6 @@ public partial class WaveDirector : Node
 		player = playerInstance;
 		player.HealthComponent.OutOfHealth += ProcessRoundLostState;
 		player.PlayerDied += ShowGameOverMenu;
-	}
-
-	public override void _Process(double delta)
-	{
-		if (IsRoundInProgress && RoundTimer != null)
-		{
-			var time = TimeSpan.FromSeconds(RoundTimer.TimeLeft);
-			int currentWaveNumber = _wavesCompletedThisRound + 1;
-			
-			// Update Timer
-			_timerLabel.Text = time.ToString(@"mm\:ss");
-			
-			// Update Wave MinMaxValuesLabel
-			_waveMinMaxLabel.TextCurrent = (_wavesCompletedThisRound >= wavesPerRound ? wavesPerRound : currentWaveNumber).ToString();
-			_waveMinMaxLabel.TextMaximum = wavesPerRound.ToString();
-
-			// Update Round Text Value
-			_roundTextValue.Text = CurrentRound.ToString();
-			
-			// Update Active Room Enemy Count
-			_activeEnemyCountTextValue.Text = _activeRoom?.EnemyCount.ToString() ?? "0";
-
-			// Update Room-specific Breakdown
-			var combatRoomsInGroup = GetTree().GetNodesInGroup("CombatRooms").Cast<LevelRoom>();
-			foreach (var room in combatRoomsInGroup)
-			{
-				if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
-				{
-					int totalEnemiesForWave = (IsRoundInProgress && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
-					label.Text = $"{room.EnemyCount} / {totalEnemiesForWave}";
-				}
-			}
-		}
 	}
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
@@ -227,7 +234,7 @@ public partial class WaveDirector : Node
 		
 		foreach (var hubDoor in _hubDoors.Values)
 		{
-			hubDoor.ForceClose();
+			hubDoor.SystemClose();
 		}
 
 		_wavesCompletedThisRound = -1;
@@ -278,7 +285,7 @@ public partial class WaveDirector : Node
 			
 			if (_hubDoors.TryGetValue(_roundInProgressRoom.RoomDirection, out var doorToOpen))
 			{
-				doorToOpen.ForceOpen();
+				doorToOpen.SystemOpen();
 			}
 		}
 		_roundInProgressRoom = null;
@@ -354,11 +361,11 @@ public partial class WaveDirector : Node
 			{
 				if (doorsToOpen.Contains(direction))
 				{
-					door.ForceOpen();
+					door.SystemOpen();
 				}
 				else
 				{
-					door.ForceClose();
+					door.SystemClose();
 				}
 			}
 			else

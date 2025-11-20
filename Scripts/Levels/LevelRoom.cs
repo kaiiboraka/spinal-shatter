@@ -38,10 +38,10 @@ public partial class LevelRoom : Node3D
 		// Self-register with WaveDirector if this is a combat room
 		if (!IsCentralHub)
 		{
-			WaveDirector.Instance?.RegisterCombatRoom(this);
-
 			levelDoor = GetNode<Door>("Door");
-			levelDoor.DoorShut += OnLevelDoorShut;
+			levelDoor.PlayerDoorShut += OnLevelDoorShut;
+
+			WaveDirector.Instance?.RegisterCombatRoom(this);
 		}
 
 		// Common logic for all rooms below
@@ -197,7 +197,7 @@ public partial class LevelRoom : Node3D
 	{
 		if (levelDoor != null)
 		{
-			levelDoor.ForceOpen();
+			levelDoor.SystemOpen();
 		}
 	}
 

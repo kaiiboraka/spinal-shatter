@@ -78,34 +78,6 @@ tracks/1/keys = {
 "values": [Vector3(0, 2, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_b16f8"]
-resource_name = "Open"
-length = 0.03333667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("NavigationObstacle3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -2.525, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = false
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -2.525, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_pubj7"]
 resource_name = "OpenDown"
 length = 1.5
@@ -161,12 +133,40 @@ tracks/1/keys = {
 "values": [Vector3(0, 2, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_b16f8"]
+resource_name = "Opened"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NavigationObstacle3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -2.525, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -2.525, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2s7f4"]
 _data = {
 &"CloseUp": SubResource("Animation_2s7f4"),
 &"Closed": SubResource("Animation_r2lki"),
-&"Open": SubResource("Animation_b16f8"),
 &"OpenDown": SubResource("Animation_pubj7"),
+&"Opened": SubResource("Animation_b16f8"),
 &"RESET": SubResource("Animation_at0af")
 }
 
@@ -200,7 +200,7 @@ debug_color = Color(0, 0.64574856, 0.23920518, 0.41960785)
 libraries = {
 &"": SubResource("AnimationLibrary_2s7f4")
 }
-autoplay = "Open"
+autoplay = "Closed"
 
 [node name="EntranceArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)

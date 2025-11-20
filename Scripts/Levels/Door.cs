@@ -8,13 +8,17 @@ namespace SpinalShatter;
 [Tool]
 public partial class Door : CharacterBody3D
 {
-	[Signal] public delegate void DoorShutEventHandler();
+	[Signal] public delegate void DoorOpenEventHandler(Door door);
+	[Signal] public delegate void PlayerDoorShutEventHandler();
+	[Signal] public delegate void SystemDoorShutEventHandler();
 	[Export] public CardinalDirection DoorDirection { get; set; }
 
 	[ExportGroup("Components")]
 	[Export] private AnimationPlayer animator;
 	[Export] private Area3D entrance;
 	[Export] private Area3D exit;
+
+	private bool _isSystemClose = false;
 
 	[ExportGroup("")]
 	private bool isOpen = true;
@@ -73,55 +77,72 @@ public partial class Door : CharacterBody3D
 		exit ??= GetNode<Area3D>("ExitArea");
 	}
 
+	private void OnExitAreaBodyExited(Node3D body)
+	{
+		if (body is PlayerBody player && !entrance.GetOverlappingBodies().Contains(player))
+		{
+			PlayerClose();
+		}
+	}
+
 	private void PlayerOpen()
 	{
+		if (isOpen) return;
 		DebugManager.Debug($"Door '{Name}' PlayerOpen() called. Locked: {Locked}");
 		if (Locked) return;
 		animator.Play("OpenDown");
 	}
 
-	private void PlayerClose()
+	public void SystemOpen()
 	{
-		DebugManager.Debug($"Door '{Name}' PlayerClose() called. Locked: {Locked}");
-		if (Locked) return;
-		animator.Play("CloseUp");
-		if (this.IsInGame()) Locked = true;
-	}
-
-	public void ForceOpen()
-	{
+		if (isOpen) return;
 		DebugManager.Debug($"Door '{Name}' ForceOpen() called.");
 		Locked = false;
 		animator.Play("OpenDown");
 	}
 
-	public void ForceClose()
+	private void PlayerClose()
 	{
-		DebugManager.Debug($"Door '{Name}' ForceClose() called.");
+		if (!isOpen) return;
+		DebugManager.Debug($"Door '{Name}' PlayerClose() called. Locked: {Locked}");
+		if (Locked) return;
+		_isSystemClose = false;
 		animator.Play("CloseUp");
 		if (this.IsInGame()) Locked = true;
+	}
+
+	public void SystemClose()
+	{
+		if (!isOpen) return;
+		DebugManager.Debug($"Door '{Name}' ForceClose() called.");
+		_isSystemClose = true;
+		animator.Play("CloseUp");
+		if (this.IsInGame()) Locked = true;
+	}
+
+	public void InstantOpen()
+	{
+		animator.Play("Opened");
+		isOpen = true;
+	}
+
+	public void InstantClose()
+	{
+		animator.Play("Closed");
+		isOpen =  false;
 	}
 
 	private void OnAnimationFinished(StringName animation)
 	{
 		if (animation == "OpenDown")
 		{
-			animator.Play("Open");
-			isOpen = true;
+			InstantOpen();
+			EmitSignalDoorOpen(this);
 		}
 		else if (animation == "CloseUp")
 		{
-			animator.Play("Closed"); // Fixed typo
-			isOpen = false;
-			EmitSignal(SignalName.DoorShut);
-		}
-	}
-
-	private void OnExitAreaBodyExited(Node3D body)
-	{
-		if (body is PlayerBody player && !IsInGroup("HubDoors") && !entrance.GetOverlappingBodies().Contains(player))
-		{
-			PlayerClose();
+			InstantClose();
+			EmitSignal(_isSystemClose ? SignalName.SystemDoorShut : SignalName.PlayerDoorShut);
 		}
 	}
 

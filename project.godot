@@ -65,7 +65,8 @@ folder_colors={
 
 Player=""
 Projectile=""
-HubDoors=""
+Hub=""
+OutsideHub=""
 
 [gui]
 

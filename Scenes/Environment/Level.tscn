@@ -1,9 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=25 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
 [ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1_orange.tscn" id="2_jwnvx"]
-[ext_resource type="PackedScene" uid="uid://0ngmpcu0p57w" path="res://Scenes/Environment/HubRoom.tscn" id="2_ubqhk"]
+[ext_resource type="PackedScene" uid="uid://0ngmpcu0p57w" path="res://Scenes/Environment/Rooms/HubRoom.tscn" id="2_ubqhk"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_00trf"]
 [ext_resource type="PackedScene" uid="uid://drnuyxaq83m7a" path="res://Scenes/Environment/Doodads/torch_1_green.tscn" id="3_2e4mj"]
 [ext_resource type="AudioStream" uid="uid://qy4uy5d2w78x" path="res://assets/Audio/Music/03. Caves (Lofi).ogg" id="3_lf5qn"]
@@ -48,6 +48,11 @@ friction = 0.5
 rough = true
 bounce = 0.01
 absorbent = true
+
+[sub_resource type="FogMaterial" id="FogMaterial_m8i8h"]
+density = 0.01
+emission = Color(1, 0, 0, 1)
+edge_fade = 0.18025006
 
 [node name="LevelRoot" type="Node3D"]
 
@@ -159,3 +164,9 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("3_00trf")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="FogVolume" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6679564, 8.665092, -99.48626)
+visible = false
+shape = 4
+material = SubResource("FogMaterial_m8i8h")

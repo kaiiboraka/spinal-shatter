@@ -34,7 +34,7 @@ size = Vector3(55.944214, 20, 44.506348)
 [sub_resource type="BoxShape3D" id="BoxShape3D_jsd1r"]
 size = Vector3(6.5, 5, 25)
 
-[node name="South_Room" type="StaticBody3D"]
+[node name="South_Room" type="StaticBody3D" groups=["OutsideHub"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51)
 collision_layer = 516
 collision_mask = 42001
@@ -173,6 +173,45 @@ autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
 
-[node name="Door" parent="." instance=ExtResource("8_jsd1r")]
+[node name="Door" parent="." groups=["OutsideHub"] instance=ExtResource("8_jsd1r")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.25)
 DoorDirection = 0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, 1, 0, -1.0000001, -4.3711395e-08, -12.858158, 18, 53.151924)
+light_color = Color(1, 0.42352942, 0, 1)
+light_energy = 3.5
+light_volumetric_fog_energy = 16.0
+distance_fade_begin = 120.0
+distance_fade_shadow = 90.0
+distance_fade_length = 30.0
+spot_range = 50.0
+spot_attenuation = 1.24
+spot_angle = 126.28
+spot_angle_attenuation = 0.2755447
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, 1, 0, -1.0000001, -4.3711395e-08, -61.57819, 18, 55.29418)
+light_color = Color(1, 0.42352942, 0, 1)
+light_energy = 3.5
+light_volumetric_fog_energy = 16.0
+distance_fade_begin = 120.0
+distance_fade_shadow = 90.0
+distance_fade_length = 30.0
+spot_range = 50.0
+spot_attenuation = 1.24
+spot_angle = 126.28
+spot_angle_attenuation = 0.2755447
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="."]
+transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, 1, 0, -1.0000001, -4.3711395e-08, 47.92593, 18, 59.998505)
+light_color = Color(1, 0.42352942, 0, 1)
+light_energy = 3.5
+light_volumetric_fog_energy = 16.0
+distance_fade_begin = 120.0
+distance_fade_shadow = 90.0
+distance_fade_length = 30.0
+spot_range = 50.0
+spot_attenuation = 1.24
+spot_angle = 126.28
+spot_angle_attenuation = 0.2755447

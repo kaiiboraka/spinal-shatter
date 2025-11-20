@@ -19,7 +19,7 @@ public partial class LevelRoom : Node3D
 
 	[Export] public CardinalDirection RoomDirection { get; set; }
 	[Export] private bool alwaysShow = false;
-	[Export] public bool IsCentralHub { get; set; } = false;
+	public bool IsCentralHub { get; set; } = false;
 
 	private Array<EnemySpawner> _spawners;
 	private Area3D _triggerVolume;
@@ -36,12 +36,11 @@ public partial class LevelRoom : Node3D
 	public override void _Ready()
 	{
 		// Self-register with WaveDirector if this is a combat room
+		IsCentralHub = IsInGroup("Hub");
 		if (!IsCentralHub)
 		{
 			levelDoor = GetNode<Door>("Door");
 			levelDoor.PlayerDoorShut += OnLevelDoorShut;
-
-			WaveDirector.Instance?.RegisterCombatRoom(this);
 		}
 
 		// Common logic for all rooms below

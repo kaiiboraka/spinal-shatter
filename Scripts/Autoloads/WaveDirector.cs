@@ -100,15 +100,12 @@ public partial class WaveDirector : Node
 		if (Instance != null) QueueFree();
 		Instance = this;
 
-		_hubDoors.Clear();
-		_combatRooms.Clear();
-
 		RoundTimer = GetNode<Timer>("%RoundTimer");
-		RoundTimer.Timeout += OnRoundLost;
+		RoundTimer.SafeSubscribe(Timer.SignalName.Timeout, OnRoundLost);
 
 		// --- Initialize UI References ---
 		_directorDisplay = GetNode<Control>("DirectorDisplay");
-		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");
+		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");	
 		_waveMinMaxLabel = GetNode<MinMaxValuesLabel>("%Wave_MinMaxValuesLabel");
 		_roundTextValue = GetNode<RichTextLabel>("%RoundTextValue");
 		_activeEnemyCountTextValue = GetNode<RichTextLabel>("DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer/ActiveEnemyCountTextValue");
@@ -127,7 +124,7 @@ public partial class WaveDirector : Node
 		_roomEnemyLabels["West"] = GetNode<RichTextLabel>("%WestTextValue");
 		// --- End UI Initialization ---
 
-		RoomManager.Instance.CurrentRoomChanged += OnCurrentRoomChanged;
+		RoomManager.Instance.SafeSubscribe<LevelRoom>(RoomManager.SignalName.CurrentRoomChanged, OnCurrentRoomChanged);
 
 		// Immediately handle the starting room if it's already set
 		OnCurrentRoomChanged(RoomManager.Instance.CurrentRoom);
@@ -157,35 +154,60 @@ public partial class WaveDirector : Node
 			_activeEnemyCountTextValue.Text = _activeRoom?.EnemyCount.ToString() ?? "0";
 
 			// Update Room-specific Breakdown
-			var combatRoomsInGroup = GetTree().GetNodesInGroup("CombatRooms").Cast<LevelRoom>();
-			foreach (var room in combatRoomsInGroup)
+			var nodesInCombatGroup = GetTree().GetNodesInGroup("OutsideHub");
+			foreach (var node in nodesInCombatGroup)
 			{
-				if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
+				if (node is LevelRoom room)
 				{
-					int totalEnemiesForWave = (IsRoundStarted && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
-					label.Text = $"{room.EnemyCount} / {totalEnemiesForWave}";
+					if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
+					{
+						int totalEnemiesForWave = (IsRoundStarted && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
+						label.Text = $"{room.EnemyCount} / {totalEnemiesForWave}";
+					}
 				}
 			}
 		}
 	}
 
-	public void RegisterHubDoor(Door door)
+	private void InitializeLevelReferences()
 	{
-		if (!_hubDoors.TryAdd(door.DoorDirection, door)) return;
-		door.PlayerDoorShut += OnHubDoorShut;
-		CheckAllNodesReady();
-	}
+		Reset();
 
-	public void RegisterCombatRoom(LevelRoom room)
-	{
-		if (room.IsCentralHub || !_combatRooms.TryAdd(room.RoomDirection, room)) return;
+		_hubDoors.Clear();
+		_combatRooms.Clear();
+
+		// Find and register all HUB doors
+		foreach (var node in GetTree().GetNodesInGroup("Hub"))
+		{
+			if (node is Door door)
+			{
+				if (!_hubDoors.TryAdd(door.DoorDirection, door))
+				{
+					DebugManager.Warning($"InitializeLevelReferences: Duplicate hub door found for direction {door.DoorDirection}");
+					continue;
+				}
+				door.SafeSubscribe(Door.SignalName.PlayerDoorShut, OnHubDoorShut);
+			}
+		}
+
+		// Find and register all COMBAT rooms
+		foreach (var node in GetTree().GetNodesInGroup("OutsideHub"))
+		{
+			if (node is LevelRoom room)
+			{
+				if (!_combatRooms.TryAdd(room.RoomDirection, room))
+				{
+					DebugManager.Warning($"InitializeLevelReferences: Duplicate combat room found for direction {room.RoomDirection}");
+				}
+			}
+		}
 
 		CheckAllNodesReady();
 	}
 
 	private void CheckAllNodesReady()
 	{
-		// Once all doors and rooms have registered themselves, initialize the doors for the first time.
+		// Once all doors and rooms have been found, initialize the doors for the first time.
 		if (_hubDoors.Count == 4 && _combatRooms.Count == 4)
 		{
 			foreach (var keyValuePair in _hubDoors)
@@ -209,9 +231,15 @@ public partial class WaveDirector : Node
 		IsRoundCompleted = false;
 		_wavesCompletedThisRound = 0;
 		_enemiesThisWave = 0;
-		_activeRoom = null;
 		_roundInProgressRoom = null;
 		_lastCompletedRoomDirection = null;
+
+		// Safely unsubscribe from _activeRoom's events before nulling it
+		if (_activeRoom != null && GodotObject.IsInstanceValid(_activeRoom))
+		{
+			_activeRoom.SafeUnsubscribe(LevelRoom.SignalName.WaveCleared, OnWaveCleared);
+		}
+		_activeRoom = null;
 
 		// Reset timers
 		RoundTimer.Stop();
@@ -222,10 +250,14 @@ public partial class WaveDirector : Node
 
 	public void SetPlayer(PlayerBody playerInstance)
 	{
-		if (playerInstance != player)
+		// If the same player instance is being set, there's nothing to do.
+		if (playerInstance == player)
 		{
-			Reset();
+			return;
 		}
+
+		// This is now the main entry point for setting up the director for a level
+		InitializeLevelReferences();
 
 		// Unsubscribe from old player if it exists and is valid
 		if (player != null && GodotObject.IsInstanceValid(player))
@@ -249,16 +281,16 @@ public partial class WaveDirector : Node
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
 	{
-		if (_activeRoom != null)
+		if (_activeRoom != null && GodotObject.IsInstanceValid(_activeRoom))
 		{
-			_activeRoom.WaveCleared -= OnWaveCleared;
+			_activeRoom.SafeUnsubscribe(LevelRoom.SignalName.WaveCleared, OnWaveCleared);
 		}
 
 		_activeRoom = newRoom;
 
 		if (_activeRoom != null)
 		{
-			_activeRoom.WaveCleared += OnWaveCleared;
+			_activeRoom.SafeSubscribe(LevelRoom.SignalName.WaveCleared, OnWaveCleared);
 		}
 	}
 

@@ -47,14 +47,14 @@ public partial class Door : CharacterBody3D
 
 	[Export] public bool Locked { get; set; }
 
+	private bool partOfHub;
+
 	public override void _Ready()
 	{
 		GetComponents();
 		if (!this.IsInGame()) return;
-		if (IsInGroup("HubDoors"))
-		{
-			WaveDirector.Instance.RegisterHubDoor(this);
-		}
+
+		partOfHub = IsInGroup("Hub");
 	}
 
 	public override void _EnterTree()
@@ -82,9 +82,8 @@ public partial class Door : CharacterBody3D
 		if (body is PlayerBody player && !entrance.GetOverlappingBodies().Contains(player))
 		{
 			// Allow closing if it's a level door, OR if it's a hub door during the post-round state.
-			if (!IsInGroup("HubDoors")
-				||
-				(IsInGroup("HubDoors") && !WaveDirector.Instance.IsRoundStarted && WaveDirector.Instance.IsRoundCompleted))
+			if (!partOfHub ||
+				(partOfHub && !WaveDirector.Instance.IsRoundStarted && WaveDirector.Instance.IsRoundCompleted))
 			{
 				PlayerClose();
 			}

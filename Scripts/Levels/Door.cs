@@ -81,7 +81,13 @@ public partial class Door : CharacterBody3D
 	{
 		if (body is PlayerBody player && !entrance.GetOverlappingBodies().Contains(player))
 		{
-			PlayerClose();
+			// Allow closing if it's a level door, OR if it's a hub door during the post-round state.
+			if (!IsInGroup("HubDoors")
+				||
+				(IsInGroup("HubDoors") && !WaveDirector.Instance.IsRoundStarted && WaveDirector.Instance.IsRoundCompleted))
+			{
+				PlayerClose();
+			}
 		}
 	}
 

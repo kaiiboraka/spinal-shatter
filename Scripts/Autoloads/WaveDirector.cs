@@ -15,7 +15,8 @@ public partial class WaveDirector : Node
 	public int CurrentRound { get; private set; } = 1;
 	public int TotalWavesCompleted { get; private set; } = 0;
 	public DifficultyTier SelectedDifficulty = DifficultyTier.D2_Normal;
-	public bool IsRoundInProgress { get; private set; } = false;
+	public bool IsRoundStarted { get; private set; } = false;
+	public bool IsRoundCompleted { get; private set; } = false;
 
 	private int _wavesCompletedThisRound = 0;
 	private int _enemiesThisWave = 0;
@@ -134,7 +135,7 @@ public partial class WaveDirector : Node
 
 	public override void _Process(double delta)
 	{
-		if (IsRoundInProgress && RoundTimer != null)
+		if (IsRoundStarted && RoundTimer != null)
 		{
 			var time = TimeSpan.FromSeconds(RoundTimer.TimeLeft);
 			int currentWaveNumber = _wavesCompletedThisRound + 1;
@@ -158,7 +159,7 @@ public partial class WaveDirector : Node
 			{
 				if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
 				{
-					int totalEnemiesForWave = (IsRoundInProgress && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
+					int totalEnemiesForWave = (IsRoundStarted && room == _roundInProgressRoom) ? _enemiesThisWave : 0;
 					label.Text = $"{room.EnemyCount} / {totalEnemiesForWave}";
 				}
 			}
@@ -240,7 +241,8 @@ public partial class WaveDirector : Node
 		_wavesCompletedThisRound = -1;
 		_roundInProgressRoom = room;
 
-		IsRoundInProgress = true;
+		IsRoundStarted = true;
+		IsRoundCompleted = false;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;
 		RoundTimer.Start();
 		StartNextWave();
@@ -276,7 +278,8 @@ public partial class WaveDirector : Node
 
 	private void OnRoundWon()
 	{
-		IsRoundInProgress = false;
+		IsRoundStarted = false;
+		IsRoundCompleted = true;
 
 		if (_roundInProgressRoom != null)
 		{
@@ -325,10 +328,11 @@ public partial class WaveDirector : Node
 
 	private void OnHubDoorShut()
 	{
-		if (!IsRoundInProgress && RoomManager.Instance.CurrentRoom is { IsCentralHub: true })
+		if (!IsRoundStarted && IsRoundCompleted && RoomManager.Instance.CurrentRoom is { IsCentralHub: true })
 		{
 			ResetAllUI();
 			SelectNewDoors();
+			IsRoundCompleted = false;
 		}
 	}
 	
@@ -377,10 +381,11 @@ public partial class WaveDirector : Node
 
 	private void ProcessRoundLostState()
 	{
-		if (!IsRoundInProgress && RoundTimer.IsStopped()) return;
+		if (!IsRoundStarted && RoundTimer.IsStopped()) return;
 
 		ResetAllUI();
-		IsRoundInProgress = false;
+		IsRoundStarted = false;
+		IsRoundCompleted = false;
 		_roundInProgressRoom = null;
 		
 		endingPlayerHealth = player.HealthComponent.CurrentHealth;

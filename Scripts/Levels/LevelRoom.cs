@@ -104,7 +104,7 @@ public partial class LevelRoom : Node3D
 
 	private void OnLevelDoorShut()
 	{
-		if (WaveDirector.Instance.IsRoundInProgress) return;
+		if (WaveDirector.Instance.IsRoundStarted) return;
 		WaveDirector.Instance.StartRound(this);
 	}
 

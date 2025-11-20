@@ -62,4 +62,18 @@ public partial class HealthComponent : Node
 	{
 		CurrentHealth = MaxHealth;
 	}
+
+	public void Reset()
+	{
+		_isDead = false;
+		Refill();
+	}
+
+	public void Kill()
+	{
+		CurrentHealth = 0;
+		if (_isDead) return;
+		_isDead = true;
+		EmitSignalOutOfHealth();
+	}
 }

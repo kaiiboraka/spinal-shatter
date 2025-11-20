@@ -281,18 +281,18 @@ public partial class Enemy : Combatant
 		switch (state)
 		{
 			case AIState.Idle:
-				animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
 			case AIState.Patrolling:
-				animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				StartWaiting();
 				break;
 			case AIState.Chasing:
-				animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front_Idle");
 
 				// PlayAnimationOnSprites("Front_Idle");
 				break;
@@ -306,7 +306,7 @@ public partial class Enemy : Combatant
 				timerAttackCooldown.Start();
 				break;
 			case AIState.Recovery:
-				animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front_Idle");
 				timerAction.WaitTime = RecoveryTime;
 				timerAction.Start();
 				break;
@@ -695,6 +695,7 @@ public partial class Enemy : Combatant
 	public override void Reset()
 	{
 		base.Reset();
+		HealthComponent.Reset();
 		Activate();
 
 		// Add any enemy-specific reset logic here

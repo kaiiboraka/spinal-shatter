@@ -100,6 +100,9 @@ public partial class WaveDirector : Node
 		if (Instance != null) QueueFree();
 		Instance = this;
 
+		_hubDoors.Clear();
+		_combatRooms.Clear();
+
 		RoundTimer = GetNode<Timer>("%RoundTimer");
 		RoundTimer.Timeout += OnRoundLost;
 
@@ -197,17 +200,51 @@ public partial class WaveDirector : Node
 		}
 	}
 
+	public void Reset()
+	{
+		// Reset state variables
+		CurrentRound = 1;
+		TotalWavesCompleted = 0;
+		IsRoundStarted = false;
+		IsRoundCompleted = false;
+		_wavesCompletedThisRound = 0;
+		_enemiesThisWave = 0;
+		_activeRoom = null;
+		_roundInProgressRoom = null;
+		_lastCompletedRoomDirection = null;
+
+		// Reset timers
+		RoundTimer.Stop();
+
+		// Reset UI
+		ResetAllUI();
+	}
+
 	public void SetPlayer(PlayerBody playerInstance)
 	{
-		if (playerInstance == null)
+		if (playerInstance != player)
+		{
+			Reset();
+		}
+
+		// Unsubscribe from old player if it exists and is valid
+		if (player != null && GodotObject.IsInstanceValid(player))
+		{
+			player.HealthComponent.SafeUnsubscribe(HealthComponent.SignalName.OutOfHealth, ProcessRoundLostState);
+			player.SafeUnsubscribe(PlayerBody.SignalName.PlayerDied, ShowGameOverMenu);
+		}
+
+		player = playerInstance;
+
+		if (player == null)
 		{
 			DebugManager.Error("WaveDirector: Attempted to set player with a null instance!");
 			return;
 		}
 
-		player = playerInstance;
-		player.HealthComponent.OutOfHealth += ProcessRoundLostState;
-		player.PlayerDied += ShowGameOverMenu;
+		// Subscribe to new player
+		player.HealthComponent.SafeSubscribe(HealthComponent.SignalName.OutOfHealth, ProcessRoundLostState);
+		player.SafeSubscribe(PlayerBody.SignalName.PlayerDied, ShowGameOverMenu);
 	}
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)

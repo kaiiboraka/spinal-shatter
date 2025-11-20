@@ -696,9 +696,21 @@ public partial class Enemy : Combatant
 	{
 		base.Reset();
 		HealthComponent.Reset();
-		Activate();
+		
+		// Stop all lingering timers from previous life
+		StopActionTimers();
 
-		// Add any enemy-specific reset logic here
+		// Kill any active tweens and reset visual state
+		BlinkTween?.Kill();
+		animatedSprite.Modulate = Colors.White;
+
+		// Reset state variables
+		_player = null;
+		_isWalking = false;
+
+		Activate(); // This handles reenabling collisions and processing
+
+		// Set initial state
 		animPlayer.Stop(); // Stop any playing animation
 		ChangeState(AIState.Idle, true);
 	}
@@ -783,6 +795,8 @@ public partial class Enemy : Combatant
 		timerWalk?.Stop();
 		timerAction?.Stop();
 		timerAttackCooldown?.Stop();
+		timerPool?.Stop();
+		timerBlink?.Stop();
 	}
 
 	private void BlinkRoutine()

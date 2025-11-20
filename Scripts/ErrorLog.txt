@@ -1,9 +1,39 @@
 # Error
 
-ERROR: Method must be implemented!
-  ERROR: editor/inspector/editor_preview_plugins.cpp:657 - Condition "playback.is_null()" is true. Returning: Ref<Texture2D>()
-
-ERROR: Method must be implemented!
-  ERROR: editor/inspector/editor_preview_plugins.cpp:657 - Condition "playback.is_null()" is true. Returning: Ref<Texture2D>()
-
 # Output
+
+[DEBUG : 4.15][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: North, West
+[DEBUG : 4.16][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceOpen() called.
+[DEBUG : 4.16][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceClose() called.
+[DEBUG : 4.16][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceClose() called.
+[DEBUG : 4.16][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
+[DEBUG : 6.19][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: West, East
+[DEBUG : 6.19][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceClose() called.
+[DEBUG : 6.19][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceOpen() called.
+[DEBUG : 6.19][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceClose() called.
+[DEBUG : 6.19][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: West, North
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceOpen() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceClose() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceClose() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: East, South
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceClose() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceOpen() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceOpen() called.
+[DEBUG : 7.75][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceClose() called.
+[DEBUG : 9.29][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: West, East
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceClose() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceOpen() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceClose() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: South, West
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceClose() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceClose() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceOpen() called.
+[DEBUG : 9.3][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
+[DEBUG : 10.79][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: North, West
+[DEBUG : 10.79][DebugManager @ DebugManager: CanvasLayer] Door 'Door_North' ForceOpen() called.
+[DEBUG : 10.79][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceClose() called.
+[DEBUG : 10.79][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceClose() called.
+[DEBUG : 10.79][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.

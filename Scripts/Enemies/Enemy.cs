@@ -26,7 +26,9 @@ public partial class Enemy : Combatant
 
 
 	private AudioData AudioData;
-	public AudioStreamPlayer3D AudioPlayer { get; private set; }
+	public AudioStreamPlayer3D AudioPlayer_Voice { get; private set; }
+	public AudioStreamPlayer3D AudioPlayer_SFX { get; private set; }
+	public AudioStreamPlayer3D AudioPlayer_Attack { get; private set; }
 
 	private Timer timerWalk;
 	private Timer timerPool;
@@ -96,6 +98,7 @@ public partial class Enemy : Combatant
 			{
 				if (area.Owner is PlayerBody player)
 				{
+					DebugManager.Debug($"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
 					player.TakeDamage(AttackDamage, GlobalPosition);
 				}
 			};
@@ -124,7 +127,9 @@ public partial class Enemy : Combatant
 		timerPool = GetNode<Timer>("Timers/PoolTimer");
 		timerBlink = GetNode<Timer>("Timers/BlinkTimer");
 
-		AudioPlayer = GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
+		AudioPlayer_Voice = GetNode<AudioStreamPlayer3D>("Voice_AudioStreamPlayer3D");
+		AudioPlayer_SFX = GetNode<AudioStreamPlayer3D>("SFX_AudioStreamPlayer3D");
+		AudioPlayer_Attack = GetNode<AudioStreamPlayer3D>("Attack_AudioStreamPlayer3D");
 
 		DetectionArea = GetNode<Area3D>("DetectionArea3D");
 		Detection_lineOfSight = GetNode<RayCast3D>("LOS_RayCast3D");
@@ -359,9 +364,10 @@ public partial class Enemy : Combatant
 
 	private void PerformAttack()
 	{
-		AudioManager.Play(AudioPlayer, (AudioFile)AudioData["Attack"]);
+		AudioManager.Play(AudioPlayer_Attack, (AudioFile)AudioData["Attack"]);
 		if (ProjectileIsRanged)
 		{
+			DebugManager.Debug($"RANGED ATTACK: Enemy '{Name}' is firing a projectile.");
 			if (ProjectileScene == null)
 			{
 				DebugManager.Error($"Enemy: {Name} ProjectileScene is null in PerformAttack!");
@@ -638,7 +644,7 @@ public partial class Enemy : Combatant
 		tween.TweenProperty(animatedSprite, "modulate", Colors.White, 0.1);
 
 		if (isDying) return;
-		AudioManager.Play(AudioPlayer, (AudioFile)AudioData["Hurt"]);
+		AudioManager.Play(AudioPlayer_SFX, (AudioFile)AudioData["Hurt"]);
 	}
 
 	public override void OnRanOutOfHealth()
@@ -667,8 +673,7 @@ public partial class Enemy : Combatant
 			// DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
 			deathParticles.PlayParticles(Data.DeathParticleCount);
 		}
-		if (AudioPlayer.IsPlaying()) AudioPlayer.Stop();
-		AudioManager.Play(AudioPlayer, (AudioFile)AudioData["Die"]);
+		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die"]);
 
 		animPlayer.Play("Die");
 		timerBlink.Start();
@@ -748,6 +753,12 @@ public partial class Enemy : Combatant
 		Combat_hurtbox.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
 		Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
 		Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+
+		if (Combat_meleeHitbox != null)
+		{
+			Combat_meleeHitbox.SetDeferred("monitoring", false);
+			Combat_meleeHitbox.SetDeferred("monitorable", false);
+		}
 	}
 
 
@@ -758,6 +769,12 @@ public partial class Enemy : Combatant
 		Combat_hurtbox.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
 		Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
 		Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+
+		if (Combat_meleeHitbox != null)
+		{
+			Combat_meleeHitbox.SetDeferred("monitoring", true);
+			Combat_meleeHitbox.SetDeferred("monitorable", true);
+		}
 	}
 
 	private void StopActionTimers()

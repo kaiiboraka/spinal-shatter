@@ -8,10 +8,16 @@ namespace SpinalShatter;
 
 public partial class LevelRoom : Node3D
 {
-	[Signal] public delegate void PlayerEnteredEventHandler(LevelRoom room);
-	[Signal] public delegate void PlayerExitedEventHandler(LevelRoom room);
-	[Signal] public delegate void WaveClearedEventHandler();
+	[Signal]
+	public delegate void PlayerEnteredEventHandler(LevelRoom room);
 
+	[Signal]
+	public delegate void PlayerExitedEventHandler(LevelRoom room);
+
+	[Signal]
+	public delegate void WaveClearedEventHandler();
+
+	[Export] public CardinalDirection RoomDirection { get; set; }
 	[Export] private bool alwaysShow = false;
 	[Export] public bool IsCentralHub { get; set; } = false;
 
@@ -20,15 +26,25 @@ public partial class LevelRoom : Node3D
 	private Door levelDoor;
 
 	private bool _spawningFinished = false;
-	
+
 	public bool IsActive { get; private set; }
 	public List<Enemy> EnemiesInRoom { get; private set; } = new();
 	public int EnemyCount => EnemiesInRoom.Count;
 
+	public Door LevelDoor => levelDoor;
+
 	public override void _Ready()
 	{
-		if (!IsCentralHub) levelDoor = GetNode<Door>("Door");
+		// Self-register with WaveDirector if this is a combat room
+		if (!IsCentralHub)
+		{
+			WaveDirector.Instance?.RegisterCombatRoom(this);
 
+			levelDoor = GetNode<Door>("Door");
+			levelDoor.DoorShut += OnLevelDoorShut;
+		}
+
+		// Common logic for all rooms below
 		_triggerVolume = GetNode<Area3D>("%LevelRegion");
 		if (_triggerVolume != null)
 		{
@@ -74,7 +90,7 @@ public partial class LevelRoom : Node3D
 		{
 			spawner.InitializePools(uniqueScenes);
 		}
-		
+
 		// Pick a single random spawner to handle the whole wave
 		var chosenSpawner = _spawners[(int)(GD.Randi() % _spawners.Count)];
 		chosenSpawner.StartSpawningWave(enemies);
@@ -85,7 +101,13 @@ public partial class LevelRoom : Node3D
 		_spawningFinished = true;
 		CheckWaveCleared();
 	}
-	
+
+	private void OnLevelDoorShut()
+	{
+		if (WaveDirector.Instance.IsRoundInProgress) return;
+		WaveDirector.Instance.StartRound(this);
+	}
+
 	private void OnEnemyDied(Enemy who)
 	{
 		// DebugManager.Debug($"LevelRoom: {Name} OnEnemyDied called for {who.Name}.");
@@ -128,6 +150,7 @@ public partial class LevelRoom : Node3D
 		EnemiesInRoom.Add(enemy);
 		enemy.AssociatedRoom = this;
 		enemy.EnemyDied += OnEnemyDied;
+
 		// DebugManager.Debug($"LevelRoom: {Name} Registered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
 	}
 
@@ -136,6 +159,7 @@ public partial class LevelRoom : Node3D
 		if (EnemiesInRoom.Remove(enemy))
 		{
 			enemy.EnemyDied -= OnEnemyDied;
+
 			// DebugManager.Debug($"LevelRoom: {Name} Unregistered enemy {enemy.Name}. Total enemies: {_enemiesInRoom.Count}");
 			CheckWaveCleared();
 		}
@@ -169,6 +193,43 @@ public partial class LevelRoom : Node3D
 	}
 
 
+	public void OnRoundCompletion()
+	{
+		if (levelDoor != null)
+		{
+			levelDoor.ForceOpen();
+		}
+	}
+
+	public void Activate()
+	{
+		IsActive = true;
+		ShowRoom();
+
+		// Pre-placed enemies are activated here
+		foreach (var enemy in EnemiesInRoom)
+		{
+			enemy.Activate();
+		}
+	}
+
+	public void Deactivate()
+
+	{
+		IsActive = false;
+
+		if (!alwaysShow) HideRoom();
+
+
+		// Deactivate any remaining enemies
+
+		foreach (var enemy in EnemiesInRoom)
+
+		{
+			enemy.Deactivate();
+		}
+	}
+
 	public void ShowRoom()
 	{
 		Visible = true;
@@ -178,59 +239,4 @@ public partial class LevelRoom : Node3D
 	{
 		Visible = alwaysShow;
 	}
-
-	public void Activate()
-	{
-		IsActive = true;
-		ShowRoom();
-		
-		// Pre-placed enemies are activated here
-		foreach (var enemy in EnemiesInRoom)
-		{
-			enemy.Activate();
-		}
-	}
-
-		public void Deactivate()
-
-		{
-
-			IsActive = false;
-
-			if (!alwaysShow) HideRoom();
-
-	
-
-			// Deactivate any remaining enemies
-
-			foreach (var enemy in EnemiesInRoom)
-
-			{
-
-				enemy.Deactivate();
-
-			}
-
-		}
-
-	
-
-		public void OnRoundCompletion()
-
-		{
-
-			if (levelDoor != null)
-
-			{
-
-				levelDoor.Locked = false;
-
-				levelDoor.Open();
-
-			}
-
-		}
-
-	}
-
-	
+}

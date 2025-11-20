@@ -130,15 +130,7 @@ public partial class PlayerBody : Combatant
 		RefillMana();
 		RefillLife();
 
-		// Register player with WaveDirector
-		if (GetTree().GetRoot().GetNode<WaveDirector>("WaveDirector") is WaveDirector waveDirector)
-		{
-			waveDirector.SetPlayer(this);
-		}
-		else
-		{
-			DebugManager.Error("PlayerBody: WaveDirector not found in scene tree!");
-		}
+		WaveDirector.Instance.SetPlayer(this);
 	}
 
 	protected override void GetComponents()
@@ -454,6 +446,12 @@ public partial class PlayerBody : Combatant
 	public void UpdateHealthHUD(float newCurr, float newMax)
 	{
 		_playerHealthBar.OnHealthChanged(newCurr, newMax);
+	}
+
+	public override float TakeDamage(float amount, Vector3 sourcePosition)
+	{
+		DebugManager.Debug($"PLAYER_TAKE_DAMAGE: Received {amount} damage from source at {sourcePosition}.");
+		return base.TakeDamage(amount, sourcePosition);
 	}
 
 	public override void PlayOnHurtFX()

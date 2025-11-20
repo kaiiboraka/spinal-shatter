@@ -1,12 +1,16 @@
 using Godot;
 using System;
-using System.Linq; // Added for .Contains()
+using System.Linq;
+using Elythia; // Added for .Contains()
 
 namespace SpinalShatter;
 
 [Tool]
 public partial class Door : CharacterBody3D
 {
+	[Signal] public delegate void DoorShutEventHandler();
+	[Export] public CardinalDirection DoorDirection { get; set; }
+
 	[ExportGroup("Components")]
 	[Export] private AnimationPlayer animator;
 	[Export] private Area3D entrance;
@@ -28,10 +32,10 @@ public partial class Door : CharacterBody3D
 			switch (was)
 			{
 				case false when isOpen:
-					Open();
+					PlayerOpen();
 					break;
 				case true when !isOpen:
-					Close();
+					PlayerClose();
 					break;
 			}
 		}
@@ -42,6 +46,11 @@ public partial class Door : CharacterBody3D
 	public override void _Ready()
 	{
 		GetComponents();
+		if (!this.IsInGame()) return;
+		if (IsInGroup("HubDoors"))
+		{
+			WaveDirector.Instance.RegisterHubDoor(this);
+		}
 	}
 
 	public override void _EnterTree()
@@ -64,15 +73,31 @@ public partial class Door : CharacterBody3D
 		exit ??= GetNode<Area3D>("ExitArea");
 	}
 
-	public void Open()
+	private void PlayerOpen()
 	{
+		DebugManager.Debug($"Door '{Name}' PlayerOpen() called. Locked: {Locked}");
 		if (Locked) return;
 		animator.Play("OpenDown");
 	}
 
-	public void Close()
+	private void PlayerClose()
 	{
+		DebugManager.Debug($"Door '{Name}' PlayerClose() called. Locked: {Locked}");
 		if (Locked) return;
+		animator.Play("CloseUp");
+		if (this.IsInGame()) Locked = true;
+	}
+
+	public void ForceOpen()
+	{
+		DebugManager.Debug($"Door '{Name}' ForceOpen() called.");
+		Locked = false;
+		animator.Play("OpenDown");
+	}
+
+	public void ForceClose()
+	{
+		DebugManager.Debug($"Door '{Name}' ForceClose() called.");
 		animator.Play("CloseUp");
 		if (this.IsInGame()) Locked = true;
 	}
@@ -88,16 +113,17 @@ public partial class Door : CharacterBody3D
 		{
 			animator.Play("Closed"); // Fixed typo
 			isOpen = false;
+			EmitSignal(SignalName.DoorShut);
 		}
 	}
 
-    private void OnExitAreaBodyExited(Node3D body)
-    {
-        if (body is PlayerBody player && !entrance.GetOverlappingBodies().Contains(player))
-        {
-            Close();
-        }
-    }
+	private void OnExitAreaBodyExited(Node3D body)
+	{
+		if (body is PlayerBody player && !IsInGroup("HubDoors") && !entrance.GetOverlappingBodies().Contains(player))
+		{
+			PlayerClose();
+		}
+	}
 
 	private void TrySubscribe()
 	{

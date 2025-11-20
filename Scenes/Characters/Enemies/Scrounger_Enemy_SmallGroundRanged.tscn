@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=22 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_80mbd"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="2_u2p2u"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="8_j76ox"]
 [ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/Enemies/enemies_small_scrounger.ase" id="9_cj65v"]
 [ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/Enemies/enemies_small_scrounger_eye.ase" id="10_qkoog"]
-[ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="12_u2p2u"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7338867
@@ -740,9 +739,14 @@ libraries = {
 &"": SubResource("AnimationLibrary_ltrpb")
 }
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("12_u2p2u")
-volume_db = -8.0
-pitch_scale = 0.9
+[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 max_distance = 150.0
 bus = &"Voice"
+
+[node name="SFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+max_distance = 150.0
+bus = &"SFX"
+
+[node name="Attack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+max_distance = 150.0
+bus = &"SFX"

@@ -16,7 +16,7 @@ uv1_scale = Vector3(3, 3, 3)
 texture_filter = 0
 
 [node name="Door" instance=ExtResource("1_bkt7e")]
-IsOpen = true
+DoorDirection = 2
 
 [node name="MeshInstance3D" parent="NavigationObstacle3D" index="0"]
 material_override = SubResource("StandardMaterial3D_ea43y")

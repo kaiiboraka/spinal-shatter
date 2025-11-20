@@ -177,6 +177,7 @@ size = Vector3(6.5, 5, 0.5)
 collision_layer = 512
 collision_mask = 0
 script = ExtResource("1_at0af")
+DoorDirection = 3
 animator = NodePath("AnimationPlayer")
 entrance = NodePath("EntranceArea")
 exit = NodePath("ExitArea")

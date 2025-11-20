@@ -39,6 +39,7 @@ transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51)
 collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_6igdy")
+RoomDirection = 2
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_3aq0b")
@@ -174,4 +175,4 @@ bus = &"Ambience"
 
 [node name="Door" parent="." instance=ExtResource("8_jsd1r")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.25)
-IsOpen = false
+DoorDirection = 0

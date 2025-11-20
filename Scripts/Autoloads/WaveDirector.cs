@@ -1,7 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Elythia;
 using Godot.Collections;
 
@@ -9,6 +9,8 @@ namespace SpinalShatter;
 
 public partial class WaveDirector : Node
 {
+	public static WaveDirector Instance;
+
 	// --- State ---
 	public int CurrentRound { get; private set; } = 1;
 	public int TotalWavesCompleted { get; private set; } = 0;
@@ -19,6 +21,12 @@ public partial class WaveDirector : Node
 	private int _enemiesThisWave = 0;
 	private LevelRoom _activeRoom;
 	private LevelRoom _roundInProgressRoom;
+	
+	// --- Room & Door Management ---
+	private readonly Godot.Collections.Dictionary<CardinalDirection, Door> _hubDoors = new();
+	private readonly Godot.Collections.Dictionary<CardinalDirection, LevelRoom> _combatRooms = new();
+	private CardinalDirection? _lastCompletedRoomDirection = null;
+
 
 	// --- Timers & Player ---
 	private Timer RoundTimer;
@@ -54,7 +62,7 @@ public partial class WaveDirector : Node
 	private int moneyHealthBonus = 0;
 
 	// --- Spawning & Budget ---
-	[ExportGroup("Spawning")] [Export] private Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
+	[ExportGroup("Spawning")] [Export] private Godot.Collections.Dictionary<EnemyData, PackedScene> _enemyDataToSceneMap = new();
 	[Export] private int wavesPerRound = 3;
 	[Export(PropertyHint.ExpEasing)] private float baseBudget = 10f;
 	[Export(PropertyHint.ExpEasing)] private float budgetIncreasePerWave = 2f;
@@ -63,7 +71,7 @@ public partial class WaveDirector : Node
 
 	// --- Difficulty Multipliers ---
 	[ExportGroup("Difficulty")]
-	[Export] private Dictionary<DifficultyTier, float> difficultyMultipliers = new()
+	[Export] private Godot.Collections.Dictionary<DifficultyTier, float> difficultyMultipliers = new()
 	{
 		{ DifficultyTier.D0_Braindead, .5f },
 		{ DifficultyTier.D1_Easy, .75f },
@@ -73,9 +81,9 @@ public partial class WaveDirector : Node
 		{ DifficultyTier.D5_Brutal, 10.0f }
 	};
 
-	public Dictionary<DifficultyTier, float> DifficultyMultipliers => difficultyMultipliers;
+	public Godot.Collections.Dictionary<DifficultyTier, float> DifficultyMultipliers => difficultyMultipliers;
 
-	[Export] private Dictionary<EnemyRank, float> enemyStrengthMultipliers = new()
+	[Export] private Godot.Collections.Dictionary<EnemyRank, float> enemyStrengthMultipliers = new()
 	{
 		{ EnemyRank.Rank1_Bone, 1 },
 		{ EnemyRank.Rank2_Cloth, 2 },
@@ -84,10 +92,13 @@ public partial class WaveDirector : Node
 	};
 
 
-	public Dictionary<EnemyRank, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
+	public Godot.Collections.Dictionary<EnemyRank, float> EnemyStrengthMultipliers => enemyStrengthMultipliers;
 
 	public override void _Ready()
 	{
+		if (Instance != null) QueueFree();
+		Instance = this;
+
 		RoundTimer = GetNode<Timer>("%RoundTimer");
 		RoundTimer.Timeout += OnRoundLost;
 
@@ -120,6 +131,30 @@ public partial class WaveDirector : Node
 		// Initial UI state
 		ResetAllUI();
 	}
+	
+	public void RegisterHubDoor(Door door)
+	{
+		if (!_hubDoors.TryAdd(door.DoorDirection, door)) return;
+		door.DoorShut += OnHubDoorShut;
+		CheckAllNodesReady();
+	}
+
+	public void RegisterCombatRoom(LevelRoom room)
+	{
+		if (room.IsCentralHub || _combatRooms.ContainsKey(room.RoomDirection)) return;
+
+		_combatRooms.Add(room.RoomDirection, room);
+		CheckAllNodesReady();
+	}
+
+	private void CheckAllNodesReady()
+	{
+		// Once all doors and rooms have registered themselves, initialize the doors for the first time.
+		if (_hubDoors.Count == 4 && _combatRooms.Count == 4)
+		{
+			SelectNewDoors();
+		}
+	}
 
 	public void SetPlayer(PlayerBody playerInstance)
 	{
@@ -132,8 +167,6 @@ public partial class WaveDirector : Node
 		player = playerInstance;
 		player.HealthComponent.OutOfHealth += ProcessRoundLostState;
 		player.PlayerDied += ShowGameOverMenu;
-
-		// DebugManager.Debug("WaveDirector: Player instance set and Died signal connected.");
 	}
 
 	public override void _Process(double delta)
@@ -157,8 +190,8 @@ public partial class WaveDirector : Node
 			_activeEnemyCountTextValue.Text = _activeRoom?.EnemyCount.ToString() ?? "0";
 
 			// Update Room-specific Breakdown
-			var combatRooms = GetTree().GetNodesInGroup("CombatRooms").Cast<LevelRoom>();
-			foreach (var room in combatRooms)
+			var combatRoomsInGroup = GetTree().GetNodesInGroup("CombatRooms").Cast<LevelRoom>();
+			foreach (var room in combatRoomsInGroup)
 			{
 				if (_roomEnemyLabels.TryGetValue(room.Name, out var label))
 				{
@@ -171,7 +204,6 @@ public partial class WaveDirector : Node
 
 	private void OnCurrentRoomChanged(LevelRoom newRoom)
 	{
-		// DebugManager.Debug($"WaveDirector: OnCurrentRoomChanged - New Room: {newRoom?.Name ?? "null"}, IsRoundInProgress: {IsRoundInProgress}");
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared -= OnWaveCleared;
@@ -182,36 +214,24 @@ public partial class WaveDirector : Node
 		if (_activeRoom != null)
 		{
 			_activeRoom.WaveCleared += OnWaveCleared;
-
-			// Only start a new round if the new room is a combat room AND no round is currently in progress anywhere.
-			if (!_activeRoom.IsCentralHub && !IsRoundInProgress)
-			{
-				OnRoundStart();
-			}
-			else if (_activeRoom.IsCentralHub)
-			{
-				ResetAllUI();
-			}
-		}
-		else
-		{
-			ResetAllUI();
 		}
 	}
 
-	private void OnRoundStart()
+	public void StartRound(LevelRoom room)
 	{
-		_wavesCompletedThisRound = -1;
-		_roundInProgressRoom = _activeRoom;
-
-		// DebugManager.Debug("WaveDirector: OnRoundStart called.");
-		// Ensure player is not null before proceeding
 		if (player == null)
 		{
 			DebugManager.Error("WaveDirector: Player instance is null. Cannot start round.");
-			IsRoundInProgress = false; // Reset flag if player is null
 			return;
 		}
+		
+		foreach (var hubDoor in _hubDoors.Values)
+		{
+			hubDoor.ForceClose();
+		}
+
+		_wavesCompletedThisRound = -1;
+		_roundInProgressRoom = room;
 
 		IsRoundInProgress = true;
 		startingPlayerHealth = player.HealthComponent.CurrentPercent;
@@ -219,11 +239,10 @@ public partial class WaveDirector : Node
 		StartNextWave();
 		_wavesCompletedThisRound = 0;
 		
-		// UI Visibility for Round Start
 		_timerLabel.Visible = true;
 		_activeEnemyCountTextValue.Visible = true;
-		_activeEnemyCountHBoxContainer.Visible = true; // Added
-		_roomLabelsVBoxContainer.Visible = true; // Added
+		_activeEnemyCountHBoxContainer.Visible = true;
+		_roomLabelsVBoxContainer.Visible = true;
 		_waveRoundContainer.Visible = true;
 	}
 
@@ -236,11 +255,7 @@ public partial class WaveDirector : Node
 		}
 
 		var budget = CalculateBudget();
-
-		// DebugManager.Debug($"WaveDirector: StartNextWave - Budget: {budget}");
 		var enemies = GenerateEnemyList(budget);
-
-		// DebugManager.Debug($"WaveDirector: StartNextWave - Generated {enemies.Count} enemies.");
 		_enemiesThisWave = enemies.Count;
 		_activeRoom.StartSpawning(enemies);
 	}
@@ -249,10 +264,6 @@ public partial class WaveDirector : Node
 	{
 		TotalWavesCompleted++;
 		_wavesCompletedThisRound++;
-
-		// DebugManager.Debug($"WaveDirector: OnWaveCleared - TotalWavesCompleted: {TotalWavesCompleted}, WavesCompletedThisRound: {_wavesCompletedThisRound}");
-
-		// Small delay before starting the next wave
 		GetTree().CreateTimer(3.0f).Timeout += StartNextWave;
 	}
 
@@ -260,7 +271,16 @@ public partial class WaveDirector : Node
 	{
 		IsRoundInProgress = false;
 
-		_roundInProgressRoom?.OnRoundCompletion();
+		if (_roundInProgressRoom != null)
+		{
+			_roundInProgressRoom.OnRoundCompletion();
+			_lastCompletedRoomDirection = _roundInProgressRoom.RoomDirection;
+			
+			if (_hubDoors.TryGetValue(_roundInProgressRoom.RoomDirection, out var doorToOpen))
+			{
+				doorToOpen.ForceOpen();
+			}
+		}
 		_roundInProgressRoom = null;
 		
 		endingPlayerHealth = player.HealthComponent.CurrentHealth;
@@ -281,22 +301,71 @@ public partial class WaveDirector : Node
 			wavesPerRound++;
 		}
 		
-		GD.Print($"Round {CurrentRound - 1} won! Starting next round.");
+		GD.Print($"Round {CurrentRound - 1} won! Return to Hub.");
 
-		// UI Visibility for Round Won
 		_victoryLabel.Visible = true;
-		_defeatLabel.Visible = false; // Ensure defeat label is hidden
+		_defeatLabel.Visible = false;
 		_bonusContainer.Visible = true;
 		_timerLabel.Visible = false;
 		_activeEnemyCountTextValue.Visible = false;
-		_activeEnemyCountHBoxContainer.Visible = false; // Added
-		_roomLabelsVBoxContainer.Visible = false; // Added
+		_activeEnemyCountHBoxContainer.Visible = false;
+		_roomLabelsVBoxContainer.Visible = false;
 		_waveRoundContainer.Visible = false;
 
 		_timeBonusTextValue.Text = moneyTimeBonus.ToString();
 		_lifeBonusTextValue.Text = moneyHealthBonus.ToString();
+	}
 
-		// The room's doors should now open, etc.
+	private void OnHubDoorShut()
+	{
+		if (!IsRoundInProgress && RoomManager.Instance.CurrentRoom is { IsCentralHub: true })
+		{
+			ResetAllUI();
+			SelectNewDoors();
+		}
+	}
+	
+	private void SelectNewDoors()
+	{
+		var allDirections = new Array<CardinalDirection>(
+			System.Enum.GetValues(typeof(CardinalDirection)).Cast<CardinalDirection>()
+		);
+		
+		if (_lastCompletedRoomDirection.HasValue)
+		{
+			allDirections.Remove(_lastCompletedRoomDirection.Value);
+		}
+    
+		var rng = new RandomNumberGenerator();
+		rng.Randomize();
+		allDirections.Shuffle();
+
+		var doorsToOpen = new Array<CardinalDirection>();
+		for(int i = 0; i < 2 && i < allDirections.Count; i++)
+		{
+			doorsToOpen.Add(allDirections[i]);
+		}
+
+		DebugManager.Debug($"Selecting new doors. Last completed: {_lastCompletedRoomDirection?.ToString() ?? "None"}. Opening: {string.Join(", ", doorsToOpen.Select(d => d.ToString()).ToArray())}");
+
+		foreach (var direction in System.Enum.GetValues(typeof(CardinalDirection)).Cast<CardinalDirection>())
+		{
+			if (_hubDoors.TryGetValue(direction, out var door))
+			{
+				if (doorsToOpen.Contains(direction))
+				{
+					door.ForceOpen();
+				}
+				else
+				{
+					door.ForceClose();
+				}
+			}
+			else
+			{
+				 DebugManager.Warning($"SelectNewDoors: Could not find door for direction {direction}.");
+			}
+		}
 	}
 
 	private void ProcessRoundLostState()
@@ -311,25 +380,23 @@ public partial class WaveDirector : Node
 		RoundTimer.Stop();
 		GD.Print("Round Lost!");
 
-		// UI Visibility for Round Lost
-		_victoryLabel.Visible = false; // Ensure victory label is hidden
+		_victoryLabel.Visible = false;
 		_defeatLabel.Visible = true;
 		_bonusContainer.Visible = false;
 		_timerLabel.Visible = false;
 		_activeEnemyCountTextValue.Visible = false;
-		_activeEnemyCountHBoxContainer.Visible = false; // Added
-		_roomLabelsVBoxContainer.Visible = false; // Added
+		_activeEnemyCountHBoxContainer.Visible = false;
+		_roomLabelsVBoxContainer.Visible = false;
 		_waveRoundContainer.Visible = false;
 
-		_timeBonusTextValue.Text = "0"; // No time bonus on loss
-		_lifeBonusTextValue.Text = "0"; // No health bonus on loss
+		_timeBonusTextValue.Text = "0";
+		_lifeBonusTextValue.Text = "0";
 	}
 
 	private void ShowGameOverMenu()
 	{
 		if (_levelLostMenuScene != null)
 		{
-			// A simple check to prevent adding the menu multiple times.
 			if (PlayerBody.Instance.ControlRoot.FindChild("LevelLostMenu", recursive: false) == null)
 			{
 				var levelLostMenu = _levelLostMenuScene.Instantiate();
@@ -382,20 +449,15 @@ public partial class WaveDirector : Node
 			return enemiesToSpawn;
 		}
 
-		// Attempt to fill the budget with a variety of enemies
 		while (budget > 0 && availableEnemies.Any(e => e.Cost <= budget))
 		{
-			// Filter enemies that fit the remaining budget
 			var affordableEnemies = availableEnemies.Where(e => e.Cost <= budget).ToList();
-			if (!affordableEnemies.Any()) break; // No more affordable enemies
+			if (!affordableEnemies.Any()) break;
 
-			// Randomly select an enemy from the affordable ones
 			var chosenEnemy = affordableEnemies[GD.RandRange(0, affordableEnemies.Count - 1)];
 
 			enemiesToSpawn.Add(chosenEnemy.Scene);
 			budget -= chosenEnemy.Cost;
-
-			// DebugManager.Debug($"WaveDirector: GenerateEnemyList - Added {chosenEnemy.Data.Name} (Cost: {chosenEnemy.Cost}). Remaining budget: {budget}");
 		}
 
 		return enemiesToSpawn;

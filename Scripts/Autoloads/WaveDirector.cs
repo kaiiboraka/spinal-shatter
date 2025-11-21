@@ -426,7 +426,7 @@ public partial class WaveDirector : Node
 			doorsToOpen.Add(allDirections[i]);
 		}
 
-		DebugManager.Debug($"Selecting new doors. Last completed: {_lastCompletedRoomDirection?.ToString() ?? "None"}. Opening: {string.Join(", ", doorsToOpen.Select(d => d.ToString()).ToArray())}");
+		// DebugManager.Debug($"Selecting new doors. Last completed: {_lastCompletedRoomDirection?.ToString() ?? "None"}. Opening: {string.Join(", ", doorsToOpen.Select(d => d.ToString()).ToArray())}");
 
 		foreach (var direction in System.Enum.GetValues(typeof(CardinalDirection)).Cast<CardinalDirection>())
 		{

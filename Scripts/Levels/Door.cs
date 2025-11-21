@@ -93,7 +93,7 @@ public partial class Door : CharacterBody3D
 	private void PlayerOpen()
 	{
 		if (isOpen) return;
-		DebugManager.Debug($"Door '{Name}' PlayerOpen() called. Locked: {Locked}");
+		// DebugManager.Debug($"Door '{Name}' PlayerOpen() called. Locked: {Locked}");
 		if (Locked) return;
 		animator.Play("OpenDown");
 	}
@@ -101,7 +101,7 @@ public partial class Door : CharacterBody3D
 	public void SystemOpen()
 	{
 		if (isOpen) return;
-		DebugManager.Debug($"Door '{Name}' ForceOpen() called.");
+		// DebugManager.Debug($"Door '{Name}' ForceOpen() called.");
 		Locked = false;
 		animator.Play("OpenDown");
 	}
@@ -109,7 +109,7 @@ public partial class Door : CharacterBody3D
 	private void PlayerClose()
 	{
 		if (!isOpen) return;
-		DebugManager.Debug($"Door '{Name}' PlayerClose() called. Locked: {Locked}");
+		// DebugManager.Debug($"Door '{Name}' PlayerClose() called. Locked: {Locked}");
 		if (Locked) return;
 		_isSystemClose = false;
 		animator.Play("CloseUp");
@@ -119,7 +119,7 @@ public partial class Door : CharacterBody3D
 	public void SystemClose()
 	{
 		if (!isOpen) return;
-		DebugManager.Debug($"Door '{Name}' ForceClose() called.");
+		// DebugManager.Debug($"Door '{Name}' ForceClose() called.");
 		_isSystemClose = true;
 		animator.Play("CloseUp");
 		if (this.IsInGame()) Locked = true;

@@ -14,6 +14,8 @@ public partial class SiphonComponent : Node
 
 	private bool _siphonPressed;
 
+	public bool CanSiphon { get; set; }
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -23,25 +25,28 @@ public partial class SiphonComponent : Node
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("Player_Shoot"))
+		if (!CanSiphon) return;
+
+		if (@event.IsActionPressed("Player_Siphon"))
 		{
-		}
-		else if (@event.IsActionPressed("Player_Siphon"))
-		{
+			PlayerBody.Instance.DisallowMeleeAttack();
+			PlayerBody.Instance.DisallowRangedAttack();
 			_siphonField.Monitoring = true;
 			_siphonField.Visible = true;
 			_siphonPressed = true;
-			while (!AudioStreamPlayer_Siphon.IsPlaying()) AudioStreamPlayer_Siphon.Play(1.54f);
 			AttractPickups();
+			while (!AudioStreamPlayer_Siphon.IsPlaying()) AudioStreamPlayer_Siphon.Play(1.54f);
 		}
 
 		if (@event.IsActionReleased("Player_Siphon"))
 		{
 			_siphonPressed = false;
 			_siphonField.Visible = false;
+			_siphonField.Monitoring = false;
 			ReleaseAllPickups();
 			AudioStreamPlayer_Siphon.Stop();
-			_siphonField.Monitoring = false;
+			PlayerBody.Instance.AllowMeleeAttack();
+			PlayerBody.Instance.AllowRangedAttack();
 		}
 	}
 

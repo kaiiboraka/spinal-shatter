@@ -49,7 +49,7 @@ public partial class PlayerBody : Combatant
 	private bool grounded = false;
 	private bool isCrouching = false;
 	private bool isSprinting = false;
-	private bool deadNow = false;
+	public bool DeadNow { get; private set; } = false;
 
 	private int curJumps = 0;
 	int maxJumps = 2;
@@ -86,8 +86,9 @@ public partial class PlayerBody : Combatant
 	private CollisionShape3D collider;
 	private RayCast3D canStandUpRay;
 	private RayCast3D footSoundRay;
-	private MagicCaster magicCaster;
 
+	private MagicCaster magicCaster;
+	private SiphonComponent siphon;
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
 	private double _footstepMaxCooldown = 2f;
@@ -145,8 +146,10 @@ public partial class PlayerBody : Combatant
 		AddMoney(0);
 		RefillMana();
 		RefillLife();
-
+		AllowRangedAttack();
+		AllowSiphon();
 		ShowRightArm();
+		ReturnToIdle();
 		WaveDirector.Instance.SetPlayer(this);
 	}
 
@@ -165,6 +168,7 @@ public partial class PlayerBody : Combatant
 		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
 		magicCaster = GetNode<MagicCaster>("%MagicCaster");
+		siphon = GetNode<SiphonComponent>("SiphonComponent");
 
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		armLeft = GetNode<AnimatedSprite3D>("%LeftArm");
@@ -244,7 +248,7 @@ public partial class PlayerBody : Combatant
 
 	private void ProcessInput(double delta)
 	{
-		if (deadNow) return;
+		if (DeadNow) return;
 
 		direction = Vector3.Zero;
 
@@ -309,11 +313,20 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
+	private void ReturnToIdle()
+	{
+		animationPlayer.Play("Cast_Idle");
+	}
+
 	private void TryMelee()
 	{
-		if (magicCaster.IsCharging) return;
-		if (meleeAttackPlaying) return;
-		MeleeAttackStarted();
+		if (!MeleeAttackAllowed) return;
+
+		DisallowRangedAttack();
+		DisallowSiphon();
+		DisallowMeleeAttack();
+
+		ShowLeftArm();
 
 		string which;
 		switch (lastSwingDirection)
@@ -335,25 +348,12 @@ public partial class PlayerBody : Combatant
 		animationPlayer.Play(which);
 	}
 
-	private void MeleeAttackStarted()
-	{
-		magicCaster.CanShoot = false;
-		MeleeAttackAllowed = false;
-		ShowLeftArm();
-	}
-
-	private void ShowLeftArm()
-	{
-		armLeft.Visible = true;
-		armRight.Visible = false;
-	}
-
 	private void OnMeleeAnimationFinished()
 	{
 		MeleeAttackFinished();
 		meleeResetTimer.Start();
 		ShowRightArm();
-		animationPlayer.Play("Cast_Idle");
+		ReturnToIdle();
 	}
 
 	/// <summary>
@@ -363,42 +363,7 @@ public partial class PlayerBody : Combatant
 	{
 		AllowRangedAttack();
 		AllowMeleeAttack();
-	}
-
-	private void AllowRangedAttack()
-	{
-		magicCaster.CanShoot = true;
-	}
-
-	private void AllowMeleeAttack()
-	{
-		MeleeAttackAllowed = true;
-	}
-
-	public void PlayCastCharge()
-	{
-		if (meleeAttackPlaying) return;
-		ShowRightArm();
-		animationPlayer.Play("Cast_Charge");
-	}
-
-	private void ShowRightArm()
-	{
-		armLeft.Visible = false;
-		armRight.Visible = true;
-	}
-
-	public void PlayCastRelease()
-	{
-		if (!magicCaster.CanShoot) return;
-		if (meleeAttackPlaying) return;
-		animationPlayer.Play("Cast_Release");
-	}
-
-	private void OnRangedAnimationFinished()
-	{
-		AllowMeleeAttack();
-		animationPlayer.Play("Cast_Idle");
+		AllowSiphon();
 	}
 
 	protected override void OnMeleeHitboxAreaEntered(Area3D area)
@@ -408,6 +373,69 @@ public partial class PlayerBody : Combatant
 			DebugManager.Debug($"MELEE HIT: Player '{Name}' attacking Enemy for {MeleeAttackDamage} damage.");
 			enemy.TakeDamage(MeleeAttackDamage, GlobalPosition);
 		}
+	}
+
+	public void PlayCastCharge()
+	{
+		ShowRightArm();
+		animationPlayer.Play("Cast_Charge");
+	}
+
+	public void PlayCastRelease()
+	{
+		animationPlayer.Play("Cast_Release");
+	}
+
+	private void OnRangedAnimationFinished()
+	{
+		AllowMeleeAttack();
+		AllowSiphon();
+
+		ReturnToIdle();
+	}
+
+	private void ShowLeftArm()
+	{
+		armLeft.Visible = true;
+		armRight.Visible = false;
+	}
+
+	private void ShowRightArm()
+	{
+		armLeft.Visible = false;
+		armRight.Visible = true;
+	}
+
+	public void AllowSiphon()
+	{
+		siphon.CanSiphon = true;
+		siphon.SetProcess(true);
+	}
+
+	public void DisallowSiphon()
+	{
+		siphon.CanSiphon = false;
+		siphon.SetProcess(false);
+	}
+
+	public void AllowRangedAttack()
+	{
+		magicCaster.CanShoot = true;
+	}
+
+	public void DisallowRangedAttack()
+	{
+		magicCaster.CanShoot = false;
+	}
+
+	public void AllowMeleeAttack()
+	{
+		MeleeAttackAllowed = true;
+	}
+
+	public void DisallowMeleeAttack()
+	{
+		MeleeAttackAllowed = false;
 	}
 
 	private void ProcessMovement(double delta)
@@ -423,7 +451,7 @@ public partial class PlayerBody : Combatant
 		if (!grounded)
 			newVelocity.Y -= grav;
 
-		if (deadNow)
+		if (DeadNow)
 		{
 			newVelocity = newVelocity.MoveToward(Vector3.Zero, .1f) with{ Y = oldY - (grounded ? 0 : grav)};
 			return;
@@ -632,13 +660,15 @@ public partial class PlayerBody : Combatant
 
 		// Prevent base class decay/application from interfering
 		knockbackVelocity = Vector3.Zero;
-		Elythia.DebugManager.Info(
-			$"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
+		// DebugManager.Info($"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
 	}
 
 	public override void OnRanOutOfHealth()
 	{
-		deadNow = true;
+		DeadNow = true;
+		DisallowSiphon();
+		DisallowMeleeAttack();
+		DisallowRangedAttack();
 
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
 

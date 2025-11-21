@@ -31,7 +31,9 @@ public partial class MagicCaster : Node
 
 	private float currentChargeTime = 0f;
 	private Projectile chargingProjectile = null;
+
 	public bool IsCharging { get; private set; } = false;
+
 	private int lastInterval = -1;
 	private AudioFile sfxBeep;
 	private AudioFile sfxComplete;
@@ -80,6 +82,8 @@ public partial class MagicCaster : Node
 		IsCharging = true;
 
 		PlayerBody.Instance.PlayCastCharge();
+		PlayerBody.Instance.DisallowSiphon();
+		PlayerBody.Instance.DisallowMeleeAttack();
 
 		currentChargeTime = 0f;
 		lastInterval = -1;
@@ -187,6 +191,9 @@ public partial class MagicCaster : Node
 		chargingProjectile.Launch(launchData);
 		manaComponent.ConsumeMana(manaCost);
 		ResetChargeState();
+
+		PlayerBody.Instance.AllowMeleeAttack();
+		PlayerBody.Instance.AllowSiphon();
 	}
 
 	private Vector3 CalculateInitialVelocity(float speed)

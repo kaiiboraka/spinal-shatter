@@ -154,13 +154,14 @@ public partial class EnemySpawner : Node3D
 
         if (newEnemyNode is Enemy newEnemy)
         {
-            newEnemy.OwningPool = pool;
-
-            var randomOffset = new Vector2(GD.Randf(), GD.Randf()).Normalized() * (float)GD.RandRange(0, SpawnRadius);
-            newEnemy.GlobalPosition = GlobalPosition + new Vector3(randomOffset.X, 0, randomOffset.Y);
-
-            newEnemy.Activate();
-
+            			newEnemy.OwningPool = pool;
+            
+            			float angle = (float)GD.Randf() * Mathf.Pi * 2;
+            			float radius = Mathf.Sqrt((float)GD.Randf()) * SpawnRadius;
+            			var randomOffset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+            			newEnemy.GlobalPosition = GlobalPosition + new Vector3(randomOffset.X, 0, randomOffset.Y);
+            
+            			newEnemy.Activate();
             newEnemy.EnemyDied += OnEnemyDied;
             _owningRoom.RegisterEnemy(newEnemy);
             _activeEnemyCount++;

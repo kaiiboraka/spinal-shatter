@@ -1,5 +1,4 @@
 using Godot;
-using Elythia;
 
 namespace SpinalShatter;
 
@@ -9,28 +8,23 @@ public partial class ManaParticle : Pickup
     public SizeType SizeType { get; private set; }
     public override ManaParticleData Data => data as ManaParticleData;
 
-    public override void _IntegrateForces(PhysicsDirectBodyState3D state)
-    {
-        base._IntegrateForces(state);
-        if (Type == PickupType.Mana && CurrentState == PickupState.Idle)
-        {
-            state.LinearVelocity = Velocity;
-        }
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-    	if (CanAttract) Attract();
-    }
-
     public override void Initialize(PickupData data)
     {
-        // DebugManager.Debug($"ManaParticle: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
         base.Initialize(data);
         this.data = data as ManaParticleData;
         if (Data == null) return;
         SizeType = Data.SizeType;
         Sprite.Play();
-        // DebugManager.Debug($"ManaParticle: {Name} Initialized. Final GlobalPosition: {GlobalPosition}");
+    }
+
+    protected override void HandleIdlePhysics(double delta)
+    {
+        // Mana floats, no gravity
+    }
+
+    protected override void HandleCollision(KinematicCollision3D collision, Vector3 originalVelocity)
+    {
+        // Reflect off surfaces
+        Velocity = originalVelocity.Bounce(collision.GetNormal());
     }
 }

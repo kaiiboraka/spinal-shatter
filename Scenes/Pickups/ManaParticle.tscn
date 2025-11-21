@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://3mci4bqbc8g6"]
+[gd_scene load_steps=7 format=3 uid="uid://3mci4bqbc8g6"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_lkpyv"]
 [ext_resource type="Script" uid="uid://b3jsk6jtlrkc7" path="res://Scripts/Pickups/ManaParticle.cs" id="2_lkpyv"]
 [ext_resource type="Resource" uid="uid://6g1ukl8gec4s" path="res://assets/Resources/ManaParticleData_Small.tres" id="3_6badg"]
 [ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/AudioData/SFX_ManaParticle.tres" id="3_lkpyv"]
@@ -14,16 +13,10 @@ radius = 0.2
 resource_local_to_scene = true
 radius = 0.25
 
-[node name="ManaPickup" type="RigidBody3D" node_paths=PackedStringArray("LifetimeTimer", "Sprite", "CollisionShape", "AreaShape") groups=["ManaParticles", "Pickups"]]
+[node name="ManaPickup" type="CharacterBody3D" node_paths=PackedStringArray("LifetimeTimer", "Sprite", "CollisionShape", "AreaShape") groups=["ManaParticles", "Pickups"]]
 collision_layer = 65536
-collision_mask = 1676
-axis_lock_angular_x = true
-axis_lock_angular_y = true
-axis_lock_angular_z = true
-physics_material_override = ExtResource("1_lkpyv")
-gravity_scale = 0.0
-custom_integrator = true
-continuous_cd = true
+collision_mask = 652
+floor_stop_on_slope = false
 script = ExtResource("2_lkpyv")
 LifetimeTimer = NodePath("LifetimeTimer")
 Sprite = NodePath("AnimatedSprite3D")

@@ -4,13 +4,10 @@ using Godot;
 namespace SpinalShatter;
 
 [GlobalClass]
-public partial class Pickup : RigidBody3D
+public partial class Pickup : CharacterBody3D
 {
 	[Signal] public delegate void CollectedEventHandler(Pickup particle);
 	[Signal] public delegate void ReleasedEventHandler(Pickup particle);
-
-	protected float bounceCooldown = 0;
-
 
 	public enum PickupState
 	{
@@ -40,19 +37,12 @@ public partial class Pickup : RigidBody3D
 	public virtual  PickupData Data => data;
 
 	protected AudioStreamPlayer globalPickupPlayer;
-
-	protected Vector3 Velocity = Vector3.Zero;
 	protected Node3D Target = null;
 
 	private Tween _decayTween;
 	protected Tween BlinkTween;
 
-	private float _gravity => Constants.GRAVITY;
 	protected bool CanAttract => (CurrentState == PickupState.Attracted && Target != null);
-
-	protected bool CannotAttract => (CurrentState != PickupState.Attracted || Target == null);
-
-
 
 	public override void _Ready()
 	{
@@ -66,53 +56,61 @@ public partial class Pickup : RigidBody3D
 		BlinkRoutine();
 	}
 
-	override public void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
-		if (bounceCooldown > 0)
-		{
-			bounceCooldown -= (float)delta;
-		}
-	}
-
-	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
-	{
-		base._IntegrateForces(state);
-
-		if (bounceCooldown > 0)
-		{
-			return;
-		}
-
-		for (int i = 0; i < state.GetContactCount(); i++)
-		{
-			Node collider = state.GetContactColliderObject(i) as Node;
-			if (collider != null)
-			{
-				var contactLocalNormal = state.GetContactLocalNormal(i);
-				var contactLocalPosition = state.GetContactColliderPosition(i);
-
-				state.LinearVelocity = state.LinearVelocity.Bounce(contactLocalNormal)*10;
-				break;
-			}
-		}
-
 		if (CanAttract)
 		{
-			state.LinearVelocity = Velocity;
+			Attract();
+		}
+		else
+		{
+			HandleIdlePhysics(delta);
+		}
+
+		// MoveAndSlide handles floor detection and sliding, and updates Velocity.
+		MoveAndSlide(); 
+		
+		// After sliding, check for collisions to handle custom bounce/reflect logic
+		if (GetSlideCollisionCount() > 0)
+		{
+			for (int i = 0; i < GetSlideCollisionCount(); i++)
+			{
+				var collision = GetSlideCollision(i);
+				if (collision != null)
+				{
+					HandleCollision(collision, originalVelocity);
+					// only handle one collision per frame for simplicity
+					break; 
+				}
+			}
 		}
 	}
 
+	protected virtual void HandleIdlePhysics(double delta)
+	{
+		// Apply gravity. Overridden by child classes for custom behavior.
+		Velocity += Vector3.Down * Constants.GRAVITY_MAG * (float)delta;
+	}
+
+	protected virtual void HandleCollision(KinematicCollision3D collision, Vector3 originalVelocity)
+	{
+		// Default behavior: reflect/bounce slightly and lose energy
+		Velocity = originalVelocity.Bounce(collision.GetNormal()) * 0.5f;
+	}
 
 	protected void Attract()
 	{
+		if (Target == null || !IsInstanceValid(Target))
+		{
+			StopMoving();
+			return;
+		}
 		Vector3 direction = (Target.GlobalPosition - GlobalPosition).Normalized();
 		Velocity = direction * AttractSpeed;
 	}
 
 	public virtual void Initialize(PickupData data)
 	{
-		// DebugManager.Debug($"Pickup: Initializing {Name} at GlobalPosition: {GlobalPosition}, with data: {data?.ResourcePath ?? "null"}");
-		GlobalPosition = Vector3.Down;
 		this.data  = data;
 		CurrentState = PickupState.Idle;
 		Visible = true;
@@ -139,20 +137,17 @@ public partial class Pickup : RigidBody3D
 		LifetimeTimer.Start();
 		StopMoving();
 		ResetMotion();
-		// DebugManager.Debug($"Pickup: {Name} Initialized. Final GlobalPosition: {GlobalPosition}, LinearVelocity: {LinearVelocity}");
 	}
 
-	private void ResetMotion()
+	protected virtual void ResetMotion()
 	{
 		switch (Type)
 		{
 			case PickupType.Mana:
-				LinearVelocity = DriftIdle();
-				ApplyCentralImpulse(Velocity);
+				Velocity = DriftIdle();
 				break;
 			case PickupType.Money:
-				LinearVelocity = Vector3.Zero;
-				ApplyCentralImpulse(Vector3.Down);
+				Velocity = Vector3.Zero;
 				break;
 		}
 	}
@@ -164,7 +159,6 @@ public partial class Pickup : RigidBody3D
 		CurrentState = PickupState.Attracted;
 		Target = target;
 		_decayTween?.Kill();
-		Sleeping = false;
 	}
 
 	public void Collect()
@@ -173,9 +167,7 @@ public partial class Pickup : RigidBody3D
 		StopMoving();
 		BlinkTween?.Kill();
 
-		// globalPickupPlayer.Play();
 		EmitSignalCollected(this);
-		// Removed: EmitSignal(SignalName.Released, this);
 	}
 
 	protected virtual void OnLifetimeTimeout()
@@ -197,8 +189,6 @@ public partial class Pickup : RigidBody3D
 		if (data == null) 
 		{
 			Sprite.SpriteFrames = null;
-			GravityScale = 0;
-			PhysicsMaterialOverride = null;
 			return;
 		};
 
@@ -220,7 +210,6 @@ public partial class Pickup : RigidBody3D
 
 	public void StopMoving()
 	{
-		LinearVelocity = Vector3.Zero;
 		if (CurrentState != PickupState.Collected && CurrentState != PickupState.Expired)
 		{
 			CurrentState = PickupState.Idle;
@@ -229,15 +218,24 @@ public partial class Pickup : RigidBody3D
 		Velocity = Vector3.Zero;
 		Target = null;
 	}
+	
+	public void OnSiphonRelease()
+	{
+		StopMoving();
+		if (Type == PickupType.Mana)
+		{
+			Velocity = DriftIdle();
+		}
+	}
 
 	public Vector3 DriftIdle()
 	{
-		Velocity = new Vector3(
+		var newVelocity = new Vector3(
 			(float)GD.RandRange(-1.0, 1.0),
 			(float)GD.RandRange(-1.0, 1.0),
 			(float)GD.RandRange(-1.0, 1.0)
 		).Normalized() * DriftSpeed;
-		return Velocity;
+		return newVelocity;
 	}
 
 	private void BlinkRoutine()

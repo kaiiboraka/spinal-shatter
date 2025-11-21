@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsnecf6vgwblt"]
+[gd_scene load_steps=6 format=3 uid="uid://bsnecf6vgwblt"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_8u2q1"]
 [ext_resource type="Script" uid="uid://co8bxmfjbymyd" path="res://Scripts/Pickups/Money.cs" id="2_8u2q1"]
 [ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="3_8u2q1"]
 [ext_resource type="SpriteFrames" uid="uid://posi3l54iqof" path="res://assets/Images/Pickups/Bubble_Money_Bronze.ase" id="4_8u2q1"]
@@ -13,17 +12,15 @@ radius = 0.15
 resource_local_to_scene = true
 radius = 0.25
 
-[node name="MoneyPickup" type="RigidBody3D" node_paths=PackedStringArray("LifetimeTimer", "Sprite", "CollisionShape", "AreaShape") groups=["Currency", "Pickups"]]
+[node name="MoneyPickup" type="CharacterBody3D" node_paths=PackedStringArray("LifetimeTimer", "Sprite", "CollisionShape", "AreaShape") groups=["Currency", "Pickups"]]
 collision_layer = 65536
 collision_mask = 66188
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
-physics_material_override = ExtResource("1_8u2q1")
-gravity_scale = 10.0
-continuous_cd = true
-contact_monitor = true
-angular_damp_mode = 1
+slide_on_ceiling = false
+floor_stop_on_slope = false
+safe_margin = 0.002
 script = ExtResource("2_8u2q1")
 Type = 1
 LifetimeTimer = NodePath("LifetimeTimer")

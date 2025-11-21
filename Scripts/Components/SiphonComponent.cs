@@ -100,13 +100,7 @@ public partial class SiphonComponent : Node
 
 			if (IsInstanceValid(pickup) && pickup.State == Pickup.PickupState.Attracted)
 			{
-				if (pickup.Data.PickupType == PickupType.Mana) pickup.DriftIdle();
-				else
-				{
-					pickup.Sleeping = true;
-					pickup.Sleeping = false;
-					pickup.ApplyCentralImpulse(Vector3.Down);
-				}
+				pickup.OnSiphonRelease();
 			}
 		}
 

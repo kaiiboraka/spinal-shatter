@@ -8,10 +8,10 @@ public partial class Money : Pickup
     public MoneyTier MoneyTier { get; private set; }
     public override MoneyData Data => data as MoneyData;
 
-    private float _bounciness = 0.5f;
-    private float _friction = 0.1f;
-    private float _minSettleVelocity = 0.1f;
-    private float _explosionSpeed = 5.0f;
+    [Export] private float _bounciness = 0.5f;
+    [Export] private float _friction = 0.95f; // Value closer to 1 means less friction. This is multiplied each frame.
+    [Export] private float _minSettleVelocity = 0.5f;
+    [Export] private float _explosionSpeed = 4.0f;
 
     public override void Initialize(PickupData data)
     {
@@ -35,25 +35,22 @@ public partial class Money : Pickup
 
     protected override void HandleIdlePhysics(double delta)
     {
-        // Apply gravity if not on the floor
-        if (!IsOnFloor())
-        {
-            Velocity += Vector3.Down * Constants.GRAVITY_MAG * (float)delta;
-        }
-        // Apply friction if on the floor
-        else
-        {
-            Velocity = Velocity.Lerp(Vector3.Zero, _friction);
-            if (Velocity.Length() < _minSettleVelocity)
-            {
-                Velocity = Vector3.Zero;
-            }
-        }
+        // Apply gravity
+        base.HandleIdlePhysics(delta);
+        
+        // Apply friction to horizontal velocity
+        Velocity = new Vector3(Velocity.X * _friction, Velocity.Y, Velocity.Z * _friction);
     }
     
-    protected override void HandleCollision(KinematicCollision3D collision, Vector3 originalVelocity)
+    protected override void HandleCollision(KinematicCollision3D collision)
     {
-        // Use the built-in bounce calculation and apply our bounciness
-        Velocity = originalVelocity.Bounce(collision.GetNormal()) * _bounciness;
+        // Bounce off surfaces
+        Velocity = Velocity.Bounce(collision.GetNormal()) * _bounciness;
+
+        // If velocity is very low after a bounce, settle it to prevent endless tiny bounces.
+        if (Velocity.Length() < _minSettleVelocity)
+        {
+            Velocity = Vector3.Zero;
+        }
     }
 }

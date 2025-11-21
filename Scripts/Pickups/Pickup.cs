@@ -67,22 +67,10 @@ public partial class Pickup : CharacterBody3D
 			HandleIdlePhysics(delta);
 		}
 
-		// MoveAndSlide handles floor detection and sliding, and updates Velocity.
-		MoveAndSlide(); 
-		
-		// After sliding, check for collisions to handle custom bounce/reflect logic
-		if (GetSlideCollisionCount() > 0)
+		var collision = MoveAndCollide(Velocity * (float)delta);
+		if (collision != null)
 		{
-			for (int i = 0; i < GetSlideCollisionCount(); i++)
-			{
-				var collision = GetSlideCollision(i);
-				if (collision != null)
-				{
-					HandleCollision(collision, originalVelocity);
-					// only handle one collision per frame for simplicity
-					break; 
-				}
-			}
+			HandleCollision(collision);
 		}
 	}
 
@@ -92,10 +80,10 @@ public partial class Pickup : CharacterBody3D
 		Velocity += Vector3.Down * Constants.GRAVITY_MAG * (float)delta;
 	}
 
-	protected virtual void HandleCollision(KinematicCollision3D collision, Vector3 originalVelocity)
+	protected virtual void HandleCollision(KinematicCollision3D collision)
 	{
-		// Default behavior: reflect/bounce slightly and lose energy
-		Velocity = originalVelocity.Bounce(collision.GetNormal()) * 0.5f;
+		// Default behavior: stop dead
+		Velocity = Vector3.Zero;
 	}
 
 	protected void Attract()
@@ -166,7 +154,6 @@ public partial class Pickup : CharacterBody3D
 		CurrentState = PickupState.Collected;
 		StopMoving();
 		BlinkTween?.Kill();
-
 		EmitSignalCollected(this);
 	}
 
@@ -177,7 +164,6 @@ public partial class Pickup : CharacterBody3D
 		tween.TweenProperty(this, "scale", Vector3.One * 0.001f, 0.2f).SetTrans(Tween.TransitionType.Quad)
 			 .SetEase(Tween.EaseType.In);
 		tween.TweenCallback(Callable.From(Reset));
-
 		EmitSignalReleased(this);
 	}
 

@@ -22,9 +22,9 @@ public partial class ManaParticle : Pickup
         // Mana floats, no gravity
     }
 
-    protected override void HandleCollision(KinematicCollision3D collision, Vector3 originalVelocity)
+    protected override void HandleCollision(KinematicCollision3D collision)
     {
         // Reflect off surfaces
-        Velocity = originalVelocity.Bounce(collision.GetNormal());
+        Velocity = Velocity.Bounce(collision.GetNormal());
     }
 }

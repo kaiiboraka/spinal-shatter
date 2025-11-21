@@ -20,6 +20,9 @@ public partial class Enemy : Combatant
 
 	private AnimatedSprite3D animatedSprite;
 	private AnimatedSprite3D animatedSprite_Eye;
+	private FogVolume fogVolume;
+	private SpotLight3D eyeSpotlight;
+
 	[Export] private PackedScene _deathParticlesScene;
 	private OverheadHealthBar OverheadHealthBar { get; set; }
 	private StateSprite3d stateVisual;
@@ -118,6 +121,8 @@ public partial class Enemy : Combatant
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		animatedSprite = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D");
 		animatedSprite_Eye = GetNode<AnimatedSprite3D>("Body_AnimatedSprite3D/Eye_AnimatedSprite");
+		fogVolume = GetNode<FogVolume>("%FogVolume");
+		eyeSpotlight = GetNode<SpotLight3D>("%SpotLight3D");
 		OverheadHealthBar = GetNode<OverheadHealthBar>("HealthBar");
 		stateVisual = GetNode<StateSprite3d>("StateSprite3D");
 
@@ -675,6 +680,8 @@ public partial class Enemy : Combatant
 		}
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die"]);
 
+		fogVolume.Visible = false;
+		eyeSpotlight.Visible = false;
 		animPlayer.Play("Die");
 		timerBlink.Start();
 
@@ -703,7 +710,8 @@ public partial class Enemy : Combatant
 		// Kill any active tweens and reset visual state
 		BlinkTween?.Kill();
 		animatedSprite.Modulate = Colors.White;
-
+		fogVolume.Visible = true;
+		eyeSpotlight.Visible = true;
 		// Reset state variables
 		_player = null;
 		_isWalking = false;
@@ -762,10 +770,13 @@ public partial class Enemy : Combatant
 	private void DisableCollisions()
 	{
 		// Remove enemy from its physics layers, making it undetectable.
-		this.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
-		Combat_hurtbox.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
-		Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
-		Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+		// this.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
+		// Combat_hurtbox.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
+		// Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
+		// Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+
+		Combat_hurtbox.SetDeferred("monitoring", false);
+		Combat_hurtbox.SetDeferred("monitorable", false);
 
 		if (Combat_meleeHitbox != null)
 		{
@@ -778,10 +789,12 @@ public partial class Enemy : Combatant
 	private void EnableCollisions()
 	{
 		// Restore enemy to its physics layers.
-		this.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
-		Combat_hurtbox.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
-		Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
-		Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+		// this.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
+		// Combat_hurtbox.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
+		// Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
+		// Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+		Combat_hurtbox.SetDeferred("monitoring", true);
+		Combat_hurtbox.SetDeferred("monitorable", true);
 
 		if (Combat_meleeHitbox != null)
 		{

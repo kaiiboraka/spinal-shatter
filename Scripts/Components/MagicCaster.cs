@@ -27,6 +27,8 @@ public partial class MagicCaster : Node
 
 	[Export] private bool usePlayerMomentum = false;
 
+	public bool CanShoot { get; set; } = true;
+
 	private float currentChargeTime = 0f;
 	private Projectile chargingProjectile = null;
 	private bool isCharging = false;
@@ -67,6 +69,7 @@ public partial class MagicCaster : Node
 
 	private void OnPressCharge()
 	{
+		if (!CanShoot) return;
 		if (chargingProjectile != null || projectileScene == null || manaComponent.CurrentMana < ManaCostRange.Min)
 		{
 			return;
@@ -83,6 +86,7 @@ public partial class MagicCaster : Node
 
 	private void ContinueCharge(float delta)
 	{
+		if (!CanShoot) return;
 		if (chargingProjectile == null) return;
 
 		// 1. Calculate max possible charge ratio based on current mana
@@ -132,6 +136,7 @@ public partial class MagicCaster : Node
 
 	private void OnReleaseCharge()
 	{
+		if (!CanShoot) return;
 		if (chargingProjectile == null)
 			return;
 

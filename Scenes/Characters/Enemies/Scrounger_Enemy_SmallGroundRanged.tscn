@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=23 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_80mbd"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="2_u2p2u"]
@@ -11,6 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="8_j76ox"]
 [ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/Enemies/enemies_small_scrounger.ase" id="9_cj65v"]
 [ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/Enemies/enemies_small_scrounger_eye.ase" id="10_qkoog"]
+
+[sub_resource type="FogMaterial" id="FogMaterial_n8h2i"]
+emission = Color(0.8509804, 0.34117648, 0.3882353, 1)
+edge_fade = 2.2627404
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
 radius = 0.7338867
@@ -673,6 +677,7 @@ animation = &"Front_Idle"
 autoplay = "Front_Idle"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
 light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
 light_energy = 2.0
@@ -695,6 +700,13 @@ render_priority = 2
 sprite_frames = ExtResource("10_qkoog")
 animation = &"Front_Idle"
 autoplay = "Front_Idle"
+
+[node name="FogVolume" type="FogVolume" parent="Body_AnimatedSprite3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.7134323, -2.6397312)
+size = Vector3(1, 5, 1)
+shape = 0
+material = SubResource("FogMaterial_n8h2i")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2294433, 0)

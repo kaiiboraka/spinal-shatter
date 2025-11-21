@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=46 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -24,9 +24,10 @@
 [ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/PlayerData/Sphere_SizeRange.tres" id="18_mc0oj"]
 [ext_resource type="AudioStream" uid="uid://uepv0sn67mp8" path="res://assets/Audio/SFX/Powerup_05.wav" id="21_mc0oj"]
 [ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="23_3vnku"]
+[ext_resource type="SpriteFrames" uid="uid://ji7ndov8slph" path="res://assets/Images/arm_right.ase" id="23_mc0oj"]
 [ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="24_fxftb"]
-[ext_resource type="Texture2D" uid="uid://dp5b62k5d0jbb" path="res://assets/Images/Pickups/Coins_Spin.ase" id="24_hqlak"]
 [ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
+[ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/arm_left.ase" id="24_x4yal"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
 radius = 1.0
@@ -35,6 +36,10 @@ height = 3.0
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vnku"]
 radius = 0.6459961
 height = 2.25
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fxftb"]
+height = 2.5
+radius = 2.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
 radius = 0.3
@@ -64,7 +69,6 @@ height = 9.577691
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fxftb"]
-atlas = ExtResource("24_hqlak")
 region = Rect2(0, 0, 30, 30)
 
 [sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
@@ -174,6 +178,14 @@ collision_mask = 49152
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2037842, 0.181)
 shape = SubResource("CapsuleShape3D_3vnku")
 debug_color = Color(0, 0.77, 0.42350015, 0.41960785)
+
+[node name="MeleeHitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -2)
+collision_layer = 4096
+collision_mask = 3072
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
+shape = SubResource("CylinderShape3D_fxftb")
 
 [node name="Mesh_Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.328861)
@@ -297,6 +309,20 @@ debug_color = Color(0.88235295, 0, 0.81960785, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8443651, 1.1920929e-07)
 shape = SubResource("CapsuleShape3D_gc10f")
 debug_color = Color(0.88235295, 0, 0.81960785, 0.41960785)
+
+[node name="RightArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, -0.9, -2)
+sprite_frames = ExtResource("23_mc0oj")
+animation = &"Cast_Release"
+
+[node name="LeftArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
+unique_name_in_owner = true
+transform = Transform3D(0.9848077, 0.1227878, -0.1227878, 0, 0.70710677, 0.70710677, 0.17364818, -0.6963642, 0.6963642, 0, -1, -1.6)
+sprite_frames = ExtResource("24_x4yal")
+animation = &"swing_twice"
+frame = 15
+frame_progress = 1.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

@@ -65,16 +65,20 @@ public partial class PlayerBody : Combatant
 
 	private Node3D headNode;
 	private Camera3D camera;
-	private MinMaxValuesLabel _manaMinMaxLabel;
-	private PlayerHealthBar _playerHealthBar;
-	private Label _playerMoneyAmountLabel;
-	private ManaComponent _manaComponent;
+	private MinMaxValuesLabel manaMinMaxLabel;
+	private PlayerHealthBar playerHealthBar;
+	private Label playerMoneyAmountLabel;
+	private ManaComponent manaComponent;
 	private Area3D pickupArea;
+
+	private AnimatedSprite3D armLeft;
+	private AnimatedSprite3D armRight;
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
 
 	private AudioData AudioData;
+
 
 	[ExportCategory("Combat")]
 	[ExportSubgroup("Knockback", "Knockback")]
@@ -142,11 +146,14 @@ public partial class PlayerBody : Combatant
 		camera = GetNode<Camera3D>("%Camera1P");
 		collider = GetNode<CollisionShape3D>("%PlayerCollider");
 		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
-		_manaMinMaxLabel = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
-		_manaComponent = GetNode<ManaComponent>("%ManaComponent");
-		_playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
-		_playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
+		manaMinMaxLabel = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
+		manaComponent = GetNode<ManaComponent>("%ManaComponent");
+		playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
+		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
+
+		armLeft = GetNode<AnimatedSprite3D>("%LeftArm");
+		armRight = GetNode<AnimatedSprite3D>("%RightArm");
 
 		// Audio Players
 		AudioPlayer_Oof = GetNode<AudioStreamPlayer3D>("Audio/Oof_AudioStreamPlayer3D");
@@ -164,8 +171,8 @@ public partial class PlayerBody : Combatant
 	{
 		base.ConnectEvents();
 
-		_manaComponent.ManaChanged += UpdateManaHUD;
-		UpdateManaHUD(_manaComponent.CurrentMana, _manaComponent.MaxMana);
+		manaComponent.ManaChanged += UpdateManaHUD;
+		UpdateManaHUD(manaComponent.CurrentMana, manaComponent.MaxMana);
 
 		HealthComponent.HealthChanged += UpdateHealthHUD;
 		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
@@ -215,6 +222,17 @@ public partial class PlayerBody : Combatant
 			// TryShoot();
 		}
 
+		if (Input.IsActionPressed("Player_Melee"))
+		{
+			TryMelee();
+		}
+
+
+		if (Input.IsActionJustPressed("Player_Reload"))
+		{
+			// loadout.CurrentMag.Reload();
+		}
+
 		if (Input.IsActionJustPressed("Player_Reload"))
 		{
 			// loadout.CurrentMag.Reload();
@@ -250,9 +268,38 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
+	private HorizontalDirection lastSwingDirection = HorizontalDirection.None;
+
+	private void TryMelee()
+	{
+		ShowLeftArm();
+
+		string which = lastSwingDirection switch
+		{
+			HorizontalDirection.Left => "RightSwing",
+			HorizontalDirection.None => "LeftSwing",
+			HorizontalDirection.Right => "LeftSwing",
+			_ => ""
+		};
+		
+		armLeft.Play(which);
+	}
+
 	private void TryShoot()
 	{
 		// loadout.Shoot();
+	}
+
+	private void ShowLeftArm()
+	{
+		armLeft.Visible = true;
+		armRight.Visible = false;
+	}
+
+	private void ShowRightArm()
+	{
+		armLeft.Visible = false;
+		armRight.Visible = true;
 	}
 
 	private void ProcessMovement(double delta)
@@ -439,13 +486,13 @@ public partial class PlayerBody : Combatant
 
 	public void UpdateManaHUD(float newCurr, float newMax)
 	{
-		_manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
-		_manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
+		manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
+		manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
 	}
 
 	public void UpdateHealthHUD(float newCurr, float newMax)
 	{
-		_playerHealthBar.OnHealthChanged(newCurr, newMax);
+		playerHealthBar.OnHealthChanged(newCurr, newMax);
 	}
 
 	public override float TakeDamage(float amount, Vector3 sourcePosition)
@@ -512,7 +559,7 @@ public partial class PlayerBody : Combatant
 	{
 		if (manaParticle.State == Pickup.PickupState.Collected) return; // Already collected
 
-		_manaComponent.AddMana(manaParticle.Value);
+		manaComponent.AddMana(manaParticle.Value);
 		manaParticle.Collect();
 
 		AudioPlayer_Mana.Stream = manaParticle.Data.AudioStream;
@@ -540,7 +587,7 @@ public partial class PlayerBody : Combatant
 	{
 		_currentMoney += amount;
 		_currentMoney = _currentMoney.AtLeastZero();
-		_playerMoneyAmountLabel.Text = _currentMoney.ToString();
+		playerMoneyAmountLabel.Text = _currentMoney.ToString();
 	}
 
 	private void RefillLife()
@@ -550,7 +597,7 @@ public partial class PlayerBody : Combatant
 
 	public void RefillMana()
 	{
-		_manaComponent.RefillMana();
+		manaComponent.RefillMana();
 	}
 
 	public static void FillPlayerMana()

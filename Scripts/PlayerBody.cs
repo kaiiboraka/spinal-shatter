@@ -71,8 +71,6 @@ public partial class PlayerBody : Combatant
 	private ManaComponent manaComponent;
 	private Area3D pickupArea;
 
-	private AnimatedSprite3D armLeft;
-	private AnimatedSprite3D armRight;
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
@@ -83,15 +81,31 @@ public partial class PlayerBody : Combatant
 	[ExportCategory("Combat")]
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] public new float KnockbackWeight { get; private set; } = 5f;
+	[Export] public float MeleeAttackDamage { get; private set; } = 25f;
 
 	private CollisionShape3D collider;
 	private RayCast3D canStandUpRay;
 	private RayCast3D footSoundRay;
+	private MagicCaster magicCaster;
 
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
 	private double _footstepMaxCooldown = 2f;
 	private double _sprintFootstepMaxCooldown = 2f / 1.2f;
+
+	private AnimationPlayer animationPlayer;
+
+	private AnimatedSprite3D armLeft;
+	private AnimatedSprite3D armRight;
+	private Timer meleeResetTimer;
+	private HorizontalDirection lastSwingDirection = HorizontalDirection.None;
+
+	private bool meleeAttackPlaying = false;
+	private bool MeleeAttackAllowed
+	{
+		get => !meleeAttackPlaying;
+		set => meleeAttackPlaying = !value;
+	}
 
 	// public Loadout loadout;
 	private Vector3 spawnPosition = new(2.351f, 2, 28.564f);
@@ -111,6 +125,8 @@ public partial class PlayerBody : Combatant
 	private AudioStreamPlayer3D AudioPlayer_Footsteps;
 
 	// TODO : put the main scene back to this one : res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn
+	private Action onDeathVoiceFinished;
+	private Action onDeathSfxFinished;
 
 	public override void _Ready()
 	{
@@ -121,10 +137,6 @@ public partial class PlayerBody : Combatant
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 
-		_footstepCooldownTimer = new Timer { OneShot = true };
-		AddChild(_footstepCooldownTimer);
-
-
 		_footstepMaxCooldown = (AudioFile_Walk.Stream as AudioStreamRandomizer).GetMaxLength();
 		_sprintFootstepMaxCooldown = (AudioFile_Sprint.Stream as AudioStreamRandomizer).GetMaxLength() / 1.2f;
 
@@ -134,6 +146,7 @@ public partial class PlayerBody : Combatant
 		RefillMana();
 		RefillLife();
 
+		ShowRightArm();
 		WaveDirector.Instance.SetPlayer(this);
 	}
 
@@ -151,9 +164,15 @@ public partial class PlayerBody : Combatant
 		playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
 		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
+		magicCaster = GetNode<MagicCaster>("%MagicCaster");
 
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		armLeft = GetNode<AnimatedSprite3D>("%LeftArm");
 		armRight = GetNode<AnimatedSprite3D>("%RightArm");
+
+		// Timers
+		_footstepCooldownTimer = GetNode<Timer>("%FootstepCooldownTimer");
+		meleeResetTimer = GetNode<Timer>("%MeleeResetTimer");
 
 		// Audio Players
 		AudioPlayer_Oof = GetNode<AudioStreamPlayer3D>("Audio/Oof_AudioStreamPlayer3D");
@@ -178,6 +197,23 @@ public partial class PlayerBody : Combatant
 		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
 
 		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
+
+		meleeResetTimer.Timeout += () =>
+		{
+			lastSwingDirection = HorizontalDirection.None;
+		};
+		armLeft.AnimationFinished += OnMeleeAnimationFinished;
+		animationPlayer.AnimationFinished += name =>
+		{
+			if (name == "Cast_Release")
+			{
+				OnRangedAnimationFinished();
+			}
+			if (name.ToString().StartsWith("Melee", StringComparison.Ordinal))
+			{
+				OnMeleeAnimationFinished();
+			}
+		};
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -194,9 +230,15 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		ProcessInput(delta);
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
-		ProcessInput(delta);
+		base._PhysicsProcess(delta);
 		ProcessMovement(delta);
 	}
 
@@ -226,7 +268,6 @@ public partial class PlayerBody : Combatant
 		{
 			TryMelee();
 		}
-
 
 		if (Input.IsActionJustPressed("Player_Reload"))
 		{
@@ -268,26 +309,37 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
-	private HorizontalDirection lastSwingDirection = HorizontalDirection.None;
-
 	private void TryMelee()
 	{
-		ShowLeftArm();
+		if (magicCaster.IsCharging) return;
+		if (meleeAttackPlaying) return;
+		MeleeAttackStarted();
 
-		string which = lastSwingDirection switch
+		string which;
+		switch (lastSwingDirection)
 		{
-			HorizontalDirection.Left => "RightSwing",
-			HorizontalDirection.None => "LeftSwing",
-			HorizontalDirection.Right => "LeftSwing",
-			_ => ""
-		};
-		
-		armLeft.Play(which);
+			case HorizontalDirection.None:
+			case HorizontalDirection.Left:
+				which = "Melee_RightSwing";
+				lastSwingDirection = HorizontalDirection.Right;
+				break;
+			case HorizontalDirection.Right:
+				which = "Melee_LeftSwing";
+				lastSwingDirection = HorizontalDirection.Left;
+				break;
+			default:
+				which = "";
+				break;
+		}
+
+		animationPlayer.Play(which);
 	}
 
-	private void TryShoot()
+	private void MeleeAttackStarted()
 	{
-		// loadout.Shoot();
+		magicCaster.CanShoot = false;
+		MeleeAttackAllowed = false;
+		ShowLeftArm();
 	}
 
 	private void ShowLeftArm()
@@ -296,10 +348,66 @@ public partial class PlayerBody : Combatant
 		armRight.Visible = false;
 	}
 
+	private void OnMeleeAnimationFinished()
+	{
+		MeleeAttackFinished();
+		meleeResetTimer.Start();
+		ShowRightArm();
+		animationPlayer.Play("Cast_Idle");
+	}
+
+	/// <summary>
+	/// Called during the Animations, and then, as a safety net, again when the animations are over.
+	/// </summary>
+	public void MeleeAttackFinished()
+	{
+		AllowRangedAttack();
+		AllowMeleeAttack();
+	}
+
+	private void AllowRangedAttack()
+	{
+		magicCaster.CanShoot = true;
+	}
+
+	private void AllowMeleeAttack()
+	{
+		MeleeAttackAllowed = true;
+	}
+
+	public void PlayCastCharge()
+	{
+		if (meleeAttackPlaying) return;
+		ShowRightArm();
+		animationPlayer.Play("Cast_Charge");
+	}
+
 	private void ShowRightArm()
 	{
 		armLeft.Visible = false;
 		armRight.Visible = true;
+	}
+
+	public void PlayCastRelease()
+	{
+		if (!magicCaster.CanShoot) return;
+		if (meleeAttackPlaying) return;
+		animationPlayer.Play("Cast_Release");
+	}
+
+	private void OnRangedAnimationFinished()
+	{
+		AllowMeleeAttack();
+		animationPlayer.Play("Cast_Idle");
+	}
+
+	protected override void OnMeleeHitboxAreaEntered(Area3D area)
+	{
+		if (area.Owner is Enemy enemy)
+		{
+			DebugManager.Debug($"MELEE HIT: Player '{Name}' attacking Enemy for {MeleeAttackDamage} damage.");
+			enemy.TakeDamage(MeleeAttackDamage, GlobalPosition);
+		}
 	}
 
 	private void ProcessMovement(double delta)
@@ -309,8 +417,17 @@ public partial class PlayerBody : Combatant
 
 		grounded = IsOnFloor();
 
+
+		float oldY = newVelocity.Y;
+		float grav = GRAVITY * (float)delta;
 		if (!grounded)
-			newVelocity.Y -= GRAVITY * (float)delta;
+			newVelocity.Y -= grav;
+
+		if (deadNow)
+		{
+			newVelocity = newVelocity.MoveToward(Vector3.Zero, .1f) with{ Y = oldY - (grounded ? 0 : grav)};
+			return;
+		}
 
 		var hVel = Velocity.XZ();
 
@@ -518,9 +635,6 @@ public partial class PlayerBody : Combatant
 		Elythia.DebugManager.Info(
 			$"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
 	}
-
-	private Action onDeathVoiceFinished;
-	private Action onDeathSfxFinished;
 
 	public override void OnRanOutOfHealth()
 	{

@@ -12,10 +12,12 @@ Data = ExtResource("2_h832s")
 [node name="Body_AnimatedSprite3D" parent="." index="6"]
 billboard = 1
 sprite_frames = ExtResource("3_h832s")
+autoplay = ""
 
 [node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
 billboard = 1
 sprite_frames = ExtResource("4_c1i5h")
+autoplay = ""
 
 [node name="FogVolume" parent="Body_AnimatedSprite3D" index="2"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.0003054142, -2.6397312)

@@ -7,7 +7,7 @@ public partial class MagicCaster : Node
 {
 	[Export] private PackedScene projectileScene;
 	[Export] private ManaComponent manaComponent;
-	[Export] private Node3D spellOrigin;
+	[Export] private Marker3D spellOrigin;
 
 	[ExportSubgroup("Audio", "_audio")]
 	[Export] private AudioData AudioData;
@@ -31,7 +31,7 @@ public partial class MagicCaster : Node
 
 	private float currentChargeTime = 0f;
 	private Projectile chargingProjectile = null;
-	private bool isCharging = false;
+	public bool IsCharging { get; private set; } = false;
 	private int lastInterval = -1;
 	private AudioFile sfxBeep;
 	private AudioFile sfxComplete;
@@ -47,21 +47,19 @@ public partial class MagicCaster : Node
 	{
 		if (@event.IsActionPressed("Player_Shoot"))
 		{
-			isCharging = true;
 			OnPressCharge();
 		}
 		else if (@event.IsActionReleased("Player_Shoot"))
 		{
-			isCharging = false;
 			OnReleaseCharge();
 		}
 
-		SetProcess(isCharging);
+		SetProcess(IsCharging);
 	}
 
 	public override void _Process(double delta)
 	{
-		if (isCharging)
+		if (IsCharging)
 		{
 			ContinueCharge((float)delta);
 		}
@@ -69,18 +67,26 @@ public partial class MagicCaster : Node
 
 	private void OnPressCharge()
 	{
-		if (!CanShoot) return;
+		if (!CanShoot)
+		{
+			IsCharging = false;
+			return;
+		}
 		if (chargingProjectile != null || projectileScene == null || manaComponent.CurrentMana < ManaCostRange.Min)
 		{
 			return;
 		}
+
+		IsCharging = true;
+
+		PlayerBody.Instance.PlayCastCharge();
 
 		currentChargeTime = 0f;
 		lastInterval = -1;
 		chargingProjectile = projectileScene.Instantiate<Projectile>();
 
 		AudioManager.Play(audioPlayer_ChargeBack, AudioData["SpellChargeBack"]);
-		
+
 		chargingProjectile.BeginChargingProjectile(spellOrigin, SizeRange);
 	}
 
@@ -137,8 +143,11 @@ public partial class MagicCaster : Node
 	private void OnReleaseCharge()
 	{
 		if (!CanShoot) return;
-		if (chargingProjectile == null)
-			return;
+		if (chargingProjectile == null) return;
+
+		IsCharging = false;
+
+		PlayerBody.Instance.PlayCastRelease();
 
 		float intervalDuration = maxChargeTime > 0 ? maxChargeTime / chargeIntervals : 0;
 
@@ -170,7 +179,7 @@ public partial class MagicCaster : Node
 			DamageGrowthConstant = maxChargeTime,
 			AbsoluteMaxProjectileSpeed = SpeedRange.Max,
 			MaxInitialManaCost = ManaCostRange.Max,
-			StartPosition = spellOrigin.GlobalPosition,
+			StartPosition = spellOrigin,
 			SizingScale = SizeRange,
 		};
 

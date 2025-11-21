@@ -3,10 +3,11 @@ using Godot;
 
 namespace SpinalShatter;
 
-public partial class Combatant : CharacterBody3D
+public abstract partial class Combatant : CharacterBody3D
 {
     public HealthComponent HealthComponent { get; private set; }
-    private Area3D hurtbox; // Common hurtbox
+    protected Area3D hurtbox; // Common hurtbox
+    protected Area3D meleeHitbox;
 
     protected float KnockbackWeight { get; set; } = 5.0f;
     protected Vector3 knockbackVelocity = Vector3.Zero;
@@ -21,6 +22,10 @@ public partial class Combatant : CharacterBody3D
     {
         HealthComponent ??= GetNode<HealthComponent>("HealthComponent");
         hurtbox = GetNode<Area3D>("Hurtbox");
+        if (HasNode("MeleeHitbox"))
+        {
+            meleeHitbox = GetNode<Area3D>("MeleeHitbox");
+        }
     }
 
     protected virtual void ConnectEvents()
@@ -28,6 +33,11 @@ public partial class Combatant : CharacterBody3D
         HealthComponent.Hurt += OnHurt;
         HealthComponent.OutOfHealth += OnRanOutOfHealth;
         hurtbox.BodyEntered += OnHurtboxBodyEntered;
+
+        if (meleeHitbox != null)
+        {
+            meleeHitbox.AreaEntered += OnMeleeHitboxAreaEntered;
+        }
     }
 
     public virtual void OnHurtboxBodyEntered(Node3D body)
@@ -49,6 +59,9 @@ public partial class Combatant : CharacterBody3D
             projectile.ApplyManaLoss(manaLostAmount, projectile.GlobalPosition);
         }
     }
+
+    protected abstract void OnMeleeHitboxAreaEntered(Area3D area);
+
 
     public virtual float TakeDamage(float amount, Vector3 sourcePosition)
     {

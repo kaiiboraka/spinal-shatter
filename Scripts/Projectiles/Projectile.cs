@@ -183,9 +183,15 @@ public partial class Projectile : RigidBody3D
 		}
 		var parent = RoomManager.Instance;
 		parent.AddChild(this);
-		// DebugManager.Debug($"Projectile: Launch - Added to parent: {parent.Name}");
-		GlobalPosition = data.StartPosition;
-		// DebugManager.Debug($"Projectile: Launch - data.StartPosition: {data.StartPosition}, GlobalPosition after assignment: {GlobalPosition}");
+		Marker3D SpellMarker = data.StartPosition;
+
+		// OPTIONAL: Fire at center?
+		Vector3 markerPosition = SpellMarker.Position;
+		SpellMarker.Position = SpellMarker.Position with {X = 0};
+
+		GlobalPosition = SpellMarker.GlobalPosition;
+
+		SpellMarker.Position = markerPosition;
 
 		// Enable physics and launch
 		this.Freeze = false;

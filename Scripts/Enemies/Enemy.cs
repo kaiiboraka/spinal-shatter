@@ -59,15 +59,14 @@ public partial class Enemy : Combatant
 	public float AttackDamage { get; private set; } = 10f;
 
 	// Projectiles
-	public bool ProjectileIsRanged { get; private set; }
+	public bool IsRanged { get; private set; }
 	private float ProjectileSpeed { get; set; } = 20.0f;
 	private PackedScene ProjectileScene;
 
 	private Area3D DetectionArea;
 	private RayCast3D Detection_lineOfSight;
-	private Area3D Combat_meleeHitbox;
-	private Area3D Combat_hurtbox;
-	private Node3D ProjectileSpawnPoint;
+
+	private Marker3D ProjectileSpawnPoint;
 
 
 	private PlayerBody _player;
@@ -95,22 +94,21 @@ public partial class Enemy : Combatant
 			ApplyData(Data);
 		}
 
-		if (!ProjectileIsRanged && Combat_meleeHitbox != null)
-		{
-			Combat_meleeHitbox.AreaEntered += area =>
-			{
-				if (area.Owner is PlayerBody player)
-				{
-					DebugManager.Debug($"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
-					player.TakeDamage(AttackDamage, GlobalPosition);
-				}
-			};
-		}
+
 
 		EnableCollisions();
 
 		// Start patrolling
 		ChangeState(AIState.Patrolling);
+	}
+
+	protected override void OnMeleeHitboxAreaEntered(Area3D area)
+	{
+		if (area.Owner is PlayerBody player)
+		{
+			DebugManager.Debug($"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
+			player.TakeDamage(AttackDamage, GlobalPosition);
+		}
 	}
 
 
@@ -139,16 +137,11 @@ public partial class Enemy : Combatant
 		DetectionArea = GetNode<Area3D>("DetectionArea3D");
 		Detection_lineOfSight = GetNode<RayCast3D>("LOS_RayCast3D");
 
-		Combat_hurtbox = GetNode<Area3D>("Hurtbox");
-
-		if (HasNode("MeleeHitbox"))
-		{
-			Combat_meleeHitbox = GetNode<Area3D>("MeleeHitbox");
-		}
+		hurtbox = GetNode<Area3D>("Hurtbox");
 
 		if (HasNode("SpellOrigin"))
 		{
-			ProjectileSpawnPoint = GetNode<Node3D>("SpellOrigin");
+			ProjectileSpawnPoint = GetNode<Marker3D>("SpellOrigin");
 		}
 	}
 
@@ -167,6 +160,7 @@ public partial class Enemy : Combatant
 		timerWalk.Timeout += OnWalkTimerTimeout;
 		timerAction.Timeout += OnActionTimerTimeout;
 		timerPool.Timeout += Despawn;
+
 	}
 
 	private void ApplyData(EnemyData data)
@@ -193,7 +187,7 @@ public partial class Enemy : Combatant
 		AttackDamage = data.AttackDamage;
 
 		// Projectiles
-		ProjectileIsRanged = data.IsRanged;
+		IsRanged = data.IsRanged;
 		ProjectileSpeed = data.ProjectileSpeed;
 		ProjectileScene = data.ProjectileScene;
 
@@ -286,20 +280,20 @@ public partial class Enemy : Combatant
 		switch (state)
 		{
 			case AIState.Idle:
-				// animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front");
 
-				// PlayAnimationOnSprites("Front_Idle");
+				// PlayAnimationOnSprites("Front");
 				break;
 			case AIState.Patrolling:
-				// animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front");
 
-				// PlayAnimationOnSprites("Front_Idle");
+				// PlayAnimationOnSprites("Front");
 				StartWaiting();
 				break;
 			case AIState.Chasing:
-				// animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front");
 
-				// PlayAnimationOnSprites("Front_Idle");
+				// PlayAnimationOnSprites("Front");
 				break;
 			case AIState.Attacking:
 				Velocity = Vector3.Zero with { Y = Velocity.Y };
@@ -311,7 +305,7 @@ public partial class Enemy : Combatant
 				timerAttackCooldown.Start();
 				break;
 			case AIState.Recovery:
-				// animPlayer.Play("Front_Idle");
+				// animPlayer.Play("Front");
 				timerAction.WaitTime = RecoveryTime;
 				timerAction.Start();
 				break;
@@ -370,7 +364,7 @@ public partial class Enemy : Combatant
 	private void PerformAttack()
 	{
 		AudioManager.Play(AudioPlayer_Attack, (AudioFile)AudioData["Attack"]);
-		if (ProjectileIsRanged)
+		if (IsRanged)
 		{
 			DebugManager.Debug($"RANGED ATTACK: Enemy '{Name}' is firing a projectile.");
 			if (ProjectileScene == null)
@@ -386,7 +380,7 @@ public partial class Enemy : Combatant
 				Caster = this,
 				Damage = AttackDamage,
 				InitialVelocity = direction * ProjectileSpeed,
-				StartPosition = ProjectileSpawnPoint.GlobalPosition,
+				StartPosition = ProjectileSpawnPoint,
 				SizingScale = new FloatValueRange(1),
 			};
 			projectile.Launch(launchData);
@@ -568,11 +562,11 @@ public partial class Enemy : Combatant
 		bool flipH = false; // Default to not flipped
 
 		// Determine animation based on angle
-		if (angleToPlayer >= -45 && angleToPlayer <= 45) // Front cone
+		if (angleToPlayer >= -22.5 && angleToPlayer <= 22.5) // Front cone
 		{
 			// HACK: we don't have straight sprites yet.
-			animName = "Front_Idle";
-			if (angleToPlayer < -2) // Player is to enemy's front-left
+			animName = "Front";
+			if (angleToPlayer < -1) // Player is to enemy's front-left
 			{
 				flipH = true;
 			}
@@ -581,14 +575,44 @@ public partial class Enemy : Combatant
 				flipH = false;
 			}
 		}
-		else if (angleToPlayer > 45 && angleToPlayer <= 135) // Right side cone
+		else if (angleToPlayer > 22.5 && angleToPlayer <= 67.5) // Right side cone
+		{
+			animName = "Front_Diag";
+			flipH = true; // Player is to enemy's right
+		}
+		else if (angleToPlayer < -22.5 && angleToPlayer >= -67.5) // Left side cone
+		{
+			animName = "Front_Diag";
+			flipH = false; // Player is to enemy's left
+		}
+		else if (angleToPlayer > 67.5 && angleToPlayer <= 112.5) // Right side cone
 		{
 			animName = "Side";
 			flipH = true; // Player is to enemy's right
 		}
-		else if (angleToPlayer < -45 && angleToPlayer >= -135) // Left side cone
+		else if (angleToPlayer < -67.5 && angleToPlayer >= -112.5) // Left side cone
 		{
 			animName = "Side";
+			flipH = false; // Player is to enemy's left
+		}
+		else if (angleToPlayer > 112.5 && angleToPlayer <= 157.5) // Right side cone
+		{
+			animName = "Back_Diag";
+			flipH = true; // Player is to enemy's right
+		}
+		else if (angleToPlayer < -112.5 && angleToPlayer >= -157.5) // Left side cone
+		{
+			animName = "Back_Diag";
+			flipH = false; // Player is to enemy's left
+		}
+		else if (angleToPlayer > 157.5 && angleToPlayer <= 202.5) // Right side cone
+		{
+			animName = "Back";
+			flipH = true; // Player is to enemy's right
+		}
+		else if (angleToPlayer < -157.5 && angleToPlayer >= -202.5) // Left side cone
+		{
+			animName = "Back";
 			flipH = false; // Player is to enemy's left
 		}
 		else // Back cone
@@ -771,17 +795,17 @@ public partial class Enemy : Combatant
 	{
 		// Remove enemy from its physics layers, making it undetectable.
 		// this.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
-		// Combat_hurtbox.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
-		// Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
-		// Combat_hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+		// hurtbox.RemoveCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
+		// hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
+		// hurtbox.RemoveCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
 
-		Combat_hurtbox.SetDeferred("monitoring", false);
-		Combat_hurtbox.SetDeferred("monitorable", false);
+		hurtbox.SetDeferred("monitoring", false);
+		hurtbox.SetDeferred("monitorable", false);
 
-		if (Combat_meleeHitbox != null)
+		if (meleeHitbox != null)
 		{
-			Combat_meleeHitbox.SetDeferred("monitoring", false);
-			Combat_meleeHitbox.SetDeferred("monitorable", false);
+			meleeHitbox.SetDeferred("monitoring", false);
+			meleeHitbox.SetDeferred("monitorable", false);
 		}
 	}
 
@@ -790,16 +814,16 @@ public partial class Enemy : Combatant
 	{
 		// Restore enemy to its physics layers.
 		// this.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_COLLISION_NUM);
-		// Combat_hurtbox.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
-		// Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
-		// Combat_hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
-		Combat_hurtbox.SetDeferred("monitoring", true);
-		Combat_hurtbox.SetDeferred("monitorable", true);
+		// hurtbox.AddCollisionLayer3D(LayerNames.PHYSICS_3D.ENEMY_HURTBOX_NUM);
+		// hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_HITBOX_NUM);
+		// hurtbox.AddCollisionMask3D(LayerNames.PHYSICS_3D.PLAYER_PROJECTILE_NUM);
+		hurtbox.SetDeferred("monitoring", true);
+		hurtbox.SetDeferred("monitorable", true);
 
-		if (Combat_meleeHitbox != null)
+		if (meleeHitbox != null)
 		{
-			Combat_meleeHitbox.SetDeferred("monitoring", true);
-			Combat_meleeHitbox.SetDeferred("monitorable", true);
+			meleeHitbox.SetDeferred("monitoring", true);
+			meleeHitbox.SetDeferred("monitorable", true);
 		}
 	}
 

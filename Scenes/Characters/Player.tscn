@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=53 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -28,51 +28,6 @@
 [ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="24_fxftb"]
 [ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/arm_left.ase" id="24_x4yal"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
-radius = 1.0
-height = 3.0
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vnku"]
-radius = 0.6459961
-height = 2.25
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_fxftb"]
-height = 2.5
-radius = 2.0
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
-radius = 0.3
-height = 1.3
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mc0oj"]
-albedo_color = Color(0.36, 0.22896002, 0.17280002, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_fa6rm"]
-radius = 0.3
-height = 0.6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fxftb"]
-albedo_color = Color(0.68, 0.48280004, 0.48280004, 1)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1i50u"]
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7qdam"]
-points = PackedVector3Array(1.1616907, -1.2823802, 0.27702412, -1.2082909, -1.4458746, -0.25898445, -1.2151212, -1.4539682, 0.2389093, -0.48016205, 1.4319004, 0.19075207, 0.23890913, -1.4539666, -1.21512, -0.03338711, -1.4504763, 1.2359837, 0.49957368, 1.4184207, 0.1447775, -0.20982654, 1.4186915, -0.47562292, 1.0407345, -1.4312205, -0.6586909, -0.617874, -1.4395347, -1.0676142, 0.2800267, 1.4298435, -0.43480766, 0.72589105, -1.4281473, 0.9936948, 0.14477794, 1.4184247, 0.49957505, -0.6588344, -1.4310223, 1.0405921, -0.47144154, 1.3624668, -0.25161198, -0.16398561, 1.4082261, 0.49606863, 1.235998, -1.4504932, -0.03314805, 0.4961079, 1.4083401, -0.16376723, -0.97741735, -1.4387578, -0.75231206, -1.0811263, -1.4572321, 0.60392314, 0.60392356, -1.457233, -1.081127, -0.2592034, -1.4457686, -1.2082014, 0.9937187, -1.4278388, 0.72573674, 0.3297028, -1.4528315, 1.1923659, 0.36300534, 1.3165821, 0.40686384, 0.100448206, 1.3770379, -0.52099997, -0.3811146, 1.3976759, 0.36128092, -0.5232029, 1.3821213, -0.076965585, -0.3492912, -1.4440063, 1.1851952, 1.1853427, -1.4441879, -0.34885946, 0.8604311, -1.4290234, -0.8812436, 0.5585395, -1.4575499, 1.1051742)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gc10f"]
-radius = 3.0439453
-height = 9.577691
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mc0oj"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fxftb"]
-region = Rect2(0, 0, 30, 30)
-
-[sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
-font_size = 32
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
 length = 0.001
@@ -110,6 +65,296 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_qkgjm"),
 &"Siphon_Spin": SubResource("Animation_gc10f")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qdam"]
+radius = 1.0
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vnku"]
+radius = 0.6459961
+height = 2.25
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fxftb"]
+height = 2.5
+radius = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u83l5"]
+radius = 0.3
+height = 1.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mc0oj"]
+albedo_color = Color(0.36, 0.22896002, 0.17280002, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_fa6rm"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fxftb"]
+albedo_color = Color(0.68, 0.48280004, 0.48280004, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1i50u"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7qdam"]
+points = PackedVector3Array(1.1616907, -1.2823802, 0.27702412, -1.2082909, -1.4458746, -0.25898445, -1.2151212, -1.4539682, 0.2389093, -0.48016205, 1.4319004, 0.19075207, 0.23890913, -1.4539666, -1.21512, -0.03338711, -1.4504763, 1.2359837, 0.49957368, 1.4184207, 0.1447775, -0.20982654, 1.4186915, -0.47562292, 1.0407345, -1.4312205, -0.6586909, -0.617874, -1.4395347, -1.0676142, 0.2800267, 1.4298435, -0.43480766, 0.72589105, -1.4281473, 0.9936948, 0.14477794, 1.4184247, 0.49957505, -0.6588344, -1.4310223, 1.0405921, -0.47144154, 1.3624668, -0.25161198, -0.16398561, 1.4082261, 0.49606863, 1.235998, -1.4504932, -0.03314805, 0.4961079, 1.4083401, -0.16376723, -0.97741735, -1.4387578, -0.75231206, -1.0811263, -1.4572321, 0.60392314, 0.60392356, -1.457233, -1.081127, -0.2592034, -1.4457686, -1.2082014, 0.9937187, -1.4278388, 0.72573674, 0.3297028, -1.4528315, 1.1923659, 0.36300534, 1.3165821, 0.40686384, 0.100448206, 1.3770379, -0.52099997, -0.3811146, 1.3976759, 0.36128092, -0.5232029, 1.3821213, -0.076965585, -0.3492912, -1.4440063, 1.1851952, 1.1853427, -1.4441879, -0.34885946, 0.8604311, -1.4290234, -0.8812436, 0.5585395, -1.4575499, 1.1051742)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gc10f"]
+radius = 3.0439453
+height = 9.577691
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mc0oj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxftb"]
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
+font_size = 32
+
+[sub_resource type="Animation" id="Animation_2n8gu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeleeHitbox/Melee_CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_spibu"]
+length = 0.033333335
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"Cast_Charge"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_h1o3h"]
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"Cast_Release"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AllowMeleeAttack"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_m2jkf"]
+resource_name = "Cast_Idle"
+length = 0.033333335
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeHitbox/Melee_CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_fxftb"]
+resource_name = "Melee_LeftSwing"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%LeftArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"LeftSwing"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%LeftArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeHitbox/Melee_CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, true, false, false, true, true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"MeleeAttackFinished"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_x4yal"]
+resource_name = "Melee_RightSwing"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%LeftArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"RightSwing"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%LeftArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeHitbox/Melee_CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, true, false, false, true, true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"MeleeAttackFinished"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2n8gu"]
+_data = {
+&"Cast_Charge": SubResource("Animation_spibu"),
+&"Cast_Idle": SubResource("Animation_m2jkf"),
+&"Cast_Release": SubResource("Animation_h1o3h"),
+&"Melee_LeftSwing": SubResource("Animation_fxftb"),
+&"Melee_RightSwing": SubResource("Animation_x4yal"),
+&"RESET": SubResource("Animation_2n8gu")
 }
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
@@ -153,7 +398,26 @@ _siphonField = NodePath("../Head/Camera1P/SiphonField")
 _target = NodePath("../PickupArea")
 AudioStreamPlayer_Siphon = NodePath("../Audio/ManaSiphon_AudioStreamPlayer3D")
 
-[node name="ManaRegenTimer" type="Timer" parent="."]
+[node name="SiphonAnimationPlayer" type="AnimationPlayer" parent="SiphonComponent"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_qkgjm")
+}
+autoplay = "Siphon_Spin"
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="MeleeResetTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
+[node name="FootstepCooldownTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ManaRegenTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
 
 [node name="AudioListener3D" type="AudioListener3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
@@ -184,8 +448,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -2)
 collision_layer = 4096
 collision_mask = 3072
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
+[node name="Melee_CollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
 shape = SubResource("CylinderShape3D_fxftb")
+disabled = true
+debug_color = Color(0.6092612, 0.53979415, 0, 0.41960785)
 
 [node name="Mesh_Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.328861)
@@ -287,7 +554,7 @@ collide_with_areas = true
 
 [node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34480375, -0.60451174, -0.73695886)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.45, -0.737)
 
 [node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)
@@ -312,17 +579,22 @@ debug_color = Color(0.88235295, 0, 0.81960785, 0.41960785)
 
 [node name="RightArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, -0.9, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.9, -1)
+shaded = true
+texture_filter = 0
 sprite_frames = ExtResource("23_mc0oj")
-animation = &"Cast_Release"
+animation = &"Idle"
+autoplay = "Idle"
 
 [node name="LeftArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
-transform = Transform3D(0.9848077, 0.1227878, -0.1227878, 0, 0.70710677, 0.70710677, 0.17364818, -0.6963642, 0.6963642, 0, -1, -1.6)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, -1, -1)
+visible = false
+shaded = true
+texture_filter = 0
 sprite_frames = ExtResource("24_x4yal")
-animation = &"swing_twice"
-frame = 15
-frame_progress = 1.0
+animation = &"RightSwing"
+frame = 7
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -507,9 +779,8 @@ width = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_qkgjm")
+&"": SubResource("AnimationLibrary_2n8gu")
 }
-autoplay = "Siphon_Spin"
 
 [connection signal="area_entered" from="PickupArea" to="." method="OnAreaEnteredPickupArea"]
 [connection signal="body_entered" from="PickupArea" to="." method="OnPickupAreaEntered"]

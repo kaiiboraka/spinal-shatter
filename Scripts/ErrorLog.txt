@@ -1,74 +1,52 @@
 # Error
 
-E 0:00:15:194   void SpinalShatter.Enemy.PerformAttack(): System.NullReferenceException: Object reference not set to an instance of an object.
-  <C# Error>    System.NullReferenceException
-  <C# Source>   Enemy.cs:378 @ void SpinalShatter.Enemy.PerformAttack()
-  <Stack Trace> Enemy.cs:378 @ void SpinalShatter.Enemy.PerformAttack()
-				SpinalShatter.Enemy_ScriptMethods.generated.cs:271 @ bool SpinalShatter.Enemy.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
-E 0:00:44:182   void SpinalShatter.Enemy.PerformAttack(): System.NullReferenceException: Object reference not set to an instance of an object.
-  <C# Error>    System.NullReferenceException
-  <C# Source>   Enemy.cs:378 @ void SpinalShatter.Enemy.PerformAttack()
-  <Stack Trace> Enemy.cs:378 @ void SpinalShatter.Enemy.PerformAttack()
-				SpinalShatter.Enemy_ScriptMethods.generated.cs:271 @ bool SpinalShatter.Enemy.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
-E 0:01:10:109   void SpinalShatter.Enemy.PerformAttack(): System.NullReferenceException: Object reference not set to an instance of an object.
-  <C# Error>    System.NullReferenceException
-  <C# Source>   Enemy.cs:378 @ void SpinalShatter.Enemy.PerformAttack()
-  <Stack Trace> Enemy.cs:378 @ void SpinalShatter.Enemy.PerformAttack()
-				SpinalShatter.Enemy_ScriptMethods.generated.cs:271 @ bool SpinalShatter.Enemy.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				CSharpInstanceBridge.cs:24 @ Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*)
+E 0:00:02:175   get_frame_count: Animation 'Front_Idle' doesn't exist.
+  <C++ Error>   Condition "!E" is true. Returning: 0
+  <C++ Source>  scene/resources/sprite_frames.cpp:71 @ get_frame_count()
+
+E 0:00:16:521   NativeCalls.cs:3052 @ Godot.GodotObject Godot.NativeCalls.godot_icall_1_329(nint, nint, int): Animation 'Front_Idle' doesn't exist.
+  <C++ Error>   Condition "!E" is true. Returning: 0
+  <C++ Source>  scene/resources/sprite_frames.cpp:71 @ get_frame_count()
+  <Stack Trace> NativeCalls.cs:3052 @ Godot.GodotObject Godot.NativeCalls.godot_icall_1_329(nint, nint, int)
+				PackedScene.cs:130 @ Godot.Node Godot.PackedScene.Instantiate(Godot.PackedScene+GenEditState)
+				PackedSceneExtensions.cs:20 @ T Godot.PackedScene.Instantiate<T>(Godot.PackedScene+GenEditState)
+				ObjectPoolManager.cs:99 @ T ObjectPoolManager`1.Get()
+				EnemySpawner.cs:153 @ void SpinalShatter.EnemySpawner.Spawn(Godot.PackedScene)
+				EnemySpawner.cs:114 @ void SpinalShatter.EnemySpawner.OnSpawnTimerTimeout()
+				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
+				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
 
 
 # Output
 
 Embedded window only supports Windowed mode.
-[DEBUG : 3.89][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: None. Opening: West, South
-[DEBUG : 3.9][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceOpen() called.
-[DEBUG : 3.9][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
-[DEBUG : 7.1][DebugManager @ DebugManager: CanvasLayer] MELEE HIT: Enemy 'Swooper' attacking Player for 10 damage. IsActive: True
-[DEBUG : 7.1][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 10 damage from source at (0.58750975, 0.7739948, 40.448124).
-[INFO : 7.1][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=10, Direction=(0.21786681, 0.1, -0.9759785), Lift=(0, 0.1, 0), KnockbackStrength=2, KnockbackWeight=5, ResultingVelocity=(0.43573362, 0.4, -1.951957)
-[DEBUG : 8.04][DebugManager @ DebugManager: CanvasLayer] Door 'Door' PlayerClose() called. Locked: False
-[DEBUG : 9.55][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceClose() called.
-[DEBUG : 9.55][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceClose() called.
-[DEBUG : 11.99][DebugManager @ DebugManager: CanvasLayer] MELEE HIT: Enemy 'Swooper' attacking Player for 10 damage. IsActive: True
-[DEBUG : 11.99][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 10 damage from source at (-29.043121, 0.96804416, 90.614784).
-[INFO : 11.99][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=10, Direction=(0.9624654, 0.1, 0.27140468), Lift=(0, 0.1, 0), KnockbackStrength=2, KnockbackWeight=5, ResultingVelocity=(1.9249308, 0.4, 0.54280937)
-[DEBUG : 12.25][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 15.19][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 15.84][DebugManager @ DebugManager: CanvasLayer] MELEE HIT: Enemy '@CharacterBody3D@158' attacking Player for 10 damage. IsActive: True
-[DEBUG : 15.84][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 10 damage from source at (-20.206188, 0.0009996125, 82.14163).
-[INFO : 15.84][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=10, Direction=(0.9927557, 0.1, 0.12015063), Lift=(0, 0.1, 0), KnockbackStrength=2, KnockbackWeight=5, ResultingVelocity=(1.9855114, 0.4, 0.24030127)
-[DEBUG : 17.79][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 18.75][DebugManager @ DebugManager: CanvasLayer] MELEE HIT: Enemy '@CharacterBody3D@158' attacking Player for 10 damage. IsActive: True
-[DEBUG : 18.75][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 10 damage from source at (-32.767223, 0.001000074, 80.55059).
-[INFO : 18.75][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=10, Direction=(-0.9058394, 0.1, 0.42362127), Lift=(0, 0.1, 0), KnockbackStrength=2, KnockbackWeight=5, ResultingVelocity=(-1.8116788, 0.4, 0.84724253)
-Wave Cleared!
-[DEBUG : 24.76][DebugManager @ DebugManager: CanvasLayer] Door 'Door' ForceOpen() called.
-[DEBUG : 24.76][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' ForceOpen() called.
-Round 1 won! Return to Hub.
-[DEBUG : 29.14][DebugManager @ DebugManager: CanvasLayer] Door 'Door_South' PlayerClose() called. Locked: False
-[DEBUG : 29.34][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 30.64][DebugManager @ DebugManager: CanvasLayer] Selecting new doors. Last completed: South. Opening: East, West
-[DEBUG : 30.64][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceOpen() called.
-[DEBUG : 30.64][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceOpen() called.
-[DEBUG : 33.95][DebugManager @ DebugManager: CanvasLayer] Door 'Door' PlayerClose() called. Locked: False
-[DEBUG : 35.46][DebugManager @ DebugManager: CanvasLayer] Door 'Door_West' ForceClose() called.
-[DEBUG : 35.46][DebugManager @ DebugManager: CanvasLayer] Door 'Door_East' ForceClose() called.
-[DEBUG : 42.93][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Scrounger' is firing a projectile.
-[DEBUG : 44.18][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy '@CharacterBody3D@282' is firing a projectile.
-[DEBUG : 55.46][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 55.81][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 15 damage from source at (-111.31223, 1.5620762, -20.026756).
-[INFO : 55.81][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=15, Direction=(0.63475806, 0.1, -0.772711), Lift=(0, 0.1, 0), KnockbackStrength=3, KnockbackWeight=5, ResultingVelocity=(1.9042742, 0.6, -2.3181329)
-[DEBUG : 57.54][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy '@CharacterBody3D@282' is firing a projectile.
-Wave Cleared!
-[DEBUG : 70.11][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 83.36][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Zapper' is firing a projectile.
-[DEBUG : 83.62][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy '@CharacterBody3D@282' is firing a projectile.
-[DEBUG : 83.7][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Scrounger' is firing a projectile.
-[DEBUG : 84.01][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 20 damage from source at (-126.470085, 1.4692259, -30.737879).
-[INFO : 84.01][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=20, Direction=(0.83340454, 0.1, -0.55266345), Lift=(0, 0.1, 0), KnockbackStrength=4, KnockbackWeight=5, ResultingVelocity=(3.3336182, 0.8, -2.2106538)
-[DEBUG : 84.14][DebugManager @ DebugManager: CanvasLayer] PLAYER_TAKE_DAMAGE: Received 20 damage from source at (-126.60222, 1.4314468, -30.97378).
-[INFO : 84.14][DebugManager @ DebugManager: CanvasLayer] PlayerBody Knockback: Damage=20, Direction=(0.95701426, 0.1, 0.29004082), Lift=(0, 0.1, 0), KnockbackStrength=4, KnockbackWeight=5, ResultingVelocity=(3.828057, 0.8, 1.1601633)
---- Debugging process stopped ---
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
+  ERROR: (36) Animation 'Front_Idle' doesn't exist.
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs.
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs.
+  ERROR: (122) Animation 'Front_Idle' doesn't exist.
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
+  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
+  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.

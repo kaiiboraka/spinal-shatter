@@ -140,9 +140,6 @@ visible = false
 [node name="Scrapper" parent="EnemyPoolNode" instance=ExtResource("14_m8i8h")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 36.888336, 0, -0.83233833)
 
-[node name="FogVolume" parent="EnemyPoolNode/Scrapper/Body_AnimatedSprite3D" index="2"]
-size = Vector3(1, 5, 1)
-
 [node name="Swooper" parent="EnemyPoolNode" instance=ExtResource("16_ia271")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 46.42856)
 
@@ -173,5 +170,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6679564, 8.665092, -99.486
 visible = false
 shape = 4
 material = SubResource("FogMaterial_m8i8h")
-
-[editable path="EnemyPoolNode/Scrapper"]

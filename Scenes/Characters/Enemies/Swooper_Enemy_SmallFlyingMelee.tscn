@@ -12,6 +12,7 @@ Data = ExtResource("2_qnpwa")
 [node name="Body_AnimatedSprite3D" parent="." index="4"]
 billboard = 1
 sprite_frames = ExtResource("3_qnpwa")
+autoplay = ""
 
 [node name="SpotLight3D" parent="Body_AnimatedSprite3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090061545, -0.01)
@@ -19,6 +20,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090061545, -0.01)
 [node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
 billboard = 1
 sprite_frames = ExtResource("4_hlt6g")
+autoplay = ""
 
 [node name="FogVolume" parent="Body_AnimatedSprite3D" index="2"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.034944296, -2.6397312)

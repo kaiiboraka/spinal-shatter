@@ -53,6 +53,7 @@ public partial class WaveDirector : Node
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _levelLostMenuScene;
+	[Export] private PackedScene _mainMenuScene;
 
 	// --- Rewards ---
 	[ExportGroup("Rewards")]
@@ -482,12 +483,26 @@ public partial class WaveDirector : Node
 			{
 				var levelLostMenu = _levelLostMenuScene.Instantiate();
 				levelLostMenu.Name = "LevelLostMenu";
+				levelLostMenu.Connect("main_menu_pressed", Callable.From(OnMainMenuPressed));
 				PlayerBody.Instance.ControlRoot.AddChild(levelLostMenu);
 			}
 		}
 		else
 		{
 			DebugManager.Error("WaveDirector: _levelLostMenuScene is not assigned!");
+		}
+	}
+
+	private void OnMainMenuPressed()
+	{
+		GetTree().Paused = false;
+		if (_mainMenuScene != null)
+		{
+			GetNode<Node>("/root/SceneLoader").Call("load_scene", _mainMenuScene.ResourcePath);
+		}
+		else
+		{
+			DebugManager.Error("WaveDirector: _mainMenuScene is not assigned!");
 		}
 	}
 

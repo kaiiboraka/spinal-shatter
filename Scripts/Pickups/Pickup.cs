@@ -9,6 +9,9 @@ public partial class Pickup : RigidBody3D
 	[Signal] public delegate void CollectedEventHandler(Pickup particle);
 	[Signal] public delegate void ReleasedEventHandler(Pickup particle);
 
+	protected float bounceCooldown = 0;
+
+
 	public enum PickupState
 	{
 		Idle,
@@ -63,6 +66,41 @@ public partial class Pickup : RigidBody3D
 		BlinkRoutine();
 	}
 
+	override public void _PhysicsProcess(double delta)
+	{
+		if (bounceCooldown > 0)
+		{
+			bounceCooldown -= (float)delta;
+		}
+	}
+
+	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+	{
+		base._IntegrateForces(state);
+
+		if (bounceCooldown > 0)
+		{
+			return;
+		}
+
+		for (int i = 0; i < state.GetContactCount(); i++)
+		{
+			Node collider = state.GetContactColliderObject(i) as Node;
+			if (collider != null)
+			{
+				var contactLocalNormal = state.GetContactLocalNormal(i);
+				var contactLocalPosition = state.GetContactColliderPosition(i);
+
+				state.LinearVelocity = state.LinearVelocity.Bounce(contactLocalNormal)*10;
+				break;
+			}
+		}
+
+		if (CanAttract)
+		{
+			state.LinearVelocity = Velocity;
+		}
+	}
 
 
 	protected void Attract()

@@ -12,17 +12,10 @@ public partial class ManaParticle : Pickup
     public override void _IntegrateForces(PhysicsDirectBodyState3D state)
     {
         base._IntegrateForces(state);
-        if (CanAttract || (Type == PickupType.Mana && CurrentState == PickupState.Idle))
+        if (Type == PickupType.Mana && CurrentState == PickupState.Idle)
         {
             state.LinearVelocity = Velocity;
         }
-
-        // if (Type == PickupType.Money)
-        // {
-        // 	var newVel = state.LinearVelocity;
-        // 	newVel.Y -= _gravity;
-        // 	state.LinearVelocity = newVel;
-        // }
     }
 
     public override void _PhysicsProcess(double delta)

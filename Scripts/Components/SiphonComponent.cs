@@ -40,13 +40,13 @@ public partial class SiphonComponent : Node
 
 		if (@event.IsActionReleased("Player_Siphon"))
 		{
+			PlayerBody.Instance.AllowMeleeAttack();
+			PlayerBody.Instance.AllowRangedAttack();
 			_siphonPressed = false;
 			_siphonField.Visible = false;
 			_siphonField.Monitoring = false;
 			ReleaseAllPickups();
 			AudioStreamPlayer_Siphon.Stop();
-			PlayerBody.Instance.AllowMeleeAttack();
-			PlayerBody.Instance.AllowRangedAttack();
 		}
 	}
 

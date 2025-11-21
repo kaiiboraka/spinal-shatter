@@ -836,7 +836,6 @@ layers = 4
 pixel_size = 0.05
 billboard = 2
 shaded = true
-double_sided = false
 texture_filter = 0
 sprite_frames = ExtResource("9_cj65v")
 animation = &"Front"

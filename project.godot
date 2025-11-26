@@ -290,3 +290,26 @@ common/max_physics_steps_per_frame=9
 textures/canvas_textures/default_texture_filter=0
 anti_aliasing/quality/msaa_3d=2
 textures/decals/filter=0
+
+[shader_globals]
+
+diffuse_curve={
+"type": "sampler2D",
+"value": ""
+}
+specular_smoothness={
+"type": "float",
+"value": 0.05
+}
+fresnel_smoothness={
+"type": "float",
+"value": 0.05
+}
+outline_width={
+"type": "float",
+"value": 4.0
+}
+outline_color={
+"type": "color",
+"value": Color(0, 0, 0, 1)
+}

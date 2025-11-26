@@ -152,15 +152,19 @@ In addition to timer, there is also damage-taken as a "penalty" type bonus. In o
 ## The Shop
 
 Shop accessible in the central room   
-randomizes stock every time a wave is completed   
-2 permanent shop items: refill health/mana, maybe something else   
-3-5 randomized items (TBD), with the option to freeze one between rounds so you can save for something you like  
+randomizes stock every time a wave is completed
 
-meta upgrades to unlock more freezing.
+MAYBE: close the shop up after you've bought something?
 
 the more rounds you have completed, the higher the quality of shop items, including finding items at higher ranks, but at a discount.
 
 Be able to sell existing perks in your inventory, allowing you to "trade-in" for replacements
+
+### What To Buy
+
+2 permanent shop items: refill health/mana, maybe something else   
+3-5 randomized items (TBD), with the option to freeze one between rounds so you can save for something you like  
+
 
 ## Item Types
 
@@ -230,6 +234,9 @@ Up to 3 passive slots -- select them again to rank up
 "Account" progression, grows slower than boosts in-game, stacks with in-game boosts.
 
 Unsure of the design of how these are unlocked, if it's a "meta" currency, or if it's the same as Gold.
+
+meta upgrades to unlock more freezing items in the shop. Rerolls. Banish.
+
 
 ### RNG 
 

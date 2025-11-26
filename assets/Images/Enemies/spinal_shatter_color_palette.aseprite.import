@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bnt6hr8g7ybta"
+path="res://.godot/imported/spinal_shatter_color_palette.aseprite-28956c596558a3b8efab588b73ef0242.res"
+
+[deps]
+
+source_file="res://assets/Images/Enemies/spinal_shatter_color_palette.aseprite"
+dest_files=["res://.godot/imported/spinal_shatter_color_palette.aseprite-28956c596558a3b8efab588b73ef0242.res"]
+
+[params]
+

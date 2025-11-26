@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=27 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
@@ -10,15 +10,17 @@
 [ext_resource type="PackedScene" uid="uid://dk3vegspif145" path="res://Scenes/Environment/hallway.tscn" id="4_okbu8"]
 [ext_resource type="PackedScene" uid="uid://b85smra8ooe2k" path="res://Scenes/Environment/Doodads/torch_1_blue.tscn" id="4_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://ohgyrsqlspjj" path="res://Scenes/Environment/Doodads/torch_1_purple.tscn" id="5_68nw1"]
-[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Scrounger_Enemy_SmallGroundRanged.tscn" id="6_2e4mj"]
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/GRS_Scrounger.tscn" id="6_2e4mj"]
 [ext_resource type="PackedScene" uid="uid://d3vj3gq8xvyd4" path="res://Scenes/Spawners/ManaSpawner.tscn" id="6_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://dmf47bymxj2a7" path="res://Scenes/Environment/Rooms/north_room.tscn" id="7_wrgjc"]
 [ext_resource type="PackedScene" uid="uid://bvlhic3q2d6q3" path="res://Scenes/Environment/Rooms/east_room.tscn" id="8_2e4mj"]
 [ext_resource type="PackedScene" uid="uid://b3np3lbhsv241" path="res://Scenes/Environment/Rooms/south_room.tscn" id="9_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://dhqr1q132v7k4" path="res://Scenes/Environment/Rooms/west_room.tscn" id="10_68nw1"]
-[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Scrapper_Enemy_SmallGroundMelee.tscn" id="14_m8i8h"]
-[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Swooper_Enemy_SmallFlyingMelee.tscn" id="16_ia271"]
-[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Zapper_Enemy_SmallFlyingRanged.tscn" id="17_m8i8h"]
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/GMS_Scrapper.tscn" id="14_m8i8h"]
+[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/FMS_Swooper.tscn" id="16_ia271"]
+[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/FRS_Zapper.tscn" id="17_m8i8h"]
+[ext_resource type="PackedScene" uid="uid://ce3rixvfkjjko" path="res://Scenes/Characters/Enemies/GMM_Thrasher.tscn" id="20_3s80s"]
+[ext_resource type="PackedScene" uid="uid://dmnq5xbb1sguc" path="res://Scenes/Characters/Enemies/GML_Smasher.tscn" id="21_2mlx1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
 sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
@@ -170,3 +172,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6679564, 8.665092, -99.486
 visible = false
 shape = 4
 material = SubResource("FogMaterial_m8i8h")
+
+[node name="Thrasher" parent="." instance=ExtResource("20_3s80s")]
+transform = Transform3D(0.063853025, 0, -0.9979593, 0, 1, 0, 0.9979593, 0, 0.063853025, 35.260357, 0, 0.6240206)
+
+[node name="Smasher" parent="." instance=ExtResource("21_2mlx1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.0225315)

@@ -10,6 +10,8 @@ public partial class PlayerBody : Combatant
 {
 	public static PlayerBody Instance;
 
+	[Export] public PlayerData Data { get; private set; }
+
 	const float GRAVITY_MULTIPLIER = 2.00f;
 
 	public Control ControlRoot { get; private set; }
@@ -132,6 +134,11 @@ public partial class PlayerBody : Combatant
 	public override void _Ready()
 	{
 		base._Ready(); // GetComponents, ConnectEvents
+		if (Data != null)
+		{
+			HealthComponent.MaxHealth = Data.MaxHealth;
+		}
+
 		Instance = this;
 
 		parentLevel = GetParent() as Node3D;

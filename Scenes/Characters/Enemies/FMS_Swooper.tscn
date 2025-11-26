@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddskdsst6e3hl"]
+
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/GMS_Scrapper.tscn" id="1_sk0cs"]
+[ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/FMS_SwooperData.tres" id="2_ligyd"]
+[ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/Enemies/Enemy_FMS_Swooper.ase" id="3_cmlj2"]
+[ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_FMS_Swooper.ase" id="4_gy2r3"]
+
+[node name="Swooper" instance=ExtResource("1_sk0cs")]
+motion_mode = 1
+Data = ExtResource("2_ligyd")
+
+[node name="Body_AnimatedSprite3D" parent="." index="4"]
+billboard = 1
+sprite_frames = ExtResource("3_cmlj2")
+autoplay = ""
+
+[node name="SpotLight3D" parent="Body_AnimatedSprite3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090061545, -0.01)
+
+[node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+billboard = 1
+sprite_frames = ExtResource("4_gy2r3")
+autoplay = ""
+
+[node name="FogVolume" parent="Body_AnimatedSprite3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.034944296, -2.6397312)

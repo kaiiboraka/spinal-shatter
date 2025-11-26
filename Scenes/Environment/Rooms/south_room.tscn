@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://b3np3lbhsv241"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_6igdy"]
-[ext_resource type="Material" uid="uid://dm8uxtucinjau" path="res://assets/Textures/BrickWall_Fire_RoomScale.tres" id="2_6igdy"]
+[ext_resource type="Material" uid="uid://dm8uxtucinjau" path="res://assets/Materials/BrickWall_Fire_RoomScale.tres" id="2_6igdy"]
 [ext_resource type="ArrayMesh" uid="uid://7pr8vyi18640" path="res://assets/Models/Room_South.res" id="2_jhh6y"]
 [ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1_orange.tscn" id="3_jhh6y"]
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="5_3aq0b"]

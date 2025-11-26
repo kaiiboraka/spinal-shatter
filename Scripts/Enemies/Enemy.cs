@@ -175,6 +175,7 @@ public partial class Enemy : Combatant
 		MaxWaitTime = data.MaxWaitTime;
 
 		// Combat
+		HealthComponent.MaxHealth = data.MaxHealth;
 		KnockbackWeight = data.KnockbackWeight;
 
 		// Pickups

@@ -10,6 +10,7 @@ public partial class EnemyData : Resource
 	[Export] public EnemyRank Rank { get; private set; }
 	[Export] public EnemyMovementType MovementType { get; private set; }
 	[Export] public EnemyRangeType RangeType { get; private set; }
+	[Export] public EnemySizeType SizeType { get; private set; }
 
 	public bool IsFlying => MovementType == EnemyMovementType.Flying;
 	public bool IsGrounded => MovementType == EnemyMovementType.Grounded;
@@ -32,6 +33,7 @@ public partial class EnemyData : Resource
 
 	// Combat
 	[ExportCategory("Combat")]
+	[Export] public float MaxHealth { get; private set; } = 100f;
 	[ExportSubgroup("Knockback", "Knockback")]
 	[Export] public float KnockbackWeight { get; private set; } = 5f;
 

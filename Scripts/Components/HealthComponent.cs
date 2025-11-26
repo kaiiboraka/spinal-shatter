@@ -10,7 +10,7 @@ public partial class HealthComponent : Node
 
 	[Signal] public delegate void HurtEventHandler(Vector3 sourcePosition, float damage);
 
-	[Export] public float MaxHealth { get; set; } = 100f;
+	public float MaxHealth { get; set; } = 100f;
 
 	private float _currentHealth;
 

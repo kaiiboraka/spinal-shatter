@@ -70,6 +70,7 @@ public partial class Enemy : Combatant
 
 
 	private PlayerBody _player;
+	private Vector3 previousPlayerPosition;
 
 	private bool _isWalking = false;
 	private bool isDying => _currentState == AIState.Dying;
@@ -94,9 +95,7 @@ public partial class Enemy : Combatant
 			ApplyData(Data);
 		}
 
-
-
-		EnableCollisions();
+		Reset();
 
 		// Start patrolling
 		ChangeState(AIState.Patrolling);
@@ -726,7 +725,6 @@ public partial class Enemy : Combatant
 
 	public override void Reset()
 	{
-		base.Reset();
 		HealthComponent.Reset();
 		
 		// Stop all lingering timers from previous life

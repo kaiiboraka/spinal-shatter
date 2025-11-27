@@ -18,7 +18,7 @@ Max = 30
 [resource]
 script = ExtResource("4_7admv")
 Name = "Buster"
-BaseCost = 2
+BaseCost = 8
 RangeType = 1
 SizeType = 1
 AudioData = ExtResource("1_v45vi")
@@ -26,6 +26,7 @@ RecoveryTime = 2.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
 MaxWaitTime = 4.0
+MaxHealth = 500.0
 MoneyAmountToDrop = SubResource("Resource_7ld3n")
 ManaAmountToDrop = SubResource("Resource_31uqw")
 AttackRange = 50.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=31 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
@@ -21,6 +21,10 @@
 [ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/FRS_Zapper.tscn" id="17_m8i8h"]
 [ext_resource type="PackedScene" uid="uid://ce3rixvfkjjko" path="res://Scenes/Characters/Enemies/GMM_Thrasher.tscn" id="20_3s80s"]
 [ext_resource type="PackedScene" uid="uid://dmnq5xbb1sguc" path="res://Scenes/Characters/Enemies/GML_Smasher.tscn" id="21_2mlx1"]
+[ext_resource type="PackedScene" uid="uid://cf42r05uvra67" path="res://Scenes/Characters/Enemies/GRM_Buster.tscn" id="22_5eed7"]
+[ext_resource type="PackedScene" uid="uid://cvft8k6fsoi0x" path="res://Scenes/Characters/Enemies/FMM_Slicer.tscn" id="22_uauu6"]
+[ext_resource type="PackedScene" uid="uid://cxxfv2avrc3rw" path="res://Scenes/Characters/Enemies/GRL_Sorcerer.tscn" id="23_n6n2r"]
+[ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/FML_Scalper.tscn" id="23_o2f56"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
 sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
@@ -142,14 +146,41 @@ visible = false
 [node name="Scrounger" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
 
-[node name="Scrapper" parent="EnemyPoolNode" instance=ExtResource("14_m8i8h")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 36.888336, 0, -0.83233833)
+[node name="Smasher" parent="EnemyPoolNode" instance=ExtResource("21_2mlx1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -125.50182)
 
-[node name="Swooper" parent="EnemyPoolNode" instance=ExtResource("16_ia271")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 46.42856)
+[node name="Buster" parent="EnemyPoolNode" instance=ExtResource("22_5eed7")]
+transform = Transform3D(-0.87881714, 0, 0.47715873, 0, 1, 0, -0.47715873, 0, -0.87881714, 25.382347, 0, -112.98555)
+
+[node name="Scrapper" parent="EnemyPoolNode" instance=ExtResource("14_m8i8h")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 54.579865, 0, -0.83233833)
+
+[node name="Buster2" parent="EnemyPoolNode" instance=ExtResource("22_5eed7")]
+transform = Transform3D(0.977497, 0, -0.21094948, 0, 1, 0, 0.21094948, 0, 0.977497, 57.661125, 3.8146973e-06, 46.235527)
+
+[node name="Thrasher2" parent="EnemyPoolNode" instance=ExtResource("20_3s80s")]
+transform = Transform3D(-0.039678335, 0, 0.9992125, 0, 1, 0, -0.9992125, 0, -0.039678335, 102.16173, 0, -34.973495)
+
+[node name="Sorcerer" parent="EnemyPoolNode" instance=ExtResource("23_n6n2r")]
+transform = Transform3D(0.28876445, 0, 0.9574002, 0, 1, 0, -0.9574002, 0, 0.28876445, 86.02106, 0, 13.864075)
 
 [node name="Zapper" parent="EnemyPoolNode" instance=ExtResource("17_m8i8h")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -44.39151, 0, 0)
+transform = Transform3D(0.0041191024, 0, -0.99999154, 0, 1, 0, 0.99999154, 0, 0.0041191024, -56.406277, 0, 0)
+
+[node name="Slicer" parent="EnemyPoolNode" instance=ExtResource("22_uauu6")]
+transform = Transform3D(0.22372648, 0, -0.974652, 0, 1, 0, 0.974652, 0, 0.22372648, -125.62857, 0, 32.730183)
+
+[node name="Scalper" parent="EnemyPoolNode" instance=ExtResource("23_o2f56")]
+transform = Transform3D(-0.009232672, 0, -0.9999574, 0, 1, 0, 0.9999574, 0, -0.009232672, -95.534996, 0, 0)
+
+[node name="Swooper" parent="EnemyPoolNode" instance=ExtResource("16_ia271")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 61.045696)
+
+[node name="Thrasher" parent="EnemyPoolNode" instance=ExtResource("20_3s80s")]
+transform = Transform3D(0.18530653, 0, 0.9826808, 0, 1, 0, -0.9826808, 0, 0.18530653, 56.050823, 0, 114.73494)
+
+[node name="Slicer2" parent="EnemyPoolNode" instance=ExtResource("22_uauu6")]
+transform = Transform3D(-0.4223493, 0, -0.90643317, 0, 1, 0, 0.90643317, 0, -0.4223493, -82.32031, 0, 80.25745)
 
 [node name="Player" parent="." instance=ExtResource("2_amuju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
@@ -172,9 +203,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6679564, 8.665092, -99.486
 visible = false
 shape = 4
 material = SubResource("FogMaterial_m8i8h")
-
-[node name="Thrasher" parent="." instance=ExtResource("20_3s80s")]
-transform = Transform3D(0.063853025, 0, -0.9979593, 0, 1, 0, 0.9979593, 0, 0.063853025, 35.260357, 0, 0.6240206)
-
-[node name="Smasher" parent="." instance=ExtResource("21_2mlx1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.0225315)

@@ -18,7 +18,7 @@ Max = 30
 [resource]
 script = ExtResource("4_tu3e2")
 Name = "Sorcerer"
-BaseCost = 2
+BaseCost = 12
 RangeType = 1
 SizeType = 2
 AudioData = ExtResource("1_opjoe")
@@ -26,6 +26,7 @@ RecoveryTime = 2.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
 MaxWaitTime = 4.0
+MaxHealth = 700.0
 MoneyAmountToDrop = SubResource("Resource_7ld3n")
 ManaAmountToDrop = SubResource("Resource_31uqw")
 AttackRange = 50.0

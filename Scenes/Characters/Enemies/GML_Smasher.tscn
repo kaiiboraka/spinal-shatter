@@ -721,7 +721,7 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [node name="StateSprite3D" parent="." instance=ExtResource("6_hga8c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.3, 0)
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.15, 0)
@@ -762,7 +762,7 @@ autoplay = "Front"
 
 [node name="FogVolume" type="FogVolume" parent="Body_AnimatedSprite3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.1580381, -2.64)
+transform = Transform3D(1, 0, 0, 0, -0.08715577, 0.9961947, 0, -0.9961947, -0.08715577, 0, 0.8999238, -2.64)
 size = Vector3(1, 5, 1)
 shape = 0
 material = SubResource("FogMaterial_e7lyv")

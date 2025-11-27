@@ -17,7 +17,7 @@ Max = 20
 [resource]
 script = ExtResource("3_jeo2d")
 Name = "Thrasher"
-BaseCost = 5
+BaseCost = 6
 SizeType = 1
 AudioData = ExtResource("1_2wqhb")
 WalkSpeed = 10.0
@@ -25,6 +25,7 @@ MinWalkTime = 3.0
 MaxWalkTime = 10.0
 MinWaitTime = 2.0
 MaxWaitTime = 3.0
+MaxHealth = 350.0
 MoneyAmountToDrop = SubResource("Resource_tn01f")
 ManaAmountToDrop = SubResource("Resource_esb67")
 AttackRange = 3.0

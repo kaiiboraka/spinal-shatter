@@ -1,29 +1,29 @@
-[gd_scene load_steps=23 format=3 uid="uid://ce3rixvfkjjko"]
+[gd_scene load_steps=23 format=3 uid="uid://cvft8k6fsoi0x"]
 
-[ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_5f5xd"]
-[ext_resource type="Resource" uid="uid://bsa11e7usrada" path="res://assets/Resources/EnemyData/GMM_ThrasherData.tres" id="2_5f5xd"]
-[ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_kw3gx"]
-[ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_1syk4"]
-[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="5_lob6v"]
-[ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="6_4r4pb"]
-[ext_resource type="SpriteFrames" uid="uid://cj4btnytpq1ao" path="res://assets/Images/Enemies/Enemy_GMM_Thrasher.ase" id="7_5f5xd"]
-[ext_resource type="SpriteFrames" uid="uid://bcj4ebfkx2uby" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_GMM_Thrasher.ase" id="8_5f5xd"]
+[ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_ajvli"]
+[ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/FMS_SwooperData.tres" id="2_8g6u1"]
+[ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_yp8no"]
+[ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_yorgg"]
+[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="5_rjwuj"]
+[ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="6_1d5cp"]
+[ext_resource type="SpriteFrames" uid="uid://bttlnnjpnyvrf" path="res://assets/Images/Enemies/Enemy_FMM_Slicer.ase" id="7_ktwg2"]
+[ext_resource type="SpriteFrames" uid="uid://dtq4fp3lj53yg" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_FMM_Slicer.ase" id="8_ajvli"]
 
-[sub_resource type="FogMaterial" id="FogMaterial_5f5xd"]
+[sub_resource type="FogMaterial" id="FogMaterial_ajvli"]
 albedo = Color(0.735357, 0.735357, 0.735357, 1)
 emission = Color(0.62, 0.22320001, 0.28271988, 1)
 edge_fade = 2.2627404
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5f5xd"]
-radius = 1.3408203
-height = 3.4263916
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ajvli"]
+radius = 1.6591797
+height = 4.5118713
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3nwgj"]
-size = Vector3(2.5, 3, 2)
+size = Vector3(3.5, 4, 3.5)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0m4p"]
-radius = 1.3408203
-height = 3.4263916
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yp8no"]
+radius = 1.6591797
+height = 4.5118713
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3nwgj"]
 height = 6.0
@@ -683,19 +683,20 @@ _data = {
 &"Side": SubResource("Animation_nql3o")
 }
 
-[node name="Thrasher" type="CharacterBody3D" groups=["Enemies"]]
+[node name="Slicer" type="CharacterBody3D" groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
+motion_mode = 1
 floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
-script = ExtResource("1_5f5xd")
-Data = ExtResource("2_5f5xd")
-_deathParticlesScene = ExtResource("3_kw3gx")
+script = ExtResource("1_ajvli")
+Data = ExtResource("2_8g6u1")
+_deathParticlesScene = ExtResource("3_yp8no")
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("4_1syk4")
+script = ExtResource("4_yorgg")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -717,27 +718,26 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
-[node name="HealthBar" parent="." instance=ExtResource("5_lob6v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
+[node name="HealthBar" parent="." instance=ExtResource("5_rjwuj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3, 0)
 
-[node name="StateSprite3D" parent="." instance=ExtResource("6_4r4pb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, 0)
+[node name="StateSprite3D" parent="." instance=ExtResource("6_1d5cp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, 0)
 
 [node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 layers = 4
 pixel_size = 0.05
-billboard = 2
+billboard = 1
 shaded = true
 double_sided = false
 texture_filter = 0
-sprite_frames = ExtResource("7_5f5xd")
+sprite_frames = ExtResource("7_ktwg2")
 animation = &"Front"
-autoplay = "Front"
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.01)
 light_color = Color(0.93, 0.44640002, 0.5270002, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 20.0
@@ -752,42 +752,42 @@ spot_angle = 25.0
 layers = 5
 modulate = Color(18.892157, 18.892157, 18.892157, 1)
 pixel_size = 0.05
-billboard = 2
+billboard = 1
 double_sided = false
 texture_filter = 0
 render_priority = 2
-sprite_frames = ExtResource("8_5f5xd")
+sprite_frames = ExtResource("8_ajvli")
 animation = &"Front"
-autoplay = "Front"
 
 [node name="FogVolume" type="FogVolume" parent="Body_AnimatedSprite3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5755254, -2.6397312)
+transform = Transform3D(1, 0, 0, 0, -0.08715577, 0.9961947, 0, -0.9961947, -0.08715577, 0, 1.3076854, -2.6397312)
 size = Vector3(1, 5, 1)
 shape = 0
-material = SubResource("FogMaterial_5f5xd")
+material = SubResource("FogMaterial_ajvli")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.731, 0)
-shape = SubResource("CapsuleShape3D_5f5xd")
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 2.35, 0)
+shape = SubResource("CapsuleShape3D_ajvli")
 
 [node name="MeleeHitbox" type="Area3D" parent="."]
 collision_layer = 16384
 collision_mask = 2
 
 [node name="MeleeCollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9999634, -1.75)
 shape = SubResource("BoxShape3D_3nwgj")
 disabled = true
 debug_color = Color(1, 0.5498417, 0.3978175, 0.41960785)
 
 [node name="Hurtbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
 collision_layer = 2048
 collision_mask = 12288
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.731, 0)
-shape = SubResource("CapsuleShape3D_s0m4p")
+transform = Transform3D(-4.3711385e-08, -1, 0, 0.99999994, -4.371139e-08, 0, 0, 0, 0.99999994, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_yp8no")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 
 [node name="DetectionArea3D" type="Area3D" parent="."]

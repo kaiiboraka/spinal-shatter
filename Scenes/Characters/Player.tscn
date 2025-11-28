@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=55 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -29,6 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="24_fxftb"]
 [ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/Player/arm_left.ase" id="24_x4yal"]
+[ext_resource type="Texture2D" uid="uid://brunehtlo2ssg" path="res://assets/Images/Pickups/Coins_Spin.png" id="29_2n8gu"]
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
 length = 0.001
@@ -108,6 +109,7 @@ height = 9.577691
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fxftb"]
+atlas = ExtResource("29_2n8gu")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
@@ -784,6 +786,11 @@ width = 2.0
 libraries = {
 &"": SubResource("AnimationLibrary_2n8gu")
 }
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3028629, 1.5452808)
+light_color = Color(1, 0.7965, 0.63, 1)
+light_energy = 0.7
 
 [connection signal="area_entered" from="PickupArea" to="." method="OnAreaEnteredPickupArea"]
 [connection signal="body_entered" from="PickupArea" to="." method="OnPickupAreaEntered"]

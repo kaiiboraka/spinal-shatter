@@ -17,7 +17,7 @@ Max = 20
 [resource]
 script = ExtResource("3_jeo2d")
 Name = "Thrasher"
-BaseCost = 6
+BaseCost = 8
 SizeType = 1
 AudioData = ExtResource("1_2wqhb")
 WalkSpeed = 10.0

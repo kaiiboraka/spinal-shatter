@@ -61,6 +61,7 @@ emission = Color(1, 0, 0, 1)
 edge_fade = 0.18025006
 
 [node name="LevelRoot" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73.4189, 0, 0)
 
 [node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_lf5qn")

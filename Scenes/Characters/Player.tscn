@@ -429,6 +429,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 doppler_tracking = 2
 current = true
 
+[node name="Backlight_OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3028629, 1.6992154)
+light_color = Color(1, 0.8, 0.96999997, 1)
+light_energy = 0.7
+
 [node name="PickupArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.208, 0.181)
 collision_layer = 131072
@@ -786,11 +791,6 @@ width = 2.0
 libraries = {
 &"": SubResource("AnimationLibrary_2n8gu")
 }
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3028629, 1.5452808)
-light_color = Color(1, 0.7965, 0.63, 1)
-light_energy = 0.7
 
 [connection signal="area_entered" from="PickupArea" to="." method="OnAreaEnteredPickupArea"]
 [connection signal="body_entered" from="PickupArea" to="." method="OnPickupAreaEntered"]

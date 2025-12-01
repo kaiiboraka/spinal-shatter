@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://co0alxcihhghx"
+path="res://.godot/imported/Enemy_FRM_Courser.ase-1a643852c052f2291e1663b36b724835.res"
+
+[deps]
+
+source_file="res://assets/Images/Enemies/Enemy_FRM_Courser.ase"
+dest_files=["res://.godot/imported/Enemy_FRM_Courser.ase-1a643852c052f2291e1663b36b724835.res"]
+
+[params]
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=32 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://cvft8k6fsoi0x" path="res://Scenes/Characters/Enemies/FMM_Slicer.tscn" id="22_uauu6"]
 [ext_resource type="PackedScene" uid="uid://cxxfv2avrc3rw" path="res://Scenes/Characters/Enemies/GRL_Sorcerer.tscn" id="23_n6n2r"]
 [ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/FML_Scalper.tscn" id="23_o2f56"]
+[ext_resource type="PackedScene" uid="uid://dcq14qm4pbq8o" path="res://Scenes/Environment/shop_cart.tscn" id="26_o2f56"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
 sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
@@ -61,7 +62,6 @@ emission = Color(1, 0, 0, 1)
 edge_fade = 0.18025006
 
 [node name="LevelRoot" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73.4189, 0, 0)
 
 [node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_lf5qn")
@@ -204,3 +204,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6679564, 8.665092, -99.486
 visible = false
 shape = 4
 material = SubResource("FogMaterial_m8i8h")
+
+[node name="ShopCart" parent="." instance=ExtResource("26_o2f56")]
+transform = Transform3D(0.736168, 0, 0.6767989, 0, 1, 0, -0.6767989, 0, 0.736168, -4.594806, -4.7683716e-07, 3.980397)

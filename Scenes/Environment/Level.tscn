@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://cvft8k6fsoi0x" path="res://Scenes/Characters/Enemies/FMM_Slicer.tscn" id="22_uauu6"]
 [ext_resource type="PackedScene" uid="uid://cxxfv2avrc3rw" path="res://Scenes/Characters/Enemies/GRL_Sorcerer.tscn" id="23_n6n2r"]
 [ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/FML_Scalper.tscn" id="23_o2f56"]
-[ext_resource type="PackedScene" uid="uid://dcq14qm4pbq8o" path="res://Scenes/Environment/shop_cart.tscn" id="26_o2f56"]
+[ext_resource type="PackedScene" uid="uid://dcq14qm4pbq8o" path="res://Scenes/Environment/ShopCart.tscn" id="26_o2f56"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ubqhk"]
 sky_top_color = Color(0.0692225, 0.07088467, 0.17199999, 1)
@@ -190,7 +190,7 @@ MAX_SPRINT_SPEED = 24.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 physics_interpolation_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6592422, 4.168207)
+transform = Transform3D(-0.6767989, 0, 0.73616797, 0, 1, 0, -0.73616797, 0, -0.6767989, -3.6653802, 2.1412072, 2.4567409)
 fov = 80.0
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]

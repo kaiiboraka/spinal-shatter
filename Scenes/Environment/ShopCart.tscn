@@ -1,7 +1,71 @@
-[gd_scene load_steps=16 format=4 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=18 format=4 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_7no42"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_5al2w"]
+[ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
+
+[sub_resource type="Animation" id="Animation_1rpi7"]
+resource_name = "CLOSED"
+length = 0.03333667
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_5al2w"]
+resource_name = "Close"
+length = 1.0000033
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0.866, 0.5, 1.0000033, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_7no42"]
+resource_name = "OPENED"
+length = 0.03333667
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0.866, 0.5)
+
+[sub_resource type="Animation" id="Animation_fwblo"]
+resource_name = "Open"
+length = 1.0000033
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0.866, 0.5)
+
+[sub_resource type="Animation" id="Animation_n4t4n"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7no42"]
+_data = {
+&"CLOSED": SubResource("Animation_1rpi7"),
+&"Close": SubResource("Animation_5al2w"),
+&"OPENED": SubResource("Animation_7no42"),
+&"Open": SubResource("Animation_fwblo"),
+&"RESET": SubResource("Animation_n4t4n")
+}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fhonk"]
 resource_name = "standardSurface1"
@@ -76,76 +140,26 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_am14w")
 
-[sub_resource type="Animation" id="Animation_1rpi7"]
-resource_name = "CLOSED"
-length = 0.03333667
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_n4t4n"]
-length = 0.001
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_7no42"]
-resource_name = "OPEN"
-length = 0.03333667
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0.866, 0.5)
-
-[sub_resource type="Animation" id="Animation_5al2w"]
-resource_name = "Close"
-length = 1.0000033
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
-tracks/0/interp = 2
-tracks/0/loop_wrap = false
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0.866, 0.5, 1.0000033, 1, 0, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_fwblo"]
-resource_name = "Open"
-length = 1.0000033
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cart/Skeleton3D:windowBone")
-tracks/0/interp = 2
-tracks/0/loop_wrap = false
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0.866, 0.5)
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7no42"]
-_data = {
-&"CLOSED": SubResource("Animation_1rpi7"),
-&"Close": SubResource("Animation_5al2w"),
-&"OPEN": SubResource("Animation_7no42"),
-&"Open": SubResource("Animation_fwblo"),
-&"RESET": SubResource("Animation_n4t4n")
-}
-
 [sub_resource type="Resource" id="Resource_fwblo"]
 script = ExtResource("2_5al2w")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7no42"]
-size = Vector3(3, 4, 3)
+size = Vector3(3.5, 4, 4)
 
-[node name="ShopCart" type="Node3D"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ari88"]
+points = PackedVector3Array(-0.96280456, -1.8742062, -2.0021682, -1.0295177, 1.6709348, -2.3790913, -0.96280456, -1.8375146, -2.2345772, 0.9626031, -1.8742062, -2.0021682, -0.96280456, -1.8742062, 0.6842854, -1.0295177, 1.7369796, -2.3790913, -0.96280456, -1.1220286, -2.7543967, -0.96280456, -1.3546534, -2.7177289, -0.96280456, -1.5641623, -2.610961, -0.96280456, -1.7307421, -2.4443383, -1.0295177, 1.6709348, -0.038285494, 0.9626031, -1.8375146, -2.2345772, 1.0295177, 1.6709348, -2.3790913, 0.9626031, -1.8742062, 0.6842854, -0.96280456, -1.8470544, 0.85630035, 0, 1.8742062, -2.3790913, -1.0295177, 1.7369796, -0.038285494, -0.00020158291, 1.8742062, -0.038285494, 0.9626031, -1.1220286, -2.7543967, 0.9626031, -1.3546534, -2.7177289, 0.9626031, -1.5641623, -2.610961, 0.9626031, -1.7307421, -2.4443383, -0.96280456, -1.7681675, 1.0115991, -0.96280456, -1.6448838, 1.1345439, -0.96280456, -1.4896784, 1.2132719, -0.96280456, -1.3179617, 1.2407727, 1.0295177, 1.7369796, -2.3790913, 1.0293162, 1.6709348, -0.038285494, 0.9626031, -1.8470544, 0.85630035, -0.64778185, -1.1334031, 2.7473867, -0.96280456, -1.1458782, 1.2132719, -0.8952853, 1.0214938, 1.1620448, -0.10299206, 1.4412454, 1.1620448, 0, 1.4878439, 1.1620448, 1.0293162, 1.7369796, -0.038285494, -0.64778185, -1.0343359, 2.7543967, 0.9626031, -1.3179617, 1.2407727, 0.9626031, -1.4896784, 1.2132719, 0.9626031, -1.6448838, 1.1345439, 0.9626031, -1.7681675, 1.0115991, 0.64758027, -1.1334031, 2.7473867, -0.545596, -1.0314004, 2.7543967, 0.5453944, -1.0314004, 2.7543967, 0.64758027, -1.0343359, 2.7543967, 0.102790475, 1.4412454, 1.1620448, 0.89528537, 1.0214938, 1.1620448, 0.9626031, -1.1458782, 1.2132719)
+
+[node name="ShopCart" type="StaticBody3D"]
+collision_layer = 8
+script = ExtResource("3_yvf2d")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7no42")
+}
+autoplay = "CLOSED"
+next/Close = &"CLOSED"
+next/Open = &"OPENED"
 
 [node name="Cart" type="Node3D" parent="."]
 
@@ -174,19 +188,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4543533e-05, 1.8742064, 0.
 mesh = SubResource("ArrayMesh_xe08j")
 skeleton = NodePath("")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_7no42")
-}
-
 [node name="PhantomCamera3D" type="Node3D" parent="."]
 transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 1.7154224, 2.1412077, -0.49263242)
 script = ExtResource("1_7no42")
 tween_resource = SubResource("Resource_fwblo")
 metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="InteractionArea3D" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 33
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2, -0.5)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 2, -0.5)
 shape = SubResource("BoxShape3D_7no42")
+debug_color = Color(0.023333311, 0.7, 0, 0.41960785)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4543533e-05, 1.8742064, 0.60809636)
+shape = SubResource("ConvexPolygonShape3D_ari88")

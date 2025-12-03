@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://mwg4h6blopfe"
+uid="uid://cap45j2rdssjh"
 path="res://.godot/imported/shop_cart.fbx-6e5f5b8734889f7f431eb4b91e472d50.scn"
 
 [deps]
@@ -14,7 +14,7 @@ dest_files=["res://.godot/imported/shop_cart.fbx-6e5f5b8734889f7f431eb4b91e472d5
 [params]
 
 nodes/root_type=""
-nodes/root_name="ShopCart"
+nodes/root_name=""
 nodes/root_script=null
 nodes/apply_root_scale=true
 nodes/root_scale=100.0
@@ -37,7 +37,343 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"meshes": {
+"B_Axle": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_Axle.res",
+"save_to_file/path": "uid://whg8xh0mhpic"
+},
+"B_L_hub": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_hub.res",
+"save_to_file/path": "uid://pde2ocj7bd1q"
+},
+"B_L_spoke1": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_spoke1.res",
+"save_to_file/path": "uid://5lcicjl1gl56"
+},
+"B_L_spoke2": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_spoke2.res",
+"save_to_file/path": "uid://datgd3555w5im"
+},
+"B_L_spoke3": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_spoke3.res",
+"save_to_file/path": "uid://l4xhwkrj8s2t"
+},
+"B_L_spoke4": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_spoke4.res",
+"save_to_file/path": "uid://df4edm2slwnkt"
+},
+"B_L_spoke5": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_spoke5.res",
+"save_to_file/path": "uid://bhoxlvt1vfakl"
+},
+"B_L_tire": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_L_tire.res",
+"save_to_file/path": "uid://8byubo2hogvx"
+},
+"B_R_hub": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_hub.res",
+"save_to_file/path": "uid://brlusiorubebi"
+},
+"B_R_spoke1": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_spoke1.res",
+"save_to_file/path": "uid://bpq416l4p2iiu"
+},
+"B_R_spoke2": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_spoke2.res",
+"save_to_file/path": "uid://bxbmh6ev13gyr"
+},
+"B_R_spoke3": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_spoke3.res",
+"save_to_file/path": "uid://cev216egfdobd"
+},
+"B_R_spoke4": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_spoke4.res",
+"save_to_file/path": "uid://doiroyawgvcgk"
+},
+"B_R_spoke5": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_spoke5.res",
+"save_to_file/path": "uid://dgqklwhxiaey5"
+},
+"B_R_tire": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/B_R_tire.res",
+"save_to_file/path": "uid://dofo4l0syk56n"
+},
+"F_Axle": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_Axle.res",
+"save_to_file/path": "uid://d235blpfl00a8"
+},
+"F_L_hub": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_hub.res",
+"save_to_file/path": "uid://uf2qc7iqkoj7"
+},
+"F_L_spoke1": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_spoke1.res",
+"save_to_file/path": "uid://bet7qp8if4ar5"
+},
+"F_L_spoke2": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_spoke2.res",
+"save_to_file/path": "uid://1g81cppqi3un"
+},
+"F_L_spoke3": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_spoke3.res",
+"save_to_file/path": "uid://d2nb5y3gmmkt1"
+},
+"F_L_spoke4": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_spoke4.res",
+"save_to_file/path": "uid://d4khi57iw236v"
+},
+"F_L_spoke5": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_spoke5.res",
+"save_to_file/path": "uid://nde68n0pe4kf"
+},
+"F_L_tire": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_L_tire.res",
+"save_to_file/path": "uid://dlabqt6a0ry7a"
+},
+"F_R_hub": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_hub.res",
+"save_to_file/path": "uid://bxcmqi6yu4kos"
+},
+"F_R_spoke1": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_spoke1.res",
+"save_to_file/path": "uid://b7mkirgyomqyy"
+},
+"F_R_spoke2": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_spoke2.res",
+"save_to_file/path": "uid://hpeykpg52i8p"
+},
+"F_R_spoke3": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_spoke3.res",
+"save_to_file/path": "uid://8egduf4r5gam"
+},
+"F_R_spoke4": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_spoke4.res",
+"save_to_file/path": "uid://byg41181u5oro"
+},
+"F_R_spoke5": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_spoke5.res",
+"save_to_file/path": "uid://b30m6yagcd4x6"
+},
+"F_R_tire": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/F_R_tire.res",
+"save_to_file/path": "uid://dee5yxaoff3ya"
+},
+"WindowMesh": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/WindowMesh.res",
+"save_to_file/path": "uid://m2fltupgyafp"
+},
+"axleBeam": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/axleBeam.res",
+"save_to_file/path": "uid://c7fwalyugtku3"
+},
+"bench": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/bench.res",
+"save_to_file/path": "uid://bdrshls8fajo5"
+},
+"cartBody": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/cartBody.res",
+"save_to_file/path": "uid://bndw35x4a2w2l"
+},
+"frontRoof": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/frontRoof.res",
+"save_to_file/path": "uid://cdxcams4chmr4"
+},
+"topRoof": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/topRoof.res",
+"save_to_file/path": "uid://bpbj6epctpg5k"
+},
+"windowFrame": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/Models/Meshes/ShopCart/windowFrame.res",
+"save_to_file/path": "uid://c6on7b4s1dmqh"
+}
+}
+}
 fbx/importer=0
 fbx/allow_geometry_helper_nodes=false
 fbx/embedded_image_handling=1

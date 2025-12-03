@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ShopItemData" load_steps=3 format=3 uid="uid://dxc5ea3x15lm7"]
+
+[ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Player/fireball_icon.ase" id="1_k28ul"]
+[ext_resource type="Script" uid="uid://7g5ims23nlbu" path="res://Scripts/Resources/ShopItemData.cs" id="2_uwb62"]
+
+[resource]
+script = ExtResource("2_uwb62")
+ItemIcon = ExtResource("1_k28ul")
+Price = 100
+Rarity = 0.5
+metadata/_custom_type_script = "uid://7g5ims23nlbu"

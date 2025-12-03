@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=53 format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_7no42"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_5al2w"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
 [ext_resource type="ArrayMesh" uid="uid://bkuejmdwnpelb" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
 [ext_resource type="ArrayMesh" uid="uid://3ornpl7wp88" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
-[ext_resource type="ArrayMesh" uid="uid://cb0tamghqvxwq" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
+[ext_resource type="ArrayMesh" uid="uid://28gjadilp1cl" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
 [ext_resource type="ArrayMesh" uid="uid://jpkm2py113b" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
 [ext_resource type="ArrayMesh" uid="uid://dfqgwpnq38whj" path="res://assets/Models/Meshes/ShopCart/B_L_tire.res" id="8_h8aqa"]
 [ext_resource type="ArrayMesh" uid="uid://bxd45a2jot7ep" path="res://assets/Models/Meshes/ShopCart/B_L_hub.res" id="9_vl8pd"]
@@ -39,7 +39,9 @@
 [ext_resource type="ArrayMesh" uid="uid://bk3qgp4likpyk" path="res://assets/Models/Meshes/ShopCart/F_R_spoke4.res" id="35_kahuv"]
 [ext_resource type="ArrayMesh" uid="uid://i5ldenkp26rr" path="res://assets/Models/Meshes/ShopCart/F_R_spoke5.res" id="36_u2w7n"]
 [ext_resource type="ArrayMesh" uid="uid://bwwad7k4qjfaa" path="res://assets/Models/Meshes/ShopCart/F_R_tire.res" id="37_rxwen"]
+[ext_resource type="PackedScene" uid="uid://br75cxlvledda" path="res://Scenes/Pickups/ShopItem.tscn" id="38_n3hp2"]
 [ext_resource type="ArrayMesh" uid="uid://f38uyyaywikm" path="res://assets/Models/Meshes/ShopCart/WindowMesh.res" id="38_tmch4"]
+[ext_resource type="PackedScene" uid="uid://cw27vjulupk2q" path="res://Scenes/Environment/Doodads/Candle.tscn" id="38_vne43"]
 
 [sub_resource type="Animation" id="Animation_1rpi7"]
 resource_name = "CLOSED"
@@ -124,7 +126,6 @@ points = PackedVector3Array(-0.96280456, -1.8742062, -2.0021682, -1.0295177, 1.6
 script = ExtResource("2_5al2w")
 
 [node name="ShopCart" type="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0, 0)
 collision_layer = 8
 script = ExtResource("3_yvf2d")
 
@@ -136,7 +137,35 @@ autoplay = "CLOSED"
 next/Close = &"CLOSED"
 next/Open = &"OPENED"
 
+[node name="ShopArea" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023074627, 1.3401018, -0.57591766)
+
+[node name="ShopSlot1" type="Marker3D" parent="ShopArea"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="ShopItem" parent="ShopArea/ShopSlot1" instance=ExtResource("38_n3hp2")]
+
+[node name="ShopSlot2" type="Marker3D" parent="ShopArea"]
+unique_name_in_owner = true
+
+[node name="ShopItem" parent="ShopArea/ShopSlot2" instance=ExtResource("38_n3hp2")]
+
+[node name="ShopSlot3" type="Marker3D" parent="ShopArea"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="ShopItem" parent="ShopArea/ShopSlot3" instance=ExtResource("38_n3hp2")]
+
+[node name="Candle" parent="ShopArea" instance=ExtResource("38_vne43")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.39957488, 0, -0.7298743)
+
+[node name="Candle2" parent="ShopArea" instance=ExtResource("38_vne43")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, 0.73)
+
 [node name="Cart" type="Node3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Cart"]
 bones/0/name = "root"
@@ -155,6 +184,7 @@ bones/1/rotation = Quaternion(0, 0, 0, 1)
 bones/1/scale = Vector3(1, 1, 1)
 
 [node name="Body" type="Node3D" parent="Cart/Skeleton3D"]
+transform = Transform3D(1, 0, 0, 0, 0.95, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="axleBeam" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("6_q2n4r")
@@ -364,7 +394,7 @@ shape = SubResource("BoxShape3D_ari88")
 debug_color = Color(0.023333311, 0.7, 0, 0.41960785)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4543533e-05, 1.8742064, 0.60809636)
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 1.603, 0.608)
 shape = SubResource("ConvexPolygonShape3D_3geqn")
 
 [node name="PhantomCamera3D" type="Node3D" parent="."]

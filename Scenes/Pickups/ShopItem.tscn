@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://br75cxlvledda"]
+
+[ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
+[ext_resource type="Resource" uid="uid://dxc5ea3x15lm7" path="res://assets/Resources/ShopItemData/ShopItem_Fireball.tres" id="2_kbhn7"]
+[ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Player/fireball_icon.ase" id="3_tktbk"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
+top_radius = 0.1
+bottom_radius = 0.15
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8ncj"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.01
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7jw3"]
+next_pass = SubResource("StandardMaterial3D_r8ncj")
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.43, 0.38184002, 0.3698, 1)
+metallic = 1.0
+roughness = 0.95
+texture_filter = 0
+stencil_mode = 1
+stencil_flags = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_r8ncj"]
+viewport_path = NodePath("SubViewport")
+
+[node name="ShopItem" type="Node3D"]
+script = ExtResource("1_tktbk")
+Data = ExtResource("2_kbhn7")
+
+[node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("CylinderMesh_67lmo")
+surface_material_override/0 = SubResource("StandardMaterial3D_q7jw3")
+
+[node name="ItemSprite_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+billboard = 1
+texture_filter = 0
+render_priority = 1
+sprite_frames = ExtResource("3_tktbk")
+
+[node name="PriceLabel_Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+billboard = 1
+texture_filter = 0
+texture = SubResource("ViewportTexture_r8ncj")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(200, 24)
+
+[node name="Price_RichTextLabel" type="RichTextLabel" parent="SubViewport"]
+unique_name_in_owner = true
+clip_contents = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -89.5
+offset_right = 89.5
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+bbcode_enabled = true
+text = "[center]$100[/center]"
+fit_content = true
+scroll_active = false
+autowrap_trim_flags = 0
+shortcut_keys_enabled = false

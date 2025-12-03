@@ -25,6 +25,7 @@ IsFixed = true
 gi_mode = 2
 modulate = Color(0.43, 0.6865002, 1, 1)
 billboard = 1
+texture_filter = 0
 sprite_frames = ExtResource("5_ou870")
 autoplay = "default"
 

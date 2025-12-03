@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_ne2ld"]
 [ext_resource type="Material" uid="uid://uektliug0kmc" path="res://assets/Materials/BrickWall_Shadow_RoomScale.tres" id="2_ne2ld"]
-[ext_resource type="ArrayMesh" uid="uid://oj2ig7gydt52" path="res://assets/Models/Room_East.res" id="2_nq17l"]
+[ext_resource type="ArrayMesh" uid="uid://oj2ig7gydt52" path="res://assets/Models/Meshes/Room_East.res" id="2_nq17l"]
 [ext_resource type="PackedScene" uid="uid://ohgyrsqlspjj" path="res://Scenes/Environment/Doodads/torch_1_purple.tscn" id="3_nq17l"]
 [ext_resource type="PackedScene" uid="uid://3qks0y7n1ats" path="res://Scenes/Spawners/EnemySpawner.tscn" id="5_gc8yr"]
 [ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="6_8c6rd"]

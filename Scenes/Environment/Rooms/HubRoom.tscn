@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://0ngmpcu0p57w"]
 
-[ext_resource type="ArrayMesh" uid="uid://danfgn12phtev" path="res://assets/Models/CentralRoom.res" id="1_5frwb"]
+[ext_resource type="ArrayMesh" uid="uid://danfgn12phtev" path="res://assets/Models/Meshes/CentralRoom.res" id="1_5frwb"]
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_ogqk4"]
 [ext_resource type="PackedScene" uid="uid://cs86u5irxi628" path="res://Scenes/Environment/Doodads/Door_green.tscn" id="3_4qgch"]
 [ext_resource type="PackedScene" uid="uid://civa5ud2fn8dx" path="res://Scenes/Environment/Doodads/Door_Purple.tscn" id="4_yl1hc"]

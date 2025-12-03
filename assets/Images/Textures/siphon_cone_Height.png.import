@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3o463bhbcifq"
-path="res://.godot/imported/siphon_cone_AO_Roughness_Metal.png-0404eb377621274a4560b5edbe2ba819.ctex"
+uid="uid://qntfo2kqn6lb"
+path="res://.godot/imported/siphon_cone_Height.png-32f5aa6628c3f01a403dad7acd61a14b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Materials/siphon_cone_AO_Roughness_Metal.png"
-dest_files=["res://.godot/imported/siphon_cone_AO_Roughness_Metal.png-0404eb377621274a4560b5edbe2ba819.ctex"]
+source_file="res://assets/Images/Textures/siphon_cone_Height.png"
+dest_files=["res://.godot/imported/siphon_cone_Height.png-32f5aa6628c3f01a403dad7acd61a14b.ctex"]
 
 [params]
 

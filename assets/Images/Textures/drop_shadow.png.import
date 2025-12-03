@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chttikrkhvol7"
-path="res://.godot/imported/siphon_cone_BaseColor.png-ae80ec28e02dd339fcb8ddc88143f1ee.ctex"
+uid="uid://ddhsdsnfsgrje"
+path="res://.godot/imported/drop_shadow.png-5676519d528504e77ad435088e8d8be3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Materials/siphon_cone_BaseColor.png"
-dest_files=["res://.godot/imported/siphon_cone_BaseColor.png-ae80ec28e02dd339fcb8ddc88143f1ee.ctex"]
+source_file="res://assets/Images/Textures/drop_shadow.png"
+dest_files=["res://.godot/imported/drop_shadow.png-5676519d528504e77ad435088e8d8be3.ctex"]
 
 [params]
 

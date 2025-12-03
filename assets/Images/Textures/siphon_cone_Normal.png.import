@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4p4vneftd06d"
-path="res://.godot/imported/siphon_cone_Normal.png-b83251c0e594e9f3ed2dc2d4f21afb22.ctex"
+path="res://.godot/imported/siphon_cone_Normal.png-b22004fe7815c4b409b90073166f9589.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Materials/siphon_cone_Normal.png"
-dest_files=["res://.godot/imported/siphon_cone_Normal.png-b83251c0e594e9f3ed2dc2d4f21afb22.ctex"]
+source_file="res://assets/Images/Textures/siphon_cone_Normal.png"
+dest_files=["res://.godot/imported/siphon_cone_Normal.png-b22004fe7815c4b409b90073166f9589.ctex"]
 
 [params]
 

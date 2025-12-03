@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq57o8t5kpgln"
-path="res://.godot/imported/shopCart_Metallic.png-1cf98fe835f76587525c333af8cd4876.ctex"
+uid="uid://dyspbs7r63psv"
+path="res://.godot/imported/shopCart_Roughness.png-4f606b36f25e369e62a03977105965ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Materials/shopCart_Metallic.png"
-dest_files=["res://.godot/imported/shopCart_Metallic.png-1cf98fe835f76587525c333af8cd4876.ctex"]
+source_file="res://assets/Images/Textures/shopCart_Roughness.png"
+dest_files=["res://.godot/imported/shopCart_Roughness.png-4f606b36f25e369e62a03977105965ec.ctex"]
 
 [params]
 

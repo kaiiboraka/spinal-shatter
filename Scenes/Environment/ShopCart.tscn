@@ -2,44 +2,44 @@
 
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_7no42"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_5al2w"]
-[ext_resource type="ArrayMesh" uid="uid://bdrshls8fajo5" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
-[ext_resource type="ArrayMesh" uid="uid://cdxcams4chmr4" path="res://assets/Models/Meshes/ShopCart/frontRoof.res" id="3_me00m"]
+[ext_resource type="ArrayMesh" uid="uid://cxp4fjjvknq78" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
+[ext_resource type="ArrayMesh" uid="uid://b6dqfus0ah7tq" path="res://assets/Models/Meshes/ShopCart/frontRoof.res" id="3_me00m"]
 [ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
-[ext_resource type="ArrayMesh" uid="uid://bpbj6epctpg5k" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
-[ext_resource type="ArrayMesh" uid="uid://c6on7b4s1dmqh" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
-[ext_resource type="ArrayMesh" uid="uid://c7fwalyugtku3" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
-[ext_resource type="ArrayMesh" uid="uid://bndw35x4a2w2l" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
-[ext_resource type="ArrayMesh" uid="uid://8byubo2hogvx" path="res://assets/Models/Meshes/ShopCart/B_L_tire.res" id="8_h8aqa"]
-[ext_resource type="ArrayMesh" uid="uid://pde2ocj7bd1q" path="res://assets/Models/Meshes/ShopCart/B_L_hub.res" id="9_vl8pd"]
+[ext_resource type="ArrayMesh" uid="uid://b4p6pr0vjqqce" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
+[ext_resource type="ArrayMesh" uid="uid://421ypg1jvkdo" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
+[ext_resource type="ArrayMesh" uid="uid://cb0tamghqvxwq" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
+[ext_resource type="ArrayMesh" uid="uid://bhmg7wlmyeqbj" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
+[ext_resource type="ArrayMesh" uid="uid://bvamom1fue8l6" path="res://assets/Models/Meshes/ShopCart/B_L_tire.res" id="8_h8aqa"]
+[ext_resource type="ArrayMesh" uid="uid://dn6lmuyk0o5et" path="res://assets/Models/Meshes/ShopCart/B_L_hub.res" id="9_vl8pd"]
 [ext_resource type="ArrayMesh" uid="uid://c3a77uaw1w3gc" path="res://assets/Models/Meshes/ShopCart/B_L_spoke1.res" id="10_x26tn"]
-[ext_resource type="ArrayMesh" uid="uid://whg8xh0mhpic" path="res://assets/Models/Meshes/ShopCart/B_Axle.res" id="11_igiu0"]
-[ext_resource type="ArrayMesh" uid="uid://bky3xpoo4j1u4" path="res://assets/Models/Meshes/ShopCart/B_L_spoke2.res" id="11_vne43"]
-[ext_resource type="ArrayMesh" uid="uid://b7hrh784wg3s" path="res://assets/Models/Meshes/ShopCart/B_L_spoke3.res" id="12_n3hp2"]
+[ext_resource type="ArrayMesh" uid="uid://c86xkokhksrlf" path="res://assets/Models/Meshes/ShopCart/B_Axle.res" id="11_igiu0"]
+[ext_resource type="ArrayMesh" uid="uid://brscd8ncd6db1" path="res://assets/Models/Meshes/ShopCart/B_L_spoke2.res" id="11_vne43"]
+[ext_resource type="ArrayMesh" uid="uid://bt308w2favw70" path="res://assets/Models/Meshes/ShopCart/B_L_spoke3.res" id="12_n3hp2"]
 [ext_resource type="ArrayMesh" uid="uid://c7vid2rwgsdbi" path="res://assets/Models/Meshes/ShopCart/B_L_spoke4.res" id="13_bprx7"]
-[ext_resource type="ArrayMesh" uid="uid://ddjso4guuta3r" path="res://assets/Models/Meshes/ShopCart/B_L_spoke5.res" id="14_khf6c"]
-[ext_resource type="ArrayMesh" uid="uid://bjjbws6eoji60" path="res://assets/Models/Meshes/ShopCart/B_R_hub.res" id="16_fdvy6"]
+[ext_resource type="ArrayMesh" uid="uid://chpp4mehpi6iw" path="res://assets/Models/Meshes/ShopCart/B_L_spoke5.res" id="14_khf6c"]
+[ext_resource type="ArrayMesh" uid="uid://k8t3tfmeygha" path="res://assets/Models/Meshes/ShopCart/B_R_hub.res" id="16_fdvy6"]
 [ext_resource type="ArrayMesh" uid="uid://3ix8bnxm8d3k" path="res://assets/Models/Meshes/ShopCart/B_R_spoke1.res" id="17_5is20"]
-[ext_resource type="ArrayMesh" uid="uid://crrme8rc37d6o" path="res://assets/Models/Meshes/ShopCart/B_R_spoke2.res" id="18_e3k0l"]
-[ext_resource type="ArrayMesh" uid="uid://cev216egfdobd" path="res://assets/Models/Meshes/ShopCart/B_R_spoke3.res" id="19_f1cjk"]
-[ext_resource type="ArrayMesh" uid="uid://b7j1olbentxh0" path="res://assets/Models/Meshes/ShopCart/B_R_spoke4.res" id="20_c7h3p"]
-[ext_resource type="ArrayMesh" uid="uid://5r6wf8wbsdyu" path="res://assets/Models/Meshes/ShopCart/B_R_spoke5.res" id="21_b2bg0"]
-[ext_resource type="ArrayMesh" uid="uid://bnmx7m50me834" path="res://assets/Models/Meshes/ShopCart/B_R_tire.res" id="22_5l8hn"]
-[ext_resource type="ArrayMesh" uid="uid://d235blpfl00a8" path="res://assets/Models/Meshes/ShopCart/F_Axle.res" id="23_hrk02"]
-[ext_resource type="ArrayMesh" uid="uid://uf2qc7iqkoj7" path="res://assets/Models/Meshes/ShopCart/F_L_hub.res" id="24_5nusp"]
-[ext_resource type="ArrayMesh" uid="uid://r810k2p6jkjq" path="res://assets/Models/Meshes/ShopCart/F_L_spoke1.res" id="25_eqvh7"]
-[ext_resource type="ArrayMesh" uid="uid://u2h6josep5yl" path="res://assets/Models/Meshes/ShopCart/F_L_spoke2.res" id="26_6aomr"]
-[ext_resource type="ArrayMesh" uid="uid://qvbqdwb48bbs" path="res://assets/Models/Meshes/ShopCart/F_L_spoke3.res" id="27_b1usu"]
-[ext_resource type="ArrayMesh" uid="uid://qeqlq8xl5f2" path="res://assets/Models/Meshes/ShopCart/F_L_spoke4.res" id="28_6av7n"]
+[ext_resource type="ArrayMesh" uid="uid://c7267jca54gcc" path="res://assets/Models/Meshes/ShopCart/B_R_spoke2.res" id="18_e3k0l"]
+[ext_resource type="ArrayMesh" uid="uid://cw8rpvy3hood3" path="res://assets/Models/Meshes/ShopCart/B_R_spoke3.res" id="19_f1cjk"]
+[ext_resource type="ArrayMesh" uid="uid://cnq7fd81bq4hf" path="res://assets/Models/Meshes/ShopCart/B_R_spoke4.res" id="20_c7h3p"]
+[ext_resource type="ArrayMesh" uid="uid://cydrmsgiwaqdn" path="res://assets/Models/Meshes/ShopCart/B_R_spoke5.res" id="21_b2bg0"]
+[ext_resource type="ArrayMesh" uid="uid://cynudb4l7jba1" path="res://assets/Models/Meshes/ShopCart/B_R_tire.res" id="22_5l8hn"]
+[ext_resource type="ArrayMesh" uid="uid://becysy0735ngy" path="res://assets/Models/Meshes/ShopCart/F_Axle.res" id="23_hrk02"]
+[ext_resource type="ArrayMesh" uid="uid://c2jdewemljslt" path="res://assets/Models/Meshes/ShopCart/F_L_hub.res" id="24_5nusp"]
+[ext_resource type="ArrayMesh" uid="uid://dheuq4r3p755u" path="res://assets/Models/Meshes/ShopCart/F_L_spoke1.res" id="25_eqvh7"]
+[ext_resource type="ArrayMesh" uid="uid://d1mpbciuqtgii" path="res://assets/Models/Meshes/ShopCart/F_L_spoke2.res" id="26_6aomr"]
+[ext_resource type="ArrayMesh" uid="uid://dc0te4dlkqkl0" path="res://assets/Models/Meshes/ShopCart/F_L_spoke3.res" id="27_b1usu"]
+[ext_resource type="ArrayMesh" uid="uid://dad36yhooco43" path="res://assets/Models/Meshes/ShopCart/F_L_spoke4.res" id="28_6av7n"]
 [ext_resource type="ArrayMesh" uid="uid://b0e10bl5nxnwu" path="res://assets/Models/Meshes/ShopCart/F_L_spoke5.res" id="29_s3st6"]
-[ext_resource type="ArrayMesh" uid="uid://b6b1g7x853mmo" path="res://assets/Models/Meshes/ShopCart/F_L_tire.res" id="30_l8svm"]
-[ext_resource type="ArrayMesh" uid="uid://diw0euai4mpa6" path="res://assets/Models/Meshes/ShopCart/F_R_hub.res" id="31_yuxyn"]
+[ext_resource type="ArrayMesh" uid="uid://ibdqr2txkqx8" path="res://assets/Models/Meshes/ShopCart/F_L_tire.res" id="30_l8svm"]
+[ext_resource type="ArrayMesh" uid="uid://b5d41tnqv4pkq" path="res://assets/Models/Meshes/ShopCart/F_R_hub.res" id="31_yuxyn"]
 [ext_resource type="ArrayMesh" uid="uid://b1mbppcla78e1" path="res://assets/Models/Meshes/ShopCart/F_R_spoke1.res" id="32_gfalg"]
-[ext_resource type="ArrayMesh" uid="uid://dqexgg2drky5" path="res://assets/Models/Meshes/ShopCart/F_R_spoke2.res" id="33_xfax0"]
-[ext_resource type="ArrayMesh" uid="uid://ioyv2nihwguc" path="res://assets/Models/Meshes/ShopCart/F_R_spoke3.res" id="34_y544c"]
-[ext_resource type="ArrayMesh" uid="uid://idfhktmmvuck" path="res://assets/Models/Meshes/ShopCart/F_R_spoke4.res" id="35_kahuv"]
-[ext_resource type="ArrayMesh" uid="uid://cdtjes8umoih6" path="res://assets/Models/Meshes/ShopCart/F_R_spoke5.res" id="36_u2w7n"]
-[ext_resource type="ArrayMesh" uid="uid://cto2mkch6m6tg" path="res://assets/Models/Meshes/ShopCart/F_R_tire.res" id="37_rxwen"]
-[ext_resource type="ArrayMesh" uid="uid://m2fltupgyafp" path="res://assets/Models/Meshes/ShopCart/WindowMesh.res" id="38_tmch4"]
+[ext_resource type="ArrayMesh" uid="uid://mbshh4o4h6g1" path="res://assets/Models/Meshes/ShopCart/F_R_spoke2.res" id="33_xfax0"]
+[ext_resource type="ArrayMesh" uid="uid://dvcd8fc7h0hs4" path="res://assets/Models/Meshes/ShopCart/F_R_spoke3.res" id="34_y544c"]
+[ext_resource type="ArrayMesh" uid="uid://dlc3cen6w6mdc" path="res://assets/Models/Meshes/ShopCart/F_R_spoke4.res" id="35_kahuv"]
+[ext_resource type="ArrayMesh" uid="uid://dn37ohmpfbyk7" path="res://assets/Models/Meshes/ShopCart/F_R_spoke5.res" id="36_u2w7n"]
+[ext_resource type="ArrayMesh" uid="uid://dfe80ora4kpjx" path="res://assets/Models/Meshes/ShopCart/F_R_tire.res" id="37_rxwen"]
+[ext_resource type="ArrayMesh" uid="uid://c5wykirirwkaw" path="res://assets/Models/Meshes/ShopCart/WindowMesh.res" id="38_tmch4"]
 
 [sub_resource type="Animation" id="Animation_1rpi7"]
 resource_name = "CLOSED"
@@ -104,7 +104,7 @@ _data = {
 &"RESET": SubResource("Animation_n4t4n")
 }
 
-[sub_resource type="Skin" id="Skin_24wts"]
+[sub_resource type="Skin" id="Skin_x26tn"]
 resource_name = "Skin"
 bind_count = 2
 bind/0/name = &"root"
@@ -157,32 +157,32 @@ bones/1/scale = Vector3(1, 1, 1)
 
 [node name="axleBeam" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("6_q2n4r")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../..")
 
 [node name="bench" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("2_dxthx")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../..")
 
 [node name="cartBody" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("7_ej1mt")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../..")
 
 [node name="frontRoof" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("3_me00m")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../..")
 
 [node name="topRoof" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("4_call2")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../..")
 
 [node name="windowFrame" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
 mesh = ExtResource("5_u4mxo")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../..")
 
 [node name="Wheels" type="Node3D" parent="Cart/Skeleton3D"]
@@ -191,167 +191,167 @@ skeleton = NodePath("../..")
 
 [node name="B_Axle" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels"]
 mesh = ExtResource("11_igiu0")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../..")
 
 [node name="B_LeftWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/BackWheels"]
 
 [node name="B_L_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("9_vl8pd")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("10_x26tn")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("11_vne43")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("12_n3hp2")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("13_bprx7")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("14_khf6c")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
 mesh = ExtResource("8_h8aqa")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_RightWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/BackWheels"]
 
 [node name="B_R_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("16_fdvy6")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("17_5is20")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("18_e3k0l")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("19_f1cjk")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("20_c7h3p")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("21_b2bg0")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
 mesh = ExtResource("22_5l8hn")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="FrontWheels" type="Node3D" parent="Cart/Skeleton3D/Wheels"]
 
 [node name="F_Axle" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels"]
 mesh = ExtResource("23_hrk02")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../..")
 
 [node name="F_LeftWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/FrontWheels"]
 
 [node name="F_L_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("24_5nusp")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("25_eqvh7")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("26_6aomr")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("27_b1usu")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("28_6av7n")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("29_s3st6")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
 mesh = ExtResource("30_l8svm")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_RightWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/FrontWheels"]
 
 [node name="F_R_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("31_yuxyn")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("32_gfalg")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("33_xfax0")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("34_y544c")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("35_kahuv")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("36_u2w7n")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
 mesh = ExtResource("37_rxwen")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 skeleton = NodePath("../../../..")
 
 [node name="WindowMesh" type="MeshInstance3D" parent="Cart/Skeleton3D"]
 mesh = ExtResource("38_tmch4")
-skin = SubResource("Skin_24wts")
+skin = SubResource("Skin_x26tn")
 
 [node name="InteractionArea3D" type="Area3D" parent="."]
 collision_layer = 64

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bprwy6ljr1i42"]
 
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_7y15q"]
-[ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Materials/spark.png" id="2_7y15q"]
+[ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_7y15q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m71ty"]
 transparency = 1

@@ -1,25 +1,7 @@
-using Godot;
-using Elythia;
-
 namespace SpinalShatter;
 
-public enum PrimaryFireType
-{
-	ChargedProjectile,
-	// Future types
-	// ContinuousBeam,
-	// MeleeArc
-}
-
-public enum AltFireType
-{
-	None,
-	// Future types
-	// Explode,
-	// DefensiveShield,
-	// ProjectileNova
-}
-
+using Godot;
+using Elythia;
 
 [GlobalClass]
 public partial class SpellData : Resource
@@ -29,19 +11,19 @@ public partial class SpellData : Resource
 	[Export(PropertyHint.MultilineText)]
 	public string Description { get; private set; }
 
-	[ExportGroup("Primary Fire")]
-	[Export] public PrimaryFireType PrimaryFire { get; private set; } = PrimaryFireType.ChargedProjectile;
+	[ExportGroup("Weapon Properties")]
+	[Export] public WeaponType Weapon { get; private set; }
 	[Export] public float MaxChargeTime { get; private set; } = 2.0f;
 	[Export(PropertyHint.Range, "1,16,1")] public int ChargeIntervals { get; private set; } = 8;
 	[Export] public FloatValueRange ManaCostRange { get; private set; }
+	[Export] public IntValueRange ManaDroppedAmount { get; private set; }
 	[Export] public FloatValueRange DamageRange { get; private set; }
 	[Export] public FloatValueRange SpeedRange { get; private set; }
 	[Export] public FloatValueRange SizeRange { get; private set; }
 	[Export] public PackedScene ProjectileScene { get; private set; }
 	[Export] public bool UsePlayerMomentum { get; private set; } = false;
-
-	[ExportGroup("Alternate Fire")]
-	[Export] public AltFireType AltFire { get; private set; } = AltFireType.None;
+	
+	[ExportGroup("Alt-Fire Properties")]
 	[Export] public float AltFireManaCost { get; private set; } = 10f;
 	[Export] public PackedScene AltFireProjectileScene { get; private set; }
 

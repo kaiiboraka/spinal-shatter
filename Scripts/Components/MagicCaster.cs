@@ -1,8 +1,8 @@
+namespace SpinalShatter;
+
 using Godot;
 using Elythia;
 using System;
-
-namespace SpinalShatter;
 
 public partial class MagicCaster : Node
 {
@@ -49,7 +49,6 @@ public partial class MagicCaster : Node
 	{
 		if (EquippedSpell == null || !CanShoot) return;
 
-		// State-based input handling
 		switch (_currentState)
 		{
 			case CasterState.Idle:
@@ -99,7 +98,8 @@ public partial class MagicCaster : Node
 
 		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)EquippedSpell.AudioData["SpellChargeBack"]);
 
-		chargingProjectile.BeginChargingProjectile(spellOrigin, EquippedSpell.SizeRange);
+		// Pass the FloatValueRange to BeginChargingProjectile to be used by Projectile.ApplyChargeAndTypeEffects
+		chargingProjectile.BeginChargingProjectile(spellOrigin, EquippedSpell);
 	}
 
 	private void ContinueCharge(float delta)
@@ -124,16 +124,15 @@ public partial class MagicCaster : Node
 		if (currentInterval != lastInterval)
 		{
 			lastInterval = currentInterval;
-			float chargeRatio = EquippedSpell.ChargeIntervals > 0 ? (float)currentInterval / EquippedSpell.ChargeIntervals : 0;
-			float size = Mathf.Lerp(0.1f, 1.2f, chargeRatio);
-			sfxBeep.PitchScale = size * 4 / 6f;
+			float chargeRatio = GetCurrentChargeRatio();
+			
+			sfxBeep.PitchScale = Mathf.Lerp(0.5f, 1.5f, chargeRatio);
 
 			if (currentInterval >= 1)
 			{
 				AudioManager.Play(audioPlayer_ChargeBeep, sfxBeep);
 			}
-			chargingProjectile.Charge = chargeRatio;
-			chargingProjectile.UpdateChargeState();
+			chargingProjectile.UpdateChargeAmount(chargeRatio);
 
 			if (chargeRatio >= 1.0f)
 			{
@@ -146,22 +145,12 @@ public partial class MagicCaster : Node
 	private void FirePrimary()
 	{
 		if (chargingProjectile == null) return;
-
-		switch (EquippedSpell.PrimaryFire)
-		{
-			case PrimaryFireType.ChargedProjectile:
-				FireChargedProjectile();
-				break;
-			default:
-				GD.PrintErr($"Primary fire type '{EquippedSpell.PrimaryFire}' not implemented.");
-				CancelCharge();
-				break;
-		}
+		FireWeapon(SlotType.Primary, EquippedSpell.ProjectileScene, chargingProjectile);
 	}
 
 	private void FireAltFire()
 	{
-		if (chargingProjectile == null || EquippedSpell.AltFireProjectileScene == null)
+		if (EquippedSpell.AltFireProjectileScene == null)
 		{
 			CancelCharge();
 			return;
@@ -169,32 +158,12 @@ public partial class MagicCaster : Node
 
 		if (!manaComponent.HasEnoughMana(EquippedSpell.AltFireManaCost))
 		{
-			// Maybe play an "out of mana" sound
 			CancelCharge();
 			return;
 		}
 		
-		float chargeRatio = GetCurrentChargeRatio();
-
-		// TODO: Create specific launch data for alt-fire if its params differ
-		ProjectileLaunchData launchData = new ProjectileLaunchData
-		{
-			Caster = PlayerBody.Instance,
-			Damage = Mathf.Lerp(EquippedSpell.DamageRange.Min, EquippedSpell.DamageRange.Max, chargeRatio), // Example scaling
-			ManaCost = EquippedSpell.AltFireManaCost,
-			InitialVelocity = CalculateInitialVelocity(EquippedSpell.SpeedRange.Max), // Example: always max speed
-			ChargeRatio = chargeRatio,
-			StartPosition = spellOrigin,
-			// Other params might be different for alt-fire
-		};
-
 		var altProjectile = EquippedSpell.AltFireProjectileScene.Instantiate<Projectile>();
-		altProjectile.Launch(launchData);
-		manaComponent.ConsumeMana(launchData.ManaCost);
-
-		// Clean up the original charging projectile
-		chargingProjectile.QueueFree();
-		ResetChargeState();
+		FireWeapon(SlotType.Alt, EquippedSpell.AltFireProjectileScene, altProjectile);
 	}
 
 	private float GetCurrentChargeRatio()
@@ -207,41 +176,44 @@ public partial class MagicCaster : Node
 		return (float)intervalsCharged / EquippedSpell.ChargeIntervals;
 	}
 
-
-	private void FireChargedProjectile()
+	private void FireWeapon(SlotType slotType, PackedScene projectileScene, Projectile projectileInstance)
 	{
 		PlayerBody.Instance.PlayCastRelease();
 
 		float chargeRatio = GetCurrentChargeRatio();
-		float manaCost = Mathf.Lerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, chargeRatio);
+		
+		float manaCost = (slotType == SlotType.Primary)
+			? Mathf.Lerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, chargeRatio)
+			: EquippedSpell.AltFireManaCost;
 
 		if (!manaComponent.HasEnoughMana(manaCost))
 		{
 			CancelCharge();
 			return;
 		}
+		
+		Vector3 initialVelocity = CalculateInitialVelocity(Mathf.Lerp(EquippedSpell.SpeedRange.Min, EquippedSpell.SpeedRange.Max, chargeRatio));
 
-		float damage = Mathf.Lerp(EquippedSpell.DamageRange.Min, EquippedSpell.DamageRange.Max, chargeRatio);
-		float speed = Mathf.Lerp(EquippedSpell.SpeedRange.Min, EquippedSpell.SpeedRange.Max, chargeRatio);
-
-		Vector3 initialVelocity = CalculateInitialVelocity(speed);
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{
 			Caster = PlayerBody.Instance,
-			Damage = damage,
 			ManaCost = manaCost,
 			InitialVelocity = initialVelocity,
 			ChargeRatio = chargeRatio,
-			DamageGrowthConstant = EquippedSpell.MaxChargeTime,
-			AbsoluteMaxProjectileSpeed = EquippedSpell.SpeedRange.Max,
-			MaxInitialManaCost = EquippedSpell.ManaCostRange.Max,
 			StartPosition = spellOrigin,
-			SizingScale = EquippedSpell.SizeRange,
+			SpellData = EquippedSpell,
+			Slot = slotType
 		};
 
 		audioPlayer_Spell.Play();
-		chargingProjectile.Launch(launchData);
+		projectileInstance.Launch(launchData);
+		
 		manaComponent.ConsumeMana(manaCost);
+		
+		if (slotType == SlotType.Alt && chargingProjectile != null)
+		{
+			chargingProjectile.QueueFree();
+		}
 		ResetChargeState();
 	}
 

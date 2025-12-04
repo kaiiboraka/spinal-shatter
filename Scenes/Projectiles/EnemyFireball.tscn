@@ -41,7 +41,7 @@ shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/color_ramp = SubResource("GradientTexture1D_n73rh")
 shader_parameter/curve = SubResource("CurveTexture_t0yl1")
 shader_parameter/emmission_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-shader_parameter/flags = 44
+shader_parameter/flags = 4
 
 [sub_resource type="QuadMesh" id="QuadMesh_tb8va"]
 material = SubResource("ShaderMaterial_xcs8j")
@@ -81,7 +81,9 @@ bus = &"SFX"
 doppler_tracking = 2
 
 [node name="GPUTrail3D" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0.1)
+visible = false
 amount = 60
 lifetime = 60.0
 explosiveness = 1.0

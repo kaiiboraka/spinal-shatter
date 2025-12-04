@@ -15,6 +15,7 @@ public partial class Enemy : Combatant
 
 	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
+	[Export] public SpellData EnemySpellData { get; private set; }
 
 	private AnimationPlayer animPlayer;
 
@@ -105,7 +106,8 @@ public partial class Enemy : Combatant
 	{
 		if (area.Owner is PlayerBody player)
 		{
-			DebugManager.Debug($"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
+			DebugManager.Debug(
+				$"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
 			player.TakeDamage(AttackDamage, GlobalPosition);
 		}
 	}
@@ -159,7 +161,6 @@ public partial class Enemy : Combatant
 		timerWalk.Timeout += OnWalkTimerTimeout;
 		timerAction.Timeout += OnActionTimerTimeout;
 		timerPool.Timeout += Despawn;
-
 	}
 
 	private void ApplyData(EnemyData data)
@@ -378,13 +379,13 @@ public partial class Enemy : Combatant
 			var launchData = new ProjectileLaunchData
 			{
 				Caster = this,
-				Damage = AttackDamage,
 				InitialVelocity = direction * ProjectileSpeed,
 				StartPosition = ProjectileSpawnPoint,
-				SizingScale = new FloatValueRange(1),
+				SpellData = EnemySpellData
 			};
 			projectile.Launch(launchData);
 		}
+
 		// Melee attack logic (handled by animation keyframes)
 	}
 
@@ -702,6 +703,7 @@ public partial class Enemy : Combatant
 			// DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
 			deathParticles.PlayParticles(Data.DeathParticleCount);
 		}
+
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die"]);
 
 		fogVolume.Visible = false;
@@ -726,7 +728,7 @@ public partial class Enemy : Combatant
 	public override void Reset()
 	{
 		HealthComponent.Reset();
-		
+
 		// Stop all lingering timers from previous life
 		StopActionTimers();
 
@@ -735,6 +737,7 @@ public partial class Enemy : Combatant
 		animatedSprite.Modulate = Colors.White;
 		fogVolume.Visible = true;
 		eyeSpotlight.Visible = true;
+
 		// Reset state variables
 		_player = null;
 		_isWalking = false;

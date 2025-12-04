@@ -207,6 +207,9 @@ public partial class Enemy : Combatant
 
 		base._PhysicsProcess(delta); // Decays knockback
 
+		if (GlobalPosition.Y < -10) GlobalPosition = GlobalPosition with { Y = 0 };
+		if (GlobalPosition.Y > 100) GlobalPosition = GlobalPosition with { Y = 0 };
+
 		// --- Player Target Acquisition (if _player is null) ---
 		if (_player == null)
 		{

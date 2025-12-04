@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://dnmdbgy6un26g"]
+[gd_scene load_steps=26 format=3 uid="uid://dnmdbgy6un26g"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_8e03t"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/GRS_ScroungerData.tres" id="2_4gj3j"]
+[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/Spells/Orb/SpellData_EnemyOrb.tres" id="3_4gj3j"]
 [ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_y75en"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_drsjn"]
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_vkxsd"]
@@ -786,6 +787,7 @@ platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_8e03t")
 Data = ExtResource("2_4gj3j")
+EnemySpellData = ExtResource("3_4gj3j")
 _deathParticlesScene = ExtResource("3_y75en")
 
 [node name="HealthComponent" type="Node" parent="."]

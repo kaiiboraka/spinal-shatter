@@ -31,7 +31,7 @@ public partial class Projectile : RigidBody3D
 	public float CurrentCharge { get; private set; }
 	public float CurrentDamage { get; private set; } // Final calculated damage
 
-
+	private float damagePerMana;
 	private ProjectileState state = ProjectileState.Charging;
 	private Timer lifetimeTimer;
 	private float bounceCooldown = 0;
@@ -155,15 +155,22 @@ public partial class Projectile : RigidBody3D
 		CurrentCharge = data.ChargeRatio;
 
 		Slot = data.Slot;
-		CurrentDamage = Mathf.Lerp(SpellData.DamageRange.Min, SpellData.DamageRange.Max, CurrentCharge);
 
 		UpdateChargeState();
 
 		switch (SpellData.Weapon)
 		{
 			case WeaponType.Orb:
-				// No further modifications needed, base Lerp is enough for Orb.
+				CurrentDamage = Mathf.Lerp(SpellData.DamageRange.Min, SpellData.DamageRange.Max, CurrentCharge);
+				damagePerMana = CurrentDamage / CurrentMana;
 				break;
+			case WeaponType.Slash:
+			case WeaponType.ForceWall:
+			case WeaponType.Dice:
+			case WeaponType.Lance:
+			case WeaponType.Garlic:
+			case WeaponType.Chakram:
+			case WeaponType.Missiles:
 			default:
 				break;
 		}
@@ -204,6 +211,22 @@ public partial class Projectile : RigidBody3D
 		ApplyManaLoss(GlobalPosition);
 		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Hit"]);
+		switch (SpellData.Weapon)
+		{
+			case WeaponType.Orb:
+				Expire(false);
+				break;
+			case WeaponType.Slash:
+			case WeaponType.ForceWall:
+			case WeaponType.Dice:
+			case WeaponType.Lance:
+			case WeaponType.Garlic:
+			case WeaponType.Chakram:
+			case WeaponType.Missiles:
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
 	}
 
 	private void HandleWallBounce(Vector3 impactPoint)
@@ -220,7 +243,7 @@ public partial class Projectile : RigidBody3D
 		bounceCooldown = 0.1f;
 	}
 
-	public void Expire()
+	public void Expire(bool dropMana = true)
 	{
 		if (trail != null)
 		{
@@ -233,7 +256,7 @@ public partial class Projectile : RigidBody3D
 			trail.Reparent(GetParent());
 		}
 
-		EjectMana(CurrentMana, GlobalPosition);
+		if (dropMana) EjectMana(CurrentMana, GlobalPosition);
 		Reset();
 		QueueFree();
 	}
@@ -261,7 +284,7 @@ public partial class Projectile : RigidBody3D
 		CurrentCharge = CurrentMana / SpellData.ManaCostRange.Max;
 		CurrentCharge = Mathf.Max(0, CurrentCharge);
 		// CurrentDamage = CurrentMana * Mathf.Pow(4, CurrentCharge * SpellData.MaxChargeTime);
-		CurrentDamage = Mathf.Lerp(CurrentMana, 0, CurrentCharge);
+		CurrentDamage = damagePerMana * CurrentMana;
 
 		UpdateChargeState();
 
@@ -308,7 +331,7 @@ public partial class Projectile : RigidBody3D
 		CurrentCharge = 0;
 		CurrentMana = 0;
 		CurrentDamage = 0;
-
+		damagePerMana = 0f;
 		if (trail != null)
 		{
 			trail.Reparent(this);

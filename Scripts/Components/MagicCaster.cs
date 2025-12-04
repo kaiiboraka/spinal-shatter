@@ -7,6 +7,8 @@ using System;
 public partial class MagicCaster : Node
 {
 	[Export] public SpellData EquippedSpell { get; private set; }
+	[Export] public SpellData EquippedAltFireSpell { get; private set; }
+
 	[Export] private ManaComponent manaComponent;
 	[Export] private Marker3D spellOrigin;
 
@@ -150,20 +152,20 @@ public partial class MagicCaster : Node
 
 	private void FireAltFire()
 	{
-		if (EquippedSpell.AltFireProjectileScene == null)
+		if (EquippedAltFireSpell.ProjectileScene == null)
 		{
 			CancelCharge();
 			return;
 		}
 
-		if (!manaComponent.HasEnoughMana(EquippedSpell.AltFireManaCost))
+		if (!manaComponent.HasEnoughMana(EquippedAltFireSpell.ManaCostRange.Min))
 		{
 			CancelCharge();
 			return;
 		}
 		
-		var altProjectile = EquippedSpell.AltFireProjectileScene.Instantiate<Projectile>();
-		FireWeapon(SlotType.Alt, EquippedSpell.AltFireProjectileScene, altProjectile);
+		var altProjectile = EquippedAltFireSpell.ProjectileScene.Instantiate<Projectile>();
+		FireWeapon(SlotType.Alt, EquippedAltFireSpell.ProjectileScene, altProjectile);
 	}
 
 	private float GetCurrentChargeRatio()
@@ -181,10 +183,15 @@ public partial class MagicCaster : Node
 		PlayerBody.Instance.PlayCastRelease();
 
 		float chargeRatio = GetCurrentChargeRatio();
-		
-		float manaCost = (slotType == SlotType.Primary)
-			? Mathf.Lerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, chargeRatio)
-			: EquippedSpell.AltFireManaCost;
+
+		SpellData which = slotType switch
+		{
+			SlotType.Primary => EquippedSpell,
+			SlotType.Alt => EquippedAltFireSpell,
+			_ => throw new ArgumentOutOfRangeException(nameof(slotType), slotType, null)
+		};
+
+		float manaCost = Mathf.Lerp(which.ManaCostRange.Min, which.ManaCostRange.Max, chargeRatio);
 
 		if (!manaComponent.HasEnoughMana(manaCost))
 		{
@@ -201,7 +208,7 @@ public partial class MagicCaster : Node
 			InitialVelocity = initialVelocity,
 			ChargeRatio = chargeRatio,
 			StartPosition = spellOrigin,
-			SpellData = EquippedSpell,
+			SpellData = which,
 			Slot = slotType
 		};
 

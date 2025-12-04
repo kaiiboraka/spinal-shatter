@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=51 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -9,6 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/Meshes/siphon_cone.res" id="6_gc10f"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
+[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/Spells/Orb/SpellData_Orb_AltFire.tres" id="8_hqlak"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
@@ -379,6 +380,7 @@ script = ExtResource("3_mana")
 unique_name_in_owner = true
 script = ExtResource("2_caster")
 EquippedSpell = ExtResource("30_g1h2i")
+EquippedAltFireSpell = ExtResource("8_hqlak")
 manaComponent = NodePath("../ManaComponent")
 spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")

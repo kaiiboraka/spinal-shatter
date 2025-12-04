@@ -2,6 +2,7 @@ namespace SpinalShatter;
 
 using Godot;
 using System;
+using System.Collections.Generic;
 using Elythia;
 
 public partial class Projectile : RigidBody3D
@@ -13,8 +14,10 @@ public partial class Projectile : RigidBody3D
 	}
 
 	[Export] private PackedScene _sparkParticlesScene;
+	[Export] private PackedScene _explosionEffectScene;
 	private SpriteBase3D sprite;
 	private CollisionShape3D collisionShape;
+	private Area3D _detectionArea3D; // Added for explosion detection
 
 	[Export] public AudioData AudioData { get; private set; }
 	private AudioStreamPlayer3D audioStreamPlayer;
@@ -43,6 +46,7 @@ public partial class Projectile : RigidBody3D
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
 		trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
+		_detectionArea3D = GetNodeOrNull<Area3D>("%Detection_Area3D"); // Get reference
 
 		lifetimeTimer = new Timer();
 		lifetimeTimer.WaitTime = _lifetime;
@@ -162,6 +166,11 @@ public partial class Projectile : RigidBody3D
 		{
 			case WeaponType.Orb:
 				CurrentDamage = Mathf.Lerp(SpellData.DamageRange.Min, SpellData.DamageRange.Max, CurrentCharge);
+				if (Slot == SlotType.Alt)
+				{
+					// Alt-fire rocket launcher should have more base power for more knockback
+					CurrentDamage *= 2.0f;
+				}
 				damagePerMana = CurrentDamage / CurrentMana;
 				break;
 			case WeaponType.Slash:
@@ -208,6 +217,12 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit()
 	{
+		if (SpellData is ExplosiveSpellData orbData && Slot == SlotType.Alt)
+		{
+			Explode(orbData);
+			return;
+		}
+		
 		ApplyManaLoss(GlobalPosition);
 		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Hit"]);
@@ -231,6 +246,12 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
+		if (SpellData is ExplosiveSpellData orbData && Slot == SlotType.Alt)
+		{
+			Explode(orbData);
+			return;
+		}
+		
 		if (IsFixed)
 		{
 			Expire();
@@ -241,6 +262,61 @@ public partial class Projectile : RigidBody3D
 		ApplyManaLoss(impactPoint);
 
 		bounceCooldown = 0.1f;
+	}
+
+	private void Explode(ExplosiveSpellData orbData)
+	{
+		if (_detectionArea3D == null)
+		{
+			GD.PrintErr("Projectile: _detectionArea3D not found for explosion.");
+			Expire(false);
+			return;
+		}
+
+		// Set the radius dynamically
+		if (_detectionArea3D.GetNodeOrNull<CollisionShape3D>("CollisionShape3D") is CollisionShape3D shapeNode && shapeNode.Shape is SphereShape3D sphereShape)
+		{
+			sphereShape.Radius = orbData.ExplosionRadius;
+		}
+		else
+		{
+			GD.PrintErr("Projectile: _detectionArea3D does not have a SphereShape3D child or CollisionShape3D for radius adjustment.");
+			Expire(false);
+			return;
+		}
+
+		// Process overlapping bodies
+		// No need to set monitoring true/false if we just get overlapping bodies and then expire.
+		// The area's collision mask needs to be set up in the scene to detect hurtboxes
+		
+		var overlappingBodies = _detectionArea3D.GetOverlappingBodies();
+		
+		foreach (var body in overlappingBodies)
+		{
+			if (body.GetParent() is Combatant combatant) // Assuming Combatant is the parent of the Hurtbox Area3D
+			{
+				// Ensure we don't hit the caster with their own explosion
+				if (combatant == Caster) continue;
+
+				combatant.TakeDamage(CurrentDamage, GlobalPosition);
+			}
+		}
+
+		if (_explosionEffectScene != null)
+		{
+			if(_explosionEffectScene.Instantiate() is OneshotParticles explosion)
+			{
+				GetTree().Root.AddChild(explosion);
+				explosion.GlobalPosition = GlobalPosition;
+				explosion.PlayParticles(120);
+			}
+		}
+		
+		// Placeholder for explosion sound, assuming it's different from "Hit"
+		// AudioManager.PlayAtPosition((AudioFile)AudioData["Explosion"], GlobalPosition); 
+		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition); 
+		
+		Expire(false); // Expire without dropping mana
 	}
 
 	public void Expire(bool dropMana = true)
@@ -283,7 +359,6 @@ public partial class Projectile : RigidBody3D
 
 		CurrentCharge = CurrentMana / SpellData.ManaCostRange.Max;
 		CurrentCharge = Mathf.Max(0, CurrentCharge);
-		// CurrentDamage = CurrentMana * Mathf.Pow(4, CurrentCharge * SpellData.MaxChargeTime);
 		CurrentDamage = damagePerMana * CurrentMana;
 
 		UpdateChargeState();

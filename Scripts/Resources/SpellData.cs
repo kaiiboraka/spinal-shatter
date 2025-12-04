@@ -23,10 +23,6 @@ public partial class SpellData : Resource
 	[Export] public PackedScene ProjectileScene { get; private set; }
 	[Export] public bool UsePlayerMomentum { get; private set; } = false;
 	
-	[ExportGroup("Alt-Fire Properties")]
-	[Export] public float AltFireManaCost { get; private set; } = 10f;
-	[Export] public PackedScene AltFireProjectileScene { get; private set; }
-
 	[ExportGroup("Audio")]
 	[Export] public AudioData AudioData { get; private set; }
 }

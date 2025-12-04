@@ -17,7 +17,8 @@ public partial class Projectile : RigidBody3D
 	[Export] private PackedScene _explosionEffectScene;
 	private SpriteBase3D sprite;
 	private CollisionShape3D collisionShape;
-	private Area3D _detectionArea3D; // Added for explosion detection
+	private Area3D detectionArea3D; // Added for explosion detection
+	private SphereShape3D detectionShape;
 
 	[Export] public AudioData AudioData { get; private set; }
 	private AudioStreamPlayer3D audioStreamPlayer;
@@ -46,7 +47,8 @@ public partial class Projectile : RigidBody3D
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
 		trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
-		_detectionArea3D = GetNodeOrNull<Area3D>("%Detection_Area3D"); // Get reference
+		detectionArea3D ??= GetNode<Area3D>("%Detection_Area3D"); // Get reference
+		detectionShape = (SphereShape3D)detectionArea3D.GetChild<CollisionShape3D>(0).Shape;
 
 		lifetimeTimer = new Timer();
 		lifetimeTimer.WaitTime = _lifetime;
@@ -60,9 +62,9 @@ public partial class Projectile : RigidBody3D
 		// but we ensure it's not active prematurely if it's meant for a one-shot explosion.
 		// Its collision_mask should be set to detect relevant layers (e.g., ENEMY_HURTBOX_BIT)
 		// in the scene file (AltFire_Explode.tscn).
-		if (_detectionArea3D != null)
+		if (detectionArea3D != null)
 		{
-			_detectionArea3D.Monitoring = false; // Start disabled, enabled just before explosion check if needed
+			detectionArea3D.Monitoring = false; // Start disabled, enabled just before explosion check if needed
 		}
 
 		ContactMonitor = true;
@@ -274,7 +276,7 @@ public partial class Projectile : RigidBody3D
 
 	private void Explode(OrbAltSpellData orbData)
 	{
-		if (_detectionArea3D == null)
+		if (detectionArea3D == null)
 		{
 			GD.PrintErr("Projectile: _detectionArea3D not found for explosion.");
 			Expire(false);
@@ -282,24 +284,22 @@ public partial class Projectile : RigidBody3D
 		}
 
 		// Ensure the detection area is at the projectile's position for the explosion
-		_detectionArea3D.GlobalPosition = GlobalPosition;
+		detectionArea3D.GlobalPosition = GlobalPosition;
 
 		// Set the radius dynamically
-		if (_detectionArea3D.GetNodeOrNull<CollisionShape3D>("CollisionShape3D") is CollisionShape3D shapeNode && shapeNode.Shape is SphereShape3D sphereShape)
-		{
-			sphereShape.Radius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
-		}
-		else
-		{
-			GD.PrintErr("Projectile: _detectionArea3D does not have a SphereShape3D child or CollisionShape3D for radius adjustment.");
-			Expire(false);
-			return;
-		}
+		detectionShape.Radius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
+
+		GD.Print($"Explosion Area Position: {detectionArea3D.GlobalPosition}");
+		GD.Print($"Explosion Area Radius: {detectionShape.Radius}");
+		GD.Print($"Explosion Area Monitoring: {detectionArea3D.Monitoring}");
+		GD.Print($"Explosion Area Collision Layer: {detectionArea3D.CollisionLayer}");
+		GD.Print($"Explosion Area Collision Mask: {detectionArea3D.CollisionMask}");
+		GD.Print($"Explosion Area Has Overlapping Areas?: {detectionArea3D.HasOverlappingAreas()}");
 
 		// Enable monitoring just before processing to ensure it's active for GetOverlappingAreas
-		_detectionArea3D.Monitoring = true;
+		detectionArea3D.Monitoring = true;
 		
-		var overlappingAreas = _detectionArea3D.GetOverlappingAreas(); // Use GetOverlappingAreas
+		var overlappingAreas = detectionArea3D.GetOverlappingAreas();
 
 		foreach (var area in overlappingAreas)
 		{
@@ -312,7 +312,7 @@ public partial class Projectile : RigidBody3D
 				combatant.TakeDamage(CurrentDamage, GlobalPosition);
 			}
 		}
-		_detectionArea3D.Monitoring = false; // Disable immediately after processing
+		detectionArea3D.Monitoring = false; // Disable immediately after processing
 
 		if (_explosionEffectScene != null)
 		{

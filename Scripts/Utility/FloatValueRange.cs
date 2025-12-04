@@ -55,6 +55,11 @@ public partial class FloatValueRange : ValueRange<float>
 		return (float)GD.RandRange(Min, Max);
 	}
 
+	public override float GetLerpedValue(float weight)
+	{
+		if (Min.FloatEqualsApprox(Max)) return Min;
+		return Mathf.Lerp(Min, Max, weight);
+	}
 
 	public override string ToString()
 	{

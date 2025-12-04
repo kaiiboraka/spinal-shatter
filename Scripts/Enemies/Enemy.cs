@@ -76,12 +76,14 @@ public partial class Enemy : Combatant
 	private bool _isWalking = false;
 	private bool isDying => _currentState == AIState.Dying;
 
+
 	[Signal]
 	public delegate void EnemyDiedEventHandler(Enemy who);
 
 	public ObjectPoolManager<Node3D> OwningPool { get; set; }
 
 	private float _gravity => Constants.GRAVITY;
+
 
 	public override void _Ready()
 	{
@@ -422,6 +424,7 @@ public partial class Enemy : Combatant
 	{
 		if (body is PlayerBody player)
 		{
+			previousPlayerPosition = player.GlobalPosition;
 			_player = null;
 			ChangeState(AIState.Patrolling);
 		}
@@ -451,7 +454,8 @@ public partial class Enemy : Combatant
 		var targetRotation = new Transform3D(Basis, GlobalPosition).LookingAt(_player.GlobalPosition, Vector3.Up).Basis;
 		Basis = Basis.Orthonormalized().Slerp(targetRotation, (float)delta * ChaseRotationSpeed);
 
-		if (GlobalPosition.DistanceTo(_player.GlobalPosition) > AttackRange)
+		Vector3 where = _player?.GlobalPosition ?? previousPlayerPosition;
+		if (GlobalPosition.DistanceTo(where) > AttackRange)
 		{
 			// Move towards player
 			if (Data.IsFlying)

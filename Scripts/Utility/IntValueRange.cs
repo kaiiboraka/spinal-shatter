@@ -54,6 +54,13 @@ public partial class IntValueRange : ValueRange<int>
 		return (int)GD.RandRange(Min, Max);
 	}
 
+	public override int GetLerpedValue(int weight)
+	{
+		if (Min == Max) return Min;
+		return Mathf.Lerp(Min, Max, weight).RoundToInt();
+	}
+
+
 	public override string ToString()
 	{
 		return $"Min: {Min}, Max: {Max}";

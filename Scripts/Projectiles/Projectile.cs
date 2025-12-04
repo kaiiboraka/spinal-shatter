@@ -56,6 +56,14 @@ public partial class Projectile : RigidBody3D
 
 		this.Freeze = true;
 		collisionShape.Disabled = true;
+		// _detectionArea33D is typically set up in the scene to monitor,
+		// but we ensure it's not active prematurely if it's meant for a one-shot explosion.
+		// Its collision_mask should be set to detect relevant layers (e.g., ENEMY_HURTBOX_BIT)
+		// in the scene file (AltFire_Explode.tscn).
+		if (_detectionArea3D != null)
+		{
+			_detectionArea3D.Monitoring = false; // Start disabled, enabled just before explosion check if needed
+		}
 
 		ContactMonitor = true;
 		MaxContactsReported = 4;
@@ -131,7 +139,7 @@ public partial class Projectile : RigidBody3D
 		var sizingScale = SpellData.SizeRange;
 		if (sizingScale != null)
 		{
-			float scaledSize = Mathf.Lerp(sizingScale.Min, sizingScale.Max, CurrentCharge);
+			float scaledSize = sizingScale.GetLerpedValue(CurrentCharge);
 			if (sprite != null)
 			{
 				sprite.Scale = Vector3.One * scaledSize;
@@ -165,7 +173,7 @@ public partial class Projectile : RigidBody3D
 		switch (SpellData.Weapon)
 		{
 			case WeaponType.Orb:
-				CurrentDamage = Mathf.Lerp(SpellData.DamageRange.Min, SpellData.DamageRange.Max, CurrentCharge);
+				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
 				if (Slot == SlotType.Alt)
 				{
 					// Alt-fire rocket launcher should have more base power for more knockback
@@ -217,7 +225,7 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit()
 	{
-		if (SpellData is ExplosiveSpellData orbData && Slot == SlotType.Alt)
+		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Alt)
 		{
 			Explode(orbData);
 			return;
@@ -246,7 +254,7 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		if (SpellData is ExplosiveSpellData orbData && Slot == SlotType.Alt)
+		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Alt)
 		{
 			Explode(orbData);
 			return;
@@ -264,7 +272,7 @@ public partial class Projectile : RigidBody3D
 		bounceCooldown = 0.1f;
 	}
 
-	private void Explode(ExplosiveSpellData orbData)
+	private void Explode(OrbAltSpellData orbData)
 	{
 		if (_detectionArea3D == null)
 		{
@@ -273,10 +281,13 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
+		// Ensure the detection area is at the projectile's position for the explosion
+		_detectionArea3D.GlobalPosition = GlobalPosition;
+
 		// Set the radius dynamically
 		if (_detectionArea3D.GetNodeOrNull<CollisionShape3D>("CollisionShape3D") is CollisionShape3D shapeNode && shapeNode.Shape is SphereShape3D sphereShape)
 		{
-			sphereShape.Radius = orbData.ExplosionRadius;
+			sphereShape.Radius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
 		}
 		else
 		{
@@ -285,15 +296,15 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
-		// Process overlapping bodies
-		// No need to set monitoring true/false if we just get overlapping bodies and then expire.
-		// The area's collision mask needs to be set up in the scene to detect hurtboxes
+		// Enable monitoring just before processing to ensure it's active for GetOverlappingAreas
+		_detectionArea3D.Monitoring = true;
 		
-		var overlappingBodies = _detectionArea3D.GetOverlappingBodies();
-		
-		foreach (var body in overlappingBodies)
+		var overlappingAreas = _detectionArea3D.GetOverlappingAreas(); // Use GetOverlappingAreas
+
+		foreach (var area in overlappingAreas)
 		{
-			if (body.GetParent() is Combatant combatant) // Assuming Combatant is the parent of the Hurtbox Area3D
+			// The collider is the Area3D hurtbox, its parent is the Combatant
+			if (area.GetParent() is Combatant combatant)
 			{
 				// Ensure we don't hit the caster with their own explosion
 				if (combatant == Caster) continue;
@@ -301,6 +312,7 @@ public partial class Projectile : RigidBody3D
 				combatant.TakeDamage(CurrentDamage, GlobalPosition);
 			}
 		}
+		_detectionArea3D.Monitoring = false; // Disable immediately after processing
 
 		if (_explosionEffectScene != null)
 		{
@@ -308,7 +320,7 @@ public partial class Projectile : RigidBody3D
 			{
 				GetTree().Root.AddChild(explosion);
 				explosion.GlobalPosition = GlobalPosition;
-				explosion.PlayParticles(120);
+				explosion.PlayParticles(120); // Using a default particle count
 			}
 		}
 		

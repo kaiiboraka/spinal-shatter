@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Orb.tscn" id="6_vs4ng"]
 [ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/Spells/Orb/RangeF_Size_Orb.tres" id="7_06v61"]
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/Spells/Orb/RangeF_Speed_Orb.tres" id="8_8jk6d"]
-[ext_resource type="Script" uid="uid://mpkw0pgad3w1" path="res://Scripts/Resources/SpellData.cs" id="9_0xuhq"]
+[ext_resource type="Script" uid="uid://mpkw0pgad3w1" path="res://Scripts/Resources/Spells/SpellData.cs" id="9_0xuhq"]
 
 [resource]
 script = ExtResource("9_0xuhq")

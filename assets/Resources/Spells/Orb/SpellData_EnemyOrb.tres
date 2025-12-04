@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/Spells/Orb/RangeI_ManaDrop_Orb.tres" id="5_kgnf4"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="6_cown8"]
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/Spells/Orb/RangeF_Speed_Orb.tres" id="8_f7soa"]
-[ext_resource type="Script" uid="uid://mpkw0pgad3w1" path="res://Scripts/Resources/SpellData.cs" id="9_g4th7"]
+[ext_resource type="Script" uid="uid://mpkw0pgad3w1" path="res://Scripts/Resources/Spells/SpellData.cs" id="9_g4th7"]
 
 [sub_resource type="Resource" id="Resource_hwuyi"]
 script = ExtResource("2_1e2gl")

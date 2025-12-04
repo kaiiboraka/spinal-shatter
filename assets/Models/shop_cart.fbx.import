@@ -34,10 +34,17 @@ animation/trimming=true
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-materials/extract=2
-materials/extract_format=0
+materials/extract=0
+materials/extract_format=2
 materials/extract_path="res://assets/Materials"
 _subresources={
+"materials": {
+"ShopCartMaterial": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://assets/Materials/ShopCartMaterial.tres",
+"use_external/path": "uid://rpgtiou58mny"
+}
+},
 "meshes": {
 "B_Axle": {
 "generate/lightmap_uv": 0,

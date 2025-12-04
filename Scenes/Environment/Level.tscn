@@ -190,7 +190,7 @@ MAX_SPRINT_SPEED = 24.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 physics_interpolation_mode = 1
-transform = Transform3D(-0.6767989, 0, 0.73616797, 0, 1, 0, -0.73616797, 0, -0.6767989, -3.6653802, 2.1412072, 2.4567409)
+transform = Transform3D(-0.6767988, 0, 0.7361679, 0, 1, 0, -0.7361679, 0, -0.6767988, -3.6653802, 2.1412072, 2.4567409)
 fov = 80.0
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
@@ -206,4 +206,4 @@ shape = 4
 material = SubResource("FogMaterial_m8i8h")
 
 [node name="ShopCart" parent="." instance=ExtResource("26_o2f56")]
-transform = Transform3D(0.736168, 0, 0.6767989, 0, 1, 0, -0.6767989, 0, 0.736168, -4.594806, -4.7683716e-07, 3.980397)
+transform = Transform3D(0.73616797, 0, 0.6767988, 0, 1, 0, -0.6767988, 0, 0.73616797, -4.594806, -4.7683716e-07, 3.980397)

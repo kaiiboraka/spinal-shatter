@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=56 format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_7no42"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_5al2w"]
@@ -106,15 +106,45 @@ _data = {
 &"RESET": SubResource("Animation_n4t4n")
 }
 
-[sub_resource type="Skin" id="Skin_x26tn"]
+[sub_resource type="Skin" id="Skin_n3hp2"]
+resource_name = "Skin4"
+bind_count = 2
+bind/0/name = &"root"
+bind/0/bone = -1
+bind/0/pose = Transform3D(1, 0, 0, 0, 0.81596774, 0, 0, 0, 1, 0, 0.26687783, 0)
+bind/1/name = &"windowBone"
+bind/1/bone = -1
+bind/1/pose = Transform3D(1, 0, 0, 0, 0.81596774, 0, 0, 0, 1, -0.6488389, -2.5914335, 0.3730266)
+
+[sub_resource type="Skin" id="Skin_bprx7"]
 resource_name = "Skin"
 bind_count = 2
 bind/0/name = &"root"
 bind/0/bone = -1
-bind/0/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+bind/0/pose = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0, 0)
 bind/1/name = &"windowBone"
 bind/1/bone = -1
-bind/1/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6488389, -3.1759017, 0.58535254)
+bind/1/pose = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, -0.6488389, -2.8583114, 0.3730266)
+
+[sub_resource type="Skin" id="Skin_khf6c"]
+resource_name = "Skin2"
+bind_count = 2
+bind/0/name = &"root"
+bind/0/bone = -1
+bind/0/pose = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, -0.114990145)
+bind/1/name = &"windowBone"
+bind/1/bone = -1
+bind/1/pose = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -0.6488389, -2.8583114, 0.25803646)
+
+[sub_resource type="Skin" id="Skin_fdvy6"]
+resource_name = "Skin3"
+bind_count = 2
+bind/0/name = &"root"
+bind/0/bone = -1
+bind/0/pose = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0.11867568)
+bind/1/name = &"windowBone"
+bind/1/bone = -1
+bind/1/pose = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -0.6488389, -2.8583114, 0.4917023)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ari88"]
 size = Vector3(3.5, 4, 4)
@@ -137,35 +167,36 @@ autoplay = "CLOSED"
 next/Close = &"CLOSED"
 next/Open = &"OPENED"
 
-[node name="ShopArea" type="Marker3D" parent="."]
+[node name="ShopRoot" type="Node3D" parent="."]
+
+[node name="ShopSlots" type="Marker3D" parent="ShopRoot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023074627, 1.3401018, -0.57591766)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21114928, 1.41, -0.375)
 
-[node name="ShopSlot1" type="Marker3D" parent="ShopArea"]
+[node name="ShopSlot1" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.65)
 
-[node name="ShopItem" parent="ShopArea/ShopSlot1" instance=ExtResource("38_n3hp2")]
+[node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot1" instance=ExtResource("38_n3hp2")]
 
-[node name="ShopSlot2" type="Marker3D" parent="ShopArea"]
+[node name="ShopSlot2" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true
 
-[node name="ShopItem" parent="ShopArea/ShopSlot2" instance=ExtResource("38_n3hp2")]
+[node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot2" instance=ExtResource("38_n3hp2")]
 
-[node name="ShopSlot3" type="Marker3D" parent="ShopArea"]
+[node name="ShopSlot3" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.65)
 
-[node name="ShopItem" parent="ShopArea/ShopSlot3" instance=ExtResource("38_n3hp2")]
+[node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot3" instance=ExtResource("38_n3hp2")]
 
-[node name="Candle" parent="ShopArea" instance=ExtResource("38_vne43")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.39957488, 0, -0.7298743)
+[node name="Candle" parent="ShopRoot" instance=ExtResource("38_vne43")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.377, 1.41, -1.375)
 
-[node name="Candle2" parent="ShopArea" instance=ExtResource("38_vne43")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, 0.73)
+[node name="Candle2" parent="ShopRoot" instance=ExtResource("38_vne43")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.377, 1.41, 0.625)
 
 [node name="Cart" type="Node3D" parent="."]
-transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Cart"]
 bones/0/name = "root"
@@ -177,212 +208,251 @@ bones/0/rotation = Quaternion(0, 0, 0, 1)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "windowBone"
 bones/1/parent = 0
-bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6488389, 3.1759017, -0.58535254)
+bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6488389, 2.8583114, -0.3730266)
 bones/1/enabled = true
-bones/1/position = Vector3(0.6488389, 3.1759017, -0.58535254)
+bones/1/position = Vector3(0.6488389, 2.8583114, -0.3730266)
 bones/1/rotation = Quaternion(0, 0, 0, 1)
 bones/1/scale = Vector3(1, 1, 1)
 
+[node name="WindowMesh" type="MeshInstance3D" parent="Cart/Skeleton3D"]
+mesh = ExtResource("38_tmch4")
+skin = SubResource("Skin_n3hp2")
+
 [node name="Body" type="Node3D" parent="Cart/Skeleton3D"]
-transform = Transform3D(1, 0, 0, 0, 0.95, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="axleBeam" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("6_q2n4r")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_bprx7")
 skeleton = NodePath("../..")
 
 [node name="bench" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("2_dxthx")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_bprx7")
 skeleton = NodePath("../..")
 
 [node name="cartBody" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("7_ej1mt")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_bprx7")
 skeleton = NodePath("../..")
 
 [node name="frontRoof" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("3_me00m")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_bprx7")
 skeleton = NodePath("../..")
 
 [node name="topRoof" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("4_call2")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_bprx7")
 skeleton = NodePath("../..")
 
 [node name="windowFrame" type="MeshInstance3D" parent="Cart/Skeleton3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1.1111112, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("5_u4mxo")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_bprx7")
 skeleton = NodePath("../..")
 
 [node name="Wheels" type="Node3D" parent="Cart/Skeleton3D"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 
 [node name="BackWheels" type="Node3D" parent="Cart/Skeleton3D/Wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.12776683)
 
 [node name="B_Axle" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("11_igiu0")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../..")
 
 [node name="B_LeftWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/BackWheels"]
 
 [node name="B_L_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("9_vl8pd")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("10_x26tn")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("11_vne43")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("12_n3hp2")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("13_bprx7")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("14_khf6c")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_L_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("8_h8aqa")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_RightWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/BackWheels"]
 
 [node name="B_R_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("16_fdvy6")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("17_5is20")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("18_e3k0l")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("19_f1cjk")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("20_c7h3p")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("21_b2bg0")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="B_R_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/BackWheels/B_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0.12776683)
 mesh = ExtResource("22_5l8hn")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_khf6c")
 skeleton = NodePath("../../../..")
 
 [node name="FrontWheels" type="Node3D" parent="Cart/Skeleton3D/Wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.13186187)
 
 [node name="F_Axle" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("23_hrk02")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../..")
 
 [node name="F_LeftWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/FrontWheels"]
 
 [node name="F_L_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("24_5nusp")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("25_eqvh7")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("26_6aomr")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("27_b1usu")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("28_6av7n")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("29_s3st6")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_L_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_LeftWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("30_l8svm")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_RightWheel" type="Node3D" parent="Cart/Skeleton3D/Wheels/FrontWheels"]
 
 [node name="F_R_hub" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("31_yuxyn")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke1" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("32_gfalg")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke2" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("33_xfax0")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke3" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("34_y544c")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke4" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("35_kahuv")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_spoke5" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("36_u2w7n")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
 
 [node name="F_R_tire" type="MeshInstance3D" parent="Cart/Skeleton3D/Wheels/FrontWheels/F_RightWheel"]
+transform = Transform3D(1.1111112, 0, 0, 0, 1.1111112, 0, 0, 0, 1.1111112, 0, 0, -0.13186187)
 mesh = ExtResource("37_rxwen")
-skin = SubResource("Skin_x26tn")
+skin = SubResource("Skin_fdvy6")
 skeleton = NodePath("../../../..")
-
-[node name="WindowMesh" type="MeshInstance3D" parent="Cart/Skeleton3D"]
-mesh = ExtResource("38_tmch4")
-skin = SubResource("Skin_x26tn")
 
 [node name="InteractionArea3D" type="Area3D" parent="."]
 collision_layer = 64
@@ -394,7 +464,7 @@ shape = SubResource("BoxShape3D_ari88")
 debug_color = Color(0.023333311, 0.7, 0, 0.41960785)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 1.603, 0.608)
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 1.687, 0.608)
 shape = SubResource("ConvexPolygonShape3D_3geqn")
 
 [node name="PhantomCamera3D" type="Node3D" parent="."]

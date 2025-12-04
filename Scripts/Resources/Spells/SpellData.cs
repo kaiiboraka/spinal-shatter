@@ -13,10 +13,11 @@ public partial class SpellData : Resource
 
 	[ExportGroup("Weapon Properties")]
 	[Export] public WeaponType Weapon { get; private set; }
-	[Export] public float MaxChargeTime { get; private set; } = 2.0f;
+	[Export] public SlotType Slot { get; private set; }
 	[Export(PropertyHint.Range, "1,16,1")] public int ChargeIntervals { get; private set; } = 8;
-	[Export] public FloatValueRange ManaCostRange { get; private set; }
 	[Export] public IntValueRange ManaDroppedAmount { get; private set; }
+	[Export] public FloatValueRange ManaCostRange { get; private set; }
+	[Export] public FloatValueRange MaxChargeTime { get; private set; } = new(0, 1.75f);
 	[Export] public FloatValueRange DamageRange { get; private set; }
 	[Export] public FloatValueRange SpeedRange { get; private set; }
 	[Export] public FloatValueRange SizeRange { get; private set; }

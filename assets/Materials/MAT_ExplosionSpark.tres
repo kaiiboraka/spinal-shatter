@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dnvlqd8xy3s4i"]
+
+[ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="1_j5g40"]
+
+[resource]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(5.342319, 2.1022222, 0, 1)
+albedo_texture = ExtResource("1_j5g40")
+emission_enabled = true
+emission = Color(1.664306, 0.6593404, 0, 1)
+emission_texture = ExtResource("1_j5g40")

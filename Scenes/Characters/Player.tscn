@@ -9,7 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/Meshes/siphon_cone.res" id="6_gc10f"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
-[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/Spells/Orb/SpellData_Orb_AltFire.tres" id="8_hqlak"]
+[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/Spells/Orb/OrbAltFire_SpellData.tres" id="8_hqlak"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/Player/arm_left.ase" id="24_x4yal"]
 [ext_resource type="Texture2D" uid="uid://brunehtlo2ssg" path="res://assets/Images/Pickups/Coins_Spin.png" id="29_2n8gu"]
-[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/Spells/Orb/SpellData_Orb.tres" id="30_g1h2i"]
+[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/Spells/Orb/Orb_SpellData.tres" id="30_g1h2i"]
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
 length = 0.001

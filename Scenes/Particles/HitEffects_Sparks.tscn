@@ -37,8 +37,9 @@ collision_bounce = 0.5
 [sub_resource type="QuadMesh" id="QuadMesh_v8bk4"]
 size = Vector2(0.2, 1)
 
-[node name="HitEffects" type="Node3D"]
+[node name="HitEffects_Sparks" type="Node3D"]
 script = ExtResource("1_7y15q")
+lifeTime = 1.25
 
 [node name="FreeTimer" type="Timer" parent="."]
 

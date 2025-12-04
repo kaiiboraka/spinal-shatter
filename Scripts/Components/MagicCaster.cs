@@ -109,14 +109,14 @@ public partial class MagicCaster : Node
 		if (chargingProjectile == null) return;
 
 		float maxChargeRatioByMana = Mathf.InverseLerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, manaComponent.CurrentMana);
-		float maxChargeTimeByMana = maxChargeRatioByMana * EquippedSpell.MaxChargeTime;
+		float maxChargeTimeByMana = maxChargeRatioByMana * EquippedSpell.MaxChargeTime.Max;
 
 		currentChargeTime += (float)delta;
-		currentChargeTime = Mathf.Min(currentChargeTime, EquippedSpell.MaxChargeTime);
+		currentChargeTime = Mathf.Min(currentChargeTime, EquippedSpell.MaxChargeTime.Max);
 		currentChargeTime = Mathf.Min(currentChargeTime, maxChargeTimeByMana);
 
 		int currentInterval = 0;
-		float intervalDuration = EquippedSpell.MaxChargeTime > 0 ? EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals : 0;
+		float intervalDuration = EquippedSpell.MaxChargeTime.Max > 0 ? EquippedSpell.MaxChargeTime.Max / EquippedSpell.ChargeIntervals : 0;
 		if (intervalDuration > 0)
 		{
 			currentInterval = Mathf.FloorToInt(currentChargeTime / intervalDuration);
@@ -170,9 +170,9 @@ public partial class MagicCaster : Node
 
 	private float GetCurrentChargeRatio()
 	{
-		if (EquippedSpell.MaxChargeTime <= 0) return 0;
+		if (EquippedSpell.MaxChargeTime.Max <= 0) return 0;
 		
-		float intervalDuration = EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals;
+		float intervalDuration = EquippedSpell.MaxChargeTime.Max / EquippedSpell.ChargeIntervals;
 		int intervalsCharged = Mathf.FloorToInt(currentChargeTime / intervalDuration);
 		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, EquippedSpell.ChargeIntervals);
 		return (float)intervalsCharged / EquippedSpell.ChargeIntervals;

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_cifvm"]
 [ext_resource type="Resource" uid="uid://cq6bcxst4hyxm" path="res://assets/Resources/EnemyData/GRL_SorcererData.tres" id="2_cifvm"]
 [ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_7gjbn"]
-[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/Spells/Orb/SpellData_EnemyOrb.tres" id="3_21hm2"]
+[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/Spells/Orb/EnemyOrb_SpellData.tres" id="3_21hm2"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_21hm2"]
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_jykus"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="6_55f17"]

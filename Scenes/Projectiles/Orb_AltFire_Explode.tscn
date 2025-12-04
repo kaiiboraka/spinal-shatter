@@ -20,7 +20,7 @@ shader = ExtResource("8_b5daa")
 [sub_resource type="Gradient" id="Gradient_nox7o"]
 interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.77136755, 1)
-colors = PackedColorArray(1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_sxgjj"]
 gradient = SubResource("Gradient_nox7o")

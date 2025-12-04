@@ -48,6 +48,7 @@ public partial class Projectile : RigidBody3D
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
 		trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
 		detectionArea3D ??= GetNode<Area3D>("%Detection_Area3D"); // Get reference
+
 		detectionShape = (SphereShape3D)detectionArea3D.GetChild<CollisionShape3D>(0).Shape;
 
 		lifetimeTimer = new Timer();
@@ -64,7 +65,7 @@ public partial class Projectile : RigidBody3D
 		// in the scene file (AltFire_Explode.tscn).
 		if (detectionArea3D != null)
 		{
-			detectionArea3D.Monitoring = false; // Start disabled, enabled just before explosion check if needed
+			detectionArea3D.Monitoring = true; // Start enabled, as it should always be monitoring for overlaps.
 		}
 
 		ContactMonitor = true;
@@ -102,7 +103,7 @@ public partial class Projectile : RigidBody3D
 					sparkParticles.GlobalPosition = GlobalPosition;
 					sparkParticles.LookAt(contactLocalNormal);
 					int particleCount = hitProjectile ? 20 : (int)(CurrentMana * 3);
-					sparkParticles.PlayParticles(particleCount);
+					sparkParticles.PlayParticles(particleCount * CurrentCharge);
 				}
 
 				if (!collider.IsInGroup("Enemies"))
@@ -286,19 +287,10 @@ public partial class Projectile : RigidBody3D
 		// Ensure the detection area is at the projectile's position for the explosion
 		detectionArea3D.GlobalPosition = GlobalPosition;
 
+		var explosionRadius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
 		// Set the radius dynamically
-		detectionShape.Radius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
+		detectionShape.Radius = explosionRadius;
 
-		GD.Print($"Explosion Area Position: {detectionArea3D.GlobalPosition}");
-		GD.Print($"Explosion Area Radius: {detectionShape.Radius}");
-		GD.Print($"Explosion Area Monitoring: {detectionArea3D.Monitoring}");
-		GD.Print($"Explosion Area Collision Layer: {detectionArea3D.CollisionLayer}");
-		GD.Print($"Explosion Area Collision Mask: {detectionArea3D.CollisionMask}");
-		GD.Print($"Explosion Area Has Overlapping Areas?: {detectionArea3D.HasOverlappingAreas()}");
-
-		// Enable monitoring just before processing to ensure it's active for GetOverlappingAreas
-		detectionArea3D.Monitoring = true;
-		
 		var overlappingAreas = detectionArea3D.GetOverlappingAreas();
 
 		foreach (var area in overlappingAreas)
@@ -312,7 +304,6 @@ public partial class Projectile : RigidBody3D
 				combatant.TakeDamage(CurrentDamage, GlobalPosition);
 			}
 		}
-		detectionArea3D.Monitoring = false; // Disable immediately after processing
 
 		if (_explosionEffectScene != null)
 		{
@@ -320,7 +311,7 @@ public partial class Projectile : RigidBody3D
 			{
 				GetTree().Root.AddChild(explosion);
 				explosion.GlobalPosition = GlobalPosition;
-				explosion.PlayParticles(120); // Using a default particle count
+				explosion.PlayParticles(explosionRadius, 150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
 			}
 		}
 		

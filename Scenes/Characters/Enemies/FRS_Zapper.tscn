@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/GRS_Scrounger.tscn" id="1_l0kyb"]
 [ext_resource type="Resource" uid="uid://cpjitr3gcxgjv" path="res://assets/Resources/EnemyData/FRS_ZapperData.tres" id="2_ghelw"]
 [ext_resource type="SpriteFrames" uid="uid://cqr5851apyyhs" path="res://assets/Images/Enemies/Enemy_FRS_Zapper.ase" id="3_dbu75"]
-[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/Spells/Orb/SpellData_EnemyOrb.tres" id="3_ghelw"]
+[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/Spells/Orb/EnemyOrb_SpellData.tres" id="3_ghelw"]
 [ext_resource type="SpriteFrames" uid="uid://fpsefbsgn0bo" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_FRS_Zapper.ase" id="4_6xlik"]
 
 [node name="Zapper" instance=ExtResource("1_l0kyb")]

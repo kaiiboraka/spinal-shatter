@@ -1,17 +1,19 @@
 using Godot;
 
-namespace SpinalShatter.Resources
+namespace SpinalShatter;
+
+[GlobalClass]
+public partial class ShopItemData : Resource
 {
-    [GlobalClass]
-    public partial class ShopItemData : Resource
-    {
-        [Export]
-        public SpriteFrames ItemIcon { get; set; }
+    [Export] public string ItemName { get; private set; }
 
-        [Export]
-        public int Price { get; set; }
+    [Export(PropertyHint.MultilineText)]
+    public string ItemDescription { get; private set; }
 
-        [Export(PropertyHint.Range, "0.0,1.0")]
-        public double Rarity { get; set; }
-    }
+    [Export] public SpriteFrames ItemIcon { get; private set; }
+
+    [Export] public int Price { get; private set; }
+
+    [Export(PropertyHint.Range, "0.0,1.0")]
+    public double Rarity { get; private set; }
 }

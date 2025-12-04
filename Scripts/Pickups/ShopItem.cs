@@ -1,5 +1,4 @@
 using Godot;
-using SpinalShatter.Resources;
 
 namespace SpinalShatter;
 

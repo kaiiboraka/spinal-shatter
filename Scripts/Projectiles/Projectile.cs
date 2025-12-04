@@ -6,19 +6,27 @@ namespace SpinalShatter;
 
 public partial class Projectile : RigidBody3D
 {
+	public enum ChargeEffectType
+	{
+		ScaleSizeAndDamage,
+		// Future types
+		// IncreaseBounces,
+		// IncreaseLockOnTargets
+	}
+
 	private enum ProjectileState
 	{
 		Charging,
 		Fired
 	}
 
+	[Export] public ChargeEffectType ChargeEffect { get; private set; }
 	[Export] private PackedScene _sparkParticlesScene;
 	private SpriteBase3D sprite;
 	private CollisionShape3D collisionShape;
 
 	[Export] public AudioData AudioData { get; private set; }
 	private AudioStreamPlayer3D audioStreamPlayer;
-	// [Export] public AudioStream AudioStream_FireHit { get; private set; }
 
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
@@ -42,11 +50,14 @@ public partial class Projectile : RigidBody3D
 
 	int ManaLostAmount => (int)Mathf.Min(manaDroppedAmount.GetRandomValue(), ManaCost);
 
+	private GpuParticles3D trail;
+
 	public override void _Ready()
 	{
 		sprite ??= GetNode<SpriteBase3D>("Sprite3D");
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
+		trail ??= GetNode<GpuParticles3D>("GPUTrail3D");
 
 		lifetimeTimer = new Timer();
 		lifetimeTimer.WaitTime = _lifetime;
@@ -118,6 +129,7 @@ public partial class Projectile : RigidBody3D
 	public void BeginChargingProjectile(Node3D parent, FloatValueRange sizeScale)
 	{
 		parent.AddChild(this);
+		trail.Visible = false;
 		this.SizingScale = sizeScale;
 		this.Position = Vector3.Zero;
 		Charge = 0;
@@ -126,21 +138,25 @@ public partial class Projectile : RigidBody3D
 
 	public void UpdateChargeState()
 	{
-		float size = Mathf.Lerp(SizingScale.Min, SizingScale.Max, Charge);
-
 		if (IsFixed) return;
-		if (sprite != null)
-		{
-			sprite.Scale = Vector3.One * size;
-		}
 
-		if (collisionShape is { Shape: SphereShape3D sphere })
+		switch (ChargeEffect)
 		{
-			// Ensure the collision shape doesn't get too small
-			sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
+			case ChargeEffectType.ScaleSizeAndDamage:
+				float size = Mathf.Lerp(SizingScale.Min, SizingScale.Max, Charge);
+				if (sprite != null)
+				{
+					sprite.Scale = Vector3.One * size;
+				}
+				if (collisionShape is { Shape: SphereShape3D sphere })
+				{
+					sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
+				}
+				Mass = size;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
 		}
-
-		Mass = size;
 	}
 
 	public void Launch(Node3D caster, float damage, Vector3 initialVelocity)
@@ -172,20 +188,19 @@ public partial class Projectile : RigidBody3D
 		this.AbsoluteMaxProjectileSpeed = data.AbsoluteMaxProjectileSpeed;
 		this.MaxInitialManaCost = data.MaxInitialManaCost;
 		this.SizingScale = data.SizingScale;
+		trail.Visible = true;
 		UpdateChargeState();
 		ProjectileOwner = data.Caster;
 		
 		// Ensure the projectile is removed from its current parent before adding to RoomManager
 		if (GetParent() != null)
 		{
-			// DebugManager.Debug($"Projectile: Launch - Removing from parent: {GetParent().Name}");
 			GetParent().RemoveChild(this);
 		}
 		var parent = RoomManager.Instance;
 		parent.AddChild(this);
 		Marker3D SpellMarker = data.StartPosition;
 
-		// OPTIONAL: Fire at center?
 		Vector3 markerPosition = SpellMarker.Position;
 		SpellMarker.Position = SpellMarker.Position with {X = 0};
 
@@ -193,10 +208,8 @@ public partial class Projectile : RigidBody3D
 
 		SpellMarker.Position = markerPosition;
 
-		// Enable physics and launch
 		this.Freeze = false;
 		collisionShape.Disabled = false;
-		// DebugManager.Debug($"Projectile: Launch - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		this.LinearVelocity = data.InitialVelocity;
 
 		lifetimeTimer.Start();
@@ -216,24 +229,21 @@ public partial class Projectile : RigidBody3D
 			return 0;
 		}
 
-		// Initial guess (good approximation for large x)
 		double w = Math.Log(x);
 		if (x > 10)
 		{
 			w = Math.Log(x / Math.Log(x));
 		}
 
-		// Halley's method for refinement (usually 3-5 iterations suffice for machine precision)
 		for (int i = 0; i < 10; i++)
 		{
 			double expW = Math.Exp(w);
 			double wExpW = w * expW;
 			double wPlusOne = w + 1;
 
-			// Halley's method iteration formula
 			double nextW = w - (wExpW - x) / (expW * wPlusOne - (w + 2) * (wExpW - x) / (2 * wPlusOne));
 
-			if (Math.Abs(nextW - w) < 1e-15) // Check for convergence
+			if (Math.Abs(nextW - w) < 1e-15) 
 			{
 				return nextW;
 			}
@@ -241,7 +251,7 @@ public partial class Projectile : RigidBody3D
 			w = nextW;
 		}
 
-		return w; // Return the result after max iterations
+		return w;
 	}
 
 	public void OnEnemyHit()
@@ -253,10 +263,6 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		// DebugManager.Instance.DEBUG.Info($"HWB: Wall Bounce! Current Mana: {ManaCost}");
-
-		// If DamageGrowthConstant is 0, this is a fixed-damage projectile (e.g., enemy projectile).
-		// It should not scale or eject mana, just expire.
 		if (DamageGrowthConstant.IsZero())
 		{
 			Expire();
@@ -266,68 +272,55 @@ public partial class Projectile : RigidBody3D
 		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
 
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Bounce"]);
-		// DebugManager.Trace($"projectile impact point: {impactPoint}");
 		ApplyManaLoss(ManaLostAmount, impactPoint);
 
-		bounceCooldown = 0.1f; // Prevent rapid re-bouncing
+		bounceCooldown = 0.1f; 
 	}
 
 	public void Expire()
 	{
 		Damage = 0;
+
+		double seconds = trail.Lifetime / trail.FixedFps;
+		SceneTreeTimer clearTimer = GetTree().CreateTimer(seconds);
+		clearTimer.Timeout += () =>
+		{
+			trail.QueueFree();
+		};
+		trail.Reparent(GetParent());
+
 		EjectMana(ManaCost, GlobalPosition);
-		Reset(); // Reset state before queuing for free
+		Reset(); 
 		QueueFree();
 	}
 
 	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition)
 	{
-		if (float.IsNaN(manaLostAmount))
+		if (float.IsNaN(manaLostAmount) || float.IsNaN(ManaCost))
 		{
 			Expire();
 			return;
 		}
 		
-		if (float.IsNaN(ManaCost))
-		{
-			Expire();
-			return;
-		}
-		
-		// DebugManager.Debug(
-		// 	$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}");
-
-		// Clamp manaLostAmount to current ManaCost to prevent negative mana
 		manaLostAmount = Mathf.Min(ManaCost, manaLostAmount);
-
-		// Eject mana particles
-		// float manaToEject = isEnemyHit ? manaLostAmount * EnemyManaRefundFraction : manaLostAmount;
 		EjectMana(manaLostAmount, impactPosition);
-
-		// Reduce projectile's mana
 		ManaCost -= manaLostAmount;
-		ManaCost = Mathf.Max(0, ManaCost); // Ensure ManaCost doesn't go below zero
+		ManaCost = Mathf.Max(0, ManaCost);
 
-		// If ManaCost drops below threshold, expire the projectile
 		if (ManaCost < minManaThreshold)
 		{
 			Expire();
 			return;
 		}
 
-		// Recalculate Charge based on new ManaCost
-		// MaxInitialManaCost is the ManaCost when Charge is 1
 		Charge = ManaCost / MaxInitialManaCost;
-		Charge = Mathf.Max(0, Charge); // Ensure Charge doesn't go below zero
+		Charge = Mathf.Max(0, Charge);
 
-		// Recalculate Damage based on new Charge
 		Damage = ManaCost * Mathf.Pow(4, Charge * DamageGrowthConstant);
 
-		// Update visual state
 		UpdateChargeState();
 
 
-		// Destroy if too small
 		if (sprite.Scale.X < 0.1f)
 		{
 			QueueFree();
@@ -336,31 +329,17 @@ public partial class Projectile : RigidBody3D
 
 	public void EjectMana(float amount, Vector3 spawnPoint)
 	{
-		// DebugManager.Debug($"EM: Amount received: {amount}");
-
-		// float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
-		// DebugManager.Debug($"EM: RefundPercent: {refundPercent}");
-
-		// float manaToFloor = amount * (1.0f - refundPercent);
-
 		float manaToFloor = amount;
 		int manaToSpawn = manaToFloor.FloorToInt();
-		// DebugManager.Debug($"EM: Mana to floor: {manaToFloor}, Mana to spawn (raw): {manaToSpawn}");
 
 		if (manaToSpawn <= 0 && amount > 0)
 		{
-			manaToSpawn = 1; // Ensure at least 1 mana is spawned if there was a loss
-			// DebugManager.Debug($"EM: Mana to spawn adjusted to 1 (was 0, amount > 0)");
+			manaToSpawn = 1;
 		}
 
 		if (manaToSpawn > 0)
 		{
 			PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, spawnPoint);
-			// DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
-		}
-		else
-		{
-			// DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
 		}
 	}
 
@@ -376,10 +355,8 @@ public partial class Projectile : RigidBody3D
 		AngularVelocity = Vector3.Zero;
 		Freeze = true;
 		collisionShape.Disabled = true;
-		// DebugManager.Debug($"Projectile: Reset - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		Charge = 0;
 		lifetimeTimer.Stop();
-		GlobalPosition = Vector3.Zero; // Reset position to a default
-		// Reset any other relevant properties
+		GlobalPosition = Vector3.Zero;
 	}
 }

@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://dllhy7tqqr7kj"]
+
+[ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_fa2tn"]
+[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_q3rrb"]
+[ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_4w4lp"]
+[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_4w4lp"]
+[ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="4_7dxrx"]
+[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/Player/fireball.ase" id="5_36qv7"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
+
+[node name="MagicOrb" type="RigidBody3D" groups=["Projectile"]]
+collision_layer = 8192
+collision_mask = 41612
+physics_material_override = ExtResource("1_q3rrb")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_fa2tn")
+ChargeEffect = 0
+_sparkParticlesScene = ExtResource("3_4w4lp")
+AudioData = ExtResource("4_4w4lp")
+_lifetime = 20.0
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+modulate = Color(1, 0.4, 0.4, 1)
+gi_mode = 2
+billboard = 1
+texture_filter = 0
+sprite_frames = ExtResource("5_36qv7")
+autoplay = "default"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_12345")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.25, 0, 1)
+light_energy = 1.1
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_7dxrx")
+volume_db = 5.0
+max_distance = 60.0
+bus = &"SFX"
+doppler_tracking = 2

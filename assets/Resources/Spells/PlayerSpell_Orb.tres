@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="SpellData" load_steps=8 format=3 uid="uid://b822nwtw8a74b"]
 
-[ext_resource type="Script" path="res://Scripts/Resources/SpellData.cs" id="1_vxg8v"]
-[ext_resource type="Resource" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="2_h0xwu"]
+[ext_resource type="Script" uid="uid://mpkw0pgad3w1" path="res://Scripts/Resources/SpellData.cs" id="1_vxg8v"]
+[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="2_h0xwu"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="3_6d8d6"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/PlayerData/Sphere_ManaCostRange.tres" id="4_wrp8d"]
 [ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/PlayerData/Sphere_DamageRange.tres" id="5_g5dyo"]
@@ -12,7 +12,6 @@
 script = ExtResource("1_vxg8v")
 Name = "Charged Orb"
 Description = "A basic, chargeable orb of magic."
-PrimaryFire = 0
 MaxChargeTime = 1.75
 ChargeIntervals = 10
 ManaCostRange = ExtResource("4_wrp8d")
@@ -20,7 +19,4 @@ DamageRange = ExtResource("5_g5dyo")
 SpeedRange = ExtResource("6_s5gih")
 SizeRange = ExtResource("7_m7j4c")
 ProjectileScene = ExtResource("3_6d8d6")
-UsePlayerMomentum = false
-AltFire = 0
-AltFireManaCost = 10.0
 AudioData = ExtResource("2_h0xwu")

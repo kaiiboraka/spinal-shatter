@@ -43,6 +43,7 @@ public partial class SpellData : Resource
 	[ExportGroup("Alternate Fire")]
 	[Export] public AltFireType AltFire { get; private set; } = AltFireType.None;
 	[Export] public float AltFireManaCost { get; private set; } = 10f;
+	[Export] public PackedScene AltFireProjectileScene { get; private set; }
 
 	[ExportGroup("Audio")]
 	[Export] public AudioData AudioData { get; private set; }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlnm3x4j36fvu"]
+[gd_scene load_steps=19 format=3 uid="uid://dlnm3x4j36fvu"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_ou870"]
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_w5pg0"]
@@ -6,8 +6,45 @@
 [ext_resource type="PackedScene" uid="uid://ycgo1ko7742e" path="res://Scenes/Particles/HitEffects_SparksBlue.tscn" id="3_w5pg0"]
 [ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_w5pg0"]
 [ext_resource type="SpriteFrames" uid="uid://cmdvtn2o3op81" path="res://assets/Images/Enemies/enemy_fireball.ase" id="5_ou870"]
+[ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_dfkx4"]
+[ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_76anl"]
+[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/Textures/fireball_enemy.png" id="9_g5x3p"]
+[ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_0k0pq"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bcqrh"]
+shader = ExtResource("7_dfkx4")
+
+[sub_resource type="Gradient" id="Gradient_a2qk3"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.77136755, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n73rh"]
+gradient = SubResource("Gradient_a2qk3")
+
+[sub_resource type="Curve" id="Curve_hk4fi"]
+bake_resolution = 16
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_t0yl1"]
+curve = SubResource("Curve_hk4fi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xcs8j"]
+resource_local_to_scene = true
+render_priority = -1
+shader = ExtResource("8_76anl")
+shader_parameter/tex = ExtResource("9_g5x3p")
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/color_ramp = SubResource("GradientTexture1D_n73rh")
+shader_parameter/curve = SubResource("CurveTexture_t0yl1")
+shader_parameter/emmission_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/flags = 44
+
+[sub_resource type="QuadMesh" id="QuadMesh_tb8va"]
+material = SubResource("ShaderMaterial_xcs8j")
 
 [node name="MagicOrb" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 32768
@@ -42,3 +79,21 @@ volume_db = 5.0
 max_distance = 60.0
 bus = &"SFX"
 doppler_tracking = 2
+
+[node name="GPUTrail3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0.1)
+amount = 60
+lifetime = 60.0
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ShaderMaterial_bcqrh")
+draw_pass_1 = SubResource("QuadMesh_tb8va")
+script = ExtResource("10_0k0pq")
+length = 60
+length_seconds = 1.0
+texture = ExtResource("9_g5x3p")
+color_ramp = SubResource("GradientTexture1D_n73rh")
+curve = SubResource("CurveTexture_t0yl1")
+billboard = true
+_defaults_have_been_set = true
+metadata/_custom_type_script = "uid://b6l44lujpalqq"

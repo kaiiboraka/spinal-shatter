@@ -1,5 +1,6 @@
 using Godot;
 using Elythia;
+using System;
 
 namespace SpinalShatter;
 
@@ -16,10 +17,15 @@ public partial class MagicCaster : Node
 
 	public bool CanShoot { get; set; } = true;
 
+	private enum CasterState
+	{
+		Idle,
+		Charging
+	}
+	private CasterState _currentState = CasterState.Idle;
+
 	private float currentChargeTime = 0f;
 	private Projectile chargingProjectile = null;
-
-	public bool IsCharging { get; private set; } = false;
 
 	private int lastInterval = -1;
 	private AudioFile sfxBeep;
@@ -41,45 +47,47 @@ public partial class MagicCaster : Node
 
 	public override void _Input(InputEvent @event)
 	{
-		if (EquippedSpell == null) return;
-		
-		if (@event.IsActionPressed("Player_Shoot"))
-		{
-			OnPressCharge();
-		}
-		else if (@event.IsActionReleased("Player_Shoot"))
-		{
-			OnReleaseCharge();
-		}
-		else if (@event.IsActionPressed("Player_AltFire"))
-		{
-			OnAltFire();
-		}
+		if (EquippedSpell == null || !CanShoot) return;
 
-		SetProcess(IsCharging);
+		// State-based input handling
+		switch (_currentState)
+		{
+			case CasterState.Idle:
+				if (@event.IsActionPressed("Player_Shoot"))
+				{
+					BeginCharge();
+				}
+				break;
+			case CasterState.Charging:
+				if (@event.IsActionReleased("Player_Shoot"))
+				{
+					FirePrimary();
+				}
+				else if (@event.IsActionPressed("Player_AltFire"))
+				{
+					FireAltFire();
+				}
+				break;
+		}
 	}
 
 	public override void _Process(double delta)
 	{
-		if (IsCharging)
+		if (_currentState == CasterState.Charging)
 		{
 			ContinueCharge((float)delta);
 		}
 	}
 
-	private void OnPressCharge()
+	private void BeginCharge()
 	{
-		if (!CanShoot)
-		{
-			IsCharging = false;
-			return;
-		}
 		if (chargingProjectile != null || EquippedSpell.ProjectileScene == null || manaComponent.CurrentMana < EquippedSpell.ManaCostRange.Min)
 		{
 			return;
 		}
 
-		IsCharging = true;
+		_currentState = CasterState.Charging;
+		SetProcess(true);
 
 		PlayerBody.Instance.PlayCastCharge();
 		PlayerBody.Instance.DisallowSiphon();
@@ -96,18 +104,15 @@ public partial class MagicCaster : Node
 
 	private void ContinueCharge(float delta)
 	{
-		if (!CanShoot || chargingProjectile == null) return;
+		if (chargingProjectile == null) return;
 
-		// 1. Calculate max possible charge ratio based on current mana
 		float maxChargeRatioByMana = Mathf.InverseLerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, manaComponent.CurrentMana);
 		float maxChargeTimeByMana = maxChargeRatioByMana * EquippedSpell.MaxChargeTime;
 
-		// 2. Increment charge time, clamping by various limits
-		currentChargeTime += delta;
+		currentChargeTime += (float)delta;
 		currentChargeTime = Mathf.Min(currentChargeTime, EquippedSpell.MaxChargeTime);
 		currentChargeTime = Mathf.Min(currentChargeTime, maxChargeTimeByMana);
 
-		// 3. Determine current charge interval
 		int currentInterval = 0;
 		float intervalDuration = EquippedSpell.MaxChargeTime > 0 ? EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals : 0;
 		if (intervalDuration > 0)
@@ -116,37 +121,32 @@ public partial class MagicCaster : Node
 		}
 		currentInterval = Mathf.Clamp(currentInterval, 0, EquippedSpell.ChargeIntervals);
 
-		float chargeRatio = 0;
-		// 4. Update visuals and audio only when the interval changes
 		if (currentInterval != lastInterval)
 		{
 			lastInterval = currentInterval;
-			chargeRatio = EquippedSpell.ChargeIntervals > 0 ? (float)currentInterval / EquippedSpell.ChargeIntervals : 0;
-
+			float chargeRatio = EquippedSpell.ChargeIntervals > 0 ? (float)currentInterval / EquippedSpell.ChargeIntervals : 0;
 			float size = Mathf.Lerp(0.1f, 1.2f, chargeRatio);
-
 			sfxBeep.PitchScale = size * 4 / 6f;
 
 			if (currentInterval >= 1)
 			{
 				AudioManager.Play(audioPlayer_ChargeBeep, sfxBeep);
-				audioPlayer_ChargeBeep.Play();
 			}
 			chargingProjectile.Charge = chargeRatio;
 			chargingProjectile.UpdateChargeState();
-		}
 
-		if (chargeRatio >= 1.0f)
-		{
-			if (audioPlayer_ChargeBeep.IsPlaying()) audioPlayer_ChargeBeep.Stop();
-			AudioManager.Play(audioPlayer_ChargeBeep, sfxComplete);
+			if (chargeRatio >= 1.0f)
+			{
+				if (audioPlayer_ChargeBeep.IsPlaying()) audioPlayer_ChargeBeep.Stop();
+				AudioManager.Play(audioPlayer_ChargeBeep, sfxComplete);
+			}
 		}
 	}
 
-	private void OnReleaseCharge()
+	private void FirePrimary()
 	{
-		if (!CanShoot || chargingProjectile == null) return;
-		
+		if (chargingProjectile == null) return;
+
 		switch (EquippedSpell.PrimaryFire)
 		{
 			case PrimaryFireType.ChargedProjectile:
@@ -154,38 +154,70 @@ public partial class MagicCaster : Node
 				break;
 			default:
 				GD.PrintErr($"Primary fire type '{EquippedSpell.PrimaryFire}' not implemented.");
+				CancelCharge();
 				break;
 		}
+	}
 
-		PlayerBody.Instance.AllowMeleeAttack();
-		PlayerBody.Instance.AllowSiphon();
-	}
-	
-	private void OnAltFire()
+	private void FireAltFire()
 	{
-		if (EquippedSpell.AltFire == AltFireType.None) return;
+		if (chargingProjectile == null || EquippedSpell.AltFireProjectileScene == null)
+		{
+			CancelCharge();
+			return;
+		}
+
+		if (!manaComponent.HasEnoughMana(EquippedSpell.AltFireManaCost))
+		{
+			// Maybe play an "out of mana" sound
+			CancelCharge();
+			return;
+		}
 		
-		// Future implementation
-		GD.Print($"Alt-fire triggered for {EquippedSpell.Name}");
+		float chargeRatio = GetCurrentChargeRatio();
+
+		// TODO: Create specific launch data for alt-fire if its params differ
+		ProjectileLaunchData launchData = new ProjectileLaunchData
+		{
+			Caster = PlayerBody.Instance,
+			Damage = Mathf.Lerp(EquippedSpell.DamageRange.Min, EquippedSpell.DamageRange.Max, chargeRatio), // Example scaling
+			ManaCost = EquippedSpell.AltFireManaCost,
+			InitialVelocity = CalculateInitialVelocity(EquippedSpell.SpeedRange.Max), // Example: always max speed
+			ChargeRatio = chargeRatio,
+			StartPosition = spellOrigin,
+			// Other params might be different for alt-fire
+		};
+
+		var altProjectile = EquippedSpell.AltFireProjectileScene.Instantiate<Projectile>();
+		altProjectile.Launch(launchData);
+		manaComponent.ConsumeMana(launchData.ManaCost);
+
+		// Clean up the original charging projectile
+		chargingProjectile.QueueFree();
+		ResetChargeState();
 	}
+
+	private float GetCurrentChargeRatio()
+	{
+		if (EquippedSpell.MaxChargeTime <= 0) return 0;
+		
+		float intervalDuration = EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals;
+		int intervalsCharged = Mathf.FloorToInt(currentChargeTime / intervalDuration);
+		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, EquippedSpell.ChargeIntervals);
+		return (float)intervalsCharged / EquippedSpell.ChargeIntervals;
+	}
+
 
 	private void FireChargedProjectile()
 	{
-		IsCharging = false;
 		PlayerBody.Instance.PlayCastRelease();
 
-		float intervalDuration = EquippedSpell.MaxChargeTime > 0 ? EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals : 0;
-
-		int intervalsCharged = Mathf.FloorToInt(currentChargeTime / intervalDuration);
-		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, EquippedSpell.ChargeIntervals);
-
-		float chargeRatio = (float)intervalsCharged / EquippedSpell.ChargeIntervals;
+		float chargeRatio = GetCurrentChargeRatio();
 		float manaCost = Mathf.Lerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, chargeRatio);
 
 		if (!manaComponent.HasEnoughMana(manaCost))
 		{
-			chargingProjectile.QueueFree();
-			ResetChargeState();
+			CancelCharge();
 			return;
 		}
 
@@ -211,9 +243,6 @@ public partial class MagicCaster : Node
 		chargingProjectile.Launch(launchData);
 		manaComponent.ConsumeMana(manaCost);
 		ResetChargeState();
-
-		PlayerBody.Instance.AllowMeleeAttack();
-		PlayerBody.Instance.AllowSiphon();
 	}
 
 	private Vector3 CalculateInitialVelocity(float speed)
@@ -229,12 +258,27 @@ public partial class MagicCaster : Node
 		return projectileVelocity;
 	}
 
+	private void CancelCharge()
+	{
+		if (chargingProjectile != null)
+		{
+			chargingProjectile.QueueFree();
+		}
+		ResetChargeState();
+	}
+
 	private void ResetChargeState()
 	{
+		_currentState = CasterState.Idle;
+		SetProcess(false);
+		
 		chargingProjectile = null;
 		currentChargeTime = 0f;
 		lastInterval = -1;
 		audioPlayer_ChargeBack.Stop();
 		audioPlayer_ChargeBeep.Stop();
+		
+		PlayerBody.Instance.AllowMeleeAttack();
+		PlayerBody.Instance.AllowSiphon();
 	}
 }

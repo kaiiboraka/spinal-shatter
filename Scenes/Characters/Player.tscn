@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=56 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/Player/arm_left.ase" id="24_x4yal"]
 [ext_resource type="Texture2D" uid="uid://brunehtlo2ssg" path="res://assets/Images/Pickups/Coins_Spin.png" id="29_2n8gu"]
+[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/Spells/PlayerSpell_Orb.tres" id="30_g1h2i"]
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
 length = 0.001
@@ -383,19 +384,12 @@ script = ExtResource("3_mana")
 [node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("manaComponent", "spellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
-projectileScene = ExtResource("4_orb")
+EquippedSpell = ExtResource("30_g1h2i")
 manaComponent = NodePath("../ManaComponent")
 spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
-AudioData = ExtResource("7_mc0oj")
 audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
 audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D")
-maxChargeTime = 1.75
-ManaCostRange = ExtResource("15_81gbe")
-DamageRange = ExtResource("16_3vnku")
-SpeedRange = ExtResource("17_hqlak")
-SizeRange = ExtResource("18_mc0oj")
-chargeIntervals = 10
 
 [node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")

@@ -5,27 +5,14 @@ namespace SpinalShatter;
 
 public partial class MagicCaster : Node
 {
-	[Export] private PackedScene projectileScene;
+	[Export] public SpellData EquippedSpell { get; private set; }
 	[Export] private ManaComponent manaComponent;
 	[Export] private Marker3D spellOrigin;
 
 	[ExportSubgroup("Audio", "_audio")]
-	[Export] private AudioData AudioData;
 	[Export] private AudioStreamPlayer3D audioPlayer_Spell;
 	[Export] private AudioStreamPlayer3D audioPlayer_ChargeBack;
 	[Export] private AudioStreamPlayer3D audioPlayer_ChargeBeep;
-
-	[ExportGroup("Charging")]
-	[Export] private float maxChargeTime = 2.0f;
-
-	[Export] private FloatValueRange ManaCostRange;
-	[Export] private FloatValueRange DamageRange;
-	[Export] private FloatValueRange SpeedRange;
-	[Export] private FloatValueRange SizeRange;
-
-	[Export(PropertyHint.Range, "1,16,1")] private int chargeIntervals = 8;
-
-	[Export] private bool usePlayerMomentum = false;
 
 	public bool CanShoot { get; set; } = true;
 
@@ -41,12 +28,21 @@ public partial class MagicCaster : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		sfxBeep = (AudioFile)AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)AudioData["SpellChargeComplete"];
+		if (EquippedSpell == null || EquippedSpell.AudioData == null)
+		{
+			GD.PrintErr($"MagicCaster: EquippedSpell or its AudioData is not set!");
+			SetProcess(false);
+			SetPhysicsProcess(false);
+			return;
+		}
+		sfxBeep = (AudioFile)EquippedSpell.AudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)EquippedSpell.AudioData["SpellChargeComplete"];
 	}
 
 	public override void _Input(InputEvent @event)
 	{
+		if (EquippedSpell == null) return;
+		
 		if (@event.IsActionPressed("Player_Shoot"))
 		{
 			OnPressCharge();
@@ -54,6 +50,10 @@ public partial class MagicCaster : Node
 		else if (@event.IsActionReleased("Player_Shoot"))
 		{
 			OnReleaseCharge();
+		}
+		else if (@event.IsActionPressed("Player_AltFire"))
+		{
+			OnAltFire();
 		}
 
 		SetProcess(IsCharging);
@@ -74,7 +74,7 @@ public partial class MagicCaster : Node
 			IsCharging = false;
 			return;
 		}
-		if (chargingProjectile != null || projectileScene == null || manaComponent.CurrentMana < ManaCostRange.Min)
+		if (chargingProjectile != null || EquippedSpell.ProjectileScene == null || manaComponent.CurrentMana < EquippedSpell.ManaCostRange.Min)
 		{
 			return;
 		}
@@ -87,42 +87,41 @@ public partial class MagicCaster : Node
 
 		currentChargeTime = 0f;
 		lastInterval = -1;
-		chargingProjectile = projectileScene.Instantiate<Projectile>();
+		chargingProjectile = EquippedSpell.ProjectileScene.Instantiate<Projectile>();
 
-		AudioManager.Play(audioPlayer_ChargeBack, AudioData["SpellChargeBack"]);
+		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)EquippedSpell.AudioData["SpellChargeBack"]);
 
-		chargingProjectile.BeginChargingProjectile(spellOrigin, SizeRange);
+		chargingProjectile.BeginChargingProjectile(spellOrigin, EquippedSpell.SizeRange);
 	}
 
 	private void ContinueCharge(float delta)
 	{
-		if (!CanShoot) return;
-		if (chargingProjectile == null) return;
+		if (!CanShoot || chargingProjectile == null) return;
 
 		// 1. Calculate max possible charge ratio based on current mana
-		float maxChargeRatioByMana = Mathf.InverseLerp(ManaCostRange.Min, ManaCostRange.Max, manaComponent.CurrentMana);
-		float maxChargeTimeByMana = maxChargeRatioByMana * maxChargeTime;
+		float maxChargeRatioByMana = Mathf.InverseLerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, manaComponent.CurrentMana);
+		float maxChargeTimeByMana = maxChargeRatioByMana * EquippedSpell.MaxChargeTime;
 
 		// 2. Increment charge time, clamping by various limits
 		currentChargeTime += delta;
-		currentChargeTime = Mathf.Min(currentChargeTime, maxChargeTime);
+		currentChargeTime = Mathf.Min(currentChargeTime, EquippedSpell.MaxChargeTime);
 		currentChargeTime = Mathf.Min(currentChargeTime, maxChargeTimeByMana);
 
 		// 3. Determine current charge interval
 		int currentInterval = 0;
-		float intervalDuration = maxChargeTime > 0 ? maxChargeTime / chargeIntervals : 0;
+		float intervalDuration = EquippedSpell.MaxChargeTime > 0 ? EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals : 0;
 		if (intervalDuration > 0)
 		{
 			currentInterval = Mathf.FloorToInt(currentChargeTime / intervalDuration);
 		}
-		currentInterval = Mathf.Clamp(currentInterval, 0, chargeIntervals);
+		currentInterval = Mathf.Clamp(currentInterval, 0, EquippedSpell.ChargeIntervals);
 
 		float chargeRatio = 0;
 		// 4. Update visuals and audio only when the interval changes
 		if (currentInterval != lastInterval)
 		{
 			lastInterval = currentInterval;
-			chargeRatio = chargeIntervals > 0 ? (float)currentInterval / chargeIntervals : 0;
+			chargeRatio = EquippedSpell.ChargeIntervals > 0 ? (float)currentInterval / EquippedSpell.ChargeIntervals : 0;
 
 			float size = Mathf.Lerp(0.1f, 1.2f, chargeRatio);
 
@@ -146,20 +145,42 @@ public partial class MagicCaster : Node
 
 	private void OnReleaseCharge()
 	{
-		if (!CanShoot) return;
-		if (chargingProjectile == null) return;
+		if (!CanShoot || chargingProjectile == null) return;
+		
+		switch (EquippedSpell.PrimaryFire)
+		{
+			case PrimaryFireType.ChargedProjectile:
+				FireChargedProjectile();
+				break;
+			default:
+				GD.PrintErr($"Primary fire type '{EquippedSpell.PrimaryFire}' not implemented.");
+				break;
+		}
 
+		PlayerBody.Instance.AllowMeleeAttack();
+		PlayerBody.Instance.AllowSiphon();
+	}
+	
+	private void OnAltFire()
+	{
+		if (EquippedSpell.AltFire == AltFireType.None) return;
+		
+		// Future implementation
+		GD.Print($"Alt-fire triggered for {EquippedSpell.Name}");
+	}
+
+	private void FireChargedProjectile()
+	{
 		IsCharging = false;
-
 		PlayerBody.Instance.PlayCastRelease();
 
-		float intervalDuration = maxChargeTime > 0 ? maxChargeTime / chargeIntervals : 0;
+		float intervalDuration = EquippedSpell.MaxChargeTime > 0 ? EquippedSpell.MaxChargeTime / EquippedSpell.ChargeIntervals : 0;
 
 		int intervalsCharged = Mathf.FloorToInt(currentChargeTime / intervalDuration);
-		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, chargeIntervals);
+		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, EquippedSpell.ChargeIntervals);
 
-		float chargeRatio = (float)intervalsCharged / chargeIntervals;
-		float manaCost = Mathf.Lerp(ManaCostRange.Min, ManaCostRange.Max, chargeRatio);
+		float chargeRatio = (float)intervalsCharged / EquippedSpell.ChargeIntervals;
+		float manaCost = Mathf.Lerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, chargeRatio);
 
 		if (!manaComponent.HasEnoughMana(manaCost))
 		{
@@ -168,11 +189,10 @@ public partial class MagicCaster : Node
 			return;
 		}
 
-		float damage = Mathf.Lerp(DamageRange.Min, DamageRange.Max, chargeRatio);
-		float speed = Mathf.Lerp(SpeedRange.Min, SpeedRange.Max, chargeRatio);
+		float damage = Mathf.Lerp(EquippedSpell.DamageRange.Min, EquippedSpell.DamageRange.Max, chargeRatio);
+		float speed = Mathf.Lerp(EquippedSpell.SpeedRange.Min, EquippedSpell.SpeedRange.Max, chargeRatio);
 
 		Vector3 initialVelocity = CalculateInitialVelocity(speed);
-		// DebugManager.Debug($"Speed: {speed}, chargeRatio: {chargeRatio}, damage: {damage}, manaCost: {manaCost}");
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{
 			Caster = PlayerBody.Instance,
@@ -180,11 +200,11 @@ public partial class MagicCaster : Node
 			ManaCost = manaCost,
 			InitialVelocity = initialVelocity,
 			ChargeRatio = chargeRatio,
-			DamageGrowthConstant = maxChargeTime,
-			AbsoluteMaxProjectileSpeed = SpeedRange.Max,
-			MaxInitialManaCost = ManaCostRange.Max,
+			DamageGrowthConstant = EquippedSpell.MaxChargeTime,
+			AbsoluteMaxProjectileSpeed = EquippedSpell.SpeedRange.Max,
+			MaxInitialManaCost = EquippedSpell.ManaCostRange.Max,
 			StartPosition = spellOrigin,
-			SizingScale = SizeRange,
+			SizingScale = EquippedSpell.SizeRange,
 		};
 
 		audioPlayer_Spell.Play();
@@ -200,7 +220,7 @@ public partial class MagicCaster : Node
 	{
 		Vector3 projectileVelocity = -spellOrigin.GlobalTransform.Basis.Z * speed;
 
-		if (usePlayerMomentum && GetOwner() is PlayerBody player)
+		if (EquippedSpell.UsePlayerMomentum && GetOwner() is PlayerBody player)
 		{
 			Vector3 playerMomentum = player.Velocity.XZ();
 			return projectileVelocity + playerMomentum;
@@ -217,5 +237,4 @@ public partial class MagicCaster : Node
 		audioPlayer_ChargeBack.Stop();
 		audioPlayer_ChargeBeep.Stop();
 	}
-
 }

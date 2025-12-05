@@ -11,7 +11,6 @@ public partial class ShopCart : StaticBody3D
 	private Camera3D shopCamera;
 	private Marker3D playerSpawnPoint;
 
-	private PlayerBody player;
 	private bool _isOpen = false;
 
 	public override void _Ready()
@@ -29,11 +28,11 @@ public partial class ShopCart : StaticBody3D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (_isOpen && @event.IsActionPressed("ui_cancel"))
+		if (@event.IsActionPressed("ui_cancel"))
 		{
 			CloseShop();
 		}
-		else if (!_isOpen && player != null && @event.IsActionPressed("Player_Interact"))
+		if ( @event.IsActionPressed("Player_Interact"))
 		{
 			OpenShop();
 		}
@@ -43,8 +42,7 @@ public partial class ShopCart : StaticBody3D
 	{
 		if (body is PlayerBody player)
 		{
-			this.player = player;
-			this.player.ShowInteractionPrompt("[E] to Shop");
+			player.ShowInteractionPrompt("[E] to Shop");
 			animationPlayer.Play("Open");
 		}
 	}
@@ -54,38 +52,42 @@ public partial class ShopCart : StaticBody3D
 		if (body is PlayerBody player)
 		{
 			player.HideInteractionPrompt();
-			this.player = null;
 			animationPlayer.Play("Close");
 		}
 	}
 
 	public void OpenShop()
 	{
-		if (player == null) return;
-		
+		if (_isOpen) return;
 		_isOpen = true;
+
+		var player = PlayerBody.Instance;
+
 		player.EnterUIMode();
 		player.HideInteractionPrompt();
 		
-		if (playerSpawnPoint != null)
-		{
-			player.GlobalTransform = playerSpawnPoint.GlobalTransform;
-		}
-
 		CameraTransition.Instance.TransitionCamera3D(player.PlayerCamera, shopCamera, 1f);
 	}
 
 	private void CloseShop()
 	{
-		if (player == null && PlayerBody.Instance != null)
-		{
-			player = PlayerBody.Instance;
-		}
-		if (player == null) return;
-
+		if (!_isOpen) return;
 		_isOpen = false;
-		player.ExitUIMode();
+		var player = PlayerBody.Instance;
+
+		if (playerSpawnPoint != null)
+		{
+			player.GlobalTransform = playerSpawnPoint.GlobalTransform;
+		}
+
+		CameraTransition.Instance.TransitionFinished += ReEnablePlayer;
 		CameraTransition.Instance.TransitionCamera3D(shopCamera, player.PlayerCamera, 1f);
+	}
+
+	private void ReEnablePlayer()
+	{
+		PlayerBody.Instance.ExitUIMode();
+		CameraTransition.Instance.TransitionFinished -= CloseShop;
 	}
 
 	/// <summary>

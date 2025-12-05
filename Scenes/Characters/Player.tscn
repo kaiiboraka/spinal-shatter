@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=52 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -347,9 +347,51 @@ tracks/0/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_hqlak"]
+resource_name = "Cast_Hold"
+length = 0.033333335
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"Cast_Release"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeHitbox/Melee_CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2n8gu"]
 _data = {
 &"Cast_Charge": SubResource("Animation_spibu"),
+&"Cast_Hold": SubResource("Animation_hqlak"),
 &"Cast_Idle": SubResource("Animation_m2jkf"),
 &"Cast_Release": SubResource("Animation_h1o3h"),
 &"Melee_LeftSwing": SubResource("Animation_fxftb"),
@@ -583,8 +625,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.9, -1)
 shaded = true
 texture_filter = 0
 sprite_frames = ExtResource("23_mc0oj")
-animation = &"Cast_Charge"
+animation = &"Cast_Release"
 autoplay = "Idle"
+frame = 2
 
 [node name="LeftArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
 unique_name_in_owner = true

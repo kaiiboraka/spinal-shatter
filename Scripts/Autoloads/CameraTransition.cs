@@ -10,6 +10,8 @@ public partial class CameraTransition : Node
 	private Tween tween;
 	private bool transitioning = false;
 
+	[Signal] public delegate void TransitionFinishedEventHandler();
+
 	public override void _Ready()
 	{
 		if (Instance == null)
@@ -81,6 +83,7 @@ public partial class CameraTransition : Node
 			tween.Finished -= On3DFinished;
 			to.MakeCurrent(); // true
 			transitioning = false;
+			EmitSignalTransitionFinished();
 		}
 	}
 

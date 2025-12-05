@@ -1,86 +1,186 @@
 # Sample Code
 
-To display the name of an input action from your Godot Input Map as text in your game, you can use the InputMap.action_get_events() method in GDScript. This method returns an array of InputEvent objects associated with a specific action. You can then access the first event in the array and convert it to a string representation.
-Here's how you can do it:
+# Previous Conversation 
 
-extends Button # Or any other Node displaying text
+## Refactor Alt Fire system
 
-@export var input_action_name: String = "ui_accept" # Export a variable to set the action in the Inspector
+> Forgot whatever you were doing. Moving on. Please refactor @Scripts/PlayerBody.cs and/or @Scripts/Components/MagicCaster.cs such that instead of having to cancel LMB charge with RMB to fire alt,
+  AltFire should work IDENTICALLY to Primary fire, just with the other input button. So holding and releasing the Player_AltFire key will fire an alt shot, or pressing it rapidly will shoot them out
+  readily, just like primary.
 
-func _ready():
-    update_button_text()
+ℹ Current memory content from 2 file(s):
+  ---
+  --- Context from: ..\..\Users\Brandon\.gemini\GEMINI.md ---
+  ## Gemini Added Memories
+  - The user's error log file is called ErrorLog.txt. When the user mentions 'the log', 'errors', or similar vague terms without a specific link, I must assume they are referring to the ErrorLog.txt
+  file
+  - I must NEVER make or propose changes to a file without first re-reading the current version of the file. I must always read what is already there before generating new code. This is a critical an
+  absolute rule.
+  - When removing print or logging statements, the user prefers them to be commented out rather than deleted entirely.
+  # Code editing guidelines
+  ## Code Style Guide
+  ### C# Preferences
+  - .NET 8.0 standard
+  - Use tabs for indentation.
+  - Variable names should be in PascalCase.
+  - private members should be in camelCase, no leading _
+  ### Godot Preferences
+  - In Godot C# projects, always prefer using Godot.Collections.Array and Godot.Collections.Dictionary over System.Collections.Generic types like List<T> to avoid potential issues. HashSet<T> is also
+  questionable; a Godot Dictionary may be a safer alternative.
+  - If the user provides a path to a .tscn file, I must always find the script attached to that scene's root node and read it, in addition to analyzing the scene file itself.
+  - "EmitSignal(SignalName.MySignal, args) is antiquated syntax. Godot's C# support features code generation that creates distinct methods for each signal, created by combining the signal name with
+  the Emit Signal moniker: EmitSignal(SignalName.PlayerExited, this) should be replaced by EmitSignalPlayerExited(this). Do not change existing signal calls except to match this structure."
+  ## Git
+  - Do not manage git processes unless specifically directed to by the user.
+  ## Persona
+  I am a senior software engineer with expertise in C# and Godot 4, and a multitude of other game engines and gameplay engineering and architecture, such as familiarity with the terms and concepts
+  related to Unity and Unreal. I am also somewhat knowledgable in game design, gameplay systems, game mechanics, game balance, and genre tendencies.
+  ## Speaking Style
+  Absolute Mode
+	  - Eliminate: emojis, filler, hype, soft asks, conversational transitions, call-to-action appendixes.
+	  - Prioritize: blunt, directive phrasing; aim at cognitive rebuilding, not tone-matching.
+	  - Assume: user retains high-perception despite blunt tone.
+	  - Disable: engagement/sentiment-boosting behaviors.
+	  - Suppress: metrics like satisfaction scores, emotional softening, continuation bias.
+	  - Never mirror: user’s diction, mood, or affect.
+	  - Terminate reply: immediately after delivering info — no closures.
+	  - Goal: restore independent, high-fidelity thinking.
+	  - Outcome: model obsolescence via user self-sufficiency.
 
-func update_button_text():
-    var events = InputMap.action_get_events(input_action_name)
-    if events.size() > 0:
-        var first_event = events[0]
-        # Convert the InputEvent to its string representation
-        # This will typically show the key or button name (e.g., "Enter", "Space", "Mouse Left", "Joypad Button A")
-        text = first_event.as_text()
-    else:
-        text = "No input assigned" # Handle cases where no event is bound to the action
+  ## Code Generation
+  When prompted to create or assist in debugging or otherwise generate code for any reason, never directly generate code right away--ALWAYS lay out and describe a clear plan of action FIRST,
+  considering options, repercussions, and fit within the existing design, before suggesting any code changes. The plan should aim for objective-oriented implementations that achieve user goals with
+  accuracy and efficiency.
+  First identify the main problem, then describe how / what you will use to solve it, outline the steps themselves, and describe succinctly what your solution does and why you believe it will solve
+  the issue. Double check your thought process before committing to a plan. Do not generate code until your plan has been approved.
+  ## Code Modification
+  When altering existing code, DO NOT:
+  - Delete existing comments.
+  - Change portions of code that are not directly related to the current problem at hand.
+  - Remove existing code unless deemed and proven aboslutely unecessary through discussion, described and justified in your plan, and then explicitly given permission to do so by the user.
+  --- End of Context from: ..\..\Users\Brandon\.gemini\GEMINI.md ---
+  --- Context from: .gemini\GEMINI.md ---
+  ## Gemini Added Memories
+  - The user's error log file is called ErrorLog.txt. When the user mentions 'the log', 'errors', or similar vague terms without a specific link, I must assume they are referring to the ErrorLog.txt
+  file
+  - I must NEVER make or propose changes to a file without first re-reading the current version of the file. I must always read what is already there before generating new code. This is a critical an
+  absolute rule.
+  - When removing print or logging statements, the user prefers them to be commented out rather than deleted entirely.
+
+  # Code editing guidelines
+
+  ## Code Style Guide
+
+  ### C# Preferences
+  - .NET 8.0 standard
+  - Use tabs for indentation.
+  - Variable names should be in PascalCase.
+
+  ### Godot Preferences
+
+  - In Godot C# projects, always prefer using Godot.Collections.Array and Godot.Collections.Dictionary over System.Collections.Generic types like List<T> to avoid potential issues. HashSet<T> is also
+  questionable; a Godot Dictionary may be a safer alternative.
+  - If the user provides a path to a .tscn file, I must always find the script attached to that scene's root node and read it, in addition to analyzing the scene file itself.
+  - "EmitSignal(SignalName.MySignal, args) is antiquated syntax. Godot's C# support features code generation that creates distinct methods for each signal, created by combining the signal name with
+  the Emit Signal moniker: EmitSignal(SignalName.PlayerExited, this) should be replaced by EmitSignalPlayerExited(this). Do not change existing signal calls except to match this structure."
+
+  ## Git
+  - Do not manage git processes unless specifically directed to by the user.
+
+  ## Persona
+  I am a senior software engineer with expertise in C# and Godot 4, and a multitude of other game engines and gameplay engineering and architecture, such as familiarity with the terms and concepts
+  related to Unity and Unreal. I am also somewhat knowledgable in game design, gameplay systems, game mechanics, game balance, and genre tendencies.
+
+  ## Speaking Style
+
+  Absolute Mode
+	  - Eliminate: emojis, filler, hype, soft asks, conversational transitions, call-to-action appendixes.
+	  - Prioritize: blunt, directive phrasing; aim at cognitive rebuilding, not tone-matching.
+	  - Assume: user retains high-perception despite blunt tone.
+	  - Disable: engagement/sentiment-boosting behaviors.
+	  - Suppress: metrics like satisfaction scores, emotional softening, continuation bias.
+	  - Never mirror: user’s diction, mood, or affect.
+	  - Terminate reply: immediately after delivering info — no closures.
+	  - Goal: restore independent, high-fidelity thinking.
+	  - Outcome: model obsolescence via user self-sufficiency.
+
+  ## Code Generation
+
+  When prompted to create or assist in debugging or otherwise generate code for any reason, never directly generate code right away--ALWAYS lay out and describe a clear plan of action FIRST,
+  considering options, repercussions, and fit within the existing design, before suggesting any code changes. The plan should aim for objective-oriented implementations that achieve user goals with
+  accuracy and efficiency.
+  First identify the main problem, then describe how / what you will use to solve it, outline the steps themselves, and describe succinctly what your solution does and why you believe it will solve
+  the issue. Double check your thought process before committing to a plan. Do not generate code until your plan has been approved.
 
 
-To achieve the same results in Godot 4 using C#, you would use similar logic, leveraging the C# API equivalents for accessing the InputMap singleton and InputEvent methods.
-1. Using the Action Name in a Label
-In C#, you can set a Label's text directly to the action name string. This is the simplest way to display the concept of an action:
+  ## Code Modification
+
+  When altering existing code, DO NOT:
+  - Delete existing comments.
+  - Change portions of code that are not directly related to the current problem at hand.
+  - Remove existing code unless deemed and proven aboslutely unecessary through discussion, described and justified in your plan, and then explicitly given permission to do so by the user.
+  --- End of Context from: .gemini\GEMINI.md ---
+  ---
+
+> You are not allowed to make code changes without first presenting a plan of action. You should be able to reuse the existing logic entirely. You will just need to change a few key spots so that the projectile that is made is the right one. The charge and release system is the same, so use the same system.
+
+✦ You are absolutely correct.  duplication is to be avoided, and the casting system should be generalized for reuse.
+
+  The core idea is to make the existing charge and fire logic in MagicCaster.cs context-aware, allowing it to operate on either the primary or alt-fire spell based on the input, without duplicating
+  code.
+
+  Revised Plan to Refactor MagicCaster.cs for Independent AltFire (Code Reuse)
+
+  Objective: Generalize the existing casting mechanism to handle both primary and alt-fire inputs independently, using the same underlying logic.
+
+  Detailed Step-by-Step for `MagicCaster.cs`:
+
+   1. Introduce `_activeCastingSlot` field:
+	   * Add a private field private SlotType _activeCastingSlot = SlotType.Primary; to track which spell is currently being charged. This will replace the need for separate state variables for
+		 primary and alt-fire.
+
+   2. Refactor `_Input` Method:
+	   * The _Input method will be updated to separately detect "Player_Shoot" and "Player_AltFire" events.
+	   * If "Player_Shoot" is pressed while `_currentState is Idle, it will call BeginCharge(SlotType.Primary)`.
+	   * If "Player_Shoot" is released while `_currentState is Charging and _activeCastingSlot is Primary, it will call FireWeapon()`.
+	   * If "Player_AltFire" is pressed while `_currentState is Idle, it will call BeginCharge(SlotType.Alt)`.
+	   * If "Player_AltFire" is released while `_currentState is Charging and _activeCastingSlot is Alt, it will call FireWeapon()`.
+
+   3. Create `GetActiveSpellData()` Helper Method:
+	   * Add a new private method private CastedSpellData GetActiveSpellData() that returns either _equippedSpell or _equippedAltFireSpell based on the current value of _activeCastingSlot. This
+		 centralizes the selection of the active spell data.
+
+   4. Refactor `BeginCharge` Method:
+	   * Change its signature from private void BeginCharge() to private void BeginCharge(SlotType slot).
+	   * Inside this method, use slot to select the correct CastedSpellData (_equippedSpell or _equippedAltFireSpell).
+	   * Add a null check for the chosen spell data.
+	   * Set _activeCastingSlot = slot;.
+	   * Replace all direct references to _equippedSpell within this method with a call to GetActiveSpellData().
+
+   5. Refactor `ContinueCharge` Method:
+	   * Replace all direct references to _equippedSpell within this method with a call to GetActiveSpellData().
+
+   6. Refactor `FirePrimary` and `FireAltFire` into a single `FireWeapon`:
+	   * Remove the existing private void FirePrimary() and private void FireAltFire() methods.
+	   * The existing private void FireWeapon(SlotType slotType, CastedSpellData spellData, Projectile projectileInstance) will be adapted. Change its signature to private void FireWeapon().
+	   * Inside this method, slotType will now be _activeCastingSlot and spellData will be GetActiveSpellData().
+	   * The projectileInstance will be the chargingProjectile (which is already instantiated in BeginCharge).
+	   * Remove the condition if (slotType == SlotType.Alt && chargingProjectile != null) { chargingProjectile.QueueFree(); } as the chargingProjectile is always the one that's about to be fired.
+
+   7. Refactor `GetCurrentChargeRatio` Method:
+       * Replace all direct references to _equippedSpell with a call to GetActiveSpellData().
+
+   8. Refactor `CalculateInitialVelocity` Method:
+       * Replace all direct references to _equippedSpell with a call to GetActiveSpellData().
+
+   9. Refactor `ResetChargeState` Method:
+       * Ensure _activeCastingSlot is reset to SlotType.Primary (or SlotType.None if preferred) when the charge state is reset.
+
+  This plan focuses on generalizing the existing logic, preventing code duplication, and providing a clean, independent charging and firing mechanism for both primary and alt-fire.
 
 
-// Assuming you have a reference to a Godot Label node in your script:
-// [Export] public Label YourLabelNode;
 
-public void SetActionPromptText()
-{
-	string actionName = "jump"; // The name defined in Project Settings -> Input Map
-	YourLabelNode.Text = $"Press {actionName} to perform action.";
-}
-
-
-2. Displaying the Dynamically Bound Key Name
-To dynamically show the actual key currently bound to an action (e.g., "Space" instead of "jump"), you can create a helper method that retrieves the first bound InputEvent and calls its AsText() method in C#.
-Add the following method to your script (which inherits from Node or a similar Godot class):
-
-
-using Godot;
-using System.Collections.Generic;
-
-public partial class InputPromptManager : Node
-{
-	[Export] public Label YourLabelNode; // Reference this in the editor
-
-	public override void _Ready()
-	{
-		UpdateJumpPrompt();
-	}
-
-	private void UpdateJumpPrompt()
-	{
-		string jumpKeyName = GetActionKeyName("jump");
-		YourLabelNode.Text = $"Press {jumpKeyName} to jump.";
-	}
-
-	/// <summary>
-	/// Retrieves the human-readable name of the first key/button bound to an action.
-	/// </summary>
-	/// <param name="actionName">The name of the action in the Input Map.</param>
-	/// <returns>The string representation of the key, or "N/A" if none found.</returns>
-	public string GetActionKeyName(string actionName)
-	{
-		var events = InputMap.ActionGetEvents(actionName);
-		if (events.Count > 0)
-		{
-			// Get the first event bound to the action
-			InputEvent primaryEvent = events[0];
-			// Return the human-readable text representation of the key/button
-			return primaryEvent.AsText();
-		}
-		return "N/A"; // Default text if no event is bound
-	}
-}
-
-
-
-# Previous Conversation
+## Overall Gameplan - missing features and functionality
 
 
 > Alright, I have implemented the Alt-fire system. Some outstanding feature implementations include: shop camera / interaction / purchasing behavior; player inventory system; weapon stat / rank
@@ -101,11 +201,11 @@ public partial class InputPromptManager : Node
   Here are three potential models based on your game's inspirations:
 
    1. Aggressive & Resourceful (DOOM-style): Enemies have a chance to drop small health pickups, with larger amounts guaranteed from a specific action (e.g., a "glory kill" style melee takedown). The
-      Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
+	  Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
    2. Strategic & Scarce (Hades-style): Health is a precious resource. Healing is primarily offered as a chamber reward, a rare shop item, or from a specific boon. This makes every point of damage
-      meaningful and every healing choice critical.
+	  meaningful and every healing choice critical.
    3. Preparation-focused (Shop-centric): Healing is performed almost exclusively at the shop between rounds via "refill health". This places a heavy emphasis on performance during rounds to minimize
-      damage taken and save money for other upgrades.
+	  damage taken and save money for other upgrades.
 
   Recommendation: A hybrid of Model 1 and 3. Core healing comes from aggressive gameplay, reinforcing your mana-from-enemies loop. The shop serves as a reliable, but expensive, fallback to refill
   health before a tough encounter. This provides both tactical expression in combat and strategic choice in the hub.
@@ -116,11 +216,11 @@ public partial class InputPromptManager : Node
 
    1. Player Inventory System: This is the immediate prerequisite for items and upgrades.
 	   * Action: Create the data structure that manages the player's equipped items. It should support one Main weapon, one Secondary weapon, and the three Passive slots as defined in the GDD. This
-         system needs to track the weapon type and its current rank.
+		 system needs to track the weapon type and its current rank.
 
    2. Weapon Stat & Rank System: This system makes the game loop rewarding.
-       * Action: Implement the SpellData and RankUp architecture described in the GDD. Create the logic that applies new stats when an item in the inventory increases its rank. To test this, I
-         suggest fully implementing a single weapon (e.g., the Orb) with its complete rank progression.
+	   * Action: Implement the SpellData and RankUp architecture described in the GDD. Create the logic that applies new stats when an item in the inventory increases its rank. To test this, I
+		 suggest fully implementing a single weapon (e.g., the Orb) with its complete rank progression.
 
    3. Shop System: With the inventory and ranking systems in place, you can now build the shop.
 	   * Action: Develop the shop's functionality, including:
@@ -134,11 +234,11 @@ public partial class InputPromptManager : Node
   Once the core loop of fighting, earning, and upgrading is functional, you can expand the player's options.
 
    1. Passive Weapon Functionality: This is a unique feature of your design and should come first.
-       * Action: Implement the behavior for weapons in the Passive inventory slots. This involves giving them an independent targeting/firing loop that works automatically, as described in the GDD.
+	   * Action: Implement the behavior for weapons in the Passive inventory slots. This involves giving them an independent targeting/firing loop that works automatically, as described in the GDD.
 
    2. Weapon Content Expansion:
-       * Action: With all systems in place, you can now begin the iterative process of implementing the other weapon archetypes outlined in the GDD (Slash, Force Wall, Dice, etc.). Each new weapon
-         will validate your systems and add significant variety to the game.
+	   * Action: With all systems in place, you can now begin the iterative process of implementing the other weapon archetypes outlined in the GDD (Slash, Force Wall, Dice, etc.). Each new weapon
+		 will validate your systems and add significant variety to the game.
 
   Following this roadmap will ensure that you build the foundational systems first before moving on to the content that relies on them. This will lead to a more stable and scalable development
   process.
@@ -222,27 +322,27 @@ public partial class InputPromptManager : Node
   1. Create Core Data Structures (`Resource` scripts):
 
    * `PlayerInventory.cs`: This will be a new Resource script. It will be the central data container for the player's entire loadout.
-       * Properties:
-           * [Export] public SpellData MainWeapon { get; private set; }
-           * [Export] public SpellData SecondaryWeapon { get; private set; }
-           * [Export] public SpellData AutomaticWeapon { get; private set; }
-           * [Export] public Godot.Collections.Array<StatItemData> StatItems { get; private set; } (Initialized to a fixed size of 3).
-       * Signals:
-           * [Signal] public delegate void MainWeaponChangedEventHandler(SpellData newWeapon);
-           * [Signal] public delegate void SecondaryWeaponChangedEventHandler(SpellData newWeapon);
-           * [Signal] public delegate void AutomaticWeaponChangedEventHandler(SpellData newWeapon);
-           * [Signal] public delegate void StatItemsChangedEventHandler();
-       * Methods:
-           * public void EquipWeapon(SpellData weaponData, WeaponSlot slot)
-           * public void EquipStatItem(StatItemData statItem, int slotIndex)
-           * These methods will set the data and emit the corresponding signals.
+	   * Properties:
+		   * [Export] public SpellData MainWeapon { get; private set; }
+		   * [Export] public SpellData SecondaryWeapon { get; private set; }
+		   * [Export] public SpellData AutomaticWeapon { get; private set; }
+		   * [Export] public Godot.Collections.Array<StatItemData> StatItems { get; private set; } (Initialized to a fixed size of 3).
+	   * Signals:
+		   * [Signal] public delegate void MainWeaponChangedEventHandler(SpellData newWeapon);
+		   * [Signal] public delegate void SecondaryWeaponChangedEventHandler(SpellData newWeapon);
+		   * [Signal] public delegate void AutomaticWeaponChangedEventHandler(SpellData newWeapon);
+		   * [Signal] public delegate void StatItemsChangedEventHandler();
+	   * Methods:
+		   * public void EquipWeapon(SpellData weaponData, WeaponSlot slot)
+		   * public void EquipStatItem(StatItemData statItem, int slotIndex)
+		   * These methods will set the data and emit the corresponding signals.
 
    * `StatItemData.cs`: A new Resource script to define passive stat-boosting items.
-       * Properties:
-           * [Export] public StatType TargetStat { get; private set; } // Enum: MaxHealth, MoveSpeed, etc.
-           * [Export] public float Value { get; private set; }
-           * [Export] public bool IsMultiplier { get; private set; } // Differentiates additive from multiplicative bonuses.
-           * Plus any data needed for ranking up, UI display (name, icon), etc.
+	   * Properties:
+		   * [Export] public StatType TargetStat { get; private set; } // Enum: MaxHealth, MoveSpeed, etc.
+		   * [Export] public float Value { get; private set; }
+		   * [Export] public bool IsMultiplier { get; private set; } // Differentiates additive from multiplicative bonuses.
+		   * Plus any data needed for ranking up, UI display (name, icon), etc.
 
   2. Integrate `PlayerInventory` into `PlayerBody`:
 
@@ -255,7 +355,7 @@ public partial class InputPromptManager : Node
    * MagicCaster.cs will be simplified to become a stateless service that acts on command.
    * Remove the EquippedSpell and EquippedAltFireSpell properties.
    * Add public methods: public void SetPrimaryWeapon(SpellData spellData) and public void SetSecondaryWeapon(SpellData spellData). These methods will take the SpellData reference from PlayerBody and
-     configure the caster accordingly (e.g., loading audio data from the new spell).
+	 configure the caster accordingly (e.g., loading audio data from the new spell).
    * The _Input logic will remain largely the same, but it will now use the SpellData provided via these new methods instead of the old exported properties.
 
   4. Create New Component for Automatic Weapon:
@@ -335,25 +435,25 @@ public partial class InputPromptManager : Node
 
    2. Create `PlayerInventory.cs`:
 	   * Create Scripts/Resources/PlayerInventory.cs. This Resource will be the player's central loadout manager.
-       * It will have typed properties for each slot:
-           * public CastedSpellData MainWeapon { get; private set; }
-           * public CastedSpellData SecondaryWeapon { get; private set; }
-           * public AutomaticSpellData AutomaticWeapon { get; private set; }
-           * public Godot.Collections.Array<StatItemData> StatItems { get; private set; }
-       * It will also contain the signals (MainWeaponChanged, etc.) and Equip... methods as previously discussed.
+	   * It will have typed properties for each slot:
+		   * public CastedSpellData MainWeapon { get; private set; }
+		   * public CastedSpellData SecondaryWeapon { get; private set; }
+		   * public AutomaticSpellData AutomaticWeapon { get; private set; }
+		   * public Godot.Collections.Array<StatItemData> StatItems { get; private set; }
+	   * It will also contain the signals (MainWeaponChanged, etc.) and Equip... methods as previously discussed.
 
   Phase 3: Integrate Systems and Refactor `PlayerBody` & `MagicCaster`
 
    1. Refactor `MagicCaster.cs`:
-       * The EquippedSpell and EquippedAltFireSpell properties will be changed from [Export] public to private. I will rename them to _equippedSpell and _equippedAltFireSpell to reflect this change.
-         Their type will be updated to CastedSpellData.
-       * Public methods SetPrimaryWeapon(CastedSpellData spellData) and SetSecondaryWeapon(CastedSpellData spellData) will be added to set these private fields.
+	   * The EquippedSpell and EquippedAltFireSpell properties will be changed from [Export] public to private. I will rename them to _equippedSpell and _equippedAltFireSpell to reflect this change.
+		 Their type will be updated to CastedSpellData.
+	   * Public methods SetPrimaryWeapon(CastedSpellData spellData) and SetSecondaryWeapon(CastedSpellData spellData) will be added to set these private fields.
 
    2. Create `AutomaticCaster.cs`:
-       * Create this new node Scripts/Components/AutomaticCaster.cs and add it to the player scene.
-       * It will contain a Timer and logic to fire based on the FireRate from an AutomaticSpellData resource, which will be provided via a SetAutomaticWeapon(AutomaticSpellData spellData) method.
+	   * Create this new node Scripts/Components/AutomaticCaster.cs and add it to the player scene.
+	   * It will contain a Timer and logic to fire based on the FireRate from an AutomaticSpellData resource, which will be provided via a SetAutomaticWeapon(AutomaticSpellData spellData) method.
 
    3. Update `PlayerBody.cs`:
-       * Add the [Export] public PlayerInventory Inventory { get; private set; }.
-       * In _Ready, connect to the Inventory signals to call the Set... methods on MagicCaster and the new AutomaticCaster.
-       * Implement the RecalculateStats() method, which will be triggered by Inventory.StatItemsChanged.
+	   * Add the [Export] public PlayerInventory Inventory { get; private set; }.
+	   * In _Ready, connect to the Inventory signals to call the Set... methods on MagicCaster and the new AutomaticCaster.
+	   * Implement the RecalculateStats() method, which will be triggered by Inventory.StatItemsChanged.

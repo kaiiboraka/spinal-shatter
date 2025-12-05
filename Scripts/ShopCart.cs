@@ -1,5 +1,4 @@
 using Godot;
-using PhantomCamera;
 
 namespace SpinalShatter;
 
@@ -42,7 +41,9 @@ public partial class ShopCart : StaticBody3D
 		if (@event.IsActionPressed("Player_Interact"))
 		{
 			if (currentState == ShopState.OpenWindow)
+			{
 				OpenShop();
+			}
 		}
 	}
 
@@ -51,7 +52,7 @@ public partial class ShopCart : StaticBody3D
 		if (body is PlayerBody player)
 		{
 			player.ShowPromptToPress("Player_Interact","to\nBUY SOMFIN", "Press");
-			animationPlayer.Play("Open");
+			OpenWindow();
 		}
 	}
 
@@ -60,39 +61,62 @@ public partial class ShopCart : StaticBody3D
 		if (body is PlayerBody player)
 		{
 			player.HideInteractionPrompt();
-			animationPlayer.Play("Close");
+			CloseWindow();
 		}
+	}
+
+	private void OpenWindow()
+	{
+		animationPlayer.Play("Open");
+		currentState = ShopState.OpenWindow;
+	}
+
+	private void CloseWindow()
+	{
+		animationPlayer.Play("Close");
+		currentState = ShopState.ClosedWindow;
 	}
 
 	public void OpenShop()
 	{
+		if (currentState == ShopState.PlayerShopping) return;
+
 		currentState = ShopState.PlayerShopping;
 		var player = PlayerBody.Instance;
 
 		player.EnterUIMode();
 		player.HideInteractionPrompt();
-		
+
 		CameraTransition.Instance.TransitionCamera3D(player.PlayerCamera, shopCamera, 1f);
+
+		CameraTransition.Instance.TransitionFinished += MovePlayer;
 	}
 
 	private void CloseShop()
 	{
-		var player = PlayerBody.Instance;
+		if (currentState != ShopState.PlayerShopping) return;
 
-		if (playerSpawnPoint != null)
-		{
-			player.GlobalTransform = playerSpawnPoint.GlobalTransform;
-		}
+		var player = PlayerBody.Instance;
+		CameraTransition.Instance.TransitionFinished -= MovePlayer;
+		MovePlayer();
 
 		CameraTransition.Instance.TransitionFinished += ReEnablePlayer;
 		CameraTransition.Instance.TransitionCamera3D(shopCamera, player.PlayerCamera, 1f);
+	}
+
+	private void MovePlayer()
+	{
+		if (playerSpawnPoint != null)
+		{
+			PlayerBody.Instance.GlobalTransform = playerSpawnPoint.GlobalTransform;
+		}
 	}
 
 	private void ReEnablePlayer()
 	{
 		currentState = ShopState.OpenWindow;
 		PlayerBody.Instance.ExitUIMode();
-		CameraTransition.Instance.TransitionFinished -= CloseShop;
+		CameraTransition.Instance.TransitionFinished -= ReEnablePlayer;
 	}
 
 	/// <summary>

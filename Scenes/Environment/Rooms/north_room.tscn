@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dmf47bymxj2a7"]
+[gd_scene load_steps=16 format=3 uid="uid://dmf47bymxj2a7"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_g2g5o"]
 [ext_resource type="ArrayMesh" uid="uid://cdht6lyvqoy17" path="res://assets/Models/Meshes/Room_North.res" id="2_hnwvy"]
@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://c63l1h31o6f3b" path="res://assets/Audio/Ambience/dripping-water-in-cave-114694.mp3" id="6_espfw"]
 [ext_resource type="AudioStream" uid="uid://cqp7ypitxfc8p" path="res://assets/Audio/Ambience/cave-wind-10-76283.mp3" id="7_v3os2"]
 [ext_resource type="PackedScene" uid="uid://wahkuswnqfks" path="res://Scenes/Environment/Doodads/Door_blue.tscn" id="8_espfw"]
-[ext_resource type="PackedScene" uid="uid://drxvesqhpamll" path="res://Scenes/Particles/HitEffects_Explode.tscn" id="9_v3os2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hnwvy"]
 friction = 0.2
@@ -146,6 +145,3 @@ bus = &"Ambience"
 
 [node name="Door" parent="." groups=["OutsideHub"] instance=ExtResource("8_espfw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
-
-[node name="HitEffects_Explode" parent="." instance=ExtResource("9_v3os2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3603301, -11.030205)

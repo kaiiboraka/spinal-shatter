@@ -1,12 +1,17 @@
-[gd_resource type="Resource" script_class="PlayerInventory" load_steps=4 format=3 uid="uid://c0h32c3lyl763"]
+[gd_resource type="Resource" script_class="PlayerInventory" load_steps=5 format=3 uid="uid://c0h32c3lyl763"]
 
 [ext_resource type="Script" uid="uid://dsl8cttct5qr8" path="res://Scripts/Resources/PlayerInventory.cs" id="1_fyk2d"]
 [ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="1_mmucx"]
-[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbAltFire_SpellData.tres" id="2_sfdt4"]
+[ext_resource type="Script" uid="uid://b3802gerc0cye" path="res://Scripts/Resources/Items/EquippedItem.cs" id="1_w75nx"]
+
+[sub_resource type="Resource" id="Resource_mmucx"]
+script = ExtResource("1_w75nx")
+ItemData = ExtResource("1_mmucx")
+metadata/_custom_type_script = "uid://b3802gerc0cye"
 
 [resource]
 script = ExtResource("1_fyk2d")
-MainWeapon = ExtResource("1_mmucx")
-SecondaryWeapon = ExtResource("2_sfdt4")
-StatItems = Array[Object]([])
+EquippedWeapons = Dictionary[int, ExtResource("1_w75nx")]({
+0: SubResource("Resource_mmucx")
+})
 metadata/_custom_type_script = "uid://dsl8cttct5qr8"

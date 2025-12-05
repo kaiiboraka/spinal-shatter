@@ -13,12 +13,14 @@ public enum StatType
 	Player_SiphonRange,
 	Player_SiphonSpeed,
 	Player_MoneyDropRate,
-	Player_ChargeSpeed,
 
 	// Weapon Stats
-	Weapon_ProjectileSpeed,
-	Weapon_ProjectileCount,
+	Weapon_Damage,
 	Weapon_Size,
+	Weapon_Count,
+	Weapon_Speed,
+	Weapon_Time, // affects Casted charge time, and Automatic Cooldown time (delay between firing)
+	Weapon_Duration, // affects
 
 	// Meta Progression Stats
 	Meta_RerollHallwayRewards,

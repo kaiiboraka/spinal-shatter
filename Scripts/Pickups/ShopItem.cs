@@ -12,7 +12,7 @@ public partial class ShopItem : Node3D
     {
         if (Data == null)
         {
-            GD.PrintErr("ShopItemData not set for ShopItem.");
+            GD.PushWarning("ShopItemData not set for ShopItem.");
             return;
         }
 

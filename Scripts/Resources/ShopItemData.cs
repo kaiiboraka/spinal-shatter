@@ -5,6 +5,7 @@ namespace SpinalShatter;
 [GlobalClass]
 public partial class ShopItemData : Resource
 {
+    [ExportGroup("Shop Properties")]
     [Export] public string ItemName { get; private set; }
 
     [Export(PropertyHint.MultilineText)]

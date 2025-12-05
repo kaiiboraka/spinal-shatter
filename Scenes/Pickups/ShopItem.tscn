@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://br75cxlvledda"]
+[gd_scene load_steps=7 format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
-[ext_resource type="Resource" uid="uid://dxc5ea3x15lm7" path="res://assets/Resources/ShopItemData/ShopItem_Fireball.tres" id="2_kbhn7"]
 [ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Player/fireball_icon.ase" id="3_tktbk"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
@@ -36,7 +35,6 @@ viewport_path = NodePath("SubViewport")
 
 [node name="ShopItem" type="Node3D"]
 script = ExtResource("1_tktbk")
-Data = ExtResource("2_kbhn7")
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)

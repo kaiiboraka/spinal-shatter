@@ -117,7 +117,7 @@ step = 0.083333336
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -129,7 +129,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -146,7 +146,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -158,7 +158,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -186,7 +186,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -198,7 +198,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -229,7 +229,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%LeftArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/LeftArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -241,7 +241,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%LeftArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/LeftArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -284,7 +284,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%LeftArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/LeftArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -296,7 +296,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%LeftArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/LeftArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -545,9 +545,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83, 0)
 
 [node name="Camera1P" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
-doppler_tracking = 2
-current = true
-far = 3000.0
 
 [node name="AimCast1P" type="RayCast3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
@@ -557,7 +554,7 @@ collide_with_areas = true
 
 [node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.45, -0.737)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.44999993, -0.737)
 
 [node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)
@@ -752,6 +749,42 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
 show_percentage = true
+
+[node name="Control" type="Control" parent="Control/HUD/ScreenMarginContainer"]
+layout_mode = 2
+
+[node name="InteractionPrompt_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.75
+anchor_right = 0.6
+anchor_bottom = 0.75
+offset_top = -45.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="InteractionPrompt_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Control/InteractionPrompt_PanelContainer"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]Press \"E\" to BUY SOMFIN[/center]"
+fit_content = true
+scroll_active = false
+autowrap_trim_flags = 0
+shortcut_keys_enabled = false
 
 [node name="Reticle" type="CenterContainer" parent="Control"]
 layout_mode = 1

@@ -3,29 +3,27 @@ namespace SpinalShatter;
 public enum StatType
 {
 	// Player Stats
-	MaxHealth,
-	MaxMana,
-	MoveSpeed,
-	Armor,
-	PickupRadius,
-	JumpHeight,
-	AirJumps,
-	SiphonRange,
-	SiphonSpeed,
+	Player_MaxHealth,
+	Player_MaxMana,
+	Player_MoveSpeed,
+	Player_Armor,
+	Player_PickupRadius,
+	Player_JumpHeight,
+	Player_AirJumps,
+	Player_SiphonRange,
+	Player_SiphonSpeed,
+	Player_MoneyDropRate,
+	Player_ChargeSpeed,
 
 	// Weapon Stats
-	ProjectileSpeed,
-	ProjectileSize,
-	ProjectileCount,
-	ChargeSpeed,
-	
-	// Economy Stats
-	MoneyDropRate,
-	SellValueRatio,
+	Weapon_ProjectileSpeed,
+	Weapon_ProjectileCount,
+	Weapon_Size,
 
 	// Meta Progression Stats
-	RerollHallwayRewards,
-	RerollShop,
-	FreezeCharges,
-	Banish
+	Meta_RerollHallwayRewards,
+	Meta_RerollShop,
+	Meta_FreezeCharges,
+	Meta_Banish,
+	Meta_SellValueRatio,
 }

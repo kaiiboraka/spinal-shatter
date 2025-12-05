@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_n716g"]
 [ext_resource type="Resource" uid="uid://c6m53nnl3g8sv" path="res://assets/Resources/EnemyData/GRM_BusterData.tres" id="2_n716g"]
-[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/Spells/Orb/EnemyOrb_SpellData.tres" id="3_4tuo5"]
+[ext_resource type="Resource" uid="uid://bpg87onj725jn" path="res://assets/Resources/ShopItemData/Spells/Orb/EnemyOrb_SpellData.tres" id="3_4tuo5"]
 [ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_yff4x"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_y30vy"]
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_0r6my"]

@@ -447,13 +447,13 @@ public partial class PlayerBody : Combatant
 
 			{
 
-				case StatType.MaxHealth:
+				case StatType.Player_MaxHealth:
 
 					HealthComponent.MaxHealth = isMultiplier ? HealthComponent.MaxHealth * value : HealthComponent.MaxHealth + value;
 
 					break;
 
-				case StatType.MoveSpeed:
+				case StatType.Player_MoveSpeed:
 
 					WALK_SPEED = isMultiplier ? WALK_SPEED * value : WALK_SPEED + value;
 
@@ -461,13 +461,13 @@ public partial class PlayerBody : Combatant
 
 					break;
 
-				case StatType.JumpHeight:
+				case StatType.Player_JumpHeight:
 
 					JUMP_VELOCITY = isMultiplier ? JUMP_VELOCITY * value : JUMP_VELOCITY + value;
 
 					break;
 
-				case StatType.AirJumps:
+				case StatType.Player_AirJumps:
 
 					if (!isMultiplier) maxJumps += (int)value;
 

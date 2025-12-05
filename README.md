@@ -99,6 +99,25 @@ Expel / Guard / Parry / Reflect: Instead of inhaling, release a burst of energy 
 Control wise, right now it IS alt-fire (other trigger/MB)
 instead, it should be "another weapon", where pressing 2 will jump to it, or scrolling wheel will cycle through, 
 
+### Healing
+
+ Here are three potential models based on your game's inspirations:
+
+   1. Aggressive & Resourceful (DOOM-style): Enemies have a chance to drop small health pickups, with larger amounts guaranteed from a specific action (e.g., a "glory kill" style melee takedown). The
+      Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
+   2. Strategic & Scarce (Hades-style): Health is a precious resource. Healing is primarily offered as a chamber reward, a rare shop item, or from a specific boon. This makes every point of damage
+      meaningful and every healing choice critical.
+   3. Preparation-focused (Shop-centric): Healing is performed almost exclusively at the shop between rounds via "refill health". This places a heavy emphasis on performance during rounds to minimize
+      damage taken and save money for other upgrades.
+
+  Recommendation: A hybrid of Model 1 and 3. Core healing comes from aggressive gameplay, reinforcing your mana-from-enemies loop. The shop serves as a reliable, but expensive, fallback to refill
+  health before a tough encounter. This provides both tactical expression in combat and strategic choice in the hub.
+
+  I think I agree with your recommendation for the Health economy. A hybrid of 1-Aggressive-Doom and 3-Preparation-ShopCentric sounds like the best approach. I think I imagine a separate station from
+  the ShopCart, like an interactable HealingFountain (might look like a giant cauldron or potion) that costs money to use, costing more the lower HP you are (non-linear relationship), which simply
+  refills your health to full for the listed price. I haven't decided upon HealthDrops yet, but if I do, I see no reason why they couldn't be similar to money and mana drops with multiple size types.
+
+
 ### Powerups
 
 There will be arcadey powerups that make you temporarily stronger. For instance, consumable traps to crowd control enemies, and buffs of various sorts.
@@ -171,14 +190,13 @@ Still deliberating on the health economy
 ## Item Types
 
 
-
 ### Spells a.k.a. Weapons a.k.a. Attacks
 
 in this game the weapons / abilities are all spells. every spell changes how your attack works. 
 
 Main weapon: spammable, can alternatively charge
 Secondary slot: can only Alt-fire, but can use main charge (interrupt main charge with alt-fire press)
-Passive slot: automatically fires on a timer, out of your control, for free. (I imagine it floats in front of you by itself, so you can see what it's doing)
+Automatic ("passive") slot: periodically fires on a timer cooldown out of your control, for free. (I imagine some visual representation of it floats in front of you by itself, so you can see what it's doing).
 
 do you have a limit on inventory size?
 
@@ -196,22 +214,22 @@ Higher rank cost more but also sells back for more.
 example ranks from Vampire Survivors, which start at level 1, and level up to 8, ranking up 7 times:
 
 1) axe base: damage 20, pierce 3, count 1
-2) count
+2) count + 1
 3) damage + 20
-4) pierce
-5) count
+4) pierce + 1
+5) count + 1
 6) damage + 20
-7) pierce
+7) pierce + 1
 8) damage + 20
 
 1) knife base: damage 7, pierce 1, count 1
-2) count
-3) count, damage + 5
-4) count
-5) pierce
-6) count
-7) count, damage + 5
-8) pierce
+2) count + 1
+3) count + 1, damage + 5
+4) count + 1
+5) pierce + 1
+6) count + 1
+7) count + 1, damage + 5
+8) pierce + 1
 
 
 In my game, in whatever form the inventory takes, there will be a level int associated with a given owned / equipped weapon. I want each weapon's SpellData to have an array of RankUps which have (or are themselves) a Dictionary between a StatType and the value it will be SET to when it levels up... Then level max is determined by array length, and each rank up simply goes into the array RankUps\[level]. This allows any rank to modify any number of stats.
@@ -224,43 +242,43 @@ Vampire Survivors = VS
 Orb: bounces, main attack 
 - charge: increases size, damage 
 - ALT FIRE: Explodes on impact, effectively a rocket launcher with high knockback
-- passive: VS "Wand" equivalent, fires at the nearest enemy.
+- Automatic: VS "Wand" equivalent, fires at the nearest enemy.
 
 Slash: horizontal slice wave 
 - charge: increases width: individual hit chunks, decreases damage 
 - ALT FIRE: Spin attack / Nova, sends everything out away from you
-- passive: VS Whip, attacks repeatedly around you.
+- Automatic: VS Whip, attacks repeatedly around you.
 
 Force Wall: upright and flat, offensive shield 
 - charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
 - ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage 
-- passive: \[TBD] might just be some ongoing defensive effect, like Laurel
+- Automatic: \[TBD] might just be some ongoing defensive effect, like Laurel
 
 DICE: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
 - ALT FIRE: Bundle of Toxic Caltrops
-- passive: VS Santa Water+ - fires a caltrop bundle up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
+- Automatic: VS Santa Water+ - fires a caltrop bundle up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
 
 Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
 - charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.
 - ALT FIRE: ... stun beam? charge attack?
-- passive: VS Lightning Ring - periodically nuke a single nearby target with a divine smite/lightning strike from above.
+- Automatic: VS Lightning Ring - periodically nuke a single nearby target with a divine smite/lightning strike from above.
 
-GARLIC: passive AoE damage 
+GARLIC: Constant AoE damage 
 - charge: continual drain to deal high consistent damage while channeling in a radius around you
 - ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes or slows slightly
-- passive: normal garlic behavior - radiate AoE damage in a circle around you at a tick rate
+- Automatic: normal garlic behavior - radiate AoE damage in a circle around you at a tick rate
 
 Chakram / Glaive: boomerang, bounces between targets 
 - charge: increases number of bounces before returning 
 - ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
-- passive: VS Bible - orbits around you, chopping and knocking back nearby enemies
+- Automatic: VS Bible - orbits around you, chopping and knocking back nearby enemies
 
 Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
 - charge: turns into lock on, increases missile / lock-on count 
 - ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly
 visual differences to differentiate
-- passive: fire a (rank-scaling) number of missiles evenly divided among enemy targets in range, on a timer.
+- Automatic: fire a (rank-scaling) number of missiles evenly divided among enemy targets in range, on a timer.
 
  
 mana drain?
@@ -273,7 +291,7 @@ And then you can decide which slot to put them in: Main, Alt, or Passive
 
 ### Stats
 
-Up to 3 passive slots -- select them again to rank up
+Up to 3 slots for unique items that provide persistent Player Stat bonuses -- they can also be ranked up on reqacquisition, like weapons.
 
 - max health (additive bonus)
 - max mana (additive bonus)
@@ -291,33 +309,24 @@ Up to 3 passive slots -- select them again to rank up
 
 ## Meta Upgrades
 
+The "lite" part of "roguelite".
+
+Save-file bound "permanent" upgrades that combine with the player's hard-coded minimum stats. You can spend some currency to buy these ranks between runs. There is a bonus 
+These bonuses each have an associated toggle state to tentatively disable them individually, which does not lose their progress, but simply stops them from applying, reverting to min stats, until turned back on.
+
 "Account" progression, grows slower than boosts in-game, stacks with in-game boosts.
 
 Unsure of the design of how these are unlocked, if it's a "meta" currency, or if it's the same as Gold.
 
-meta upgrades to unlock more freezing items in the shop. Rerolls. Banish.
+### Types
 
+One bonus for every Passive Stat at least. Additionally, Anti-RNG effects that make build-manipulation easier.
 
-### RNG 
-
-Reroll hallways
-Reroll shop
-Banish ?
-Freeze count in the shop
-Sell Value - up to at most 100% of original cost, TBD
-
-### permanent upgrades to minimum stats (individually toggleable)
-
-max health
-max mana
-move speed
-defense
-money drop rate
-pickup radius 
-Jump Height / Air Jumps
-Siphon Range / Speed
-Projectile Speed
-Projectile Size
+- Reroll hallway rewards
+- Reroll shop
+- Freeze charges
+- Banish ? (maybe, only valuable with large item pool)
+- Sell Value ratio - up to at most 100% of original cost, TBD
 
 
 ## Enemies

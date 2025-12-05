@@ -122,10 +122,10 @@ public partial class PlayerBody : Combatant
 		UI
 	}
 
-	public PlayerControlState CurrentControlControlState { get; private set; } = PlayerControlState.Piloting;
+	public PlayerControlState CurrentControlState { get; private set; } = PlayerControlState.Piloting;
 
-	public bool ControllingPlayer =>  CurrentControlControlState == PlayerControlState.Piloting;
-	public bool ControllingUI => CurrentControlControlState == PlayerControlState.UI;
+	public bool ControllingPlayer =>  CurrentControlState == PlayerControlState.Piloting;
+	public bool ControllingUI => CurrentControlState == PlayerControlState.UI;
 
 	private PanelContainer _interactionPromptContainer;
 	private RichTextLabel _interactionPromptLabel;
@@ -219,27 +219,22 @@ public partial class PlayerBody : Combatant
 			Inventory.WeaponEquipped += OnWeaponEquipped;
 			Inventory.InventoryChanged += RecalculateStats;
 		}
+
+		SignalBus.Instance.GameResumed += ExitUIMode;
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (CurrentControlControlState != PlayerControlState.Piloting) return;
-
 		// Camera Rotation
-		if (@event is InputEventMouseMotion motion && MouseIsCaptured)
+		if (@event is InputEventMouseMotion motion)
 		{
-			this.RotateY(-motion.Relative.X * cameraLookSensitivity);
-			camera.RotateX(-motion.Relative.Y * cameraLookSensitivity);
-			Vector3 cameraRot = camera.Rotation;
-			cameraRot.X = Mathf.Clamp(cameraRot.X, Mathf.DegToRad(-lookUpDegrees), Mathf.DegToRad(lookUpDegrees));
-			camera.Rotation = cameraRot;
+			RotateCamera(motion);
 		}
 	}
 
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-		if (CurrentControlControlState != PlayerControlState.Piloting) return;
 
 		ProcessInput(delta);
 	}
@@ -247,7 +242,6 @@ public partial class PlayerBody : Combatant
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		if (CurrentControlControlState != PlayerControlState.Piloting) return;
 
 		ProcessMovement(delta);
 	}
@@ -291,37 +285,138 @@ public partial class PlayerBody : Combatant
 
 		SprintAndCrouch();
 
-		if (Input.IsActionJustPressed("Player_Pause") && CurrentControlControlState == PlayerControlState.Piloting)
+		if (Input.IsActionJustPressed("Player_Pause") && CurrentControlState == PlayerControlState.Piloting)
 		{
+			EnterUIMode();
+
 			var pauseMenu = _pauseMenuScene.Instantiate();
 			ControlRoot.AddChild(pauseMenu);
 			// GetTree().Paused = true;
 		}
 	}
 
+	private void ProcessMovement(double delta)
+	{
+		if (!ControllingPlayer) return;
+
+		// Can Stand Up Ray
+		standUpBlocked = canStandUpRay.IsColliding();
+		grounded = IsOnFloor();
+		float oldY = newVelocity.Y;
+		float grav = GRAVITY * (float)delta;
+		if (!grounded)
+			newVelocity.Y -= grav;
+		if (DeadNow)
+		{
+			newVelocity = newVelocity.MoveToward(Vector3.Zero, .1f) with { Y = oldY - (grounded ? 0 : grav) };
+			return;
+		}
+
+		var hVel = Velocity.XZ();
+		var target = direction;
+		if (isSprinting)
+		{
+			target *= MAX_SPRINT_SPEED;
+		}
+		else if (isCrouching)
+		{
+			target *= CROUCH_SPEED;
+		}
+		else
+		{
+			target *= WALK_SPEED;
+		}
+
+		float acceleration = ACCEL;
+		if (direction.Dot(hVel) > 0)
+		{
+			if (isSprinting && grounded)
+			{
+				acceleration = SPRINT_ACCEL;
+			}
+			else
+			{
+				acceleration = ACCEL;
+			}
+		}
+		else
+		{
+			acceleration = DECEL;
+		}
+
+		hVel = hVel.Lerp(target, (float)(acceleration * delta));
+		PlayFootsteps(hVel);
+		newVelocity.X = hVel.X;
+		newVelocity.Z = hVel.Z;
+
+		// Apply knockback
+		newVelocity += knockbackVelocity;
+		Velocity = newVelocity;
+		FOVJuice(delta);
+		HeadBob(delta);
+		MoveAndSlide();
+	}
+
+	private void RotateCamera(InputEventMouseMotion motion)
+	{
+		if (!ControllingPlayer) return;
+
+		this.RotateY(-motion.Relative.X * cameraLookSensitivity);
+		camera.RotateX(-motion.Relative.Y * cameraLookSensitivity);
+		Vector3 cameraRot = camera.Rotation;
+		cameraRot.X = Mathf.Clamp(cameraRot.X, Mathf.DegToRad(-lookUpDegrees), Mathf.DegToRad(lookUpDegrees));
+		camera.Rotation = cameraRot;
+	}
+
 	#region State Management & UI
 
 	public void EnterUIMode()
 	{
-		CurrentControlControlState = PlayerControlState.UI;
+		if (ControllingUI) return;
+		CurrentControlState = PlayerControlState.UI;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		this.Visible = false;
 		// collider.Disabled = true;
+		DisallowMeleeAttack();
+		DisallowRangedAttack();
+		DisallowSiphon();
 		hurtbox.DisableMonitor();
 	}
 
 	public void ExitUIMode()
 	{
-		CurrentControlControlState = PlayerControlState.Piloting;
+		if (ControllingPlayer) return;
+
+		CurrentControlState = PlayerControlState.Piloting;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		this.Visible = true;
 		// collider.Disabled = false;
+		AllowMeleeAttack();
+		AllowRangedAttack();
+		AllowSiphon();
 		hurtbox.EnableMonitor();
 	}
 
-	public void ShowInteractionPrompt(string text)
+	/// <summary>
+    /// Retrieves the human-readable name of the first key/button bound to an action.
+    /// </summary>
+    /// <param name="actionName">The name of the action in the Input Map.</param>
+    /// <returns>The string representation of the key, or "N/A" if none found.</returns>
+    public string GetActionKeyName(string actionName)
+    {
+        var events = InputMap.ActionGetEvents(actionName);
+        if (events.Count > 0)
+        {
+            string primaryEvent = events[0].AsText();
+            return primaryEvent.Left(primaryEvent.IndexOf(' '));
+        }
+        return "N/A";
+    }
+
+	public void ShowPromptToPress(string actionName, string message, string prefix = "")
 	{
-		_interactionPromptLabel.Text = $"[center]{text}[/center]";
+		string keyName = GetActionKeyName(actionName);
+		_interactionPromptLabel.Text = $"[center]{prefix} [{keyName}] {message}[/center]";
 		_interactionPromptContainer.Visible = true;
 	}
 
@@ -569,66 +664,6 @@ public partial class PlayerBody : Combatant
 
 	#endregion Inventory Handlers
 
-
-	private void ProcessMovement(double delta)
-	{
-		// Can Stand Up Ray
-		standUpBlocked = canStandUpRay.IsColliding();
-		grounded = IsOnFloor();
-		float oldY = newVelocity.Y;
-		float grav = GRAVITY * (float)delta;
-		if (!grounded)
-			newVelocity.Y -= grav;
-		if (DeadNow)
-		{
-			newVelocity = newVelocity.MoveToward(Vector3.Zero, .1f) with { Y = oldY - (grounded ? 0 : grav) };
-			return;
-		}
-
-		var hVel = Velocity.XZ();
-		var target = direction;
-		if (isSprinting)
-		{
-			target *= MAX_SPRINT_SPEED;
-		}
-		else if (isCrouching)
-		{
-			target *= CROUCH_SPEED;
-		}
-		else
-		{
-			target *= WALK_SPEED;
-		}
-
-		float acceleration = ACCEL;
-		if (direction.Dot(hVel) > 0)
-		{
-			if (isSprinting && grounded)
-			{
-				acceleration = SPRINT_ACCEL;
-			}
-			else
-			{
-				acceleration = ACCEL;
-			}
-		}
-		else
-		{
-			acceleration = DECEL;
-		}
-
-		hVel = hVel.Lerp(target, (float)(acceleration * delta));
-		PlayFootsteps(hVel);
-		newVelocity.X = hVel.X;
-		newVelocity.Z = hVel.Z;
-
-		// Apply knockback
-		newVelocity += knockbackVelocity;
-		Velocity = newVelocity;
-		FOVJuice(delta);
-		HeadBob(delta);
-		MoveAndSlide();
-	}
 
 	private void PlayFootsteps(Vector3 hVel)
 	{

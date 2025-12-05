@@ -1,3 +1,88 @@
+# Sample Code
+
+To display the name of an input action from your Godot Input Map as text in your game, you can use the InputMap.action_get_events() method in GDScript. This method returns an array of InputEvent objects associated with a specific action. You can then access the first event in the array and convert it to a string representation.
+Here's how you can do it:
+
+extends Button # Or any other Node displaying text
+
+@export var input_action_name: String = "ui_accept" # Export a variable to set the action in the Inspector
+
+func _ready():
+    update_button_text()
+
+func update_button_text():
+    var events = InputMap.action_get_events(input_action_name)
+    if events.size() > 0:
+        var first_event = events[0]
+        # Convert the InputEvent to its string representation
+        # This will typically show the key or button name (e.g., "Enter", "Space", "Mouse Left", "Joypad Button A")
+        text = first_event.as_text()
+    else:
+        text = "No input assigned" # Handle cases where no event is bound to the action
+
+
+To achieve the same results in Godot 4 using C#, you would use similar logic, leveraging the C# API equivalents for accessing the InputMap singleton and InputEvent methods.
+1. Using the Action Name in a Label
+In C#, you can set a Label's text directly to the action name string. This is the simplest way to display the concept of an action:
+
+
+// Assuming you have a reference to a Godot Label node in your script:
+// [Export] public Label YourLabelNode;
+
+public void SetActionPromptText()
+{
+	string actionName = "jump"; // The name defined in Project Settings -> Input Map
+	YourLabelNode.Text = $"Press {actionName} to perform action.";
+}
+
+
+2. Displaying the Dynamically Bound Key Name
+To dynamically show the actual key currently bound to an action (e.g., "Space" instead of "jump"), you can create a helper method that retrieves the first bound InputEvent and calls its AsText() method in C#.
+Add the following method to your script (which inherits from Node or a similar Godot class):
+
+
+using Godot;
+using System.Collections.Generic;
+
+public partial class InputPromptManager : Node
+{
+	[Export] public Label YourLabelNode; // Reference this in the editor
+
+	public override void _Ready()
+	{
+		UpdateJumpPrompt();
+	}
+
+	private void UpdateJumpPrompt()
+	{
+		string jumpKeyName = GetActionKeyName("jump");
+		YourLabelNode.Text = $"Press {jumpKeyName} to jump.";
+	}
+
+	/// <summary>
+	/// Retrieves the human-readable name of the first key/button bound to an action.
+	/// </summary>
+	/// <param name="actionName">The name of the action in the Input Map.</param>
+	/// <returns>The string representation of the key, or "N/A" if none found.</returns>
+	public string GetActionKeyName(string actionName)
+	{
+		var events = InputMap.ActionGetEvents(actionName);
+		if (events.Count > 0)
+		{
+			// Get the first event bound to the action
+			InputEvent primaryEvent = events[0];
+			// Return the human-readable text representation of the key/button
+			return primaryEvent.AsText();
+		}
+		return "N/A"; // Default text if no event is bound
+	}
+}
+
+
+
+# Previous Conversation
+
+
 > Alright, I have implemented the Alt-fire system. Some outstanding feature implementations include: shop camera / interaction / purchasing behavior; player inventory system; weapon stat / rank
   system; passive automatic weapons (slot type); health economy (design and implementation to answer, "how should the player heal?"); content for more weapon types. @README.md Evaluate the updated
   readme Game Design Document (GDD). Then break down what you think should be worked on or prioritized next.

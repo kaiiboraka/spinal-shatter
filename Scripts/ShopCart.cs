@@ -11,7 +11,14 @@ public partial class ShopCart : StaticBody3D
 	private Camera3D shopCamera;
 	private Marker3D playerSpawnPoint;
 
-	private bool _isOpen = false;
+	private ShopState currentState;
+
+	private enum ShopState
+	{
+		ClosedWindow,
+		OpenWindow,
+		PlayerShopping,
+	}
 
 	public override void _Ready()
 	{
@@ -30,11 +37,12 @@ public partial class ShopCart : StaticBody3D
 	{
 		if (@event.IsActionPressed("ui_cancel"))
 		{
-			CloseShop();
+			if (currentState == ShopState.PlayerShopping) CloseShop();
 		}
-		if ( @event.IsActionPressed("Player_Interact"))
+		if (@event.IsActionPressed("Player_Interact"))
 		{
-			OpenShop();
+			if (currentState == ShopState.OpenWindow)
+				OpenShop();
 		}
 	}
 
@@ -42,7 +50,7 @@ public partial class ShopCart : StaticBody3D
 	{
 		if (body is PlayerBody player)
 		{
-			player.ShowInteractionPrompt("[E] to Shop");
+			player.ShowPromptToPress("Player_Interact","to\nBUY SOMFIN", "Press");
 			animationPlayer.Play("Open");
 		}
 	}
@@ -58,9 +66,7 @@ public partial class ShopCart : StaticBody3D
 
 	public void OpenShop()
 	{
-		if (_isOpen) return;
-		_isOpen = true;
-
+		currentState = ShopState.PlayerShopping;
 		var player = PlayerBody.Instance;
 
 		player.EnterUIMode();
@@ -71,8 +77,6 @@ public partial class ShopCart : StaticBody3D
 
 	private void CloseShop()
 	{
-		if (!_isOpen) return;
-		_isOpen = false;
 		var player = PlayerBody.Instance;
 
 		if (playerSpawnPoint != null)
@@ -86,6 +90,7 @@ public partial class ShopCart : StaticBody3D
 
 	private void ReEnablePlayer()
 	{
+		currentState = ShopState.OpenWindow;
 		PlayerBody.Instance.ExitUIMode();
 		CameraTransition.Instance.TransitionFinished -= CloseShop;
 	}
@@ -97,5 +102,6 @@ public partial class ShopCart : StaticBody3D
 	private void ToggleShopVisibility(bool toggle)
 	{
 		shopRoot.Visible = toggle;
+		currentState = toggle ? ShopState.OpenWindow :  ShopState.ClosedWindow;
 	}
 }

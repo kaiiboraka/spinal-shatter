@@ -342,7 +342,13 @@ public partial class Projectile : RigidBody3D
 
 	public void ApplyManaLoss(Vector3 impactPosition)
 	{
-		float manaLostAmount = (int)Mathf.Min(SpellData.ManaDroppedAmount.GetRandomValue(), CurrentMana);
+		if (SpellData is not CastedSpellData castedSpell)
+		{
+			Expire();
+			return;
+		}
+		
+		float manaLostAmount = (int)Mathf.Min(castedSpell.ManaDroppedAmount.GetRandomValue(), CurrentMana);
 		if (float.IsNaN(manaLostAmount) || float.IsNaN(CurrentMana))
 		{
 			Expire();
@@ -360,7 +366,7 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
-		CurrentCharge = CurrentMana / SpellData.ManaCostRange.Max;
+		CurrentCharge = CurrentMana / castedSpell.ManaCostRange.Max;
 		CurrentCharge = Mathf.Max(0, CurrentCharge);
 		CurrentDamage = damagePerMana * CurrentMana;
 

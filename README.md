@@ -104,11 +104,11 @@ instead, it should be "another weapon", where pressing 2 will jump to it, or scr
  Here are three potential models based on your game's inspirations:
 
    1. Aggressive & Resourceful (DOOM-style): Enemies have a chance to drop small health pickups, with larger amounts guaranteed from a specific action (e.g., a "glory kill" style melee takedown). The
-      Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
+	  Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
    2. Strategic & Scarce (Hades-style): Health is a precious resource. Healing is primarily offered as a chamber reward, a rare shop item, or from a specific boon. This makes every point of damage
-      meaningful and every healing choice critical.
+	  meaningful and every healing choice critical.
    3. Preparation-focused (Shop-centric): Healing is performed almost exclusively at the shop between rounds via "refill health". This places a heavy emphasis on performance during rounds to minimize
-      damage taken and save money for other upgrades.
+	  damage taken and save money for other upgrades.
 
   Recommendation: A hybrid of Model 1 and 3. Core healing comes from aggressive gameplay, reinforcing your mana-from-enemies loop. The shop serves as a reliable, but expensive, fallback to refill
   health before a tough encounter. This provides both tactical expression in combat and strategic choice in the hub.

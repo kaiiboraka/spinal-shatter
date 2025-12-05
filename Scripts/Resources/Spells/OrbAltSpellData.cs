@@ -5,7 +5,7 @@ namespace SpinalShatter;
 using Godot;
 
 [GlobalClass]
-public partial class OrbAltSpellData : SpellData
+public partial class OrbAltSpellData : CastedSpellData
 {
 	[ExportGroup("Explosion Properties")]
 	[Export] public FloatValueRange ExplosionRadius { get; private set; }

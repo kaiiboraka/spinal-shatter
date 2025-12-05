@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using Elythia;
 using Godot.Collections;
@@ -11,12 +12,12 @@ public partial class PlayerBody : Combatant
 	public static PlayerBody Instance;
 
 	[Export] public PlayerData Data { get; private set; }
+	[Export] public PlayerInventory Inventory { get; private set; }
 
 	const float GRAVITY_MULTIPLIER = 2.00f;
 
 	public Control ControlRoot { get; private set; }
 
-	// private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	[ExportGroup("PlayerMovementSettings")]
 	[Export] float GRAVITY = 9.8f * GRAVITY_MULTIPLIER;
 
@@ -29,6 +30,12 @@ public partial class PlayerBody : Combatant
 	[Export] float JUMP_VELOCITY = 10;
 	[Export] float DECEL = 16;
 	const float MAX_SLOPE_ANGLE = 40;
+
+	private float _baseWalkSpeed;
+	private float _baseSprintSpeed;
+	private float _baseJumpVelocity;
+	private int _baseMaxJumps;
+
 
 	[ExportGroup("CameraSettings")]
 	[Export] private float cameraLookSensitivity = 0.006f;
@@ -45,7 +52,6 @@ public partial class PlayerBody : Combatant
 	private double fovJuiceWeight = 8.0f;
 
 	[Signal] public delegate void ViewChangeEventHandler();
-
 	[Signal] public delegate void PlayerDiedEventHandler();
 
 	private bool grounded = false;
@@ -90,6 +96,7 @@ public partial class PlayerBody : Combatant
 	private RayCast3D footSoundRay;
 
 	private MagicCaster magicCaster;
+	private AutomaticCaster _automaticCaster;
 	private SiphonComponent siphon;
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
@@ -127,29 +134,22 @@ public partial class PlayerBody : Combatant
 	private AudioStreamPlayer3D AudioPlayer_Mana;
 	private AudioStreamPlayer3D AudioPlayer_Footsteps;
 
-	// TODO : put the main scene back to this one : res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn
 	private Action onDeathVoiceFinished;
 	private Action onDeathSfxFinished;
 
 	public override void _Ready()
 	{
 		base._Ready(); // GetComponents, ConnectEvents
-		if (Data != null)
-		{
-			HealthComponent.MaxHealth = Data.MaxHealth;
-		}
-
+		
 		Instance = this;
-
 		parentLevel = GetParent() as Node3D;
-
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+
+		StoreBaseStats();
 
 		_footstepMaxCooldown = (AudioFile_Walk.Stream as AudioStreamRandomizer).GetMaxLength();
 		_sprintFootstepMaxCooldown = (AudioFile_Sprint.Stream as AudioStreamRandomizer).GetMaxLength() / 1.2f;
 
-		// DebugManager.Info($"PlayerBody: Calculated max footstep cooldown: {_footstepMaxCooldown}");
-		// DebugManager.Info($"PlayerBody: Calculated max sprint footstep cooldown: {_sprintFootstepMaxCooldown}");
 		AddMoney(0);
 		RefillMana();
 		RefillLife();
@@ -158,6 +158,21 @@ public partial class PlayerBody : Combatant
 		ShowRightArm();
 		ReturnToIdle();
 		WaveDirector.Instance.SetPlayer(this);
+		
+		InitializeInventory();
+	}
+
+	private void StoreBaseStats()
+	{
+		if (Data != null)
+		{
+			HealthComponent.MaxHealth = Data.MaxHealth;
+		}
+
+		_baseWalkSpeed = WALK_SPEED;
+		_baseSprintSpeed = MAX_SPRINT_SPEED;
+		_baseJumpVelocity = JUMP_VELOCITY;
+		_baseMaxJumps = maxJumps;
 	}
 
 	protected override void GetComponents()
@@ -175,6 +190,7 @@ public partial class PlayerBody : Combatant
 		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
 		magicCaster = GetNode<MagicCaster>("%MagicCaster");
+		_automaticCaster = GetNode<AutomaticCaster>("%AutomaticCaster");
 		siphon = GetNode<SiphonComponent>("SiphonComponent");
 
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
@@ -195,564 +211,1334 @@ public partial class PlayerBody : Combatant
 
 		var audioData = GD.Load<Resource>("res://assets/Audio/AudioData/AudioData_Player.tres");
 		AudioData =  audioData as AudioData;
+		
+		_automaticCaster.Initialize(magicCaster.SpellOrigin);
 	}
 
-	protected override void ConnectEvents()
-	{
-		base.ConnectEvents();
+		protected override void ConnectEvents()
 
-		manaComponent.ManaChanged += UpdateManaHUD;
-		UpdateManaHUD(manaComponent.CurrentMana, manaComponent.MaxMana);
-
-		HealthComponent.HealthChanged += UpdateHealthHUD;
-		UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
-
-		pickupArea.AreaEntered += OnAreaEnteredPickupArea;
-
-		meleeResetTimer.Timeout += () =>
 		{
-			lastSwingDirection = HorizontalDirection.None;
-		};
-		armLeft.AnimationFinished += OnMeleeAnimationFinished;
-		animationPlayer.AnimationFinished += name =>
-		{
-			if (name == "Cast_Release")
+
+			base.ConnectEvents();
+
+	
+
+			manaComponent.ManaChanged += UpdateManaHUD;
+
+			UpdateManaHUD(manaComponent.CurrentMana, manaComponent.MaxMana);
+
+	
+
+			HealthComponent.HealthChanged += UpdateHealthHUD;
+
+			UpdateHealthHUD(HealthComponent.CurrentHealth, HealthComponent.MaxHealth);
+
+	
+
+			pickupArea.AreaEntered += OnAreaEnteredPickupArea;
+
+	
+
+			meleeResetTimer.Timeout += () =>
+
 			{
-				OnRangedAnimationFinished();
-			}
-			if (name.ToString().StartsWith("Melee", StringComparison.Ordinal))
+
+				lastSwingDirection = HorizontalDirection.None;
+
+			};
+
+			armLeft.AnimationFinished += OnMeleeAnimationFinished;
+
+			animationPlayer.AnimationFinished += name =>
+
 			{
-				OnMeleeAnimationFinished();
+
+				if (name == "Cast_Release")
+
+				{
+
+					OnRangedAnimationFinished();
+
+				}
+
+				if (name.ToString().StartsWith("Melee", StringComparison.Ordinal))
+
+				{
+
+					OnMeleeAnimationFinished();
+
+				}
+
+			};
+
+	
+
+			if (Inventory != null)
+
+			{
+
+				Inventory.WeaponEquipped += OnWeaponEquipped;
+
+				Inventory.InventoryChanged += RecalculateStats;
+
 			}
-		};
-	}
 
-	public override void _UnhandledInput(InputEvent @event)
-	{
-		// Camera Rotation
-		if (@event is InputEventMouseMotion motion && MouseIsCaptured)
-		{
-			this.RotateY(-motion.Relative.X * cameraLookSensitivity);
-			camera.RotateX(-motion.Relative.Y * cameraLookSensitivity);
-
-			Vector3 cameraRot = camera.Rotation;
-			cameraRot.X = Mathf.Clamp(cameraRot.X, Mathf.DegToRad(-lookUpDegrees), Mathf.DegToRad(lookUpDegrees));
-			camera.Rotation = cameraRot;
-		}
-	}
-
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
-		ProcessInput(delta);
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
-		base._PhysicsProcess(delta);
-		ProcessMovement(delta);
-	}
-
-	private void ProcessInput(double delta)
-	{
-		if (DeadNow) return;
-
-		direction = Vector3.Zero;
-
-		inputDir = Input
-				  .GetVector("Player_Move_Left", "Player_Move_Right", "Player_Move_Forward", "Player_Move_Backward")
-				  .Normalized();
-		direction = (headNode.GlobalTransform.Basis * new Vector3(InputDir.X, 0, InputDir.Y)).Normalized();
-
-		// Jump
-		if (Input.IsActionJustPressed("Player_Jump"))
-		{
-			TryJump();
 		}
 
-		if (Input.IsActionPressed("Player_Shoot"))
+	
+
+		private void InitializeInventory()
+
 		{
-			// TryShoot();
+
+			if (Inventory == null) return;
+
+			
+
+			foreach (var entry in Inventory.EquippedWeapons)
+
+			{
+
+				OnWeaponEquipped(entry.Key, entry.Value);
+
+			}
+
+			RecalculateStats();
+
 		}
 
-		if (Input.IsActionPressed("Player_Melee"))
+	
+
+		#region Inventory Handlers
+
+	
+
+		private void OnWeaponEquipped(SlotType slot, EquippedItem weapon)
+
 		{
-			TryMelee();
+
+			if (weapon?.ItemData is not SpellData spellData) return;
+
+	
+
+			switch (slot)
+
+			{
+
+				case SlotType.Primary:
+
+					magicCaster.SetPrimaryWeapon(spellData as CastedSpellData);
+
+					break;
+
+				case SlotType.Alt:
+
+					magicCaster.SetSecondaryWeapon(spellData as CastedSpellData);
+
+					break;
+
+				case SlotType.Automatic:
+
+					_automaticCaster.SetAutomaticWeapon(spellData as AutomaticSpellData);
+
+					break;
+
+			}
+
 		}
 
-		if (Input.IsActionJustPressed("Player_Reload"))
+	
+
+		private void RecalculateStats()
+
 		{
-			// loadout.CurrentMag.Reload();
+
+			if (Inventory == null) return;
+
+	
+
+			// Reset to base stats
+
+			WALK_SPEED = _baseWalkSpeed;
+
+			MAX_SPRINT_SPEED = _baseSprintSpeed;
+
+			JUMP_VELOCITY = _baseJumpVelocity;
+
+			maxJumps = _baseMaxJumps;
+
+			if (Data != null) HealthComponent.MaxHealth = Data.MaxHealth;
+
+	
+
+			// Combine all items that can have stats
+
+			var allItems = Inventory.EquippedStatItems.AsEnumerable()
+
+				.Concat(Inventory.EquippedWeapons.Values);
+
+	
+
+			foreach (var equippedItem in allItems)
+
+			{
+
+				if (equippedItem?.ItemData == null) continue;
+
+	
+
+				// Apply base stats from StatItemData
+
+				if (equippedItem.ItemData is StatItemData statItemData)
+
+				{
+
+					ApplyStat(statItemData.TargetStat, statItemData.Value, statItemData.IsMultiplier);
+
+				}
+
+	
+
+				// Apply rank-up stats
+
+				if (equippedItem.ItemData.RankUps == null) continue;
+
+				
+
+				for (int i = 0; i < equippedItem.Rank - 1 && i < equippedItem.ItemData.RankUps.Count; i++)
+
+				{
+
+					var rankUp = equippedItem.ItemData.RankUps[i];
+
+					if (rankUp?.StatModifiers == null) continue;
+
+	
+
+					foreach (var modifier in rankUp.StatModifiers)
+
+					{
+
+						// For RankUps, we assume the bonus is NOT a multiplier unless we add that feature later
+
+						ApplyStat(modifier.Key, modifier.Value, false);
+
+					}
+
+				}
+
+			}
+
+			
+
+			// Health needs special handling to ensure current health is updated correctly
+
+			HealthComponent.Refill();
+
 		}
 
-		if (Input.IsActionJustPressed("Player_Reload"))
+	
+
+		private void ApplyStat(StatType stat, float value, bool isMultiplier)
+
 		{
-			// loadout.CurrentMag.Reload();
+
+			switch (stat)
+
+			{
+
+				case StatType.MaxHealth:
+
+					HealthComponent.MaxHealth = isMultiplier ? HealthComponent.MaxHealth * value : HealthComponent.MaxHealth + value;
+
+					break;
+
+				case StatType.MoveSpeed:
+
+					WALK_SPEED = isMultiplier ? WALK_SPEED * value : WALK_SPEED + value;
+
+					MAX_SPRINT_SPEED = isMultiplier ? MAX_SPRINT_SPEED * value : MAX_SPRINT_SPEED + value;
+
+					break;
+
+				case StatType.JumpHeight:
+
+					JUMP_VELOCITY = isMultiplier ? JUMP_VELOCITY * value : JUMP_VELOCITY + value;
+
+					break;
+
+				case StatType.AirJumps:
+
+					if (!isMultiplier) maxJumps += (int)value;
+
+					break;
+
+				// Add other stat cases here
+
+			}
+
 		}
 
-		if (Input.IsActionJustPressed("Player_Teleport"))
+		#endregion
+
+	
+
+		public override void _UnhandledInput(InputEvent @event)
+
 		{
-			Position = spawnPosition;
-			Rotation = Vector3.Zero;
+
+			// Camera Rotation
+
+			if (@event is InputEventMouseMotion motion && MouseIsCaptured)
+
+			{
+
+				this.RotateY(-motion.Relative.X * cameraLookSensitivity);
+
+				camera.RotateX(-motion.Relative.Y * cameraLookSensitivity);
+
+	
+
+				Vector3 cameraRot = camera.Rotation;
+
+				cameraRot.X = Mathf.Clamp(cameraRot.X, Mathf.DegToRad(-lookUpDegrees), Mathf.DegToRad(lookUpDegrees));
+
+				camera.Rotation = cameraRot;
+
+			}
+
 		}
 
-		if (Input.IsActionJustPressed("Debug_Refresh_Scene"))
+	
+
+		public override void _Process(double delta)
+
 		{
-			GetTree().ReloadCurrentScene();
+
+			base._Process(delta);
+
+			ProcessInput(delta);
+
 		}
 
-		if (Input.IsActionJustPressed("Debug_ViewChange"))
+	
+
+		public override void _PhysicsProcess(double delta)
+
 		{
-			EmitSignalViewChange();
+
+			base._PhysicsProcess(delta);
+
+			ProcessMovement(delta);
+
 		}
 
-		SprintAndCrouch();
+	
 
-		if (Input.IsActionJustPressed("ui_cancel"))
-			ToggleMouseMode();
+		private void ProcessInput(double delta)
 
-		if (Input.IsActionJustPressed("Player_Pause"))
 		{
-			var pauseMenu = _pauseMenuScene.Instantiate();
-			ControlRoot.AddChild(pauseMenu);
 
-			// GetTree().Paused = true;
+			if (DeadNow) return;
+
+	
+
+			direction = Vector3.Zero;
+
+	
+
+			inputDir = Input
+
+					  .GetVector("Player_Move_Left", "Player_Move_Right", "Player_Move_Forward", "Player_Move_Backward")
+
+					  .Normalized();
+
+			direction = (headNode.GlobalTransform.Basis * new Vector3(InputDir.X, 0, InputDir.Y)).Normalized();
+
+	
+
+			// Jump
+
+			if (Input.IsActionJustPressed("Player_Jump"))
+
+			{
+
+				TryJump();
+
+			}
+
+	
+
+			if (Input.IsActionPressed("Player_Shoot"))
+
+			{
+
+				// TryShoot();
+
+			}
+
+	
+
+			if (Input.IsActionPressed("Player_Melee"))
+
+			{
+
+				TryMelee();
+
+			}
+
+	
+
+			if (Input.IsActionJustPressed("Player_Reload"))
+
+			{
+
+				// loadout.CurrentMag.Reload();
+
+			}
+
+	
+
+			if (Input.IsActionJustPressed("Player_Reload"))
+
+			{
+
+				// loadout.CurrentMag.Reload();
+
+			}
+
+	
+
+			if (Input.IsActionJustPressed("Player_Teleport"))
+
+			{
+
+				Position = spawnPosition;
+
+				Rotation = Vector3.Zero;
+
+			}
+
+	
+
+			if (Input.IsActionJustPressed("Debug_Refresh_Scene"))
+
+			{
+
+				GetTree().ReloadCurrentScene();
+
+			}
+
+	
+
+			if (Input.IsActionJustPressed("Debug_ViewChange"))
+
+			{
+
+				EmitSignalViewChange();
+
+			}
+
+	
+
+			SprintAndCrouch();
+
+	
+
+			if (Input.IsActionJustPressed("ui_cancel"))
+
+				ToggleMouseMode();
+
+	
+
+			if (Input.IsActionJustPressed("Player_Pause"))
+
+			{
+
+				var pauseMenu = _pauseMenuScene.Instantiate();
+
+				ControlRoot.AddChild(pauseMenu);
+
+	
+
+				// GetTree().Paused = true;
+
+			}
+
 		}
-	}
 
-	private void ReturnToIdle()
-	{
-		animationPlayer.Play("Cast_Idle");
-	}
+	
 
-	private void TryMelee()
-	{
-		if (!MeleeAttackAllowed) return;
+		private void ReturnToIdle()
 
-		DisallowRangedAttack();
-		DisallowSiphon();
-		DisallowMeleeAttack();
-
-		ShowLeftArm();
-
-		string which;
-		switch (lastSwingDirection)
 		{
-			case HorizontalDirection.None:
-			case HorizontalDirection.Left:
-				which = "Melee_RightSwing";
-				lastSwingDirection = HorizontalDirection.Right;
-				break;
-			case HorizontalDirection.Right:
-				which = "Melee_LeftSwing";
-				lastSwingDirection = HorizontalDirection.Left;
-				break;
-			default:
-				which = "";
-				break;
+
+			animationPlayer.Play("Cast_Idle");
+
 		}
 
-		animationPlayer.Play(which);
-	}
+	
 
-	private void OnMeleeAnimationFinished()
-	{
-		MeleeAttackFinished();
-		meleeResetTimer.Start();
-		ShowRightArm();
-		ReturnToIdle();
-	}
+		private void TryMelee()
 
-	/// <summary>
-	/// Called during the Animations, and then, as a safety net, again when the animations are over.
-	/// </summary>
-	public void MeleeAttackFinished()
-	{
-		AllowRangedAttack();
-		AllowMeleeAttack();
-		AllowSiphon();
-	}
-
-	protected override void OnMeleeHitboxAreaEntered(Area3D area)
-	{
-		if (area.Owner is Enemy enemy)
 		{
-			DebugManager.Debug($"MELEE HIT: Player '{Name}' attacking Enemy for {MeleeAttackDamage} damage.");
-			enemy.TakeDamage(MeleeAttackDamage, GlobalPosition);
+
+			if (!MeleeAttackAllowed) return;
+
+	
+
+			DisallowRangedAttack();
+
+			DisallowSiphon();
+
+			DisallowMeleeAttack();
+
+	
+
+			ShowLeftArm();
+
+	
+
+			string which;
+
+			switch (lastSwingDirection)
+
+			{
+
+				case HorizontalDirection.None:
+
+				case HorizontalDirection.Left:
+
+					which = "Melee_RightSwing";
+
+					lastSwingDirection = HorizontalDirection.Right;
+
+					break;
+
+				case HorizontalDirection.Right:
+
+					which = "Melee_LeftSwing";
+
+					lastSwingDirection = HorizontalDirection.Left;
+
+					break;
+
+				default:
+
+					which = "";
+
+					break;
+
+			}
+
+	
+
+			animationPlayer.Play(which);
+
 		}
-	}
 
-	public void PlayCastCharge()
-	{
-		ShowRightArm();
-		animationPlayer.Play("Cast_Charge");
-	}
+	
 
-	public void PlayCastRelease()
-	{
-		animationPlayer.Play("Cast_Release");
-	}
+		private void OnMeleeAnimationFinished()
 
-	private void OnRangedAnimationFinished()
-	{
-		AllowMeleeAttack();
-		AllowSiphon();
+		{
 
-		ReturnToIdle();
-	}
+			MeleeAttackFinished();
 
-	private void ShowLeftArm()
-	{
-		armLeft.Visible = true;
-		armRight.Visible = false;
-	}
+			meleeResetTimer.Start();
 
-	private void ShowRightArm()
-	{
-		armLeft.Visible = false;
-		armRight.Visible = true;
-	}
+			ShowRightArm();
 
-	public void AllowSiphon()
-	{
-		siphon.CanSiphon = true;
-		siphon.SetProcess(true);
-	}
+			ReturnToIdle();
 
-	public void DisallowSiphon()
-	{
-		siphon.CanSiphon = false;
-		siphon.SetProcess(false);
-	}
+		}
 
-	public void AllowRangedAttack()
-	{
-		magicCaster.CanShoot = true;
-	}
+	
 
-	public void DisallowRangedAttack()
-	{
-		magicCaster.CanShoot = false;
-	}
+		/// <summary>
 
-	public void AllowMeleeAttack()
-	{
-		MeleeAttackAllowed = true;
-	}
+		/// Called during the Animations, and then, as a safety net, again when the animations are over.
 
-	public void DisallowMeleeAttack()
-	{
-		MeleeAttackAllowed = false;
-	}
+		/// </summary>
+
+		public void MeleeAttackFinished()
+
+		{
+
+			AllowRangedAttack();
+
+			AllowMeleeAttack();
+
+			AllowSiphon();
+
+		}
+
+	
+
+		protected override void OnMeleeHitboxAreaEntered(Area3D area)
+
+		{
+
+			if (area.Owner is Enemy enemy)
+
+			{
+
+				// DebugManager.Debug($"MELEE HIT: Player '{Name}' attacking Enemy for {MeleeAttackDamage} damage.");
+
+				enemy.TakeDamage(MeleeAttackDamage, GlobalPosition);
+
+			}
+
+		}
+
+	
+
+		public void PlayCastCharge()
+
+		{
+
+			ShowRightArm();
+
+			animationPlayer.Play("Cast_Charge");
+
+		}
+
+	
+
+		public void PlayCastRelease()
+
+		{
+
+			animationPlayer.Play("Cast_Release");
+
+		}
+
+	
+
+		private void OnRangedAnimationFinished()
+
+		{
+
+			AllowMeleeAttack();
+
+			AllowSiphon();
+
+	
+
+			ReturnToIdle();
+
+		}
+
+	
+
+		private void ShowLeftArm()
+
+		{
+
+			armLeft.Visible = true;
+
+			armRight.Visible = false;
+
+		}
+
+	
+
+		private void ShowRightArm()
+
+		{
+
+			armLeft.Visible = false;
+
+			armRight.Visible = true;
+
+		}
+
+	
+
+		public void AllowSiphon()
+
+		{
+
+			siphon.CanSiphon = true;
+
+			siphon.SetProcess(true);
+
+		}
+
+	
+
+		public void DisallowSiphon()
+
+		{
+
+			siphon.CanSiphon = false;
+
+			siphon.SetProcess(false);
+
+		}
+
+	
+
+		public void AllowRangedAttack()
+
+		{
+
+			magicCaster.CanShoot = true;
+
+		}
+
+	
+
+		public void DisallowRangedAttack()
+
+		{
+
+			magicCaster.CanShoot = false;
+
+		}
+
+	
+
+		public void AllowMeleeAttack()
+
+		{
+
+			MeleeAttackAllowed = true;
+
+		}
+
+	
+
+		public void DisallowMeleeAttack()
+
+		{
+
+			MeleeAttackAllowed = false;
+
+		}
+
+	
 
 	private void ProcessMovement(double delta)
-	{
-		// Can Stand Up Ray
-		standUpBlocked = canStandUpRay.IsColliding();
 
-		grounded = IsOnFloor();
-
-
-		float oldY = newVelocity.Y;
-		float grav = GRAVITY * (float)delta;
-		if (!grounded)
-			newVelocity.Y -= grav;
-
-		if (DeadNow)
 		{
-			newVelocity = newVelocity.MoveToward(Vector3.Zero, .1f) with{ Y = oldY - (grounded ? 0 : grav)};
-			return;
-		}
 
-		var hVel = Velocity.XZ();
+			// Can Stand Up Ray
 
-		var target = direction;
+			standUpBlocked = canStandUpRay.IsColliding();
 
-		if (isSprinting)
-		{
-			target *= MAX_SPRINT_SPEED;
-		}
-		else if (isCrouching)
-		{
-			target *= CROUCH_SPEED;
-		}
-		else
-		{
-			target *= WALK_SPEED;
-		}
+	
 
-		float acceleration = ACCEL;
-		if (direction.Dot(hVel) > 0)
-		{
-			if (isSprinting && grounded)
+			grounded = IsOnFloor();
+
+	
+
+	
+
+			float oldY = newVelocity.Y;
+
+			float grav = GRAVITY * (float)delta;
+
+			if (!grounded)
+
+				newVelocity.Y -= grav;
+
+	
+
+			if (DeadNow)
+
 			{
-				acceleration = SPRINT_ACCEL;
+
+				newVelocity = newVelocity.MoveToward(Vector3.Zero, .1f) with{ Y = oldY - (grounded ? 0 : grav)};
+
+				return;
+
 			}
+
+	
+
+			var hVel = Velocity.XZ();
+
+	
+
+			var target = direction;
+
+	
+
+			if (isSprinting)
+
+			{
+
+				target *= MAX_SPRINT_SPEED;
+
+			}
+
+			else if (isCrouching)
+
+			{
+
+				target *= CROUCH_SPEED;
+
+			}
+
 			else
+
 			{
-				acceleration = ACCEL;
+
+				target *= WALK_SPEED;
+
 			}
-		}
-		else
-		{
-			acceleration = DECEL;
-		}
 
-		hVel = hVel.Lerp(target, (float)(acceleration * delta));
+	
 
-		PlayFootsteps(hVel);
+			float acceleration = ACCEL;
 
-		newVelocity.X = hVel.X;
-		newVelocity.Z = hVel.Z;
+			if (direction.Dot(hVel) > 0)
 
-		// Apply knockback
-		newVelocity += knockbackVelocity;
-
-		Velocity = newVelocity;
-
-		FOVJuice(delta);
-
-		HeadBob(delta);
-
-		MoveAndSlide();
-	}
-
-	private void PlayFootsteps(Vector3 hVel)
-	{
-		if (!grounded || !_footstepCooldownTimer.IsStopped()) return;
-		if (hVel.Length() <= Mathf.Epsilon) return;
-
-		AudioFile sound;
-		double cooldown;
-
-		if (isSprinting)
-		{
-			sound = AudioFile_Walk;
-			cooldown = _sprintFootstepMaxCooldown; // faster steps
-
-			// DebugManager.Info("Playing sprinting footstep sound.");
-		}
-		else
-		{
-			sound = AudioFile_Sprint;
-			cooldown = _footstepMaxCooldown;
-
-			// DebugManager.Info("Playing walking footstep sound.");
-		}
-
-		// DebugManager.Info($"Footstep cooldown is {cooldown}.");
-
-		// Ensure cooldown is a positive value to prevent timer errors.
-		if (cooldown <= 0)
-		{
-			DebugManager.Warning($"Using default 0.5s to prevent crash.");
-			cooldown = 0.5;
-		}
-
-		AudioManager.Play(AudioPlayer_Footsteps, sound);
-		_footstepCooldownTimer.WaitTime = cooldown;
-		_footstepCooldownTimer.Start();
-	}
-
-	private void FOVJuice(double delta)
-	{
-		// if (!firstPerson) return;
-
-		var clampedVel = Mathf.Clamp(Velocity.Length(), 0.5, MAX_SPRINT_SPEED * 2);
-		var targetFOV = BaseFOV + (FOV_change * clampedVel);
-		camera.Fov = camera.Fov.Lerp(targetFOV, delta * fovJuiceWeight);
-	}
-
-	private void HeadBob(double delta)
-	{
-		// if (!firstPerson) return;
-
-		// bool canBob = grounded &&;
-		var hVel = Velocity.XZ().Length();
-		t_bob += ((float)delta) * hVel * (grounded ? 1 : 0);
-		var camTran = camera.Transform;
-
-		var pos = Vector3.Zero;
-		pos.Y = Mathf.Sin(t_bob * bob_Speed) * bob_Height;
-		camTran.Origin = pos;
-		camera.Transform = camTran;
-	}
-
-	public void SprintAndCrouch()
-	{
-		// Sprint
-		isSprinting = (Input.IsActionPressed("Player_Sprint") && ((CapsuleShape3D)collider.Shape).Height == 2);
-		isCrouching = Input.IsActionPressed("Player_Crouch");
-		if (isSprinting)
-		{
-		}
-
-		// Crouch
-		else if (isCrouching)
-		{
-			((CapsuleShape3D)collider.Shape).Height -= 0.1f;
-			((CapsuleShape3D)collider.Shape).Height = Mathf.Clamp(((CapsuleShape3D)collider.Shape).Height, 1f, 2f);
-		}
-		else
-		{
-			if (standUpBlocked == false)
 			{
-				((CapsuleShape3D)collider.Shape).Height += 0.1f;
+
+				if (isSprinting && grounded)
+
+				{
+
+					acceleration = SPRINT_ACCEL;
+
+				}
+
+				else
+
+				{
+
+					acceleration = ACCEL;
+
+				}
+
+			}
+
+			else
+
+			{
+
+				acceleration = DECEL;
+
+			}
+
+	
+
+			hVel = hVel.Lerp(target, (float)(acceleration * delta));
+
+	
+
+			PlayFootsteps(hVel);
+
+	
+
+			newVelocity.X = hVel.X;
+
+			newVelocity.Z = hVel.Z;
+
+	
+
+			// Apply knockback
+
+			newVelocity += knockbackVelocity;
+
+	
+
+			Velocity = newVelocity;
+
+	
+
+			FOVJuice(delta);
+
+	
+
+			HeadBob(delta);
+
+	
+
+			MoveAndSlide();
+
+		}
+
+	
+
+		private void PlayFootsteps(Vector3 hVel)
+
+		{
+
+			if (!grounded || !_footstepCooldownTimer.IsStopped()) return;
+
+			if (hVel.Length() <= Mathf.Epsilon) return;
+
+	
+
+			AudioFile sound;
+
+			double cooldown;
+
+	
+
+			if (isSprinting)
+
+			{
+
+				sound = AudioFile_Walk;
+
+				cooldown = _sprintFootstepMaxCooldown; // faster steps
+
+	
+
+				// DebugManager.Info("Playing sprinting footstep sound.");
+
+			}
+
+			else
+
+			{
+
+				sound = AudioFile_Sprint;
+
+				cooldown = _footstepMaxCooldown;
+
+	
+
+				// DebugManager.Info("Playing walking footstep sound.");
+
+			}
+
+	
+
+			// DebugManager.Info($"Footstep cooldown is {cooldown}.");
+
+	
+
+			// Ensure cooldown is a positive value to prevent timer errors.
+
+			if (cooldown <= 0)
+
+			{
+
+				// DebugManager.Warning($"Using default 0.5s to prevent crash.");
+
+				cooldown = 0.5;
+
+			}
+
+	
+
+			AudioManager.Play(AudioPlayer_Footsteps, sound);
+
+			_footstepCooldownTimer.WaitTime = cooldown;
+
+			_footstepCooldownTimer.Start();
+
+		}
+
+	
+
+		private void FOVJuice(double delta)
+
+		{
+
+			// if (!firstPerson) return;
+
+	
+
+			var clampedVel = Mathf.Clamp(Velocity.Length(), 0.5, MAX_SPRINT_SPEED * 2);
+
+			var targetFOV = BaseFOV + (FOV_change * clampedVel);
+
+			camera.Fov = camera.Fov.Lerp(targetFOV, delta * fovJuiceWeight);
+
+		}
+
+	
+
+		private void HeadBob(double delta)
+
+		{
+
+			// if (!firstPerson) return;
+
+	
+
+			// bool canBob = grounded &&;
+
+			var hVel = Velocity.XZ().Length();
+
+			t_bob += ((float)delta) * hVel * (grounded ? 1 : 0);
+
+			var camTran = camera.Transform;
+
+	
+
+			var pos = Vector3.Zero;
+
+			pos.Y = Mathf.Sin(t_bob * bob_Speed) * bob_Height;
+
+			camTran.Origin = pos;
+
+			camera.Transform = camTran;
+
+		}
+
+	
+
+		public void SprintAndCrouch()
+
+		{
+
+			// Sprint
+
+			isSprinting = (Input.IsActionPressed("Player_Sprint") && ((CapsuleShape3D)collider.Shape).Height == 2);
+
+			isCrouching = Input.IsActionPressed("Player_Crouch");
+
+			if (isSprinting)
+
+			{
+
+			}
+
+	
+
+			// Crouch
+
+			else if (isCrouching)
+
+			{
+
+				((CapsuleShape3D)collider.Shape).Height -= 0.1f;
+
 				((CapsuleShape3D)collider.Shape).Height = Mathf.Clamp(((CapsuleShape3D)collider.Shape).Height, 1f, 2f);
+
 			}
+
+			else
+
+			{
+
+				if (standUpBlocked == false)
+
+				{
+
+					((CapsuleShape3D)collider.Shape).Height += 0.1f;
+
+					((CapsuleShape3D)collider.Shape).Height = Mathf.Clamp(((CapsuleShape3D)collider.Shape).Height, 1f, 2f);
+
+				}
+
+			}
+
 		}
-	}
 
-	void TryJump()
-	{
-		if (CanJump())
+	
+
+		void TryJump()
+
 		{
-			newVelocity.Y = JUMP_VELOCITY;
-			curJumps += 1;
+
+			if (CanJump())
+
+			{
+
+				newVelocity.Y = JUMP_VELOCITY;
+
+				curJumps += 1;
+
+			}
+
 		}
-	}
 
-	bool CanJump()
-	{
-		var grounded = IsOnFloor();
-		if (grounded)
+	
+
+		bool CanJump()
+
 		{
-			curJumps = 0;
+
+			var grounded = IsOnFloor();
+
+			if (grounded)
+
+			{
+
+				curJumps = 0;
+
+			}
+
+	
+
+			bool jumpsRemain = curJumps < maxJumps;
+
+			return jumpsRemain && !standUpBlocked;
+
 		}
 
-		bool jumpsRemain = curJumps < maxJumps;
-		return jumpsRemain && !standUpBlocked;
-	}
+	
 
-	void ToggleMouseMode()
-	{
-		if (MouseIsCaptured)
+		void ToggleMouseMode()
+
 		{
-			Input.MouseMode = Input.MouseModeEnum.Visible;
+
+			if (MouseIsCaptured)
+
+			{
+
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+
+			}
+
+			else
+
+			{
+
+				Input.MouseMode = Input.MouseModeEnum.Captured;
+
+			}
+
 		}
-		else
+
+	
+
+		public void UpdateManaHUD(float newCurr, float newMax)
+
 		{
-			Input.MouseMode = Input.MouseModeEnum.Captured;
+
+			manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
+
+			manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
+
 		}
-	}
 
-	public void UpdateManaHUD(float newCurr, float newMax)
-	{
-		manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
-		manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
-	}
+	
 
-	public void UpdateHealthHUD(float newCurr, float newMax)
-	{
-		playerHealthBar.OnHealthChanged(newCurr, newMax);
-	}
+		public void UpdateHealthHUD(float newCurr, float newMax)
 
-	public override float TakeDamage(float amount, Vector3 sourcePosition)
-	{
-		DebugManager.Debug($"PLAYER_TAKE_DAMAGE: Received {amount} damage from source at {sourcePosition}.");
-		return base.TakeDamage(amount, sourcePosition);
-	}
-
-	public override void PlayOnHurtFX()
-	{
-		AudioManager.PlayBucketSimultaneous(AudioPlayer_Oof, (AudioBucket)AudioData["Hurt"]);
-	}
-
-	protected override void ApplyKnockback(float damage, Vector3 direction)
-	{
-		// Zero out current velocity and apply an impulse, as requested.
-		Velocity = Vector3.Zero;
-		float knockbackStrength = Mathf.Max(damage, 0) / KnockbackWeight;
-		Velocity += (direction + Lift) * knockbackStrength;
-
-		// Prevent base class decay/application from interfering
-		knockbackVelocity = Vector3.Zero;
-		// DebugManager.Info($"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
-	}
-
-	public override void OnRanOutOfHealth()
-	{
-		DeadNow = true;
-		DisallowSiphon();
-		DisallowMeleeAttack();
-		DisallowRangedAttack();
-
-		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
-
-		onDeathSfxFinished = () =>
 		{
-			AudioPlayer_Global.Finished -= onDeathSfxFinished;
-			EmitSignalPlayerDied();
-		};
-		onDeathVoiceFinished = () =>
-		{
-			AudioPlayer_Voice.Finished -= onDeathVoiceFinished;
-			AudioManager.PlayBucketSimultaneous(AudioPlayer_Global, (AudioBucket)AudioData["Die_SFX"]);
-		};
-		AudioPlayer_Voice.Finished += onDeathVoiceFinished;
-		AudioPlayer_Global.Finished += onDeathSfxFinished;
-	}
 
-	private void OnAreaEnteredPickupArea(Area3D area)
-	{
-		if (area.GetOwner() is ManaParticle particle)
-		{
-			// GD.Print($"{Time.GetTicksMsec()}: PlayerBody: PickupArea entered by ManaParticle {particle.Name}");
-			PickupManaParticle(particle);
+			playerHealthBar.OnHealthChanged(newCurr, newMax);
+
 		}
-		else if (area.GetOwner() is Money moneyPickup)
+
+	
+
+		public override float TakeDamage(float amount, Vector3 sourcePosition)
+
 		{
-			CollectMoneyPickup(moneyPickup);
+
+			// DebugManager.Debug($"PLAYER_TAKE_DAMAGE: Received {amount} damage from source at {sourcePosition}.");
+
+			return base.TakeDamage(amount, sourcePosition);
+
 		}
+
+	
+
+		public override void PlayOnHurtFX()
+
+		{
+
+			AudioManager.PlayBucketSimultaneous(AudioPlayer_Oof, (AudioBucket)AudioData["Hurt"]);
+
+		}
+
+	
+
+		protected override void ApplyKnockback(float damage, Vector3 direction)
+
+		{
+
+			// Zero out current velocity and apply an impulse, as requested.
+
+			Velocity = Vector3.Zero;
+
+			float knockbackStrength = Mathf.Max(damage, 0) / KnockbackWeight;
+
+			Velocity += (direction + Lift) * knockbackStrength;
+
+	
+
+			// Prevent base class decay/application from interfering
+
+			knockbackVelocity = Vector3.Zero;
+
+			// DebugManager.Info($"PlayerBody Knockback: Damage={damage}, Direction={direction}, Lift={Lift}, KnockbackStrength={knockbackStrength}, KnockbackWeight={KnockbackWeight}, ResultingVelocity={Velocity}");
+
+		}
+
+	
+
+		public override void OnRanOutOfHealth()
+
+		{
+
+			DeadNow = true;
+
+			DisallowSiphon();
+
+			DisallowMeleeAttack();
+
+			DisallowRangedAttack();
+
+	
+
+			AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
+
+	
+
+			onDeathSfxFinished = () =>
+
+			{
+
+				AudioPlayer_Global.Finished -= onDeathSfxFinished;
+
+				EmitSignalPlayerDied();
+
+			};
+
+			onDeathVoiceFinished = () =>
+
+			{
+
+				AudioPlayer_Voice.Finished -= onDeathVoiceFinished;
+
+				AudioManager.PlayBucketSimultaneous(AudioPlayer_Global, (AudioBucket)AudioData["Die_SFX"]);
+
+			};
+
+			AudioPlayer_Voice.Finished += onDeathVoiceFinished;
+
+			AudioPlayer_Global.Finished += onDeathSfxFinished;
+
+		}
+
+	
+
+		private void OnAreaEnteredPickupArea(Area3D area)
+
+		{
+
+			if (area.GetOwner() is ManaParticle particle)
+
+			{
+
+				// GD.Print($"{Time.GetTicksMsec()}: PlayerBody: PickupArea entered by ManaParticle {particle.Name}");
+
+				PickupManaParticle(particle);
+
+			}
+
+			else if (area.GetOwner() is Money moneyPickup)
+
+			{
+
+				CollectMoneyPickup(moneyPickup);
+
+			}
+
+		}
+
+	
+
+		private void PickupManaParticle(ManaParticle manaParticle)
+
+		{
+
+			if (manaParticle.State == Pickup.PickupState.Collected) return; // Already collected
+
+	
+
+			manaComponent.AddMana(manaParticle.Value);
+
+			manaParticle.Collect();
+
+	
+
+			AudioPlayer_Mana.Stream = manaParticle.Data.AudioStream;
+
+			AudioPlayer_Mana.PitchScale = manaParticle.Data.AudioPitch;
+
+			AudioPlayer_Mana.Play();
+
+	
+
+			PickupManager.Instance.Release(manaParticle);
+
+		}
+
+	
+
+		private void CollectMoneyPickup(Money moneyParticle)
+
+		{
+
+			if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
+
+	
+
+			AddMoney(moneyParticle.Value);
+
+			moneyParticle.Collect();
+
+	
+
+			AudioPlayer_Money.Stream = moneyParticle.Data.AudioStream;
+
+			AudioPlayer_Money.PitchScale = moneyParticle.Data.AudioPitch;
+
+			AudioPlayer_Money.Play();
+
+	
+
+			PickupManager.Instance.Release(moneyParticle);
+
+		}
+
+	
+
+		public void AddMoney(int amount)
+
+		{
+
+			_currentMoney += amount;
+
+			_currentMoney = _currentMoney.AtLeastZero();
+
+			playerMoneyAmountLabel.Text = _currentMoney.ToString();
+
+		}
+
+	
+
+		private void RefillLife()
+
+		{
+
+			HealthComponent.Refill();
+
+		}
+
+	
+
+		public void RefillMana()
+
+		{
+
+			manaComponent.RefillMana();
+
+		}
+
+	
+
+		public static void FillPlayerMana()
+
+		{
+
+			Instance.RefillMana();
+
+		}
+
 	}
 
-	private void PickupManaParticle(ManaParticle manaParticle)
-	{
-		if (manaParticle.State == Pickup.PickupState.Collected) return; // Already collected
-
-		manaComponent.AddMana(manaParticle.Value);
-		manaParticle.Collect();
-
-		AudioPlayer_Mana.Stream = manaParticle.Data.AudioStream;
-		AudioPlayer_Mana.PitchScale = manaParticle.Data.AudioPitch;
-		AudioPlayer_Mana.Play();
-
-		PickupManager.Instance.Release(manaParticle);
-	}
-
-	private void CollectMoneyPickup(Money moneyParticle)
-	{
-		if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
-
-		AddMoney(moneyParticle.Value);
-		moneyParticle.Collect();
-
-		AudioPlayer_Money.Stream = moneyParticle.Data.AudioStream;
-		AudioPlayer_Money.PitchScale = moneyParticle.Data.AudioPitch;
-		AudioPlayer_Money.Play();
-
-		PickupManager.Instance.Release(moneyParticle);
-	}
-
-	public void AddMoney(int amount)
-	{
-		_currentMoney += amount;
-		_currentMoney = _currentMoney.AtLeastZero();
-		playerMoneyAmountLabel.Text = _currentMoney.ToString();
-	}
-
-	private void RefillLife()
-	{
-		HealthComponent.Refill();
-	}
-
-	public void RefillMana()
-	{
-		manaComponent.RefillMana();
-	}
-
-	public static void FillPlayerMana()
-	{
-		Instance.RefillMana();
-	}
-}
+	

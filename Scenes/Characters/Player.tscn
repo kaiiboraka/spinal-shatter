@@ -4,12 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
 [ext_resource type="Resource" uid="uid://b26rcxugs6d5b" path="res://assets/Resources/PlayerData/PlayerData.tres" id="2_x4yal"]
+[ext_resource type="Resource" uid="uid://c0h32c3lyl763" path="res://assets/Resources/PlayerData/PlayerInventory.tres" id="3_hqlak"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
 [ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/Meshes/siphon_cone.res" id="6_gc10f"]
+[ext_resource type="Script" uid="uid://cmsiacxt70pcy" path="res://Scripts/Components/AutomaticCaster.cs" id="7_3vnku"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
-[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/Spells/Orb/OrbAltFire_SpellData.tres" id="8_hqlak"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
@@ -25,7 +26,6 @@
 [ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/Player/arm_left.ase" id="24_x4yal"]
 [ext_resource type="Texture2D" uid="uid://brunehtlo2ssg" path="res://assets/Images/Pickups/Coins_Spin.png" id="29_2n8gu"]
-[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/Spells/Orb/Orb_SpellData.tres" id="30_g1h2i"]
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
 length = 0.001
@@ -365,6 +365,7 @@ platform_floor_layers = 12
 platform_wall_layers = 512
 script = ExtResource("1_gjot8")
 Data = ExtResource("2_x4yal")
+Inventory = ExtResource("3_hqlak")
 WALK_SPEED = 15.0
 _pauseMenuScene = ExtResource("2_3vnku")
 
@@ -376,16 +377,18 @@ script = ExtResource("7_u2vuf")
 unique_name_in_owner = true
 script = ExtResource("3_mana")
 
-[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("manaComponent", "spellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
+[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("manaComponent", "SpellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
-EquippedSpell = ExtResource("30_g1h2i")
-EquippedAltFireSpell = ExtResource("8_hqlak")
 manaComponent = NodePath("../ManaComponent")
-spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
+SpellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
 audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D")
+
+[node name="AutomaticCaster" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_3vnku")
 
 [node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")

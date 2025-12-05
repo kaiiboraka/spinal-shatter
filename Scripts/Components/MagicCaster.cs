@@ -6,11 +6,11 @@ using System;
 
 public partial class MagicCaster : Node
 {
-	[Export] public SpellData EquippedSpell { get; private set; }
-	[Export] public SpellData EquippedAltFireSpell { get; private set; }
+	private CastedSpellData _equippedSpell;
+	private CastedSpellData _equippedAltFireSpell;
 
 	[Export] private ManaComponent manaComponent;
-	[Export] private Marker3D spellOrigin;
+	[Export] public Marker3D SpellOrigin { get; private set; }
 
 	[ExportSubgroup("Audio", "_audio")]
 	[Export] private AudioStreamPlayer3D audioPlayer_Spell;
@@ -32,24 +32,29 @@ public partial class MagicCaster : Node
 	private int lastInterval = -1;
 	private AudioFile sfxBeep;
 	private AudioFile sfxComplete;
-
-	public override void _Ready()
+	
+	public void SetPrimaryWeapon(CastedSpellData spellData)
 	{
-		base._Ready();
-		if (EquippedSpell == null || EquippedSpell.AudioData == null)
+		_equippedSpell = spellData;
+		if (_equippedSpell == null || _equippedSpell.AudioData == null)
 		{
-			GD.PrintErr($"MagicCaster: EquippedSpell or its AudioData is not set!");
+			GD.PrintErr("MagicCaster: Primary Spell or its AudioData is not set!");
 			SetProcess(false);
 			SetPhysicsProcess(false);
 			return;
 		}
-		sfxBeep = (AudioFile)EquippedSpell.AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)EquippedSpell.AudioData["SpellChargeComplete"];
+		sfxBeep = (AudioFile)_equippedSpell.AudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)_equippedSpell.AudioData["SpellChargeComplete"];
+	}
+
+	public void SetSecondaryWeapon(CastedSpellData spellData)
+	{
+		_equippedAltFireSpell = spellData;
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (EquippedSpell == null || !CanShoot) return;
+		if (_equippedSpell == null || !CanShoot) return;
 
 		switch (_currentState)
 		{
@@ -82,7 +87,7 @@ public partial class MagicCaster : Node
 
 	private void BeginCharge()
 	{
-		if (chargingProjectile != null || EquippedSpell.ProjectileScene == null || manaComponent.CurrentMana < EquippedSpell.ManaCostRange.Min)
+		if (chargingProjectile != null || _equippedSpell.ProjectileScene == null || manaComponent.CurrentMana < _equippedSpell.ManaCostRange.Min)
 		{
 			return;
 		}
@@ -96,32 +101,32 @@ public partial class MagicCaster : Node
 
 		currentChargeTime = 0f;
 		lastInterval = -1;
-		chargingProjectile = EquippedSpell.ProjectileScene.Instantiate<Projectile>();
+		chargingProjectile = _equippedSpell.ProjectileScene.Instantiate<Projectile>();
 
-		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)EquippedSpell.AudioData["SpellChargeBack"]);
+		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)_equippedSpell.AudioData["SpellChargeBack"]);
 
 		// Pass the FloatValueRange to BeginChargingProjectile to be used by Projectile.ApplyChargeAndTypeEffects
-		chargingProjectile.BeginChargingProjectile(spellOrigin, EquippedSpell);
+		chargingProjectile.BeginChargingProjectile(SpellOrigin, _equippedSpell);
 	}
 
 	private void ContinueCharge(float delta)
 	{
 		if (chargingProjectile == null) return;
 
-		float maxChargeRatioByMana = Mathf.InverseLerp(EquippedSpell.ManaCostRange.Min, EquippedSpell.ManaCostRange.Max, manaComponent.CurrentMana);
-		float maxChargeTimeByMana = maxChargeRatioByMana * EquippedSpell.MaxChargeTime.Max;
+		float maxChargeRatioByMana = Mathf.InverseLerp(_equippedSpell.ManaCostRange.Min, _equippedSpell.ManaCostRange.Max, manaComponent.CurrentMana);
+		float maxChargeTimeByMana = maxChargeRatioByMana * _equippedSpell.MaxChargeTime.Max;
 
 		currentChargeTime += (float)delta;
-		currentChargeTime = Mathf.Min(currentChargeTime, EquippedSpell.MaxChargeTime.Max);
+		currentChargeTime = Mathf.Min(currentChargeTime, _equippedSpell.MaxChargeTime.Max);
 		currentChargeTime = Mathf.Min(currentChargeTime, maxChargeTimeByMana);
 
 		int currentInterval = 0;
-		float intervalDuration = EquippedSpell.MaxChargeTime.Max > 0 ? EquippedSpell.MaxChargeTime.Max / EquippedSpell.ChargeIntervals : 0;
+		float intervalDuration = _equippedSpell.MaxChargeTime.Max > 0 ? _equippedSpell.MaxChargeTime.Max / _equippedSpell.ChargeIntervals : 0;
 		if (intervalDuration > 0)
 		{
 			currentInterval = Mathf.FloorToInt(currentChargeTime / intervalDuration);
 		}
-		currentInterval = Mathf.Clamp(currentInterval, 0, EquippedSpell.ChargeIntervals);
+		currentInterval = Mathf.Clamp(currentInterval, 0, _equippedSpell.ChargeIntervals);
 
 		if (currentInterval != lastInterval)
 		{
@@ -147,51 +152,44 @@ public partial class MagicCaster : Node
 	private void FirePrimary()
 	{
 		if (chargingProjectile == null) return;
-		FireWeapon(SlotType.Primary, EquippedSpell.ProjectileScene, chargingProjectile);
+		FireWeapon(SlotType.Primary, _equippedSpell, chargingProjectile);
 	}
 
 	private void FireAltFire()
 	{
-		if (EquippedAltFireSpell.ProjectileScene == null)
+		if (_equippedAltFireSpell == null || _equippedAltFireSpell.ProjectileScene == null)
 		{
 			CancelCharge();
 			return;
 		}
 
-		if (!manaComponent.HasEnoughMana(EquippedAltFireSpell.ManaCostRange.Min))
+		if (!manaComponent.HasEnoughMana(_equippedAltFireSpell.ManaCostRange.Min))
 		{
 			CancelCharge();
 			return;
 		}
 		
-		var altProjectile = EquippedAltFireSpell.ProjectileScene.Instantiate<Projectile>();
-		FireWeapon(SlotType.Alt, EquippedAltFireSpell.ProjectileScene, altProjectile);
+		var altProjectile = _equippedAltFireSpell.ProjectileScene.Instantiate<Projectile>();
+		FireWeapon(SlotType.Alt, _equippedAltFireSpell, altProjectile);
 	}
 
 	private float GetCurrentChargeRatio()
 	{
-		if (EquippedSpell.MaxChargeTime.Max <= 0) return 0;
+		if (_equippedSpell.MaxChargeTime.Max <= 0) return 0;
 		
-		float intervalDuration = EquippedSpell.MaxChargeTime.Max / EquippedSpell.ChargeIntervals;
+		float intervalDuration = _equippedSpell.MaxChargeTime.Max / _equippedSpell.ChargeIntervals;
 		int intervalsCharged = Mathf.FloorToInt(currentChargeTime / intervalDuration);
-		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, EquippedSpell.ChargeIntervals);
-		return (float)intervalsCharged / EquippedSpell.ChargeIntervals;
+		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, _equippedSpell.ChargeIntervals);
+		return (float)intervalsCharged / _equippedSpell.ChargeIntervals;
 	}
 
-	private void FireWeapon(SlotType slotType, PackedScene projectileScene, Projectile projectileInstance)
+	private void FireWeapon(SlotType slotType, CastedSpellData spellData, Projectile projectileInstance)
 	{
 		PlayerBody.Instance.PlayCastRelease();
 
 		float chargeRatio = GetCurrentChargeRatio();
-
-		SpellData which = slotType switch
-		{
-			SlotType.Primary => EquippedSpell,
-			SlotType.Alt => EquippedAltFireSpell,
-			_ => throw new ArgumentOutOfRangeException(nameof(slotType), slotType, null)
-		};
-
-		float manaCost = Mathf.Lerp(which.ManaCostRange.Min, which.ManaCostRange.Max, chargeRatio);
+		
+		float manaCost = Mathf.Lerp(spellData.ManaCostRange.Min, spellData.ManaCostRange.Max, chargeRatio);
 
 		if (!manaComponent.HasEnoughMana(manaCost))
 		{
@@ -199,7 +197,7 @@ public partial class MagicCaster : Node
 			return;
 		}
 		
-		Vector3 initialVelocity = CalculateInitialVelocity(Mathf.Lerp(EquippedSpell.SpeedRange.Min, EquippedSpell.SpeedRange.Max, chargeRatio));
+		Vector3 initialVelocity = CalculateInitialVelocity(Mathf.Lerp(spellData.SpeedRange.Min, spellData.SpeedRange.Max, chargeRatio));
 
 		ProjectileLaunchData launchData = new ProjectileLaunchData
 		{
@@ -207,8 +205,8 @@ public partial class MagicCaster : Node
 			ManaCost = manaCost,
 			InitialVelocity = initialVelocity,
 			ChargeRatio = chargeRatio,
-			StartPosition = spellOrigin,
-			SpellData = which,
+			StartPosition = SpellOrigin,
+			SpellData = spellData,
 			Slot = slotType
 		};
 
@@ -226,9 +224,9 @@ public partial class MagicCaster : Node
 
 	private Vector3 CalculateInitialVelocity(float speed)
 	{
-		Vector3 projectileVelocity = -spellOrigin.GlobalTransform.Basis.Z * speed;
+		Vector3 projectileVelocity = -SpellOrigin.GlobalTransform.Basis.Z * speed;
 
-		if (EquippedSpell.UsePlayerMomentum && GetOwner() is PlayerBody player)
+		if (_equippedSpell.UsePlayerMomentum && GetOwner() is PlayerBody player)
 		{
 			Vector3 playerMomentum = player.Velocity.XZ();
 			return projectileVelocity + playerMomentum;

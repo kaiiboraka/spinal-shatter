@@ -1,765 +1,274 @@
-@ -1,765 +1,932 @@
-[gd_scene load_steps=23 format=3 uid="uid://dnmdbgy6un26g"]
+> Alright, I have implemented the Alt-fire system. Some outstanding feature implementations include: shop camera / interaction / purchasing behavior; player inventory system; weapon stat / rank
+  system; passive automatic weapons (slot type); health economy (design and implementation to answer, "how should the player heal?"); content for more weapon types. @README.md Evaluate the updated
+  readme Game Design Document (GDD). Then break down what you think should be worked on or prioritized next.
 
-[ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_80mbd"]
-[ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/ScroungerData.tres" id="2_u2p2u"]
-[ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_n8h2i"]
-[ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="3_u2p2u"]
-[ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_b5b24"]
-[ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_kadss"]
-[ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="6_c2t5b"]
-[ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="7_vu5fj"]
-[ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="8_j76ox"]
-[ext_resource type="SpriteFrames" uid="uid://b2lewdo22wyur" path="res://assets/Images/Enemies/enemies_small_scrounger.ase" id="9_cj65v"]
-[ext_resource type="SpriteFrames" uid="uid://bympkvsmup5pr" path="res://assets/Images/Enemies/enemies_small_scrounger_eye.ase" id="10_qkoog"]
+✦ The GDD is comprehensive and provides a strong foundation for Spinal Shatter. It clearly outlines the fantasy, core loop, and mechanics, drawing from a solid set of inspirations.
 
-[sub_resource type="FogMaterial" id="FogMaterial_n8h2i"]
-emission = Color(0.8509804, 0.34117648, 0.3882353, 1)
-edge_fade = 2.2627404
+  Based on the GDD and your list of outstanding features, here is a breakdown of what I recommend prioritizing to build out the core gameplay loop in a logical, dependency-aware order.
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo32"]
-radius = 0.7338867
-height = 2.4588866
+  Priority 1: Finalize Foundational Design
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s0m4p"]
-radius = 0.8564453
-height = 2.4355469
+  Task: Decide on the Health Economy.
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_bnk72"]
-height = 6.0
-radius = 20.0
+  This is the most critical design decision to make right now, as it blocks the implementation of the shop and impacts the entire feel of combat and survival. The GDD correctly identifies this as a
+  key point of deliberation.
 
-[sub_resource type="Animation" id="Animation_gcvnd"]
-resource_name = "Back"
-length = 0.06250625
-step = 0.0625
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Back"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Back"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("SpellOrigin:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-2.3841858e-07, 1.0177423, -0.21740839)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+  Here are three potential models based on your game's inspirations:
 
-[sub_resource type="Animation" id="Animation_80mbd"]
-length = 0.50000834
-step = 0.083333336
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [&"Die"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
-tracks/1/interp = 0
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.083333336, 0.16666667, 0.25, 0.33333334, 0.4166667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [0, 1, 2, 3, 4, 5]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"PauseAnimation"
-}]
-}
+   1. Aggressive & Resourceful (DOOM-style): Enemies have a chance to drop small health pickups, with larger amounts guaranteed from a specific action (e.g., a "glory kill" style melee takedown). The
+      Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
+   2. Strategic & Scarce (Hades-style): Health is a precious resource. Healing is primarily offered as a chamber reward, a rare shop item, or from a specific boon. This makes every point of damage
+      meaningful and every healing choice critical.
+   3. Preparation-focused (Shop-centric): Healing is performed almost exclusively at the shop between rounds via "refill health". This places a heavy emphasis on performance during rounds to minimize
+      damage taken and save money for other upgrades.
 
-[sub_resource type="Animation" id="Animation_3nwgj"]
-resource_name = "Front_Attack"
-length = 0.81250626
-step = 0.0625
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Front_Attack"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Front_Attack"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Cast_AudioStreamPlayer3D:stream")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("5_kadss")]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:playing")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Charge_AudioStreamPlayer3D2:playing")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0.125),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "method"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.6875, 0.8125),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"PerformAttack"
-}, {
-"args": [4, false],
-"method": &"ChangeState"
-}]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("SpellOrigin/MagicOrb:visible")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.0625, 0.625, 0.6875),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [false, true, true, false]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("SpellOrigin:position")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.0625, 0.125, 0.5, 0.5625, 0.625, 0.6875, 0.8125),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(-1.1920929e-07, 1.2192289, 0.2452459), Vector3(0, 0.93833315, -0.10661903), Vector3(-1.1920929e-07, 0.73792714, -0.55188835), Vector3(-1.1920929e-07, 0.73792714, -0.55188835), Vector3(-1.1920929e-07, 0.6991163, -0.60647), Vector3(-1.1920929e-07, 0.73792714, -0.55188835), Vector3(-1.1920929e-07, 1.2744095, 0.5334264), Vector3(-1.1920929e-07, 1.2744095, 0.5334264)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("SpellOrigin/MagicOrb:scale")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.0625, 0.6875),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(0.4, 0.4, 0.4), Vector3(1, 1, 1)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+  Recommendation: A hybrid of Model 1 and 3. Core healing comes from aggressive gameplay, reinforcing your mana-from-enemies loop. The shop serves as a reliable, but expensive, fallback to refill
+  health before a tough encounter. This provides both tactical expression in combat and strategic choice in the hub.
 
-[sub_resource type="Animation" id="Animation_ltrpb"]
-resource_name = "Front_Idle"
-length = 0.06667
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Front_Idle"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.033333335),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Front_Idle"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.033333335),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("SpellOrigin:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-2.3841858e-07, 1.0177423, -0.21740839)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+  Priority 2: Implement Core Progression Systems
 
-[sub_resource type="Animation" id="Animation_43jap"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body_AnimatedSprite3D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Front_Idle"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body_AnimatedSprite3D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Front_Idle"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Cast_AudioStreamPlayer3D:stream")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("5_kadss")]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Cast_AudioStreamPlayer3D:playing")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Charge_AudioStreamPlayer3D2:playing")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("SpellOrigin/MagicOrb:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("SpellOrigin:position")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.93833315, -0.10661903)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("SpellOrigin/MagicOrb:scale")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.4, 0.4, 0.4)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+  These tasks are interdependent and form the backbone of the player's in-run power progression.
 
-[sub_resource type="Animation" id="Animation_fhuh0"]
-resource_name = "Side"
-length = 0.06250625
-step = 0.0625
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body_AnimatedSprite3D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Body_AnimatedSprite3D:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Side"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Side"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("SpellOrigin:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-2.3841858e-07, 1.1796955, 0.70508194)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Body_AnimatedSprite3D/Eye_AnimatedSprite:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
+   1. Player Inventory System: This is the immediate prerequisite for items and upgrades.
+	   * Action: Create the data structure that manages the player's equipped items. It should support one Main weapon, one Secondary weapon, and the three Passive slots as defined in the GDD. This
+         system needs to track the weapon type and its current rank.
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ltrpb"]
-_data = {
-&"Back": SubResource("Animation_gcvnd"),
-&"Die": SubResource("Animation_80mbd"),
-&"Front_Attack": SubResource("Animation_3nwgj"),
-&"Front_Idle": SubResource("Animation_ltrpb"),
-&"RESET": SubResource("Animation_43jap"),
-&"Side": SubResource("Animation_fhuh0")
-}
+   2. Weapon Stat & Rank System: This system makes the game loop rewarding.
+       * Action: Implement the SpellData and RankUp architecture described in the GDD. Create the logic that applies new stats when an item in the inventory increases its rank. To test this, I
+         suggest fully implementing a single weapon (e.g., the Orb) with its complete rank progression.
 
-[node name="Scrounger" type="CharacterBody3D" groups=["Enemies"]]
-collision_layer = 1024
-collision_mask = 1677
-floor_constant_speed = true
-platform_floor_layers = 8
-platform_wall_layers = 512
-script = ExtResource("1_80mbd")
-Data = ExtResource("2_u2p2u")
-_deathParticlesScene = ExtResource("3_n8h2i")
+   3. Shop System: With the inventory and ranking systems in place, you can now build the shop.
+	   * Action: Develop the shop's functionality, including:
+		   * A basic UI for displaying items for sale.
+		   * Interaction logic (e.g., player walks near an item, a prompt appears).
+		   * The transaction logic for purchasing, which should correctly add a new item to an empty inventory slot or rank up an existing one if a duplicate is bought.
+		   * Functionality for the permanent "refill health/mana" items.
 
-[node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("4_b5b24")
+  Priority 3: Expand Content and Features
 
-[node name="Timers" type="Node" parent="."]
+  Once the core loop of fighting, earning, and upgrading is functional, you can expand the player's options.
 
-[node name="WalkTimer" type="Timer" parent="Timers"]
-one_shot = true
+   1. Passive Weapon Functionality: This is a unique feature of your design and should come first.
+       * Action: Implement the behavior for weapons in the Passive inventory slots. This involves giving them an independent targeting/firing loop that works automatically, as described in the GDD.
 
-[node name="ActionWaitTimer" type="Timer" parent="Timers"]
-one_shot = true
+   2. Weapon Content Expansion:
+       * Action: With all systems in place, you can now begin the iterative process of implementing the other weapon archetypes outlined in the GDD (Slash, Force Wall, Dice, etc.). Each new weapon
+         will validate your systems and add significant variety to the game.
 
-[node name="AttackCooldownTimer" type="Timer" parent="Timers"]
-wait_time = 5.0
-one_shot = true
+  Following this roadmap will ensure that you build the foundational systems first before moving on to the content that relies on them. This will lead to a more stable and scalable development
+  process.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                                                                                                         │
+│                                                                                                                                                                                                     │
+│ ### ReadManyFiles Result (Target Dir: `C:\_GameDevelopment\spinal-shatter`)                                                                                                                         │
+│                                                                                                                                                                                                     │
+│ Successfully read and concatenated content from **1 file(s)**.                                                                                                                                      │
+│                                                                                                                                                                                                     │
+│ **Processed Files:**                                                                                                                                                                                │
+│ - `README.md`                                                                                                                                                                                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-[node name="PoolTimer" type="Timer" parent="Timers"]
-one_shot = true
+> Let me clarify one small but crucial thing: there are 2 kinds of passive things: passive Player Stats, and Weapons equipped to the PassiveWeapon slot. I have updated the @README.md to reflect this
+  distinction.
 
-[node name="BlinkTimer" type="Timer" parent="Timers"]
-wait_time = 3.0
-one_shot = true
+✦ Understood. Thank you for the clarification. That's a critical distinction, and the updated GDD now clearly separates Automatic Weapons from Passive Stat Items.
 
-[node name="Cast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
-stream = ExtResource("5_kadss")
-max_distance = 30.0
-bus = &"SFX"
-area_mask = 1677
+  This refines the previously discussed plan. The high-level priorities remain the same, but the scope for the core systems is now more detailed:
 
-[node name="Charge_AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2646904, 0)
-stream = ExtResource("6_c2t5b")
-max_distance = 30.0
-bus = &"SFX"
-area_mask = 1677
+   1. Health Economy Design: This remains the top priority and the primary design blocker.
 
-[node name="HealthBar" parent="." instance=ExtResource("7_vu5fj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
+   2. Core Systems Implementation (Refined Scope):
+	   * Player Inventory System: Must now be implemented with two distinct categories:
+		   * Weapon Slots: 1 Main, 1 Secondary, and 3 Automatic slots.
+		   * Stat Item Slots: 3 slots dedicated to the new passive stat-boosting items.
+	   * Item Stat & Ranking System: The ranking logic must be generalized to handle both Weapons and Stat Items, as the GDD specifies both can be ranked up. This suggests a common data structure for
+		 any "rankable" item type.
+	   * Shop Implementation: The shop's logic must be able to source from, display, and sell items from these two distinct pools (Weapons and Stat Items).
 
-[node name="StateSprite3D" parent="." instance=ExtResource("8_j76ox")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+   3. Content & Feature Expansion: The subsequent priorities—implementing automatic weapon behavior and expanding the weapon arsenal—remain unchanged.
 
-[node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2029614, 0)
-layers = 4
-pixel_size = 0.05
-billboard = 2
-shaded = true
-double_sided = false
-texture_filter = 0
-sprite_frames = ExtResource("9_cj65v")
-animation = &"Front_Idle"
-autoplay = "Front_Idle"
+  This makes the inventory and progression systems much richer. I am ready to proceed based on this updated understanding.
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
-light_color = Color(0.8509804, 0.34117648, 0.3882353, 1)
-light_energy = 2.0
-light_volumetric_fog_energy = 20.0
-light_size = 1.0
-light_cull_mask = 4294967291
-shadow_enabled = true
-spot_range = 7.5
-spot_attenuation = 2.0
-spot_angle = 25.0
+> I think I agree with your recommendation for the Health economy. A hybrid of 1-Aggressive-Doom and 3-Preparation-ShopCentric sounds like the best approach. I think I imagine a separate station from
+  the ShopCart, like an interactable HealingFountain (might look like a giant cauldron or potion) that costs money to use, costing more the lower HP you are (non-linear relationship), which simply
+  refills your health to full for the listed price. I haven't decided upon HealthDrops yet, but if I do, I see no reason why they couldn't be similar to money and mana drops with multiple size types.
 
-[node name="Eye_AnimatedSprite" type="AnimatedSprite3D" parent="Body_AnimatedSprite3D"]
-layers = 4
-modulate = Color(18.892157, 18.892157, 18.892157, 1)
-pixel_size = 0.05
-billboard = 2
-double_sided = false
-texture_filter = 0
-render_priority = 2
-sprite_frames = ExtResource("10_qkoog")
-animation = &"Front_Idle"
-autoplay = "Front_Idle"
+✦ Excellent. The Healing Fountain concept with non-linear cost scaling is a strong design choice that reinforces the 'preparation' aspect of the health economy. Combining that with potential health
+  drops from enemies provides a solid foundation for the entire system.
 
-[node name="FogVolume" type="FogVolume" parent="Body_AnimatedSprite3D"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.7134323, -2.6397312)
-size = Vector3(1, 5, 1)
-shape = 0
-material = SubResource("FogMaterial_n8h2i")
+  With the health economy design now established, the next logical step is to implement the core progression systems, starting with the Player Inventory System.
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2294433, 0)
-shape = SubResource("CapsuleShape3D_0uo32")
+  This system will be the backbone for the weapons and stat items. As we discussed, it will need to manage two distinct categories:
 
-[node name="SpellOrigin" type="Marker3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.93833315, -0.10661903)
+   * Weapon Slots: 1 Main, 1 Secondary, and 3 Automatic.
+   * Stat Item Slots: 3 slots for passive stat-boosting items.
 
-[node name="MagicOrb" parent="SpellOrigin" instance=ExtResource("3_u2p2u")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-visible = false
-collision_layer = 0
-collision_mask = 0
+  I am ready to proceed with building out this inventory system based on our discussion.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                                                                                                         │
+│                                                                                                                                                                                                     │
+│ ### ReadManyFiles Result (Target Dir: `C:\_GameDevelopment\spinal-shatter`)                                                                                                                         │
+│                                                                                                                                                                                                     │
+│ Successfully read and concatenated content from **2 file(s)**.                                                                                                                                      │
+│                                                                                                                                                                                                     │
+│ **Processed Files:**                                                                                                                                                                                │
+│ - `Scripts/Components/MagicCaster.cs`                                                                                                                                                               │
+│ - `Scripts/PlayerBody.cs`                                                                                                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-[node name="Hurtbox" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58596015, 0)
-collision_layer = 2048
-collision_mask = 12288
+> only 1 automatic weapon slot--that 3 was conflated from "3 passive slots" which is intended for Stat Items. 3 weapons (1 of each slot type), 3 stat passives. I want you to examine
+  @Scripts/PlayerBody.cs and @Scripts/Components/MagicCaster.cs , then come up with a plan for some kind of inventory system that will keep everything modular and data-driven. If the inventory is
+  simply some enum values, or if it is a dictionary of enum values to spell data, or something, I don't know what would be the most efficient. I don't really like the idea of needing a global
+  reference dictionary for all the spell-data... it may be needed later in the shop for randomization purposes, but ideally the system passes along the SpellData to whomever needs it at the moment
+  they need it. So a ShopItem that is a Weapon should have a reference to its SpellData, and acquisition from the Shop should pass that resource along to the player/inventory system to have access
+  to. This instead of it simply assigning an enum, and then having to perform some global lookup on a reference dictionary somewhere. Aside from that constraint, please come up with the simplest,
+  most intuitive, and clean solution that will integrate nicely with the existing systems. Some refactoring of existing systems is permitted, but if kept to a minimum that would be ideal. What plan
+  of action can be stapled on with the fewest side-effects?
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64926755, 0)
-shape = SubResource("CapsuleShape3D_s0m4p")
-debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
+✦ Excellent. This clarifies the requirements perfectly. Moving from hard-coded slots in MagicCaster to a flexible, data-driven inventory is the right architectural step. It will make adding new
+  weapons, items, and shop functionality much easier in the future.
 
-[node name="DetectionArea3D" type="Area3D" parent="."]
+  Based on my analysis of PlayerBody.cs and MagicCaster.cs, and adhering to your constraint of passing Resource references directly, here is my proposed plan of action.
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-shape = SubResource("CylinderShape3D_bnk72")
+  Plan: Implement a Modular, Resource-Based Inventory System
 
-[node name="LOS_RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9361892, 0)
-target_position = Vector3(0, 0, -50)
-collision_mask = 3
-hit_from_inside = true
-collide_with_areas = true
-debug_shape_thickness = 3
+  This plan introduces a central PlayerInventory resource to act as the single source of truth for the player's loadout, orchestrated by PlayerBody.
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_ltrpb")
-}
+  1. Create Core Data Structures (`Resource` scripts):
 
-[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-max_distance = 150.0
-bus = &"Voice"
+   * `PlayerInventory.cs`: This will be a new Resource script. It will be the central data container for the player's entire loadout.
+       * Properties:
+           * [Export] public SpellData MainWeapon { get; private set; }
+           * [Export] public SpellData SecondaryWeapon { get; private set; }
+           * [Export] public SpellData AutomaticWeapon { get; private set; }
+           * [Export] public Godot.Collections.Array<StatItemData> StatItems { get; private set; } (Initialized to a fixed size of 3).
+       * Signals:
+           * [Signal] public delegate void MainWeaponChangedEventHandler(SpellData newWeapon);
+           * [Signal] public delegate void SecondaryWeaponChangedEventHandler(SpellData newWeapon);
+           * [Signal] public delegate void AutomaticWeaponChangedEventHandler(SpellData newWeapon);
+           * [Signal] public delegate void StatItemsChangedEventHandler();
+       * Methods:
+           * public void EquipWeapon(SpellData weaponData, WeaponSlot slot)
+           * public void EquipStatItem(StatItemData statItem, int slotIndex)
+           * These methods will set the data and emit the corresponding signals.
 
-[node name="SFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-max_distance = 150.0
-bus = &"SFX"
+   * `StatItemData.cs`: A new Resource script to define passive stat-boosting items.
+       * Properties:
+           * [Export] public StatType TargetStat { get; private set; } // Enum: MaxHealth, MoveSpeed, etc.
+           * [Export] public float Value { get; private set; }
+           * [Export] public bool IsMultiplier { get; private set; } // Differentiates additive from multiplicative bonuses.
+           * Plus any data needed for ranking up, UI display (name, icon), etc.
 
-[node name="Attack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-max_distance = 150.0
-bus = &"SFX"
+  2. Integrate `PlayerInventory` into `PlayerBody`:
+
+   * In PlayerBody.cs, add a single exported property for the new inventory resource: [Export] public PlayerInventory Inventory { get; private set; }.
+   * In PlayerBody._Ready(), connect to all the signals from the Inventory resource (e.g., Inventory.MainWeaponChanged += OnMainWeaponChanged;).
+   * The handler methods in PlayerBody will be responsible for orchestrating updates. For example: private void OnMainWeaponChanged(SpellData newWeapon) { magicCaster.SetPrimaryWeapon(newWeapon); }.
+
+  3. Refactor `MagicCaster` for Statelesness:
+
+   * MagicCaster.cs will be simplified to become a stateless service that acts on command.
+   * Remove the EquippedSpell and EquippedAltFireSpell properties.
+   * Add public methods: public void SetPrimaryWeapon(SpellData spellData) and public void SetSecondaryWeapon(SpellData spellData). These methods will take the SpellData reference from PlayerBody and
+     configure the caster accordingly (e.g., loading audio data from the new spell).
+   * The _Input logic will remain largely the same, but it will now use the SpellData provided via these new methods instead of the old exported properties.
+
+  4. Create New Component for Automatic Weapon:
+
+   * Create a new node script AutomaticCaster.cs and add it as a child to PlayerBody.
+   * This component will contain a Timer and its own logic for targeting and firing.
+   * It will have one public method: public void SetAutomaticWeapon(SpellData spellData). When called, it will configure its timer's duration and projectile based on the passed-in spellData.
+   * PlayerBody will call this method from its OnAutomaticWeaponChanged signal handler.
+
+  5. Implement Stat Application in `PlayerBody`:
+
+   * Create a private void RecalculateStats() method in PlayerBody.cs.
+   * This method will be called in _Ready() and from the OnStatItemsChanged signal handler.
+   * Logic: It will start with base stats (from PlayerData or defaults), iterate through Inventory.StatItems, and apply each bonus, updating the final movement/combat variables (WALK_SPEED,
+	 MAX_SPRINT_SPEED, etc.).
+
+  This plan creates a clean, data-driven architecture that is easy to expand. It keeps responsibilities separate and minimizes side effects by having PlayerBody orchestrate all updates in response to
+  clear signals from a single PlayerInventory data source.
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                                                                                                         │
+│                                                                                                                                                                                                     │
+│ ### ReadManyFiles Result (Target Dir: `C:\_GameDevelopment\spinal-shatter`)                                                                                                                         │
+│                                                                                                                                                                                                     │
+│ Successfully read and concatenated content from **4 file(s)**.                                                                                                                                      │
+│                                                                                                                                                                                                     │
+│ **Processed Files:**                                                                                                                                                                                │
+│ - `README.md`                                                                                                                                                                                       │
+│ - `Scripts/Enums/SlotType.cs`                                                                                                                                                                       │
+│ - `Scripts/Resources/Spells/OrbAltSpellData.cs`                                                                                                                                                     │
+│ - `Scripts/Resources/Spells/SpellData.cs`                                                                                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+> Why would the EquippedSpell and EquippedAltFireSpell need to be removed if you're just going to replace them? all you need to do is restrict their access level, right? instead of public exports,
+  make them private fields, but don't need to get rid of them--reuse them. have those be what are set by the Set methods. ;;
+  Seems like there will need to be a SpellData subclass for AutomaticSpellData, and convert the existing @Scripts/Resources/Spells/SpellData.cs and @Scripts/Resources/Spells/OrbAltSpellData.cs into a
+  pattern more like: SpellData is the parent with shared metadata about all spells including WeaponType and SlotType, Name, Description, baseShopCost, and other minimal meta-data. Then have 2 main
+  children: AutomaticSpellData and CastedSpellData. Automatic is the new one you described needing to load Timer information from, and Casted is what SpellData will be converted into. ;;
+  Make sure you fill out the enums, old and new, based on the complete info from the @README.md gdd, like adding Automatic to @Scripts/Enums/SlotType.cs etc. the new StatType enum... I'm unsure if it
+  should just be one big global enum for all things that are stat-ish, so they are freely compatible with other UI systems etc., but I fear for their usability in-code. For instance, there are unique
+  "meta" stats for the meta progression. There are unique weapon stats vs player stats. Whatever. Just make it all one big enum for now.
+
+✦ You've raised excellent points that will lead to a much cleaner and more scalable architecture. Reusing the fields in MagicCaster is more efficient, and the suggested class hierarchy for SpellData
+  is a significant improvement.
+
+  I will proceed with a revised plan that incorporates this feedback.
+
+  Revised Plan: Actionable Steps for Implementation
+
+  Phase 1: Update Foundational Enums and Data Structures
+
+   1. Update `SlotType.cs`:
+	   * Add Automatic to the enum to represent the third weapon slot.
+
+   2. Create `StatType.cs`:
+	   * Create a new enum file Scripts/Enums/StatType.cs.
+	   * Populate this single, global enum with all player, weapon, and meta stats listed in the GDD, such as: MaxHealth, MoveSpeed, Armor, ProjectileCount, ChargeSpeed, RerollShop, etc.
+
+   3. Refactor `SpellData` into a Class Hierarchy:
+	   * Modify `Scripts/Resources/Spells/SpellData.cs` (New Parent Class):
+		   * This will become the abstract base class for all spell types.
+		   * It will retain only the shared metadata: Name, Description, WeaponType, SlotType.
+		   * We will add common weapon properties here: ProjectileScene, DamageRange, SpeedRange, SizeRange, and UsePlayerMomentum as they are relevant to both casted and automatic weapons.
+	   * Create `Scripts/Resources/Spells/CastedSpellData.cs` (New Child Class):
+		   * It will inherit from SpellData.
+		   * It will contain properties specific to charged/casted weapons: ChargeIntervals, ManaCostRange, MaxChargeTime, and AudioData (for charge sounds).
+	   * Create `Scripts/Resources/Spells/AutomaticSpellData.cs` (New Child Class):
+		   * It will inherit from SpellData.
+		   * It will contain properties for automatic weapons: [Export] public float FireRate { get; private set; }.
+	   * Update `Scripts/Resources/Spells/OrbAltSpellData.cs`:
+		   * Change its inheritance from SpellData to the new CastedSpellData.
+
+  Phase 2: Create the Inventory and Stat Item Systems
+
+   1. Create `StatItemData.cs`:
+	   * Create Scripts/Resources/Items/StatItemData.cs. This Resource will define passive items.
+	   * It will contain: StatType TargetStat, float Value, and bool IsMultiplier.
+
+   2. Create `PlayerInventory.cs`:
+	   * Create Scripts/Resources/PlayerInventory.cs. This Resource will be the player's central loadout manager.
+       * It will have typed properties for each slot:
+           * public CastedSpellData MainWeapon { get; private set; }
+           * public CastedSpellData SecondaryWeapon { get; private set; }
+           * public AutomaticSpellData AutomaticWeapon { get; private set; }
+           * public Godot.Collections.Array<StatItemData> StatItems { get; private set; }
+       * It will also contain the signals (MainWeaponChanged, etc.) and Equip... methods as previously discussed.
+
+  Phase 3: Integrate Systems and Refactor `PlayerBody` & `MagicCaster`
+
+   1. Refactor `MagicCaster.cs`:
+       * The EquippedSpell and EquippedAltFireSpell properties will be changed from [Export] public to private. I will rename them to _equippedSpell and _equippedAltFireSpell to reflect this change.
+         Their type will be updated to CastedSpellData.
+       * Public methods SetPrimaryWeapon(CastedSpellData spellData) and SetSecondaryWeapon(CastedSpellData spellData) will be added to set these private fields.
+
+   2. Create `AutomaticCaster.cs`:
+       * Create this new node Scripts/Components/AutomaticCaster.cs and add it to the player scene.
+       * It will contain a Timer and logic to fire based on the FireRate from an AutomaticSpellData resource, which will be provided via a SetAutomaticWeapon(AutomaticSpellData spellData) method.
+
+   3. Update `PlayerBody.cs`:
+       * Add the [Export] public PlayerInventory Inventory { get; private set; }.
+       * In _Ready, connect to the Inventory signals to call the Set... methods on MagicCaster and the new AutomaticCaster.
+       * Implement the RecalculateStats() method, which will be triggered by Inventory.StatItemsChanged.

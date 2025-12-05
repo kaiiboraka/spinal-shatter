@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PlayerInventory" load_steps=4 format=3 uid="uid://c0h32c3lyl763"]
+
+[ext_resource type="Script" uid="uid://dsl8cttct5qr8" path="res://Scripts/Resources/PlayerInventory.cs" id="1_fyk2d"]
+[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/Spells/Orb/Orb_SpellData.tres" id="1_mmucx"]
+[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/Spells/Orb/OrbAltFire_SpellData.tres" id="2_sfdt4"]
+
+[resource]
+script = ExtResource("1_fyk2d")
+MainWeapon = ExtResource("1_mmucx")
+SecondaryWeapon = ExtResource("2_sfdt4")
+StatItems = Array[Object]([])
+metadata/_custom_type_script = "uid://dsl8cttct5qr8"

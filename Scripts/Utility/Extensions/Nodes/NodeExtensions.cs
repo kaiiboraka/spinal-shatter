@@ -254,4 +254,16 @@ public static class NodeExtensions
 		bool oldValue = node.GetCollisionMaskValue((int)mask);
 		node.SetCollisionMaskValue((int)mask, !oldValue);
 	}
+
+	public static void DisableMonitor(this Area3D area)
+	{
+		area.Monitoring = false;
+		area.Monitorable = false;
+	}
+
+	public static void EnableMonitor(this Area3D area)
+	{
+		area.Monitoring = true;
+		area.Monitorable = true;
+	}
 }

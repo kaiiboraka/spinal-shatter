@@ -1,28 +1,24 @@
-[gd_scene load_steps=55 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=52 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
 [ext_resource type="Script" uid="uid://cqjhb6yydaii1" path="res://Scripts/Components/MagicCaster.cs" id="2_caster"]
 [ext_resource type="Resource" uid="uid://b26rcxugs6d5b" path="res://assets/Resources/PlayerData/PlayerData.tres" id="2_x4yal"]
+[ext_resource type="Resource" uid="uid://c0h32c3lyl763" path="res://assets/Resources/PlayerData/PlayerInventory.tres" id="3_hqlak"]
 [ext_resource type="Script" uid="uid://lxhabfofoseh" path="res://Scripts/Components/ManaComponent.cs" id="3_mana"]
-[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Fireball.tscn" id="4_orb"]
 [ext_resource type="Script" uid="uid://8vba4p6a7ywi" path="res://Scripts/Components/SiphonComponent.cs" id="5_siphon"]
 [ext_resource type="ArrayMesh" uid="uid://ldg6yktjwwb0" path="res://assets/Models/Meshes/siphon_cone.res" id="6_gc10f"]
+[ext_resource type="Script" uid="uid://cmsiacxt70pcy" path="res://Scripts/Components/AutomaticCaster.cs" id="7_3vnku"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
-[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="7_mc0oj"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
 [ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
-[ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/PlayerData/Sphere_ManaCostRange.tres" id="15_81gbe"]
-[ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/PlayerData/Sphere_DamageRange.tres" id="16_3vnku"]
 [ext_resource type="AudioStream" uid="uid://cxqyhepdpana4" path="res://assets/Audio/AudioData/SFX_Oof.tres" id="16_mc0oj"]
 [ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="16_qd2bg"]
 [ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/AudioData/SFX_ManaParticle.tres" id="16_qeewm"]
-[ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/PlayerData/Sphere_SpeedRange.tres" id="17_hqlak"]
 [ext_resource type="AudioStream" uid="uid://cm33h8bl2j42s" path="res://assets/Audio/SFX/Odead.wav" id="17_ibpri"]
-[ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/PlayerData/Sphere_SizeRange.tres" id="18_mc0oj"]
 [ext_resource type="AudioStream" uid="uid://uepv0sn67mp8" path="res://assets/Audio/SFX/Powerup_05.wav" id="21_mc0oj"]
 [ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="23_3vnku"]
 [ext_resource type="SpriteFrames" uid="uid://ji7ndov8slph" path="res://assets/Images/Player/arm_right.ase" id="23_mc0oj"]
@@ -121,7 +117,7 @@ step = 0.083333336
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -133,7 +129,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -150,7 +146,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -162,7 +158,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -190,7 +186,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%RightArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -202,7 +198,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%RightArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -233,7 +229,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%LeftArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/LeftArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -245,7 +241,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%LeftArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/LeftArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -288,7 +284,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%LeftArm:animation")
+tracks/0/path = NodePath("Head/Camera1P/LeftArm:animation")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -300,7 +296,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%LeftArm:frame")
+tracks/1/path = NodePath("Head/Camera1P/LeftArm:frame")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -351,9 +347,51 @@ tracks/0/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_hqlak"]
+resource_name = "Cast_Hold"
+length = 0.033333335
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Camera1P/RightArm:animation")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [&"Cast_Release"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Camera1P/RightArm:frame")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeleeHitbox/Melee_CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2n8gu"]
 _data = {
 &"Cast_Charge": SubResource("Animation_spibu"),
+&"Cast_Hold": SubResource("Animation_hqlak"),
 &"Cast_Idle": SubResource("Animation_m2jkf"),
 &"Cast_Release": SubResource("Animation_h1o3h"),
 &"Melee_LeftSwing": SubResource("Animation_fxftb"),
@@ -369,6 +407,7 @@ platform_floor_layers = 12
 platform_wall_layers = 512
 script = ExtResource("1_gjot8")
 Data = ExtResource("2_x4yal")
+Inventory = ExtResource("3_hqlak")
 WALK_SPEED = 15.0
 _pauseMenuScene = ExtResource("2_3vnku")
 
@@ -380,22 +419,18 @@ script = ExtResource("7_u2vuf")
 unique_name_in_owner = true
 script = ExtResource("3_mana")
 
-[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("manaComponent", "spellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
+[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("manaComponent", "SpellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
-projectileScene = ExtResource("4_orb")
 manaComponent = NodePath("../ManaComponent")
-spellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
-AudioData = ExtResource("7_mc0oj")
+SpellOrigin = NodePath("../Head/Camera1P/SpellOrigin")
 audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
 audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D")
-maxChargeTime = 1.75
-ManaCostRange = ExtResource("15_81gbe")
-DamageRange = ExtResource("16_3vnku")
-SpeedRange = ExtResource("17_hqlak")
-SizeRange = ExtResource("18_mc0oj")
-chargeIntervals = 10
+
+[node name="AutomaticCaster" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_3vnku")
 
 [node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")
@@ -552,9 +587,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83, 0)
 
 [node name="Camera1P" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
-doppler_tracking = 2
-current = true
-far = 3000.0
 
 [node name="AimCast1P" type="RayCast3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
@@ -564,7 +596,7 @@ collide_with_areas = true
 
 [node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.45, -0.737)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.44999993, -0.737)
 
 [node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)
@@ -593,8 +625,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.9, -1)
 shaded = true
 texture_filter = 0
 sprite_frames = ExtResource("23_mc0oj")
-animation = &"Cast_Charge"
+animation = &"Cast_Release"
 autoplay = "Idle"
+frame = 2
 
 [node name="LeftArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
@@ -759,6 +792,42 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 25)
 layout_mode = 2
 show_percentage = true
+
+[node name="Control" type="Control" parent="Control/HUD/ScreenMarginContainer"]
+layout_mode = 2
+
+[node name="InteractionPrompt_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.75
+anchor_right = 0.6
+anchor_bottom = 0.75
+offset_top = -45.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="InteractionPrompt_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Control/InteractionPrompt_PanelContainer"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]Press \"E\" to BUY SOMFIN[/center]"
+fit_content = true
+scroll_active = false
+autowrap_trim_flags = 0
+shortcut_keys_enabled = false
 
 [node name="Reticle" type="CenterContainer" parent="Control"]
 layout_mode = 1

@@ -43,6 +43,7 @@ public partial class SiphonComponent : Node
 	{
 		PlayerBody.Instance.DisallowMeleeAttack();
 		PlayerBody.Instance.DisallowRangedAttack();
+		PlayerBody.Instance.PlayCastHold();
 		_siphonField.Monitoring = true;
 		_siphonField.Visible = true;
 		_isSiphoning = true;
@@ -63,6 +64,7 @@ public partial class SiphonComponent : Node
 	{
 		PlayerBody.Instance.AllowMeleeAttack();
 		PlayerBody.Instance.AllowRangedAttack();
+		PlayerBody.Instance.ReturnToIdle();
 		_isSiphoning = false;
 		_siphonField.Visible = false;
 		_siphonField.Monitoring = false;

@@ -1,8 +1,9 @@
+namespace SpinalShatter;
+
 using Godot;
 using System;
+using System.Collections.Generic;
 using Elythia;
-
-namespace SpinalShatter;
 
 public partial class Projectile : RigidBody3D
 {
@@ -13,40 +14,42 @@ public partial class Projectile : RigidBody3D
 	}
 
 	[Export] private PackedScene _sparkParticlesScene;
+	[Export] private PackedScene _explosionEffectScene;
 	private SpriteBase3D sprite;
 	private CollisionShape3D collisionShape;
+	private Area3D detectionArea3D; // Added for explosion detection
+	private SphereShape3D detectionShape;
 
 	[Export] public AudioData AudioData { get; private set; }
 	private AudioStreamPlayer3D audioStreamPlayer;
-	// [Export] public AudioStream AudioStream_FireHit { get; private set; }
 
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
-	[Export] IntValueRange manaDroppedAmount = new IntValueRange(1, 5);
+
 	[Export] private bool IsFixed { get; set; }
 
-	public Node3D LevelParent { get; set; }
-	public float Damage { get; private set; }
-	public float ManaCost { get; private set; }
-	public float Charge { get; set; }
-	public float DamageGrowthConstant { get; private set; }
-	public float AbsoluteMaxProjectileSpeed { get; private set; }
-	public float MaxInitialManaCost { get; private set; }
-	public FloatValueRange SizingScale { get; private set; }
+	public SpellData SpellData { get; private set; }
+	public Node Caster { get; private set; }
+	public SlotType Slot { get; private set; }
+	public float CurrentMana { get; private set; }
+	public float CurrentCharge { get; private set; }
+	public float CurrentDamage { get; private set; } // Final calculated damage
 
+	private float damagePerMana;
 	private ProjectileState state = ProjectileState.Charging;
-	private Node ProjectileOwner;
 	private Timer lifetimeTimer;
 	private float bounceCooldown = 0;
-	private float minManaThreshold = 1.0f;
-
-	int ManaLostAmount => (int)Mathf.Min(manaDroppedAmount.GetRandomValue(), ManaCost);
+	private GpuParticles3D trail;
 
 	public override void _Ready()
 	{
 		sprite ??= GetNode<SpriteBase3D>("Sprite3D");
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
+		trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
+		detectionArea3D ??= GetNode<Area3D>("%Detection_Area3D"); // Get reference
+
+		detectionShape = (SphereShape3D)detectionArea3D.GetChild<CollisionShape3D>(0).Shape;
 
 		lifetimeTimer = new Timer();
 		lifetimeTimer.WaitTime = _lifetime;
@@ -54,9 +57,16 @@ public partial class Projectile : RigidBody3D
 		lifetimeTimer.Timeout += () => QueueFree();
 		AddChild(lifetimeTimer);
 
-		// Disable physics until launched
 		this.Freeze = true;
 		collisionShape.Disabled = true;
+		// _detectionArea33D is typically set up in the scene to monitor,
+		// but we ensure it's not active prematurely if it's meant for a one-shot explosion.
+		// Its collision_mask should be set to detect relevant layers (e.g., ENEMY_HURTBOX_BIT)
+		// in the scene file (AltFire_Explode.tscn).
+		if (detectionArea3D != null)
+		{
+			detectionArea3D.Monitoring = true; // Start enabled, as it should always be monitoring for overlaps.
+		}
 
 		ContactMonitor = true;
 		MaxContactsReported = 4;
@@ -92,275 +102,297 @@ public partial class Projectile : RigidBody3D
 					GetTree().Root.AddChild(sparkParticles);
 					sparkParticles.GlobalPosition = GlobalPosition;
 					sparkParticles.LookAt(contactLocalNormal);
-					int particleCount = hitProjectile ? 20 : (int)(ManaCost * 3);
-					sparkParticles.PlayParticles(particleCount);
+					int particleCount = hitProjectile ? 20 : (int)(CurrentMana * 3);
+					sparkParticles.PlayParticles(particleCount * CurrentCharge);
 				}
 
 				if (!collider.IsInGroup("Enemies"))
 				{
-					// Wall bounce
-					Vector3 impactPoint = contactLocalPosition.MoveToward(contactLocalNormal, contactLocalNormal.Length());
+					Vector3 impactPoint =
+						contactLocalPosition.MoveToward(contactLocalNormal, contactLocalNormal.Length());
 					HandleWallBounce(impactPoint);
-					return; // Handle one bounce per frame
+					return;
 				}
 
 				if (hitProjectile)
 				{
 					int more = 0;
-					if  (collider is Projectile other) more = Mathf.Max(other.ManaCost.CeilingToInt(), other.Damage.CeilingToInt());
-					EjectMana(more + ManaCost.CeilingToInt(), contactLocalPosition);
+					if (collider is Projectile other)
+						more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
+					EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
 				}
-
 			}
 		}
 	}
 
-	public void BeginChargingProjectile(Node3D parent, FloatValueRange sizeScale)
+	public void BeginChargingProjectile(Node3D parent, SpellData spellData)
 	{
 		parent.AddChild(this);
-		this.SizingScale = sizeScale;
+		if (trail != null) trail.Visible = false;
+		this.SpellData = spellData;
 		this.Position = Vector3.Zero;
-		Charge = 0;
-		UpdateChargeState(); // Start at 10% size
+		this.CurrentCharge = 0;
+		UpdateChargeState();
 	}
 
 	public void UpdateChargeState()
 	{
-		float size = Mathf.Lerp(SizingScale.Min, SizingScale.Max, Charge);
-
 		if (IsFixed) return;
-		if (sprite != null)
+
+		var sizingScale = SpellData.SizeRange;
+		if (sizingScale != null)
 		{
-			sprite.Scale = Vector3.One * size;
+			float scaledSize = sizingScale.GetLerpedValue(CurrentCharge);
+			if (sprite != null)
+			{
+				sprite.Scale = Vector3.One * scaledSize;
+			}
+
+			if (collisionShape is { Shape: SphereShape3D sphere })
+			{
+				sphere.Radius = Mathf.Max(0.05f, scaledSize * 0.5f);
+			}
+
+			Mass = scaledSize;
 		}
-
-		if (collisionShape is { Shape: SphereShape3D sphere })
-		{
-			// Ensure the collision shape doesn't get too small
-			sphere.Radius = Mathf.Max(0.05f, size * 0.5f);
-		}
-
-		Mass = size;
-	}
-
-	public void Launch(Node3D caster, float damage, Vector3 initialVelocity)
-	{
-		ProjectileLaunchData launchData = new ProjectileLaunchData
-		{
-			Caster = caster,
-			Damage = damage,
-			ManaCost = 1.0f, // Fixed-damage projectiles have a nominal mana cost of 1
-			InitialVelocity = initialVelocity,
-			DamageGrowthConstant = 0.0f, // Indicates fixed damage, no scaling
-			AbsoluteMaxProjectileSpeed = initialVelocity.Length(), // Use current speed as max for fixed projectiles
-			MaxInitialManaCost = 1.0f, // Nominal max initial mana cost for fixed-damage projectiles
-			SizingScale = new FloatValueRange(1)
-		};
-		Launch(launchData);
 	}
 
 	public void Launch(ProjectileLaunchData data)
 	{
-		if (state != ProjectileState.Charging)
+		if (this.state != ProjectileState.Charging)
 			return;
 
 		state = ProjectileState.Fired;
-		this.Damage = data.Damage;
-		this.ManaCost = data.ManaCost;
-		this.Charge = data.ChargeRatio;
-		this.DamageGrowthConstant = data.DamageGrowthConstant;
-		this.AbsoluteMaxProjectileSpeed = data.AbsoluteMaxProjectileSpeed;
-		this.MaxInitialManaCost = data.MaxInitialManaCost;
-		this.SizingScale = data.SizingScale;
+		Caster = data.Caster;
+		SpellData = data.SpellData;
+
+		CurrentMana = data.ManaCost;
+		CurrentCharge = data.ChargeRatio;
+
+		Slot = data.Slot;
+
 		UpdateChargeState();
-		ProjectileOwner = data.Caster;
-		
-		// Ensure the projectile is removed from its current parent before adding to RoomManager
+
+		switch (SpellData.Weapon)
+		{
+			case WeaponType.Orb:
+				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
+				if (Slot == SlotType.Alt)
+				{
+					// Alt-fire rocket launcher should have more base power for more knockback
+					CurrentDamage *= 2.0f;
+				}
+				damagePerMana = CurrentDamage / CurrentMana;
+				break;
+			case WeaponType.Slash:
+			case WeaponType.ForceWall:
+			case WeaponType.Dice:
+			case WeaponType.Lance:
+			case WeaponType.Garlic:
+			case WeaponType.Chakram:
+			case WeaponType.Missiles:
+			default:
+				break;
+		}
+
 		if (GetParent() != null)
 		{
-			// DebugManager.Debug($"Projectile: Launch - Removing from parent: {GetParent().Name}");
 			GetParent().RemoveChild(this);
 		}
+
 		var parent = RoomManager.Instance;
 		parent.AddChild(this);
 		Marker3D SpellMarker = data.StartPosition;
 
-		// OPTIONAL: Fire at center?
 		Vector3 markerPosition = SpellMarker.Position;
-		SpellMarker.Position = SpellMarker.Position with {X = 0};
+		SpellMarker.Position = SpellMarker.Position with { X = 0 };
 
 		GlobalPosition = SpellMarker.GlobalPosition;
 
 		SpellMarker.Position = markerPosition;
 
-		// Enable physics and launch
 		this.Freeze = false;
 		collisionShape.Disabled = false;
-		// DebugManager.Debug($"Projectile: Launch - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
 		this.LinearVelocity = data.InitialVelocity;
 
 		lifetimeTimer.Start();
+		if (trail != null) trail.Visible = true;
 	}
 
 
-	private static double LambertW0(double x)
+	public void UpdateChargeAmount(float charge)
 	{
-		if (x < 0)
-		{
-			throw new ArgumentException(
-				"LambertW0 is not defined for negative x in this simple real-valued implementation.");
-		}
-
-		if (x == 0)
-		{
-			return 0;
-		}
-
-		// Initial guess (good approximation for large x)
-		double w = Math.Log(x);
-		if (x > 10)
-		{
-			w = Math.Log(x / Math.Log(x));
-		}
-
-		// Halley's method for refinement (usually 3-5 iterations suffice for machine precision)
-		for (int i = 0; i < 10; i++)
-		{
-			double expW = Math.Exp(w);
-			double wExpW = w * expW;
-			double wPlusOne = w + 1;
-
-			// Halley's method iteration formula
-			double nextW = w - (wExpW - x) / (expW * wPlusOne - (w + 2) * (wExpW - x) / (2 * wPlusOne));
-
-			if (Math.Abs(nextW - w) < 1e-15) // Check for convergence
-			{
-				return nextW;
-			}
-
-			w = nextW;
-		}
-
-		return w; // Return the result after max iterations
+		CurrentCharge = charge;
+		UpdateChargeState();
 	}
 
 	public void OnEnemyHit()
 	{
-		ApplyManaLoss(ManaLostAmount, GlobalPosition);
+		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Alt)
+		{
+			Explode(orbData);
+			return;
+		}
+		
+		ApplyManaLoss(GlobalPosition);
 		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Hit"]);
+		switch (SpellData.Weapon)
+		{
+			case WeaponType.Orb:
+				Expire(false);
+				break;
+			case WeaponType.Slash:
+			case WeaponType.ForceWall:
+			case WeaponType.Dice:
+			case WeaponType.Lance:
+			case WeaponType.Garlic:
+			case WeaponType.Chakram:
+			case WeaponType.Missiles:
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
 	}
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		// DebugManager.Instance.DEBUG.Info($"HWB: Wall Bounce! Current Mana: {ManaCost}");
-
-		// If DamageGrowthConstant is 0, this is a fixed-damage projectile (e.g., enemy projectile).
-		// It should not scale or eject mana, just expire.
-		if (DamageGrowthConstant.IsZero())
+		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Alt)
+		{
+			Explode(orbData);
+			return;
+		}
+		
+		if (IsFixed)
 		{
 			Expire();
 			return;
 		}
 
-		float velocityFactor = LinearVelocity.Length() / AbsoluteMaxProjectileSpeed;
-
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Bounce"]);
-		// DebugManager.Trace($"projectile impact point: {impactPoint}");
-		ApplyManaLoss(ManaLostAmount, impactPoint);
+		ApplyManaLoss(impactPoint);
 
-		bounceCooldown = 0.1f; // Prevent rapid re-bouncing
+		bounceCooldown = 0.1f;
 	}
 
-	public void Expire()
+	private void Explode(OrbAltSpellData orbData)
 	{
-		Damage = 0;
-		EjectMana(ManaCost, GlobalPosition);
-		Reset(); // Reset state before queuing for free
+		if (detectionArea3D == null)
+		{
+			GD.PrintErr("Projectile: _detectionArea3D not found for explosion.");
+			Expire(false);
+			return;
+		}
+
+		// Ensure the detection area is at the projectile's position for the explosion
+		detectionArea3D.GlobalPosition = GlobalPosition;
+
+		var explosionRadius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
+		// Set the radius dynamically
+		detectionShape.Radius = explosionRadius;
+
+		var overlappingAreas = detectionArea3D.GetOverlappingAreas();
+
+		foreach (var area in overlappingAreas)
+		{
+			// The collider is the Area3D hurtbox, its parent is the Combatant
+			if (area.GetParent() is Combatant combatant)
+			{
+				// Ensure we don't hit the caster with their own explosion
+				if (combatant == Caster) continue;
+
+				combatant.TakeDamage(CurrentDamage, GlobalPosition);
+			}
+		}
+
+		if (_explosionEffectScene != null)
+		{
+			if(_explosionEffectScene.Instantiate() is OneshotParticles explosion)
+			{
+				GetTree().Root.AddChild(explosion);
+				explosion.GlobalPosition = GlobalPosition;
+				explosion.PlayParticles(explosionRadius, 150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
+			}
+		}
+		
+		// Placeholder for explosion sound, assuming it's different from "Hit"
+		// AudioManager.PlayAtPosition((AudioFile)AudioData["Explosion"], GlobalPosition); 
+		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition); 
+		
+		Expire(false); // Expire without dropping mana
+	}
+
+	public void Expire(bool dropMana = true)
+	{
+		if (trail != null)
+		{
+			double seconds = trail.Lifetime / trail.FixedFps;
+			SceneTreeTimer clearTimer = GetTree().CreateTimer(seconds);
+			clearTimer.Timeout += () =>
+			{
+				if (IsInstanceValid(trail)) trail.QueueFree();
+			};
+			trail.Reparent(GetParent());
+		}
+
+		if (dropMana) EjectMana(CurrentMana, GlobalPosition);
+		Reset();
 		QueueFree();
 	}
 
-	public void ApplyManaLoss(float manaLostAmount, Vector3 impactPosition)
+	public void ApplyManaLoss(Vector3 impactPosition)
 	{
-		if (float.IsNaN(manaLostAmount))
+		if (SpellData is not CastedSpellData castedSpell)
 		{
 			Expire();
 			return;
 		}
 		
-		if (float.IsNaN(ManaCost))
+		float manaLostAmount = (int)Mathf.Min(castedSpell.ManaDroppedAmount.GetRandomValue(), CurrentMana);
+		if (float.IsNaN(manaLostAmount) || float.IsNaN(CurrentMana))
 		{
 			Expire();
 			return;
 		}
-		
-		// DebugManager.Debug(
-		// 	$"AML: ManaLostAmount: {manaLostAmount}, CurrentMana: {ManaCost}");
 
-		// Clamp manaLostAmount to current ManaCost to prevent negative mana
-		manaLostAmount = Mathf.Min(ManaCost, manaLostAmount);
-
-		// Eject mana particles
-		// float manaToEject = isEnemyHit ? manaLostAmount * EnemyManaRefundFraction : manaLostAmount;
+		manaLostAmount = Mathf.Min(CurrentMana, manaLostAmount);
 		EjectMana(manaLostAmount, impactPosition);
+		CurrentMana -= manaLostAmount;
+		CurrentMana = Mathf.Max(0, CurrentMana);
 
-		// Reduce projectile's mana
-		ManaCost -= manaLostAmount;
-		ManaCost = Mathf.Max(0, ManaCost); // Ensure ManaCost doesn't go below zero
-
-		// If ManaCost drops below threshold, expire the projectile
-		if (ManaCost < minManaThreshold)
+		if (CurrentMana < 1)
 		{
 			Expire();
 			return;
 		}
 
-		// Recalculate Charge based on new ManaCost
-		// MaxInitialManaCost is the ManaCost when Charge is 1
-		Charge = ManaCost / MaxInitialManaCost;
-		Charge = Mathf.Max(0, Charge); // Ensure Charge doesn't go below zero
+		CurrentCharge = CurrentMana / castedSpell.ManaCostRange.Max;
+		CurrentCharge = Mathf.Max(0, CurrentCharge);
+		CurrentDamage = damagePerMana * CurrentMana;
 
-		// Recalculate Damage based on new Charge
-		Damage = ManaCost * Mathf.Pow(4, Charge * DamageGrowthConstant);
-
-		// Update visual state
 		UpdateChargeState();
 
 
-		// Destroy if too small
 		if (sprite.Scale.X < 0.1f)
 		{
 			QueueFree();
 		}
 	}
 
+
 	public void EjectMana(float amount, Vector3 spawnPoint)
 	{
-		// DebugManager.Debug($"EM: Amount received: {amount}");
-
-		// float refundPercent = (float)GD.RandRange(_minRefundPercent, _maxRefundPercent);
-		// DebugManager.Debug($"EM: RefundPercent: {refundPercent}");
-
-		// float manaToFloor = amount * (1.0f - refundPercent);
-
 		float manaToFloor = amount;
 		int manaToSpawn = manaToFloor.FloorToInt();
-		// DebugManager.Debug($"EM: Mana to floor: {manaToFloor}, Mana to spawn (raw): {manaToSpawn}");
 
 		if (manaToSpawn <= 0 && amount > 0)
 		{
-			manaToSpawn = 1; // Ensure at least 1 mana is spawned if there was a loss
-			// DebugManager.Debug($"EM: Mana to spawn adjusted to 1 (was 0, amount > 0)");
+			manaToSpawn = 1;
 		}
 
 		if (manaToSpawn > 0)
 		{
 			PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, spawnPoint);
-			// DebugManager.Debug($"EM: Spawning {manaToSpawn} mana particles.");
-		}
-		else
-		{
-			// DebugManager.Debug($"EM: No mana spawned (manaToSpawn <= 0).");
 		}
 	}
 
@@ -376,10 +408,18 @@ public partial class Projectile : RigidBody3D
 		AngularVelocity = Vector3.Zero;
 		Freeze = true;
 		collisionShape.Disabled = true;
-		// DebugManager.Debug($"Projectile: Reset - Freeze: {this.Freeze}, CollisionShape.Disabled: {_collisionShape.Disabled}");
-		Charge = 0;
 		lifetimeTimer.Stop();
-		GlobalPosition = Vector3.Zero; // Reset position to a default
-		// Reset any other relevant properties
+		GlobalPosition = Vector3.Zero;
+
+		Caster = null;
+		CurrentCharge = 0;
+		CurrentMana = 0;
+		CurrentDamage = 0;
+		damagePerMana = 0f;
+		if (trail != null)
+		{
+			trail.Reparent(this);
+			trail.Visible = false;
+		}
 	}
 }

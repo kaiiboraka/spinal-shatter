@@ -1,52 +1,36 @@
 # Error
 
-E 0:00:02:175   get_frame_count: Animation 'Front_Idle' doesn't exist.
-  <C++ Error>   Condition "!E" is true. Returning: 0
-  <C++ Source>  scene/resources/sprite_frames.cpp:71 @ get_frame_count()
-
-E 0:00:16:521   NativeCalls.cs:3052 @ Godot.GodotObject Godot.NativeCalls.godot_icall_1_329(nint, nint, int): Animation 'Front_Idle' doesn't exist.
-  <C++ Error>   Condition "!E" is true. Returning: 0
-  <C++ Source>  scene/resources/sprite_frames.cpp:71 @ get_frame_count()
-  <Stack Trace> NativeCalls.cs:3052 @ Godot.GodotObject Godot.NativeCalls.godot_icall_1_329(nint, nint, int)
-				PackedScene.cs:130 @ Godot.Node Godot.PackedScene.Instantiate(Godot.PackedScene+GenEditState)
-				PackedSceneExtensions.cs:20 @ T Godot.PackedScene.Instantiate<T>(Godot.PackedScene+GenEditState)
-				ObjectPoolManager.cs:99 @ T ObjectPoolManager`1.Get()
-				EnemySpawner.cs:153 @ void SpinalShatter.EnemySpawner.Spawn(Godot.PackedScene)
-				EnemySpawner.cs:114 @ void SpinalShatter.EnemySpawner.OnSpawnTimerTimeout()
-				Callable.generics.cs:39 @ void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&)
-				DelegateUtils.cs:86 @ void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*)
-
 
 # Output
 
-Embedded window only supports Windowed mode.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
-  ERROR: (36) Animation 'Front_Idle' doesn't exist.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/PackedScene.cs.
-  ERROR: (122) Animation 'Front_Idle' doesn't exist.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
-  ERROR: Cannot open file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed to read file: '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Cannot load C# script file '/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs'.
-  ERROR: Failed loading resource: /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs.
+[DEBUG : 7.95][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Scrounger' is firing a projectile.
+Explosion Area Position: (2.6777563, 0.70090395, -48.058273)
+Explosion Area Radius: 3.8000002
+Explosion Area Monitoring: False
+Explosion Area Collision Layer: 4096
+Explosion Area Collision Mask: 35840
+Explosion Area Has Overlapping Areas?: False
+Explosion Area Position: (0.65655136, 0.5367595, -50.19731)
+Explosion Area Radius: 5.6000004
+Explosion Area Monitoring: False
+Explosion Area Collision Layer: 4096
+Explosion Area Collision Mask: 35840
+Explosion Area Has Overlapping Areas?: False
+Explosion Area Position: (-6.427199, 0.5208566, -53.481197)
+Explosion Area Radius: 3.8000002
+Explosion Area Monitoring: False
+Explosion Area Collision Layer: 4096
+Explosion Area Collision Mask: 35840
+Explosion Area Has Overlapping Areas?: False
+Explosion Area Position: (-17.820456, 0.9894902, -53.799114)
+Explosion Area Radius: 3.2
+Explosion Area Monitoring: False
+Explosion Area Collision Layer: 4096
+Explosion Area Collision Mask: 35840
+Explosion Area Has Overlapping Areas?: False
+Explosion Area Position: (-14.637127, 0.5362104, -54.542435)
+Explosion Area Radius: 3.8000002
+Explosion Area Monitoring: False
+Explosion Area Collision Layer: 4096
+Explosion Area Collision Mask: 35840
+Explosion Area Has Overlapping Areas?: False

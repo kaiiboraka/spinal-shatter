@@ -731,6 +731,7 @@ billboard = 2
 shaded = true
 double_sided = false
 texture_filter = 0
+render_priority = -1
 sprite_frames = ExtResource("7_e7lyv")
 animation = &"Front"
 autoplay = "Front"

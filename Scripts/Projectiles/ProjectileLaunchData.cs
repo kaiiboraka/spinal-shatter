@@ -1,16 +1,15 @@
+namespace SpinalShatter;
+
 using Elythia;
 using Godot;
 
 public struct ProjectileLaunchData
 {
 	public Node Caster { get; set; }
-	public float Damage { get; set; }
 	public float ManaCost { get; set; }
 	public Vector3 InitialVelocity { get; set; }
 	public Marker3D StartPosition { get; set; }
 	public float ChargeRatio { get; set; }
-	public float DamageGrowthConstant { get; set; }
-	public float AbsoluteMaxProjectileSpeed { get; set; }
-	public float MaxInitialManaCost { get; set; }
-	public FloatValueRange SizingScale { get; set; }
+	public SpellData SpellData { get; set; }
+	public SlotType Slot { get; set; }
 }

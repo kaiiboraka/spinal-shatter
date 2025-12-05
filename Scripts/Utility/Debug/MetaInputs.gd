@@ -23,8 +23,9 @@ func _input(_event: InputEvent) -> void:
 	if (Input.is_action_just_pressed(&"Debug_HUD")):
 		debugManager.ToggleVisibility();
 
-	if (Input.is_action_just_pressed(&"Player_Reload")):
-		PlayerBody.FillPlayerMana();
+	if (Input.is_action_just_pressed("Debug_Refresh_Scene")):
+		get_tree().reload_current_scene();
+		return;
 
 	if (Input.is_action_just_pressed(&"Debug_Collisions")):
 		toggle_collision_shape_visibility();

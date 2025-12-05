@@ -47,16 +47,16 @@ public abstract partial class Combatant : CharacterBody3D
             // Don't get hurt by our own projectiles
             if (projectile.Owner == this) return;
 
-            float actualDamageDealt = TakeDamage(projectile.Damage, projectile.GlobalPosition);
+            float actualDamageDealt = TakeDamage(projectile.CurrentDamage, projectile.GlobalPosition);
             
             // Calculate mana lost based on actual damage dealt, checking for division by zero.
             float manaLostAmount = 0;
-            if (projectile.Damage > 0)
+            if (projectile.CurrentDamage > 0)
             {
-                manaLostAmount = actualDamageDealt * (projectile.ManaCost / projectile.Damage);
+                manaLostAmount = actualDamageDealt * (projectile.CurrentMana / projectile.CurrentDamage);
             }
             
-            projectile.ApplyManaLoss(manaLostAmount, projectile.GlobalPosition);
+            projectile.EjectMana(manaLostAmount, projectile.GlobalPosition);
         }
     }
 

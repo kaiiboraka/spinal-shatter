@@ -15,6 +15,7 @@ public partial class Enemy : Combatant
 
 	[ExportGroup("Components")]
 	[Export] public EnemyData Data { get; private set; }
+	[Export] public SpellData EnemySpellData { get; private set; }
 
 	private AnimationPlayer animPlayer;
 
@@ -75,12 +76,14 @@ public partial class Enemy : Combatant
 	private bool _isWalking = false;
 	private bool isDying => _currentState == AIState.Dying;
 
+
 	[Signal]
 	public delegate void EnemyDiedEventHandler(Enemy who);
 
 	public ObjectPoolManager<Node3D> OwningPool { get; set; }
 
 	private float _gravity => Constants.GRAVITY;
+
 
 	public override void _Ready()
 	{
@@ -105,7 +108,8 @@ public partial class Enemy : Combatant
 	{
 		if (area.Owner is PlayerBody player)
 		{
-			DebugManager.Debug($"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
+			DebugManager.Debug(
+				$"MELEE HIT: Enemy '{Name}' attacking Player for {AttackDamage} damage. IsActive: {_isActive}");
 			player.TakeDamage(AttackDamage, GlobalPosition);
 		}
 	}
@@ -159,7 +163,6 @@ public partial class Enemy : Combatant
 		timerWalk.Timeout += OnWalkTimerTimeout;
 		timerAction.Timeout += OnActionTimerTimeout;
 		timerPool.Timeout += Despawn;
-
 	}
 
 	private void ApplyData(EnemyData data)
@@ -205,6 +208,9 @@ public partial class Enemy : Combatant
 		if (!_isActive) return;
 
 		base._PhysicsProcess(delta); // Decays knockback
+
+		if (GlobalPosition.Y < -10) GlobalPosition = GlobalPosition with { Y = 0 };
+		if (GlobalPosition.Y > 100) GlobalPosition = GlobalPosition with { Y = 0 };
 
 		// --- Player Target Acquisition (if _player is null) ---
 		if (_player == null)
@@ -378,13 +384,13 @@ public partial class Enemy : Combatant
 			var launchData = new ProjectileLaunchData
 			{
 				Caster = this,
-				Damage = AttackDamage,
 				InitialVelocity = direction * ProjectileSpeed,
 				StartPosition = ProjectileSpawnPoint,
-				SizingScale = new FloatValueRange(1),
+				SpellData = EnemySpellData
 			};
 			projectile.Launch(launchData);
 		}
+
 		// Melee attack logic (handled by animation keyframes)
 	}
 
@@ -418,6 +424,7 @@ public partial class Enemy : Combatant
 	{
 		if (body is PlayerBody player)
 		{
+			previousPlayerPosition = player.GlobalPosition;
 			_player = null;
 			ChangeState(AIState.Patrolling);
 		}
@@ -447,7 +454,8 @@ public partial class Enemy : Combatant
 		var targetRotation = new Transform3D(Basis, GlobalPosition).LookingAt(_player.GlobalPosition, Vector3.Up).Basis;
 		Basis = Basis.Orthonormalized().Slerp(targetRotation, (float)delta * ChaseRotationSpeed);
 
-		if (GlobalPosition.DistanceTo(_player.GlobalPosition) > AttackRange)
+		Vector3 where = _player?.GlobalPosition ?? previousPlayerPosition;
+		if (GlobalPosition.DistanceTo(where) > AttackRange)
 		{
 			// Move towards player
 			if (Data.IsFlying)
@@ -702,6 +710,7 @@ public partial class Enemy : Combatant
 			// DebugManager.Debug($"Enemy: {Name} Death particles GlobalPosition after: {deathParticles.GlobalPosition}");
 			deathParticles.PlayParticles(Data.DeathParticleCount);
 		}
+
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die"]);
 
 		fogVolume.Visible = false;
@@ -726,7 +735,7 @@ public partial class Enemy : Combatant
 	public override void Reset()
 	{
 		HealthComponent.Reset();
-		
+
 		// Stop all lingering timers from previous life
 		StopActionTimers();
 
@@ -735,6 +744,7 @@ public partial class Enemy : Combatant
 		animatedSprite.Modulate = Colors.White;
 		fogVolume.Visible = true;
 		eyeSpotlight.Visible = true;
+
 		// Reset state variables
 		_player = null;
 		_isWalking = false;

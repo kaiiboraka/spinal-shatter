@@ -165,69 +165,129 @@ Be able to sell existing perks in your inventory, allowing you to "trade-in" for
 2 permanent shop items: refill health/mana, maybe something else   
 3-5 randomized items (TBD), with the option to freeze one between rounds so you can save for something you like  
 
+And maybe a health potion
+Still deliberating on the health economy
 
 ## Item Types
 
+
+
 ### Spells a.k.a. Weapons a.k.a. Attacks
 
-in this game the weapons / abilities are all spells.
-every spell changes how your attack works.
+in this game the weapons / abilities are all spells. every spell changes how your attack works. 
 
 Main weapon: spammable, can alternatively charge
 Secondary slot: can only Alt-fire, but can use main charge (interrupt main charge with alt-fire press)
+Passive slot: automatically fires on a timer, out of your control, for free. (I imagine it floats in front of you by itself, so you can see what it's doing)
+
+do you have a limit on inventory size?
+
+ — 3:25 PM
+Primary weapon
+Alt weapon
+And I think I said 3(?) passive slots
+
+
+#### Weapon ranks
+
+Every weapon can rank up by purchasing copies of it again from the shop. 
+Higher rank cost more but also sells back for more.
+
+example ranks from Vampire Survivors, which start at level 1, and level up to 8, ranking up 7 times:
+
+1) axe base: damage 20, pierce 3, count 1
+2) count
+3) damage + 20
+4) pierce
+5) count
+6) damage + 20
+7) pierce
+8) damage + 20
+
+1) knife base: damage 7, pierce 1, count 1
+2) count
+3) count, damage + 5
+4) count
+5) pierce
+6) count
+7) count, damage + 5
+8) pierce
+
+
+In my game, in whatever form the inventory takes, there will be a level int associated with a given owned / equipped weapon. I want each weapon's SpellData to have an array of RankUps which have (or are themselves) a Dictionary between a StatType and the value it will be SET to when it levels up... Then level max is determined by array length, and each rank up simply goes into the array RankUps\[level]. This allows any rank to modify any number of stats.
+
+
+#### List of Weapons 
+
+Vampire Survivors = VS
 
 Orb: bounces, main attack 
 - charge: increases size, damage 
 - ALT FIRE: Explodes on impact, effectively a rocket launcher with high knockback
+- passive: VS "Wand" equivalent, fires at the nearest enemy.
 
 Slash: horizontal slice wave 
 - charge: increases width: individual hit chunks, decreases damage 
 - ALT FIRE: Spin attack / Nova, sends everything out away from you
+- passive: VS Whip, attacks repeatedly around you.
 
 Force Wall: upright and flat, offensive shield 
 - charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
 - ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage 
+- passive: \[TBD] might just be some ongoing defensive effect, like Laurel
 
 DICE: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
-- ALT FIRE:  ... Globules of Tar trap to slow? Caltrops?
+- ALT FIRE: Bundle of Toxic Caltrops
+- passive: VS Santa Water+ - fires a caltrop bundle up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
 
 Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
 - charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.
 - ALT FIRE: ... stun beam? charge attack?
+- passive: VS Lightning Ring - periodically nuke a single nearby target with a divine smite/lightning strike from above.
 
 GARLIC: passive AoE damage 
-- charge: continual drain to empower it temporarily, Maybe like Bible visual with spinners 
+- charge: continual drain to deal high consistent damage while channeling in a radius around you
 - ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes or slows slightly
+- passive: normal garlic behavior - radiate AoE damage in a circle around you at a tick rate
 
 Chakram / Glaive: boomerang, bounces between targets 
 - charge: increases number of bounces before returning 
 - ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
+- passive: VS Bible - orbits around you, chopping and knocking back nearby enemies
 
 Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
 - charge: turns into lock on, increases missile / lock-on count 
 - ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly
 visual differences to differentiate
+- passive: fire a (rank-scaling) number of missiles evenly divided among enemy targets in range, on a timer.
 
  
 mana drain?
 self buffs?
 
+#### Ideal Start of the Game
+
+You start with a 2 random weapons presented to you for free
+And then you can decide which slot to put them in: Main, Alt, or Passive
 
 ### Stats
 
 Up to 3 passive slots -- select them again to rank up
 
-- max health
-- max mana
-- move speed
-- defense
-- money drop rate
+- max health (additive bonus)
+- max mana (additive bonus)
+- move speed (multiplier)
+- Armor (fixed, additive damage reduction)
+- money drop rate (multiplier)
 - pickup radius 
 - Jump Height / Air Jumps
-- Siphon Range / Speed
-- Projectile Speed
-- Projectile Size
+- Siphon Range 
+- Siphon Speed
+- Projectile Speed (multiplier on ValueRange)
+- Projectile Size (multiplier on ValueRange)
+- Projectile Count (additive integer)
+- Charge Speed (some kind of % multiplier that makes your charge duration take some % less time; should scale relatively slowly)
 
 ## Meta Upgrades
 

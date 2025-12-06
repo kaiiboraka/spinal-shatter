@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cex0nfv4ulutu"]
+[gd_scene load_steps=10 format=3 uid="uid://cex0nfv4ulutu"]
 
 [sub_resource type="Animation" id="Animation_iqpnp"]
 length = 0.001
@@ -60,7 +60,14 @@ _data = {
 &"spin": SubResource("Animation_qt1v8")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3y7ud"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.14976001, 0.14760001, 0.18, 1)
+metallic = 1.0
+roughness = 0.7
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_3y7ud"]
+material = SubResource("StandardMaterial3D_3y7ud")
 top_radius = 1.0
 bottom_radius = 0.75
 height = 1.0
@@ -84,7 +91,7 @@ height = 3.5
 [sub_resource type="BoxShape3D" id="BoxShape3D_eoj0x"]
 size = Vector3(4, 4, 4)
 
-[node name="ManaSpawner" type="StaticBody3D"]
+[node name="HealthFountain" type="StaticBody3D"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

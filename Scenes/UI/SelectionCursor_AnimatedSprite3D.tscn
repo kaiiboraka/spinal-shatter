@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://byiseo5tydxlb"]
+
+[ext_resource type="SpriteFrames" uid="uid://bm21e4fvvpkb3" path="res://assets/Images/UI/selection_cursor.ase" id="1_7k5yl"]
+
+[node name="SelectionCursor_AnimatedSprite3D" type="AnimatedSprite3D"]
+billboard = 1
+double_sided = false
+no_depth_test = true
+fixed_size = true
+alpha_antialiasing_mode = 2
+texture_filter = 0
+render_priority = 5
+sprite_frames = ExtResource("1_7k5yl")
+autoplay = "default"
+frame_progress = 0.68215996

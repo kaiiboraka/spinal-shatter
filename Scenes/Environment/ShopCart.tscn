@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=56 format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="ArrayMesh" uid="uid://d10p833gjq6st" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
 [ext_resource type="ArrayMesh" uid="uid://cxfjdyv35w14e" path="res://assets/Models/Meshes/ShopCart/frontRoof.res" id="3_me00m"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
 [ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbAltFire_SpellData.tres" id="4_bprx7"]
 [ext_resource type="ArrayMesh" uid="uid://bkuejmdwnpelb" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
+[ext_resource type="PackedScene" uid="uid://byiseo5tydxlb" path="res://Scenes/UI/SelectionCursor_AnimatedSprite3D.tscn" id="4_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://3ornpl7wp88" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
 [ext_resource type="ArrayMesh" uid="uid://28gjadilp1cl" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
 [ext_resource type="ArrayMesh" uid="uid://jpkm2py113b" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
@@ -198,6 +199,11 @@ unique_name_in_owner = true
 [node name="ShopSlots" type="Marker3D" parent="ShopRoot"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21114928, 1.41, -0.375)
+
+[node name="SelectionCursor_AnimatedSprite3D" parent="ShopRoot/ShopSlots" instance=ExtResource("4_khf6c")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39999998, 0.65)
+fixed_size = false
 
 [node name="ShopSlot1" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true

@@ -2,6 +2,16 @@
 
 A retro-styled First-Person roguelite Shooter, inspired by Arcade Hard games of old. Originally developed for the BYU Game Development Club's Fall 2025 Game Jam, to the theme of "SPOOKY".
 
+## Current progress
+
+The most recent overhaul refactor branch turned the magic into buyable items that belong to an inventory system, so next will be to add purchase functionality to the shop screen, and then add the Health economy systems starting with a large health fountain you can pay to use.
+
+Then making one more spell type to test the random selection of the shop. The item overhaul also includes the potential for rank ups of items, so I have to create rank up definition data for each weapon, make it so a max rank weapon is removed from the shop, ensure the ranks actually apply their stats properly (which may, for testing purposes, necessitate the introduction of floating damage numbers). At some point I'd also like to be able to sell items back to the shop as well so you can build switch if you want.
+
+after all that I can add bonus rewards to hallway selection akin to Hades room rewards, focus on implementing more weapon types, introduce player stat items, chip away at art improvements, and at some point I gotta make the enemies a little less stupid lmao
+
+Oh and I need to make a UI for your current weapon / passive item inventory+ranks 
+
 ## Fantasy
 
 You, a lone sorceror, awaken in a dark, dank dungeon. The last thing you remember is the cackling of the wicked necromancer who had cornered and captured you. With no natural light to speak of, you conclude that the only way out is through. Armed with only your knack for spellcraft, you must now venture out into the darkness to chew through an onslaught of undead hordes, and grow in your magic power enough to claim your revenge, and your freedom...
@@ -188,7 +198,6 @@ And maybe a health potion
 Still deliberating on the health economy
 
 ## Item Types
-
 
 ### Spells a.k.a. Weapons a.k.a. Attacks
 

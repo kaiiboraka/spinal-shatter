@@ -53,7 +53,7 @@ public partial class PlayerBody : Combatant
 	private bool isSprinting = false;
 	public bool DeadNow { get; private set; } = false;
 	private int curJumps = 0;
-	private int _currentMoney = 0;
+	public int CurrentMoney { get; private set; } = 0;
 	private Vector2 inputDir = Vector2.Zero;
 	private Vector3 direction = Vector3.Zero;
 	private Vector3 newVelocity = Vector3.Zero;
@@ -869,11 +869,23 @@ public partial class PlayerBody : Combatant
 		PickupManager.Instance.Release(moneyParticle);
 	}
 
-	public void AddMoney(int amount)
+	public void ReceiveMoney(int amount)
 	{
-		_currentMoney += amount;
-		_currentMoney = _currentMoney.AtLeastZero();
-		playerMoneyAmountLabel.Text = _currentMoney.ToString();
+		CurrentMoney += amount;
+		CurrentMoney = CurrentMoney.AtLeastZero();
+		playerMoneyAmountLabel.Text = CurrentMoney.ToString();
+	}
+
+	public bool SpendMoney(int amount)
+	{
+		if (CurrentMoney >= amount)
+		{
+			CurrentMoney -= amount;
+			CurrentMoney = CurrentMoney.AtLeastZero();
+			playerMoneyAmountLabel.Text = CurrentMoney.ToString();
+			return true;
+		}
+		return false;
 	}
 
 	private void RefillLife()

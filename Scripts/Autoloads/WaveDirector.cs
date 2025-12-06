@@ -369,11 +369,11 @@ public partial class WaveDirector : Node
 		RoundTimer.Stop();
 
 		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * timeLeft * DifficultyMultipliers[SelectedDifficulty]);
-		player.AddMoney(moneyTimeBonus);
+		player.ReceiveMoney(moneyTimeBonus);
 
 		moneyHealthBonus =
 			(int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);
-		player.AddMoney(moneyHealthBonus);
+		player.ReceiveMoney(moneyHealthBonus);
 
 		CurrentRound++;
 		if (wavesPerRound < 5)

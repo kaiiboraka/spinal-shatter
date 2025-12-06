@@ -140,7 +140,7 @@ public partial class PlayerBody : Combatant
 		StoreBaseStats();
 		_footstepMaxCooldown = (AudioFile_Walk.Stream as AudioStreamRandomizer).GetMaxLength();
 		_sprintFootstepMaxCooldown = (AudioFile_Sprint.Stream as AudioStreamRandomizer).GetMaxLength() / 1.2f;
-		AddMoney(0);
+		ReceiveMoney(0);
 		RefillMana();
 		RefillLife();
 		AllowRangedAttack();
@@ -861,7 +861,7 @@ public partial class PlayerBody : Combatant
 	private void CollectMoneyPickup(Money moneyParticle)
 	{
 		if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
-		AddMoney(moneyParticle.Value);
+		ReceiveMoney(moneyParticle.Value);
 		moneyParticle.Collect();
 		AudioPlayer_Money.Stream = moneyParticle.Data.AudioStream;
 		AudioPlayer_Money.PitchScale = moneyParticle.Data.AudioPitch;

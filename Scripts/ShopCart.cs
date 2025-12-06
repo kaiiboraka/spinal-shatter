@@ -10,6 +10,11 @@ public partial class ShopCart : StaticBody3D
 	private Camera3D shopCamera;
 	private Marker3D playerSpawnPoint;
 
+	private AnimatedSprite3D _selectionCursor;
+	private Godot.Collections.Array<ShopItem> _shopItems = new();
+	private int _selectedItemIndex = 0;
+	private Tween _cursorTween;
+
 	private ShopState currentState;
 
 	private enum ShopState
@@ -27,23 +32,112 @@ public partial class ShopCart : StaticBody3D
 
 		shopCamera = GetNode<Camera3D>("%Shop_Camera3D");
 		shopRoot = GetNode<Node3D>("%ShopRoot");
+		
+		_selectionCursor = GetNode<AnimatedSprite3D>("%SelectionCursor_AnimatedSprite3D");
+		// Populate _shopItems from ShopRoot/ShopSlots's children that are ShopItem's
+		foreach (Node child in shopRoot.GetNode("ShopSlots").GetChildren())
+		{
+			if (child is Marker3D marker && marker.GetChildOrNull<ShopItem>(0) is ShopItem shopItem)
+			{
+				_shopItems.Add(shopItem);
+			}
+		}
 
 		interactionArea.BodyEntered += OnPlayerEntered;
-		interactionArea.BodyExited += OnPlayerExited;
-	}
+		interactionArea.BodyExited += OnPlayerExited;	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("ui_cancel"))
+		if (currentState == ShopState.PlayerShopping)
 		{
-			if (currentState == ShopState.PlayerShopping) CloseShop();
+			if (@event.IsActionPressed("ui_left"))
+			{
+				_selectedItemIndex = (_selectedItemIndex - 1 + _shopItems.Count) % _shopItems.Count;
+				UpdateSelectionVisuals();
+			}
+			else if (@event.IsActionPressed("ui_right"))
+			{
+				_selectedItemIndex = (_selectedItemIndex + 1) % _shopItems.Count;
+				UpdateSelectionVisuals();
+			}
+			else if (@event.IsActionPressed("Player_Interact"))
+			{
+				TryPurchaseSelectedItem();
+			}
+			else if (@event.IsActionPressed("ui_cancel"))
+			{
+				CloseShop();
+			}
 		}
-		if (@event.IsActionPressed("Player_Interact"))
+		else if (@event.IsActionPressed("Player_Interact"))
 		{
 			if (currentState == ShopState.OpenWindow)
 			{
 				OpenShop();
 			}
+		}
+	}
+
+	private void UpdateSelectionVisuals()
+	{
+		if (_shopItems.Count == 0) return;
+
+		ShopItem selectedShopItem = _shopItems[_selectedItemIndex];
+		if (selectedShopItem == null || !IsInstanceValid(selectedShopItem)) return;
+
+		_cursorTween?.Kill();
+		_cursorTween = CreateTween();
+		
+		// The cursor is a child of ShopSlots, so its position is relative to ShopSlots.
+		// ShopItem is also a child of ShopSlots (via ShopSlotN Marker3D).
+		// So we can directly tween the local position.
+		_cursorTween.TweenProperty(_selectionCursor, "position",
+			selectedShopItem.Position with { Y = selectedShopItem.Position.Y + 0.4f }, 0.2f)
+			.SetTrans(Tween.TransitionType.Cubic)
+			.SetEase(Tween.EaseType.Out);
+	}
+
+	private void TryPurchaseSelectedItem()
+	{
+		if (_shopItems.Count == 0 || _selectedItemIndex < 0 || _selectedItemIndex >= _shopItems.Count) return;
+
+		ShopItem selectedShopItem = _shopItems[_selectedItemIndex];
+		if (selectedShopItem == null || !IsInstanceValid(selectedShopItem) || !selectedShopItem.Visible) return;
+
+		ShopItemData itemData = selectedShopItem.Data;
+		if (itemData == null) return;
+
+		int price = itemData.Price;
+		if (PlayerBody.Instance.SpendMoney(price))
+		{
+			// Purchase successful
+			// TODO: Add purchase sound effect
+			
+			// Handle the SpellData assignment (defaults to Primary for now as discussed)
+			if (itemData is SpellData spellData)
+			{
+				// This is a temporary hardcoded assignment.
+				// A proper UI would ask the player which slot (Primary, Alt, Automatic) to assign it to.
+				// For now, let's assume it's always the Primary slot's variant if available.
+				// Need to check if the itemData itself indicates its slot.
+				PlayerBody.Instance.Inventory.EquipOrRankUpItem(spellData); // This will equip/rank up based on itemData.Slot
+			}
+			else
+			{
+				// For StatItemData or other types, directly equip/rank up
+				PlayerBody.Instance.Inventory.EquipOrRankUpItem(itemData);
+			}
+
+			selectedShopItem.Visible = false; // Hide purchased item
+			PlayerBody.Instance.HideInteractionPrompt();
+			// Update visuals to remove purchased item, e.g., move cursor or re-evaluate selection
+		}
+		else
+		{
+			// Not enough money
+			// TODO: Add "not enough money" feedback (sound, UI message)
+			PlayerBody.Instance.ShowPromptToPress("Player_Interact", "Not Enough Money!", "Can't Buy");
+			GetTree().CreateTimer(1.0f).Timeout += () => PlayerBody.Instance.HideInteractionPrompt();
 		}
 	}
 
@@ -90,6 +184,10 @@ public partial class ShopCart : StaticBody3D
 		CameraTransition.Instance.TransitionCamera3D(player.PlayerCamera, shopCamera, 1f);
 
 		CameraTransition.Instance.TransitionFinished += MovePlayer;
+		
+		_selectedItemIndex = 0; // Initialize selection to the first item
+		_selectionCursor.Visible = true;
+		UpdateSelectionVisuals();
 	}
 
 	private void CloseShop()
@@ -102,6 +200,9 @@ public partial class ShopCart : StaticBody3D
 
 		CameraTransition.Instance.TransitionFinished += ReEnablePlayer;
 		CameraTransition.Instance.TransitionCamera3D(shopCamera, player.PlayerCamera, 1f);
+		
+		_selectionCursor.Visible = false;
+		_cursorTween?.Kill(); // Stop any ongoing tween
 	}
 
 	private void MovePlayer()

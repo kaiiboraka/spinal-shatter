@@ -10,8 +10,8 @@
 
 [sub_resource type="Resource" id="Resource_rj5ld"]
 script = ExtResource("3_mkof1")
-Min = 0.5
-Max = 5.0
+Min = 1.0
+Max = 6.0
 metadata/_custom_type_script = "uid://d3mqtflppmqtg"
 
 [sub_resource type="Resource" id="Resource_5qna3"]
@@ -24,12 +24,12 @@ metadata/_custom_type_script = "uid://cubwan5r4pjd3"
 script = ExtResource("3_mkof1")
 Max = 1.75
 
-[sub_resource type="Resource" id="Resource_ddio8"]
+[sub_resource type="Resource" id="Resource_djet0"]
 script = ExtResource("3_mkof1")
 Min = 0.75
 Max = 1.5
 
-[sub_resource type="Resource" id="Resource_ljsac"]
+[sub_resource type="Resource" id="Resource_dmv1u"]
 script = ExtResource("3_mkof1")
 Min = 30.0
 Max = 60.0
@@ -42,8 +42,9 @@ ManaDroppedAmount = SubResource("Resource_5qna3")
 ManaCostRange = ExtResource("4_27i46")
 MaxChargeTime = SubResource("Resource_pcsgm")
 AudioData = ExtResource("1_pcsgm")
+Slot = 1
 DamageRange = ExtResource("2_48s7i")
-SpeedRange = SubResource("Resource_ljsac")
-SizeRange = SubResource("Resource_ddio8")
+SpeedRange = SubResource("Resource_dmv1u")
+SizeRange = SubResource("Resource_djet0")
 ProjectileScene = ExtResource("6_otdrp")
 RankUps = null

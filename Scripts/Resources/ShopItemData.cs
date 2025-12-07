@@ -11,7 +11,7 @@ public partial class ShopItemData : Resource
     [Export(PropertyHint.MultilineText)]
     public string ItemDescription { get; private set; }
 
-    [Export] public SpriteFrames ItemIcon { get; private set; }
+    [Export] public Texture2D ItemIcon { get; private set; }
 
     [Export] public int Price { get; private set; }
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
-[ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Spells/fireball_icon.ase" id="3_tktbk"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Spells/fireball_icon.ase" id="3_tktbk"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
 top_radius = 0.1
@@ -41,12 +41,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("CylinderMesh_67lmo")
 surface_material_override/0 = SubResource("StandardMaterial3D_q7jw3")
 
-[node name="ItemSprite_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="ItemSprite_Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 billboard = 1
 texture_filter = 0
 render_priority = 1
-sprite_frames = ExtResource("3_tktbk")
+texture = ExtResource("3_tktbk")
 
 [node name="PriceLabel_Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)

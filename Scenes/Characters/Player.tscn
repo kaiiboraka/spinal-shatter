@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=57 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://cmsiacxt70pcy" path="res://Scripts/Components/AutomaticCaster.cs" id="7_3vnku"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="7_b4kmf"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="7_u2vuf"]
-[ext_resource type="PackedScene" uid="uid://dswd37c3j26b1" path="res://Scenes/UI/PlayerHealthBar.tscn" id="8_vpt2d"]
 [ext_resource type="AudioStream" uid="uid://dkssy8qe6mshd" path="res://assets/Audio/SFX/Jingle_Lose_00.wav" id="10_5kd0c"]
 [ext_resource type="AudioStream" uid="uid://bag81jc2comou" path="res://assets/Audio/SFX/step_lth1.ogg" id="10_aal88"]
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="10_shd1k"]
@@ -23,12 +22,15 @@
 [ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="23_3vnku"]
 [ext_resource type="SpriteFrames" uid="uid://ji7ndov8slph" path="res://assets/Images/Player/arm_right.ase" id="23_mc0oj"]
 [ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="24_fxftb"]
-[ext_resource type="Texture2D" uid="uid://dvgwotn1tpsx4" path="res://assets/Images/Pickups/magic_spark3.png" id="24_mc0oj"]
+[ext_resource type="Texture2D" uid="uid://ceb17wmohxhrl" path="res://assets/Images/UI/orb_mana_background.png" id="24_spibu"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/Player/arm_left.ase" id="24_x4yal"]
-[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/Spells/Slash_Icon.ase" id="25_2n8gu"]
-[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/Spells/fireball_enemy.png" id="26_m2jkf"]
-[ext_resource type="Texture2D" uid="uid://brunehtlo2ssg" path="res://assets/Images/Pickups/Coins_Spin.png" id="29_2n8gu"]
+[ext_resource type="Texture2D" uid="uid://cn6gumrpvbry" path="res://assets/Images/UI/orb_shine.png" id="25_h1o3h"]
+[ext_resource type="Script" uid="uid://duj35k5d3i30k" path="res://Scripts/UI/PlayerParamterBar.cs" id="25_ynkr0"]
+[ext_resource type="Texture2D" uid="uid://cjgwp01a2b6pr" path="res://assets/Images/UI/orb_mana.png" id="26_ynkr0"]
+[ext_resource type="SpriteFrames" uid="uid://posi3l54iqof" path="res://assets/Images/Pickups/Bubble_Money_Bronze.ase" id="28_h1o3h"]
 [ext_resource type="PackedScene" uid="uid://clqrtmrdwttgu" path="res://Scenes/UI/InventoryHUD.tscn" id="30_hud_container"]
+[ext_resource type="Texture2D" uid="uid://d0377cxg8dfil" path="res://assets/Images/UI/orb_health_background.png" id="30_mrttg"]
+[ext_resource type="Texture2D" uid="uid://b2dek0hbhic86" path="res://assets/Images/UI/orb_health.png" id="31_2ji7n"]
 [ext_resource type="PackedScene" uid="uid://bi48xxwpvl31n" path="res://Scenes/UI/InventoryHUDItem.tscn" id="31_hud_item"]
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
@@ -104,16 +106,11 @@ points = PackedVector3Array(1.1616907, -1.2823802, 0.27702412, -1.2082909, -1.44
 radius = 3.0439453
 height = 9.577691
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ionog"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mc0oj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fxftb"]
-atlas = ExtResource("29_2n8gu")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="LabelSettings" id="LabelSettings_e12tg"]
-font_size = 32
 
 [sub_resource type="Animation" id="Animation_spibu"]
 length = 0.083341666
@@ -403,7 +400,7 @@ _data = {
 &"RESET": SubResource("Animation_2n8gu")
 }
 
-[node name="Player" type="CharacterBody3D" groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_weaponInventoryHUD", "_statItemInventoryHUD") groups=["Player"]]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
@@ -414,6 +411,8 @@ Data = ExtResource("2_x4yal")
 Inventory = ExtResource("3_hqlak")
 WALK_SPEED = 15.0
 _pauseMenuScene = ExtResource("2_3vnku")
+_weaponInventoryHUD = NodePath("Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer")
+_statItemInventoryHUD = NodePath("Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer")
 
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
@@ -668,69 +667,26 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Right_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer"]
+[node name="Left_VBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
-alignment = 2
 
-[node name="InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
+[node name="Health_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ionog")
 
-[node name="InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/InventoryHUD_PanelContainer" instance=ExtResource("30_hud_container")]
+[node name="Health_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer"]
 layout_mode = 2
-theme_override_constants/separation = 12
-alignment = 2
 
-[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/InventoryHUD_PanelContainer/InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
-layout_mode = 2
-Rank = 7
-Icon = ExtResource("25_2n8gu")
-
-[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/InventoryHUD_PanelContainer/InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
-layout_mode = 2
-FrameType = 1
-Rank = 3
-Icon = ExtResource("25_2n8gu")
-
-[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/InventoryHUD_PanelContainer/InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
-layout_mode = 2
-FrameType = 2
-Rank = 9
-Icon = ExtResource("25_2n8gu")
-
-[node name="ManaPanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
-
-[node name="Mana_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 72
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
-
-[node name="ManaPanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer"]
-custom_minimum_size = Vector2(220, 64)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer/ManaPanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_right = 7
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer/ManaPanelContainer/MarginContainer"]
+[node name="Health_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 3
-theme_override_constants/separation = 72
 alignment = 2
 
-[node name="Mana_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer/ManaPanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("24_fxftb")]
+[node name="Health_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer" instance=ExtResource("24_fxftb")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -744,69 +700,52 @@ TextMaximum = "100"
 TextSize = 32
 AlignmentDivider = 3
 
-[node name="Mana_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer/ManaPanelContainer/MarginContainer/HBoxContainer"]
+[node name="PlayerHealthBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = -12
-alignment = 2
+value = 50.0
+fill_mode = 3
+texture_under = ExtResource("30_mrttg")
+texture_over = ExtResource("25_h1o3h")
+texture_progress = ExtResource("31_2ji7n")
+tint_under = Color(0.5, 0.5, 0.5, 1)
+tint_over = Color(1, 1, 1, 0.5019608)
+script = ExtResource("25_ynkr0")
 
-[node name="TextureRect" type="TextureRect" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer/ManaPanelContainer/MarginContainer/HBoxContainer/Mana_VBoxContainer"]
-custom_minimum_size = Vector2(52, 52)
-layout_mode = 2
-texture = ExtResource("24_mc0oj")
-expand_mode = 4
-stretch_mode = 4
-flip_h = true
-
-[node name="ManaLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/ManaPanelContainer/Mana_MarginContainer/ManaPanelContainer/MarginContainer/HBoxContainer/Mana_VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("23_3vnku")
-text = "Mana"
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="Left_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-alignment = 2
-
-[node name="InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer"]
+[node name="Stats_InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
+size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
-[node name="InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/InventoryHUD_PanelContainer" instance=ExtResource("30_hud_container")]
+[node name="Stats_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 16
+
+[node name="Stats_InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer" instance=ExtResource("30_hud_container")]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 2
 
-[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/InventoryHUD_PanelContainer/InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
-layout_mode = 2
-FrameType = 3
-Icon = ExtResource("25_2n8gu")
-
-[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/InventoryHUD_PanelContainer/InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
-layout_mode = 2
-FrameType = 3
-Icon = ExtResource("26_m2jkf")
-
-[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/InventoryHUD_PanelContainer/InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
 FrameType = 3
 
-[node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer"]
+[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
-size_flags_horizontal = 0
+FrameType = 3
+
+[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+layout_mode = 2
+FrameType = 3
+
+[node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_fxftb")
 
-[node name="MoneyContainer_Panel" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/MoneyContainer"]
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 6
-
-[node name="Money_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/MoneyContainer/MoneyContainer_Panel"]
+[node name="Money_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -815,45 +754,120 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/MoneyContainer/MoneyContainer_Panel/Money_MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/MoneyContainer/MoneyContainer_Panel/Money_MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(52, 52)
+[node name="Control" type="Control" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-texture = SubResource("AtlasTexture_fxftb")
-expand_mode = 3
-stretch_mode = 4
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
-[node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/MoneyContainer/MoneyContainer_Panel/Money_MarginContainer/HBoxContainer"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control"]
+position = Vector2(24, 24)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("28_h1o3h")
+animation = &"Spin"
+autoplay = "Spin"
+
+[node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("23_3vnku")
 text = "1000"
-label_settings = SubResource("LabelSettings_e12tg")
 horizontal_alignment = 2
 
-[node name="healthbarPanel" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
+[node name="Control2" type="Control" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control2"]
+position = Vector2(24, 24)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("28_h1o3h")
+animation = &"Spin"
+autoplay = "Spin"
+
+[node name="Right_VBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="Weapons_InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/healthbarPanel"]
+[node name="Weapons_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 16
 
-[node name="PlayerHealthBar" parent="Control/HUD/ScreenMarginContainer/healthbarPanel/MarginContainer" instance=ExtResource("8_vpt2d")]
+[node name="Weapons_InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer" instance=ExtResource("30_hud_container")]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+layout_mode = 2
+Rank = 7
+
+[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+layout_mode = 2
+FrameType = 1
+Rank = 3
+
+[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+layout_mode = 2
+FrameType = 2
+Rank = 9
+
+[node name="Mana_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
+
+[node name="Mana_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer"]
+layout_mode = 2
+
+[node name="Mana_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Mana_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer" instance=ExtResource("24_fxftb")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 25)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-show_percentage = true
+size_flags_vertical = 1
+theme = ExtResource("23_3vnku")
+theme_override_constants/separation = 12
+alignment = 2
+TextCurrent = "100"
+TextDivider = "|"
+TextMaximum = "100"
+TextSize = 32
+AlignmentDivider = 3
+
+[node name="PlayerManaBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+fill_mode = 3
+texture_under = ExtResource("24_spibu")
+texture_over = ExtResource("25_h1o3h")
+texture_progress = ExtResource("26_ynkr0")
+tint_under = Color(0.5, 0.5, 0.5, 1)
+tint_over = Color(1, 1, 1, 0.5019608)
+script = ExtResource("25_ynkr0")
 
 [node name="InteractionPrompt_Control" type="Control" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2

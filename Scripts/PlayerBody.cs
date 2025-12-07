@@ -62,8 +62,10 @@ public partial class PlayerBody : Combatant
 	private Camera3D camera;
 	public Camera3D PlayerCamera => camera;
 
+	private MinMaxValuesLabel healthMinMaxLabel;
+	private PlayerParamterBar playerHealthBar;
 	private MinMaxValuesLabel manaMinMaxLabel;
-	private PlayerHealthBar playerHealthBar;
+	private PlayerParamterBar playerManaBar;
 	private Label playerMoneyAmountLabel;
 	private ManaComponent manaComponent;
 	private Area3D pickupArea;
@@ -82,7 +84,7 @@ public partial class PlayerBody : Combatant
 	private RayCast3D canStandUpRay;
 	private RayCast3D footSoundRay;
 	private MagicCaster magicCaster;
-	private AutomaticCaster _automaticCaster;
+	private AutomaticCaster automaticCaster;
 	private SiphonComponent siphon;
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
@@ -164,13 +166,15 @@ public partial class PlayerBody : Combatant
 		camera = GetNode<Camera3D>("%Camera1P");
 		collider = GetNode<CollisionShape3D>("%PlayerCollider");
 		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
-		manaMinMaxLabel = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
+		healthMinMaxLabel = GetNode<MinMaxValuesLabel>("%Health_MinMaxValuesLabel");
+		playerHealthBar   = GetNode<PlayerParamterBar>("%PlayerHealthBar");
+		manaMinMaxLabel   = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
+		playerManaBar     = GetNode<PlayerParamterBar>("%PlayerManaBar");
 		manaComponent = GetNode<ManaComponent>("%ManaComponent");
-		playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
 		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
 		magicCaster = GetNode<MagicCaster>("%MagicCaster");
-		_automaticCaster = GetNode<AutomaticCaster>("%AutomaticCaster");
+		automaticCaster = GetNode<AutomaticCaster>("%AutomaticCaster");
 		siphon = GetNode<SiphonComponent>("SiphonComponent");
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		armLeft = GetNode<AnimatedSprite3D>("%LeftArm");
@@ -189,7 +193,7 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_Footsteps = GetNode<AudioStreamPlayer3D>("Audio/Footsteps_AudioStreamPlayer3D");
 		var audioData = GD.Load<Resource>("res://assets/Audio/AudioData/AudioData_Player.tres");
 		AudioData = audioData as AudioData;
-		_automaticCaster.Initialize(magicCaster.SpellOrigin);
+		automaticCaster.Initialize(magicCaster.SpellOrigin);
 	}
 
 	protected override void ConnectEvents()
@@ -579,7 +583,7 @@ public partial class PlayerBody : Combatant
 				magicCaster.SetSecondaryWeapon(spellData as CastedSpellData);
 				break;
 			case SlotType.Automatic:
-				_automaticCaster.SetAutomaticWeapon(spellData as AutomaticSpellData);
+				automaticCaster.SetAutomaticWeapon(spellData as AutomaticSpellData);
 				break;
 		}
 	}
@@ -778,15 +782,18 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
+	public void UpdateHealthHUD(float newCurr, float newMax)
+	{
+		healthMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
+		healthMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
+		playerHealthBar.OnParameterChanged(newCurr, newMax);
+	}
+
 	public void UpdateManaHUD(float newCurr, float newMax)
 	{
 		manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
 		manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
-	}
-
-	public void UpdateHealthHUD(float newCurr, float newMax)
-	{
-		playerHealthBar.OnHealthChanged(newCurr, newMax);
+		playerManaBar.OnParameterChanged(newCurr, newMax);
 	}
 
 	public override float TakeDamage(float amount, Vector3 sourcePosition)
@@ -819,6 +826,10 @@ public partial class PlayerBody : Combatant
 		DisallowSiphon();
 		DisallowMeleeAttack();
 		DisallowRangedAttack();
+		siphon.ProcessMode = ProcessModeEnum.Disabled;
+		magicCaster.ProcessMode = ProcessModeEnum.Disabled;
+		pickupArea.Monitoring = false;
+		pickupArea.Monitorable = false;
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
 		onDeathSfxFinished = () =>
 		{

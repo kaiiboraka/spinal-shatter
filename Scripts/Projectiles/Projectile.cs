@@ -179,8 +179,11 @@ public partial class Projectile : RigidBody3D
 				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
 				if (Slot == SlotType.Alt)
 				{
+					var explosionRadius = ((OrbAltSpellData)SpellData).ExplosionRadius.GetLerpedValue(CurrentCharge);
+					// Set the radius dynamically
+					detectionShape.Radius = explosionRadius;
 					// Alt-fire rocket launcher should have more base power for more knockback
-					CurrentDamage *= 2.0f;
+
 				}
 				damagePerMana = CurrentDamage / CurrentMana;
 				break;
@@ -290,6 +293,7 @@ public partial class Projectile : RigidBody3D
 		var explosionRadius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
 		// Set the radius dynamically
 		detectionShape.Radius = explosionRadius;
+		DebugManager.Trace($"ExplosionRadius:{explosionRadius}");
 
 		var overlappingAreas = detectionArea3D.GetOverlappingAreas();
 
@@ -317,8 +321,8 @@ public partial class Projectile : RigidBody3D
 		
 		// Placeholder for explosion sound, assuming it's different from "Hit"
 		// AudioManager.PlayAtPosition((AudioFile)AudioData["Explosion"], GlobalPosition); 
-		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition); 
-		
+		var player = AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
+		// player.Finished += () => detectionArea3D.QueueFree();
 		Expire(false); // Expire without dropping mana
 	}
 
@@ -334,6 +338,7 @@ public partial class Projectile : RigidBody3D
 			};
 			trail.Reparent(GetParent());
 		}
+		// detectionArea3D.Reparent(GetParent());
 
 		if (dropMana) EjectMana(CurrentMana, GlobalPosition);
 		Reset();

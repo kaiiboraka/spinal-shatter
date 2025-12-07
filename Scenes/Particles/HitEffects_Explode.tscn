@@ -86,14 +86,20 @@ collision_use_scale = true
 size = Vector2(2, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klejl"]
+resource_local_to_scene = true
+resource_name = "glowMaterial"
 transparency = 1
+blend_mode = 1
+cull_mode = 2
 shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_color = Color(1, 0.16666669, 0, 0.5019608)
-disable_receive_shadows = true
+albedo_color = Color(0.5031194, 0.06374082, 0, 0.5019608)
+texture_filter = 0
+texture_repeat = false
 stencil_flags = 2
 
 [sub_resource type="SphereMesh" id="SphereMesh_pk1o6"]
+resource_local_to_scene = true
+resource_name = "sphere"
 material = SubResource("StandardMaterial3D_klejl")
 radius = 4.0
 height = 8.0

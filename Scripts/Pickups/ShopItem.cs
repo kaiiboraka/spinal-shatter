@@ -16,10 +16,10 @@ public partial class ShopItem : Node3D
             return;
         }
 
-        var animatedSprite = GetNode<AnimatedSprite3D>("ItemSprite_AnimatedSprite3D");
-        if (animatedSprite != null)
+        var sprite = GetNode<Sprite3D>("ItemSprite_Sprite3D");
+        if (sprite != null)
         {
-            animatedSprite.SpriteFrames = Data.ItemIcon;
+            sprite.Texture = Data.ItemIcon;
         }
 
         priceLabel = GetNode<RichTextLabel>("%Price_RichTextLabel");

@@ -742,7 +742,7 @@ pixel_size = 0.05
 billboard = 1
 double_sided = false
 texture_filter = 0
-render_priority = 2
+render_priority = 1
 sprite_frames = ExtResource("8_2mplv")
 animation = &"Front"
 

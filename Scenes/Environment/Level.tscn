@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c8d51hgqbd1dq"]
+[gd_scene load_steps=31 format=3 uid="uid://c8d51hgqbd1dq"]
 
 [ext_resource type="PackedScene" uid="uid://dbk24fe7ef7m3" path="res://Scenes/Environment/platform_plane.tscn" id="1_kpm7v"]
 [ext_resource type="PackedScene" uid="uid://bi0hoewlvnifa" path="res://Scenes/Characters/Player.tscn" id="2_amuju"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://d3vj3gq8xvyd4" path="res://Scenes/Spawners/ManaSpawner.tscn" id="6_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://dmf47bymxj2a7" path="res://Scenes/Environment/Rooms/north_room.tscn" id="7_wrgjc"]
 [ext_resource type="PackedScene" uid="uid://bvlhic3q2d6q3" path="res://Scenes/Environment/Rooms/east_room.tscn" id="8_2e4mj"]
+[ext_resource type="PackedScene" uid="uid://cex0nfv4ulutu" path="res://Scenes/Spawners/HealthFountain.tscn" id="9_o2f56"]
 [ext_resource type="PackedScene" uid="uid://b3np3lbhsv241" path="res://Scenes/Environment/Rooms/south_room.tscn" id="9_qf3oj"]
 [ext_resource type="PackedScene" uid="uid://dhqr1q132v7k4" path="res://Scenes/Environment/Rooms/west_room.tscn" id="10_68nw1"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/GMS_Scrapper.tscn" id="14_m8i8h"]
@@ -88,10 +89,13 @@ transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.068, 3.391, 5.015)
 
 [node name="ManaSpawner" parent="CentralHub" instance=ExtResource("6_qf3oj")]
-transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 4, 0, -4)
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -4, 0, -4)
 _spawnInterval = 1.5
 _minManaToSpawn = 15
 _maxManaToSpawn = 51
+
+[node name="HealthFountain" parent="CentralHub" instance=ExtResource("9_o2f56")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
 
 [node name="North_Ice" type="Node3D" parent="."]
 

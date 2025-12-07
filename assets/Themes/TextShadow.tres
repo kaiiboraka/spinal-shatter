@@ -1,7 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://cyr4cb6xp8qso"]
 
 [resource]
-default_font_size = 18
+default_font_size = 32
 Label/colors/font_outline_color = Color(0, 0, 0, 0)
 Label/colors/font_shadow_color = Color(0, 0, 0, 1)
 Label/constants/shadow_offset_x = 2

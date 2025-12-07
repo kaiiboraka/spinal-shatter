@@ -1,20 +1,25 @@
 using Godot;
-using SpinalShatter.Scripts.Resources;
+using Godot.Collections;
+using SpinalShatter;
 
 namespace SpinalShatter;
 
+[GlobalClass]
 public partial class ShopCart : StaticBody3D
 {
+	public const int SHOP_STOCK_COUNT = 3;
+
 	private AnimationPlayer animationPlayer;
 	private Area3D interactionArea;
 	private Node3D shopRoot;
 	private Camera3D shopCamera;
 	private Marker3D playerSpawnPoint;
 
-	private AnimatedSprite3D _selectionCursor;
-	private Godot.Collections.Array<ShopItem> _shopItems = new();
+	private AnimatedSprite3D selectionCursor;
+	private Array<ShopItem> _shopItems = new();
+	private Array<Marker3D> _shopSlots = new();
 	private int _selectedItemIndex = 0;
-	private Tween _cursorTween;
+	// private Tween _cursorTween;
 
 	[Export] private ShopStockData _shopStock;
 
@@ -27,24 +32,17 @@ public partial class ShopCart : StaticBody3D
 		PlayerShopping,
 	}
 
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+		GetComponents();
+	}
+
 	public override void _Ready()
 	{
-		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-		interactionArea = GetNode<Area3D>("InteractionArea3D");
-		playerSpawnPoint =  GetNode<Marker3D>("PlayerSpawnPoint");
+		GetComponents();
 
-		shopCamera = GetNode<Camera3D>("%Shop_Camera3D");
-		shopRoot = GetNode<Node3D>("%ShopRoot");
-		
-		_selectionCursor = GetNode<AnimatedSprite3D>("%SelectionCursor_AnimatedSprite3D");
 		// Populate _shopItems from ShopRoot/ShopSlots's children that are ShopItem's
-		foreach (Node child in shopRoot.GetNode("ShopSlots").GetChildren())
-		{
-			if (child is Marker3D marker && marker.GetChildOrNull<ShopItem>(0) is ShopItem shopItem)
-			{
-				_shopItems.Add(shopItem);
-			}
-		}
 
 		interactionArea.BodyEntered += OnPlayerEntered;
 		interactionArea.BodyExited += OnPlayerExited;
@@ -53,7 +51,62 @@ public partial class ShopCart : StaticBody3D
 		{
 			WaveDirector.Instance.RoundWon += RandomizeStock;
 		}
+		SetProcessInput(false);
+
+		_selectedItemIndex = 0;
 		RandomizeStock(); // Populate the shop for the first time
+	}
+
+	private void GetComponents()
+	{
+		animationPlayer ??= GetNode<AnimationPlayer>("AnimationPlayer");
+		interactionArea ??= GetNode<Area3D>("InteractionArea3D");
+		playerSpawnPoint ??=  GetNode<Marker3D>("PlayerSpawnPoint");
+
+		shopCamera ??= GetNode<Camera3D>("%Shop_Camera3D");
+		shopRoot ??= GetNode<Node3D>("%ShopRoot");
+
+		selectionCursor ??= GetNode<AnimatedSprite3D>("%SelectionCursor_AnimatedSprite3D");
+
+		_shopSlots = new();
+		_shopItems = new();
+		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
+		{
+			_shopSlots.Add(GetNode<Marker3D>($"%ShopSlot{i+1}"));
+			_shopItems.Add(_shopSlots[0].GetChild<ShopItem>(0));
+		}
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (currentState == ShopState.PlayerShopping)
+		{
+			if (@event.IsActionPressed("ui_left"))
+			{
+				_selectedItemIndex = (_selectedItemIndex - 1 + SHOP_STOCK_COUNT) % SHOP_STOCK_COUNT;
+				UpdateSelectionVisuals();
+			}
+			else if (@event.IsActionPressed("ui_right"))
+			{
+				_selectedItemIndex = (_selectedItemIndex + 1) % SHOP_STOCK_COUNT;
+				UpdateSelectionVisuals();
+			}
+			else if (@event.IsActionPressed("Player_Interact"))
+			{
+				TryPurchaseSelectedItem();
+			}
+			else if (@event.IsActionPressed("ui_cancel"))
+			{
+				CloseShop();
+			}
+		}
+		else if (@event.IsActionPressed("Player_Interact"))
+		{
+			if (currentState == ShopState.OpenWindow)
+			{
+				OpenShop();
+			}
+		}
 	}
 
 	private void RandomizeStock()
@@ -83,7 +136,7 @@ public partial class ShopCart : StaticBody3D
 		availableForPurchase.Shuffle();
 
 		// Populate the shop slots
-		for (int i = 0; i < _shopItems.Count; i++)
+		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
 		{
 			if (i < availableForPurchase.Count)
 			{
@@ -102,60 +155,29 @@ public partial class ShopCart : StaticBody3D
 		UpdateSelectionVisuals();
 	}
 
-	public override void _Input(InputEvent @event)
-	{
-		if (currentState == ShopState.PlayerShopping)
-		{
-			if (@event.IsActionPressed("ui_left"))
-			{
-				_selectedItemIndex = (_selectedItemIndex - 1 + _shopItems.Count) % _shopItems.Count;
-				UpdateSelectionVisuals();
-			}
-			else if (@event.IsActionPressed("ui_right"))
-			{
-				_selectedItemIndex = (_selectedItemIndex + 1) % _shopItems.Count;
-				UpdateSelectionVisuals();
-			}
-			else if (@event.IsActionPressed("Player_Interact"))
-			{
-				TryPurchaseSelectedItem();
-			}
-			else if (@event.IsActionPressed("ui_cancel"))
-			{
-				CloseShop();
-			}
-		}
-		else if (@event.IsActionPressed("Player_Interact"))
-		{
-			if (currentState == ShopState.OpenWindow)
-			{
-				OpenShop();
-			}
-		}
-	}
-
 	private void UpdateSelectionVisuals()
 	{
-		if (_shopItems.Count == 0) return;
+		Marker3D shopSlot = _shopSlots[_selectedItemIndex];
+		if (shopSlot == null || !IsInstanceValid(shopSlot)) return;
+		// if (_cursorTween != null) _cursorTween.SafeKill();
 
-		ShopItem selectedShopItem = _shopItems[_selectedItemIndex];
-		if (selectedShopItem == null || !IsInstanceValid(selectedShopItem)) return;
-
-		_cursorTween?.Kill();
-		_cursorTween = CreateTween();
-		
+		var cursorTween = CreateTween();
 		// The cursor is a child of ShopSlots, so its position is relative to ShopSlots.
 		// ShopItem is also a child of ShopSlots (via ShopSlotN Marker3D).
 		// So we can directly tween the local position.
-		_cursorTween.TweenProperty(_selectionCursor, "position",
-			selectedShopItem.Position with { Y = selectedShopItem.Position.Y + 0.4f }, 0.2f)
+		cursorTween.TweenProperty(selectionCursor, "position",
+			shopSlot.Position with { Y = shopSlot.Position.Y + 0.4f }, 0.2f)
 			.SetTrans(Tween.TransitionType.Cubic)
 			.SetEase(Tween.EaseType.Out);
+
+		selectionCursor.Stop();
+		selectionCursor.Play();
+		// cursorTween.Finished += () => { cursorTween.Kill(); };
 	}
 
 	private void TryPurchaseSelectedItem()
 	{
-		if (_shopItems.Count == 0 || _selectedItemIndex < 0 || _selectedItemIndex >= _shopItems.Count) return;
+		if (_selectedItemIndex < 0 || _selectedItemIndex >= SHOP_STOCK_COUNT) return;
 
 		ShopItem selectedShopItem = _shopItems[_selectedItemIndex];
 		if (selectedShopItem == null || !IsInstanceValid(selectedShopItem) || !selectedShopItem.Visible) return;
@@ -192,7 +214,7 @@ public partial class ShopCart : StaticBody3D
 		{
 			// Not enough money
 			// TODO: Add "not enough money" feedback (sound, UI message)
-			PlayerBody.Instance.ShowPromptToPress("Player_Interact", "Not Enough Money!", "Can't Buy");
+			PlayerBody.Instance.ShowPromptToPress("", "Not Enough Money!", "Can't Buy");
 			GetTree().CreateTimer(1.0f).Timeout += () => PlayerBody.Instance.HideInteractionPrompt();
 		}
 	}
@@ -219,18 +241,21 @@ public partial class ShopCart : StaticBody3D
 	{
 		animationPlayer.Play("Open");
 		currentState = ShopState.OpenWindow;
+		SetProcessInput(true);
 	}
 
 	private void CloseWindow()
 	{
 		animationPlayer.Play("Close");
 		currentState = ShopState.ClosedWindow;
+		SetProcessInput(false);
 	}
 
 	public void OpenShop()
 	{
 		if (currentState == ShopState.PlayerShopping) return;
 
+		animationPlayer.Play("OPENED");
 		currentState = ShopState.PlayerShopping;
 		var player = PlayerBody.Instance;
 
@@ -242,8 +267,9 @@ public partial class ShopCart : StaticBody3D
 		CameraTransition.Instance.TransitionFinished += MovePlayer;
 		
 		_selectedItemIndex = 0; // Initialize selection to the first item
-		_selectionCursor.Visible = true;
+		selectionCursor.Visible = true;
 		UpdateSelectionVisuals();
+		SetProcessInput(true);
 	}
 
 	private void CloseShop()
@@ -257,8 +283,9 @@ public partial class ShopCart : StaticBody3D
 		CameraTransition.Instance.TransitionFinished += ReEnablePlayer;
 		CameraTransition.Instance.TransitionCamera3D(shopCamera, player.PlayerCamera, 1f);
 		
-		_selectionCursor.Visible = false;
-		_cursorTween?.Kill(); // Stop any ongoing tween
+		selectionCursor.Visible = false;
+		// _cursorTween?.SafeKill(); // Stop any ongoing tween
+		SetProcessInput(false);
 	}
 
 	private void MovePlayer()

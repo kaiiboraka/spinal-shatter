@@ -67,6 +67,7 @@ public partial class PlayerBody : Combatant
 	private MinMaxValuesLabel manaMinMaxLabel;
 	private PlayerParamterBar playerManaBar;
 	private Label playerMoneyAmountLabel;
+	private CenterContainer reticle;
 	private ManaComponent manaComponent;
 	private Area3D pickupArea;
 	[ExportGroup("Menus")]
@@ -171,6 +172,8 @@ public partial class PlayerBody : Combatant
 		playerHealthBar   = GetNode<PlayerParamterBar>("%PlayerHealthBar");
 		manaMinMaxLabel   = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
 		playerManaBar     = GetNode<PlayerParamterBar>("%PlayerManaBar");
+		reticle  = GetNode<CenterContainer>("%Reticle");
+
 		manaComponent = GetNode<ManaComponent>("%ManaComponent");
 		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
@@ -228,8 +231,15 @@ public partial class PlayerBody : Combatant
 		SignalBus.Instance.GameResumed += ExitUIMode;
 	}
 
-	public override void _Input(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
+        if (CurrentControlState == PlayerControlState.UI)
+        {
+            // Do not process any player-specific input when in UI mode
+            // Allow event to propagate to other nodes, e.g., ShopCart
+            return; 
+        }
+
 		// Camera Rotation
 		if (@event is InputEventMouseMotion motion)
 		{
@@ -385,6 +395,7 @@ public partial class PlayerBody : Combatant
 		if (ControllingUI) return;
 		CurrentControlState = PlayerControlState.UI;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
+		reticle.Visible = false;
 		this.Visible = false;
 		// collider.Disabled = true;
 		DisallowMeleeAttack();
@@ -399,6 +410,7 @@ public partial class PlayerBody : Combatant
 
 		CurrentControlState = PlayerControlState.Piloting;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		reticle.Visible = true;
 		this.Visible = true;
 		// collider.Disabled = false;
 		AllowMeleeAttack();
@@ -425,6 +437,12 @@ public partial class PlayerBody : Combatant
 
 	public void ShowPromptToPress(string actionName, string message, string prefix = "")
 	{
+		if (actionName.IsNullOrWhiteSpace())
+		{
+			_interactionPromptLabel.Text = $"[center]{prefix} {message}[/center]";
+			_interactionPromptContainer.Visible = true;
+				return;
+		}
 		string keyName = GetActionKeyName(actionName);
 		_interactionPromptLabel.Text = $"[center]{prefix} [{keyName}] {message}[/center]";
 		_interactionPromptContainer.Visible = true;

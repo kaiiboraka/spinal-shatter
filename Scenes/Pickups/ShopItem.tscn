@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://br75cxlvledda"]
+[gd_scene load_steps=10 format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
-[ext_resource type="Resource" uid="uid://cpsixi7l16gnv" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/MaxHealthUp_StatItemData.tres" id="2_tktbk"]
-[ext_resource type="Texture2D" uid="uid://b7cqj4adkbw2v" path="res://assets/Images/ShopItems/Stat_MaxHealth_Icon.ase" id="3_tktbk"]
+[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="2_kbhn7"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="3_rbxn4"]
+[ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="4_rbxn4"]
+[ext_resource type="FontFile" uid="uid://kuphg0meymun" path="res://assets/Fonts/PixBlox Large.ttf" id="5_wcb6i"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
 top_radius = 0.1
@@ -36,7 +38,7 @@ viewport_path = NodePath("SubViewport")
 
 [node name="ShopItem" type="Node3D"]
 script = ExtResource("1_tktbk")
-Data = ExtResource("2_tktbk")
+Data = ExtResource("2_kbhn7")
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
@@ -48,7 +50,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 billboard = 1
 texture_filter = 0
 render_priority = 1
-texture = ExtResource("3_tktbk")
+texture = ExtResource("3_rbxn4")
 
 [node name="PriceLabel_Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
@@ -59,6 +61,7 @@ texture = SubResource("ViewportTexture_r8ncj")
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 transparent_bg = true
+anisotropic_filtering_level = 4
 size = Vector2i(200, 24)
 
 [node name="Price_RichTextLabel" type="RichTextLabel" parent="SubViewport"]
@@ -69,16 +72,19 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -89.5
 offset_right = 89.5
-offset_bottom = 23.0
+offset_bottom = 66.0
 grow_horizontal = 2
 size_flags_vertical = 3
+theme = ExtResource("4_rbxn4")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 1
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("5_wcb6i")
+theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
-text = "[center]$75[/center]"
+text = "[center]$100[/center]"
 fit_content = true
 scroll_active = false
 autowrap_trim_flags = 0

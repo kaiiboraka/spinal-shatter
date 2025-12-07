@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-namespace SpinalShatter.Scripts.Resources;
+namespace SpinalShatter;
 
 [GlobalClass]
 public partial class ShopStockData : Resource

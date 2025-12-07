@@ -17,7 +17,7 @@ namespace SpinalShatter.Scripts.Environment
             _interactionArea.BodyExited += OnBodyExited;
         }
 
-        public override void _Input(InputEvent @event)
+        public override void _UnhandledInput(InputEvent @event)
         {
             if (!_playerInRange || !@event.IsActionPressed("Player_Interact")) return;
 

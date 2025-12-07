@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="ShopStockData" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="ShopStockData" load_steps=6 format=3 uid="uid://crlygrfbgh2kt"]
 
-[ext_resource type="Script" path="res://Scripts/Resources/ShopStockData.cs" id="1_stock_data"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="2_orb_item"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="3_slash_item"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/StatItems/MaxHealthUp_StatItemData.tres" id="4_health_item"]
+[ext_resource type="Script" uid="uid://7g5ims23nlbu" path="res://Scripts/Resources/ShopItemData.cs" id="1_iafcd"]
+[ext_resource type="Script" uid="uid://dyfcdk8txef7m" path="res://Scripts/Resources/ShopStockData.cs" id="1_stock_data"]
+[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="2_orb_item"]
+[ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="3_slash_item"]
+[ext_resource type="Resource" uid="uid://cpsixi7l16gnv" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/MaxHealthUp_StatItemData.tres" id="4_wujhw"]
 
 [resource]
 script = ExtResource("1_stock_data")
-AvailableItems = [ExtResource("2_orb_item"), ExtResource("3_slash_item"), ExtResource("4_health_item")]
+AvailableItems = Array[ExtResource("1_iafcd")]([ExtResource("2_orb_item"), ExtResource("3_slash_item"), ExtResource("4_wujhw")])

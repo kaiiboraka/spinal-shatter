@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene load_steps=60 format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="24_fxftb"]
 [ext_resource type="Texture2D" uid="uid://ceb17wmohxhrl" path="res://assets/Images/UI/orb_mana_background.png" id="24_spibu"]
 [ext_resource type="SpriteFrames" uid="uid://b7p2oc1ptd5wm" path="res://assets/Images/Player/arm_left.ase" id="24_x4yal"]
+[ext_resource type="FontFile" uid="uid://dklg7jy0nkurw" path="res://assets/Fonts/NimbusRomNo9L-Med.otf" id="24_ynkr0"]
 [ext_resource type="Texture2D" uid="uid://cn6gumrpvbry" path="res://assets/Images/UI/orb_shine.png" id="25_h1o3h"]
 [ext_resource type="Script" uid="uid://duj35k5d3i30k" path="res://Scripts/UI/PlayerParamterBar.cs" id="25_ynkr0"]
 [ext_resource type="Texture2D" uid="uid://cjgwp01a2b6pr" path="res://assets/Images/UI/orb_mana.png" id="26_ynkr0"]
@@ -32,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://d0377cxg8dfil" path="res://assets/Images/UI/orb_health_background.png" id="30_mrttg"]
 [ext_resource type="Texture2D" uid="uid://b2dek0hbhic86" path="res://assets/Images/UI/orb_health.png" id="31_2ji7n"]
 [ext_resource type="PackedScene" uid="uid://bi48xxwpvl31n" path="res://Scenes/UI/InventoryHUDItem.tscn" id="31_hud_item"]
+[ext_resource type="Script" uid="uid://bnjki4iuev8s2" path="res://Scripts/Reticle.cs" id="33_h1o3h"]
 
 [sub_resource type="Animation" id="Animation_qkgjm"]
 length = 0.001
@@ -111,6 +113,8 @@ height = 9.577691
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mc0oj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fxftb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mrttg"]
 
 [sub_resource type="Animation" id="Animation_spibu"]
 length = 0.083341666
@@ -651,7 +655,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="HUD" type="CanvasLayer" parent="Control"]
 
@@ -661,7 +665,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -675,6 +678,7 @@ theme_override_constants/separation = 16
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ionog")
 
 [node name="Health_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer"]
@@ -700,6 +704,22 @@ TextMaximum = "100"
 TextSize = 32
 AlignmentDivider = 3
 
+[node name="LabelCurrent" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelCurrent/AspectRatioContainer" index="0"]
+theme_override_fonts/font = ExtResource("24_ynkr0")
+theme_override_font_sizes/font_size = 32
+text = "100"
+
+[node name="LabelDivider" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelDivider/AspectRatioContainer" index="0"]
+theme_override_fonts/font = ExtResource("24_ynkr0")
+theme_override_font_sizes/font_size = 32
+text = "|"
+horizontal_alignment = 3
+
+[node name="LabelMax" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelMax/AspectRatioContainer" index="0"]
+theme_override_fonts/font = ExtResource("24_ynkr0")
+theme_override_font_sizes/font_size = 32
+text = "100"
+
 [node name="PlayerHealthBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -716,6 +736,7 @@ script = ExtResource("25_ynkr0")
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
 [node name="Stats_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer"]
@@ -729,20 +750,24 @@ alignment = 2
 
 [node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
+mouse_filter = 1
 FrameType = 3
 
 [node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
+mouse_filter = 1
 FrameType = 3
 
 [node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
+mouse_filter = 1
 FrameType = 3
 
 [node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_fxftb")
 
 [node name="Money_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer"]
@@ -766,6 +791,7 @@ custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+mouse_filter = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control"]
 position = Vector2(24, 24)
@@ -777,7 +803,9 @@ autoplay = "Spin"
 [node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 theme = ExtResource("23_3vnku")
+theme_override_fonts/font = ExtResource("24_ynkr0")
 text = "1000"
 horizontal_alignment = 2
 
@@ -786,6 +814,7 @@ custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+mouse_filter = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control2"]
 position = Vector2(24, 24)
@@ -803,6 +832,7 @@ alignment = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
 [node name="Weapons_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer"]
@@ -816,15 +846,18 @@ alignment = 2
 
 [node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
+mouse_filter = 1
 Rank = 7
 
 [node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
+mouse_filter = 1
 FrameType = 1
 Rank = 3
 
 [node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
+mouse_filter = 1
 FrameType = 2
 Rank = 9
 
@@ -832,6 +865,7 @@ Rank = 9
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
 [node name="Mana_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer"]
@@ -857,6 +891,22 @@ TextMaximum = "100"
 TextSize = 32
 AlignmentDivider = 3
 
+[node name="LabelCurrent" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelCurrent/AspectRatioContainer" index="0"]
+theme_override_fonts/font = ExtResource("24_ynkr0")
+theme_override_font_sizes/font_size = 32
+text = "100"
+
+[node name="LabelDivider" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelDivider/AspectRatioContainer" index="0"]
+theme_override_fonts/font = ExtResource("24_ynkr0")
+theme_override_font_sizes/font_size = 32
+text = "|"
+horizontal_alignment = 3
+
+[node name="LabelMax" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelMax/AspectRatioContainer" index="0"]
+theme_override_fonts/font = ExtResource("24_ynkr0")
+theme_override_font_sizes/font_size = 32
+text = "100"
+
 [node name="PlayerManaBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -871,32 +921,37 @@ script = ExtResource("25_ynkr0")
 
 [node name="InteractionPrompt_Control" type="Control" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="InteractionPrompt_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/InteractionPrompt_Control"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.4
-anchor_top = 0.75
-anchor_right = 0.6
-anchor_bottom = 0.75
-offset_top = -45.0
-offset_bottom = 45.0
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -190.0
+offset_bottom = -157.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mrttg")
 
 [node name="InteractionPrompt_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/InteractionPrompt_Control/InteractionPrompt_PanelContainer"]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
 size_flags_vertical = 4
+mouse_filter = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 1
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/normal_font = ExtResource("24_ynkr0")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[center]Press \"E\" to BUY SOMFIN[/center]"
@@ -905,7 +960,8 @@ scroll_active = false
 autowrap_trim_flags = 0
 shortcut_keys_enabled = false
 
-[node name="Reticle" type="CenterContainer" parent="Control"]
+[node name="Reticle" type="CenterContainer" parent="Control" node_paths=PackedStringArray("reticleLines")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -914,7 +970,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+script = ExtResource("33_h1o3h")
+reticleLines = [NodePath("Top"), NodePath("Right"), NodePath("Bottom"), NodePath("Left")]
 
 [node name="Top" type="Line2D" parent="Control/Reticle"]
 points = PackedVector2Array(0, -5, 0, -15)
@@ -939,3 +996,6 @@ libraries = {
 
 [connection signal="area_entered" from="PickupArea" to="." method="OnAreaEnteredPickupArea"]
 [connection signal="body_entered" from="PickupArea" to="." method="OnPickupAreaEntered"]
+
+[editable path="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel"]
+[editable path="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel"]

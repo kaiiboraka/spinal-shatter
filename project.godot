@@ -79,6 +79,8 @@ OutsideHub=""
 
 [gui]
 
+theme/default_font_antialiasing=0
+theme/default_font_subpixel_positioning=2
 theme/custom="res://Scenes/UI/Menu Templates/resources/themes/gravity.tres"
 
 [importer_defaults]
@@ -340,7 +342,8 @@ common/max_physics_steps_per_frame=9
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/msaa_2d=3
+anti_aliasing/quality/msaa_3d=3
 textures/decals/filter=0
 
 [shader_globals]

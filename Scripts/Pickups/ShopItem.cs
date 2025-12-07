@@ -2,7 +2,7 @@ using Godot;
 
 namespace SpinalShatter;
 
-[Tool]
+[GlobalClass,Tool]
 public partial class ShopItem : Node3D
 {
     private ShopItemData data;

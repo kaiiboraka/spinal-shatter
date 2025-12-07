@@ -2,11 +2,28 @@ using Godot;
 
 namespace SpinalShatter;
 
+[Tool]
 public partial class ShopItem : Node3D
 {
-    [Export] public ShopItemData Data { get; set; }
+    private ShopItemData data;
+    [Export] public ShopItemData Data
+    {
+        get => data;
+        set
+        {
+            data = value;
+            UpdateVisualData();
+        }
+    }
 
     private RichTextLabel priceLabel;
+    private Sprite3D sprite;
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        if (Engine.IsEditorHint() && IsInsideTree()) UpdateVisualData();
+    }
 
     public override void _Ready()
     {
@@ -15,14 +32,26 @@ public partial class ShopItem : Node3D
             GD.PushWarning("ShopItemData not set for ShopItem.");
             return;
         }
+        GetComponents();
+        UpdateVisualData();
+    }
 
-        var sprite = GetNode<Sprite3D>("ItemSprite_Sprite3D");
+    private void GetComponents()
+    {
+        sprite ??= GetNode<Sprite3D>("ItemSprite_Sprite3D");
+        priceLabel ??= GetNode<RichTextLabel>("%Price_RichTextLabel");
+    }
+
+    private void UpdateVisualData( )
+    {
+        if (Engine.IsEditorHint() && IsInsideTree()) GetComponents();
+
+
         if (sprite != null)
         {
             sprite.Texture = Data.ItemIcon;
         }
 
-        priceLabel = GetNode<RichTextLabel>("%Price_RichTextLabel");
         if (priceLabel != null)
         {
             priceLabel.Text = $"[center]${Data.Price}[/center]";

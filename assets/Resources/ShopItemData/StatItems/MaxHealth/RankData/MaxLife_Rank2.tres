@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RankUpData" load_steps=2 format=3 uid="uid://ckpw50ibyivnu"]
+
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_3dua6"]
+
+[resource]
+script = ExtResource("1_3dua6")
+StatModifiers = Dictionary[int, float]({
+0: 50.0
+})
+metadata/_custom_type_script = "uid://btb00jki3f5wt"

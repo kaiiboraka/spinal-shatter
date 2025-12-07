@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_ttjea"]
 [ext_resource type="PackedScene" uid="uid://drxvesqhpamll" path="res://Scenes/Particles/HitEffects_Explode.tscn" id="4_x0qi3"]
 [ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="5_w2hiu"]
-[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/Spells/fireball.ase" id="6_abefe"]
+[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/ShopItems/fireball.ase" id="6_abefe"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="7_loeep"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="8_b5daa"]
 [ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="9_0g0da"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/Spells/fireball.png" id="10_cji2a"]
+[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/fireball.png" id="10_cji2a"]
 [ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="11_2clkj"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]

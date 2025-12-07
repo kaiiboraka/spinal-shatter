@@ -1,36 +1,33 @@
 # Error
+Godot Engine v4.5.stable.mono.official.876b29033 - https://godotengine.org
+Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4080 SUPER
 
+Embedded window only supports Windowed mode.
+  ERROR: ShopCart: ShopStockData is not assigned or contains no items.
+--- Debugging process stopped ---
+
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank%i.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank2.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank3.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank4.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank5.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank6.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank7.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank8.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank9.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank%i.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank2.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank3.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank4.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank5.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank6.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank7.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank8.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank9.tres:1 - Parse Error: Expected '['.
+  ERROR: scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank1.tres:8 - Parse Error: Can't load cached ext-resource id: 1_rankup.
+  ERROR: Failed loading resource: res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank1.tres.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank4.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank6.tres:1 - Parse Error: Expected '['.
+  ERROR: (2) scene/resources/resource_format_text.cpp:40 - res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank%i.tres:1 - Parse Error: Expected '['.
 
 # Output
-
-[DEBUG : 7.95][DebugManager @ DebugManager: CanvasLayer] RANGED ATTACK: Enemy 'Scrounger' is firing a projectile.
-Explosion Area Position: (2.6777563, 0.70090395, -48.058273)
-Explosion Area Radius: 3.8000002
-Explosion Area Monitoring: False
-Explosion Area Collision Layer: 4096
-Explosion Area Collision Mask: 35840
-Explosion Area Has Overlapping Areas?: False
-Explosion Area Position: (0.65655136, 0.5367595, -50.19731)
-Explosion Area Radius: 5.6000004
-Explosion Area Monitoring: False
-Explosion Area Collision Layer: 4096
-Explosion Area Collision Mask: 35840
-Explosion Area Has Overlapping Areas?: False
-Explosion Area Position: (-6.427199, 0.5208566, -53.481197)
-Explosion Area Radius: 3.8000002
-Explosion Area Monitoring: False
-Explosion Area Collision Layer: 4096
-Explosion Area Collision Mask: 35840
-Explosion Area Has Overlapping Areas?: False
-Explosion Area Position: (-17.820456, 0.9894902, -53.799114)
-Explosion Area Radius: 3.2
-Explosion Area Monitoring: False
-Explosion Area Collision Layer: 4096
-Explosion Area Collision Mask: 35840
-Explosion Area Has Overlapping Areas?: False
-Explosion Area Position: (-14.637127, 0.5362104, -54.542435)
-Explosion Area Radius: 3.8000002
-Explosion Area Monitoring: False
-Explosion Area Collision Layer: 4096
-Explosion Area Collision Mask: 35840
-Explosion Area Has Overlapping Areas?: False

@@ -578,8 +578,6 @@ public partial class PlayerBody : Combatant
 
 	#region Inventory Handlers
 
-	private bool _inventorySlotsDirty = true;
-
 	private void UpdateInventoryUI()
 	{
 		if (_weaponInventoryHUD != null)
@@ -591,11 +589,11 @@ public partial class PlayerBody : Combatant
 				SlotType slotType = (SlotType)i;
 				if (Inventory.EquippedWeapons.TryGetValue(slotType, out EquippedItem weapon))
 				{
-					weaponSlots[i].UpdateDisplay(weapon.ItemData, weapon.Rank);
+					weaponSlots[i].ChangeDisplayData(weapon.ItemData, weapon.Rank);
 				}
 				else
 				{
-					weaponSlots[i].UpdateDisplay(null, 0);
+					weaponSlots[i].ChangeDisplayData(null, 0);
 				}
 			}
 		}
@@ -608,11 +606,11 @@ public partial class PlayerBody : Combatant
 				if (i < Inventory.EquippedStatItems.Count && Inventory.EquippedStatItems[i] != null)
 				{
 					var statItem = Inventory.EquippedStatItems[i];
-					statSlots[i].UpdateDisplay(statItem.ItemData, statItem.Rank);
+					statSlots[i].ChangeDisplayData(statItem.ItemData, statItem.Rank);
 				}
 				else
 				{
-					statSlots[i].UpdateDisplay(null, 0);
+					statSlots[i].ChangeDisplayData(null, 0);
 				}
 			}
 		}

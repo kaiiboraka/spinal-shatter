@@ -3,7 +3,7 @@ namespace SpinalShatter;
 using Godot;
 using Elythia;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class CastedSpellData : SpellData
 {
     [ExportGroup("Casted Properties")]

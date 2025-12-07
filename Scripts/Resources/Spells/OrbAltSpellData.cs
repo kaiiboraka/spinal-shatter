@@ -4,7 +4,7 @@ namespace SpinalShatter;
 
 using Godot;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class OrbAltSpellData : CastedSpellData
 {
 	[ExportGroup("Explosion Properties")]

@@ -222,15 +222,27 @@ Higher rank cost more but also sells back for more.
 
 example ranks from Vampire Survivors, which start at level 1, and level up to 8, ranking up 7 times:
 
-1) axe base: damage 20, pierce 3, count 1
+Whip: Attacks horizontally, passes through enemies.
+1) whip base: damage 10, pierce AoE hitbox, count 1
 2) count + 1
-3) damage + 20
-4) pierce + 1
-5) count + 1
-6) damage + 20
-7) pierce + 1
-8) damage + 20
+3) damage + 5
+4) damage + 5, size + 10%
+5) damage + 5
+6) damage + 5, size + 10%
+7) damage + 5
+8) damage + 5
 
+Magic Wand: Fires at the nearest enemy.
+1) magic wand base: damage 10, cooldown 1.2 seconds, pierce 0, count 1
+2) count + 1
+3) cooldown - 0.2 seconds
+4) count + 1
+5) damage + 10
+6) count + 1
+7) pierce + 1
+8) damage + 10
+
+Knife: Fires quickly in the faced direction.
 1) knife base: damage 7, pierce 1, count 1
 2) count + 1
 3) count + 1, damage + 5
@@ -240,13 +252,62 @@ example ranks from Vampire Survivors, which start at level 1, and level up to 8,
 7) count + 1, damage + 5
 8) pierce + 1
 
+Axe: Lobs in an arc. High damage, high area scaling.
+1) axe base: damage 20, pierce 3, count 1
+2) count + 1
+3) damage + 20
+4) pierce + 1
+5) count + 1
+6) damage + 20
+7) pierce + 1
+8) damage + 20
+
+Garlic: Damages nearby enemies. Reduces enemy resistance to knockback and freeze.
+1) garlic base: damage 5, pierce AoE hitbox, cooldown 1.3 seconds
+2) damage + 2, size + 40%
+3) damage + 1, cooldown - 0.1 seconds
+4) damage + 1, size + 20%
+5) damage + 2 , cooldown - 0.1 seconds
+6) damage + 1, size + 20%
+7) damage + 1 , cooldown - 0.1 seconds
+8) damage + 1, size + 20%
+
+King Bible: Orbits around the character
+1) Bible base: damage 10, duration 3 seconds, count 1
+2) count + 1
+3) size + 25%, speed + 30%
+4) damage + 10, duration + 0.5 seconds
+5) count + 1
+6) size + 25%, speed + 30%
+7) damage + 10, duration + 0.5 seconds
+8) count + 1
+
+Lightning Ring: Strikes at random enemies. When the lightning strikes the ground, it creates a circle hitbox that deals damage, rather than the lightning bolts themselves dealing damage.
+1) Lightning Ring base: damage 15, count 1
+2) count + 1
+3) damage + 10, size + 100%
+4) count + 1
+5) damage + 20, size + 100%
+6) count + 1
+7) damage + 20, size + 100%
+8) count + 1
+
+Santa Water: Bottles of holy water rain down and fall from the sky, generating Damaging zones upon hitting the ground.
+1) Santa Water base: damage 10, count 1, duration 2 seconds
+2) count + 1, size + 20%
+3) damage + 10, duration + 0.5 seconds
+4) count + 1, size + 20%
+5) damage + 10, duration + 0.25 seconds
+6) count + 1, size + 20%
+7) damage + 5, duration + 0.25 seconds
+8) damage + 5, size + 20%
 
 In my game, in whatever form the inventory takes, there will be a level int associated with a given owned / equipped weapon. I want each weapon's SpellData to have an array of RankUps which have (or are themselves) a Dictionary between a StatType and the value it will be SET to when it levels up... Then level max is determined by array length, and each rank up simply goes into the array RankUps\[level]. This allows any rank to modify any number of stats.
 
 
 #### List of Weapons 
 
-Vampire Survivors = VS
+VS = Vampire Survivors
 
 Orb: bounces, main attack 
 - charge: increases size, damage 
@@ -302,19 +363,41 @@ And then you can decide which slot to put them in: Main, Alt, or Passive
 
 Up to 3 slots for unique items that provide persistent Player Stat bonuses -- they can also be ranked up on reqacquisition, like weapons.
 
-- max health (additive bonus)
-- max mana (additive bonus)
-- move speed (multiplier)
-- Armor (fixed, additive damage reduction)
-- money drop rate (multiplier)
-- pickup radius 
-- Jump Height / Air Jumps
-- Siphon Range 
-- Siphon Speed
-- Projectile Speed (multiplier on ValueRange)
-- Projectile Size (multiplier on ValueRange)
-- Projectile Count (additive integer)
-- Charge Speed (some kind of % multiplier that makes your charge duration take some % less time; should scale relatively slowly)
+- max health (additive bonus) - anatomical heart?
+- max mana (additive bonus) - jagged crystal
+- move speed (multiplier) - leather boot
+- Armor (fixed, additive damage reduction) - metal buckler
+- money drop rate (multiplier) - Rabbit's foot
+- Pickup radius - Evil Pot : Evil cointainment wave (Dragon Ball) into Pot of Greed (Yu-Gi-Oh)
+- Jump Height - Eagle Feather
+- Air Jumps - Bat wing
+- Siphon Range - Spectral Claw 
+- Projectile Speed (multiplier on ValueRange) - A fletched arrow
+- Projectile Size (multiplier on ValueRange) - Focusing Lens (magnifying glass)
+- Projectile Count (additive integer) - Hand Mirror? Reflective Prism?
+- Charge Speed (some kind of % multiplier that makes your charge duration take some % less time; should scale relatively slowly) - Lightning in a Bottle
+
+Vampire Survivors: stat - icon
+1. Max Health - empty heart container
+2. Recovery - solid heart
+3. Defense - platemail cuirass
+4. Move speed - wing
+5. Might - Spinach Leaf
+6. Area - Candelabra
+7. Projectile speed - Leather glove
+8. Duration - amulet
+9. Amount - Magic Ring (2 prongs)
+10. Cooldown - Tome
+11. Luck - Clover
+12. Growth (exp) - Crown
+13. resurrection
+14. Greed (money drop) - Stone mask
+15. Curse (difficulty) - enchanted skull
+16. Magnet - Orb
+17. Revival - Tiramisu
+18. Reroll - Dice
+19. skip - Next Chapter icon >>|
+20. Banish - finger snap
 
 ### UI
 

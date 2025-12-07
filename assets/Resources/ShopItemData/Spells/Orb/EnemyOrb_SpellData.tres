@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=11 format=3 uid="uid://bpg87onj725jn"]
+[gd_resource type="Resource" script_class="CastedSpellData" load_steps=10 format=3 uid="uid://bpg87onj725jn"]
 
-[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_jrqo3"]
 [ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="2_xddvl"]
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaDrop_RangeI.tres" id="3_tqapl"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="4_llsa7"]
@@ -38,9 +37,8 @@ ChargeIntervals = 10
 ManaDroppedAmount = ExtResource("3_tqapl")
 ManaCostRange = SubResource("Resource_2vvke")
 MaxChargeTime = SubResource("Resource_6ccg6")
-AudioData = ExtResource("1_jrqo3")
 DamageRange = SubResource("Resource_hwuyi")
 SpeedRange = SubResource("Resource_1e2gl")
 SizeRange = SubResource("Resource_ls77i")
 ProjectileScene = ExtResource("4_llsa7")
-RankUps = null
+RankUps = []

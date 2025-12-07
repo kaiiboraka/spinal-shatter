@@ -2,7 +2,7 @@ namespace SpinalShatter;
 
 using Godot;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class StatItemData : ShopItemData
 {
     [ExportGroup("Stat Bonus")]

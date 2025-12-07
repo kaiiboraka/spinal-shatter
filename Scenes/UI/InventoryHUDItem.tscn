@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bi48xxwpvl31n"]
+[gd_scene load_steps=5 format=3 uid="uid://bi48xxwpvl31n"]
 
 [ext_resource type="Script" uid="uid://hkgyc1jfmtrb" path="res://Scripts/UI/InventoryHUDItem.cs" id="1_hud_item_script"]
 [ext_resource type="Texture2D" uid="uid://vrg343kljhsf" path="res://assets/Images/UI/SlotFrame1.tres" id="2_5obpo"]
 [ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="3_61lbq"]
 [ext_resource type="FontFile" uid="uid://dklg7jy0nkurw" path="res://assets/Fonts/NimbusRomNo9L-Med.otf" id="4_61lbq"]
-[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/Spells/Slash_Icon.ase" id="5_61lbq"]
 
 [node name="InventoryHUDItem" type="Control"]
 custom_minimum_size = Vector2(80, 80)
@@ -70,5 +69,4 @@ offset_right = 28.0
 offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_61lbq")
 expand_mode = 1

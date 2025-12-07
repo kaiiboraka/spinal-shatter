@@ -3,12 +3,12 @@
 importer="aseprite_wizard.plugin.spriteframes"
 type="SpriteFrames"
 uid="uid://bou4jlh1s823h"
-path="res://.godot/imported/fireball.ase-82f065d68a02ac2048d10735a6c534ba.res"
+path="res://.godot/imported/fireball.ase-c1d1b46e1c29311137740996dbcdca82.res"
 
 [deps]
 
-source_file="res://assets/Images/Spells/fireball.ase"
-dest_files=["res://.godot/imported/fireball.ase-82f065d68a02ac2048d10735a6c534ba.res"]
+source_file="res://assets/Images/ShopItems/fireball.ase"
+dest_files=["res://.godot/imported/fireball.ase-c1d1b46e1c29311137740996dbcdca82.res"]
 
 [params]
 

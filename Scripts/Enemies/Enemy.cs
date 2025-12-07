@@ -380,7 +380,9 @@ public partial class Enemy : Combatant
 			}
 
 			var projectile = ProjectileScene.Instantiate<Projectile>();
-			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
+			// Corrected line: use previousPlayerPosition if _player is null
+			Vector3 targetPosition = _player?.GlobalPosition ?? previousPlayerPosition;
+			var direction = (targetPosition - GlobalPosition).Normalized();
 			var launchData = new ProjectileLaunchData
 			{
 				Caster = this,
@@ -754,6 +756,7 @@ public partial class Enemy : Combatant
 		// Set initial state
 		animPlayer.Stop(); // Stop any playing animation
 		ChangeState(AIState.Idle, true);
+		Callable.From(EnableCollisions).CallDeferred();
 	}
 
 	public void Activate()
@@ -765,7 +768,6 @@ public partial class Enemy : Combatant
 		SetProcess(true);
 		SetPhysicsProcess(true);
 
-		EnableCollisions();
 	}
 
 	public void Deactivate()

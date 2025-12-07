@@ -2,7 +2,7 @@ using Godot;
 
 namespace SpinalShatter;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class ShopItemData : Resource
 {
     [ExportGroup("Shop Properties")]

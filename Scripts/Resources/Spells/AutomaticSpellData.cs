@@ -2,7 +2,7 @@ namespace SpinalShatter;
 
 using Godot;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class AutomaticSpellData : SpellData
 {
     [ExportGroup("Automatic Properties")]

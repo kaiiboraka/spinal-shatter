@@ -1,14 +1,23 @@
-[gd_resource type="Resource" script_class="OrbAltSpellData" load_steps=14 format=3 uid="uid://cirydstf3n5"]
+[gd_resource type="Resource" script_class="OrbAltSpellData" load_steps=23 format=3 uid="uid://cirydstf3n5"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_pcsgm"]
 [ext_resource type="Resource" uid="uid://ca5legqto3lxr" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbAltFire_Damage_RangeF.tres" id="2_48s7i"]
 [ext_resource type="Resource" uid="uid://cw0cx7red1fgw" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbAltFire_ExplosionRadius_RangeF.tres" id="3_kme0b"]
 [ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="3_mkof1"]
-[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Spells/fireball_icon.ase" id="4_8p3th"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="4_8p3th"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaCost_RangeF.tres" id="4_27i46"]
 [ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValueRange.cs" id="5_6lowq"]
 [ext_resource type="PackedScene" uid="uid://dllhy7tqqr7kj" path="res://Scenes/Projectiles/Orb_AltFire_Explode.tscn" id="6_otdrp"]
 [ext_resource type="Script" uid="uid://bmldedulm1wvc" path="res://Scripts/Resources/Spells/OrbAltSpellData.cs" id="7_57ykm"]
+[ext_resource type="Resource" uid="uid://cdr2h8u6y7jc8" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank1.tres" id="8_orb_alt_rank1"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank2.tres" id="9_orb_alt_rank2"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank3.tres" id="10_orb_alt_rank3"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank4.tres" id="11_orb_alt_rank4"]
+[ext_resource type="Resource" uid="uid://dbgqnv7rmbklu" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank5.tres" id="12_orb_alt_rank5"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank6.tres" id="13_orb_alt_rank6"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank7.tres" id="14_orb_alt_rank7"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank8.tres" id="15_orb_alt_rank8"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Alt_Rank9.tres" id="16_orb_alt_rank9"]
 
 [sub_resource type="Resource" id="Resource_5qna3"]
 script = ExtResource("5_6lowq")
@@ -44,4 +53,4 @@ SpeedRange = SubResource("Resource_dmv1u")
 SizeRange = SubResource("Resource_djet0")
 ProjectileScene = ExtResource("6_otdrp")
 ItemIcon = ExtResource("4_8p3th")
-RankUps = null
+RankUps = Array[Object]([ExtResource("8_orb_alt_rank1"), ExtResource("9_orb_alt_rank2"), ExtResource("10_orb_alt_rank3"), ExtResource("11_orb_alt_rank4"), ExtResource("12_orb_alt_rank5"), ExtResource("13_orb_alt_rank6"), ExtResource("14_orb_alt_rank7"), ExtResource("15_orb_alt_rank8"), ExtResource("16_orb_alt_rank9")])

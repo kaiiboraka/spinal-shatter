@@ -3,7 +3,7 @@ namespace SpinalShatter;
 using Godot;
 using Elythia;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class SpellData : ShopItemData
 {
 	[ExportGroup("Weapon Properties")]

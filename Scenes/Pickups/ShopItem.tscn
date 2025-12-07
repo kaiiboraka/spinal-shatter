@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://br75cxlvledda"]
+[gd_scene load_steps=8 format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
-[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Spells/fireball_icon.ase" id="3_tktbk"]
+[ext_resource type="Resource" uid="uid://cpsixi7l16gnv" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/MaxHealthUp_StatItemData.tres" id="2_tktbk"]
+[ext_resource type="Texture2D" uid="uid://b7cqj4adkbw2v" path="res://assets/Images/ShopItems/Stat_MaxHealth_Icon.ase" id="3_tktbk"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
 top_radius = 0.1
@@ -35,6 +36,7 @@ viewport_path = NodePath("SubViewport")
 
 [node name="ShopItem" type="Node3D"]
 script = ExtResource("1_tktbk")
+Data = ExtResource("2_tktbk")
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
@@ -76,7 +78,7 @@ theme_override_constants/shadow_outline_size = 1
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 bbcode_enabled = true
-text = "[center]$100[/center]"
+text = "[center]$75[/center]"
 fit_content = true
 scroll_active = false
 autowrap_trim_flags = 0

@@ -1,15 +1,17 @@
-[gd_scene load_steps=56 format=3 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=59 format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="ArrayMesh" uid="uid://d10p833gjq6st" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
+[ext_resource type="Resource" uid="uid://cpsixi7l16gnv" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/MaxHealthUp_StatItemData.tres" id="3_e3k0l"]
 [ext_resource type="ArrayMesh" uid="uid://cxfjdyv35w14e" path="res://assets/Models/Meshes/ShopCart/frontRoof.res" id="3_me00m"]
 [ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="3_n3hp2"]
 [ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
-[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbAltFire_SpellData.tres" id="4_bprx7"]
 [ext_resource type="ArrayMesh" uid="uid://bkuejmdwnpelb" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
 [ext_resource type="PackedScene" uid="uid://byiseo5tydxlb" path="res://Scenes/UI/SelectionCursor_AnimatedSprite3D.tscn" id="4_khf6c"]
+[ext_resource type="Script" uid="uid://dyfcdk8txef7m" path="res://Scripts/Resources/ShopStockData.cs" id="5_f1cjk"]
 [ext_resource type="ArrayMesh" uid="uid://3ornpl7wp88" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
 [ext_resource type="ArrayMesh" uid="uid://28gjadilp1cl" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
 [ext_resource type="ArrayMesh" uid="uid://jpkm2py113b" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
+[ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="7_fdvy6"]
 [ext_resource type="ArrayMesh" uid="uid://dfqgwpnq38whj" path="res://assets/Models/Meshes/ShopCart/B_L_tire.res" id="8_h8aqa"]
 [ext_resource type="ArrayMesh" uid="uid://bxd45a2jot7ep" path="res://assets/Models/Meshes/ShopCart/B_L_hub.res" id="9_vl8pd"]
 [ext_resource type="ArrayMesh" uid="uid://cca36gpb6362v" path="res://assets/Models/Meshes/ShopCart/B_L_spoke1.res" id="10_x26tn"]
@@ -43,6 +45,11 @@
 [ext_resource type="PackedScene" uid="uid://br75cxlvledda" path="res://Scenes/Pickups/ShopItem.tscn" id="38_n3hp2"]
 [ext_resource type="ArrayMesh" uid="uid://f38uyyaywikm" path="res://assets/Models/Meshes/ShopCart/WindowMesh.res" id="38_tmch4"]
 [ext_resource type="PackedScene" uid="uid://cw27vjulupk2q" path="res://Scenes/Environment/Doodads/Candle.tscn" id="38_vne43"]
+
+[sub_resource type="Resource" id="Resource_c7h3p"]
+script = ExtResource("5_f1cjk")
+AvailableItems = [ExtResource("3_e3k0l"), ExtResource("3_n3hp2"), ExtResource("7_fdvy6")]
+metadata/_custom_type_script = "uid://dyfcdk8txef7m"
 
 [sub_resource type="Animation" id="Animation_1rpi7"]
 resource_name = "CLOSED"
@@ -184,6 +191,7 @@ points = PackedVector3Array(-0.96280456, -1.8742062, -2.0021682, -1.0295177, 1.6
 [node name="ShopCart" type="StaticBody3D"]
 collision_layer = 8
 script = ExtResource("3_yvf2d")
+_shopStock = SubResource("Resource_c7h3p")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -216,13 +224,13 @@ Data = ExtResource("3_n3hp2")
 unique_name_in_owner = true
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot2" instance=ExtResource("38_n3hp2")]
-Data = ExtResource("4_bprx7")
 
 [node name="ShopSlot3" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.65)
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot3" instance=ExtResource("38_n3hp2")]
+Data = ExtResource("7_fdvy6")
 
 [node name="Candle" parent="ShopRoot" instance=ExtResource("38_vne43")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.377, 1.41, -1.375)

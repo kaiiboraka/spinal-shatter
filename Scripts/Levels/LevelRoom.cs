@@ -83,15 +83,13 @@ public partial class LevelRoom : Node3D
 
 		_spawningFinished = false;
 
-		// Initialize pools for all unique scenes on all potential spawners
-		var uniqueScenes = enemies.Distinct();
-		foreach (var spawner in _spawners)
-		{
-			spawner.InitializePools(uniqueScenes);
-		}
-
 		// Pick a single random spawner to handle the whole wave
 		var chosenSpawner = _spawners[(int)(GD.Randi() % _spawners.Count)];
+		
+		// Initialize pools for all unique scenes on only the chosen spawner
+		var uniqueScenes = enemies.Distinct();
+		chosenSpawner.InitializePools(uniqueScenes);
+
 		chosenSpawner.StartSpawningWave(enemies);
 	}
 
@@ -198,6 +196,7 @@ public partial class LevelRoom : Node3D
 		{
 			levelDoor.SystemOpen();
 		}
+		ClearAllSpawnerPools();
 	}
 
 	public void Activate()
@@ -227,6 +226,8 @@ public partial class LevelRoom : Node3D
 		{
 			enemy.Deactivate();
 		}
+		
+		ClearAllSpawnerPools();
 	}
 
 	public void ShowRoom()
@@ -237,5 +238,13 @@ public partial class LevelRoom : Node3D
 	public void HideRoom()
 	{
 		Visible = alwaysShow;
+	}
+	
+	private void ClearAllSpawnerPools()
+	{
+		foreach (var spawner in _spawners)
+		{
+			spawner.ClearPools();
+		}
 	}
 }

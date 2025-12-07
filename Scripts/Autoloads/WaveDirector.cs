@@ -397,7 +397,8 @@ public partial class WaveDirector : Node
 		_timeBonusTextValue.Text = moneyTimeBonus.ToString();
 		_lifeBonusTextValue.Text = moneyHealthBonus.ToString();
 		
-		EmitRoundWon();
+		EmitSignalRoundWon();
+		CleanUpInactiveEnemies();
 	}
 
 	private void OnHubDoorShut()
@@ -578,5 +579,29 @@ public partial class WaveDirector : Node
 		_victoryLabel.Visible = false;
 		_defeatLabel.Visible = false;
 		_bonusContainer.Visible = false;
+	}
+
+	private void CleanUpInactiveEnemies()
+	{
+		foreach (var roomEntry in _combatRooms)
+		{
+			var room = roomEntry.Value;
+			// Create a copy of the list to avoid modifying it while iterating
+			var enemiesToClean = room.EnemiesInRoom.ToList(); 
+			foreach (var enemy in enemiesToClean)
+			{
+				if (enemy == null || !GodotObject.IsInstanceValid(enemy))
+				{
+					room.EnemiesInRoom.Remove(enemy);
+					continue;
+				}
+
+				if (!enemy.Visible)
+				{
+					enemy.QueueFree();
+					room.EnemiesInRoom.Remove(enemy);
+				}
+			}
+		}
 	}
 }

@@ -182,4 +182,16 @@ public partial class EnemySpawner : Node3D
         // It's good practice to disconnect signals from objects that might be reused
         who.EnemyDied -= OnEnemyDied;
     }
+
+	public void ClearPools()
+	{
+		foreach (var pool in _pools.Values)
+		{
+			if (GodotObject.IsInstanceValid(pool))
+			{
+				pool.QueueFree();
+			}
+		}
+		_pools.Clear();
+	}
 }

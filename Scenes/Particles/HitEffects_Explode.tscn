@@ -1,9 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://drxvesqhpamll"]
+[gd_scene load_steps=18 format=3 uid="uid://drxvesqhpamll"]
 
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_bixke"]
 [ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_26t7v"]
 [ext_resource type="Material" uid="uid://dnvlqd8xy3s4i" path="res://assets/Materials/MAT_ExplosionSpark.tres" id="2_bixke"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/Textures/fireball.png" id="3_klejl"]
+[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/Spells/fireball.png" id="3_klejl"]
 
 [sub_resource type="Gradient" id="Gradient_klejl"]
 offsets = PackedFloat32Array(0, 0.8411458)
@@ -85,9 +85,23 @@ collision_use_scale = true
 [sub_resource type="QuadMesh" id="QuadMesh_swgem"]
 size = Vector2(2, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klejl"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.16666669, 0, 0.5019608)
+disable_receive_shadows = true
+stencil_flags = 2
+
+[sub_resource type="SphereMesh" id="SphereMesh_pk1o6"]
+material = SubResource("StandardMaterial3D_klejl")
+radius = 4.0
+height = 8.0
+
 [node name="HitEffects_Explode" type="Node3D"]
 script = ExtResource("1_bixke")
 hasCloud = true
+hasSphere = true
 
 [node name="FreeTimer" type="Timer" parent="."]
 
@@ -123,3 +137,6 @@ draw_pass_1 = SubResource("QuadMesh_swgem")
 size = Vector3(12, 12, 12)
 resolution = 1
 heightfield_mask = 17
+
+[node name="Sphere_MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_pk1o6")

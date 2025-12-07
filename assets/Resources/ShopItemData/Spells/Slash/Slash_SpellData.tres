@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CastedSpellData" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="1_slash_spell_data"]
+[ext_resource type="Resource" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="2_slash_audio"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_Damage_RangeF.tres" id="3_slash_damage"]
+[ext_resource type="SpriteFrames" path="res://assets/Images/Player/fireball_icon.ase" id="4_slash_icon"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_ManaCost_RangeF.tres" id="5_slash_manacost"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_MaxChargeTime_RangeF.tres" id="6_slash_chargetime"]
+[ext_resource type="PackedScene" path="res://Scenes/Projectiles/Orb.tscn" id="7_slash_projectile"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_Size_RangeF.tres" id="8_slash_size"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_Speed_RangeF.tres" id="9_slash_speed"]
+[ext_resource type="Script" path="res://Scripts/Resources/Items/RankUpData.cs" id="10_rankup_data"]
+
+
+[resource]
+script = ExtResource("1_slash_spell_data")
+ChargeIntervals = 10
+ManaCostRange = ExtResource("5_slash_manacost")
+MaxChargeTime = ExtResource("6_slash_chargetime")
+AudioData = ExtResource("2_slash_audio")
+DamageRange = ExtResource("3_slash_damage")
+SpeedRange = ExtResource("9_slash_speed")
+SizeRange = ExtResource("8_slash_size")
+ProjectileScene = ExtResource("7_slash_projectile")
+ItemName = "Slash"
+ItemIcon = ExtResource("4_slash_icon")
+Price = 120
+Rarity = 0.6
+RankUps = Array[Object]([])

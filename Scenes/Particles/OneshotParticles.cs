@@ -6,10 +6,12 @@ public partial class OneshotParticles : Node3D
 	private Timer _freeTimer;
 	private GpuParticles3D gpuParticles;
 	private GpuParticles3D cloudParticles;
+	private MeshInstance3D sphereMesh;
 
 	public float Range;
 
 	[Export] bool hasCloud = false;
+	[Export] bool hasSphere = false;
 
 	public override void _Ready()
 	{
@@ -24,8 +26,14 @@ public partial class OneshotParticles : Node3D
 			cloudParticles.Lifetime = lifeTime;
 		}
 
-		_freeTimer = GetNode<Timer>("FreeTimer");
+		if (hasSphere)
+		{
+			sphereMesh	= GetNode<MeshInstance3D>("Sphere_MeshInstance3D");
+			((SphereMesh)sphereMesh.Mesh).Radius = Range * 2;
+			((SphereMesh)sphereMesh.Mesh).Height = Range * 4;
+		}
 
+		_freeTimer = GetNode<Timer>("FreeTimer");
 		_freeTimer.WaitTime = lifeTime * 2;
 		_freeTimer.Timeout += QueueFree;
 
@@ -52,6 +60,17 @@ public partial class OneshotParticles : Node3D
 			cloudParticles.Restart();
 		}
 
+		if (hasSphere)
+		{
+			Tween alphaTween = CreateTween();
+			var material = sphereMesh.GetActiveMaterial(0) as StandardMaterial3D;
+
+			alphaTween.TweenProperty(material,
+						   "albedo_color:a", 0.0f, lifeTime)
+					  .From(0.5f)
+					  .SetTrans(Tween.TransitionType.Cubic) // Optional: set transition type
+					  .SetEase(Tween.EaseType.In);       // Optional: set easing type
+		}
 		_freeTimer.Start();
 	}
 

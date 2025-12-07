@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
-[ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Player/fireball_icon.ase" id="3_tktbk"]
+[ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Spells/fireball_icon.ase" id="3_tktbk"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
 top_radius = 0.1

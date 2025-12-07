@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using Godot;
-using Elythia;
 using Godot.Collections;
-using PhantomCamera;
 
 namespace SpinalShatter;
 
@@ -71,6 +69,8 @@ public partial class PlayerBody : Combatant
 	private Area3D pickupArea;
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
+	[Export] private InventoryHUD _weaponInventoryHUD;
+	[Export] private InventoryHUD _statItemInventoryHUD;
 	private AudioData AudioData;
 
 	[ExportCategory("Combat")]

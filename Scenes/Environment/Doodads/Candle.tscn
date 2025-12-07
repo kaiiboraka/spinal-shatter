@@ -17,12 +17,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 billboard = 1
 texture_filter = 0
 sprite_frames = ExtResource("1_3ytfm")
+autoplay = "default"
 
 [node name="Candle_AnimatedSprite3D" type="AnimatedSprite3D" parent="TranslateOffset"]
 billboard = 1
 shaded = true
 texture_filter = 0
 sprite_frames = ExtResource("2_54i0e")
+autoplay = "default"
 
 [node name="FogVolume" type="FogVolume" parent="TranslateOffset"]
 unique_name_in_owner = true

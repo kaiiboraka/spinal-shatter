@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="1_health_item"]
+[ext_resource type="SpriteFrames" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/Spells/fireball_icon.ase" id="2_health_icon"]
+
+[resource]
+script = ExtResource("1_health_item")
+TargetStat = 0
+Value = 25.0
+IsMultiplier = false
+ItemName = "Vitality Boost"
+ItemIcon = ExtResource("2_health_icon")
+Price = 75
+Rarity = 0.4
+RankUps = Array[Object]([])

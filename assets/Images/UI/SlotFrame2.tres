@@ -1,0 +1,9 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cew0ls7qa7lgv"]
+
+[ext_resource type="Texture2D" uid="uid://dt6pm6h3qofu8" path="res://assets/Images/UI/SlotFrames.png" id="1_3dgpy"]
+
+[resource]
+resource_name = "SlotFrame2_Secondary"
+atlas = ExtResource("1_3dgpy")
+region = Rect2(80, 0, 80, 80)
+filter_clip = true

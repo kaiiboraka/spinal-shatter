@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_slash_alt_damage"]
+
+[resource]
+script = ExtResource("1_slash_alt_damage")
+Min = 75.0
+Max = 75.0

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cous1j4jendfe"
-path="res://.godot/imported/fireball.png-6772af702c6b11d60b0fe0357a2398ef.ctex"
+uid="uid://b2dek0hbhic86"
+path="res://.godot/imported/orb_health.png-732b54882f356e8924d09ecfa8fca380.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Images/Textures/fireball.png"
-dest_files=["res://.godot/imported/fireball.png-6772af702c6b11d60b0fe0357a2398ef.ctex"]
+source_file="res://assets/Images/UI/orb_health.png"
+dest_files=["res://.godot/imported/orb_health.png-732b54882f356e8924d09ecfa8fca380.ctex"]
 
 [params]
 

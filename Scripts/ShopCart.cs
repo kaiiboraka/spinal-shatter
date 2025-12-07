@@ -1,4 +1,5 @@
 using Godot;
+using SpinalShatter.Scripts.Resources;
 
 namespace SpinalShatter;
 
@@ -14,6 +15,8 @@ public partial class ShopCart : StaticBody3D
 	private Godot.Collections.Array<ShopItem> _shopItems = new();
 	private int _selectedItemIndex = 0;
 	private Tween _cursorTween;
+
+	[Export] private ShopStockData _shopStock;
 
 	private ShopState currentState;
 
@@ -44,7 +47,60 @@ public partial class ShopCart : StaticBody3D
 		}
 
 		interactionArea.BodyEntered += OnPlayerEntered;
-		interactionArea.BodyExited += OnPlayerExited;	}
+		interactionArea.BodyExited += OnPlayerExited;
+		
+		if (WaveDirector.Instance != null)
+		{
+			WaveDirector.Instance.RoundWon += RandomizeStock;
+		}
+		RandomizeStock(); // Populate the shop for the first time
+	}
+
+	private void RandomizeStock()
+	{
+		if (_shopStock == null || _shopStock.AvailableItems.Count == 0)
+		{
+			GD.PrintErr("ShopCart: ShopStockData is not assigned or contains no items.");
+			return;
+		}
+
+		var player = PlayerBody.Instance;
+		if (player == null || player.Inventory == null)
+		{
+			GD.PrintErr("ShopCart: Player or PlayerInventory is null. Cannot randomize stock.");
+			return;
+		}
+
+		var availableForPurchase = new Godot.Collections.Array<ShopItemData>();
+		foreach (var itemData in _shopStock.AvailableItems)
+		{
+			// TODO: Add logic to filter out items player has at max rank
+			// For now, just add all available items
+			availableForPurchase.Add(itemData);
+		}
+
+		// Shuffle the list of available items
+		availableForPurchase.Shuffle();
+
+		// Populate the shop slots
+		for (int i = 0; i < _shopItems.Count; i++)
+		{
+			if (i < availableForPurchase.Count)
+			{
+				_shopItems[i].Data = availableForPurchase[i];
+				_shopItems[i].Visible = true;
+			}
+			else
+			{
+				// If fewer items than slots, hide remaining slots
+				_shopItems[i].Data = null;
+				_shopItems[i].Visible = false;
+			}
+		}
+		
+		// Ensure selection visuals are updated after randomization
+		UpdateSelectionVisuals();
+	}
 
 	public override void _Input(InputEvent @event)
 	{

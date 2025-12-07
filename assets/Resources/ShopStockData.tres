@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ShopStockData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Resources/ShopStockData.cs" id="1_stock_data"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="2_orb_item"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="3_slash_item"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/StatItems/MaxHealthUp_StatItemData.tres" id="4_health_item"]
+
+[resource]
+script = ExtResource("1_stock_data")
+AvailableItems = [ExtResource("2_orb_item"), ExtResource("3_slash_item"), ExtResource("4_health_item")]

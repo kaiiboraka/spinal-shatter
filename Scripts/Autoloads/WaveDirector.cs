@@ -51,6 +51,8 @@ public partial class WaveDirector : Node
 	private RichTextLabel _timeBonusTextValue;
 	private RichTextLabel _lifeBonusTextValue;
 
+	[Signal] public delegate void RoundWonEventHandler();
+
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _levelLostMenuScene;
 	[Export] private PackedScene _mainMenuScene;
@@ -394,6 +396,8 @@ public partial class WaveDirector : Node
 
 		_timeBonusTextValue.Text = moneyTimeBonus.ToString();
 		_lifeBonusTextValue.Text = moneyHealthBonus.ToString();
+		
+		EmitRoundWon();
 	}
 
 	private void OnHubDoorShut()

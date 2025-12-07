@@ -94,6 +94,7 @@ public partial class PlayerBody : Combatant
 	private AnimatedSprite3D armLeft;
 	private AnimatedSprite3D armRight;
 	private Timer meleeResetTimer;
+	private bool _inventorySlotsDirty = true;
 	private HorizontalDirection lastSwingDirection = HorizontalDirection.None;
 	private bool meleeAttackPlaying = false;
 
@@ -239,6 +240,11 @@ public partial class PlayerBody : Combatant
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
+
+		if (_inventorySlotsDirty)
+		{
+			UpdateInventoryUI();
+		}
 
 		ProcessInput(delta);
 	}
@@ -567,12 +573,56 @@ public partial class PlayerBody : Combatant
 		}
 
 		RecalculateStats();
+		_inventorySlotsDirty = true;
 	}
 
 	#region Inventory Handlers
 
+	private bool _inventorySlotsDirty = true;
+
+	private void UpdateInventoryUI()
+	{
+		if (_weaponInventoryHUD != null)
+		{
+			var weaponSlots = _weaponInventoryHUD.GetItemSlots();
+			for (int i = 0; i < weaponSlots.Count; i++)
+			{
+				// This assumes a fixed order: Primary, Alt, Auto
+				SlotType slotType = (SlotType)i;
+				if (Inventory.EquippedWeapons.TryGetValue(slotType, out EquippedItem weapon))
+				{
+					weaponSlots[i].UpdateDisplay(weapon.ItemData, weapon.Rank);
+				}
+				else
+				{
+					weaponSlots[i].UpdateDisplay(null, 0);
+				}
+			}
+		}
+
+		if (_statItemInventoryHUD != null)
+		{
+			var statSlots = _statItemInventoryHUD.GetItemSlots();
+			for (int i = 0; i < statSlots.Count; i++)
+			{
+				if (i < Inventory.EquippedStatItems.Count && Inventory.EquippedStatItems[i] != null)
+				{
+					var statItem = Inventory.EquippedStatItems[i];
+					statSlots[i].UpdateDisplay(statItem.ItemData, statItem.Rank);
+				}
+				else
+				{
+					statSlots[i].UpdateDisplay(null, 0);
+				}
+			}
+		}
+
+		_inventorySlotsDirty = false;
+	}
+
 	private void OnWeaponEquipped(SlotType slot, EquippedItem weapon)
 	{
+		_inventorySlotsDirty = true;
 		if (weapon?.ItemData is not SpellData spellData) return;
 		switch (slot)
 		{
@@ -641,6 +691,7 @@ public partial class PlayerBody : Combatant
 
 		// Health needs special handling to ensure current health is updated correctly
 		HealthComponent.Refill();
+		_inventorySlotsDirty = true;
 	}
 
 	private void ApplyStat(StatType stat, float value, bool isMultiplier)

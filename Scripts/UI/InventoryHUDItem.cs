@@ -8,22 +8,14 @@ namespace SpinalShatter;
 [GlobalClass,Tool]
 public partial class InventoryHUDItem : Control
 {
-	public enum HUDFrameType
-	{
-		Primary,
-		Secondary,
-		Automatic,
-		Stat,
-		None
-	}
 
 	// This dictionary would be populated with actual Texture2D resources.
 	// For now, it's a placeholder. The logic to use it is implemented.
-	private static readonly Dictionary<HUDFrameType, Texture2D> FrameTextures = new();
+	private static readonly Dictionary<SlotType, Texture2D> FrameTextures = new();
 
     private RichTextLabel priceLabel;
-	private HUDFrameType frameType;
-	[Export] public HUDFrameType FrameType
+	private SlotType frameType;
+	[Export] private SlotType FrameType
 	{
 		get => frameType;
 		set
@@ -104,7 +96,8 @@ public partial class InventoryHUDItem : Control
 		{
 			iconRect.Texture = null;
 			rankText.Text = "";
-			Visible = false;
+			iconRect.Visible = false; // Hide icon
+			rankText.Visible = false; // Hide rank
 			if (priceLabel != null)
 			{
 				priceLabel.Visible = false;
@@ -112,20 +105,41 @@ public partial class InventoryHUDItem : Control
 		}
 		else
 		{
-			iconRect.Texture = itemData.ItemIcon;//?.GetFrameTexture("default", 0);
-			Rank = newRank;
-			Visible = true;
-			if (priceLabel != null && itemData.RankUps.Count > 0 && !IsPlayerItem)
+			iconRect.Texture = itemData.ItemIcon;
+			Rank = newRank; // This setter will update rankText.Text
+			iconRect.Visible = true; // Show icon
+			rankText.Visible = true; // Show rank
+
+			if (priceLabel == null) return;
+			if (!IsPlayerItem) // Only show price in shop context
 			{
-				priceLabel.Visible = true;
-				priceLabel.Text = $"[center]${itemData.RankUps[Rank].RankUpPrice}[/center]";
+				if (itemData.ShopRank == 1) // Base item
+				{
+					priceLabel.Text = $"[center]${itemData.Price}[/center]";
+					priceLabel.Visible = true;
+				}
+				else if (itemData.ShopRank > 1 && itemData.RankUps != null && (itemData.ShopRank - 2) >= 0 && (itemData.ShopRank - 2) < itemData.RankUps.Count) // Rank-up item
+				{
+					// itemData.ShopRank is the target rank (e.g., 2 for first rank-up).
+					// RankUpData for first rank-up is at index 0. So index is ShopRank - 2.
+					priceLabel.Text = $"[center]${itemData.RankUps[itemData.ShopRank - 2].RankUpPrice}[/center]";
+					priceLabel.Visible = true;
+				}
+				else
+				{
+					priceLabel.Visible = false; // Hide if no valid price can be determined for shop item
+				}
+			}
+			else // Not a shop item (player inventory)
+			{
+				priceLabel.Visible = false;
 			}
 		}
 	}
 
 	private void UpdateFrameTexture()
 	{
-		frameRect.Visible = frameType != HUDFrameType.None;
+		frameRect.Visible = frameType != SlotType.None;
 
 		if (frameRect != null && FrameTextures.TryGetValue(frameType, out Texture2D texture))
 		{
@@ -135,10 +149,10 @@ public partial class InventoryHUDItem : Control
 
 	private static void LoadFrames()
 	{
-		int count = Enum.GetValues(typeof(HUDFrameType)).Length - 1; // ignore "NONE"
+		int count = Enum.GetValues(typeof(SlotType)).Length - 1; // ignore "NONE"
 		for (int i = 0; i < count; i++)
 		{
-			FrameTextures[(HUDFrameType)i] = GD.Load<AtlasTexture>($"res://assets/Images/UI/SlotFrame{i + 1}.tres");
+			FrameTextures[(SlotType)i] = GD.Load<AtlasTexture>($"res://assets/Images/UI/SlotFrame{i + 1}.tres");
 		}
 	}
 

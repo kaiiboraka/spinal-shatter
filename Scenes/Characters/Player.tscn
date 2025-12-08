@@ -1011,21 +1011,21 @@ autowrap_trim_flags = 0
 shortcut_keys_enabled = false
 horizontal_alignment = 1
 
-[node name="Description_PanelContainer2" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer"]
+[node name="Description_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer"]
 custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
 
-[node name="Description_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer2"]
+[node name="Description_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Details_Description_RichTextLabel2" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer2/Description_MarginContainer"]
+[node name="Details_Description_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer/Description_MarginContainer"]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
@@ -1057,7 +1057,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("33_h1o3h")
-reticleLines = [NodePath("Top"), NodePath("Right"), NodePath("Bottom"), NodePath("Left")]
+reticleLines = []
 
 [node name="Top" type="Line2D" parent="Control/Reticle"]
 points = PackedVector2Array(0, -5, 0, -15)

@@ -107,17 +107,17 @@ public partial class WaveDirector : Node
 		RoundTimer.SafeSubscribe(Timer.SignalName.Timeout, OnRoundLost);
 
 		// --- Initialize UI References ---
-		_directorDisplay = GetNode<Control>("DirectorDisplay");
+		_directorDisplay = GetNode<Control>("%DirectorDisplay");
 		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");	
 		_waveMinMaxLabel = GetNode<MinMaxValuesLabel>("%Wave_MinMaxValuesLabel");
 		_roundTextValue = GetNode<RichTextLabel>("%RoundTextValue");
-		_activeEnemyCountTextValue = GetNode<RichTextLabel>("DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer/ActiveEnemyCountTextValue");
 		_activeEnemyCountHBoxContainer = GetNode<HBoxContainer>("%ActiveEnemyCount_HBoxContainer"); // Added
+		_activeEnemyCountTextValue = _activeEnemyCountHBoxContainer.GetNode<RichTextLabel>("ActiveEnemyCountTextValue");
 		_roomLabelsVBoxContainer = GetNode<VBoxContainer>("%RoomLabels_VBoxContainer"); // Added
 		_victoryLabel = GetNode<RichTextLabel>("%VictoryLabel");
 		_defeatLabel = GetNode<RichTextLabel>("%DefeatLabel");
-		_waveRoundContainer = GetNode<VBoxContainer>("DirectorDisplay/MarginContainer/WaveRound_Container");
-		_bonusContainer = GetNode<VBoxContainer>("DirectorDisplay/MarginContainer/Bonus_VBoxContainer");
+		_waveRoundContainer = GetNode<VBoxContainer>("%DirectorDisplay/MarginContainer/WaveRound_Container");
+		_bonusContainer = GetNode<VBoxContainer>("%DirectorDisplay/MarginContainer/Bonus_VBoxContainer");
 		_timeBonusTextValue = GetNode<RichTextLabel>("%TimeBonus_TextValue");
 		_lifeBonusTextValue = GetNode<RichTextLabel>("%LifeBonus_TextValue");
 

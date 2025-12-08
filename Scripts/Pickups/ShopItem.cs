@@ -12,11 +12,13 @@ public partial class ShopItem : Node3D
         set
         {
             data = value;
+            // Ensure components are retrieved before attempting to use 'item'
+            // GetComponents();
             UpdateVisualData();
         }
     }
 
-    private InventoryHUDItem item;
+    [Export] private InventoryHUDItem item;
     public InventoryHUDItem Item => item;
 
     public override void _EnterTree()
@@ -32,18 +34,18 @@ public partial class ShopItem : Node3D
             GD.PushWarning("ShopItemData not set for ShopItem.");
             return;
         }
-        GetComponents();
+        // GetComponents();
         UpdateVisualData();
     }
 
-    private void GetComponents()
-    {
-        item ??= GetNode<InventoryHUDItem>("%Icon_InventoryHUDItem");
-    }
+    // private void GetComponents()
+    // {
+    //     // item is assigned via node_paths, no need to GetNode here.
+    // }
 
     private void UpdateVisualData( )
     {
-        if (Engine.IsEditorHint() && IsInsideTree()) GetComponents();
+        // if (Engine.IsEditorHint() && IsInsideTree()) GetComponents();
 
 
         if (item != null)

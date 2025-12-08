@@ -54,7 +54,7 @@ public partial class MagicCaster : Node
 		_activeCastingSlot switch
 		{
 			SlotType.Primary => _equippedSpell,
-			SlotType.Alt => _equippedAltFireSpell,
+			SlotType.Secondary => _equippedAltFireSpell,
 			_ => _equippedSpell // Default to primary if for some reason an unhandled SlotType is active
 		};
 
@@ -71,7 +71,7 @@ public partial class MagicCaster : Node
 				}
 				else if (@event.IsActionPressed("Player_AltFire"))
 				{
-					BeginCharge(SlotType.Alt);
+					BeginCharge(SlotType.Secondary);
 				}
 
 				break;
@@ -80,7 +80,7 @@ public partial class MagicCaster : Node
 				{
 					FireWeapon();
 				}
-				else if (@event.IsActionReleased("Player_AltFire") && _activeCastingSlot == SlotType.Alt)
+				else if (@event.IsActionReleased("Player_AltFire") && _activeCastingSlot == SlotType.Secondary)
 				{
 					FireWeapon();
 				}

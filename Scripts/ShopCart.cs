@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Godot.Collections;
 using SpinalShatter;
@@ -30,7 +31,10 @@ public partial class ShopCart : StaticBody3D
 		ClosedWindow,
 		OpenWindow,
 		PlayerShopping,
+		AwaitingSlotSelection,
 	}
+
+	private SpellData _purchasedWeaponPendingSlotAssignment;
 
 	public override void _EnterTree()
 	{
@@ -100,6 +104,24 @@ public partial class ShopCart : StaticBody3D
 				CloseShop();
 			}
 		}
+		else if (currentState == ShopState.AwaitingSlotSelection)
+		{
+			if (@event.IsActionPressed("Player_Shoot"))
+			{
+				PlayerBody.Instance.Inventory.EquipOrRankUpItem(_purchasedWeaponPendingSlotAssignment, SlotType.Primary);
+				_purchasedWeaponPendingSlotAssignment = null;
+				currentState = ShopState.PlayerShopping;
+				PlayerBody.Instance.HideInteractionPrompt();
+			}
+			else if (@event.IsActionPressed("Player_AltFire"))
+			{
+				PlayerBody.Instance.Inventory.EquipOrRankUpItem(_purchasedWeaponPendingSlotAssignment, SlotType.Secondary);
+				_purchasedWeaponPendingSlotAssignment = null;
+				currentState = ShopState.PlayerShopping;
+				PlayerBody.Instance.HideInteractionPrompt();
+			}
+			// Add more cases for other weapon slots if needed (e.g., Automatic)
+		}
 		else if (@event.IsActionPressed("Player_Interact"))
 		{
 			if (currentState == ShopState.OpenWindow)
@@ -124,89 +146,127 @@ public partial class ShopCart : StaticBody3D
 			return;
 		}
 
-		var availableForPurchase = new Array<ShopItemData>();
+		var selectedOffers = new Array<ShopItemData>();
+		var rng = new RandomNumberGenerator();
+		rng.Randomize();
 
+		int attempts = 0;
+		const int MAX_ITEM_GENERATION_ATTEMPTS = 500; // Max attempts to fill a slot, to prevent infinite loops
+
+		// Try to fill each shop slot
 		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
 		{
-			var itemData = _shopStock.AvailableItems.PickRandom();
+			ShopItemData finalOfferItem = null;
+			attempts = 0;
 
-			// TODO: Add logic to filter out items player has at max rank
-			// For now, just add all available items
-
-			if (itemData is StatItemData shopStatItemData)
+			while (finalOfferItem == null && attempts < MAX_ITEM_GENERATION_ATTEMPTS)
 			{
-				bool maxRank = false;
-				int currentRank = 0;
-				foreach (EquippedItem equippedItem in PlayerBody.Instance.Inventory.EquippedStatItems)
+				attempts++;
+				ShopItemData chosenBaseItem = (ShopItemData)_shopStock.AvailableItems.PickRandom().Duplicate(); // Clone to avoid modifying original asset
+
+				// Check if this base item (by ItemName) is already in the offers selected for this shop cycle
+				bool alreadySelectedInShop = false;
+				foreach (var existingOffer in selectedOffers)
 				{
-					StatItemData playerStatItemData = (StatItemData)equippedItem.ItemData;
-					if (playerStatItemData.TargetStat == shopStatItemData.TargetStat)
+					if (existingOffer.ItemName == chosenBaseItem.ItemName)
 					{
-						currentRank = equippedItem.Rank;
-						maxRank = equippedItem.IsMaxRank;
+						alreadySelectedInShop = true;
 						break;
 					}
 				}
-				if (maxRank)
+				if (alreadySelectedInShop) continue; // Pick another one if already selected for this shop cycle
+
+				bool isMaxRank = false;
+				int currentRank = 0;
+
+				// Determine ownership and rank
+				if (chosenBaseItem is SpellData spellData)
 				{
-					i--;
+					var (equippedWeapon, rank, max) = player.Inventory.GetOwnedWeaponInfo(spellData);
+					currentRank = rank;
+					isMaxRank = max;
+				}
+				else if (chosenBaseItem is StatItemData statItemData)
+				{
+					var (equippedStatItem, rank, max) = player.Inventory.GetOwnedStatItemInfo(statItemData);
+					currentRank = rank;
+					isMaxRank = max;
+				}
+
+				if (isMaxRank)
+				{
+					// Item is max ranked, should not be offered
 					continue;
 				}
-				itemData.ShopRank = currentRank + 1;
-			}
-			else if (itemData is SpellData shopSpellData)
-			{
-				bool maxRank = false;
-				int currentRank = 0;
-				foreach (EquippedItem equippedItem in PlayerBody.Instance.Inventory.EquippedWeapons.Values)
+
+				if (currentRank > 0) // Item is owned and not max rank, offer a rank-up
 				{
-					SpellData playerSpellData = (SpellData)equippedItem.ItemData;
-					if (playerSpellData.Weapon == shopSpellData.Weapon)
+					// Ensure there's a RankUpData for the next rank
+					// currentRank is the actual rank (1-indexed). RankUps is 0-indexed.
+					// So for currentRank 1 -> next is Rank 2, uses RankUps[0]
+					// So for currentRank N -> next is Rank N+1, uses RankUps[N-1]
+					if (chosenBaseItem.RankUps != null && currentRank < chosenBaseItem.RankUps.Count)
 					{
-						currentRank = equippedItem.Rank;
-						maxRank = equippedItem.IsMaxRank;
-						break;
+						finalOfferItem = chosenBaseItem; // Use the cloned item
+						finalOfferItem.ShopRank = currentRank + 1; // Set the target rank
+						// The price is already handled by InventoryHUDItem from RankUpPrice
+					}
+					else
+					{
+						// No more rank-ups available for this item, treat as maxed or unofferable
+						continue;
 					}
 				}
-				if (maxRank)
+				else // Item is not owned, offer base item
 				{
-					i--;
-					continue;
+					finalOfferItem = chosenBaseItem; // Use the cloned item
+					finalOfferItem.ShopRank = 1; // Set as base rank offer
 				}
-				itemData.ShopRank = currentRank + 1;
 			}
 
-
-			availableForPurchase.Add(itemData);
+			// Add the found offer to our list, or null if no eligible item was found after attempts
+			selectedOffers.Add(finalOfferItem);
 		}
 
-		// Shuffle the list of available items
-		availableForPurchase.Shuffle();
+		// Shuffle the final offers to randomize their position in the shop display
+		selectedOffers.Shuffle();
 
-		// Populate the shop slots
+		// Populate the actual shop item nodes
 		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
 		{
-			if (i < availableForPurchase.Count)
-			{
-				_shopItems[i].Data = availableForPurchase[i];
-				_shopItems[i].Visible = true;
-			}
-			else
-			{
-				// If fewer items than slots, hide remaining slots
-				_shopItems[i].Data = null;
-				_shopItems[i].Visible = false;
-			}
+			ShopItemData offer = selectedOffers[i];
+			_shopItems[i].Data = offer;
+			_shopItems[i].Visible = (offer != null); // Only visible if there's an item to display
 		}
 		
 		// Ensure selection visuals are updated after randomization
 		UpdateSelectionVisuals();
+		if (PlayerBody.Instance != null)
+		{
+			PlayerBody.Instance.UpdateShopDetails(null); // Clear previous details
+			if (_shopItems.Count > 0 && _selectedItemIndex < _shopItems.Count)
+			{
+				// Only update details if the initially selected item is valid
+				if (_shopItems[_selectedItemIndex].Data != null)
+				{
+					PlayerBody.Instance.UpdateShopDetails(_shopItems[_selectedItemIndex].Data);
+				}
+				else
+				{
+					PlayerBody.Instance.UpdateShopDetails(null); // Clear if first item is null
+				}
+			}
+		}
 	}
 
 	private void UpdateSelectionVisuals()
 	{
 		Marker3D shopSlot = _shopSlots[_selectedItemIndex];
 		if (shopSlot == null || !IsInstanceValid(shopSlot)) return;
+
+		ShopItem currentSelectedShopItem = _shopItems[_selectedItemIndex]; // Get the currently selected item
+		if (currentSelectedShopItem == null || !IsInstanceValid(currentSelectedShopItem)) return;
+
 		// if (_cursorTween != null) _cursorTween.SafeKill();
 
 		var cursorTween = CreateTween();
@@ -221,6 +281,10 @@ public partial class ShopCart : StaticBody3D
 		selectionCursor.Stop();
 		selectionCursor.Play();
 		// cursorTween.Finished += () => { cursorTween.Kill(); };
+		if (PlayerBody.Instance != null)
+		{
+			PlayerBody.Instance.UpdateShopDetails(currentSelectedShopItem.Data); // Use the locally retrieved item
+		}
 	}
 
 	private void TryPurchaseSelectedItem()
@@ -239,15 +303,38 @@ public partial class ShopCart : StaticBody3D
 			// Purchase successful
 			// TODO: Add purchase sound effect
 			
-			// Handle the SpellData assignment (defaults to Primary for now as discussed)
+			if (itemData is SpellData spellData)
+			{
+				// Check if there are empty weapon slots
+				bool hasEmptySlot = false;
+				foreach (SlotType slotType in Enum.GetValues(typeof(SlotType)))
+				{
+					if (slotType != SlotType.Stat && !PlayerBody.Instance.Inventory.EquippedWeapons.ContainsKey(slotType))
+					{
+						hasEmptySlot = true;
+						break;
+					}
+				}
 
-				// This is a temporary hardcoded assignment.
-				// A proper UI would ask the player which slot (Primary, Alt, Automatic) to assign it to.
-				// For now, let's assume it's always the Primary slot's variant if available.
-				// Need to check if the itemData itself indicates its slot.
+				if (hasEmptySlot)
+				{
+					PlayerBody.Instance.Inventory.EquipOrRankUpItem(spellData);
+				}
+				else // All weapon slots are full, await player input for slot assignment
+				{
+					_purchasedWeaponPendingSlotAssignment = spellData;
+					currentState = ShopState.AwaitingSlotSelection;
+					PlayerBody.Instance.ShowPromptToPress("Player_Shoot", "to Primary", "Assign Weapon");
+					PlayerBody.Instance.ShowPromptToPress("Player_AltFire", "to Alt", "Assign Weapon");
+					selectedShopItem.Visible = false; // Hide the item immediately, it's "bought"
+					return; // Exit here, don't hide prompt or item yet.
+				}
+			}
+			else
+			{
 				// For StatItemData or other types, directly equip/rank up
-			PlayerBody.Instance.Inventory.EquipOrRankUpItem(itemData);
-
+				PlayerBody.Instance.Inventory.EquipOrRankUpItem(itemData);
+			}
 
 			selectedShopItem.Visible = false; // Hide purchased item
 			PlayerBody.Instance.HideInteractionPrompt();

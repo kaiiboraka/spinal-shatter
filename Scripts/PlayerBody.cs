@@ -52,7 +52,13 @@ public partial class PlayerBody : Combatant
 	private bool isSprinting = false;
 	public bool DeadNow { get; private set; } = false;
 	private int curJumps = 0;
-	public int CurrentMoney { get; private set; } = 0;
+
+	public int CurrentMoney
+	{
+		get => Inventory.CurrentMoney;
+		private set => Inventory.CurrentMoney = value;
+	}
+
 	private Vector2 inputDir = Vector2.Zero;
 	private Vector3 direction = Vector3.Zero;
 	private Vector3 newVelocity = Vector3.Zero;
@@ -75,6 +81,9 @@ public partial class PlayerBody : Combatant
 	[Export] private PackedScene _pauseMenuScene;
 	[Export] private InventoryHUD _weaponInventoryHUD;
 	[Export] private InventoryHUD _statItemInventoryHUD;
+	private Control _detailsControl;
+	private RichTextLabel _detailsNameLabel;
+	private RichTextLabel _detailsDescriptionLabel;
 	private AudioData AudioData;
 
 	[ExportCategory("Combat")]
@@ -185,6 +194,10 @@ public partial class PlayerBody : Combatant
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		armLeft = GetNode<AnimatedSprite3D>("%LeftArm");
 		armRight = GetNode<AnimatedSprite3D>("%RightArm");
+
+		_detailsControl = GetNode<Control>("%Details_Control");
+		_detailsNameLabel =  GetNode<RichTextLabel>("%Details_Name_RichTextLabel");
+		_detailsDescriptionLabel = GetNode<RichTextLabel>("%Details_Description_RichTextLabel");
 
 		// Timers
 		_footstepCooldownTimer = GetNode<Timer>("%FootstepCooldownTimer");
@@ -399,6 +412,7 @@ public partial class PlayerBody : Combatant
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		reticle.Visible = false;
 		this.Visible = false;
+		_detailsControl.Visible = true;
 		// collider.Disabled = true;
 		DisallowMeleeAttack();
 		DisallowRangedAttack();
@@ -414,6 +428,7 @@ public partial class PlayerBody : Combatant
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		reticle.Visible = true;
 		this.Visible = true;
+		_detailsControl.Visible = false;
 		// collider.Disabled = false;
 		AllowMeleeAttack();
 		AllowRangedAttack();
@@ -453,6 +468,29 @@ public partial class PlayerBody : Combatant
 	public void HideInteractionPrompt()
 	{
 		_interactionPromptContainer.Visible = false;
+	}
+
+	public void UpdateShopDetails(ShopItemData itemData)
+	{
+		// Safety check for UI elements
+		if (_detailsNameLabel == null || _detailsDescriptionLabel == null || _detailsControl == null)
+		{
+			GD.PushError("PlayerBody: Shop details UI labels or control are null.");
+			return;
+		}
+
+		if (itemData == null)
+		{
+			_detailsNameLabel.Text = "";
+			_detailsDescriptionLabel.Text = "";
+			_detailsControl.Visible = false;
+		}
+		else
+		{
+			_detailsNameLabel.Text = itemData.ItemName ?? ""; // Ensure not null
+			_detailsDescriptionLabel.Text = itemData.ItemDescription ?? ""; // Ensure not null
+			_detailsControl.Visible = true;
+		}
 	}
 
 	#endregion
@@ -647,7 +685,7 @@ public partial class PlayerBody : Combatant
 			case SlotType.Primary:
 				magicCaster.SetPrimaryWeapon(spellData as CastedSpellData);
 				break;
-			case SlotType.Alt:
+			case SlotType.Secondary:
 				magicCaster.SetSecondaryWeapon(spellData as CastedSpellData);
 				break;
 			case SlotType.Automatic:

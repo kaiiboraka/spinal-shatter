@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=27 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="2_aege0"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/GRS_ScroungerData.tres" id="3_oxf7n"]
 [ext_resource type="PackedScene" uid="uid://b4oyp3ex0rdq7" path="res://Scenes/UI/Menu Templates/scenes/menus/main_menu/main_menu.tscn" id="3_ylehw"]
+[ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="4_6kqlu"]
 [ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/GMS_ScrapperData.tres" id="4_kpvn7"]
 [ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/GMS_Scrapper.tscn" id="4_phwt4"]
 [ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/FMS_SwooperData.tres" id="5_gkeq4"]
@@ -32,7 +33,7 @@ _levelLostMenuScene = ExtResource("2_aege0")
 _mainMenuScene = ExtResource("3_ylehw")
 moneyGivenPerSecondLeft = 2.5
 moneyGivenPerHealthLeft = 1.5
-_enemyDataToSceneMap = Dictionary[Variant, PackedScene]({
+_enemyDataToSceneMap = Dictionary[ExtResource("4_6kqlu"), PackedScene]({
 ExtResource("4_kpvn7"): ExtResource("4_phwt4"),
 ExtResource("3_oxf7n"): ExtResource("6_6lw2h"),
 ExtResource("5_gkeq4"): ExtResource("8_omfed"),
@@ -89,39 +90,6 @@ theme = ExtResource("11_omfed")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "99:59"
-fit_content = true
-autowrap_mode = 0
-horizontal_alignment = 2
-justification_flags = 160
-
-[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("11_omfed")
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_outline_size = 1
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/normal_font_size = 32
-bbcode_enabled = true
-text = "Enemies left: "
-fit_content = true
-autowrap_mode = 0
-justification_flags = 160
-
-[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme = ExtResource("11_omfed")
-theme_override_font_sizes/normal_font_size = 32
-bbcode_enabled = true
-text = "0"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 2
@@ -219,7 +187,41 @@ justification_flags = 160
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Enemies left: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+justification_flags = 160
+
 [node name="North_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 
@@ -249,6 +251,7 @@ autowrap_mode = 0
 justification_flags = 160
 
 [node name="East_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 
@@ -278,6 +281,7 @@ autowrap_mode = 0
 justification_flags = 160
 
 [node name="South_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 
@@ -307,6 +311,7 @@ autowrap_mode = 0
 justification_flags = 160
 
 [node name="West_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 

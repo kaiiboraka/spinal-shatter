@@ -1,15 +1,20 @@
-[gd_resource type="Resource" script_class="StatItemData" load_steps=3 format=3 uid="uid://ks6csrwleo01"]
+[gd_resource type="Resource" script_class="StatItemData" load_steps=7 format=3 uid="uid://ks6csrwleo01"]
 
 [ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="1_8liqy"]
 [ext_resource type="Texture2D" uid="uid://b5j1f31gmnkke" path="res://assets/Images/ShopItems/Stat_MaxMana_Icon.ase" id="1_jxrlh"]
+[ext_resource type="Resource" uid="uid://di0ky7b0mux52" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank1.tres" id="2_y44rc"]
+[ext_resource type="Resource" uid="uid://c2382vrcf7vno" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank2.tres" id="3_pb8wv"]
+[ext_resource type="Resource" uid="uid://cw8gw1hkg3sfr" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank3.tres" id="4_mu3rj"]
+[ext_resource type="Resource" uid="uid://dj3lq7s5mnijc" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank4.tres" id="5_e2hft"]
 
 [resource]
 script = ExtResource("1_8liqy")
 TargetStat = 1
 Value = 10.0
 ItemName = "Mana Crystal"
+ItemDescription = "Fills you with energy!"
 ItemIcon = ExtResource("1_jxrlh")
 Price = 125
 Rarity = 0.5
-RankUps = []
+RankUps = [ExtResource("2_y44rc"), ExtResource("3_pb8wv"), ExtResource("4_mu3rj"), ExtResource("5_e2hft")]
 metadata/_custom_type_script = "uid://bjd567vhk7si2"

@@ -177,7 +177,7 @@ public partial class Projectile : RigidBody3D
 		{
 			case WeaponType.Orb:
 				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
-				if (Slot == SlotType.Alt)
+				if (Slot == SlotType.Secondary)
 				{
 					var explosionRadius = ((OrbAltSpellData)SpellData).ExplosionRadius.GetLerpedValue(CurrentCharge);
 					// Set the radius dynamically
@@ -231,7 +231,7 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit()
 	{
-		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Alt)
+		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Secondary)
 		{
 			Explode(orbData);
 			return;
@@ -260,7 +260,7 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Alt)
+		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Secondary)
 		{
 			Explode(orbData);
 			return;

@@ -13,7 +13,7 @@ using Godot;
 
 using System;
 using System.Linq;
-
+using System.Text;
 
 
 public static class NumericExtensions
@@ -492,6 +492,29 @@ public static class NumericExtensions
         return (int)Mathf.Lerp(newLow, newHigh, t);
     }
 
-    
+    private static readonly int[] romanValues = [10, 9, 5, 4, 1];
+    private static readonly string[] romanCharacters = ["X", "IX", "V", "IV", "I"];
+
+    public static string ToRomanNumerals(this int num)
+    {
+        if (num is < 1 or >= 100)
+        {
+            return num == 100 ? "C" : "";
+        }
+
+        var roman = new StringBuilder();
+
+        for (int i = 0; i < romanValues.Length; i++)
+        {
+            // Greedily append the symbol while the number is greater than or equal to the value
+            while (num >= romanValues[i])
+            {
+                num -= romanValues[i];
+                roman.Append(romanCharacters[i]);
+            }
+        }
+
+        return roman.ToString();
+    }
 }
 

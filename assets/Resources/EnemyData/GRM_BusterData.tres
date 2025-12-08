@@ -12,8 +12,8 @@ Max = 30
 
 [sub_resource type="Resource" id="Resource_7ld3n"]
 script = ExtResource("2_hsjug")
-Min = 5
-Max = 30
+Min = 15
+Max = 50
 
 [resource]
 script = ExtResource("4_7admv")
@@ -26,7 +26,7 @@ RecoveryTime = 2.0
 MinWalkTime = 2.0
 MaxWalkTime = 8.0
 MaxWaitTime = 4.0
-MaxHealth = 500.0
+MaxHealth = 350.0
 MoneyAmountToDrop = SubResource("Resource_7ld3n")
 ManaAmountToDrop = SubResource("Resource_31uqw")
 AttackRange = 50.0

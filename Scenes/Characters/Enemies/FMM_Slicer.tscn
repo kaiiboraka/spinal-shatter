@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=3 uid="uid://cvft8k6fsoi0x"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_ajvli"]
-[ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/FMS_SwooperData.tres" id="2_8g6u1"]
+[ext_resource type="Resource" uid="uid://cb8v6fpytbmp8" path="res://assets/Resources/EnemyData/FMM_SlicerData.tres" id="2_ajvli"]
 [ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_yp8no"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_yorgg"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="5_rjwuj"]
@@ -691,7 +691,7 @@ floor_constant_speed = true
 platform_floor_layers = 8
 platform_wall_layers = 512
 script = ExtResource("1_ajvli")
-Data = ExtResource("2_8g6u1")
+Data = ExtResource("2_ajvli")
 _deathParticlesScene = ExtResource("3_yp8no")
 
 [node name="HealthComponent" type="Node" parent="."]

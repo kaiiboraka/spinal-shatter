@@ -602,6 +602,16 @@ public partial class WaveDirector : Node
 					room.EnemiesInRoom.Remove(enemy);
 				}
 			}
+
+			var children = room.GetChildren();
+			foreach (var child in children)
+			{
+				if (child is Enemy { Visible: false } enemy)
+				{
+					enemy.QueueFree();
+					// room.EnemiesInRoom.Remove(enemy);
+				}
+			}
 		}
 	}
 }

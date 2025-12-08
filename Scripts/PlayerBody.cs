@@ -514,7 +514,7 @@ public partial class PlayerBody : Combatant
             // Display logic based on item status
             if (isOwned && itemData.ShopRank > 1) // It's an upgrade in the shop
             {
-                _detailsNameLabel.Text = $"{itemData.ItemName ?? ""} Rank {itemData.ShopRank}"; // Name + Rank
+                _detailsNameLabel.Text = $"{itemData.ItemName ?? ""} {itemData.ShopRank.ToRomanNumerals()}"; // Name + Rank
                 
                 // Get the RankUpData for this specific rank-up
                 if (itemData.RankUps != null && (itemData.ShopRank - 2) >= 0 && (itemData.ShopRank - 2) < itemData.RankUps.Count)

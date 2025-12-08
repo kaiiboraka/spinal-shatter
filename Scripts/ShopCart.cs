@@ -274,15 +274,10 @@ public partial class ShopCart : StaticBody3D
 		ShopItemData itemData = selectedShopItem.Data;
 		if (itemData == null) return;
 
-		// Declare foundNext once at the top of the method
-		bool foundNext = false; 
-
-		// Calculate the CORRECT price
+		// 1. Calculate the correct price
 		int price = itemData.Price;
 		if (itemData.ShopRank > 1)
 		{
-			// itemData.ShopRank is the target rank (e.g., 2 for first rank-up).
-			// RankUpData for first rank-up is at index 0. So index is currentRank - 1, which is ShopRank - 2.
 			int rankUpIndex = itemData.ShopRank - 2;
 			if (itemData.RankUps != null && rankUpIndex >= 0 && rankUpIndex < itemData.RankUps.Count)
 			{
@@ -290,94 +285,72 @@ public partial class ShopCart : StaticBody3D
 			}
 			else
 			{
-				// No valid rank-up price found, cannot purchase.
-				GD.PrintErr(
-					$"Could not find valid RankUpPrice for {itemData.ItemName} at ShopRank {itemData.ShopRank}");
+				GD.PrintErr($"Could not find valid RankUpPrice for {itemData.ItemName} at ShopRank {itemData.ShopRank}");
 				return;
 			}
 		}
 
+		// 2. Attempt to spend money
 		var player = PlayerBody.Instance;
-		if (player.SpendMoney(price))
+		if (!player.SpendMoney(price))
 		{
-			// Purchase successful
-			// TODO: Add purchase sound effect
+			player.ShowPromptToPress("", "Not Enough Money!", "Can't Buy");
+			GetTree().CreateTimer(1.0f).Timeout += () => player.HideInteractionPrompt();
+			return;
+		}
 
-			if (itemData is SpellData spellData)
+		// 3. Handle the purchase logic
+		// TODO: Add purchase sound effect
+
+		if (itemData is SpellData spellData)
+		{
+			bool isOwned = player.Inventory.GetOwnedWeaponInfo(spellData).equippedItem != null;
+			if (isOwned)
 			{
-				bool isOwned = player.Inventory.GetOwnedWeaponInfo(spellData).equippedItem != null;
-
-				// If player already owns this weapon, just rank it up. No slot selection needed.
-				if (isOwned)
-				{
-					player.Inventory.EquipOrRankUpItem(spellData);
-
-					// After successful purchase, find next available item to select
-					selectedShopItem.Visible = false;
-					foundNext = false; // Assign, not declare
-					for (int i = 1; i < _shopItems.Count; i++)
-					{
-						int nextIndex = (_selectedItemIndex + i) % _shopItems.Count;
-						if (_shopItems[nextIndex].Visible)
-						{
-							_selectedItemIndex = nextIndex;
-							UpdateSelectionVisuals();
-							foundNext = true;
-							break;
-						}
-					}
-
-					if (!foundNext)
-					{
-						PlayerBody.Instance.HideInteractionPrompt();
-						PlayerBody.Instance.UpdateShopDetails(null);
-					}
-
-					return; // End purchase process here
-				}
-
-				// It's a new weapon, so we must ask the player where to put it.
+				player.Inventory.EquipOrRankUpItem(spellData);
+			}
+			else // It's a new weapon, so we must ask the player where to put it.
+			{
 				_purchasedWeaponPendingSlotAssignment = spellData;
 				currentState = ShopState.AwaitingSlotSelection;
 				player.ShowPromptToPress("Player_Shoot", "to Primary", "Assign Weapon");
 				player.ShowPromptToPress("Player_AltFire", "to Secondary", "Assign Weapon");
 				player.ShowPromptToPress("Player_Siphon", "to Automatic", "Assign Weapon");
-				selectedShopItem.Visible = false; // Hide the item from the shop
-				return; // Exit and wait for slot selection input
-			}
 
-			// For StatItemData or other types, directly equip/rank up
-			player.Inventory.EquipOrRankUpItem(itemData);
-
-			selectedShopItem.Visible = false; // Hide purchased item
-
-			// After purchase, find next available item to select
-			foundNext = false; // Assign, not declare
-			for (int i = 1; i < _shopItems.Count; i++)
-			{
-				int nextIndex = (_selectedItemIndex + i) % _shopItems.Count;
-				if (_shopItems[nextIndex].Visible)
-				{
-					_selectedItemIndex = nextIndex;
-					UpdateSelectionVisuals();
-					foundNext = true;
-					break;
-				}
-			}
-
-			if (!foundNext)
-			{
-				// No other items left, maybe close shop or just show empty selection
-				player.HideInteractionPrompt();
-				player.UpdateShopDetails(null);
+				// Clear data from the slot now that it's pending assignment
+				selectedShopItem.Data = null;
+				selectedShopItem.Visible = false;
+				return; // Wait for player input; don't find the next item yet.
 			}
 		}
-		else
+		else // It's a StatItem or other type
 		{
-			// Not enough money
-			// TODO: Add "not enough money" feedback (sound, UI message)
-			player.ShowPromptToPress("", "Not Enough Money!", "Can't Buy");
-			GetTree().CreateTimer(1.0f).Timeout += () => player.HideInteractionPrompt();
+			player.Inventory.EquipOrRankUpItem(itemData);
+		}
+
+		// 4. Update the shop state for a completed, non-pending purchase (StatItems and Spell Rank-ups)
+		selectedShopItem.Data = null; // THIS IS THE FIX: Clear the data from the slot
+		selectedShopItem.Visible = false;
+
+		// Find the next available item to select
+		bool foundNext = false;
+		for (int i = 1; i < _shopItems.Count; i++)
+		{
+			int nextIndex = (_selectedItemIndex + i) % _shopItems.Count;
+			if (_shopItems[nextIndex].Visible)
+			{
+				_selectedItemIndex = nextIndex;
+				UpdateSelectionVisuals();
+				foundNext = true;
+				break;
+			}
+		}
+
+		if (!foundNext)
+		{
+			// No other items left, clear details and hide prompt
+			player.HideInteractionPrompt();
+			player.UpdateShopDetails(null);
 		}
 	}
 

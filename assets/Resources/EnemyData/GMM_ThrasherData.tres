@@ -11,8 +11,8 @@ Max = 10
 
 [sub_resource type="Resource" id="Resource_tn01f"]
 script = ExtResource("2_w8af5")
-Min = 3
-Max = 20
+Min = 20
+Max = 100
 
 [resource]
 script = ExtResource("3_jeo2d")

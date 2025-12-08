@@ -65,7 +65,7 @@ public partial class Enemy : Combatant
 	private PackedScene ProjectileScene;
 
 	private Area3D DetectionArea;
-	private RayCast3D Detection_lineOfSight;
+	private RayCast3D LineOfSightRaycast3D;
 
 	private Marker3D ProjectileSpawnPoint;
 
@@ -138,7 +138,7 @@ public partial class Enemy : Combatant
 		AudioPlayer_Attack = GetNode<AudioStreamPlayer3D>("Attack_AudioStreamPlayer3D");
 
 		DetectionArea = GetNode<Area3D>("DetectionArea3D");
-		Detection_lineOfSight = GetNode<RayCast3D>("LOS_RayCast3D");
+		LineOfSightRaycast3D = GetNode<RayCast3D>("LOS_RayCast3D");
 
 		hurtbox = GetNode<Area3D>("Hurtbox");
 
@@ -360,8 +360,8 @@ public partial class Enemy : Combatant
 		if (!InActionableState) return;
 		if (_player == null) return; // This check is now more reliable
 
-		Detection_lineOfSight.TargetPosition = ToLocal(_player.GlobalPosition);
-		if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() == _player)
+		LineOfSightRaycast3D.TargetPosition = ToLocal(_player.GlobalPosition);
+		if (LineOfSightRaycast3D.IsColliding() && LineOfSightRaycast3D.GetCollider() == _player)
 		{
 			ChangeState(AIState.Chasing);
 		}
@@ -818,6 +818,11 @@ public partial class Enemy : Combatant
 			meleeHitbox.SetDeferred("monitoring", false);
 			meleeHitbox.SetDeferred("monitorable", false);
 		}
+
+		DetectionArea.SetDeferred("monitoring", false);
+		DetectionArea.SetDeferred("monitorable", false);
+		LineOfSightRaycast3D.SetDeferred("monitoring", false);
+		LineOfSightRaycast3D.SetDeferred("monitorable", false);
 	}
 
 
@@ -836,6 +841,11 @@ public partial class Enemy : Combatant
 			meleeHitbox.SetDeferred("monitoring", true);
 			meleeHitbox.SetDeferred("monitorable", true);
 		}
+
+		DetectionArea.SetDeferred("monitoring", true);
+		DetectionArea.SetDeferred("monitorable", true);
+		LineOfSightRaycast3D.SetDeferred("monitoring", true);
+		LineOfSightRaycast3D.SetDeferred("monitorable", true);
 	}
 
 	private void StopActionTimers()

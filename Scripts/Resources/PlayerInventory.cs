@@ -86,8 +86,8 @@ public partial class PlayerInventory : Resource
 	
 	private void EquipOrRankUpStatItem(StatItemData statItemData)
 	{
-		// Check if the same stat item is already equipped
-		var existingItem = EquippedStatItems.FirstOrDefault(i => i?.ItemData == statItemData);
+		// Check if a stat item with the same TargetStat is already equipped.
+		var existingItem = EquippedStatItems.FirstOrDefault(i => (i?.ItemData as StatItemData)?.TargetStat == statItemData.TargetStat);
 		if (existingItem != null)
 		{
 			existingItem.RankUp();

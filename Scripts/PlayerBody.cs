@@ -827,6 +827,10 @@ public partial class PlayerBody : Combatant
 				HealthComponent.MaxHealth =
 					isMultiplier ? HealthComponent.MaxHealth * value : HealthComponent.MaxHealth + value;
 				break;
+			case StatType.Player_MaxMana:
+				manaComponent.MaxMana = 
+					isMultiplier ? manaComponent.MaxMana * value : manaComponent.MaxMana + value;
+				break;
 			case StatType.Player_MoveSpeed:
 				WALK_SPEED = isMultiplier ? WALK_SPEED * value : WALK_SPEED + value;
 				MAX_SPRINT_SPEED = isMultiplier ? MAX_SPRINT_SPEED * value : MAX_SPRINT_SPEED + value;

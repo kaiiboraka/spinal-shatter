@@ -38,6 +38,7 @@ public partial class PlayerBody : Combatant
 	[Export] private float bob_Height = .15f;
 	[Export] private float bob_Sway_Percent = 0f;
 	[Export] private float t_bob = .0f;
+	private Vector3 _cameraInitialLocalPosition;
 	[Export] private float lookUpDegrees = 80f;
 	[Export] private float lookDownDegrees = 65f;
 	[Export] private float BaseFOV = 75f;
@@ -166,6 +167,7 @@ public partial class PlayerBody : Combatant
 
 		headNode = GetNode<Node3D>("%Head");
 		camera = GetNode<Camera3D>("%Camera1P");
+		_cameraInitialLocalPosition = camera.Position;
 		collider = GetNode<CollisionShape3D>("%PlayerCollider");
 		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
 		healthMinMaxLabel = GetNode<MinMaxValuesLabel>("%Health_MinMaxValuesLabel");
@@ -780,15 +782,28 @@ public partial class PlayerBody : Combatant
 
 	private void HeadBob(double delta)
 	{
-		// if (!firstPerson) return;
-		// bool canBob = grounded &&;
 		var hVel = Velocity.XZ().Length();
-		t_bob += ((float)delta) * hVel * (grounded ? 1 : 0);
-		var camTran = camera.Transform;
-		var pos = Vector3.Zero;
-		pos.Y = Mathf.Sin(t_bob * bob_Speed) * bob_Height;
-		camTran.Origin = pos;
-		camera.Transform = camTran;
+		bool isMovingOnGround = grounded && hVel > 0.1f; // Threshold for movement. Use a small threshold to avoid jitter when almost stopped.
+
+		if (isMovingOnGround)
+		{
+			t_bob += ((float)delta) * hVel * bob_Speed;
+		}
+		else
+		{
+			// Smoothly reset t_bob to 0 when not moving on ground or airborne
+			t_bob = Mathf.Lerp(t_bob, 0.0f, (float)delta * 8.0f); // Decay rate for t_bob
+		}
+
+		// Calculate bobbing offset
+		float bobOffset = Mathf.Sin(t_bob) * bob_Height;
+
+		// The target Y position for the camera
+		Vector3 targetCameraLocalPosition = _cameraInitialLocalPosition;
+		targetCameraLocalPosition.Y += bobOffset;
+
+		// Smoothly move the camera back to or towards the target position
+		camera.Position = camera.Position.Lerp(targetCameraLocalPosition, (float)delta * 10.0f); // Interpolation speed for camera position
 	}
 
 	public void SprintAndCrouch()

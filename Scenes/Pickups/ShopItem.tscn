@@ -9,7 +9,7 @@ top_radius = 0.1
 bottom_radius = 0.15
 height = 0.05
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a7dmw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tktbk"]
 render_priority = 1
 transparency = 1
 shading_mode = 0
@@ -22,7 +22,7 @@ stencil_compare = 5
 metadata/_stencil_owned = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7jw3"]
-next_pass = SubResource("StandardMaterial3D_a7dmw")
+next_pass = SubResource("StandardMaterial3D_tktbk")
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.43, 0.38184002, 0.3698, 1)
 metallic = 1.0
@@ -44,9 +44,10 @@ mesh = SubResource("CylinderMesh_67lmo")
 surface_material_override/0 = SubResource("StandardMaterial3D_q7jw3")
 
 [node name="PriceLabel_Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 billboard = 1
 texture_filter = 0
+render_priority = 1
 texture = SubResource("ViewportTexture_r8ncj")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -69,3 +70,4 @@ render_target_update_mode = 4
 [node name="Icon_InventoryHUDItem" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_wcb6i")]
 unique_name_in_owner = true
 FrameType = 4
+Rank = 0

@@ -11,7 +11,7 @@ metadata/_custom_type_script = "uid://b3802gerc0cye"
 
 [resource]
 script = ExtResource("1_fyk2d")
-EquippedWeapons = Dictionary[int, ExtResource("1_w75nx")]({
+EquippedWeapons = Dictionary[int, Variant]({
 0: SubResource("Resource_mmucx"),
 1: null
 })

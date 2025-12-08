@@ -29,10 +29,11 @@ public partial class InventoryHUDItem : Control
 		set
 		{
 			frameType = value;
-#if TOOLS
-			if (Engine.IsEditorHint()) GetComponents();
-#endif
-			UpdateFrameTexture();
+			if (Engine.IsEditorHint())
+			{
+				GetComponents();
+				UpdateFrameTexture();
+			}
 		}
 	}
 
@@ -70,15 +71,21 @@ public partial class InventoryHUDItem : Control
 	private TextureRect iconRect;
 	private RichTextLabel rankText;
 
+	[Export] private bool IsPlayerItem = false;
+
 	public override void _EnterTree()
 	{
 		base._EnterTree();
+		LoadFrames();
+
 		GetComponents();
 		UpdateFrameTexture();
 	}
 
 	public override void _Ready()
 	{
+		LoadFrames();
+
 		GetComponents();
 		UpdateFrameTexture();
 	}
@@ -89,7 +96,6 @@ public partial class InventoryHUDItem : Control
 		iconRect ??= GetNode<TextureRect>("IconRect");
 		rankText ??= GetNode<RichTextLabel>("%RankLabel");
         priceLabel ??= GetNode<RichTextLabel>("%Price_RichTextLabel");
-		LoadFrames();
 	}
 
 	public void ChangeDisplayData(ShopItemData itemData, int newRank)
@@ -109,7 +115,7 @@ public partial class InventoryHUDItem : Control
 			iconRect.Texture = itemData.ItemIcon;//?.GetFrameTexture("default", 0);
 			Rank = newRank;
 			Visible = true;
-			if (priceLabel != null)
+			if (priceLabel != null && itemData.RankUps.Count > 0 && !IsPlayerItem)
 			{
 				priceLabel.Visible = true;
 				priceLabel.Text = $"[center]${itemData.RankUps[Rank].RankUpPrice}[/center]";

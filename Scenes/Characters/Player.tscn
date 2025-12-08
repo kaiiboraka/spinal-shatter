@@ -750,16 +750,19 @@ alignment = 2
 layout_mode = 2
 mouse_filter = 1
 FrameType = 3
+IsPlayerItem = true
 
 [node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 3
+IsPlayerItem = true
 
 [node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 3
+IsPlayerItem = true
 
 [node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
 layout_mode = 2
@@ -845,16 +848,19 @@ alignment = 2
 [node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
+IsPlayerItem = true
 
 [node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 1
+IsPlayerItem = true
 
 [node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 2
+IsPlayerItem = true
 
 [node name="Mana_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
 layout_mode = 2

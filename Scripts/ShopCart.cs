@@ -214,7 +214,7 @@ public partial class ShopCart : StaticBody3D
 		// ShopItem is also a child of ShopSlots (via ShopSlotN Marker3D).
 		// So we can directly tween the local position.
 		cursorTween.TweenProperty(selectionCursor, "position",
-			shopSlot.Position with { Y = shopSlot.Position.Y + 0.4f }, 0.2f)
+			shopSlot.Position with { Y = shopSlot.Position.Y + 0.55f }, 0.2f)
 			.SetTrans(Tween.TransitionType.Cubic)
 			.SetEase(Tween.EaseType.Out);
 

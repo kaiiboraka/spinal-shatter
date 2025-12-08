@@ -34,8 +34,8 @@ public partial class PlayerInventory : Resource
 
 	private void EquipOrRankUpWeapon(SpellData spellData, SlotType preferredSlot)
 	{
-		// Check if a weapon with the same data is already equipped, regardless of slot
-		var existingWeapon = EquippedWeapons.Values.FirstOrDefault(w => w?.ItemData == spellData);
+		// Check if a weapon with the same weapon type is already equipped, regardless of slot
+		var existingWeapon = EquippedWeapons.Values.FirstOrDefault(w => (w?.ItemData as SpellData)?.Weapon == spellData.Weapon);
 
 		if (existingWeapon != null)
 		{

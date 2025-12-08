@@ -7,3 +7,4 @@ script = ExtResource("1_rankup")
 StatModifiers = Dictionary[int, float]({
 10: 10.0
 })
+RankUpPrice = 50.0

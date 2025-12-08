@@ -77,7 +77,7 @@ public partial class ShopCart : StaticBody3D
 		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
 		{
 			_shopSlots.Add(GetNode<Marker3D>($"%ShopSlot{i+1}"));
-			_shopItems.Add(_shopSlots[0].GetChild<ShopItem>(0));
+			_shopItems.Add(_shopSlots[i].GetChild<ShopItem>(0));
 		}
 	}
 
@@ -297,7 +297,25 @@ public partial class ShopCart : StaticBody3D
 		ShopItemData itemData = selectedShopItem.Data;
 		if (itemData == null) return;
 
+		// Calculate the CORRECT price
 		int price = itemData.Price;
+		if (itemData.ShopRank > 1)
+		{
+			// itemData.ShopRank is the target rank (e.g., 2 for first rank-up).
+			// RankUpData for first rank-up is at index 0. So index is currentRank - 1, which is ShopRank - 2.
+			int rankUpIndex = itemData.ShopRank - 2;
+			if (itemData.RankUps != null && rankUpIndex >= 0 && rankUpIndex < itemData.RankUps.Count)
+			{
+				price = (int)itemData.RankUps[rankUpIndex].RankUpPrice;
+			}
+			else
+			{
+				// No valid rank-up price found, cannot purchase.
+				GD.PrintErr($"Could not find valid RankUpPrice for {itemData.ItemName} at ShopRank {itemData.ShopRank}");
+				return;
+			}
+		}
+		
 		if (PlayerBody.Instance.SpendMoney(price))
 		{
 			// Purchase successful
@@ -337,8 +355,26 @@ public partial class ShopCart : StaticBody3D
 			}
 
 			selectedShopItem.Visible = false; // Hide purchased item
-			PlayerBody.Instance.HideInteractionPrompt();
-			// Update visuals to remove purchased item, e.g., move cursor or re-evaluate selection
+			
+			// After purchase, find next available item to select
+			bool foundNext = false;
+			for (int i = 1; i < _shopItems.Count; i++)
+			{
+				int nextIndex = (_selectedItemIndex + i) % _shopItems.Count;
+				if (_shopItems[nextIndex].Visible)
+				{
+					_selectedItemIndex = nextIndex;
+					UpdateSelectionVisuals();
+					foundNext = true;
+					break;
+				}
+			}
+			if (!foundNext)
+			{
+				// No other items left, maybe close shop or just show empty selection
+				PlayerBody.Instance.HideInteractionPrompt();
+				PlayerBody.Instance.UpdateShopDetails(null);
+			}
 		}
 		else
 		{

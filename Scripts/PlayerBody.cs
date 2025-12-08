@@ -481,16 +481,85 @@ public partial class PlayerBody : Combatant
 
 		if (itemData == null)
 		{
-			_detailsNameLabel.Text = "";
-			_detailsDescriptionLabel.Text = "";
-			_detailsControl.Visible = false;
+			_detailsNameLabel.Text = "[center]No Item Selected[/center]"; // Display placeholder
+			_detailsDescriptionLabel.Text = "[center]This slot is empty.[/center]"; // Display placeholder
 		}
 		else
 		{
-			_detailsNameLabel.Text = itemData.ItemName ?? ""; // Ensure not null
-			_detailsDescriptionLabel.Text = itemData.ItemDescription ?? ""; // Ensure not null
-			_detailsControl.Visible = true;
+			_detailsNameLabel.Text = itemData.ItemName ?? "";
+
+            // Determine if it's a new item or a rank-up
+            bool isOwned = false;
+            int currentRank = 0;
+
+            if (itemData is SpellData spellData)
+            {
+                var (equippedWeapon, rank, max) = Inventory.GetOwnedWeaponInfo(spellData);
+                if (equippedWeapon != null)
+                {
+                    isOwned = true;
+                    currentRank = rank;
+                }
+            }
+            else if (itemData is StatItemData statItemData)
+            {
+                var (equippedStatItem, rank, max) = Inventory.GetOwnedStatItemInfo(statItemData);
+                if (equippedStatItem != null)
+                {
+                    isOwned = true;
+                    currentRank = rank;
+                }
+            }
+
+            // Display logic based on item status
+            if (isOwned && itemData.ShopRank > 1) // It's an upgrade in the shop
+            {
+                _detailsNameLabel.Text = $"{itemData.ItemName ?? ""} Rank {itemData.ShopRank}"; // Name + Rank
+                
+                // Get the RankUpData for this specific rank-up
+                if (itemData.RankUps != null && (itemData.ShopRank - 2) >= 0 && (itemData.ShopRank - 2) < itemData.RankUps.Count)
+                {
+                    RankUpData rankUp = itemData.RankUps[itemData.ShopRank - 2];
+                    _detailsDescriptionLabel.Text = "RANK UP : " + FormatStatModifiers(rankUp.StatModifiers);
+                }
+                else
+                {
+                    _detailsDescriptionLabel.Text = "RANK UP : No specific data for this rank.";
+                }
+            }
+            else // It's a new item (ShopRank == 1) or an item with no rank-up data (e.g. from Inventory)
+            {
+                _detailsNameLabel.Text = itemData.ItemName ?? "";
+                _detailsDescriptionLabel.Text = itemData.ItemDescription ?? "";
+            }
 		}
+	}
+
+	private string FormatStatModifiers(Dictionary<StatType, float> modifiers)
+	{
+		if (modifiers == null || modifiers.Count == 0) return "No stat changes.";
+
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		bool first = true;
+		foreach (var entry in modifiers)
+		{
+			if (!first)
+			{
+				sb.Append(", ");
+			}
+			// Example: "Damage + 10", "Size x 1.5", "Charge Time - 0.1"
+			string prefix = "";
+			if (entry.Value > 0) prefix = "+ ";
+			else if (entry.Value < 0) prefix = "- ";
+
+			// Convert StatType enum to readable string (e.g., Player_MaxHealth -> Max Health)
+			string statName = entry.Key.ToString().Replace("Player_", "").Replace("Weapon_", "").Replace("_", " ");
+
+			sb.Append($"{statName} {prefix}{Mathf.Abs(entry.Value)}"); // Add {prefix} and {Mathf.Abs(entry.Value)}
+
+			first = false;
+		}
+		return sb.ToString();
 	}
 
 	#endregion

@@ -12,14 +12,14 @@ public partial class ShopItem : Node3D
         set
         {
             data = value;
-            // Ensure components are retrieved before attempting to use 'item'
-            // GetComponents();
-            UpdateVisualData();
+            _dataDirty = true; // Mark data as dirty
         }
     }
 
     [Export] private InventoryHUDItem item;
     public InventoryHUDItem Item => item;
+
+    private bool _dataDirty = false;
 
     public override void _EnterTree()
     {

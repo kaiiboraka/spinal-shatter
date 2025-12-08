@@ -16,8 +16,8 @@ public partial class ShopItem : Node3D
         }
     }
 
-    private RichTextLabel priceLabel;
-    private Sprite3D sprite;
+    private InventoryHUDItem item;
+    public InventoryHUDItem Item => item;
 
     public override void _EnterTree()
     {
@@ -38,8 +38,7 @@ public partial class ShopItem : Node3D
 
     private void GetComponents()
     {
-        sprite ??= GetNode<Sprite3D>("ItemSprite_Sprite3D");
-        priceLabel ??= GetNode<RichTextLabel>("%Price_RichTextLabel");
+        item ??= GetNode<InventoryHUDItem>("%Icon_InventoryHUDItem");
     }
 
     private void UpdateVisualData( )
@@ -47,15 +46,11 @@ public partial class ShopItem : Node3D
         if (Engine.IsEditorHint() && IsInsideTree()) GetComponents();
 
 
-        if (sprite != null)
+        if (item != null)
         {
-            sprite.Texture = Data.ItemIcon;
+            item.ChangeDisplayData(Data, Data.ShopRank);
         }
 
-        if (priceLabel != null)
-        {
-            priceLabel.Text = $"[center]${Data.Price}[/center]";
-        }
     }
 }
 

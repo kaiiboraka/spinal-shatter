@@ -11,4 +11,5 @@ ItemName = "Max Health"
 ItemIcon = ExtResource("1_7pjo1")
 Price = 75
 Rarity = 0.4
+ShopRank = 1
 RankUps = Array[Object]([ExtResource("2_3cc6n")])

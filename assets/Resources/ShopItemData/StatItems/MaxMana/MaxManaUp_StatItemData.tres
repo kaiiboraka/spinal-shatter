@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="StatItemData" load_steps=3 format=3 uid="uid://ks6csrwleo01"]
+
+[ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="1_8liqy"]
+[ext_resource type="Texture2D" uid="uid://b5j1f31gmnkke" path="res://assets/Images/ShopItems/Stat_MaxMana_Icon.ase" id="1_jxrlh"]
+
+[resource]
+script = ExtResource("1_8liqy")
+TargetStat = 1
+Value = 10.0
+ItemName = "Mana Crystal"
+ItemIcon = ExtResource("1_jxrlh")
+Price = 125
+Rarity = 0.5
+RankUps = []
+metadata/_custom_type_script = "uid://bjd567vhk7si2"

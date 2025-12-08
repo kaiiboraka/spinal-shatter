@@ -4,13 +4,25 @@ A retro-styled First-Person roguelite Shooter, inspired by Arcade Hard games of 
 
 ## Current progress
 
-The most recent overhaul refactor branch turned the magic into buyable items that belong to an inventory system, so next will be to add purchase functionality to the shop screen, and then add the Health economy systems starting with a large health fountain you can pay to use.
+okay, the shop now lets me buy stuff, and my inventory gets updated, so some of it is working. 
+1) It doesn't seem like it wants to let me buy more than 1 thing, maybe? I'm not sure, seems bugged.
+2) The Player's inventory bar should not set the visibility of the entire InventoryHUDItem, as it should always show all of the slots. Instead, the Icon should be cleared and the rank set to 0 so it just looks empty, but the frame itself stays to maintain its place.
+3) we desperately need a way to assign a purchase to one of the weapon slots. Without being too UI crazy for the moment, I think the easiest thing would be to await the corresponding button after trying to buy it. In other words, I buy a new weapon, and get shown a prompt that says "Press the button of the Weapon you want to assign it to" or something more brief than that, so if I hit Player_Shoot it would go to Primary and if I press Player_AltFire it would go to Secondary.
+4) We need to display the details from the ShopItemData (Name, Description, maybe more) in the Player's new Details_Control, which has within it both %Details_Name_RichTextLabel and %Details_Description_RichTextLabel. The entire details control should show when the player is in UI mode. It should hide in exiting UI mode. Whenever the selection changes at the ShopCart, the contents of these RichTextLabels needs to be updated with the info from the ShopItemData. 
+5) InventoryHUDItem has a new %Price_RichTextLabel that should only show on ShopItems when in the Shop. So that needs a simple toggle. The player's own inventory has these as well because it's a tentative possibility to make selling much simpler later on down if I decide to implement that. For now, though, it simply starts Visibility off and should only turn on for ShopItems. Speaking of which, @ShopItem.cs has %Icon_InventoryHUDItem now for its entire visual representation.
 
-Then making one more spell type to test the random selection of the shop. The item overhaul also includes the potential for rank ups of items, so I have to create rank up definition data for each weapon, make it so a max rank weapon is removed from the shop, ensure the ranks actually apply their stats properly (which may, for testing purposes, necessitate the introduction of floating damage numbers). At some point I'd also like to be able to sell items back to the shop as well so you can build switch if you want.
+Okay. I have now figured out how I want to handle shop item selection. So, a RankUpData has a RankUpPrice which is a fixed predetermined value I write in the inspector. RankUps are stored in any given item. If the shop selects a random item from its stock, and the player already owns that item but does not have it max ranked, then the item shown in the shop is the next rank above along with the price stored in the rankup data. If the matching item of the player's IS max ranked, the chosen shop item gets skipped and it tries to draw another instead. Duplicates are not allowed in the shop's random selection.
+If you have all 3 weapon slots full and go to buy a new weapon:
+A) if i have build switching...
+you will have to get rid of an existing item. I imagine it giving a confirmation dialogue, if you're sure you want to replace X with Y. I'm now committing to Items in the shop are always rank 1.
+B) if  i don't have build switching...
+Any weapon items that appear are guaranteed to be one of the weapons you own and become rank ups. 
+
+For now, I think I will commit to NOT having build switching to be more like Vampire Survivors which is high committment.
+
+Next most important though should be prompting the player for the different weapon slots somehow. Please devise a plan of action for how to implement this.
 
 after all that I can add bonus rewards to hallway selection akin to Hades room rewards, focus on implementing more weapon types, introduce player stat items, chip away at art improvements, and at some point I gotta make the enemies a little less stupid lmao
-
-Oh and I need to make a UI for your current weapon / passive item inventory+ranks 
 
 ## Fantasy
 

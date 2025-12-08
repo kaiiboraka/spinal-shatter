@@ -124,11 +124,59 @@ public partial class ShopCart : StaticBody3D
 			return;
 		}
 
-		var availableForPurchase = new Godot.Collections.Array<ShopItemData>();
-		foreach (var itemData in _shopStock.AvailableItems)
+		var availableForPurchase = new Array<ShopItemData>();
+
+		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
 		{
+			var itemData = _shopStock.AvailableItems.PickRandom();
+
 			// TODO: Add logic to filter out items player has at max rank
 			// For now, just add all available items
+
+			if (itemData is StatItemData shopStatItemData)
+			{
+				bool maxRank = false;
+				int currentRank = 0;
+				foreach (EquippedItem equippedItem in PlayerBody.Instance.Inventory.EquippedStatItems)
+				{
+					StatItemData playerStatItemData = (StatItemData)equippedItem.ItemData;
+					if (playerStatItemData.TargetStat == shopStatItemData.TargetStat)
+					{
+						currentRank = equippedItem.Rank;
+						maxRank = equippedItem.IsMaxRank;
+						break;
+					}
+				}
+				if (maxRank)
+				{
+					i--;
+					continue;
+				}
+				itemData.ShopRank = currentRank + 1;
+			}
+			else if (itemData is SpellData shopSpellData)
+			{
+				bool maxRank = false;
+				int currentRank = 0;
+				foreach (EquippedItem equippedItem in PlayerBody.Instance.Inventory.EquippedWeapons.Values)
+				{
+					SpellData playerSpellData = (SpellData)equippedItem.ItemData;
+					if (playerSpellData.Weapon == shopSpellData.Weapon)
+					{
+						currentRank = equippedItem.Rank;
+						maxRank = equippedItem.IsMaxRank;
+						break;
+					}
+				}
+				if (maxRank)
+				{
+					i--;
+					continue;
+				}
+				itemData.ShopRank = currentRank + 1;
+			}
+
+
 			availableForPurchase.Add(itemData);
 		}
 
@@ -192,19 +240,14 @@ public partial class ShopCart : StaticBody3D
 			// TODO: Add purchase sound effect
 			
 			// Handle the SpellData assignment (defaults to Primary for now as discussed)
-			if (itemData is SpellData spellData)
-			{
+
 				// This is a temporary hardcoded assignment.
 				// A proper UI would ask the player which slot (Primary, Alt, Automatic) to assign it to.
 				// For now, let's assume it's always the Primary slot's variant if available.
 				// Need to check if the itemData itself indicates its slot.
-				PlayerBody.Instance.Inventory.EquipOrRankUpItem(spellData); // This will equip/rank up based on itemData.Slot
-			}
-			else
-			{
 				// For StatItemData or other types, directly equip/rank up
-				PlayerBody.Instance.Inventory.EquipOrRankUpItem(itemData);
-			}
+			PlayerBody.Instance.Inventory.EquipOrRankUpItem(itemData);
+
 
 			selectedShopItem.Visible = false; // Hide purchased item
 			PlayerBody.Instance.HideInteractionPrompt();

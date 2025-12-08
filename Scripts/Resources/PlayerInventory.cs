@@ -17,13 +17,14 @@ public partial class PlayerInventory : Resource
 
 	public void EquipOrRankUpItem(ShopItemData itemData)
 	{
-		if (itemData is SpellData spellData)
+		switch (itemData)
 		{
-			EquipOrRankUpWeapon(spellData);
-		}
-		else if (itemData is StatItemData statItemData)
-		{
-			EquipOrRankUpStatItem(statItemData);
+			case SpellData spellData:
+				EquipOrRankUpWeapon(spellData);
+				break;
+			case StatItemData statItemData:
+				EquipOrRankUpStatItem(statItemData);
+				break;
 		}
 	}
 

@@ -605,7 +605,7 @@ public partial class PlayerBody : Combatant
 			{
 				// This assumes a fixed order: Primary, Alt, Auto
 				SlotType slotType = (SlotType)i;
-				if (Inventory.EquippedWeapons.TryGetValue(slotType, out EquippedItem weapon))
+				if (Inventory.EquippedWeapons.TryGetValue(slotType, out EquippedItem weapon) && weapon != null)
 				{
 					weaponSlots[i].ChangeDisplayData(weapon.ItemData, weapon.Rank);
 				}

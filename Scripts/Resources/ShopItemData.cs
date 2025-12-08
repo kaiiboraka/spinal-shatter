@@ -20,4 +20,5 @@ public partial class ShopItemData : Resource
 
     [ExportGroup("Ranking")]
     [Export] public Godot.Collections.Array<RankUpData> RankUps { get; private set; }
+    public int ShopRank { get; set; }
 }

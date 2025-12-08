@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SpinalShatter;
 
-[Tool]
+[GlobalClass,Tool]
 public partial class InventoryHUDItem : Control
 {
 	public enum HUDFrameType
@@ -13,13 +13,15 @@ public partial class InventoryHUDItem : Control
 		Primary,
 		Secondary,
 		Automatic,
-		Stat
+		Stat,
+		None
 	}
 
 	// This dictionary would be populated with actual Texture2D resources.
 	// For now, it's a placeholder. The logic to use it is implemented.
 	private static readonly Dictionary<HUDFrameType, Texture2D> FrameTextures = new();
 
+    private RichTextLabel priceLabel;
 	private HUDFrameType frameType;
 	[Export] public HUDFrameType FrameType
 	{
@@ -27,12 +29,15 @@ public partial class InventoryHUDItem : Control
 		set
 		{
 			frameType = value;
+#if TOOLS
+			if (Engine.IsEditorHint()) GetComponents();
+#endif
 			UpdateFrameTexture();
 		}
 	}
 
 	private int rank = 1;
-	[Export(PropertyHint.Range, "1,10,1")] public int Rank
+	[Export(PropertyHint.Range, "0,10,1")] public int Rank
 	{
 		get => rank;
 		set
@@ -57,12 +62,12 @@ public partial class InventoryHUDItem : Control
 		set
 		{
 			icon = value;
-			if (itemIcon != null) itemIcon.Texture = value;
+			if (iconRect != null) iconRect.Texture = value;
 		}
 	}
 
-	private TextureRect frame;
-	private TextureRect itemIcon;
+	private TextureRect frameRect;
+	private TextureRect iconRect;
 	private RichTextLabel rankText;
 
 	public override void _EnterTree()
@@ -80,39 +85,51 @@ public partial class InventoryHUDItem : Control
 
 	private void GetComponents()
 	{
-		frame ??= GetNode<TextureRect>("FrameRect");
-		itemIcon ??= GetNode<TextureRect>("IconRect");
+		frameRect ??= GetNode<TextureRect>("FrameRect");
+		iconRect ??= GetNode<TextureRect>("IconRect");
 		rankText ??= GetNode<RichTextLabel>("%RankLabel");
+        priceLabel ??= GetNode<RichTextLabel>("%Price_RichTextLabel");
 		LoadFrames();
 	}
 
-	public void ChangeDisplayData(ShopItemData itemData, int rank)
+	public void ChangeDisplayData(ShopItemData itemData, int newRank)
 	{
 		if (itemData == null)
 		{
-			itemIcon.Texture = null;
+			iconRect.Texture = null;
 			rankText.Text = "";
 			Visible = false;
+			if (priceLabel != null)
+			{
+				priceLabel.Visible = false;
+			}
 		}
 		else
 		{
-			itemIcon.Texture = itemData.ItemIcon;//?.GetFrameTexture("default", 0);
-			Rank = rank;
+			iconRect.Texture = itemData.ItemIcon;//?.GetFrameTexture("default", 0);
+			Rank = newRank;
 			Visible = true;
+			if (priceLabel != null)
+			{
+				priceLabel.Visible = true;
+				priceLabel.Text = $"[center]${itemData.RankUps[Rank].RankUpPrice}[/center]";
+			}
 		}
 	}
 
 	private void UpdateFrameTexture()
 	{
-		if (frame != null && FrameTextures.TryGetValue(frameType, out Texture2D texture))
+		frameRect.Visible = frameType != HUDFrameType.None;
+
+		if (frameRect != null && FrameTextures.TryGetValue(frameType, out Texture2D texture))
 		{
-			frame.Texture = texture;
+			frameRect.Texture = texture;
 		}
 	}
 
 	private static void LoadFrames()
 	{
-		int count = Enum.GetValues(typeof(HUDFrameType)).Length;
+		int count = Enum.GetValues(typeof(HUDFrameType)).Length - 1; // ignore "NONE"
 		for (int i = 0; i < count; i++)
 		{
 			FrameTextures[(HUDFrameType)i] = GD.Load<AtlasTexture>($"res://assets/Images/UI/SlotFrame{i + 1}.tres");

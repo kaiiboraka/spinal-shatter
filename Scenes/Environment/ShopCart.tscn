@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=60 format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="ArrayMesh" uid="uid://d10p833gjq6st" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
 [ext_resource type="Resource" uid="uid://crlygrfbgh2kt" path="res://assets/Resources/ShopStockData.tres" id="2_khf6c"]
@@ -8,9 +8,9 @@
 [ext_resource type="ArrayMesh" uid="uid://bkuejmdwnpelb" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
 [ext_resource type="PackedScene" uid="uid://byiseo5tydxlb" path="res://Scenes/UI/SelectionCursor_AnimatedSprite3D.tscn" id="4_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://3ornpl7wp88" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
+[ext_resource type="Resource" uid="uid://ks6csrwleo01" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/MaxManaUp_StatItemData.tres" id="6_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://28gjadilp1cl" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
 [ext_resource type="ArrayMesh" uid="uid://jpkm2py113b" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
-[ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="7_fdvy6"]
 [ext_resource type="ArrayMesh" uid="uid://dfqgwpnq38whj" path="res://assets/Models/Meshes/ShopCart/B_L_tire.res" id="8_h8aqa"]
 [ext_resource type="ArrayMesh" uid="uid://bxd45a2jot7ep" path="res://assets/Models/Meshes/ShopCart/B_L_hub.res" id="9_vl8pd"]
 [ext_resource type="ArrayMesh" uid="uid://cca36gpb6362v" path="res://assets/Models/Meshes/ShopCart/B_L_spoke1.res" id="10_x26tn"]
@@ -136,6 +136,33 @@ _data = {
 &"RESET": SubResource("Animation_n4t4n")
 }
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_n3hp2"]
+top_radius = 0.1
+bottom_radius = 0.15
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8ncj"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.01
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bprx7"]
+next_pass = SubResource("StandardMaterial3D_r8ncj")
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.43, 0.38184002, 0.3698, 1)
+metallic = 1.0
+roughness = 0.95
+texture_filter = 0
+stencil_mode = 1
+stencil_flags = 2
+
 [sub_resource type="Skin" id="Skin_n3hp2"]
 resource_name = "Skin4"
 bind_count = 2
@@ -204,6 +231,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21114928, 1.41, -0.375)
 [node name="SelectionCursor_AnimatedSprite3D" parent="ShopRoot/ShopSlots" instance=ExtResource("4_khf6c")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.65)
+visible = false
 fixed_size = false
 
 [node name="ShopSlot1" type="Marker3D" parent="ShopRoot/ShopSlots"]
@@ -211,19 +239,34 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.65)
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot1" instance=ExtResource("38_n3hp2")]
-Data = ExtResource("3_n3hp2")
+
+[node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="ShopRoot/ShopSlots/ShopSlot1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("CylinderMesh_n3hp2")
+surface_material_override/0 = SubResource("StandardMaterial3D_bprx7")
 
 [node name="ShopSlot2" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot2" instance=ExtResource("38_n3hp2")]
+Data = ExtResource("3_n3hp2")
+
+[node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="ShopRoot/ShopSlots/ShopSlot2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("CylinderMesh_n3hp2")
+surface_material_override/0 = SubResource("StandardMaterial3D_bprx7")
 
 [node name="ShopSlot3" type="Marker3D" parent="ShopRoot/ShopSlots"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.65)
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot3" instance=ExtResource("38_n3hp2")]
-Data = ExtResource("7_fdvy6")
+Data = ExtResource("6_khf6c")
+
+[node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="ShopRoot/ShopSlots/ShopSlot3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("CylinderMesh_n3hp2")
+surface_material_override/0 = SubResource("StandardMaterial3D_bprx7")
 
 [node name="Candle" parent="ShopRoot" instance=ExtResource("38_vne43")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.377, 1.41, -1.375)

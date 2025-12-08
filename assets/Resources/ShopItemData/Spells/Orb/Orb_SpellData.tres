@@ -35,4 +35,5 @@ ItemName = "Orb"
 ItemIcon = ExtResource("3_7j5oq")
 Price = 100
 Rarity = 0.5
+ShopRank = 1
 RankUps = Array[Object]([ExtResource("12_orb_p_rank1"), ExtResource("13_orb_p_rank2"), ExtResource("14_orb_p_rank3"), ExtResource("15_orb_p_rank4"), ExtResource("16_orb_p_rank5"), ExtResource("17_orb_p_rank6"), ExtResource("18_orb_p_rank7"), ExtResource("19_orb_p_rank8"), ExtResource("20_orb_p_rank9")])

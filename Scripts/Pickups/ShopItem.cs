@@ -12,7 +12,8 @@ public partial class ShopItem : Node3D
         set
         {
             data = value;
-            if (IsInsideTree()) // Ensure node is in the tree before deferring a call
+            if (Engine.IsEditorHint()) UpdateVisualData();
+            else if (IsInsideTree()) // Ensure node is in the tree before deferring a call
             {
                 CallDeferred(nameof(UpdateVisualData));
             }

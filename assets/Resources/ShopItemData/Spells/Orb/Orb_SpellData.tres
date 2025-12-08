@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=20 format=3 uid="uid://b822nwtw8a74b"]
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=21 format=3 uid="uid://b822nwtw8a74b"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_7j5oq"]
+[ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="2_4hqy0"]
 [ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_Damage_RangeF.tres" id="2_nfnvx"]
 [ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="3_7j5oq"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaCost_RangeF.tres" id="4_5m6xx"]
@@ -9,19 +10,20 @@
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Orb.tscn" id="7_b8s0m"]
 [ext_resource type="Resource" uid="uid://bvem64smt4n3p" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_Size_RangeF.tres" id="9_g31w6"]
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_Speed_RangeF.tres" id="10_nvsib"]
-[ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="11_l5ydw"]
 [ext_resource type="Resource" uid="uid://dk22v8lff4mej" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank1.tres" id="12_orb_p_rank1"]
 [ext_resource type="Resource" uid="uid://bicc4wsxu1b7i" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank2.tres" id="13_orb_p_rank2"]
 [ext_resource type="Resource" uid="uid://ucm0xtugw2si" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank3.tres" id="14_orb_p_rank3"]
 [ext_resource type="Resource" uid="uid://bebs6i6wkfn26" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank4.tres" id="15_orb_p_rank4"]
 [ext_resource type="Resource" uid="uid://c2dg8tk8n6d1" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank5.tres" id="16_orb_p_rank5"]
+[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbAltFire_SpellData.tres" id="17_nvsib"]
 [ext_resource type="Resource" uid="uid://b0d47w4j3akme" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank6.tres" id="17_orb_p_rank6"]
 [ext_resource type="Resource" uid="uid://ddfcc8qpu14ne" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank7.tres" id="18_orb_p_rank7"]
 [ext_resource type="Resource" uid="uid://b0nkoy6o1tomv" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank8.tres" id="19_orb_p_rank8"]
 [ext_resource type="Resource" uid="uid://dllho1rm0oaex" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank9.tres" id="20_orb_p_rank9"]
 
 [resource]
-script = ExtResource("11_l5ydw")
+script = ExtResource("2_4hqy0")
+Secondary = ExtResource("17_nvsib")
 ChargeIntervals = 10
 ManaDroppedAmount = ExtResource("5_16few")
 ManaCostRange = ExtResource("4_5m6xx")

@@ -1,14 +1,12 @@
-[gd_scene load_steps=60 format=3 uid="uid://dcq14qm4pbq8o"]
+[gd_scene load_steps=58 format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="ArrayMesh" uid="uid://d10p833gjq6st" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
 [ext_resource type="Resource" uid="uid://crlygrfbgh2kt" path="res://assets/Resources/ShopStockData.tres" id="2_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://cxfjdyv35w14e" path="res://assets/Models/Meshes/ShopCart/frontRoof.res" id="3_me00m"]
-[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="3_n3hp2"]
 [ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
 [ext_resource type="ArrayMesh" uid="uid://bkuejmdwnpelb" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]
 [ext_resource type="PackedScene" uid="uid://byiseo5tydxlb" path="res://Scenes/UI/SelectionCursor_AnimatedSprite3D.tscn" id="4_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://3ornpl7wp88" path="res://assets/Models/Meshes/ShopCart/windowFrame.res" id="5_u4mxo"]
-[ext_resource type="Resource" uid="uid://ks6csrwleo01" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/MaxManaUp_StatItemData.tres" id="6_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://28gjadilp1cl" path="res://assets/Models/Meshes/ShopCart/axleBeam.res" id="6_q2n4r"]
 [ext_resource type="ArrayMesh" uid="uid://jpkm2py113b" path="res://assets/Models/Meshes/ShopCart/cartBody.res" id="7_ej1mt"]
 [ext_resource type="ArrayMesh" uid="uid://dfqgwpnq38whj" path="res://assets/Models/Meshes/ShopCart/B_L_tire.res" id="8_h8aqa"]
@@ -240,6 +238,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.65)
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot1" instance=ExtResource("38_n3hp2")]
+Data = null
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="ShopRoot/ShopSlots/ShopSlot1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
@@ -250,7 +249,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_bprx7")
 unique_name_in_owner = true
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot2" instance=ExtResource("38_n3hp2")]
-Data = ExtResource("3_n3hp2")
+Data = null
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="ShopRoot/ShopSlots/ShopSlot2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
@@ -262,7 +261,6 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.65)
 
 [node name="ShopItem" parent="ShopRoot/ShopSlots/ShopSlot3" instance=ExtResource("38_n3hp2")]
-Data = ExtResource("6_khf6c")
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="ShopRoot/ShopSlots/ShopSlot3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)

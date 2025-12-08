@@ -34,41 +34,53 @@ public partial class PlayerInventory : Resource
 
 	private void EquipOrRankUpWeapon(SpellData spellData, SlotType preferredSlot)
 	{
-		// Check if a weapon with the same weapon type is already equipped, regardless of slot
-		var existingWeapon = EquippedWeapons.Values.FirstOrDefault(w => (w?.ItemData as SpellData)?.Weapon == spellData.Weapon);
-
-		if (existingWeapon != null)
+		// 1. Rank-up check: If we already own this weapon type, just rank it up.
+		var (existingItem, _, _) = GetOwnedWeaponInfo(spellData);
+		if (existingItem != null)
 		{
-			existingWeapon.RankUp();
+			existingItem.RankUp();
 			EmitSignal(SignalName.InventoryChanged);
 			return;
 		}
 
-		SlotType targetSlot = spellData.Slot; // Default to the spell's inherent slot
-		if (preferredSlot != SlotType.None && !EquippedWeapons.ContainsKey(preferredSlot))
-		{
-			targetSlot = preferredSlot; // Use preferred slot if provided and empty
-		}
-		else // If preferred slot is taken or not provided, try to find an empty slot.
-		{
-			bool foundEmpty = false;
-			foreach(SlotType slot in Enum.GetValues(typeof(SlotType)))
-			{
-				if (slot == SlotType.Stat || EquippedWeapons.ContainsKey(slot)) continue;
-				targetSlot = slot;
-				foundEmpty = true;
-				break;
-			}
-			if (!foundEmpty) // If all slots are full, it will overwrite the spellData.Slot
-			{
-				targetSlot = spellData.Slot;
-			}
-		}
-
-
+		// 2. New weapon logic with "bump and find empty"
 		var newEquippedItem = new EquippedItem(spellData);
-		EquippedWeapons[targetSlot] = newEquippedItem; // Use targetSlot
-		EmitSignal(SignalName.WeaponEquipped, (int)targetSlot, newEquippedItem); // Emit signal with targetSlot
+
+		// If the preferred slot is invalid for a weapon, abort.
+		if (preferredSlot == SlotType.None || preferredSlot == SlotType.Stat)
+		{
+			GD.PrintErr($"Invalid weapon slot {preferredSlot} specified for equipping {spellData.ItemName}.");
+			return;
+		}
+
+		// See if an item is currently in the preferred slot.
+		EquippedWeapons.TryGetValue(preferredSlot, out EquippedItem bumpedItem);
+		
+		// Place the new item in the user's chosen slot. This overwrites the dictionary entry.
+		EquippedWeapons[preferredSlot] = newEquippedItem;
+		EmitSignal(SignalName.WeaponEquipped, (int)preferredSlot, newEquippedItem);
+
+		// If an item was bumped, find a new home for it.
+		if (bumpedItem != null)
+		{
+			// Define the slot order to check for an empty space.
+			var slotOrder = new[] { SlotType.Primary, SlotType.Secondary, SlotType.Automatic };
+			
+			// Find the first empty slot and place the bumped item there.
+			foreach (var slot in slotOrder)
+			{
+				// Find the first slot that ISN'T the one we just placed the new item in,
+				// and is also not currently occupied by any other item.
+				if (slot != preferredSlot && !EquippedWeapons.ContainsKey(slot))
+				{
+					EquippedWeapons[slot] = bumpedItem;
+					EmitSignal(SignalName.WeaponEquipped, (int)slot, bumpedItem);
+					break; // Stop after placing the bumped item
+				}
+			}
+			// If no empty slot was found, the bumped item is unequipped from active slots.
+		}
+
 		EmitSignal(SignalName.InventoryChanged);
 	}
 	

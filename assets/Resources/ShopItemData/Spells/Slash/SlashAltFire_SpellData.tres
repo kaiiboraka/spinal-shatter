@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=10 format=3 uid="uid://dqt8lfh4rdcli"]
+[gd_resource type="Resource" script_class="CastedSpellData" load_steps=11 format=3 uid="uid://dqt8lfh4rdcli"]
 
 [ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="1_slash_alt_spell_data"]
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="2_slash_alt_audio"]
 [ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spell_Slash_Icon.ase" id="3_2wpbe"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashAltFire_Damage_RangeF.tres" id="3_slash_alt_damage"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashAltFire_ManaCost_RangeF.tres" id="5_slash_alt_manacost"]
+[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaDrop_RangeI.tres" id="5_xvbxn"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashAltFire_MaxChargeTime_RangeF.tres" id="6_slash_alt_chargetime"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Orb.tscn" id="7_slash_alt_projectile"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashAltFire_Size_RangeF.tres" id="8_slash_alt_size"]
@@ -13,6 +14,7 @@
 [resource]
 script = ExtResource("1_slash_alt_spell_data")
 ChargeIntervals = 10
+ManaDroppedAmount = ExtResource("5_xvbxn")
 ManaCostRange = ExtResource("5_slash_alt_manacost")
 MaxChargeTime = ExtResource("6_slash_alt_chargetime")
 AudioData = ExtResource("2_slash_alt_audio")

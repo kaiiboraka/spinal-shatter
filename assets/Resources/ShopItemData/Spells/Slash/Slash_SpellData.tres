@@ -1,27 +1,22 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=12 format=3 uid="uid://dowpqoyraljfv"]
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=12 format=3 uid="uid://dowpqoyraljfv"]
 
-[ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="1_slash_spell_data"]
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="2_slash_audio"]
 [ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spell_Slash_Icon.ase" id="3_b3h0y"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_Damage_RangeF.tres" id="3_slash_damage"]
+[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaDrop_RangeI.tres" id="5_pfci4"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_ManaCost_RangeF.tres" id="5_slash_manacost"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_MaxChargeTime_RangeF.tres" id="6_slash_chargetime"]
-[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="7_fu6dr"]
+[ext_resource type="Resource" uid="uid://dqt8lfh4rdcli" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashAltFire_SpellData.tres" id="7_fu6dr"]
 [ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Orb.tscn" id="7_slash_projectile"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_Size_RangeF.tres" id="8_slash_size"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_Speed_RangeF.tres" id="9_slash_speed"]
-
-[sub_resource type="Resource" id="Resource_pfci4"]
-script = ExtResource("7_fu6dr")
-StatModifiers = Dictionary[int, float]({
-10: 10.0
-})
-RankUpPrice = 100.0
-metadata/_custom_type_script = "uid://btb00jki3f5wt"
+[ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="10_pfci4"]
 
 [resource]
-script = ExtResource("1_slash_spell_data")
+script = ExtResource("10_pfci4")
+Secondary = ExtResource("7_fu6dr")
 ChargeIntervals = 10
+ManaDroppedAmount = ExtResource("5_pfci4")
 ManaCostRange = ExtResource("5_slash_manacost")
 MaxChargeTime = ExtResource("6_slash_chargetime")
 AudioData = ExtResource("2_slash_audio")
@@ -38,4 +33,4 @@ AUTOMATIC: Whips around you repeatedly."
 ItemIcon = ExtResource("3_b3h0y")
 Price = 120
 Rarity = 0.6
-RankUps = Array[Object]([SubResource("Resource_pfci4")])
+RankUps = Array[Object]([])

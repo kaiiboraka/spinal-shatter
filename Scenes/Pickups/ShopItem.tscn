@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
-[ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="2_rbxn4"]
+[ext_resource type="Resource" uid="uid://ks6csrwleo01" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/MaxManaUp_StatItemData.tres" id="2_tktbk"]
 [ext_resource type="PackedScene" uid="uid://bi48xxwpvl31n" path="res://Scenes/UI/InventoryHUDItem.tscn" id="4_wcb6i"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_67lmo"]
@@ -36,7 +36,7 @@ viewport_path = NodePath("SubViewport")
 
 [node name="ShopItem" type="Node3D" node_paths=PackedStringArray("item")]
 script = ExtResource("1_tktbk")
-Data = ExtResource("2_rbxn4")
+Data = ExtResource("2_tktbk")
 item = NodePath("SubViewport/Icon_InventoryHUDItem")
 
 [node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="."]

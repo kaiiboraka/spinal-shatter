@@ -12,47 +12,46 @@ public partial class ShopItem : Node3D
         set
         {
             data = value;
-            _dataDirty = true; // Mark data as dirty
+            if (IsInsideTree()) // Ensure node is in the tree before deferring a call
+            {
+                CallDeferred(nameof(UpdateVisualData));
+            }
         }
     }
 
     [Export] private InventoryHUDItem item;
     public InventoryHUDItem Item => item;
 
-    private bool _dataDirty = false;
-
     public override void _EnterTree()
     {
         base._EnterTree();
-        if (Engine.IsEditorHint() && IsInsideTree()) UpdateVisualData();
+        UpdateVisualData();
     }
 
     public override void _Ready()
     {
-        if (Data == null)
-        {
-            GD.PushWarning("ShopItemData not set for ShopItem.");
-            return;
-        }
-        // GetComponents();
         UpdateVisualData();
     }
 
-    // private void GetComponents()
-    // {
-    //     // item is assigned via node_paths, no need to GetNode here.
-    // }
-
-    private void UpdateVisualData( )
+    private void UpdateVisualData()
     {
-        // if (Engine.IsEditorHint() && IsInsideTree()) GetComponents();
-
+        if (Engine.IsEditorHint() && item == null)
+        {
+             // In editor, item might not be assigned yet. This is expected.
+             return;
+        }
 
         if (item != null)
         {
-            item.ChangeDisplayData(Data, Data.ShopRank);
+            if (Data != null)
+            {
+                item.ChangeDisplayData(Data, Data.ShopRank);
+            }
+            else
+            {
+                item.ChangeDisplayData(null, 0);
+            }
         }
-
     }
 }
 

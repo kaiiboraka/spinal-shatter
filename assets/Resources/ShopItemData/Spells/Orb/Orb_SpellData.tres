@@ -12,13 +12,13 @@
 [ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="11_l5ydw"]
 [ext_resource type="Resource" uid="uid://dk22v8lff4mej" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank1.tres" id="12_orb_p_rank1"]
 [ext_resource type="Resource" uid="uid://bicc4wsxu1b7i" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank2.tres" id="13_orb_p_rank2"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank3.tres" id="14_orb_p_rank3"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank4.tres" id="15_orb_p_rank4"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank5.tres" id="16_orb_p_rank5"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank6.tres" id="17_orb_p_rank6"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank7.tres" id="18_orb_p_rank7"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank8.tres" id="19_orb_p_rank8"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank9.tres" id="20_orb_p_rank9"]
+[ext_resource type="Resource" uid="uid://ucm0xtugw2si" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank3.tres" id="14_orb_p_rank3"]
+[ext_resource type="Resource" uid="uid://bebs6i6wkfn26" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank4.tres" id="15_orb_p_rank4"]
+[ext_resource type="Resource" uid="uid://c2dg8tk8n6d1" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank5.tres" id="16_orb_p_rank5"]
+[ext_resource type="Resource" uid="uid://b0d47w4j3akme" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank6.tres" id="17_orb_p_rank6"]
+[ext_resource type="Resource" uid="uid://ddfcc8qpu14ne" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank7.tres" id="18_orb_p_rank7"]
+[ext_resource type="Resource" uid="uid://b0nkoy6o1tomv" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank8.tres" id="19_orb_p_rank8"]
+[ext_resource type="Resource" uid="uid://dllho1rm0oaex" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_P_Rank9.tres" id="20_orb_p_rank9"]
 
 [resource]
 script = ExtResource("11_l5ydw")
@@ -32,8 +32,11 @@ SpeedRange = ExtResource("10_nvsib")
 SizeRange = ExtResource("9_g31w6")
 ProjectileScene = ExtResource("7_b8s0m")
 ItemName = "Orb"
+ItemDescription = "A simple projectile that can bounce on walls. Charge increases damage and size.
+PRIMARY: High single target damage.
+SECONDARY: Splash in a large AoE.
+AUTOMATIC: Fires at the nearest enemy."
 ItemIcon = ExtResource("3_7j5oq")
 Price = 100
 Rarity = 0.5
-ShopRank = 1
 RankUps = Array[Object]([ExtResource("12_orb_p_rank1"), ExtResource("13_orb_p_rank2"), ExtResource("14_orb_p_rank3"), ExtResource("15_orb_p_rank4"), ExtResource("16_orb_p_rank5"), ExtResource("17_orb_p_rank6"), ExtResource("18_orb_p_rank7"), ExtResource("19_orb_p_rank8"), ExtResource("20_orb_p_rank9")])

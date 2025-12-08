@@ -92,48 +92,58 @@ public partial class InventoryHUDItem : Control
 
 	public void ChangeDisplayData(ShopItemData itemData, int newRank)
 	{
-		if (itemData == null)
+		// Ensure components are valid, especially in the editor
+		if (iconRect == null || rankText == null || priceLabel == null)
 		{
-			iconRect.Texture = null;
-			rankText.Text = "";
-			iconRect.Visible = false; // Hide icon
-			rankText.Visible = false; // Hide rank
-			if (priceLabel != null)
+			GetComponents();
+			if (iconRect == null || rankText == null || priceLabel == null)
 			{
-				priceLabel.Visible = false;
+				GD.PrintErr("InventoryHUDItem: UI components not found.");
+				return;
 			}
 		}
-		else
-		{
-			iconRect.Texture = itemData.ItemIcon;
-			Rank = newRank; // This setter will update rankText.Text
-			iconRect.Visible = true; // Show icon
-			rankText.Visible = true; // Show rank
 
-			if (priceLabel == null) return;
-			if (!IsPlayerItem) // Only show price in shop context
+		if (itemData == null)
+		{
+			iconRect.Visible = false;
+			rankText.Visible = false;
+			priceLabel.Visible = false;
+			return;
+		}
+
+		// Set visuals that are always shown for a valid item
+		iconRect.Texture = itemData.ItemIcon;
+		iconRect.Visible = true;
+		
+		Rank = newRank; // This updates the rankText's text
+		rankText.Visible = (Rank > 0); // Only show rank if it's meaningful
+
+		// Handle price visibility, defaulting to hidden
+		priceLabel.Visible = false;
+		if (IsPlayerItem)
+		{
+			return; // No price for player inventory items
+		}
+		
+		// --- Logic for shop items ---
+		int price = 0;
+		if (itemData.ShopRank == 1) // Base item
+		{
+			price = itemData.Price;
+		}
+		else if (itemData.ShopRank > 1) // Rank-up item
+		{
+			int rankUpIndex = itemData.ShopRank - 2;
+			if (itemData.RankUps != null && rankUpIndex >= 0 && rankUpIndex < itemData.RankUps.Count)
 			{
-				if (itemData.ShopRank == 1) // Base item
-				{
-					priceLabel.Text = $"[center]${itemData.Price}[/center]";
-					priceLabel.Visible = true;
-				}
-				else if (itemData.ShopRank > 1 && itemData.RankUps != null && (itemData.ShopRank - 2) >= 0 && (itemData.ShopRank - 2) < itemData.RankUps.Count) // Rank-up item
-				{
-					// itemData.ShopRank is the target rank (e.g., 2 for first rank-up).
-					// RankUpData for first rank-up is at index 0. So index is ShopRank - 2.
-					priceLabel.Text = $"[center]${itemData.RankUps[itemData.ShopRank - 2].RankUpPrice}[/center]";
-					priceLabel.Visible = true;
-				}
-				else
-				{
-					priceLabel.Visible = false; // Hide if no valid price can be determined for shop item
-				}
+				price = (int)itemData.RankUps[rankUpIndex].RankUpPrice;
 			}
-			else // Not a shop item (player inventory)
-			{
-				priceLabel.Visible = false;
-			}
+		}
+
+		if (price > 0)
+		{
+			priceLabel.Text = $"[center]${price}[/center]";
+			priceLabel.Visible = true;
 		}
 	}
 

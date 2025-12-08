@@ -3,9 +3,10 @@
 [ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_3dua6"]
 
 [resource]
+resource_name = "MaxLife_Rank2"
 script = ExtResource("1_3dua6")
 StatModifiers = Dictionary[int, float]({
 0: 50.0
 })
-RankUpPrice = 50.0
+RankUpPrice = 100.0
 metadata/_custom_type_script = "uid://btb00jki3f5wt"

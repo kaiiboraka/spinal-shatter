@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="StatItemData" load_steps=4 format=3 uid="uid://cpsixi7l16gnv"]
+[gd_resource type="Resource" script_class="StatItemData" load_steps=5 format=3 uid="uid://cpsixi7l16gnv"]
 
 [ext_resource type="Texture2D" uid="uid://b7cqj4adkbw2v" path="res://assets/Images/ShopItems/Stat_MaxHealth_Icon.ase" id="1_7pjo1"]
 [ext_resource type="Resource" uid="uid://ckpw50ibyivnu" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/RankData/MaxLife_Rank2.tres" id="2_3cc6n"]
+[ext_resource type="Resource" uid="uid://cpp4i18qti1g8" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/RankData/MaxLife_Rank1.tres" id="2_800nw"]
 [ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="3_800nw"]
 
 [resource]
 script = ExtResource("3_800nw")
 Value = 25.0
 ItemName = "Max Health"
+ItemDescription = "Do you feel it, Mr. Krabs?"
 ItemIcon = ExtResource("1_7pjo1")
 Price = 75
 Rarity = 0.4
-ShopRank = 1
-RankUps = Array[Object]([ExtResource("2_3cc6n")])
+RankUps = Array[Object]([ExtResource("2_800nw"), ExtResource("2_3cc6n")])

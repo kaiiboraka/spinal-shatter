@@ -146,116 +146,68 @@ public partial class ShopCart : StaticBody3D
 			return;
 		}
 
-		var selectedOffers = new Array<ShopItemData>();
-		var rng = new RandomNumberGenerator();
-		rng.Randomize();
+		var potentialOffers = new Array<ShopItemData>();
 
-		int attempts = 0;
-		const int MAX_ITEM_GENERATION_ATTEMPTS = 500; // Max attempts to fill a slot, to prevent infinite loops
-
-		// Try to fill each shop slot
-		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
+		// 1. Build a list of ALL possible valid offers
+		foreach (var baseItem in _shopStock.AvailableItems)
 		{
-			ShopItemData finalOfferItem = null;
-			attempts = 0;
+			bool isMaxRank = false;
+			int currentRank = 0;
 
-			while (finalOfferItem == null && attempts < MAX_ITEM_GENERATION_ATTEMPTS)
+			// Determine ownership and rank
+			if (baseItem is SpellData spellData)
 			{
-				attempts++;
-				ShopItemData chosenBaseItem = (ShopItemData)_shopStock.AvailableItems.PickRandom().Duplicate(); // Clone to avoid modifying original asset
-
-				// Check if this base item (by ItemName) is already in the offers selected for this shop cycle
-				bool alreadySelectedInShop = false;
-				foreach (var existingOffer in selectedOffers)
-				{
-					if (existingOffer.ItemName == chosenBaseItem.ItemName)
-					{
-						alreadySelectedInShop = true;
-						break;
-					}
-				}
-				if (alreadySelectedInShop) continue; // Pick another one if already selected for this shop cycle
-
-				bool isMaxRank = false;
-				int currentRank = 0;
-
-				// Determine ownership and rank
-				if (chosenBaseItem is SpellData spellData)
-				{
-					var (equippedWeapon, rank, max) = player.Inventory.GetOwnedWeaponInfo(spellData);
-					currentRank = rank;
-					isMaxRank = max;
-				}
-				else if (chosenBaseItem is StatItemData statItemData)
-				{
-					var (equippedStatItem, rank, max) = player.Inventory.GetOwnedStatItemInfo(statItemData);
-					currentRank = rank;
-					isMaxRank = max;
-				}
-
-				if (isMaxRank)
-				{
-					// Item is max ranked, should not be offered
-					continue;
-				}
-
-				if (currentRank > 0) // Item is owned and not max rank, offer a rank-up
-				{
-					// Ensure there's a RankUpData for the next rank
-					// currentRank is the actual rank (1-indexed). RankUps is 0-indexed.
-					// So for currentRank 1 -> next is Rank 2, uses RankUps[0]
-					// So for currentRank N -> next is Rank N+1, uses RankUps[N-1]
-					if (chosenBaseItem.RankUps != null && currentRank < chosenBaseItem.RankUps.Count)
-					{
-						finalOfferItem = chosenBaseItem; // Use the cloned item
-						finalOfferItem.ShopRank = currentRank + 1; // Set the target rank
-						// The price is already handled by InventoryHUDItem from RankUpPrice
-					}
-					else
-					{
-						// No more rank-ups available for this item, treat as maxed or unofferable
-						continue;
-					}
-				}
-				else // Item is not owned, offer base item
-				{
-					finalOfferItem = chosenBaseItem; // Use the cloned item
-					finalOfferItem.ShopRank = 1; // Set as base rank offer
-				}
+				var (_, rank, max) = player.Inventory.GetOwnedWeaponInfo(spellData);
+				currentRank = rank;
+				isMaxRank = max;
+			}
+			else if (baseItem is StatItemData statItemData)
+			{
+				var (_, rank, max) = player.Inventory.GetOwnedStatItemInfo(statItemData);
+				currentRank = rank;
+				isMaxRank = max;
 			}
 
-			// Add the found offer to our list, or null if no eligible item was found after attempts
-			selectedOffers.Add(finalOfferItem);
+			if (isMaxRank)
+			{
+				continue; // Skip max rank items
+			}
+
+			ShopItemData offer = (ShopItemData)baseItem.Duplicate(true);
+			if (currentRank > 0) // Item is owned, create a rank-up offer
+			{
+				offer.ShopRank = currentRank + 1;
+			}
+			else // Item is not owned, create a base item offer
+			{
+				offer.ShopRank = 1;
+			}
+			potentialOffers.Add(offer);
 		}
 
-		// Shuffle the final offers to randomize their position in the shop display
-		selectedOffers.Shuffle();
+		// 2. Shuffle the list of all potential offers
+		potentialOffers.Shuffle();
 
-		// Populate the actual shop item nodes
+		// 3. Populate the shop slots with the first N items from the shuffled list
 		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
 		{
-			ShopItemData offer = selectedOffers[i];
-			_shopItems[i].Data = offer;
-			_shopItems[i].Visible = (offer != null); // Only visible if there's an item to display
+			if (i < potentialOffers.Count)
+			{
+				_shopItems[i].Data = potentialOffers[i];
+				_shopItems[i].Visible = true;
+			}
+			else
+			{
+				_shopItems[i].Data = null;
+				_shopItems[i].Visible = false;
+			}
 		}
 		
-		// Ensure selection visuals are updated after randomization
-		UpdateSelectionVisuals();
-		if (PlayerBody.Instance != null)
+		// 4. Update visuals and details for the initial selection
+		if (_shopItems.Count > 0)
 		{
-			PlayerBody.Instance.UpdateShopDetails(null); // Clear previous details
-			if (_shopItems.Count > 0 && _selectedItemIndex < _shopItems.Count)
-			{
-				// Only update details if the initially selected item is valid
-				if (_shopItems[_selectedItemIndex].Data != null)
-				{
-					PlayerBody.Instance.UpdateShopDetails(_shopItems[_selectedItemIndex].Data);
-				}
-				else
-				{
-					PlayerBody.Instance.UpdateShopDetails(null); // Clear if first item is null
-				}
-			}
+			_selectedItemIndex = 0;
+			UpdateSelectionVisuals();
 		}
 	}
 

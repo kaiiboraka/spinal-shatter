@@ -15,7 +15,7 @@ You, a lone sorceror, awaken in a dark, dank dungeon. The last thing you remembe
 
 ### Mechanic Inspiration
 
-- Vampire Survivors
+- Vampire Survivors (VS)
 - Halo Firefight 
 - DOOM 2016
 - Hades
@@ -237,47 +237,45 @@ In my game, in whatever form the inventory takes, there will be a level int asso
 
 #### List of Weapons 
 
-Vampire Survivors = VS
 
-Orb: bounces, main attack 
+FIRE Orb: bounces, main attack 
 - charge: increases size, damage 
 - ALT FIRE: Explodes on impact, effectively a rocket launcher with high knockback
 - Automatic: VS "Wand" equivalent, fires at the nearest enemy.
 
-Slash: horizontal slice wave 
+WATER Slash: horizontal slice wave 
 - charge: increases width: individual hit chunks, decreases damage 
 - ALT FIRE: Spin attack / Nova, sends everything out away from you
 - Automatic: VS Whip, attacks repeatedly around you.
 
-Force Wall: upright and flat, offensive shield 
+WIND Wall: upright and flat, offensive shield 
 - charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
 - ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage 
 - Automatic: \[TBD] might just be some ongoing defensive effect, like Laurel
 
-DICE: shotgun, shatters on impact into smaller projectiles 
+POISON Spikes: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
 - ALT FIRE: Bundle of Toxic Caltrops
 - Automatic: VS Santa Water+ - fires a caltrop bundle up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
 
-Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
+LIGHTNING Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
 - charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.
 - ALT FIRE: ... stun beam? charge attack?
 - Automatic: VS Lightning Ring - periodically nuke a single nearby target with a divine smite/lightning strike from above.
 
-GARLIC: Constant AoE damage 
+ICE Storm: Constant AoE damage 
 - charge: continual drain to deal high consistent damage while channeling in a radius around you
 - ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes or slows slightly
 - Automatic: normal garlic behavior - radiate AoE damage in a circle around you at a tick rate
 
-Chakram / Glaive: boomerang, bounces between targets 
+WOOD Chakram: boomerang, bounces between targets 
 - charge: increases number of bounces before returning 
 - ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
 - Automatic: VS Bible - orbits around you, chopping and knocking back nearby enemies
 
-Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
+ARCANE Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
 - charge: turns into lock on, increases missile / lock-on count 
-- ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly
-visual differences to differentiate
+- ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly visual differences to differentiate
 - Automatic: fire a (rank-scaling) number of missiles evenly divided among enemy targets in range, on a timer.
 
  

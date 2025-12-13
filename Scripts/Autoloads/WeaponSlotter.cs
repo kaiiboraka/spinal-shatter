@@ -36,7 +36,7 @@ public partial class WeaponSlotter : CanvasLayer
         string secondaryKey = "Player_AltFire".GetActionKeyName();
         string automaticKey = "Player_Siphon".GetActionKeyName();
 
-        _promptLabel.Text = $"[center]Press [{primaryKey}] for Primary, [{secondaryKey}] for Secondary, or [{automaticKey}] for Automatic slot.[/center]";
+        _promptLabel.Text = $"[center]Press to assign to weapon slot:\nPrimary Slot: Shoot [{primaryKey}] for \nSecondary Slot: AltFire [{secondaryKey}]\nAutomatic Slot: Siphon [{automaticKey}][/center]";
         Show();
         ProcessMode = ProcessModeEnum.Always;
     }

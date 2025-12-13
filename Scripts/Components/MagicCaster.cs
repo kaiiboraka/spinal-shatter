@@ -6,9 +6,9 @@ using System;
 
 public partial class MagicCaster : Node
 {
-	private CastedSpellData _equippedSpell;
-	private CastedSpellData _equippedAltFireSpell;
-	private SlotType _activeCastingSlot = SlotType.Primary;
+	private CastedSpellData equippedPrimarySpell;
+	private CastedSpellData equippedSecondarySpell;
+	private SlotType activeCastingSlot = SlotType.Primary;
 
 	[Export] private ManaComponent manaComponent;
 	[Export] public Marker3D SpellOrigin { get; private set; }
@@ -39,26 +39,26 @@ public partial class MagicCaster : Node
 
 	public void SetPrimaryWeapon(CastedSpellData spellData)
 	{
-		_equippedSpell = spellData;
+		equippedPrimarySpell = spellData;
 
-		sfxBeep = (AudioFile)_equippedSpell.AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)_equippedSpell.AudioData["SpellChargeComplete"];
+		sfxBeep = (AudioFile)equippedPrimarySpell.AudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)equippedPrimarySpell.AudioData["SpellChargeComplete"];
 	}
 
 	public void SetSecondaryWeapon(CastedSpellData spellData)
 	{
-		_equippedAltFireSpell = spellData;
+		equippedSecondarySpell = spellData;
 
-		sfxBeep = (AudioFile)_equippedSpell.AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)_equippedSpell.AudioData["SpellChargeComplete"];
+		sfxBeep = (AudioFile)equippedSecondarySpell.AudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)equippedSecondarySpell.AudioData["SpellChargeComplete"];
 	}
 
 	private CastedSpellData GetActiveSpellData =>
-		_activeCastingSlot switch
+		activeCastingSlot switch
 		{
-			SlotType.Primary => _equippedSpell,
-			SlotType.Secondary => _equippedAltFireSpell,
-			_ => _equippedSpell // Default to primary if for some reason an unhandled SlotType is active
+			SlotType.Primary => equippedPrimarySpell,
+			SlotType.Secondary => equippedSecondarySpell,
+			_ => equippedPrimarySpell // Default to primary if for some reason an unhandled SlotType is active
 		};
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -79,11 +79,11 @@ public partial class MagicCaster : Node
 
 				break;
 			case CasterState.Charging:
-				if (@event.IsActionReleased("Player_Shoot") && _activeCastingSlot == SlotType.Primary)
+				if (@event.IsActionReleased("Player_Shoot") && activeCastingSlot == SlotType.Primary)
 				{
 					FireWeapon();
 				}
-				else if (@event.IsActionReleased("Player_AltFire") && _activeCastingSlot == SlotType.Secondary)
+				else if (@event.IsActionReleased("Player_AltFire") && activeCastingSlot == SlotType.Secondary)
 				{
 					FireWeapon();
 				}
@@ -102,7 +102,7 @@ public partial class MagicCaster : Node
 
 	private void BeginCharge(SlotType slot)
 	{
-		_activeCastingSlot = slot;
+		activeCastingSlot = slot;
 		currentSpellData = GetActiveSpellData;
 
 		if (currentSpellData == null || chargingProjectile != null || currentSpellData.ProjectileScene == null ||
@@ -205,7 +205,7 @@ public partial class MagicCaster : Node
 			ChargeRatio = chargeRatio,
 			StartPosition = SpellOrigin,
 			SpellData = currentSpellData,
-			Slot = _activeCastingSlot
+			Slot = activeCastingSlot
 		};
 
 		audioPlayer_Spell.Play();
@@ -261,7 +261,7 @@ public partial class MagicCaster : Node
 		lastInterval = -1;
 		audioPlayer_ChargeBack.Stop();
 		audioPlayer_ChargeBeep.Stop();
-		_activeCastingSlot = SlotType.Primary; // Reset active casting slot
+		activeCastingSlot = SlotType.Primary; // Reset active casting slot
 
 		PlayerBody.Instance.AllowMeleeAttack();
 		PlayerBody.Instance.AllowSiphon();

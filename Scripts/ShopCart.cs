@@ -24,6 +24,7 @@ public partial class ShopCart : StaticBody3D
 	// private Tween _cursorTween;
 
 	[Export] private ShopStockData _shopStock;
+	private WeaponSlotter _weaponSlotter;
 
 	private ShopState currentState;
 
@@ -32,10 +33,10 @@ public partial class ShopCart : StaticBody3D
 		ClosedWindow,
 		OpenWindow,
 		PlayerShopping,
-		AwaitingSlotSelection,
+		// AwaitingSlotSelection, // Removed, handled by WeaponSlotter
 	}
 
-	private SpellData _purchasedWeaponPendingSlotAssignment;
+	// private SpellData _purchasedWeaponPendingSlotAssignment; // Removed
 
 	public override void _EnterTree()
 	{
@@ -46,6 +47,16 @@ public partial class ShopCart : StaticBody3D
 	public override void _Ready()
 	{
 		GetComponents();
+
+		_weaponSlotter = WeaponSlotter.Instance;
+		if (_weaponSlotter != null)
+		{
+			_weaponSlotter.SlotSelected += OnSlotSelected;
+		}
+		else
+		{
+			GD.PrintErr("ShopCart: WeaponSlotter instance not found!");
+		}
 
 		// Populate _shopItems from ShopRoot/ShopSlots's children that are ShopItem's
 
@@ -106,50 +117,92 @@ public partial class ShopCart : StaticBody3D
 				CloseShop();
 			}
 		}
-		else if (currentState == ShopState.AwaitingSlotSelection)
-		{
-			var player = PlayerBody.Instance;
-			if (_purchasedWeaponPendingSlotAssignment is not PrimarySpellData primarySpell)
-			{
-				// This should not happen if the shop only sells PrimarySpellData
-				GD.PrintErr("Purchased weapon is not a PrimarySpellData. Cannot determine variants.");
-				currentState = ShopState.PlayerShopping; // Abort
-				player.HideInteractionPrompt();
-				return;
-			}
-
-			if (@event.IsActionPressed("Player_Shoot")) // Primary
-			{
-				player.Inventory.EquipOrRankUpItem(primarySpell, SlotType.Primary);
-				_purchasedWeaponPendingSlotAssignment = null;
-				currentState = ShopState.PlayerShopping;
-				player.HideInteractionPrompt();
-			}
-			else if (@event.IsActionPressed("Player_AltFire")) // Secondary
-			{
-				SpellData
-					secondarySpell = primarySpell.Secondary ?? primarySpell; // Fallback to primary if secondary is null
-				player.Inventory.EquipOrRankUpItem(secondarySpell, SlotType.Secondary);
-				_purchasedWeaponPendingSlotAssignment = null;
-				currentState = ShopState.PlayerShopping;
-				player.HideInteractionPrompt();
-			}
-			else if (@event.IsActionPressed("Player_Siphon")) // Automatic
-			{
-				SpellData automaticSpell =
-					(SpellData)primarySpell.Automatic ?? primarySpell; // Fallback to primary if automatic is null
-				player.Inventory.EquipOrRankUpItem(automaticSpell, SlotType.Automatic);
-				_purchasedWeaponPendingSlotAssignment = null;
-				currentState = ShopState.PlayerShopping;
-				player.HideInteractionPrompt();
-			}
-		}
+		// else if (currentState == ShopState.AwaitingSlotSelection) { ... logic removed ... }
 		else if (@event.IsActionPressed("Player_Interact"))
 		{
 			if (currentState == ShopState.OpenWindow)
 			{
 				OpenShop();
 			}
+		}
+	}
+
+	private void OnSlotSelected(SlotType slot, SpellData purchasedSpellData)
+	{
+		var player = PlayerBody.Instance;
+		if (player == null)
+		{
+			GD.PrintErr("ShopCart: PlayerBody.Instance is null in OnSlotSelected.");
+			return;
+		}
+
+		player.HideInteractionPrompt(); // Hide any prompt from the player
+
+		if (purchasedSpellData is not PrimarySpellData primarySpell)
+		{
+			GD.PrintErr("ShopCart: Purchased spell is not PrimarySpellData in OnSlotSelected.");
+			currentState = ShopState.PlayerShopping; // Abort
+			return;
+		}
+
+		SpellData spellToEquip;
+		switch (slot)
+		{
+			case SlotType.Primary:
+				spellToEquip = primarySpell;
+				break;
+			case SlotType.Secondary:
+				spellToEquip = primarySpell.Secondary;
+				break;
+			case SlotType.Automatic:
+				spellToEquip = primarySpell.Automatic;
+				break;
+			default:
+				GD.PrintErr($"ShopCart: Invalid SlotType {slot} received in OnSlotSelected.");
+				currentState = ShopState.PlayerShopping; // Abort
+				return;
+		}
+
+		player.Inventory.EquipOrRankUpItem(spellToEquip, slot);
+		currentState = ShopState.PlayerShopping;
+
+		// Clear the purchased item from the shop slot
+		ShopItem purchasedShopItem = null;
+		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
+		{
+			if (_shopItems[i].Data == purchasedSpellData)
+			{
+				purchasedShopItem = _shopItems[i];
+				break;
+			}
+		}
+
+		if (purchasedShopItem != null)
+		{
+			purchasedShopItem.Data = null;
+			purchasedShopItem.Visible = false;
+		}
+
+
+		// Find the next available item to select (this logic is adapted from TryPurchaseSelectedItem)
+		bool foundNext = false;
+		for (int i = 1; i < SHOP_STOCK_COUNT; i++)
+		{
+			int nextIndex = (_selectedItemIndex + i) % SHOP_STOCK_COUNT;
+			if (_shopItems[nextIndex].Visible)
+			{
+				_selectedItemIndex = nextIndex;
+				UpdateSelectionVisuals();
+				foundNext = true;
+				break;
+			}
+		}
+
+		if (!foundNext)
+		{
+			// No other items left, clear details and hide prompt
+			player.HideInteractionPrompt();
+			player.UpdateShopDetails(null);
 		}
 	}
 
@@ -311,11 +364,7 @@ public partial class ShopCart : StaticBody3D
 			}
 			else // It's a new weapon, so we must ask the player where to put it.
 			{
-				_purchasedWeaponPendingSlotAssignment = spellData;
-				currentState = ShopState.AwaitingSlotSelection;
-				player.ShowPromptToPress("Player_Shoot", "to Primary", "Assign Weapon");
-				player.ShowPromptToPress("Player_AltFire", "to Secondary", "Assign Weapon");
-				player.ShowPromptToPress("Player_Siphon", "to Automatic", "Assign Weapon");
+				_weaponSlotter.BeginSlotSelection(spellData);
 
 				// Clear data from the slot now that it's pending assignment
 				selectedShopItem.Data = null;

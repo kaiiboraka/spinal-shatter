@@ -3,7 +3,7 @@
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_7j5oq"]
 [ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="2_4hqy0"]
 [ext_resource type="Resource" uid="uid://bo3harnrbrn1y" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_Damage_RangeF.tres" id="2_nfnvx"]
-[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="3_7j5oq"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="3_l5ydw"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaCost_RangeF.tres" id="4_5m6xx"]
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaDrop_RangeI.tres" id="5_16few"]
 [ext_resource type="Resource" uid="uid://dunklo2av4j2g" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_MaxChargeTime_RangeF.tres" id="6_geiko"]
@@ -38,7 +38,7 @@ ItemDescription = "A simple projectile that can bounce on walls. Charge increase
 PRIMARY: High single target damage.
 SECONDARY: Splash in a large AoE.
 AUTOMATIC: Fires at the nearest enemy."
-ItemIcon = ExtResource("3_7j5oq")
+ItemIcon = ExtResource("3_l5ydw")
 Price = 100
 Rarity = 0.5
 RankUps = Array[Object]([ExtResource("12_orb_p_rank1"), ExtResource("13_orb_p_rank2"), ExtResource("14_orb_p_rank3"), ExtResource("15_orb_p_rank4"), ExtResource("16_orb_p_rank5"), ExtResource("17_orb_p_rank6"), ExtResource("18_orb_p_rank7"), ExtResource("19_orb_p_rank8"), ExtResource("20_orb_p_rank9")])

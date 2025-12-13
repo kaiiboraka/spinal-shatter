@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AutomaticSpellData" load_steps=16 format=3 uid="uid://c8k5dujog71uv"]
+
+[ext_resource type="Resource" uid="uid://dxs4inj56nygy" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbAuto_Damage_RangeF.tres" id="1_l826w"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="2_uve1l"]
+[ext_resource type="PackedScene" uid="uid://dmoyx8lghnmpj" path="res://Scenes/Projectiles/OrbAuto_Wand.tscn" id="3_l826w"]
+[ext_resource type="Resource" uid="uid://xyfvgrjynlln" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank1.tres" id="4_wmkpx"]
+[ext_resource type="Resource" uid="uid://bm554wiwymqyu" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank2.tres" id="5_d3qqt"]
+[ext_resource type="Resource" uid="uid://cxvng6abgftjl" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank3.tres" id="6_qv1ix"]
+[ext_resource type="Resource" uid="uid://byaslmgvvnaa6" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank4.tres" id="7_5v6mw"]
+[ext_resource type="Resource" uid="uid://c84i2g2gmju5e" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank5.tres" id="8_h00yg"]
+[ext_resource type="Resource" uid="uid://bnm2h3n4b1mi6" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank6.tres" id="9_ako5x"]
+[ext_resource type="Resource" uid="uid://bjatpgu3vjiy0" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank7.tres" id="10_s04ed"]
+[ext_resource type="Resource" uid="uid://cjmm7xkr3x5q3" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank8.tres" id="11_l8odr"]
+[ext_resource type="Resource" uid="uid://bpd6o7ay3628k" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank9.tres" id="12_gol7c"]
+[ext_resource type="Resource" uid="uid://c0uflh8458xx4" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbAuto_Size_RangeF.tres" id="13_vgxax"]
+[ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_Speed_RangeF.tres" id="14_s2tuw"]
+[ext_resource type="Script" uid="uid://bxr70v7cdb2dd" path="res://Scripts/Resources/Spells/AutomaticSpellData.cs" id="15_kvays"]
+
+[resource]
+script = ExtResource("15_kvays")
+FireRate = 1.25
+Slot = 2
+DamageRange = ExtResource("1_l826w")
+SpeedRange = ExtResource("14_s2tuw")
+SizeRange = ExtResource("13_vgxax")
+ProjectileScene = ExtResource("3_l826w")
+ItemIcon = ExtResource("2_uve1l")
+RankUps = [ExtResource("4_wmkpx"), ExtResource("5_d3qqt"), ExtResource("6_qv1ix"), ExtResource("7_5v6mw"), ExtResource("8_h00yg"), ExtResource("9_ako5x"), ExtResource("10_s04ed"), ExtResource("11_l8odr"), ExtResource("12_gol7c")]

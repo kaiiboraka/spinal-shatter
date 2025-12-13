@@ -271,6 +271,21 @@ public static class NumericExtensions
         return rounded / tens;
     }
 
+    public static float Squared(this float num)
+    {
+        return num * num;
+    }
+
+    public static int Squared(this int num)
+    {
+        return num * num;
+    }
+
+    public static double Squared(this double num)
+    {
+        return num * num;
+    }
+
     public static float Pow(this float x, float pow)
     {
         return Mathf.Pow(x, pow);

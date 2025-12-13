@@ -7,7 +7,7 @@
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_ManaCost_RangeF.tres" id="5_slash_alt_manacost"]
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="5_xvbxn"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_MaxChargeTime_RangeF.tres" id="6_slash_alt_chargetime"]
-[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Orb.tscn" id="7_slash_alt_projectile"]
+[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/OrbPrimary.tscn" id="7_slash_alt_projectile"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Size_RangeF.tres" id="8_slash_alt_size"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Speed_RangeF.tres" id="9_slash_alt_speed"]
 

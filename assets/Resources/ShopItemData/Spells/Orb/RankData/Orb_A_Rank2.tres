@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RankUpData" load_steps=2 format=3 uid="uid://bm554wiwymqyu"]
+
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_abcde"]
+
+[resource]
+resource_name = "OrbA_R2 Dmg+10"
+script = ExtResource("1_abcde")
+StatModifiers = Dictionary[int, float]({
+10: 10.0
+})
+RankUpPrice = 600.0

@@ -50,7 +50,6 @@ public partial class PlayerBody : Combatant
 	private bool grounded = false;
 	private bool isCrouching = false;
 	private bool isSprinting = false;
-	public bool DeadNow { get; private set; } = false;
 	private int curJumps = 0;
 
 	public int CurrentMoney
@@ -212,7 +211,6 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_Footsteps = GetNode<AudioStreamPlayer3D>("Audio/Footsteps_AudioStreamPlayer3D");
 		var audioData = GD.Load<Resource>("res://assets/Audio/AudioData/AudioData_Player.tres");
 		AudioData = audioData as AudioData;
-		automaticCaster.Initialize(magicCaster.SpellOrigin);
 	}
 
 	protected override void ConnectEvents()

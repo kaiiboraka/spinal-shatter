@@ -23,6 +23,7 @@ public enum StatType
 	Weapon_Duration, // affects lifetime of projectile before it dissipates automatically
 	Weapon_Pierce,
 	Weapon_Bounce, // for both bounces off of walls and bounces off of enemies, depending on the context of the weapon at hand
+	Weapon_Range, // mostly for targeting falloff of automatic weapons
 
 	// Meta Progression Stats
 	Meta_RerollHallwayRewards,

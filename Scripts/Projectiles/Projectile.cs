@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace SpinalShatter;
 
 using Godot;
@@ -128,7 +130,7 @@ public partial class Projectile : RigidBody3D
 	public void BeginChargingProjectile(Node3D parent, SpellData spellData)
 	{
 		parent.AddChild(this);
-		if (trail != null) trail.Visible = false;
+		trail.Visible = false;
 		this.SpellData = spellData;
 		this.Position = Vector3.Zero;
 		this.CurrentCharge = 0;
@@ -185,6 +187,10 @@ public partial class Projectile : RigidBody3D
 					// Alt-fire rocket launcher should have more base power for more knockback
 
 				}
+				else if (Slot == SlotType.Automatic)
+				{
+					// data.InitialVelocity =
+				}
 				damagePerMana = CurrentDamage / CurrentMana;
 				break;
 			case WeaponType.Slash:
@@ -219,7 +225,7 @@ public partial class Projectile : RigidBody3D
 		this.LinearVelocity = data.InitialVelocity;
 
 		lifetimeTimer.Start();
-		if (trail != null) trail.Visible = true;
+		if (Slot != SlotType.Automatic) trail.Visible = true;
 	}
 
 

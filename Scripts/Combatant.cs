@@ -9,8 +9,12 @@ public abstract partial class Combatant : CharacterBody3D
     protected Area3D hurtbox; // Common hurtbox
     protected Area3D meleeHitbox;
 
+    public Vector3 HurtboxPosition => hurtbox.GlobalPosition;
+
     protected float KnockbackWeight { get; set; } = 5.0f;
     protected Vector3 knockbackVelocity = Vector3.Zero;
+
+	public bool DeadNow { get; protected set; } = false;
 
     public override void _Ready()
     {

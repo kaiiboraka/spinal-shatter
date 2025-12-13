@@ -893,12 +893,11 @@ collision_mask = 0
 visible = false
 
 [node name="Hurtbox" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58596015, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.235, 0)
 collision_layer = 2048
 collision_mask = 12288
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64926755, 0)
 shape = SubResource("CapsuleShape3D_s0m4p")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 

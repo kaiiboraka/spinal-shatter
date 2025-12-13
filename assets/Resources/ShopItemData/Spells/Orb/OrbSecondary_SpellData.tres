@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="4_8p3th"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaCost_RangeF.tres" id="4_27i46"]
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="4_m2x7r"]
-[ext_resource type="PackedScene" uid="uid://dllhy7tqqr7kj" path="res://Scenes/Projectiles/Orb_AltFire_Explode.tscn" id="6_otdrp"]
+[ext_resource type="PackedScene" uid="uid://dllhy7tqqr7kj" path="res://Scenes/Projectiles/OrbSecondary_Explode.tscn" id="6_otdrp"]
 [ext_resource type="Script" uid="uid://bmldedulm1wvc" path="res://Scripts/Resources/Spells/OrbAltSpellData.cs" id="7_57ykm"]
 [ext_resource type="Resource" uid="uid://cdr2h8u6y7jc8" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank1.tres" id="8_orb_alt_rank1"]
 [ext_resource type="Resource" uid="uid://6db8toi5mbkq" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank2.tres" id="9_orb_alt_rank2"]

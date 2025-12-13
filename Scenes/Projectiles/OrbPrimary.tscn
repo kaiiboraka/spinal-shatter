@@ -1,20 +1,20 @@
 [gd_scene load_steps=20 format=3 uid="uid://dce3xvef1l24d"]
 
-[ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_fa2tn"]
-[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_q3rrb"]
-[ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_4w4lp"]
-[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_4w4lp"]
-[ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="4_7dxrx"]
-[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/ShopItems/fireball.ase" id="5_36qv7"]
-[ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_nox7o"]
-[ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_4ifs0"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/fireball.png" id="9_yg03f"]
-[ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_1jq8p"]
+[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_caehy"]
+[ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_etwi8"]
+[ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_6qpqf"]
+[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_ivnhv"]
+[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/ShopItems/fireball.ase" id="5_2ubcb"]
+[ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="6_2w4u1"]
+[ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_xdifj"]
+[ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_1bkke"]
+[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/fireball.png" id="9_7tnbm"]
+[ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_0rlt5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ilpex"]
-shader = ExtResource("7_nox7o")
+shader = ExtResource("7_xdifj")
 
 [sub_resource type="Gradient" id="Gradient_nox7o"]
 interpolation_mode = 2
@@ -35,8 +35,8 @@ curve = SubResource("Curve_4ifs0")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yg03f"]
 resource_local_to_scene = true
 render_priority = -1
-shader = ExtResource("8_4ifs0")
-shader_parameter/tex = ExtResource("9_yg03f")
+shader = ExtResource("8_1bkke")
+shader_parameter/tex = ExtResource("9_7tnbm")
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/color_ramp = SubResource("GradientTexture1D_tekgy")
 shader_parameter/curve = SubResource("CurveTexture_71frm")
@@ -52,20 +52,20 @@ radius = 3.0
 [node name="MagicOrb" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
-physics_material_override = ExtResource("1_q3rrb")
+physics_material_override = ExtResource("1_caehy")
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_fa2tn")
-_sparkParticlesScene = ExtResource("3_4w4lp")
-AudioData = ExtResource("4_4w4lp")
+script = ExtResource("2_etwi8")
+_sparkParticlesScene = ExtResource("3_6qpqf")
+AudioData = ExtResource("4_ivnhv")
 _lifetime = 20.0
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
 gi_mode = 2
 billboard = 1
 texture_filter = 0
-sprite_frames = ExtResource("5_36qv7")
+sprite_frames = ExtResource("5_2ubcb")
 autoplay = "default"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -76,7 +76,7 @@ light_color = Color(1, 0.25, 0, 1)
 light_energy = 1.1
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("4_7dxrx")
+stream = ExtResource("6_2w4u1")
 volume_db = 5.0
 max_distance = 60.0
 bus = &"SFX"
@@ -92,10 +92,10 @@ explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ShaderMaterial_ilpex")
 draw_pass_1 = SubResource("QuadMesh_om33c")
-script = ExtResource("10_1jq8p")
+script = ExtResource("10_0rlt5")
 length = 60
 length_seconds = 1.0
-texture = ExtResource("9_yg03f")
+texture = ExtResource("9_7tnbm")
 color_ramp = SubResource("GradientTexture1D_tekgy")
 curve = SubResource("CurveTexture_71frm")
 billboard = true

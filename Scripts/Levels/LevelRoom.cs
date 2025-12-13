@@ -28,7 +28,7 @@ public partial class LevelRoom : Node3D
 	private bool _spawningFinished = false;
 
 	public bool IsActive { get; private set; }
-	public List<Enemy> EnemiesInRoom { get; private set; } = new();
+	public Array<Enemy> EnemiesInRoom { get; private set; } = new();
 	public int EnemyCount => EnemiesInRoom.Count;
 
 	public Door LevelDoor => levelDoor;
@@ -68,9 +68,11 @@ public partial class LevelRoom : Node3D
 		}
 
 		// Find any enemies that are pre-placed in the room in the editor
-		FindEnemiesRecursively(this);
 
 		RoomManager.Instance.RegisterRoom(this);
+
+		GetTree().CreateTimer(2f).Timeout +=
+			() => FindEnemiesRecursively(this);
 	}
 
 	public void StartSpawning(Array<PackedScene> enemies)
@@ -205,7 +207,7 @@ public partial class LevelRoom : Node3D
 		ShowRoom();
 
 		// Pre-placed enemies are activated here
-		foreach (var enemy in EnemiesInRoom)
+		foreach (Enemy enemy in EnemiesInRoom)
 		{
 			enemy.Activate();
 		}
@@ -221,7 +223,7 @@ public partial class LevelRoom : Node3D
 
 		// Deactivate any remaining enemies
 
-		foreach (var enemy in EnemiesInRoom)
+		foreach (Enemy enemy in EnemiesInRoom)
 
 		{
 			enemy.Deactivate();

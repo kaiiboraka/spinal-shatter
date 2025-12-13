@@ -316,7 +316,7 @@ public partial class Enemy : Combatant
 				timerAction.Start();
 				break;
 			case AIState.Dying:
-				TryToDie();
+				DoTheDying();
 				break;
 		}
 	}
@@ -699,10 +699,12 @@ public partial class Enemy : Combatant
 		else QueueFree();
 	}
 
-	private void TryToDie()
+	private void DoTheDying()
 	{
 		// DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}\n" +
 		// 				   $"Death particles GlobalPosition before: {GlobalPosition}");
+
+		DeadNow = true;
 
 		if (_deathParticlesScene.Instantiate() is OneshotParticles deathParticles)
 		{
@@ -765,6 +767,8 @@ public partial class Enemy : Combatant
 
 		_isActive = true;
 		Visible = true;
+		DeadNow = false;
+
 		SetProcess(true);
 		SetPhysicsProcess(true);
 

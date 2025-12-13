@@ -435,9 +435,10 @@ audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
 audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D")
 
-[node name="AutomaticCaster" type="Node" parent="."]
+[node name="AutomaticCaster" type="Node" parent="." node_paths=PackedStringArray("_spellOrigin")]
 unique_name_in_owner = true
 script = ExtResource("7_3vnku")
+_spellOrigin = NodePath("../Head/Camera1P/AutoOrigin")
 
 [node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")
@@ -604,6 +605,10 @@ collide_with_areas = true
 [node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.44999993, -0.737)
+
+[node name="AutoOrigin" type="Marker3D" parent="Head/Camera1P"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0, -1)
 
 [node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)

@@ -22,6 +22,7 @@ public partial class WaveDirector : Node
 	private int _enemiesThisWave = 0;
 	private LevelRoom _activeRoom;
 	private LevelRoom _roundInProgressRoom;
+	public LevelRoom CurrentRoom =>  _roundInProgressRoom;
 	
 	// --- Room & Door Management ---
 	private readonly Godot.Collections.Dictionary<CardinalDirection, Door> _hubDoors = new();
@@ -590,7 +591,7 @@ public partial class WaveDirector : Node
 			var enemiesToClean = room.EnemiesInRoom.ToList(); 
 			foreach (var enemy in enemiesToClean)
 			{
-				if (enemy == null || !GodotObject.IsInstanceValid(enemy))
+				if (enemy == null || !IsInstanceValid(enemy))
 				{
 					room.EnemiesInRoom.Remove(enemy);
 					continue;

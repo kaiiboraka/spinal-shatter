@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://ca5legqto3lxr" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbSecondary_Damage_RangeF.tres" id="2_48s7i"]
 [ext_resource type="Resource" uid="uid://cw0cx7red1fgw" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbSecondary_ExplosionRadius_RangeF.tres" id="3_kme0b"]
 [ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="3_mkof1"]
-[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="4_8p3th"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="4_8p3th"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaCost_RangeF.tres" id="4_27i46"]
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="4_m2x7r"]
 [ext_resource type="PackedScene" uid="uid://dllhy7tqqr7kj" path="res://Scenes/Projectiles/OrbSecondary_Explode.tscn" id="6_otdrp"]

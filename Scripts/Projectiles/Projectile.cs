@@ -61,6 +61,7 @@ public partial class Projectile : RigidBody3D
 
 		this.Freeze = true;
 		collisionShape.Disabled = true;
+
 		// _detectionArea33D is typically set up in the scene to monitor,
 		// but we ensure it's not active prematurely if it's meant for a one-shot explosion.
 		// Its collision_mask should be set to detect relevant layers (e.g., ENEMY_HURTBOX_BIT)
@@ -182,15 +183,17 @@ public partial class Projectile : RigidBody3D
 				if (Slot == SlotType.Secondary)
 				{
 					var explosionRadius = ((OrbAltSpellData)SpellData).ExplosionRadius.GetLerpedValue(CurrentCharge);
+
 					// Set the radius dynamically
 					detectionShape.Radius = explosionRadius;
-					// Alt-fire rocket launcher should have more base power for more knockback
 
+					// Alt-fire rocket launcher should have more base power for more knockback
 				}
 				else if (Slot == SlotType.Automatic)
 				{
 					// data.InitialVelocity =
 				}
+
 				damagePerMana = CurrentDamage / CurrentMana;
 				break;
 			case WeaponType.Slash:
@@ -213,12 +216,18 @@ public partial class Projectile : RigidBody3D
 		parent.AddChild(this);
 		Marker3D SpellMarker = data.StartPosition;
 
-		Vector3 markerPosition = SpellMarker.Position;
-		SpellMarker.Position = SpellMarker.Position with { X = 0 };
+		if (Slot != SlotType.Automatic)
+		{
+			Vector3 markerPosition = SpellMarker.Position;
+			SpellMarker.Position = SpellMarker.Position with { X = 0 };
+			GlobalPosition = SpellMarker.GlobalPosition;
+			SpellMarker.Position = markerPosition;
+		}
+		else
+		{
+			GlobalPosition = SpellMarker.GlobalPosition;
+		}
 
-		GlobalPosition = SpellMarker.GlobalPosition;
-
-		SpellMarker.Position = markerPosition;
 
 		this.Freeze = false;
 		collisionShape.Disabled = false;
@@ -242,7 +251,7 @@ public partial class Projectile : RigidBody3D
 			Explode(orbData);
 			return;
 		}
-		
+
 		ApplyManaLoss(GlobalPosition);
 		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Hit"]);
@@ -271,7 +280,7 @@ public partial class Projectile : RigidBody3D
 			Explode(orbData);
 			return;
 		}
-		
+
 		if (IsFixed)
 		{
 			Expire();
@@ -297,6 +306,7 @@ public partial class Projectile : RigidBody3D
 		detectionArea3D.GlobalPosition = GlobalPosition;
 
 		var explosionRadius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
+
 		// Set the radius dynamically
 		detectionShape.Radius = explosionRadius;
 		DebugManager.Trace($"ExplosionRadius:{explosionRadius}");
@@ -317,17 +327,19 @@ public partial class Projectile : RigidBody3D
 
 		if (_explosionEffectScene != null)
 		{
-			if(_explosionEffectScene.Instantiate() is OneshotParticles explosion)
+			if (_explosionEffectScene.Instantiate() is OneshotParticles explosion)
 			{
 				GetTree().Root.AddChild(explosion);
 				explosion.GlobalPosition = GlobalPosition;
-				explosion.PlayParticles(explosionRadius, 150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
+				explosion.PlayParticles(explosionRadius,
+					150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
 			}
 		}
-		
+
 		// Placeholder for explosion sound, assuming it's different from "Hit"
 		// AudioManager.PlayAtPosition((AudioFile)AudioData["Explosion"], GlobalPosition); 
 		var player = AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
+
 		// player.Finished += () => detectionArea3D.QueueFree();
 		Expire(false); // Expire without dropping mana
 	}
@@ -344,6 +356,7 @@ public partial class Projectile : RigidBody3D
 			};
 			trail.Reparent(GetParent());
 		}
+
 		// detectionArea3D.Reparent(GetParent());
 
 		if (dropMana) EjectMana(CurrentMana, GlobalPosition);
@@ -358,7 +371,7 @@ public partial class Projectile : RigidBody3D
 			Expire();
 			return;
 		}
-		
+
 		float manaLostAmount = (int)Mathf.Min(castedSpell.ManaDroppedAmount.GetRandomValue(), CurrentMana);
 		if (float.IsNaN(manaLostAmount) || float.IsNaN(CurrentMana))
 		{

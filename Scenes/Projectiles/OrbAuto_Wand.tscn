@@ -4,11 +4,10 @@
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_di48y"]
 [ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_mrsmy"]
 [ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_71igd"]
-[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/ShopItems/fireball.ase" id="5_8d0k0"]
+[ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/ShopItems/Spells/fireball.ase" id="5_8d0k0"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="6_p1sce"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_8d0k0"]
 [ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_p1sce"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/fireball.png" id="9_octp6"]
 [ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_gw84d"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
@@ -32,11 +31,14 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_1nqs5"]
 curve = SubResource("Curve_4ifs0")
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bayxe"]
+load_path = "res://.godot/imported/fireball.png-cc00fcae7ac0af1a679787ef84034ae1.ctex"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yg03f"]
 resource_local_to_scene = true
 render_priority = -1
 shader = ExtResource("8_p1sce")
-shader_parameter/tex = ExtResource("9_octp6")
+shader_parameter/tex = SubResource("CompressedTexture2D_bayxe")
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/color_ramp = SubResource("GradientTexture1D_jqro5")
 shader_parameter/curve = SubResource("CurveTexture_1nqs5")
@@ -96,7 +98,7 @@ draw_pass_1 = SubResource("QuadMesh_vcyrw")
 script = ExtResource("10_gw84d")
 length = 60
 length_seconds = 1.0
-texture = ExtResource("9_octp6")
+texture = SubResource("CompressedTexture2D_bayxe")
 color_ramp = SubResource("GradientTexture1D_jqro5")
 curve = SubResource("CurveTexture_1nqs5")
 billboard = true

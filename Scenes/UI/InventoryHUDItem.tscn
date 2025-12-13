@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://hkgyc1jfmtrb" path="res://Scripts/UI/InventoryHUDItem.cs" id="1_hud_item_script"]
 [ext_resource type="Texture2D" uid="uid://vrg343kljhsf" path="res://assets/Images/UI/SlotFrame1.tres" id="2_5obpo"]
-[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spell_Orb_icon.ase" id="2_61lbq"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="2_61lbq"]
 [ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="3_61lbq"]
 [ext_resource type="FontFile" uid="uid://dklg7jy0nkurw" path="res://assets/Fonts/NimbusRomNo9L-Med.otf" id="4_61lbq"]
 [ext_resource type="FontFile" uid="uid://kuphg0meymun" path="res://assets/Fonts/PixBlox Large.ttf" id="6_xbpvs"]

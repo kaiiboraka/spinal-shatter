@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_bixke"]
 [ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_26t7v"]
 [ext_resource type="Material" uid="uid://dnvlqd8xy3s4i" path="res://assets/Materials/MAT_ExplosionSpark.tres" id="2_bixke"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/Spells/fireball.png" id="3_klejl"]
+[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/Spells/fireball.png" id="3_klejl"]
 
 [sub_resource type="Gradient" id="Gradient_klejl"]
 offsets = PackedFloat32Array(0, 0.8411458)

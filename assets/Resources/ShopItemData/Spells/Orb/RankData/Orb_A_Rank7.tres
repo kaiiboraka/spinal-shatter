@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_abcde"]
 
 [resource]
-resource_name = "OrbA_R6"
+resource_name = "OrbA_R7 Pierce+1"
 script = ExtResource("1_abcde")
 StatModifiers = Dictionary[int, float]({
 16: 1.0

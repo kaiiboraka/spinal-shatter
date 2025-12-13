@@ -1,0 +1,10 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://wndltrj6r6hu"]
+
+[ext_resource type="AudioStream" uid="uid://cvb61n0epnpor" path="res://assets/Audio/SFX/splash_short.wav" id="1_ftcln"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_ju7n6"]
+
+[resource]
+script = ExtResource("2_ju7n6")
+Stream = ExtResource("1_ftcln")
+PitchScale = 0.9
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

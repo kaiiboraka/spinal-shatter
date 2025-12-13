@@ -3,12 +3,12 @@
 importer="aseprite_wizard.plugin.static-texture"
 type="PortableCompressedTexture2D"
 uid="uid://b5j1f31gmnkke"
-path="res://.godot/imported/Stat_MaxMana_Icon.ase-c0083669db72247e37c1eaf80abd765f.res"
+path="res://.godot/imported/Stat_MaxMana_Icon.ase-2f2d5e62ae20164b597bc32df2b61c84.res"
 
 [deps]
 
-source_file="res://assets/Images/ShopItems/Stat_MaxMana_Icon.ase"
-dest_files=["res://.godot/imported/Stat_MaxMana_Icon.ase-c0083669db72247e37c1eaf80abd765f.res"]
+source_file="res://assets/Images/ShopItems/Stats/Stat_MaxMana_Icon.ase"
+dest_files=["res://.godot/imported/Stat_MaxMana_Icon.ase-2f2d5e62ae20164b597bc32df2b61c84.res"]
 
 [params]
 

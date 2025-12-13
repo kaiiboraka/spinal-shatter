@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=25 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="2_aege0"]
@@ -22,8 +22,6 @@
 [ext_resource type="PackedScene" uid="uid://cvft8k6fsoi0x" path="res://Scenes/Characters/Enemies/Enemy_FMM_Slicer.tscn" id="17_6kqlu"]
 [ext_resource type="Resource" uid="uid://c2b6lfgkfkyxe" path="res://assets/Resources/EnemyData/GML_SmasherData.tres" id="18_kgpgr"]
 [ext_resource type="PackedScene" uid="uid://dmnq5xbb1sguc" path="res://Scenes/Characters/Enemies/Enemy_GML_Smasher.tscn" id="19_1ovyk"]
-[ext_resource type="Resource" uid="uid://cq6bcxst4hyxm" path="res://assets/Resources/EnemyData/GRL_SorcererData.tres" id="20_dn1vs"]
-[ext_resource type="PackedScene" uid="uid://cxxfv2avrc3rw" path="res://Scenes/Characters/Enemies/Enemy_GRL_Sorcerer.tscn" id="21_6kqlu"]
 [ext_resource type="Resource" uid="uid://dr2qyr2emuw4m" path="res://assets/Resources/EnemyData/FML_ScalperData.tres" id="22_kgpgr"]
 [ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/Enemy_FML_Scalper.tscn" id="23_1ovyk"]
 
@@ -42,7 +40,6 @@ ExtResource("12_5ktau"): ExtResource("13_umeo8"),
 ExtResource("14_13k8h"): ExtResource("15_n7p8p"),
 ExtResource("16_dn1vs"): ExtResource("17_6kqlu"),
 ExtResource("18_kgpgr"): ExtResource("19_1ovyk"),
-ExtResource("20_dn1vs"): ExtResource("21_6kqlu"),
 ExtResource("22_kgpgr"): ExtResource("23_1ovyk")
 })
 wavesPerRound = 1

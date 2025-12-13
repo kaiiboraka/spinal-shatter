@@ -3,12 +3,12 @@
 importer="aseprite_wizard.plugin.static-texture"
 type="PortableCompressedTexture2D"
 uid="uid://bve3q2i7jh4xl"
-path="res://.godot/imported/Spell_Orb_icon.ase-e25179dcf7c715dc61312d2259caaad4.res"
+path="res://.godot/imported/Spell_Orb_icon.ase-d61f2b5700def5ab35805f46169cad36.res"
 
 [deps]
 
-source_file="res://assets/Images/ShopItems/Spell_Orb_icon.ase"
-dest_files=["res://.godot/imported/Spell_Orb_icon.ase-e25179dcf7c715dc61312d2259caaad4.res"]
+source_file="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase"
+dest_files=["res://.godot/imported/Spell_Orb_icon.ase-d61f2b5700def5ab35805f46169cad36.res"]
 
 [params]
 

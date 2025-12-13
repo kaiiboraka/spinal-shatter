@@ -152,7 +152,7 @@ public partial class AudioManager : Node
 		}
 		player.Play(fromPosition);
 	}
-	public static AudioStreamPlayer3D PlayAtPosition(AudioFile sound, Vector3 location, float fromPosition = 0)
+	public static AudioStreamPlayer3D PlayAtPosition(AudioFile sound, Vector3 location, float volume = 0, float fromPosition = 0)
 	{
 		AudioStreamPlayer3D player = GetAvailableStationaryPlayer();
 

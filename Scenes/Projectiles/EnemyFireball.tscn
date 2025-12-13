@@ -8,7 +8,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cmdvtn2o3op81" path="res://assets/Images/Enemies/enemy_fireball.ase" id="5_ou870"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_dfkx4"]
 [ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_76anl"]
-[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/ShopItems/fireball_enemy.png" id="9_g5x3p"]
+[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/ShopItems/Spells/fireball_enemy.png" id="9_g5x3p"]
 [ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_0k0pq"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]

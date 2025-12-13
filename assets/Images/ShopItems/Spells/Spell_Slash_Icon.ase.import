@@ -3,12 +3,12 @@
 importer="aseprite_wizard.plugin.static-texture"
 type="PortableCompressedTexture2D"
 uid="uid://dgwm2upwsf2m5"
-path="res://.godot/imported/Spell_Slash_Icon.ase-6450772eed7585dca9af60128422bd6b.res"
+path="res://.godot/imported/Spell_Slash_Icon.ase-965f8481752ec9c990bbef08eeb6c2d7.res"
 
 [deps]
 
-source_file="res://assets/Images/ShopItems/Spell_Slash_Icon.ase"
-dest_files=["res://.godot/imported/Spell_Slash_Icon.ase-6450772eed7585dca9af60128422bd6b.res"]
+source_file="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase"
+dest_files=["res://.godot/imported/Spell_Slash_Icon.ase-965f8481752ec9c990bbef08eeb6c2d7.res"]
 
 [params]
 

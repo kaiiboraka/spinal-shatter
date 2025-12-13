@@ -3,12 +3,12 @@
 importer="aseprite_wizard.plugin.static-texture"
 type="PortableCompressedTexture2D"
 uid="uid://b7cqj4adkbw2v"
-path="res://.godot/imported/Stat_MaxHealth_Icon.ase-d4db3a5c4c729cfa40b0304f8b414256.res"
+path="res://.godot/imported/Stat_MaxHealth_Icon.ase-4f24402696b65fa28e3c3d7ca311ed1e.res"
 
 [deps]
 
-source_file="res://assets/Images/ShopItems/Stat_MaxHealth_Icon.ase"
-dest_files=["res://.godot/imported/Stat_MaxHealth_Icon.ase-d4db3a5c4c729cfa40b0304f8b414256.res"]
+source_file="res://assets/Images/ShopItems/Stats/Stat_MaxHealth_Icon.ase"
+dest_files=["res://.godot/imported/Stat_MaxHealth_Icon.ase-4f24402696b65fa28e3c3d7ca311ed1e.res"]
 
 [params]
 

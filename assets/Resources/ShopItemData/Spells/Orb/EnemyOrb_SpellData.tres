@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CastedSpellData" load_steps=10 format=3 uid="uid://bpg87onj725jn"]
 
 [ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="2_xddvl"]
-[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_ManaDrop_RangeI.tres" id="3_tqapl"]
+[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="3_tqapl"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="4_llsa7"]
 [ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="5_v4r0i"]
 

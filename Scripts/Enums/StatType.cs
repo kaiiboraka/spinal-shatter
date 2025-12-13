@@ -20,7 +20,9 @@ public enum StatType
 	Weapon_Count,
 	Weapon_Speed,
 	Weapon_Time, // affects Casted charge time, and Automatic Cooldown time (delay between firing)
-	Weapon_Duration, // affects
+	Weapon_Duration, // affects lifetime of projectile before it dissipates automatically
+	Weapon_Pierce,
+	Weapon_Bounce, // for both bounces off of walls and bounces off of enemies, depending on the context of the weapon at hand
 
 	// Meta Progression Stats
 	Meta_RerollHallwayRewards,

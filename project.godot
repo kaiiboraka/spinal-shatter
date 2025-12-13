@@ -87,6 +87,7 @@ Player=""
 Projectile=""
 Hub=""
 OutsideHub=""
+Enemies=""
 
 [gui]
 

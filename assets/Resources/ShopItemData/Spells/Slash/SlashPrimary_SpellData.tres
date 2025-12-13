@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=10 format=3 uid="uid://dowpqoyraljfv"]
+
+[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="3_0hlog"]
+[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spell_Slash_Icon.ase" id="3_b3h0y"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Damage_RangeF.tres" id="3_slash_damage"]
+[ext_resource type="Resource" uid="uid://dqt8lfh4rdcli" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashSecondary_SpellData.tres" id="7_fu6dr"]
+[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/Orb.tscn" id="7_slash_projectile"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Size_RangeF.tres" id="8_slash_size"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Speed_RangeF.tres" id="9_slash_speed"]
+[ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="10_pfci4"]
+
+[sub_resource type="Resource" id="Resource_b3h0y"]
+script = ExtResource("3_0hlog")
+Max = 1.75
+
+[resource]
+script = ExtResource("10_pfci4")
+Secondary = ExtResource("7_fu6dr")
+MaxChargeTime = SubResource("Resource_b3h0y")
+Weapon = 1
+DamageRange = ExtResource("3_slash_damage")
+SpeedRange = ExtResource("9_slash_speed")
+SizeRange = ExtResource("8_slash_size")
+ProjectileScene = ExtResource("7_slash_projectile")
+ItemName = "Slash"
+ItemDescription = "A wave of damage capable of hitting multiple enemies or one large enemy multiple times.
+PRIMARY: Charge increases width but lowers damage.
+SECONDARY: Nova all around you, high knockback.
+AUTOMATIC: Whips around you repeatedly."
+ItemIcon = ExtResource("3_b3h0y")
+Price = 120
+Rarity = 0.6
+RankUps = Array[Object]([])

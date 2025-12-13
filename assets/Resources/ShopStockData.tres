@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="ShopStockData" load_steps=6 format=3 uid="uid://crlygrfbgh2kt"]
 
 [ext_resource type="Script" uid="uid://dyfcdk8txef7m" path="res://Scripts/Resources/ShopStockData.cs" id="1_stock_data"]
-[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/Orb_SpellData.tres" id="2_orb_item"]
-[ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/Slash_SpellData.tres" id="3_slash_item"]
+[ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbPrimary_SpellData.tres" id="2_orb_item"]
+[ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashPrimary_SpellData.tres" id="3_slash_item"]
 [ext_resource type="Resource" uid="uid://ks6csrwleo01" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/MaxManaUp_StatItemData.tres" id="4_tvjbw"]
 [ext_resource type="Resource" uid="uid://cpsixi7l16gnv" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/MaxHealthUp_StatItemData.tres" id="4_wujhw"]
 

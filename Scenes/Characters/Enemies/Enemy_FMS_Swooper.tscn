@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ddskdsst6e3hl"]
 
-[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/GMS_Scrapper.tscn" id="1_sk0cs"]
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Enemy_GMS_Scrapper.tscn" id="1_sk0cs"]
 [ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/FMS_SwooperData.tres" id="2_ligyd"]
 [ext_resource type="SpriteFrames" uid="uid://dvjcqrywfdmqm" path="res://assets/Images/Enemies/Enemy_FMS_Swooper.ase" id="3_cmlj2"]
 [ext_resource type="SpriteFrames" uid="uid://cv4r4be6gttu0" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_FMS_Swooper.ase" id="4_gy2r3"]

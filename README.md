@@ -2,28 +2,6 @@
 
 A retro-styled First-Person roguelite Shooter, inspired by Arcade Hard games of old. Originally developed for the BYU Game Development Club's Fall 2025 Game Jam, to the theme of "SPOOKY".
 
-## Current progress
-
-okay, the shop now lets me buy stuff, and my inventory gets updated, so some of it is working. 
-1) It doesn't seem like it wants to let me buy more than 1 thing, maybe? I'm not sure, seems bugged.
-2) The Player's inventory bar should not set the visibility of the entire InventoryHUDItem, as it should always show all of the slots. Instead, the Icon should be cleared and the rank set to 0 so it just looks empty, but the frame itself stays to maintain its place.
-3) we desperately need a way to assign a purchase to one of the weapon slots. Without being too UI crazy for the moment, I think the easiest thing would be to await the corresponding button after trying to buy it. In other words, I buy a new weapon, and get shown a prompt that says "Press the button of the Weapon you want to assign it to" or something more brief than that, so if I hit Player_Shoot it would go to Primary and if I press Player_AltFire it would go to Secondary.
-4) We need to display the details from the ShopItemData (Name, Description, maybe more) in the Player's new Details_Control, which has within it both %Details_Name_RichTextLabel and %Details_Description_RichTextLabel. The entire details control should show when the player is in UI mode. It should hide in exiting UI mode. Whenever the selection changes at the ShopCart, the contents of these RichTextLabels needs to be updated with the info from the ShopItemData. 
-5) InventoryHUDItem has a new %Price_RichTextLabel that should only show on ShopItems when in the Shop. So that needs a simple toggle. The player's own inventory has these as well because it's a tentative possibility to make selling much simpler later on down if I decide to implement that. For now, though, it simply starts Visibility off and should only turn on for ShopItems. Speaking of which, @ShopItem.cs has %Icon_InventoryHUDItem now for its entire visual representation.
-
-Okay. I have now figured out how I want to handle shop item selection. So, a RankUpData has a RankUpPrice which is a fixed predetermined value I write in the inspector. RankUps are stored in any given item. If the shop selects a random item from its stock, and the player already owns that item but does not have it max ranked, then the item shown in the shop is the next rank above along with the price stored in the rankup data. If the matching item of the player's IS max ranked, the chosen shop item gets skipped and it tries to draw another instead. Duplicates are not allowed in the shop's random selection.
-If you have all 3 weapon slots full and go to buy a new weapon:
-A) if i have build switching...
-you will have to get rid of an existing item. I imagine it giving a confirmation dialogue, if you're sure you want to replace X with Y. I'm now committing to Items in the shop are always rank 1.
-B) if  i don't have build switching...
-Any weapon items that appear are guaranteed to be one of the weapons you own and become rank ups. 
-
-For now, I think I will commit to NOT having build switching to be more like Vampire Survivors which is high committment.
-
-Next most important though should be prompting the player for the different weapon slots somehow. Please devise a plan of action for how to implement this.
-
-after all that I can add bonus rewards to hallway selection akin to Hades room rewards, focus on implementing more weapon types, introduce player stat items, chip away at art improvements, and at some point I gotta make the enemies a little less stupid lmao
-
 ## Fantasy
 
 You, a lone sorceror, awaken in a dark, dank dungeon. The last thing you remember is the cackling of the wicked necromancer who had cornered and captured you. With no natural light to speak of, you conclude that the only way out is through. Armed with only your knack for spellcraft, you must now venture out into the darkness to chew through an onslaught of undead hordes, and grow in your magic power enough to claim your revenge, and your freedom...
@@ -37,7 +15,7 @@ You, a lone sorceror, awaken in a dark, dank dungeon. The last thing you remembe
 
 ### Mechanic Inspiration
 
-- Vampire Survivors
+- Vampire Survivors (VS)
 - Halo Firefight 
 - DOOM 2016
 - Hades
@@ -211,6 +189,7 @@ Still deliberating on the health economy
 
 ## Item Types
 
+
 ### Spells a.k.a. Weapons a.k.a. Attacks
 
 in this game the weapons / abilities are all spells. every spell changes how your attack works. 
@@ -319,47 +298,45 @@ In my game, in whatever form the inventory takes, there will be a level int asso
 
 #### List of Weapons 
 
-VS = Vampire Survivors
 
-Orb: bounces, main attack 
+FIRE Orb: bounces, main attack 
 - charge: increases size, damage 
 - ALT FIRE: Explodes on impact, effectively a rocket launcher with high knockback
 - Automatic: VS "Wand" equivalent, fires at the nearest enemy.
 
-Slash: horizontal slice wave 
+WATER Slash: horizontal slice wave 
 - charge: increases width: individual hit chunks, decreases damage 
 - ALT FIRE: Spin attack / Nova, sends everything out away from you
 - Automatic: VS Whip, attacks repeatedly around you.
 
-Force Wall: upright and flat, offensive shield 
+WIND Wall: upright and flat, offensive shield 
 - charge: increases size, lowers damage, higher defense: individual hit chunks. lower charge is denser, higher damage 
 - ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage 
 - Automatic: \[TBD] might just be some ongoing defensive effect, like Laurel
 
-DICE: shotgun, shatters on impact into smaller projectiles 
+POISON Spikes: shotgun, shatters on impact into smaller projectiles 
 - charge: increases ball size->number of shatter "generations", child, grand, etc. 
 - ALT FIRE: Bundle of Toxic Caltrops
 - Automatic: VS Santa Water+ - fires a caltrop bundle up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
 
-Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
+LIGHTNING Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
 - charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.
 - ALT FIRE: ... stun beam? charge attack?
 - Automatic: VS Lightning Ring - periodically nuke a single nearby target with a divine smite/lightning strike from above.
 
-GARLIC: Constant AoE damage 
+ICE Storm: Constant AoE damage 
 - charge: continual drain to deal high consistent damage while channeling in a radius around you
 - ALT FIRE: Energy stream, continuous steady damage in a cone in front of you, pushes or slows slightly
 - Automatic: normal garlic behavior - radiate AoE damage in a circle around you at a tick rate
 
-Chakram / Glaive: boomerang, bounces between targets 
+WOOD Chakram: boomerang, bounces between targets 
 - charge: increases number of bounces before returning 
 - ALT FIRE: Bolas, roping together bounce targets, drawing them into their central location upon the "return" trip
 - Automatic: VS Bible - orbits around you, chopping and knocking back nearby enemies
 
-Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
+ARCANE Missiles: volley of 3 small high damage pts, a la Model PX or VS Knife; charge Arcane Mage, locks on to targets 
 - charge: turns into lock on, increases missile / lock-on count 
-- ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly
-visual differences to differentiate
+- ALT FIRE: Lift / pull from ME, zero gravity bubble from KH, suspends targets in the air helplessly visual differences to differentiate
 - Automatic: fire a (rank-scaling) number of missiles evenly divided among enemy targets in range, on a timer.
 
  
@@ -411,9 +388,6 @@ Vampire Survivors: stat - icon
 19. skip - Next Chapter icon >>|
 20. Banish - finger snap
 
-### UI
-
-For the in-game inventory UI, I imagine having a row of 3 empty slots each with their own unique frame art representing the Primary, Secondary (alt), and Automatic slots, and then a sprite of the weapon (stored in the ShopItemData) as another sprite to "fill" the frame slot. For the ranks, I currently imagine using Roman Numerals for flavor to represent the Ranks, and they will be positioned in the bottom center of each sprite. This whole row of icons will be anchored in the bottom left above the Mana display in Player.tscn . Maybe they could be combined into a VBox, so I could experiment with their layout later. Similarly, I imagine a single type of frame for passive StatItems, and there would be another group of 3 of them, with slots for icons and everything in the exact same way, and it would be in the bottom left anchored above the money, or perhaps above the health? I'm not sure yet. I think this common structure should be made into its own scene, like InventoryHUD.tscn or something, with each individual Frame+Icon also being its own scene with its own exports for changing the icon. While I think the icon for the item that is equipped should be loaded from the item data, the frame could be determined by perhaps a new enum, HUDFrameType, which is mapped to an internal dictionary of HUDFrameType to Texture, which should probably be statically defined. Then changing the HUDFrameType in the export should automatically change the frame, so this should all be in a tool script. So we have InventoryHUDItem.tscn with a matching InventoryHUDItem.cs script to switch frames, and then we need a InventoryHUD.tscn which has a HBox group wherein I can place any number of InventoryHUDItem scenes for it to arrange. There should be an export on the top level script to change the justification alignment of this HBoxContainer's horizontal axis between left center and right side justification of the child objects. This way it is reusable for any of the 3 UI positions at the bottom of Player.tscn's UI.
 
 ## Meta Upgrades
 

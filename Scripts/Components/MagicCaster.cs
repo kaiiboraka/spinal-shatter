@@ -48,6 +48,9 @@ public partial class MagicCaster : Node
 	public void SetSecondaryWeapon(CastedSpellData spellData)
 	{
 		_equippedAltFireSpell = spellData;
+
+		sfxBeep = (AudioFile)_equippedSpell.AudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)_equippedSpell.AudioData["SpellChargeComplete"];
 	}
 
 	private CastedSpellData GetActiveSpellData =>

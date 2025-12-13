@@ -49,6 +49,7 @@ PickupManager="*res://Scripts/Autoloads/PickupManager.cs"
 WaveDirector="*res://Scenes/Autoloads/WaveDirector.tscn"
 SignalBus="*res://Scripts/Autoloads/SignalBus.cs"
 CameraTransition="*res://Scripts/Autoloads/CameraTransition.cs"
+WeaponSlotter="*res://Scenes/UI/WeaponSlotter.tscn"
 
 [display]
 

@@ -1,20 +1,26 @@
-[gd_scene load_steps=19 format=3 uid="uid://ddfqqv0358ue"]
+[gd_scene load_steps=18 format=3 uid="uid://ddfqqv0358ue"]
 
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_0j1v2"]
 [ext_resource type="PackedScene" uid="uid://ycgo1ko7742e" path="res://Scenes/Particles/HitEffects_SparksBlue.tscn" id="3_c3li1"]
 [ext_resource type="Resource" uid="uid://w7oj3027nnyy" path="res://assets/Audio/AudioData/AudioData_WaterSlash.tres" id="4_c3li1"]
 [ext_resource type="SpriteFrames" uid="uid://5s30kcwbm5ew" path="res://assets/Images/ShopItems/Spells/water_slash.ase" id="5_c3li1"]
 [ext_resource type="AudioStream" uid="uid://df1gmoqh0br2k" path="res://assets/Audio/SFX/SlashUp.wav" id="6_c3li1"]
+[ext_resource type="Material" uid="uid://6s2yb5wgqhpj" path="res://assets/Materials/GPUTrail_Slash.tres" id="7_bayxe"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_mxrsu"]
-[ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_cn21n"]
 [ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_2cd0g"]
 [ext_resource type="Texture2D" uid="uid://nvrsxn7ipo3r" path="res://assets/Images/ShopItems/Spells/water_slash1.png" id="11_0j1v2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c3li1"]
-radius = 0.36083984
+resource_local_to_scene = true
+radius = 0.3
+height = 1.25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ilpex"]
 shader = ExtResource("7_mxrsu")
+
+[sub_resource type="QuadMesh" id="QuadMesh_c3li1"]
+material = ExtResource("7_bayxe")
+orientation = 1
 
 [sub_resource type="Gradient" id="Gradient_caehy"]
 interpolation_mode = 2
@@ -32,27 +38,17 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_71frm"]
 curve = SubResource("Curve_etwi8")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6qpqf"]
-resource_local_to_scene = true
-render_priority = -1
-shader = ExtResource("8_cn21n")
-shader_parameter/tex = ExtResource("11_0j1v2")
-shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/color_ramp = SubResource("GradientTexture1D_tekgy")
-shader_parameter/curve = SubResource("CurveTexture_71frm")
-shader_parameter/emmission_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-shader_parameter/flags = 4
-
-[sub_resource type="QuadMesh" id="QuadMesh_om33c"]
-material = SubResource("ShaderMaterial_6qpqf")
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_vxbqy"]
+resource_local_to_scene = true
 radius = 3.0
 
 [node name="WaterSlash" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 8192
-collision_mask = 41604
+collision_mask = 32772
 input_ray_pickable = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 gravity_scale = 0.0
 custom_integrator = true
 continuous_cd = true
@@ -74,12 +70,14 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 gi_mode = 2
 pixel_size = 0.015
 texture_filter = 0
+render_priority = -1
 sprite_frames = ExtResource("5_c3li1")
 
 [node name="Sprite3D3" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.25881904, 0.9659258, 0, -0.9659258, -0.25881904, 0, 0, 0)
 gi_mode = 2
 texture_filter = 0
+render_priority = -2
 sprite_frames = ExtResource("5_c3li1")
 autoplay = "Tag"
 
@@ -100,21 +98,20 @@ doppler_tracking = 2
 
 [node name="GPUTrail3D" type="GPUParticles3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0.1)
-visible = false
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 amount = 60
 lifetime = 60.0
 explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ShaderMaterial_ilpex")
-draw_pass_1 = SubResource("QuadMesh_om33c")
+draw_pass_1 = SubResource("QuadMesh_c3li1")
 script = ExtResource("10_2cd0g")
 length = 60
 length_seconds = 1.0
 texture = ExtResource("11_0j1v2")
 color_ramp = SubResource("GradientTexture1D_tekgy")
 curve = SubResource("CurveTexture_71frm")
-billboard = true
+vertical_texture = true
 _defaults_have_been_set = true
 metadata/_custom_type_script = "uid://b6l44lujpalqq"
 

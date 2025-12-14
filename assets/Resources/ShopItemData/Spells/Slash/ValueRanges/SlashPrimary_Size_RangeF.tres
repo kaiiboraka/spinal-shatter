@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3 uid="uid://c0aietto1xhsi"]
 
-[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_slash_size"]
+[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_tdvob"]
 
 [resource]
-script = ExtResource("1_slash_size")
+script = ExtResource("1_tdvob")
 Min = 1.0
-Max = 5.0
+Max = 4.0

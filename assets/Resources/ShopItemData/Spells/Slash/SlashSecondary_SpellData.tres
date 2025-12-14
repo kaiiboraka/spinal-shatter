@@ -1,28 +1,28 @@
 [gd_resource type="Resource" script_class="CastedSpellData" load_steps=11 format=3 uid="uid://dqt8lfh4rdcli"]
 
-[ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="1_slash_alt_spell_data"]
-[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="2_slash_alt_audio"]
-[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_2wpbe"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Damage_RangeF.tres" id="3_slash_alt_damage"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_ManaCost_RangeF.tres" id="5_slash_alt_manacost"]
-[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="5_xvbxn"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_MaxChargeTime_RangeF.tres" id="6_slash_alt_chargetime"]
-[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/OrbPrimary.tscn" id="7_slash_alt_projectile"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Size_RangeF.tres" id="8_slash_alt_size"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Speed_RangeF.tres" id="9_slash_alt_speed"]
+[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_lrnxh"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Damage_RangeF.tres" id="2_dytit"]
+[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_mg8x0"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_ManaCost_RangeF.tres" id="4_qe51r"]
+[ext_resource type="Resource" uid="uid://537071cgnyok" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_ManaDrops_RangeI.tres" id="5_3ijb1"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_MaxChargeTime_RangeF.tres" id="6_uwmo2"]
+[ext_resource type="PackedScene" uid="uid://ddfqqv0358ue" path="res://Scenes/Projectiles/SlashPrimary.tscn" id="7_d5mqa"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Size_RangeF.tres" id="8_ym1nb"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashSecondary_Speed_RangeF.tres" id="9_53amm"]
+[ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="10_at6aa"]
 
 [resource]
-script = ExtResource("1_slash_alt_spell_data")
-ChargeIntervals = 10
-ManaDroppedAmount = ExtResource("5_xvbxn")
-ManaCostRange = ExtResource("5_slash_alt_manacost")
-MaxChargeTime = ExtResource("6_slash_alt_chargetime")
-AudioData = ExtResource("2_slash_alt_audio")
+script = ExtResource("10_at6aa")
+ChargeIntervals = 4
+ManaDroppedAmount = ExtResource("5_3ijb1")
+ManaCostRange = ExtResource("4_qe51r")
+MaxChargeTime = ExtResource("6_uwmo2")
+AudioData = ExtResource("1_lrnxh")
 Slot = 1
-DamageRange = ExtResource("3_slash_alt_damage")
-SpeedRange = ExtResource("9_slash_alt_speed")
-SizeRange = ExtResource("8_slash_alt_size")
-ProjectileScene = ExtResource("7_slash_alt_projectile")
+DamageRange = ExtResource("2_dytit")
+SpeedRange = ExtResource("9_53amm")
+SizeRange = ExtResource("8_ym1nb")
+ProjectileScene = ExtResource("7_d5mqa")
 ItemName = "Slash Nova"
-ItemIcon = ExtResource("3_2wpbe")
+ItemIcon = ExtResource("3_mg8x0")
 RankUps = Array[Object]([])

@@ -114,7 +114,6 @@ public partial class Enemy : Combatant
 		}
 	}
 
-
 	protected override void GetComponents()
 	{
 		base.GetComponents();
@@ -656,18 +655,6 @@ public partial class Enemy : Combatant
 		Vector3 enemyForward = -GlobalTransform.Basis.Z;
 		float angleToPlayer = Mathf.RadToDeg(enemyForward.SignedAngleTo(toPlayer, Vector3.Up));
 		UpdateAnimation(angleToPlayer);
-	}
-
-	public override void OnHurtboxBodyEntered(Node3D body)
-	{
-		if (isDying) return;
-
-		base.OnHurtboxBodyEntered(body); // Handles damage + projectile destruction
-
-		if (body is Projectile projectile && projectile.Owner != this)
-		{
-			projectile.OnEnemyHit();
-		}
 	}
 
 	protected override void OnHurt(Vector3 sourcePosition, float damage)

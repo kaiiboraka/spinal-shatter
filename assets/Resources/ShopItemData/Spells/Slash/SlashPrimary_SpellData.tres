@@ -1,28 +1,23 @@
-[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=13 format=3 uid="uid://dowpqoyraljfv"]
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=12 format=3 uid="uid://dowpqoyraljfv"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_xi7fg"]
 [ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Damage_RangeF.tres" id="2_ad182"]
 [ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_l2hbq"]
 [ext_resource type="Resource" uid="uid://bj1cf42e8vcd5" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_ManaCost_RangeF.tres" id="4_cca0p"]
-[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="5_uqoes"]
-[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="6_41j23"]
+[ext_resource type="Resource" uid="uid://537071cgnyok" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_ManaDrops_RangeI.tres" id="5_xi7fg"]
+[ext_resource type="Resource" uid="uid://cllchlfignn6s" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_MaxChargeTime_RangeF.tres" id="6_ad182"]
 [ext_resource type="PackedScene" uid="uid://ddfqqv0358ue" path="res://Scenes/Projectiles/SlashPrimary.tscn" id="7_lin78"]
 [ext_resource type="Resource" uid="uid://dqt8lfh4rdcli" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashSecondary_SpellData.tres" id="8_muxpl"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Size_RangeF.tres" id="9_gqq8m"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Speed_RangeF.tres" id="10_1mi21"]
+[ext_resource type="Resource" uid="uid://c0aietto1xhsi" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Size_RangeF.tres" id="9_gqq8m"]
+[ext_resource type="Resource" uid="uid://bqhywys6lw8f2" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_Speed_RangeF.tres" id="10_1mi21"]
 [ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="11_wkhaa"]
-
-[sub_resource type="Resource" id="Resource_dmwqi"]
-script = ExtResource("6_41j23")
-Max = 1.5
 
 [resource]
 script = ExtResource("11_wkhaa")
 Secondary = ExtResource("8_muxpl")
-ChargeIntervals = 4
-ManaDroppedAmount = ExtResource("5_uqoes")
+ManaDroppedAmount = ExtResource("5_xi7fg")
 ManaCostRange = ExtResource("4_cca0p")
-MaxChargeTime = SubResource("Resource_dmwqi")
+MaxChargeTime = ExtResource("6_ad182")
 AudioData = ExtResource("1_xi7fg")
 Weapon = 1
 DamageRange = ExtResource("2_ad182")

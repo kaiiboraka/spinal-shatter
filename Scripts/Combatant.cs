@@ -44,28 +44,31 @@ public abstract partial class Combatant : CharacterBody3D
         }
     }
 
-    public virtual void OnHurtboxBodyEntered(Node3D body)
+    public void OnHurtboxBodyEntered(Node3D body)
     {
-        if (body is Projectile projectile)
-        {
-            // Don't get hurt by our own projectiles
-            if (projectile.Owner == this) return;
+		if (DeadNow) return;
 
-            float actualDamageDealt = TakeDamage(projectile.CurrentDamage, projectile.GlobalPosition);
+        if (body is not Projectile projectile) return;
+
+        // TODO: Replace with a check for a universal pierce stat from the weapon's live stats
+        // if (projectile.SpellData.Weapon == WeaponType.Slash)
+        // {
+	       //  if (this is Enemy enemy && !projectile.HitEnemies.Add(enemy))
+	       //  {
+		      //   // Already hit by this projectile instance, do nothing.
+		      //   return;
+	       //  }
+        // }
+
+        // Don't get hurt by our own projectiles
+        if (projectile.Caster == this) return;
+
+        float actualDamageDealt = TakeDamage(projectile.CurrentDamage, projectile.GlobalPosition);
             
-            // Calculate mana lost based on actual damage dealt, checking for division by zero.
-            float manaLostAmount = 0;
-            if (projectile.CurrentDamage > 0)
-            {
-                manaLostAmount = actualDamageDealt * (projectile.CurrentMana / projectile.CurrentDamage);
-            }
-            
-            projectile.EjectMana(manaLostAmount, projectile.GlobalPosition);
-        }
+        if (this is Enemy) projectile.OnEnemyHit(actualDamageDealt);
     }
 
     protected abstract void OnMeleeHitboxAreaEntered(Area3D area);
-
 
     public virtual float TakeDamage(float amount, Vector3 sourcePosition)
     {
@@ -89,7 +92,6 @@ public abstract partial class Combatant : CharacterBody3D
         ApplyKnockback(damage, direction);
         PlayOnHurtFX();
     }
-
 
     public virtual void PlayOnHurtFX()
     {

@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3 uid="uid://cllchlfignn6s"]
 
-[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_slash_chargetime"]
+[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_x04me"]
 
 [resource]
-script = ExtResource("1_slash_chargetime")
-Min = 0.2
+script = ExtResource("1_x04me")
 Max = 1.5

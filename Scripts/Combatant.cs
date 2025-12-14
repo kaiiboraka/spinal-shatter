@@ -50,15 +50,14 @@ public abstract partial class Combatant : CharacterBody3D
 
         if (body is not Projectile projectile) return;
 
-        // TODO: Replace with a check for a universal pierce stat from the weapon's live stats
-        // if (projectile.SpellData.Weapon == WeaponType.Slash)
-        // {
-	       //  if (this is Enemy enemy && !projectile.HitEnemies.Add(enemy))
-	       //  {
-		      //   // Already hit by this projectile instance, do nothing.
-		      //   return;
-	       //  }
-        // }
+        if (projectile.SpellData.Weapon == WeaponType.Slash)
+        {
+	        if (this is Enemy enemy && !projectile.HitEnemies.Add(enemy))
+	        {
+		        // Already hit by this projectile instance, do nothing.
+		        return;
+	        }
+        }
 
         // Don't get hurt by our own projectiles
         if (projectile.Caster == this) return;

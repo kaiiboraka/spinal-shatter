@@ -175,13 +175,12 @@ public partial class MagicCaster : Node
 
 	private void FireWeapon()
 	{
-		if (currentSpellData == null || chargingProjectile == null)
+		if (currentSpellData == null || chargingProjectile == null ||
+			(currentChargeTime < currentSpellData.MinChargeTime))
 		{
 			CancelCharge();
 			return;
 		}
-
-		PlayerBody.Instance.PlayCastRelease();
 
 		float chargeRatio = GetCurrentChargeRatio();
 
@@ -193,6 +192,8 @@ public partial class MagicCaster : Node
 			CancelCharge();
 			return;
 		}
+
+		PlayerBody.Instance.PlayCastRelease();
 
 		Vector3 initialVelocity = CalculateInitialVelocity(Mathf.Lerp(currentSpellData.SpeedRange.Min,
 			currentSpellData.SpeedRange.Max, chargeRatio));

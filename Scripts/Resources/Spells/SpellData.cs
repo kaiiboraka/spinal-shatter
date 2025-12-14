@@ -17,7 +17,23 @@ public partial class SpellData : ShopItemData
 	public FloatValue ManaDroppedAmount => StatRanges[StatType.Weapon_Refund];
 	public FloatValue ExplosionRadius => StatRanges[StatType.Weapon_Size];
 	public FloatValue ManaCostRange => StatRanges[StatType.Weapon_Cost];
-	public float MaxChargeTime => StatRanges[StatType.Weapon_Time].FixedValue;
+	public float MaxChargeTime
+	{
+		get
+		{
+			var stat = StatRanges[StatType.Weapon_Time];
+			return stat.IsFixed ? stat.FixedValue : stat.Max;
+		}
+	}
+	public float MinChargeTime
+	{
+		get
+		{
+			var stat = StatRanges[StatType.Weapon_Time];
+			return stat.IsFixed ? 0 : stat.Min;
+		}
+	}
+
 	public float FireRate => StatRanges[StatType.Weapon_Time].FixedValue;
 	public float TargetingRange => StatRanges[StatType.Weapon_Range].FixedValue;
 	public float KnockbackForce => StatRanges[StatType.Weapon_Knockback].FixedValue;

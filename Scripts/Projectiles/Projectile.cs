@@ -284,7 +284,6 @@ public partial class Projectile : RigidBody3D
 		if (Slot != SlotType.Automatic) trail.Visible = true;
 	}
 
-
 	public void UpdateChargeAmount(float charge)
 	{
 		CurrentCharge = charge;
@@ -482,7 +481,6 @@ public partial class Projectile : RigidBody3D
 			}
 		}
 	}
-
 
 	private void EjectMana(float amount, Vector3 spawnPoint)
 	{

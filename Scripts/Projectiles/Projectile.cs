@@ -150,7 +150,6 @@ public partial class Projectile : RigidBody3D
 					if (collider is Projectile other)
 						more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
 					EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
-
 				}
 			}
 		}
@@ -200,6 +199,7 @@ public partial class Projectile : RigidBody3D
 		{
 			capsule.Height = Mathf.Max(0.05f, initialSize * scaledSize);
 		}
+
 		Mass = scaledSize;
 	}
 
@@ -300,10 +300,18 @@ public partial class Projectile : RigidBody3D
 		switch (SpellData.Weapon)
 		{
 			case WeaponType.Orb:
-				ApplyManaLoss(GlobalPosition);
-				if (Slot == SlotType.Secondary) Explode();
+				if (Slot == SlotType.Secondary)
+				{
+					Explode();
+				}
+				else
+				{
+					ApplyManaLoss(GlobalPosition);
+				}
+
 				break;
 			case WeaponType.Slash:
+				break;
 			case WeaponType.ForceWall:
 			case WeaponType.Dice:
 			case WeaponType.Lance:
@@ -319,35 +327,31 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		ApplyManaLoss(impactPoint);
-
 		switch (SpellData.Weapon)
 		{
 			case WeaponType.Orb:
 				if (Slot == SlotType.Secondary)
 				{
 					Explode();
+					return;
 				}
 
 				break;
 			case WeaponType.Slash:
-				// Expire();
+				Expire();
 				return;
 			case WeaponType.ForceWall:
-				break;
 			case WeaponType.Dice:
-				break;
 			case WeaponType.Lance:
-				break;
 			case WeaponType.Garlic:
-				break;
 			case WeaponType.Chakram:
-				break;
 			case WeaponType.Missiles:
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
+
+		ApplyManaLoss(impactPoint);
 
 		if (IsFixed)
 		{
@@ -431,15 +435,16 @@ public partial class Projectile : RigidBody3D
 		QueueFree();
 	}
 
-	public void ApplyManaLoss(Vector3 impactPosition)
+	public bool ApplyManaLoss(Vector3 impactPosition)
 	{
 		if (SpellData is not CastedSpellData castedSpell)
 		{
 			Expire();
-			return;
+			return true;
 		}
 
 		float manaLostAmount = (int)Mathf.Min(castedSpell.ManaDroppedAmount.GetRandomValue(), CurrentMana);
+
 		// Calculate mana lost based on actual damage dealt, checking for division by zero.
 
 		// if (CurrentDamage > 0)
@@ -450,7 +455,7 @@ public partial class Projectile : RigidBody3D
 		if (float.IsNaN(manaLostAmount) || float.IsNaN(CurrentMana))
 		{
 			Expire();
-			return;
+			return true;
 		}
 
 		manaLostAmount = Mathf.Min(CurrentMana, manaLostAmount);
@@ -461,7 +466,7 @@ public partial class Projectile : RigidBody3D
 		if (CurrentMana < 1)
 		{
 			Expire();
-			return;
+			return true;
 		}
 
 		CurrentCharge = CurrentMana / castedSpell.ManaCostRange.Max;
@@ -480,6 +485,8 @@ public partial class Projectile : RigidBody3D
 				}
 			}
 		}
+
+		return false;
 	}
 
 	private void EjectMana(float amount, Vector3 spawnPoint)
@@ -491,6 +498,7 @@ public partial class Projectile : RigidBody3D
 		{
 			manaToSpawn = 1;
 		}
+
 		if (manaToSpawn > 0)
 		{
 			PickupManager.Instance.SpawnPickupAmount(PickupType.Mana, manaToSpawn, spawnPoint);
@@ -521,12 +529,7 @@ public partial class Projectile : RigidBody3D
 		CurrentMana = 0;
 		CurrentDamage = 0;
 		damagePerMana = 0f;
-		if (trail != null)
-		{
-			trail.Reparent(this);
-			trail.Visible = false;
-		}
-		if (collisionShape is { Shape: SphereShape3D sphere })
+				if (collisionShape is { Shape: SphereShape3D sphere })
 		{
 			sphere.Radius = initialSize;
 		}

@@ -1,13 +1,13 @@
+using System.Collections.Generic;
 using Elythia;
 using Godot;
-using Godot.Collections;
 
 namespace SpinalShatter;
 
 [GlobalClass, Tool]
 public partial class StatListData : Resource
 {
-	[Export] public Dictionary<StatType, FloatValue> StatRanges { get; private set; }
+	[Export] public Godot.Collections.Dictionary<StatType, FloatValue> StatRanges { get; private set; }
 
 	public FloatValue this[StatType type]
 	{
@@ -25,5 +25,8 @@ public partial class StatListData : Resource
 	{
 		StatRanges.Add(type, new FloatValue(value));
 	}
+
+	public ICollection<StatType> Keys => StatRanges.Keys;
+	public ICollection<FloatValue> Values => StatRanges.Values;
 
 }

@@ -52,7 +52,7 @@ material = SubResource("ShaderMaterial_yg03f")
 resource_local_to_scene = true
 radius = 3.0
 
-[node name="Orb_AltFire" type="RigidBody3D" groups=["Projectile"]]
+[node name="FireOrb_Secondary" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
 physics_material_override = ExtResource("1_3aiws")
@@ -66,7 +66,10 @@ _explosionEffectScene = ExtResource("4_kflns")
 AudioData = ExtResource("5_4y1uq")
 _lifetime = 20.0
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Sprites" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
 gi_mode = 2
 modulate = Color(1, 0.4, 0.4, 1)
 billboard = 1

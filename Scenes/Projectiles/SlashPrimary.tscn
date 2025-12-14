@@ -52,26 +52,29 @@ axis_lock_angular_z = true
 gravity_scale = 0.0
 continuous_cd = true
 contact_monitor = true
-max_contacts_reported = 1
+max_contacts_reported = 3
 script = ExtResource("2_0j1v2")
 _sparkParticlesScene = ExtResource("3_c3li1")
 AudioData = ExtResource("4_c3li1")
 _lifetime = 2.0
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Sprites" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, -0.05, 0)
 gi_mode = 2
 texture_filter = 0
 sprite_frames = ExtResource("5_c3li1")
 
-[node name="Sprite3D2" type="AnimatedSprite3D" parent="."]
+[node name="Sprite3D2" type="AnimatedSprite3D" parent="Sprites"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 gi_mode = 2
 texture_filter = 0
 render_priority = -1
 sprite_frames = ExtResource("5_c3li1")
 
-[node name="Sprite3D3" type="AnimatedSprite3D" parent="."]
+[node name="Sprite3D3" type="AnimatedSprite3D" parent="Sprites"]
 transform = Transform3D(1, 0, 0, 0, -0.25881904, 0.9659258, 0, -0.9659258, -0.25881904, 0, 0.05, 0)
 gi_mode = 2
 texture_filter = 0
@@ -96,19 +99,21 @@ doppler_tracking = 2
 [node name="GPUTrail3D" type="GPUParticles3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
-amount = 60
-lifetime = 60.0
+amount = 30
+lifetime = 30.0
 explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ShaderMaterial_ilpex")
 draw_pass_1 = SubResource("QuadMesh_c3li1")
 script = ExtResource("10_2cd0g")
-length = 60
-length_seconds = 1.0
+length = 30
+length_seconds = 0.5
 texture = ExtResource("11_0j1v2")
 color_ramp = SubResource("GradientTexture1D_tekgy")
 curve = SubResource("CurveTexture_71frm")
 vertical_texture = true
+dewiggle = false
+snap_to_transform = true
 _defaults_have_been_set = true
 metadata/_custom_type_script = "uid://b6l44lujpalqq"
 

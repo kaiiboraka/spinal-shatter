@@ -41,7 +41,7 @@ dragging_enabled = false
 dragger_visibility = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="Control/HSplitContainer_Parent/HSplitContainer"]
-custom_minimum_size = Vector2(512, 120)
+custom_minimum_size = Vector2(512, 160)
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/HSplitContainer_Parent/HSplitContainer/PanelContainer"]
@@ -49,7 +49,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 10
 
 [node name="Prompt_RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer_Parent/HSplitContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true

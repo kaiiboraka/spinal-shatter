@@ -49,7 +49,7 @@ material = SubResource("ShaderMaterial_6qpqf")
 [sub_resource type="SphereShape3D" id="SphereShape3D_vxbqy"]
 radius = 3.0
 
-[node name="MagicOrb" type="RigidBody3D" groups=["Projectile"]]
+[node name="FireOrb_Primary" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
 physics_material_override = ExtResource("1_caehy")
@@ -62,7 +62,10 @@ _sparkParticlesScene = ExtResource("3_6qpqf")
 AudioData = ExtResource("4_ivnhv")
 _lifetime = 20.0
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Sprites" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
 gi_mode = 2
 billboard = 1
 texture_filter = 0

@@ -140,6 +140,11 @@ physics_material_override = SubResource("PhysicsMaterial_oghjx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328, 0)
 visible = false
 
+[node name="Player" parent="." instance=ExtResource("2_amuju")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
+WALK_SPEED = 13.0
+MAX_SPRINT_SPEED = 24.0
+
 [node name="EnemyPoolNode" type="Node3D" parent="."]
 
 [node name="Scrounger" parent="EnemyPoolNode" instance=ExtResource("6_2e4mj")]
@@ -180,11 +185,6 @@ transform = Transform3D(0.18530653, 0, 0.9826808, 0, 1, 0, -0.9826808, 0, 0.1853
 
 [node name="Slicer2" parent="EnemyPoolNode" instance=ExtResource("22_uauu6")]
 transform = Transform3D(-0.4223493, 0, -0.90643317, 0, 1, 0, 0.90643317, 0, -0.4223493, -82.32031, 0, 80.25745)
-
-[node name="Player" parent="." instance=ExtResource("2_amuju")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
-WALK_SPEED = 13.0
-MAX_SPRINT_SPEED = 24.0
 
 [node name="ShopCart" parent="." instance=ExtResource("26_o2f56")]
 transform = Transform3D(0.73616797, 0, 0.6767988, 0, 1, 0, -0.6767988, 0, 0.73616797, -4.594806, -4.7683716e-07, 3.980397)

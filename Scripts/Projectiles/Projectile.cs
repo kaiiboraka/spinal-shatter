@@ -18,6 +18,7 @@ public partial class Projectile : RigidBody3D
 
 	[Export] private PackedScene _sparkParticlesScene;
 	[Export] private PackedScene _explosionEffectScene;
+	private Node3D spritesParent;
 	private Array<SpriteBase3D> sprites;
 	private CollisionShape3D collisionShape;
 	private Area3D detectionArea3D; // Added for explosion detection
@@ -49,7 +50,8 @@ public partial class Projectile : RigidBody3D
 	public override void _Ready()
 	{
 		sprites = new Array<SpriteBase3D>();
-		foreach (Node child in GetChildren())
+		spritesParent = GetNode<Node3D>("%Sprites");
+		foreach (Node child in spritesParent.GetChildren())
 		{
 			if (child is SpriteBase3D sprite)
 			{
@@ -181,10 +183,7 @@ public partial class Projectile : RigidBody3D
 
 		if (!sprites.IsNullOrEmpty())
 		{
-			foreach (SpriteBase3D sprite in sprites)
-			{
-				sprite.Scale = Vector3.One * scaledSize;
-			}
+			spritesParent.Scale = Vector3.One * scaledSize;
 		}
 
 		if (collisionShape is { Shape: SphereShape3D sphere })
@@ -475,16 +474,16 @@ public partial class Projectile : RigidBody3D
 
 		UpdateChargeState();
 
-		if (!sprites.IsNullOrEmpty())
-		{
-			foreach (SpriteBase3D sprite in sprites)
-			{
-				if (sprite.Scale.X < 0.1f)
-				{
-					QueueFree();
-				}
-			}
-		}
+		// if (!sprites.IsNullOrEmpty())
+		// {
+		// 	foreach (SpriteBase3D sprite in sprites)
+		// 	{
+		// 		if (sprite.Scale.X < 0.1f)
+		// 		{
+		// 			QueueFree();
+		// 		}
+		// 	}
+		// }
 
 		return false;
 	}

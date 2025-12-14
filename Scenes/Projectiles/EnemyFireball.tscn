@@ -61,7 +61,10 @@ _sparkParticlesScene = ExtResource("3_w5pg0")
 AudioData = ExtResource("4_w5pg0")
 IsFixed = true
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Sprites" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
 gi_mode = 2
 modulate = Color(0.43, 0.6865002, 1, 1)
 billboard = 1

@@ -166,22 +166,7 @@ public partial class ShopCart : StaticBody3D
 		player.Inventory.EquipOrRankUpItem(spellToEquip, slot);
 		currentState = ShopState.PlayerShopping;
 
-		// Clear the purchased item from the shop slot
-		ShopItem purchasedShopItem = null;
-		for (int i = 0; i < SHOP_STOCK_COUNT; i++)
-		{
-			if (_shopItems[i].Data == purchasedSpellData)
-			{
-				purchasedShopItem = _shopItems[i];
-				break;
-			}
-		}
 
-		if (purchasedShopItem != null)
-		{
-			purchasedShopItem.Data = null;
-			purchasedShopItem.Visible = false;
-		}
 
 
 		// Find the next available item to select (this logic is adapted from TryPurchaseSelectedItem)
@@ -357,12 +342,12 @@ public partial class ShopCart : StaticBody3D
 
 		if (itemData is SpellData spellData)
 		{
-			bool isOwned = player.Inventory.GetOwnedWeaponInfo(spellData).equippedItem != null;
-			if (isOwned)
+			// If ShopRank > 1, it's a rank-up. If it's 1, it's a new weapon.
+			if (spellData.ShopRank > 1)
 			{
 				player.Inventory.EquipOrRankUpItem(spellData);
 			}
-			else // It's a new weapon, so we must ask the player where to put it.
+			else // It's a new weapon (ShopRank == 1), so we must ask the player where to put it.
 			{
 				_weaponSlotter.BeginSlotSelection(spellData);
 

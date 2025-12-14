@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="1_abcde"]
 [ext_resource type="Resource" uid="uid://ybf2fn4iaogc" path="res://assets/Audio/AudioData/AudioData_EnemySmall_Ranged.tres" id="1_kkkkj"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="2_fghij"]
-[ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValueRange.cs" id="2_kkkkj"]
+[ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValue.cs" id="2_kkkkj"]
 
 [sub_resource type="Resource" id="Resource_kkkkj"]
 script = ExtResource("2_kkkkj")

@@ -19,6 +19,7 @@ Weapon = 1
 StatRanges = ExtResource("5_6uuj5")
 ProjectileScene = ExtResource("7_lin78")
 AudioData = ExtResource("1_xi7fg")
+RankUps = SubResource("Resource_oxfwu")
 ItemIcon = ExtResource("3_l2hbq")
 ItemName = "Slash"
 ItemDescription = "A wave of damage capable of hitting multiple enemies or one large enemy multiple times.

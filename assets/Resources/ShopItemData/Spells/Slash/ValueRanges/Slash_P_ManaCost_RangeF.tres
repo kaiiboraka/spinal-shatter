@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_u3hlc")
 IsRange = true
-Min = 5.0
-Max = 15.0
+Min = 2.0
+Max = 18.0

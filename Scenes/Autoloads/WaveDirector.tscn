@@ -29,8 +29,8 @@
 script = ExtResource("1_fhtwo")
 _levelLostMenuScene = ExtResource("2_aege0")
 _mainMenuScene = ExtResource("3_ylehw")
-moneyGivenPerSecondLeft = 2.5
-moneyGivenPerHealthLeft = 1.5
+moneyGivenPerSecondLeft = 0.75
+moneyGivenPerHealthLeft = 1.75
 _enemyDataToSceneMap = Dictionary[ExtResource("4_6kqlu"), PackedScene]({
 ExtResource("4_kpvn7"): ExtResource("4_phwt4"),
 ExtResource("3_oxf7n"): ExtResource("6_6lw2h"),

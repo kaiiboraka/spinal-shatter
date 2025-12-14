@@ -7,7 +7,7 @@ using Godot;
 
 public partial class AutomaticCaster : Node
 {
-    private AutomaticSpellData _spellData;
+    private SpellData _spellData;
     private Timer _fireRateTimer;
     [Export] private Marker3D _spellOrigin;
 
@@ -21,8 +21,13 @@ public partial class AutomaticCaster : Node
         _fireRateTimer.Timeout += OnFireTimerTimeout;
     }
 
-    public void SetAutomaticWeapon(AutomaticSpellData spellData)
+    public void SetAutomaticWeapon(SpellData spellData)
     {
+        if (spellData.Slot != SlotType.Automatic)
+        {
+            GD.PrintErr("Set Automatic Weapon: Invalid slot type");
+            return;
+        }
         _spellData = spellData;
         if (_spellData != null)
         {

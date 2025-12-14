@@ -741,7 +741,7 @@ public partial class PlayerBody : Combatant
 				magicCaster.SetSecondaryWeapon(spellData as CastedSpellData);
 				break;
 			case SlotType.Automatic:
-				automaticCaster.SetAutomaticWeapon(spellData as AutomaticSpellData);
+				automaticCaster.SetAutomaticWeapon(spellData);
 				break;
 		}
 	}

@@ -51,8 +51,8 @@ public partial class Enemy : Combatant
 	public float MaxWaitTime { get; private set; } = 5.0f;
 
 	// Combat
-	public IntValueRange MoneyAmountToDrop { get; private set; } = new(10);
-	public IntValueRange ManaAmountToDrop { get; private set; } = new(10);
+	public IntValue MoneyAmountToDrop { get; private set; } = new(10);
+	public IntValue ManaAmountToDrop { get; private set; } = new(10);
 
 	// Attack
 	private float AttackRange { get; set; } = 2.0f;

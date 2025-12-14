@@ -7,6 +7,6 @@ public partial class PrimarySpellData : CastedSpellData
 {
 	[ExportGroup("Other Variants")]
 	[Export] public CastedSpellData Secondary { get; private set; }
-	[Export] public AutomaticSpellData Automatic { get; private set; }
+	[Export] public SpellData Automatic { get; private set; }
 
 }

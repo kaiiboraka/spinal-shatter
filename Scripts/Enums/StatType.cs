@@ -24,11 +24,17 @@ public enum StatType
 	Weapon_Pierce,
 	Weapon_Bounce, // for both bounces off of walls and bounces off of enemies, depending on the context of the weapon at hand
 	Weapon_Range, // mostly for targeting falloff of automatic weapons
+	Weapon_Cost,
+	Weapon_Knockback,
+	Weapon_Refund
+}
 
+public enum MetaStatType
+{
 	// Meta Progression Stats
-	Meta_RerollHallwayRewards,
-	Meta_RerollShop,
-	Meta_FreezeCharges,
-	Meta_Banish,
-	Meta_SellValueRatio,
+	RerollHallwayRewards,
+	RerollShop,
+	FreezeCharges,
+	Banish,
+	SellValueRatio,
 }

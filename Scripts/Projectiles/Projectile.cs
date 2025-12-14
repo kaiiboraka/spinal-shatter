@@ -150,7 +150,7 @@ public partial class Projectile : RigidBody3D
 					if (collider is Projectile other)
 						more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
 					EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
-					
+
 				}
 			}
 		}
@@ -170,32 +170,37 @@ public partial class Projectile : RigidBody3D
 	{
 		if (IsFixed) return;
 
-		var sizingScale = SpellData.SizeRange;
-		if (sizingScale != null)
+		float scaledSize;
+		if (SpellData is CastedSpellData { VisualSizeOverride: not null } castedSpellData)
 		{
-			float scaledSize = sizingScale.GetLerpedValue(CurrentCharge);
-			if (!sprites.IsNullOrEmpty())
-			{
-				foreach (SpriteBase3D sprite in sprites)
-				{
-					sprite.Scale = Vector3.One * scaledSize;
-				}
-			}
-
-			if (collisionShape is { Shape: SphereShape3D sphere })
-			{
-				sphere.Radius = Mathf.Max(0.05f, scaledSize * 0.5f);
-			}
-			else if (collisionShape is { Shape: CylinderShape3D cylinder })
-			{
-				cylinder.Height = Mathf.Max(0.05f, initialSize * scaledSize);
-			}
-			else if (collisionShape is { Shape: CapsuleShape3D capsule })
-			{
-				capsule.Height = Mathf.Max(0.05f, initialSize * scaledSize);
-			}
-			Mass = scaledSize;
+			scaledSize = castedSpellData.VisualSizeOverride.GetLerpedValue(CurrentCharge);
 		}
+		else
+		{
+			scaledSize = SpellData.SizeRange.GetLerpedValue(CurrentCharge);
+		}
+
+		if (!sprites.IsNullOrEmpty())
+		{
+			foreach (SpriteBase3D sprite in sprites)
+			{
+				sprite.Scale = Vector3.One * scaledSize;
+			}
+		}
+
+		if (collisionShape is { Shape: SphereShape3D sphere })
+		{
+			sphere.Radius = Mathf.Max(0.05f, scaledSize * 0.5f);
+		}
+		else if (collisionShape is { Shape: CylinderShape3D cylinder })
+		{
+			cylinder.Height = Mathf.Max(0.05f, initialSize * scaledSize);
+		}
+		else if (collisionShape is { Shape: CapsuleShape3D capsule })
+		{
+			capsule.Height = Mathf.Max(0.05f, initialSize * scaledSize);
+		}
+		Mass = scaledSize;
 	}
 
 	public void Launch(ProjectileLaunchData data)
@@ -220,7 +225,7 @@ public partial class Projectile : RigidBody3D
 				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
 				if (Slot == SlotType.Secondary)
 				{
-					var explosionRadius = ((OrbAltSpellData)SpellData).ExplosionRadius.GetLerpedValue(CurrentCharge);
+					var explosionRadius = SpellData.ExplosionRadius.GetLerpedValue(CurrentCharge);
 
 					// Set the radius dynamically
 					detectionShape.Radius = explosionRadius;
@@ -358,7 +363,6 @@ public partial class Projectile : RigidBody3D
 
 	private void Explode()
 	{
-		if (SpellData is not OrbAltSpellData orbData) return;
 		if (detectionArea3D == null)
 		{
 			GD.PrintErr("Projectile: _detectionArea3D not found for explosion.");
@@ -369,7 +373,7 @@ public partial class Projectile : RigidBody3D
 		// Ensure the detection area is at the projectile's position for the explosion
 		detectionArea3D.GlobalPosition = GlobalPosition;
 
-		var explosionRadius = orbData.ExplosionRadius.GetLerpedValue(CurrentCharge);
+		var explosionRadius = SpellData.ExplosionRadius.GetLerpedValue(CurrentCharge);
 
 		// Set the radius dynamically
 		detectionShape.Radius = explosionRadius;

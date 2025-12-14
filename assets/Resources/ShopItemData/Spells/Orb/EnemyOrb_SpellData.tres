@@ -1,44 +1,17 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=10 format=3 uid="uid://bpg87onj725jn"]
+[gd_resource type="Resource" script_class="CastedSpellData" load_steps=6 format=3 uid="uid://bpg87onj725jn"]
 
-[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="2_xddvl"]
-[ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_ManaDrop_RangeI.tres" id="3_tqapl"]
+[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="1_idy44"]
+[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/ShopItems/Spells/fireball_enemy.png" id="2_jrqo3"]
+[ext_resource type="Resource" uid="uid://depsmo4qgxd07" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/EnemyOrb_StatList.tres" id="3_tkcrf"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="4_llsa7"]
 [ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="5_v4r0i"]
 
-[sub_resource type="Resource" id="Resource_hwuyi"]
-script = ExtResource("2_xddvl")
-Min = 10.0
-Max = 10.0
-metadata/_custom_type_script = "uid://d3mqtflppmqtg"
-
-[sub_resource type="Resource" id="Resource_2vvke"]
-script = ExtResource("2_xddvl")
-Max = 1.0
-metadata/_custom_type_script = "uid://d3mqtflppmqtg"
-
-[sub_resource type="Resource" id="Resource_6ccg6"]
-script = ExtResource("2_xddvl")
-Max = 1.75
-
-[sub_resource type="Resource" id="Resource_ls77i"]
-script = ExtResource("2_xddvl")
-Min = 1.0
-Max = 1.0
-metadata/_custom_type_script = "uid://d3mqtflppmqtg"
-
-[sub_resource type="Resource" id="Resource_1e2gl"]
-script = ExtResource("2_xddvl")
-Min = 20.0
-Max = 20.0
-
 [resource]
 script = ExtResource("5_v4r0i")
-ChargeIntervals = 10
-ManaDroppedAmount = ExtResource("3_tqapl")
-ManaCostRange = SubResource("Resource_2vvke")
-MaxChargeTime = SubResource("Resource_6ccg6")
-DamageRange = SubResource("Resource_hwuyi")
-SpeedRange = SubResource("Resource_1e2gl")
-SizeRange = SubResource("Resource_ls77i")
+ChargeIntervals = 1
+StatRanges = ExtResource("3_tkcrf")
 ProjectileScene = ExtResource("4_llsa7")
-RankUps = []
+AudioData = ExtResource("1_idy44")
+hasRankData = false
+ItemIcon = ExtResource("2_jrqo3")
+ItemName = "Enemy Fireball"

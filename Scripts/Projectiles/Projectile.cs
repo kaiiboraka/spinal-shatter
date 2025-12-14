@@ -246,19 +246,24 @@ public partial class Projectile : RigidBody3D
 
 	public void OnEnemyHit()
 	{
-		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Secondary)
-		{
-			Explode(orbData);
-			return;
-		}
+
 
 		ApplyManaLoss(GlobalPosition);
-		AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
+		// AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Hit"]);
 		switch (SpellData.Weapon)
 		{
 			case WeaponType.Orb:
-				Expire(false);
+				AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
+				switch (Slot)
+				{
+					case SlotType.Primary:
+						Expire(false);
+						break;
+					case SlotType.Secondary:
+						Explode();
+						break;
+				}
 				break;
 			case WeaponType.Slash:
 			case WeaponType.ForceWall:
@@ -275,10 +280,34 @@ public partial class Projectile : RigidBody3D
 
 	private void HandleWallBounce(Vector3 impactPoint)
 	{
-		if (SpellData is OrbAltSpellData orbData && Slot == SlotType.Secondary)
+		ApplyManaLoss(impactPoint);
+
+		switch (SpellData.Weapon)
 		{
-			Explode(orbData);
-			return;
+			case WeaponType.Orb:
+				if (Slot == SlotType.Secondary)
+				{
+					Explode();
+				}
+				break;
+			case WeaponType.Slash:
+				Expire();
+				return;
+				break;
+			case WeaponType.ForceWall:
+				break;
+			case WeaponType.Dice:
+				break;
+			case WeaponType.Lance:
+				break;
+			case WeaponType.Garlic:
+				break;
+			case WeaponType.Chakram:
+				break;
+			case WeaponType.Missiles:
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
 		}
 
 		if (IsFixed)
@@ -288,13 +317,13 @@ public partial class Projectile : RigidBody3D
 		}
 
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Bounce"]);
-		ApplyManaLoss(impactPoint);
 
 		bounceCooldown = 0.1f;
 	}
 
-	private void Explode(OrbAltSpellData orbData)
+	private void Explode()
 	{
+		if (SpellData is not OrbAltSpellData orbData) return;
 		if (detectionArea3D == null)
 		{
 			GD.PrintErr("Projectile: _detectionArea3D not found for explosion.");

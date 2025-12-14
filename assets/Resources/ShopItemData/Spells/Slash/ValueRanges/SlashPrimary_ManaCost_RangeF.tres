@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="FloatValueRange" load_steps=2 format=3 uid="uid://bj1cf42e8vcd5"]
 
-[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_slash_manacost"]
+[ext_resource type="Script" uid="uid://d3mqtflppmqtg" path="res://Scripts/Utility/FloatValueRange.cs" id="1_ytc1m"]
 
 [resource]
-script = ExtResource("1_slash_manacost")
-Min = 10.0
-Max = 40.0
+script = ExtResource("1_ytc1m")
+Min = 2.0
+Max = 20.0

@@ -52,7 +52,7 @@ radius = 3.0
 [node name="WaterSlash" type="RigidBody3D" groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
-axis_lock_angular_x = true
+input_ray_pickable = false
 gravity_scale = 0.0
 custom_integrator = true
 continuous_cd = true
@@ -61,7 +61,7 @@ max_contacts_reported = 1
 script = ExtResource("2_0j1v2")
 _sparkParticlesScene = ExtResource("3_c3li1")
 AudioData = ExtResource("4_c3li1")
-_lifetime = 20.0
+_lifetime = 2.0
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0, 0)
@@ -120,8 +120,11 @@ metadata/_custom_type_script = "uid://b6l44lujpalqq"
 
 [node name="Detection_Area3D" type="Area3D" parent="."]
 unique_name_in_owner = true
+visible = false
 collision_layer = 4096
 collision_mask = 35840
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D"]
 shape = SubResource("SphereShape3D_vxbqy")

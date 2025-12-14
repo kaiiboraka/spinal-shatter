@@ -829,7 +829,6 @@ public partial class Enemy : Combatant
 		LineOfSightRaycast3D.SetDeferred("monitorable", false);
 	}
 
-
 	private void EnableCollisions()
 	{
 		// Restore enemy to its physics layers.

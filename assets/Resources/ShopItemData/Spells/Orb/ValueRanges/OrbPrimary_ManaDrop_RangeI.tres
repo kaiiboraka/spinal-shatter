@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="IntValueRange" load_steps=2 format=3 uid="uid://dr6vjs632jv25"]
 
-[ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValueRange.cs" id="1_nojv3"]
+[ext_resource type="Script" uid="uid://cubwan5r4pjd3" path="res://Scripts/Utility/IntValueRange.cs" id="1_y7p3l"]
 
 [resource]
-script = ExtResource("1_nojv3")
-Min = 1
-Max = 5
+script = ExtResource("1_y7p3l")
+Min = 2
+Max = 10
 metadata/_custom_type_script = "uid://cubwan5r4pjd3"

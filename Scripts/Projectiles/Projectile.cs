@@ -267,13 +267,13 @@ public partial class Projectile : RigidBody3D
 			SpellMarker.Position = SpellMarker.Position with { X = 0 };
 			GlobalPosition = SpellMarker.GlobalPosition;
 			SpellMarker.Position = markerPosition;
+			LookAt(GlobalPosition + data.InitialVelocity);
 		}
 		else
 		{
 			GlobalPosition = SpellMarker.GlobalPosition;
 		}
 
-		LookAt(GlobalPosition + data.InitialVelocity);
 
 		this.Freeze = false;
 		collisionShape.Disabled = false;

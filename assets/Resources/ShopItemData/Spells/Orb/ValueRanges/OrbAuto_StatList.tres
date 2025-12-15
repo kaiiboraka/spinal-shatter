@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StatListData" load_steps=12 format=3 uid="uid://41hiayp7q41h"]
+[gd_resource type="Resource" script_class="StatListData" load_steps=13 format=3 uid="uid://41hiayp7q41h"]
 
 [ext_resource type="Resource" uid="uid://dxs4inj56nygy" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_A_Damage_RangeF.tres" id="1_cn2bn"]
 [ext_resource type="Resource" uid="uid://b0xb74rmmdaha" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_A_Speed_RangeF.tres" id="2_x1xm0"]
@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://dr6vjs632jv25" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_P_ManaDrop_RangeF.tres" id="9_nc3ce"]
 [ext_resource type="Resource" uid="uid://3er2kmq44r3t" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_P_Pierce_RangeF.tres" id="10_snta4"]
 [ext_resource type="Script" uid="uid://cohfu4uf7boyb" path="res://Scripts/Resources/Spells/StatListData.cs" id="11_sucpq"]
+[ext_resource type="Resource" uid="uid://hr4v6se4rw10" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_A_Range_RangeF.tres" id="11_x1xm0"]
 
 [resource]
 script = ExtResource("11_sucpq")
@@ -23,6 +24,7 @@ StatRanges = {
 15: ExtResource("7_caybp"),
 16: ExtResource("10_snta4"),
 17: ExtResource("6_mmtfm"),
+18: ExtResource("11_x1xm0"),
 19: ExtResource("5_vannb"),
 21: ExtResource("9_nc3ce")
 }

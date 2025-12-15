@@ -53,7 +53,7 @@ public partial class AutomaticCaster : Node
             return;
         }
 
-        float speed = _spellData.SpeedRange.Min; // Using Min for simplicity, can be averaged or other logic
+        float speed = _spellData.SpeedRange.FixedValue; // Using Min for simplicity, can be averaged or other logic
         var (target, initialVelocity) = GetFiringDirection();
         if (!target) return;
         initialVelocity *= speed;
@@ -70,7 +70,7 @@ public partial class AutomaticCaster : Node
             Caster = player,
             ManaCost = 0, // Automatic weapons are free
             InitialVelocity = initialVelocity,
-            ChargeRatio = 0, // No charge for automatic weapons
+            ChargeRatio = 1, // No charge for automatic weapons
             StartPosition = _spellOrigin,
             SpellData = _spellData,
             Slot = SlotType.Automatic

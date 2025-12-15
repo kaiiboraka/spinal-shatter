@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_fd8d1")
-IsRange = true
 Min = 0.5
 Max = 2.0
+IsFixed = true
 FixedValue = 1.5

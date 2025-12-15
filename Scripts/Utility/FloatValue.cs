@@ -48,7 +48,7 @@ public partial class FloatValue : ValueRange<float>
 	private float min = 0;
 	[Export] public override float Min
 	{
-		get => min;
+		get => isRange ? min : isFixed ? fixedValue : 0;
 		set
 		{
 			min = Mathf.Clamp(value, AbsoluteMin, float.MaxValue);
@@ -59,7 +59,7 @@ public partial class FloatValue : ValueRange<float>
 	private float max = 1;
 	[Export] public override float Max
 	{
-		get => max;
+		get =>  isRange ? max : isFixed ? fixedValue : 1;
 		set
 		{
 			max = Mathf.Clamp(value, AbsoluteMin, AbsoluteMax);

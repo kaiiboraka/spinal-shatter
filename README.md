@@ -350,20 +350,21 @@ And then you can decide which slot to put them in: Main, Alt, or Passive
 
 ### Stats
 
+TODO : Implement a proper, universal weapon stat system for handling stats like Weapon_Pierce. This will likely involve adding a live, modifiable copy of weapon stats to EquippedItem.cs and updating PlayerBody.cs's RecalculateStats method. to apply them.
+
 Up to 3 slots for unique items that provide persistent Player Stat bonuses -- they can also be ranked up on reqacquisition, like weapons.
 
-- max health (additive bonus) - anatomical heart?
-- max mana (additive bonus) - jagged crystal
-- move speed (multiplier) - leather boot
-- Armor (fixed, additive damage reduction) - metal buckler
+- max health (additive bonus) - anatomical heart? - Bonus Heart
+- max mana (additive bonus) - jagged crystal - Mana Crystal 
+- move speed (multiplier) - leather boot - Running Slippers
+- Armor (fixed, additive damage reduction) - metal buckler - Holy Kite
 - money drop rate (multiplier) - Rabbit's foot
-- Pickup radius - Evil Pot : Evil cointainment wave (Dragon Ball) into Pot of Greed (Yu-Gi-Oh)
-- Jump Height - Eagle Feather
-- Air Jumps - Bat wing
-- Siphon Range - Spectral Claw 
+- Jump Height - Frog/Cricket Legs?
+- Air Jumps - Bat Wing
+- Siphon Range - Evil Pot : Evil cointainment wave (Dragon Ball) into Pot of Greed (Yu-Gi-Oh)
 - Projectile Speed (multiplier on ValueRange) - A fletched arrow
-- Projectile Size (multiplier on ValueRange) - Focusing Lens (magnifying glass)
-- Projectile Count (additive integer) - Hand Mirror? Reflective Prism?
+- Projectile Size (multiplier on ValueRange) - (magnifying glass) - Focusing Lens  / Mana Iris
+- Projectile Count (additive integer) - Reflective Prism
 - Charge Speed (some kind of % multiplier that makes your charge duration take some % less time; should scale relatively slowly) - Lightning in a Bottle
 
 Vampire Survivors: stat - icon

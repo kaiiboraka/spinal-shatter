@@ -354,18 +354,19 @@ TODO : Implement a proper, universal weapon stat system for handling stats like 
 
 Up to 3 slots for unique items that provide persistent Player Stat bonuses -- they can also be ranked up on reqacquisition, like weapons.
 
-- max health (additive bonus) - anatomical heart? - Bonus Heart
-- max mana (additive bonus) - jagged crystal - Mana Crystal 
-- move speed (multiplier) - leather boot - Running Slippers
-- Armor (fixed, additive damage reduction) - metal buckler - Holy Kite
-- money drop rate (multiplier) - Rabbit's foot
-- Jump Height - Frog/Cricket Legs?
-- Air Jumps - Bat Wing
-- Siphon Range - Evil Pot : Evil cointainment wave (Dragon Ball) into Pot of Greed (Yu-Gi-Oh)
+D- max health (additive bonus) - anatomical heart? - Bonus Heart
+D- max mana (additive bonus) - jagged crystal - Mana Crystal 
+D- move speed (multiplier) - leather boot - Running Slippers
+D- Armor (fixed, additive damage reduction) - metal buckler - Holy Kite
+D- money drop rate (multiplier) - Rabbit's foot
+D- Jump Height - Frog/Cricket Legs?
+D- Air Jumps - Bat Wing
+D- Siphon Range - Spectral Claw 
+	// Evil Pot : Evil cointainment wave (Dragon Ball) into Pot of Greed (Yu-Gi-Oh)
 - Projectile Speed (multiplier on ValueRange) - A fletched arrow
-- Projectile Size (multiplier on ValueRange) - (magnifying glass) - Focusing Lens  / Mana Iris
-- Projectile Count (additive integer) - Reflective Prism
-- Charge Speed (some kind of % multiplier that makes your charge duration take some % less time; should scale relatively slowly) - Lightning in a Bottle
+D- Projectile Size (multiplier on ValueRange) - (magnifying glass) - Focusing Lens  / Mana Iris
+D- Projectile Count (additive integer) - Reflective Prism
+D- Charge Speed (some kind of % multiplier that makes your charge duration take some % less time; should scale relatively slowly) - Lightning in a Bottle
 
 Vampire Survivors: stat - icon
 1. Max Health - empty heart container

@@ -1,21 +1,22 @@
-[gd_resource type="Resource" script_class="StatItemData" load_steps=8 format=3 uid="uid://cpsixi7l16gnv"]
+[gd_resource type="Resource" script_class="StatItemData" load_steps=9 format=3 uid="uid://cpsixi7l16gnv"]
 
-[ext_resource type="Texture2D" uid="uid://b7cqj4adkbw2v" path="res://assets/Images/ShopItems/Stats/Stat_MaxHealth_Icon.ase" id="1_7pjo1"]
-[ext_resource type="Resource" uid="uid://ckpw50ibyivnu" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/RankData/MaxLife_Rank2.tres" id="2_3cc6n"]
-[ext_resource type="Resource" uid="uid://cpp4i18qti1g8" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/RankData/MaxLife_Rank1.tres" id="2_800nw"]
+[ext_resource type="Texture2D" uid="uid://g6veqgxba1w3" path="res://assets/Images/ShopItems/Stats/MaxLife_Heart_Stat_AtlasTexture.tres" id="1_e1438"]
+[ext_resource type="Resource" uid="uid://di0ky7b0mux52" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank1.tres" id="2_7x6sb"]
 [ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="3_800nw"]
+[ext_resource type="Resource" uid="uid://c2382vrcf7vno" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank2.tres" id="3_hgdyl"]
 [ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="4_800nw"]
-[ext_resource type="Resource" uid="uid://fnsqq7h4nlvy" path="res://assets/Resources/ShopItemData/StatItems/MaxHealth/RankData/MaxLife_Rank3.tres" id="4_ffudm"]
+[ext_resource type="Resource" uid="uid://cw8gw1hkg3sfr" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank3.tres" id="4_wfd34"]
+[ext_resource type="Resource" uid="uid://dj3lq7s5mnijc" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank4.tres" id="5_oicl6"]
 
 [sub_resource type="Resource" id="Resource_tqapl"]
 script = ExtResource("4_800nw")
-RankUps = [ExtResource("2_800nw"), ExtResource("2_3cc6n"), ExtResource("4_ffudm")]
+RankUps = [ExtResource("2_7x6sb"), ExtResource("3_hgdyl"), ExtResource("4_wfd34"), ExtResource("5_oicl6")]
 
 [resource]
 script = ExtResource("3_800nw")
 Value = 25.0
 RankUps = SubResource("Resource_tqapl")
-ItemIcon = ExtResource("1_7pjo1")
+ItemIcon = ExtResource("1_e1438")
 ItemName = "Max Health"
 ItemDescription = "Do you feel it, Mr. Krabs?"
 Price = 75

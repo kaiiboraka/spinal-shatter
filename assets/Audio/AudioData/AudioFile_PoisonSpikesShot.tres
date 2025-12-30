@@ -1,0 +1,11 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://c0lxyt8y6nq2r"]
+
+[ext_resource type="AudioStream" uid="uid://3d612cikvijy" path="res://assets/Audio/SFX/PoisonSpikeShot_High.wav" id="1_jp14b"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_tvqky"]
+
+[resource]
+resource_name = "AF_PoisonShot_High"
+script = ExtResource("2_tvqky")
+Stream = ExtResource("1_jp14b")
+VolumeDb = -2.0
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

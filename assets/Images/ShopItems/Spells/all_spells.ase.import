@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bxyidlfelqmjb"
+path="res://.godot/imported/all_spells.ase-4bd93d58730a0771fd7d5acf1f67b631.res"
+
+[deps]
+
+source_file="res://assets/Images/ShopItems/Spells/all_spells.ase"
+dest_files=["res://.godot/imported/all_spells.ase-4bd93d58730a0771fd7d5acf1f67b631.res"]
+
+[params]
+

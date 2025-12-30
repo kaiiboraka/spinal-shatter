@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="4_4nd5o"]
 [ext_resource type="Resource" uid="uid://hlu48ta7fjwc" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_StatList.tres" id="5_6uuj5"]
 [ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="5_vjab3"]
-[ext_resource type="PackedScene" uid="uid://ddfqqv0358ue" path="res://Scenes/Projectiles/SlashPrimary.tscn" id="7_lin78"]
+[ext_resource type="PackedScene" uid="uid://ddfqqv0358ue" path="res://Scenes/Projectiles/WaterSlashPrimary.tscn" id="7_lin78"]
 [ext_resource type="Resource" uid="uid://dqt8lfh4rdcli" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashSecondary_SpellData.tres" id="8_muxpl"]
 [ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="11_wkhaa"]
 

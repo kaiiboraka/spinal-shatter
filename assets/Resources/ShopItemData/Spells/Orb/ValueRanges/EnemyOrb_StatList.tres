@@ -10,32 +10,34 @@
 
 [sub_resource type="Resource" id="Resource_4su5s"]
 script = ExtResource("1_5vgcr")
-Min = 70.0
-Max = 70.0
+Min = 10.0
+Max = 10.0
 IsFixed = true
 FixedValue = 10.0
 
 [sub_resource type="Resource" id="Resource_1o8gn"]
 script = ExtResource("1_5vgcr")
-Min = 0.75
-Max = 0.75
+Min = 1.0
+Max = 1.0
 IsFixed = true
 FixedValue = 1.0
 
 [sub_resource type="Resource" id="Resource_vfj5p"]
 script = ExtResource("1_5vgcr")
+Min = 20.0
+Max = 20.0
 IsFixed = true
 FixedValue = 20.0
 
 [sub_resource type="Resource" id="Resource_0jjex"]
 script = ExtResource("1_5vgcr")
+Min = 1.75
+Max = 1.75
 IsFixed = true
 FixedValue = 1.75
 
 [sub_resource type="Resource" id="Resource_sibl4"]
 script = ExtResource("1_5vgcr")
-Min = 2.0
-Max = 10.0
 IsFixed = true
 metadata/_custom_type_script = "uid://cubwan5r4pjd3"
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="1_k72oj"]
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_ow8lb"]
-[ext_resource type="PackedScene" uid="uid://dmoyx8lghnmpj" path="res://Scenes/Projectiles/OrbAuto_Wand.tscn" id="3_l826w"]
+[ext_resource type="PackedScene" uid="uid://dmoyx8lghnmpj" path="res://Scenes/Projectiles/FireOrbAuto_Wand.tscn" id="3_ow8lb"]
 [ext_resource type="Resource" uid="uid://bbe5b2fd30pbi" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/OrbAutomatic_Ranks.tres" id="4_7bumn"]
 [ext_resource type="Resource" uid="uid://41hiayp7q41h" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbAuto_StatList.tres" id="5_ow8lb"]
 [ext_resource type="Script" uid="uid://mpkw0pgad3w1" path="res://Scripts/Resources/Spells/SpellData.cs" id="13_7es57"]
@@ -11,8 +11,8 @@
 script = ExtResource("13_7es57")
 Slot = 2
 StatRanges = ExtResource("5_ow8lb")
-ProjectileScene = ExtResource("3_l826w")
-AudioData = ExtResource("1_ow8lb")
+ProjectileScene = ExtResource("3_ow8lb")
+ChargeAudioData = ExtResource("1_ow8lb")
 RankUps = ExtResource("4_7bumn")
 ItemIcon = ExtResource("1_k72oj")
 ItemName = "Familiar"

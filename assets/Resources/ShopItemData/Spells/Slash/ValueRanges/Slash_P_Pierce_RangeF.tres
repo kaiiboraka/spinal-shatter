@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_d35yj")
+Min = 100.0
+Max = 100.0
 IsFixed = true
 FixedValue = 100.0
 metadata/_custom_type_script = "uid://dfwrm14wv5vmm"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AudioData" load_steps=5 format=3 uid="uid://c500xjuf7e00f"]
+
+[ext_resource type="AudioStream" uid="uid://lutykp8n75ro" path="res://assets/Audio/AudioData/AudioFile_PoisonSpikeBounce.tres" id="1_3wo8x"]
+[ext_resource type="AudioStream" uid="uid://b4q8b0kc2ibi" path="res://assets/Audio/AudioData/AudioFile_Explosion.tres" id="2_n1p7l"]
+[ext_resource type="Script" uid="uid://c0tc37i3i6ume" path="res://Scripts/Resources/AudioData.cs" id="3_m2ben"]
+[ext_resource type="AudioStream" uid="uid://c0lxyt8y6nq2r" path="res://assets/Audio/AudioData/AudioFile_PoisonSpikesShot.tres" id="3_n1p7l"]
+
+[resource]
+resource_name = "AD_PoisonSpikes"
+script = ExtResource("3_m2ben")
+Sounds = Dictionary[String, AudioStream]({
+"Bounce": ExtResource("1_3wo8x"),
+"Hit": ExtResource("2_n1p7l"),
+"Shoot": ExtResource("3_n1p7l")
+})
+metadata/_custom_type_script = "uid://c0tc37i3i6ume"

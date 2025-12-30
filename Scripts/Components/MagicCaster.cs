@@ -41,16 +41,16 @@ public partial class MagicCaster : Node
 	{
 		equippedPrimarySpell = spellData;
 
-		sfxBeep = (AudioFile)equippedPrimarySpell.AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)equippedPrimarySpell.AudioData["SpellChargeComplete"];
+		sfxBeep = (AudioFile)equippedPrimarySpell.ChargeAudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)equippedPrimarySpell.ChargeAudioData["SpellChargeComplete"];
 	}
 
 	public void SetSecondaryWeapon(CastedSpellData spellData)
 	{
 		equippedSecondarySpell = spellData;
 
-		sfxBeep = (AudioFile)equippedSecondarySpell.AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)equippedSecondarySpell.AudioData["SpellChargeComplete"];
+		sfxBeep = (AudioFile)equippedSecondarySpell.ChargeAudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)equippedSecondarySpell.ChargeAudioData["SpellChargeComplete"];
 	}
 
 	private CastedSpellData GetActiveSpellData =>
@@ -122,7 +122,7 @@ public partial class MagicCaster : Node
 		lastInterval = -1;
 		chargingProjectile = currentSpellData.ProjectileScene.Instantiate<Projectile>();
 
-		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)currentSpellData.AudioData["SpellChargeBack"]);
+		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)currentSpellData.ChargeAudioData["SpellChargeBack"]);
 
 		// Pass the FloatValueRange to BeginChargingProjectile to be used by Projectile.ApplyChargeAndTypeEffects
 		chargingProjectile.BeginChargingProjectile(SpellOrigin, currentSpellData);

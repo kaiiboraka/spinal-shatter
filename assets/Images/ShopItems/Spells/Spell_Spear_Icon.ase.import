@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://mcpi1da0sl1n"
+path="res://.godot/imported/Spell_Spear_Icon.ase-a3c8e0ae4e3ab8377044c39be7031e32.res"
+
+[deps]
+
+source_file="res://assets/Images/ShopItems/Spells/Spell_Spear_Icon.ase"
+dest_files=["res://.godot/imported/Spell_Spear_Icon.ase-a3c8e0ae4e3ab8377044c39be7031e32.res"]
+
+[params]
+

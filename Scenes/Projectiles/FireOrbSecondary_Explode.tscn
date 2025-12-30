@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_4l426"]
 [ext_resource type="PackedScene" uid="uid://bprwy6ljr1i42" path="res://Scenes/Particles/HitEffects_Sparks.tscn" id="3_2r5ua"]
 [ext_resource type="PackedScene" uid="uid://drxvesqhpamll" path="res://Scenes/Particles/HitEffects_Explode.tscn" id="4_kflns"]
-[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="5_4y1uq"]
+[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_FireOrb.tres" id="5_4y1uq"]
 [ext_resource type="SpriteFrames" uid="uid://bou4jlh1s823h" path="res://assets/Images/ShopItems/Spells/fireball.ase" id="6_5xdfe"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="7_2n2nb"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="8_riugu"]

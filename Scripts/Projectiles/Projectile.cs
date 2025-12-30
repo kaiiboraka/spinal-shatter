@@ -242,10 +242,10 @@ public partial class Projectile : RigidBody3D
 				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
 				damagePerMana = CurrentMana > 0 ? CurrentDamage / CurrentMana : 0;
 				break;
-			case WeaponType.ForceWall:
-			case WeaponType.Dice:
-			case WeaponType.Lance:
-			case WeaponType.Garlic:
+			case WeaponType.Wall:
+			case WeaponType.Spikes:
+			case WeaponType.Spear:
+			case WeaponType.Storm:
 			case WeaponType.Chakram:
 			case WeaponType.Missiles:
 			default:
@@ -280,6 +280,7 @@ public partial class Projectile : RigidBody3D
 		this.LinearVelocity = data.InitialVelocity;
 
 		lifetimeTimer.Start();
+		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Shoot"]);
 		if (Slot != SlotType.Automatic) trail.Visible = true;
 	}
 
@@ -311,10 +312,10 @@ public partial class Projectile : RigidBody3D
 				break;
 			case WeaponType.Slash:
 				break;
-			case WeaponType.ForceWall:
-			case WeaponType.Dice:
-			case WeaponType.Lance:
-			case WeaponType.Garlic:
+			case WeaponType.Wall:
+			case WeaponType.Spikes:
+			case WeaponType.Spear:
+			case WeaponType.Storm:
 			case WeaponType.Chakram:
 			case WeaponType.Missiles:
 				Expire(false);
@@ -339,10 +340,10 @@ public partial class Projectile : RigidBody3D
 			case WeaponType.Slash:
 				Expire();
 				return;
-			case WeaponType.ForceWall:
-			case WeaponType.Dice:
-			case WeaponType.Lance:
-			case WeaponType.Garlic:
+			case WeaponType.Wall:
+			case WeaponType.Spikes:
+			case WeaponType.Spear:
+			case WeaponType.Storm:
 			case WeaponType.Chakram:
 			case WeaponType.Missiles:
 				break;
@@ -397,12 +398,24 @@ public partial class Projectile : RigidBody3D
 
 		if (_explosionEffectScene != null)
 		{
-			if (_explosionEffectScene.Instantiate() is OneshotParticles explosion)
+			var instance = _explosionEffectScene.Instantiate();
+			if (instance is OneshotParticles oneshotParticles)
 			{
-				GetTree().Root.AddChild(explosion);
-				explosion.GlobalPosition = GlobalPosition;
-				explosion.PlayParticles(explosionRadius,
+				GetTree().Root.AddChild(oneshotParticles);
+				oneshotParticles.GlobalPosition = GlobalPosition;
+				oneshotParticles.PlayParticles(explosionRadius,
 					150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
+			}
+			else if (instance is ObjectExplosion objectExplosion)
+			{
+				int baseAmount = 1;
+				if (SpellData is CastedSpellData castedSpellData)
+				{
+					baseAmount = castedSpellData.ChargeIntervals;
+				}
+				int statBonus = (int)SpellData.StatRanges[StatType.Weapon_Count].FixedValue;
+				int howMany = baseAmount + statBonus;
+				objectExplosion.Explode(howMany);
 			}
 		}
 

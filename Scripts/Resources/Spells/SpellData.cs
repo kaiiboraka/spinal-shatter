@@ -42,5 +42,5 @@ public partial class SpellData : ShopItemData
 	[Export] public bool UsePlayerMomentum { get; private set; } = false;
 
 	[ExportGroup("Audio")]
-	[Export] public AudioData AudioData { get; private set; }
+	[Export] public AudioData ChargeAudioData { get; private set; }
 }

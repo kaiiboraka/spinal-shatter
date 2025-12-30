@@ -1,5 +1,7 @@
 using Godot;
 
+namespace SpinalShatter;
+
 public partial class OneshotParticles : Node3D
 {
 	[Export] private float lifeTime = 1f;

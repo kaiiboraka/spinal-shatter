@@ -507,6 +507,12 @@ public static class NumericExtensions
         return (int)Mathf.Lerp(newLow, newHigh, t);
     }
 
+    public static int ToSteppedInt(this float percent, int max)
+    {
+        if (percent <= 0f) return 0;
+        return (int)MathF.Ceiling(percent * max);
+    }
+
     private static readonly int[] romanValues = [10, 9, 5, 4, 1];
     private static readonly string[] romanCharacters = ["X", "IX", "V", "IV", "I"];
 

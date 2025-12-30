@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://du24wg3yvua8x"
+path="res://.godot/imported/Spell_Rod_Icon.ase-91161c4ce190e692b5e33581aea54e7a.res"
+
+[deps]
+
+source_file="res://assets/Images/ShopItems/Spells/Spell_Rod_Icon.ase"
+dest_files=["res://.godot/imported/Spell_Rod_Icon.ase-91161c4ce190e692b5e33581aea54e7a.res"]
+
+[params]
+

@@ -18,7 +18,9 @@ public partial class Projectile : RigidBody3D
 
 	[Export] private PackedScene _sparkParticlesScene;
 	[Export] private PackedScene _explosionEffectScene;
-	private Node3D spritesParent;
+	[Export] private Node3D spritesParent;
+	[Export] private GpuParticles3D trail;
+
 	private Array<SpriteBase3D> sprites;
 	private CollisionShape3D collisionShape;
 	private Area3D detectionArea3D; // Added for explosion detection
@@ -39,29 +41,34 @@ public partial class Projectile : RigidBody3D
 	public float CurrentCharge { get; private set; }
 	public float CurrentDamage { get; private set; } // Final calculated damage
 
+	[Export] private bool HasGravity = false;
 	private float initialSize;
 	private float damagePerMana;
 	private ProjectileState state = ProjectileState.Charging;
 	private Timer lifetimeTimer;
 	private float bounceCooldown = 0;
-	private GpuParticles3D trail;
+	private bool hasTrail;
 	public HashSet<Enemy> HitEnemies { get; private set; } = new();
 
 	public override void _Ready()
 	{
 		sprites = new Array<SpriteBase3D>();
-		spritesParent = GetNode<Node3D>("%Sprites");
-		foreach (Node child in spritesParent.GetChildren())
+		// spritesParent ??= GetNode<Node3D>("%Sprites");
+		if (spritesParent != null)
 		{
-			if (child is SpriteBase3D sprite)
+			foreach (Node child in spritesParent.GetChildren())
 			{
-				sprites.Add(sprite);
+				if (child is SpriteBase3D sprite)
+				{
+					sprites.Add(sprite);
+				}
 			}
 		}
 
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
-		trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
+		// trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
+		hasTrail = trail != null;
 		detectionArea3D ??= GetNode<Area3D>("%Detection_Area3D"); // Get reference
 
 		detectionShape = (SphereShape3D)detectionArea3D.GetChild<CollisionShape3D>(0).Shape;
@@ -96,6 +103,7 @@ public partial class Projectile : RigidBody3D
 			detectionArea3D.Monitoring = true; // Start enabled, as it should always be monitoring for overlaps.
 		}
 
+		if (HasGravity)
 		ContactMonitor = true;
 		MaxContactsReported = 4;
 	}
@@ -111,6 +119,15 @@ public partial class Projectile : RigidBody3D
 
 	public override void _IntegrateForces(PhysicsDirectBodyState3D state)
 	{
+		if (HasGravity)
+		{
+			Vector3 initialGravity = state.TotalGravity with { Y = -Constants.GRAVITY };
+			Vector3 initialVelocity = state.LinearVelocity;
+
+			initialVelocity += initialGravity * state.Step;
+			state.LinearVelocity = initialVelocity;
+		}
+
 		if (bounceCooldown > 0 || this.state != ProjectileState.Fired)
 		{
 			return;
@@ -118,41 +135,39 @@ public partial class Projectile : RigidBody3D
 
 		for (int i = 0; i < state.GetContactCount(); i++)
 		{
-			Node collider = state.GetContactColliderObject(i) as Node;
-			if (collider != null)
+			if (state.GetContactColliderObject(i) is not Node collider) continue;
+
+			bool hitProjectile = collider.IsInGroup("Projectile");
+			var contactLocalNormal = state.GetContactLocalNormal(i);
+			var contactLocalPosition = state.GetContactColliderPosition(i);
+
+			if (_sparkParticlesScene?.Instantiate() is OneshotParticles sparkParticles)
 			{
-				bool hitProjectile = collider.IsInGroup("Projectile");
-				var contactLocalNormal = state.GetContactLocalNormal(i);
-				var contactLocalPosition = state.GetContactColliderPosition(i);
+				GetTree().Root.AddChild(sparkParticles);
+				sparkParticles.GlobalPosition = GlobalPosition;
+				sparkParticles.LookAt(contactLocalNormal);
+				int particleCount = hitProjectile ? 20 : (int)(CurrentMana * 3);
+				sparkParticles.PlayParticles(particleCount * CurrentCharge);
+			}
 
-				if (_sparkParticlesScene.Instantiate() is OneshotParticles sparkParticles)
-				{
-					GetTree().Root.AddChild(sparkParticles);
-					sparkParticles.GlobalPosition = GlobalPosition;
-					sparkParticles.LookAt(contactLocalNormal);
-					int particleCount = hitProjectile ? 20 : (int)(CurrentMana * 3);
-					sparkParticles.PlayParticles(particleCount * CurrentCharge);
-				}
+			if (collider is Enemy enemy)
+			{
+				HitEnemies.Add(enemy);
+			}
+			else if (!collider.IsInGroup("Enemies"))
+			{
+				Vector3 impactPoint =
+					contactLocalPosition.MoveToward(contactLocalNormal, contactLocalNormal.Length());
+				HandleWallBounce(impactPoint);
+				return;
+			}
 
-				if (collider is Enemy enemy)
-				{
-					HitEnemies.Add(enemy);
-				}
-				else if (!collider.IsInGroup("Enemies"))
-				{
-					Vector3 impactPoint =
-						contactLocalPosition.MoveToward(contactLocalNormal, contactLocalNormal.Length());
-					HandleWallBounce(impactPoint);
-					return;
-				}
-
-				if (hitProjectile)
-				{
-					int more = 0;
-					if (collider is Projectile other)
-						more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
-					EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
-				}
+			if (hitProjectile)
+			{
+				int more = 0;
+				if (collider is Projectile other)
+					more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
+				EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
 			}
 		}
 	}
@@ -160,7 +175,7 @@ public partial class Projectile : RigidBody3D
 	public void BeginChargingProjectile(Node3D parent, SpellData spellData)
 	{
 		parent.AddChild(this);
-		trail.Visible = false;
+		if (hasTrail) trail.Visible = false;
 		this.SpellData = spellData;
 		this.Position = Vector3.Zero;
 		this.CurrentCharge = 0;
@@ -199,7 +214,7 @@ public partial class Projectile : RigidBody3D
 			capsule.Height = Mathf.Max(0.05f, initialSize * scaledSize);
 		}
 
-		Mass = scaledSize;
+		Mass = Mathf.Max(1.0f, scaledSize);
 	}
 
 	public void Launch(ProjectileLaunchData data)
@@ -236,7 +251,7 @@ public partial class Projectile : RigidBody3D
 					// data.InitialVelocity =
 				}
 
-				damagePerMana = CurrentDamage / CurrentMana;
+				damagePerMana = CurrentMana > 0 ? CurrentDamage / CurrentMana : 0;
 				break;
 			case WeaponType.Slash:
 				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
@@ -244,6 +259,8 @@ public partial class Projectile : RigidBody3D
 				break;
 			case WeaponType.Wall:
 			case WeaponType.Spikes:
+				CurrentDamage = SpellData.DamageRange.GetLerpedValue(CurrentCharge);
+				break;
 			case WeaponType.Spear:
 			case WeaponType.Storm:
 			case WeaponType.Chakram:
@@ -281,7 +298,7 @@ public partial class Projectile : RigidBody3D
 
 		lifetimeTimer.Start();
 		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Shoot"]);
-		if (Slot != SlotType.Automatic) trail.Visible = true;
+		if (hasTrail && Slot != SlotType.Automatic) trail.Visible = true;
 	}
 
 	public void UpdateChargeAmount(float charge)
@@ -314,6 +331,12 @@ public partial class Projectile : RigidBody3D
 				break;
 			case WeaponType.Wall:
 			case WeaponType.Spikes:
+				if (Slot == SlotType.Primary)
+				{
+					Explode();
+				}
+
+				break;
 			case WeaponType.Spear:
 			case WeaponType.Storm:
 			case WeaponType.Chakram:
@@ -342,6 +365,12 @@ public partial class Projectile : RigidBody3D
 				return;
 			case WeaponType.Wall:
 			case WeaponType.Spikes:
+				if (Slot == SlotType.Primary)
+				{
+					Explode();
+				}
+				break;
+
 			case WeaponType.Spear:
 			case WeaponType.Storm:
 			case WeaponType.Chakram:
@@ -359,7 +388,10 @@ public partial class Projectile : RigidBody3D
 			return;
 		}
 
-		AudioManager.Play(audioStreamPlayer, (AudioFile)AudioData["Bounce"]);
+		// AudioFile audioFile = AudioData["Bounce"] as  AudioFile;
+		// AudioManager.Play(audioStreamPlayer, audioFile != null ? audioFile : AudioData["Bounce"] as AudioStreamRandomizer);
+
+		AudioManager.Play(audioStreamPlayer, AudioData["Bounce"] as AudioFile);
 
 		bounceCooldown = 0.1f;
 	}
@@ -399,23 +431,36 @@ public partial class Projectile : RigidBody3D
 		if (_explosionEffectScene != null)
 		{
 			var instance = _explosionEffectScene.Instantiate();
-			if (instance is OneshotParticles oneshotParticles)
+			switch (instance)
 			{
-				GetTree().Root.AddChild(oneshotParticles);
-				oneshotParticles.GlobalPosition = GlobalPosition;
-				oneshotParticles.PlayParticles(explosionRadius,
-					150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
-			}
-			else if (instance is ObjectExplosion objectExplosion)
-			{
-				int baseAmount = 1;
-				if (SpellData is CastedSpellData castedSpellData)
+				case OneshotParticles oneshotParticles:
+					GetTree().Root.AddChild(oneshotParticles);
+					oneshotParticles.GlobalPosition = GlobalPosition;
+					oneshotParticles.PlayParticles(explosionRadius,
+						150 * Mathf.Min(CurrentCharge, .5f)); // Using a default particle count
+					break;
+				case ObjectExplosion objectExplosion:
 				{
-					baseAmount = castedSpellData.ChargeIntervals;
+					int baseAmount = 1;
+					if (SpellData is CastedSpellData castedSpellData)
+					{
+						baseAmount = castedSpellData.ChargeIntervals;
+					}
+
+					int statBonus = (int)SpellData.StatRanges[StatType.Weapon_Count].FixedValue;
+					int howMany = baseAmount + statBonus;
+
+					ProjectileLaunchData launchData = new ProjectileLaunchData();
+
+					launchData.Caster = Caster;
+					launchData.SpellData = SpellData;
+					launchData.ChargeRatio = CurrentCharge;
+					launchData.Slot = Slot;
+
+					RoomManager.Instance.CurrentRoom.AddChild(objectExplosion);
+					objectExplosion.Explode(howMany, launchData);
+					break;
 				}
-				int statBonus = (int)SpellData.StatRanges[StatType.Weapon_Count].FixedValue;
-				int howMany = baseAmount + statBonus;
-				objectExplosion.Explode(howMany);
 			}
 		}
 
@@ -429,7 +474,7 @@ public partial class Projectile : RigidBody3D
 
 	public void Expire(bool dropMana = true)
 	{
-		if (trail != null)
+		if (hasTrail)
 		{
 			double seconds = trail.Lifetime / trail.FixedFps;
 			SceneTreeTimer clearTimer = GetTree().CreateTimer(seconds);
@@ -541,7 +586,7 @@ public partial class Projectile : RigidBody3D
 		CurrentMana = 0;
 		CurrentDamage = 0;
 		damagePerMana = 0f;
-				if (collisionShape is { Shape: SphereShape3D sphere })
+		if (collisionShape is { Shape: SphereShape3D sphere })
 		{
 			sphere.Radius = initialSize;
 		}

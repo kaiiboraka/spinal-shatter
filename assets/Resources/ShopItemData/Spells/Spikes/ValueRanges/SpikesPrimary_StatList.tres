@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="StatListData" load_steps=14 format=3 uid="uid://br4khjcm0s7a6"]
+
+[ext_resource type="Script" uid="uid://cohfu4uf7boyb" path="res://Scripts/Resources/Spells/StatListData.cs" id="1_x"]
+[ext_resource type="Resource" uid="uid://84wi7cnpqfti" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Damage_RangeF.tres" id="2_x"]
+[ext_resource type="Resource" uid="uid://bf1abuvd67hfp" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Size_RangeF.tres" id="3_x"]
+[ext_resource type="Resource" uid="uid://cjlsmdmjwm0ws" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Count_RangeF.tres" id="4_x"]
+[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Speed_RangeF.tres" id="5_x"]
+[ext_resource type="Resource" uid="uid://dwux6grwfutem" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Time_RangeF.tres" id="6_x"]
+[ext_resource type="Resource" uid="uid://lev5s4n5s4cn" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Duration_RangeF.tres" id="7_x"]
+[ext_resource type="Resource" uid="uid://dilh3lo1jdtmc" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Pierce_RangeF.tres" id="8_x"]
+[ext_resource type="Resource" uid="uid://d0wq3a2s4px0g" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Bounce_RangeF.tres" id="9_x"]
+[ext_resource type="Resource" uid="uid://xhtyhm8go3y3" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Range_RangeF.tres" id="10_x"]
+[ext_resource type="Resource" uid="uid://bqjuehhss0twl" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_ManaCost_RangeF.tres" id="11_x"]
+[ext_resource type="Resource" uid="uid://2b8k3xjos68r" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Knockback_RangeF.tres" id="12_x"]
+[ext_resource type="Resource" uid="uid://rkxlcoj0uqv8" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Refund_RangeF.tres" id="13_x"]
+
+[resource]
+script = ExtResource("1_x")
+StatRanges = {
+10: ExtResource("2_x"),
+11: ExtResource("3_x"),
+12: ExtResource("4_x"),
+13: ExtResource("5_x"),
+14: ExtResource("6_x"),
+15: ExtResource("7_x"),
+16: ExtResource("8_x"),
+17: ExtResource("9_x"),
+18: ExtResource("10_x"),
+19: ExtResource("11_x"),
+20: ExtResource("12_x"),
+21: ExtResource("13_x")
+}
+metadata/_custom_type_script = "uid://cohfu4uf7boyb"

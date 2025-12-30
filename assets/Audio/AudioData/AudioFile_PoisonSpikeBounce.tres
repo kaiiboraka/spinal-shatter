@@ -1,6 +1,6 @@
 [gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://lutykp8n75ro"]
 
-[ext_resource type="AudioStream" uid="uid://bxuqvgxlvifk" path="res://assets/Audio/SFX/PoisonSpikeShot_Bounce.wav" id="1_y37oo"]
+[ext_resource type="AudioStream" uid="uid://c50wah00nfmgt" path="res://assets/Audio/AudioData/SFX_PoisonBounce.tres" id="1_y37oo"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_s2q4y"]
 
 [resource]

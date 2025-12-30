@@ -42,7 +42,7 @@ curve = SubResource("Curve_etwi8")
 resource_local_to_scene = true
 radius = 3.0
 
-[node name="WaterSlash" type="RigidBody3D" groups=["Projectile"]]
+[node name="WaterSlash" type="RigidBody3D" node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 33412
 input_ray_pickable = false
@@ -55,6 +55,8 @@ contact_monitor = true
 max_contacts_reported = 3
 script = ExtResource("2_0j1v2")
 _sparkParticlesScene = ExtResource("3_c3li1")
+spritesParent = NodePath("Sprites")
+trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("4_c3li1")
 _lifetime = 2.0
 

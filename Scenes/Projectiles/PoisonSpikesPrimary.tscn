@@ -17,23 +17,23 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ilpex"]
 shader = ExtResource("7_1hly6")
 
-[sub_resource type="Gradient" id="Gradient_caehy"]
+[sub_resource type="Gradient" id="Gradient_8ikmh"]
 interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.77136755, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_tekgy"]
-gradient = SubResource("Gradient_caehy")
+gradient = SubResource("Gradient_8ikmh")
 
-[sub_resource type="Curve" id="Curve_etwi8"]
+[sub_resource type="Curve" id="Curve_svpnq"]
 bake_resolution = 16
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_71frm"]
-curve = SubResource("Curve_etwi8")
+curve = SubResource("Curve_svpnq")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6qpqf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ab0hr"]
 resource_local_to_scene = true
 render_priority = -1
 shader = ExtResource("8_x3rlj")
@@ -45,13 +45,12 @@ shader_parameter/emmission_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
 shader_parameter/flags = 5
 
 [sub_resource type="QuadMesh" id="QuadMesh_om33c"]
-material = SubResource("ShaderMaterial_6qpqf")
+material = SubResource("ShaderMaterial_ab0hr")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vxbqy"]
 radius = 3.0
 
-[node name="PoisonSpikes_Primary" type="RigidBody3D" groups=["Projectile"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39405876, 0.06317335, -0.043367863)
+[node name="PoisonSpikes_Primary" type="RigidBody3D" node_paths=PackedStringArray("trail") groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
 physics_material_override = ExtResource("1_kbplm")
@@ -62,8 +61,10 @@ max_contacts_reported = 1
 script = ExtResource("2_7lqxj")
 _sparkParticlesScene = ExtResource("3_680vp")
 _explosionEffectScene = ExtResource("4_8ikmh")
+trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("3_a1ghb")
 _lifetime = 20.0
+HasGravity = true
 
 [node name="Sprites" type="Node3D" parent="."]
 unique_name_in_owner = true

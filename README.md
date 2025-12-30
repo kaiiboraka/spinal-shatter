@@ -314,10 +314,10 @@ WIND Wall: upright and flat, offensive shield
 - ALT FIRE: Shield Bash/Charge moves quickly, massively increases knockback directly away from you, lowers damage 
 - Automatic: \[TBD] might just be some ongoing defensive effect, like Laurel
 
-POISON Spikes: shotgun, shatters on impact into smaller projectiles 
-- charge: increases ball size->number of shatter "generations", child, grand, etc. 
-- ALT FIRE: Bundle of Toxic Caltrops
-- Automatic: VS Santa Water+ - fires a caltrop bundle up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
+POISON Spikes: Lobs a sphere (should have gravity, not free-floating bounces) which is a payload that holds toxic caltrops in it
+- charge: Increases number of caltrops to spawn. Count stat adds to this number. 
+- ALT FIRE: Unknown
+- Automatic: VS Santa Water+ - fires a payload up into the air, which comes arcing down. If the bundle hits a target directly it crits. If it crashes into the down, it opens the bundle and the cluster leaves behind a DoT field (alt fire).
 
 LIGHTNING Lance: 3-hit spear thrust in a wide 90 deg cone (left 45 mid 45 right); can be sniper-ish 
 - charge: Zoom-in, cone width narrows, delay between strikes shrinks, length of spears increases. precision damage--high crit, smaller hit box. full charge becomes one large piercing beam.

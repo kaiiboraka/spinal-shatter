@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="StatItemData" load_steps=10 format=3 uid="uid://cpsixi7l16gnv"]
+[gd_resource type="Resource" load_steps=9 format=3 uid="uid://cpsixi7l16gnv"]
 
 [ext_resource type="Texture2D" uid="uid://g6veqgxba1w3" path="res://assets/Images/ShopItems/Stats/MaxLife_Heart_Stat_AtlasTexture.tres" id="1_e1438"]
 [ext_resource type="Resource" uid="uid://di0ky7b0mux52" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank1.tres" id="2_7x6sb"]
-[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="2_hgdyl"]
 [ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="3_800nw"]
 [ext_resource type="Resource" uid="uid://c2382vrcf7vno" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank2.tres" id="3_hgdyl"]
 [ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="4_800nw"]
@@ -11,7 +10,7 @@
 
 [sub_resource type="Resource" id="Resource_tqapl"]
 script = ExtResource("4_800nw")
-RankUps = Array[ExtResource("2_hgdyl")]([ExtResource("2_7x6sb"), ExtResource("3_hgdyl"), ExtResource("4_wfd34"), ExtResource("5_oicl6")])
+RankUps = [ExtResource("2_7x6sb"), ExtResource("3_hgdyl"), ExtResource("4_wfd34"), ExtResource("5_oicl6")]
 
 [resource]
 script = ExtResource("3_800nw")

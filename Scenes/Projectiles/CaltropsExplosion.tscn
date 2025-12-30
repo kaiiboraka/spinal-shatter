@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://cg6fs0gck4cb1" path="res://Scenes/Particles/ObjectExplosion.cs" id="1_cud60"]
 [ext_resource type="PackedScene" uid="uid://b2mhu0wjo567g" path="res://Scenes/Projectiles/PoisonCaltrops.tscn" id="2_mjkkp"]
 
-[node name="CaltropsExplosion" type="Node3D"]
+[node name="CaltropsExplosion" type="Node3D" node_paths=PackedStringArray("_marker3D")]
 script = ExtResource("1_cud60")
 _explosionEffectScene = ExtResource("2_mjkkp")
+_marker3D = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="."]

@@ -1,7 +1,7 @@
 [remap]
 
-importer="aseprite_wizard.plugin.noop"
-type="PackedDataContainer"
+importer="aseprite_wizard.plugin.static-texture"
+type="PortableCompressedTexture2D"
 uid="uid://dhb1n7j4kagxq"
 path="res://.godot/imported/Spell_PoisonSpikes_Icon.ase-498846ede6955eb9aa87fef697b35587.res"
 
@@ -12,3 +12,9 @@ dest_files=["res://.godot/imported/Spell_PoisonSpikes_Icon.ase-498846ede6955eb9a
 
 [params]
 
+layer/exclude_layers_pattern=""
+layer/only_visible_layers=true
+first_frame_only=true
+sheet/sheet_type="packed"
+sheet/sheet_columns=12
+sheet/scale=1

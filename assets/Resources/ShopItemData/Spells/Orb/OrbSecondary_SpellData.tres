@@ -17,5 +17,5 @@ ProjectileScene = ExtResource("3_aee25")
 ChargeAudioData = ExtResource("1_tgl4v")
 RankUps = ExtResource("4_tgl4v")
 ItemIcon = ExtResource("1_0jqsu")
-ItemName = "Explosion"
+ItemName = "Fire Explosion"
 ItemDescription = "Splash in a large AoE."

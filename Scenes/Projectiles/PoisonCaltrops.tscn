@@ -1,7 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://b2mhu0wjo567g"]
+[gd_scene load_steps=10 format=4 uid="uid://b2mhu0wjo567g"]
 
+[ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_dj1i2"]
 [ext_resource type="Material" uid="uid://3x7hu8c03mly" path="res://assets/Materials/MAT_Caltrops.tres" id="1_ji2ca"]
 [ext_resource type="PackedScene" uid="uid://hkrbvfev1wfo" path="res://Scenes/Particles/BubbleEffects_Poison.tscn" id="2_0tkhh"]
+[ext_resource type="Resource" uid="uid://c500xjuf7e00f" path="res://assets/Audio/AudioData/AudioData_PoisonSpikes.tres" id="2_nhksg"]
+[ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="4_kawjc"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_xns57"]
 _surfaces = [{
@@ -46,6 +49,14 @@ radius = 0.75
 [node name="PoisonCaltrops" type="RigidBody3D"]
 collision_layer = 8192
 collision_mask = 652
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_dj1i2")
+AudioData = ExtResource("2_nhksg")
+_lifetime = 30.0
+IsFixed = true
+HasGravity = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9604645e-08, 0.2585712, -0.050158776)
@@ -55,6 +66,13 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9604645e-08, 0.2585712, -0.050158776)
 shape = SubResource("ConvexPolygonShape3D_ji2ca")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_kawjc")
+volume_db = 5.0
+max_distance = 60.0
+bus = &"SFX"
+doppler_tracking = 2
 
 [node name="BubbleEmitter" parent="." instance=ExtResource("2_0tkhh")]
 

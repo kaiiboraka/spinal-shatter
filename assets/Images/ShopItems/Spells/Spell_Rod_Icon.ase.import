@@ -1,7 +1,7 @@
 [remap]
 
-importer="aseprite_wizard.plugin.noop"
-type="PackedDataContainer"
+importer="aseprite_wizard.plugin.static-texture"
+type="PortableCompressedTexture2D"
 uid="uid://du24wg3yvua8x"
 path="res://.godot/imported/Spell_Rod_Icon.ase-91161c4ce190e692b5e33581aea54e7a.res"
 
@@ -12,3 +12,9 @@ dest_files=["res://.godot/imported/Spell_Rod_Icon.ase-91161c4ce190e692b5e33581ae
 
 [params]
 
+layer/exclude_layers_pattern=""
+layer/only_visible_layers=true
+first_frame_only=true
+sheet/sheet_type="packed"
+sheet/sheet_columns=12
+sheet/scale=1

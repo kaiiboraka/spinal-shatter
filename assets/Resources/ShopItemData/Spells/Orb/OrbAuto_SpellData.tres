@@ -15,5 +15,5 @@ ProjectileScene = ExtResource("3_ow8lb")
 ChargeAudioData = ExtResource("1_ow8lb")
 RankUps = ExtResource("4_7bumn")
 ItemIcon = ExtResource("1_k72oj")
-ItemName = "Familiar"
+ItemName = "Fire Familiar"
 ItemDescription = "Fires at the nearest enemy."

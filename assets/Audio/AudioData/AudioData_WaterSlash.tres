@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=6 format=3 uid="uid://w7oj3027nnyy"]
+[gd_resource type="Resource" script_class="AudioData" load_steps=7 format=3 uid="uid://w7oj3027nnyy"]
 
 [ext_resource type="AudioStream" uid="uid://lxxuin78uwch" path="res://assets/Audio/SFX/Sword1.wav" id="1_f4o4i"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_jpu77"]
 [ext_resource type="AudioStream" uid="uid://wndltrj6r6hu" path="res://assets/Audio/AudioData/AudioFile_SplashShort.tres" id="3_2yrcm"]
 [ext_resource type="Script" uid="uid://c0tc37i3i6ume" path="res://Scripts/Resources/AudioData.cs" id="3_jpu77"]
+[ext_resource type="AudioStream" uid="uid://dlwdcrauyytur" path="res://assets/Audio/AudioData/AudioFile_Slashes.tres" id="4_jpu77"]
 
 [sub_resource type="AudioStream" id="AudioStream_35m4r"]
 script = ExtResource("2_jpu77")
@@ -17,6 +18,7 @@ resource_name = "Splash"
 script = ExtResource("3_jpu77")
 Sounds = Dictionary[String, AudioStream]({
 "Bounce": SubResource("AudioStream_35m4r"),
-"Hit": ExtResource("3_2yrcm")
+"Hit": ExtResource("3_2yrcm"),
+"Shoot": ExtResource("4_jpu77")
 })
 metadata/_custom_type_script = "uid://c0tc37i3i6ume"

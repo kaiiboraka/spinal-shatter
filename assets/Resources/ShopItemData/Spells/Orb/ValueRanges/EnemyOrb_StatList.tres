@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StatListData" load_steps=13 format=3 uid="uid://depsmo4qgxd07"]
+[gd_resource type="Resource" load_steps=13 format=3 uid="uid://depsmo4qgxd07"]
 
 [ext_resource type="Script" uid="uid://dfwrm14wv5vmm" path="res://Scripts/Utility/FloatValue.cs" id="1_5vgcr"]
 [ext_resource type="Resource" uid="uid://bsve0qhpmcsau" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_P_ManaCost_RangeF.tres" id="2_vu0bs"]

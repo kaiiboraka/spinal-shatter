@@ -682,6 +682,7 @@ public partial class PlayerBody : Combatant
 			OnWeaponEquipped(entry.Key, entry.Value);
 		}
 
+
 		RecalculateStats();
 		_inventorySlotsDirty = true;
 	}
@@ -809,22 +810,29 @@ public partial class PlayerBody : Combatant
 			case StatType.Player_MaxHealth:
 				HealthComponent.MaxHealth =
 					isMultiplier ? HealthComponent.MaxHealth * value : HealthComponent.MaxHealth + value;
+				Data[stat] = HealthComponent.MaxHealth;
 				break;
 			case StatType.Player_MaxMana:
 				manaComponent.MaxMana = 
 					isMultiplier ? manaComponent.MaxMana * value : manaComponent.MaxMana + value;
+				Data[stat] = manaComponent.MaxMana;
 				break;
 			case StatType.Player_MoveSpeed:
 				WALK_SPEED = isMultiplier ? WALK_SPEED * value : WALK_SPEED + value;
 				MAX_SPRINT_SPEED = isMultiplier ? MAX_SPRINT_SPEED * value : MAX_SPRINT_SPEED + value;
+				Data[stat] = value;
 				break;
 			case StatType.Player_JumpHeight:
 				JUMP_VELOCITY = isMultiplier ? JUMP_VELOCITY * value : JUMP_VELOCITY + value;
+				Data[stat] = JUMP_VELOCITY;
 				break;
 			case StatType.Player_AirJumps:
 				if (!isMultiplier) MAX_JUMPS += (int)value;
+				Data[stat] = MAX_JUMPS;
 				break;
-
+			case StatType.Weapon_Count:
+				Data[stat] = value;
+				break;
 			// Add other stat cases here
 		}
 	}

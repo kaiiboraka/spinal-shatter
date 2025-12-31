@@ -1,3 +1,22 @@
+I need a plan for a simple, clean, efficient, performant, optimized way to manage all of these timed ticking stacks on each and every individual enemy.
+
+Here's how effects should behave:
+
+- each effect type (poisons, slows) has a shared timer for its type
+- each stack application adds to the current intensity, and an amount of time to the remaining duration
+- each effect has an associated maximum intensity and a maximum duration, so further stacking beyond a certain point will ONLY refresh duration
+
+I have created a new resource with StackingEffectData.cs that has all pertinent information for this functionality, generic to all effects without defining explicit behavior. This represents the data backend. Now I need an object at runtime to facilitate this information. 
+
+There could simply be an EffectManagerComponent put under each Combatant that would allow all combatants to be affected by effects... and then use signals responded to within Combatant to decide how to be affected by it. This seems ok.
+Or I could just put the logic straight inside Combatant itself and it will manage its own effects. 
+
+Much of the same logic used within StateSprite3d.cs would be reused, such as the dictionary of type to stack counts, and the two API methods for adding and removing stacks. Both of these would live on whatever is responsible for this system.
+
+Please help me come up with a plan for implementing this, especially the timer and updating logic. I want to make sure their functionality is robust, to be able to freely add and remove stacks publically from other locations without side effects, and for the system to update instantly as appropriate. Enemy would also need to update its StateSprite3d when appropriate. This may mean some override methods in Combatant perhaps? 
+
+There are a lot of potential ways to solve this problem. I want you to present two meaningfully different and viable alternatives that will solve this problem and meet its design requirements.
+
 # Sample Code
 
 # Previous Conversation 

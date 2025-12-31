@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://84wi7cnpqfti" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Damage_RangeF.tres" id="2_x"]
 [ext_resource type="Resource" uid="uid://bf1abuvd67hfp" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Size_RangeF.tres" id="3_x"]
 [ext_resource type="Resource" uid="uid://cjlsmdmjwm0ws" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Count_RangeF.tres" id="4_x"]
-[ext_resource type="Resource" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Speed_RangeF.tres" id="5_x"]
+[ext_resource type="Resource" uid="uid://b75ok6w7mqocn" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Speed_RangeF.tres" id="5_x"]
 [ext_resource type="Resource" uid="uid://dwux6grwfutem" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Time_RangeF.tres" id="6_x"]
 [ext_resource type="Resource" uid="uid://lev5s4n5s4cn" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Duration_RangeF.tres" id="7_x"]
 [ext_resource type="Resource" uid="uid://dilh3lo1jdtmc" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Pierce_RangeF.tres" id="8_x"]

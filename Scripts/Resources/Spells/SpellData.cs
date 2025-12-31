@@ -9,7 +9,13 @@ public partial class SpellData : ShopItemData
 	[ExportGroup("Weapon Properties")]
 	[Export] public WeaponType Weapon { get; private set; }
 	[Export] public SlotType Slot { get; private set; }
-	[Export] public StatListData StatRanges { get; private set; }
+	[Export] private StatListData StatRanges { get; set; }
+
+	public FloatValue this[StatType stat]
+	{
+		get => StatRanges[stat];
+		set => StatRanges[stat] = value;
+	}
 
 	public FloatValue DamageRange => StatRanges[StatType.Weapon_Damage];
 	public FloatValue SpeedRange => StatRanges[StatType.Weapon_Speed];

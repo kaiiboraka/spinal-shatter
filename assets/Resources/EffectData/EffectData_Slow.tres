@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StackingEffectData" load_steps=3 format=3 uid="uid://bj4qhaygtnh7c"]
+
+[ext_resource type="Texture2D" uid="uid://duvvllkf7ylea" path="res://assets/Images/UI/SlowIcon.png" id="1_5dlem"]
+[ext_resource type="Script" uid="uid://doenllwrpgh53" path="res://Scripts/Resources/Spells/StackingEffectData.cs" id="1_xpffs"]
+
+[resource]
+script = ExtResource("1_xpffs")
+EffectType = 1
+EffectIcon = ExtResource("1_5dlem")
+MaxStacks = 8
+MaxDuration = 12.0
+MaxIntensity = 80.0
+DurationPerStack = 1.5
+IntensityPerStack = 10.0
+HasTickEffect = false
+metadata/_custom_type_script = "uid://doenllwrpgh53"

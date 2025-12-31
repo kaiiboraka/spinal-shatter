@@ -32,7 +32,7 @@ public partial class Projectile : RigidBody3D
 	[Export(PropertyHint.Range, "0.1, 100.0")]
 	private float _lifetime = 10f;
 
-	[Export] private bool IsFixed { get; set; }
+	[Export] private bool IsFixedSize { get; set; }
 
 	public SpellData SpellData { get; private set; }
 	public Node Caster { get; private set; }
@@ -42,6 +42,7 @@ public partial class Projectile : RigidBody3D
 	public float CurrentDamage { get; private set; } // Final calculated damage
 
 	[Export] private bool HasGravity = false;
+	[Export] private bool LingersOnGround { get; set; }
 	private float initialSize;
 	private float damagePerMana;
 	private ProjectileState state = ProjectileState.Charging;
@@ -52,8 +53,9 @@ public partial class Projectile : RigidBody3D
 
 	public override void _Ready()
 	{
-		sprites = new Array<SpriteBase3D>();
+
 		// spritesParent ??= GetNode<Node3D>("%Sprites");
+		sprites = new Array<SpriteBase3D>();
 		if (spritesParent != null)
 		{
 			foreach (Node child in spritesParent.GetChildren())
@@ -67,6 +69,7 @@ public partial class Projectile : RigidBody3D
 
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
+
 		// trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
 		hasTrail = trail != null;
 		detectionArea3D ??= GetNode<Area3D>("%Detection_Area3D"); // Get reference
@@ -104,7 +107,7 @@ public partial class Projectile : RigidBody3D
 		}
 
 		if (HasGravity)
-		ContactMonitor = true;
+			ContactMonitor = true;
 		MaxContactsReported = 4;
 	}
 
@@ -158,16 +161,18 @@ public partial class Projectile : RigidBody3D
 			{
 				Vector3 impactPoint =
 					contactLocalPosition.MoveToward(contactLocalNormal, contactLocalNormal.Length());
-				HandleWallBounce(impactPoint);
+
+				HandleWallBounce(impactPoint, contactLocalNormal);
 				return;
 			}
 
 			if (hitProjectile)
 			{
-				int more = 0;
-				if (collider is Projectile other)
-					more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
-				EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
+				if (Caster is PlayerBody && collider is Projectile { Caster: Enemy } other)
+				{
+					int more = Mathf.Max(other.CurrentMana.CeilingToInt(), other.CurrentDamage.CeilingToInt());
+					EjectMana(more + CurrentMana.CeilingToInt(), contactLocalPosition);
+				}
 			}
 		}
 	}
@@ -184,7 +189,7 @@ public partial class Projectile : RigidBody3D
 
 	public void UpdateChargeState()
 	{
-		if (IsFixed) return;
+		if (IsFixedSize) return;
 
 		float scaledSize;
 		if (SpellData is CastedSpellData { VisualSizeOverride: not null } castedSpellData)
@@ -278,18 +283,20 @@ public partial class Projectile : RigidBody3D
 		parent.AddChild(this);
 		Marker3D SpellMarker = data.StartPosition;
 
-		if (Slot != SlotType.Automatic)
-		{
-			Vector3 markerPosition = SpellMarker.Position;
-			SpellMarker.Position = SpellMarker.Position with { X = 0 };
-			GlobalPosition = SpellMarker.GlobalPosition;
-			SpellMarker.Position = markerPosition;
-			LookAt(GlobalPosition + data.InitialVelocity);
-		}
-		else
-		{
-			GlobalPosition = SpellMarker.GlobalPosition;
-		}
+
+			if (Slot != SlotType.Automatic)
+			{
+				Vector3 markerPosition = SpellMarker.Position;
+				SpellMarker.Position = SpellMarker.Position with { X = 0 };
+				GlobalPosition = SpellMarker.GlobalPosition;
+				SpellMarker.Position = markerPosition;
+				LookAt(GlobalPosition + data.InitialVelocity);
+			}
+			else
+			{
+				GlobalPosition = SpellMarker.GlobalPosition;
+			}
+
 
 
 		this.Freeze = false;
@@ -348,8 +355,15 @@ public partial class Projectile : RigidBody3D
 		}
 	}
 
-	private void HandleWallBounce(Vector3 impactPoint)
+	private void HandleWallBounce(Vector3 impactPoint, Vector3 contactNormal)
 	{
+		if (LingersOnGround && contactNormal.Y > 0.7f)
+		{
+			AudioManager.Play(audioStreamPlayer, AudioData["Bounce"] as AudioFile);
+			bounceCooldown = 0.1f;
+			return;
+		}
+
 		switch (SpellData.Weapon)
 		{
 			case WeaponType.Orb:
@@ -365,10 +379,11 @@ public partial class Projectile : RigidBody3D
 				return;
 			case WeaponType.Wall:
 			case WeaponType.Spikes:
-				if (Slot == SlotType.Primary)
+				if (Slot == SlotType.Primary && !LingersOnGround)
 				{
 					Explode();
 				}
+
 				break;
 
 			case WeaponType.Spear:
@@ -380,9 +395,9 @@ public partial class Projectile : RigidBody3D
 				throw new ArgumentOutOfRangeException();
 		}
 
-		ApplyManaLoss(impactPoint);
+		if (!LingersOnGround) ApplyManaLoss(impactPoint);
 
-		if (IsFixed)
+		if (IsFixedSize)
 		{
 			Expire();
 			return;
@@ -441,14 +456,20 @@ public partial class Projectile : RigidBody3D
 					break;
 				case ObjectExplosion objectExplosion:
 				{
-					int baseAmount = 1;
+					int chargeBonusCount = 1;
 					if (SpellData is CastedSpellData castedSpellData)
 					{
-						baseAmount = castedSpellData.ChargeIntervals;
+						chargeBonusCount = castedSpellData.ChargeIntervals;
 					}
 
-					int statBonus = (int)SpellData.StatRanges[StatType.Weapon_Count].FixedValue;
-					int howMany = baseAmount + statBonus;
+					int itemBonus = 0;
+					if (Caster is PlayerBody player)
+					{
+						itemBonus = (int)player.Data[StatType.Weapon_Count];
+					}
+
+					int statAmount = (int)SpellData[StatType.Weapon_Count].FixedValue;
+					int howMany = statAmount + itemBonus + CurrentCharge.ToSteppedInt(chargeBonusCount);
 
 					ProjectileLaunchData launchData = new ProjectileLaunchData();
 
@@ -458,6 +479,7 @@ public partial class Projectile : RigidBody3D
 					launchData.Slot = Slot;
 
 					RoomManager.Instance.CurrentRoom.AddChild(objectExplosion);
+					objectExplosion.GlobalPosition = GlobalPosition;
 					objectExplosion.Explode(howMany, launchData);
 					break;
 				}
@@ -466,7 +488,7 @@ public partial class Projectile : RigidBody3D
 
 		// Placeholder for explosion sound, assuming it's different from "Hit"
 		// AudioManager.PlayAtPosition((AudioFile)AudioData["Explosion"], GlobalPosition);
-		var player = AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
+		var audioPlayer = AudioManager.PlayAtPosition((AudioFile)AudioData["Hit"], GlobalPosition);
 
 		// player.Finished += () => detectionArea3D.QueueFree();
 		Expire(false); // Expire without dropping mana

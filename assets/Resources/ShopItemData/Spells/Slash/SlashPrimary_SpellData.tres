@@ -1,10 +1,8 @@
-[gd_resource type="Resource" load_steps=9 format=3 uid="uid://dowpqoyraljfv"]
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=7 format=3 uid="uid://dowpqoyraljfv"]
 
-[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_xi7fg"]
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="2_et6xm"]
 [ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_l2hbq"]
-[ext_resource type="Resource" uid="uid://hlu48ta7fjwc" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_StatList.tres" id="5_6uuj5"]
 [ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="5_vjab3"]
-[ext_resource type="PackedScene" uid="uid://ddfqqv0358ue" path="res://Scenes/Projectiles/WaterSlashPrimary.tscn" id="7_lin78"]
 [ext_resource type="Resource" uid="uid://dqt8lfh4rdcli" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashSecondary_SpellData.tres" id="8_muxpl"]
 [ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="11_wkhaa"]
 
@@ -14,10 +12,6 @@ script = ExtResource("5_vjab3")
 [resource]
 script = ExtResource("11_wkhaa")
 Secondary = ExtResource("8_muxpl")
-Weapon = 1
-StatRanges = ExtResource("5_6uuj5")
-ProjectileScene = ExtResource("7_lin78")
-AudioData = ExtResource("1_xi7fg")
 RankUps = SubResource("Resource_oxfwu")
 ItemIcon = ExtResource("3_l2hbq")
 ItemName = "Slash"

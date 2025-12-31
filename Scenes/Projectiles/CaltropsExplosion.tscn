@@ -7,5 +7,6 @@
 script = ExtResource("1_cud60")
 _explosionEffectScene = ExtResource("2_mjkkp")
 _marker3D = NodePath("Marker3D")
+maxLaunchAngle = 90.0
 
 [node name="Marker3D" type="Marker3D" parent="."]

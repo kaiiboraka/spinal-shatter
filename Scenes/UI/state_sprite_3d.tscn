@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://duqlhbd81gtaq"]
+[gd_scene load_steps=3 format=3 uid="uid://duqlhbd81gtaq"]
 
 [ext_resource type="Script" uid="uid://dd6t57pgfiabi" path="res://Scripts/UI/StateSprite3d.cs" id="1_2qrml"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n5ahw"]
 
 [node name="StateSprite3D" type="Sprite3D"]
 pixel_size = 0.03
@@ -8,21 +10,46 @@ billboard = 1
 texture_filter = 0
 script = ExtResource("1_2qrml")
 
-[node name="StatusViewport" type="SubViewport" parent="."]
+[node name="StateViewport" type="SubViewport" parent="."]
 transparent_bg = true
 use_occlusion_culling = true
 size = Vector2i(22, 18)
 render_target_update_mode = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="StatusViewport"]
+[node name="MarginContainer" type="MarginContainer" parent="StateViewport"]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_bottom = 4
 
-[node name="State_RichTextLabel" type="RichTextLabel" parent="StatusViewport/MarginContainer"]
+[node name="State_RichTextLabel" type="RichTextLabel" parent="StateViewport/MarginContainer"]
 clip_contents = false
 layout_mode = 2
 bbcode_enabled = true
 text = "⚔️"
 fit_content = true
+
+[node name="EffectViewport" type="SubViewport" parent="."]
+transparent_bg = true
+use_occlusion_culling = true
+size = Vector2i(22, 18)
+render_target_update_mode = 3
+
+[node name="EffectsContainer" type="HBoxContainer" parent="EffectViewport"]
+visible = false
+offset_left = 24.0
+offset_right = 80.0
+offset_bottom = 24.0
+theme_override_constants/separation = 0
+
+[node name="PoisonEffectsPanel" type="PanelContainer" parent="EffectViewport/EffectsContainer"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n5ahw")
+
+[node name="SlowEffectsPanel" type="PanelContainer" parent="EffectViewport/EffectsContainer"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n5ahw")

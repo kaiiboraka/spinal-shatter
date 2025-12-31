@@ -1,62 +1,23 @@
 # Error
 
-WARNING: Node 'SpellOrigin/MagicOrb/Sprite3D' was modified from inside an instance, but it has vanished.
-   at: instantiate (scene/resources/packed_scene.cpp:254)
-   GDScript backtrace (most recent call first):
-	   [0] change_scene_to_resource (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:60)
-	   [1] _process (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:127)
-WARNING: Node 'SpellOrigin/MagicOrb/Sprite3D' was modified from inside an instance, but it has vanished.
-   at: instantiate (scene/resources/packed_scene.cpp:254)
-   GDScript backtrace (most recent call first):
-	   [0] change_scene_to_resource (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:60)
-	   [1] _process (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:127)
-WARNING: Node 'SpellOrigin/MagicOrb/Sprite3D' was modified from inside an instance, but it has vanished.
-   at: instantiate (scene/resources/packed_scene.cpp:254)
-   GDScript backtrace (most recent call first):
-	   [0] change_scene_to_resource (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:60)
-	   [1] _process (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:127)
-WARNING: Node 'SpellOrigin/MagicOrb/Sprite3D' was modified from inside an instance, but it has vanished.
-   at: instantiate (scene/resources/packed_scene.cpp:254)
-   GDScript backtrace (most recent call first):
-	   [0] change_scene_to_resource (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:60)
-	   [1] _process (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:127)
-WARNING: Node 'SpellOrigin/MagicOrb2/Sprite3D' was modified from inside an instance, but it has vanished.
-   at: instantiate (scene/resources/packed_scene.cpp:254)
-   GDScript backtrace (most recent call first):
-	   [0] change_scene_to_resource (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:60)
-	   [1] _process (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:127)
-WARNING: Node 'SpellOrigin/MagicOrb/Sprite3D' was modified from inside an instance, but it has vanished.
-   at: instantiate (scene/resources/packed_scene.cpp:254)
-   GDScript backtrace (most recent call first):
-	   [0] change_scene_to_resource (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:60)
-	   [1] _process (res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd:127)
-WARNING: AnimationMixer (at: Enemy_GML_Smasher.tscn): 'Back_Diag', Value Track: 'Body_AnimatedSprite3D:animation' blends String types. This is an experimental algorithm.
-   at: _update_caches (scene/animation/animation_mixer.cpp:925)
-ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
-   at SpinalShatter.MagicCaster.SetPrimaryWeapon(CastedSpellData spellData) in C:\Projects\spinal-shatter\Scripts\Components\MagicCaster.cs:line 44
-   at SpinalShatter.PlayerBody.OnWeaponEquipped(SlotType slot, EquippedItem weapon) in C:\Projects\spinal-shatter\Scripts\PlayerBody.cs:line 738
-   at SpinalShatter.PlayerInventory.RaiseGodotClassSignalCallbacks(godot_string_name& signal, NativeVariantPtrArgs args) in C:\Projects\spinal-shatter\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptSignalsGenerator\SpinalShatter.PlayerInventory_ScriptSignals.generated.cs:line 76
-   at Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(IntPtr ownerGCHandlePtr, godot_string_name* eventSignalName, godot_variant** args, Int32 argCount, godot_bool* outOwnerIsNull) in /root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/ScriptManagerBridge.cs:line 387
-   at: void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
-   C# backtrace (most recent call first):
-	   [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
-	   [1] void Godot.NativeInterop.ExceptionUtils.LogException(System.Exception) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/NativeInterop/ExceptionUtils.cs:113)
-	   [2] void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/ScriptManagerBridge.cs:387)
-	   [3] Godot.NativeInterop.godot_variant Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_call(nint, nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:388)
-	   [4] int Godot.NativeCalls.godot_icall_2_873(nint, nint, Godot.NativeInterop.godot_string_name, System.ReadOnlySpan`1[Godot.Variant], Godot.NativeInterop.godot_string_name) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7778)
-	   [5] Godot.Error Godot.GodotObject.EmitSignal(Godot.StringName, Godot.Variant[]) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/GodotObject.cs:698)
-	   [6] void SpinalShatter.PlayerInventory.EquipOrRankUpWeapon(SpinalShatter.SpellData, SpinalShatter.SlotType) (C:\Projects\spinal-shatter\Scripts\Resources\PlayerInventory.cs:61)
-	   [7] void SpinalShatter.PlayerInventory.EquipOrRankUpItem(SpinalShatter.ShopItemData, SpinalShatter.SlotType) (C:\Projects\spinal-shatter\Scripts\Resources\PlayerInventory.cs:27)
-	   [8] void SpinalShatter.ShopCart.OnSlotSelected(SpinalShatter.SlotType, SpinalShatter.SpellData) (C:\Projects\spinal-shatter\Scripts\ShopCart.cs:166)
-	   [9] void SpinalShatter.WeaponSlotter.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs) (C:\Projects\spinal-shatter\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptSignalsGenerator\SpinalShatter.WeaponSlotter_ScriptSignals.generated.cs:46)
-	   [10] void Godot.Bridge.ScriptManagerBridge.RaiseEventSignal(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/ScriptManagerBridge.cs:387)
-	   [11] Godot.NativeInterop.godot_variant Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_call(nint, nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:388)
-	   [12] int Godot.NativeCalls.godot_icall_2_873(nint, nint, Godot.NativeInterop.godot_string_name, System.ReadOnlySpan`1[Godot.Variant], Godot.NativeInterop.godot_string_name) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:7778)
-	   [13] Godot.Error Godot.GodotObject.EmitSignal(Godot.StringName, Godot.Variant[]) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/GodotObject.cs:698)
-	   [14] void SpinalShatter.WeaponSlotter._Input(Godot.InputEvent) (C:\Projects\spinal-shatter\Scripts\Autoloads\WeaponSlotter.cs:68)
-	   [15] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2642)
-	   [16] bool Godot.CanvasLayer.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/CanvasLayer.cs:417)
-	   [17] bool SpinalShatter.WeaponSlotter.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (C:\Projects\spinal-shatter\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\SpinalShatter.WeaponSlotter_ScriptMethods.generated.cs:60)
-	   [18] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+E 0:09:14:473   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+  <C++ Error>   Condition "p_size < size()" is true.
+  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+E 0:09:14:474   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+  <C++ Error>   Condition "p_size < size()" is true.
+  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+E 0:09:19:340   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+  <C++ Error>   Condition "p_size < size()" is true.
+  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+E 0:09:19:340   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+  <C++ Error>   Condition "p_size < size()" is true.
+  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+E 0:09:24:075   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+  <C++ Error>   Condition "p_size < size()" is true.
+  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+E 0:09:24:075   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+  <C++ Error>   Condition "p_size < size()" is true.
+  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+
 
 # Output

@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://6s2yb5wgqhpj"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://6s2yb5wgqhpj"]
 
 [ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="1_fnbiy"]
 [ext_resource type="Texture2D" uid="uid://nvrsxn7ipo3r" path="res://assets/Images/ShopItems/Spells/water_slash1.png" id="2_tdnn4"]

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=7 format=3 uid="uid://w7oj3027nnyy"]
+[gd_resource type="Resource" script_class="AudioData" format=3 uid="uid://w7oj3027nnyy"]
 
 [ext_resource type="AudioStream" uid="uid://lxxuin78uwch" path="res://assets/Audio/SFX/Sword1.wav" id="1_f4o4i"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_jpu77"]

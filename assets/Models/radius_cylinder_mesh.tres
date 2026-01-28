@@ -1,4 +1,4 @@
-[gd_resource type="CylinderMesh" load_steps=2 format=3 uid="uid://cf2wxowvuv3jl"]
+[gd_resource type="CylinderMesh" format=3 uid="uid://cf2wxowvuv3jl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m4eio"]
 transparency = 1

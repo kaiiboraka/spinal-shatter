@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dce3xvef1l24d"]
+[gd_scene format=3 uid="uid://dce3xvef1l24d"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_caehy"]
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_etwi8"]
@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="6_2w4u1"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_xdifj"]
 [ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_1bkke"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/Spells/fireball.png" id="9_7tnbm"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="9_7tnbm"]
 [ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_0rlt5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
@@ -49,7 +49,7 @@ material = SubResource("ShaderMaterial_6qpqf")
 [sub_resource type="SphereShape3D" id="SphereShape3D_vxbqy"]
 radius = 3.0
 
-[node name="FireOrb_Primary" type="RigidBody3D" node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
+[node name="FireOrb_Primary" type="RigidBody3D" unique_id=805681882 node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
 physics_material_override = ExtResource("1_caehy")
@@ -64,31 +64,31 @@ trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("4_ivnhv")
 _lifetime = 20.0
 
-[node name="Sprites" type="Node3D" parent="."]
+[node name="Sprites" type="Node3D" parent="." unique_id=1084522864]
 unique_name_in_owner = true
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites" unique_id=1809430690]
 gi_mode = 2
 billboard = 1
 texture_filter = 0
 sprite_frames = ExtResource("5_2ubcb")
 autoplay = "default"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1733378227]
 shape = SubResource("SphereShape3D_12345")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=850874929]
 light_color = Color(1, 0.25, 0, 1)
 light_energy = 1.1
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=533920135]
 stream = ExtResource("6_2w4u1")
 volume_db = 5.0
 max_distance = 60.0
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="GPUTrail3D" type="GPUParticles3D" parent="."]
+[node name="GPUTrail3D" type="GPUParticles3D" parent="." unique_id=921601430]
 unique_name_in_owner = true
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0.1)
 visible = false
@@ -108,11 +108,11 @@ billboard = true
 _defaults_have_been_set = true
 metadata/_custom_type_script = "uid://b6l44lujpalqq"
 
-[node name="Detection_Area3D" type="Area3D" parent="."]
+[node name="Detection_Area3D" type="Area3D" parent="." unique_id=1290614]
 unique_name_in_owner = true
 collision_layer = 4096
 collision_mask = 35840
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D" unique_id=227874005]
 shape = SubResource("SphereShape3D_vxbqy")
 debug_color = Color(0.9637796, 0.1917935, 7.70092e-07, 0.42)

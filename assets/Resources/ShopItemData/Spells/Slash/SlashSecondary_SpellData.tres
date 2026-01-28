@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=9 format=3 uid="uid://dqt8lfh4rdcli"]
+[gd_resource type="Resource" script_class="CastedSpellData" format=3 uid="uid://dqt8lfh4rdcli"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_lrnxh"]
 [ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_mg8x0"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://drxvesqhpamll"]
+[gd_scene format=3 uid="uid://drxvesqhpamll"]
 
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_bixke"]
 [ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_26t7v"]
@@ -104,14 +104,14 @@ material = SubResource("StandardMaterial3D_klejl")
 radius = 4.0
 height = 8.0
 
-[node name="HitEffects_Explode" type="Node3D"]
+[node name="HitEffects_Explode" type="Node3D" unique_id=1155296772]
 script = ExtResource("1_bixke")
 hasCloud = true
 hasSphere = true
 
-[node name="FreeTimer" type="Timer" parent="."]
+[node name="FreeTimer" type="Timer" parent="." unique_id=1863451413]
 
-[node name="Particles" type="GPUParticles3D" parent="."]
+[node name="Particles" type="GPUParticles3D" parent="." unique_id=193122952]
 unique_name_in_owner = true
 material_override = ExtResource("2_bixke")
 amount = 150
@@ -125,7 +125,7 @@ trail_lifetime = 1.95
 process_material = SubResource("ParticleProcessMaterial_3esec")
 draw_pass_1 = SubResource("QuadMesh_v8bk4")
 
-[node name="CloudParticles" type="GPUParticles3D" parent="."]
+[node name="CloudParticles" type="GPUParticles3D" parent="." unique_id=1309426666]
 unique_name_in_owner = true
 material_override = SubResource("StandardMaterial3D_pk1o6")
 amount = 300
@@ -139,10 +139,10 @@ trail_lifetime = 1.95
 process_material = SubResource("ParticleProcessMaterial_olhfp")
 draw_pass_1 = SubResource("QuadMesh_swgem")
 
-[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="." unique_id=941285025]
 size = Vector3(12, 12, 12)
 resolution = 1
 heightfield_mask = 17
 
-[node name="Sphere_MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Sphere_MeshInstance3D" type="MeshInstance3D" parent="." unique_id=44803955]
 mesh = SubResource("SphereMesh_pk1o6")

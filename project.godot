@@ -23,26 +23,34 @@ resources_spreadsheet_view/fold_docks=true
 resources_spreadsheet_view/resource_cell_label_mode=1
 resources_spreadsheet_view/freeze_first_column=true
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Spinal Shatter"
 config/description="BYU Game Dev Club Game Jam Fall 2025 - SPOOKY"
 run/main_scene="uid://b4oyp3ex0rdq7"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 boot_splash/image="uid://cwk1ukdg6oxn4"
 config/icon="uid://cwk1ukdg6oxn4"
+
+[audio]
+
+buses/default_bus_layout="uid://cgapug46f4s45"
 
 [autoload]
 
 Globals_GD="*res://Scripts/Autoloads/Globals_GD.gd"
-PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+PhantomCameraManager="*uid://duq6jhf6unyis"
 DebugManager="*res://Scenes/Debug/DebugManager.tscn"
-LayerNames="*res://addons/layerNames/generated/layerNames.gd"
+LayerNames="*uid://b5oond0fqbarv"
 ManaParticleManager="*res://Scenes/Autoloads/PickupManager.tscn"
-AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
-SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
-ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
-ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
+AppConfig="*uid://cjke6crjg14a0"
+SceneLoader="*uid://cbwmrnp0af35y"
+ProjectMusicController="*uid://r5t485lr3p7t"
+ProjectUISoundController="*uid://cc37235kj4384"
 RoomManager="*res://Scripts/Autoloads/RoomManager.cs"
 AudioManager="*res://Scripts/Autoloads/AudioManager.cs"
 PickupManager="*res://Scripts/Autoloads/PickupManager.cs"

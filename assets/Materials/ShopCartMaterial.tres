@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://rpgtiou58mny"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://rpgtiou58mny"]
 
 [ext_resource type="Texture2D" uid="uid://m6bdtwe5bqgc" path="res://assets/Images/Textures/shopCart_BaseColor.png" id="1_7enqo"]
 [ext_resource type="Texture2D" uid="uid://dq57o8t5kpgln" path="res://assets/Images/Textures/shopCart_Metallic.png" id="2_1ftgn"]

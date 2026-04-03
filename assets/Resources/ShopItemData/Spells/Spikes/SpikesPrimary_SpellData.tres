@@ -12,6 +12,7 @@ script = ExtResource("5_n2gsg")
 ChargeIntervals = 4
 Weapon = 3
 StatRanges = ExtResource("4_statlist")
+ApplicableEffects = Array[int]([0])
 ProjectileScene = ExtResource("2_b2yl5")
 ChargeAudioData = ExtResource("1_hkkdf")
 RankUps = ExtResource("3_kk7vq")

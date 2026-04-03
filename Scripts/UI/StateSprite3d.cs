@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using Godot.Collections;
-using SpinalShatter.Scripts.Enums;
 
 namespace SpinalShatter;
 
@@ -18,15 +17,13 @@ public partial class StateSprite3d : Sprite3D
 	};
 
 	private AIState currentState = AIState.Idle;
-	private SubViewport stateViewport;
-	private RichTextLabel stateText;
+	[Export] private SubViewport stateViewport;
+	[Export] private RichTextLabel stateText;
 
-	private SubViewport effectViewport;
-	private PanelContainer panelContainer;
+	[Export] private SubViewport effectViewport;
 
 	[Export] public int MaxVisibleStacks { get; set; } = 8;
-	private HBoxContainer effectsContainer;
-	private Dictionary<StackingEffectType, PanelContainer> effectPanels = new();
+	[Export] private Dictionary<StackingEffectType, HBoxContainer> effectPanels = new();
 
 	public AIState CurrentState
 	{
@@ -34,71 +31,33 @@ public partial class StateSprite3d : Sprite3D
 		set
 		{
 			currentState = value;
-			stateText.Text = stateEmoji[currentState];
+			if(stateText != null) stateText.Text = stateEmoji[currentState];
 		}
 	}
-
-	private Dictionary<StackingEffectType, int> ActiveEffectCounts = new()
-	{
-		{ StackingEffectType.Poison, 0 },
-		{ StackingEffectType.Slow, 0 },
-	};
-
-	private static Dictionary<StackingEffectType, Texture2D> Icons = new()
-	{
-		{ StackingEffectType.Poison, GD.Load<Texture2D>("res://Assets/Images/UI/PoisonIcon.png") },
-		{ StackingEffectType.Slow, GD.Load<Texture2D>("res://Assets/Images/UI/SlowIcon.png") },
-	};
 
 	public async override void _Ready()
 	{
-		stateViewport = GetNode<SubViewport>("StateViewport");
-		stateText = stateViewport.GetNode<RichTextLabel>("MarginContainer/State_RichTextLabel");
-
-		effectViewport = GetNode<SubViewport>("EffectViewport");
-		effectsContainer = effectViewport.GetNode<HBoxContainer>("EffectsContainer");
-		effectPanels[StackingEffectType.Poison] = effectsContainer.GetNode<PanelContainer>("PoisonEffectsPanel");
-		effectPanels[StackingEffectType.Slow] = effectsContainer.GetNode<PanelContainer>("SlowEffectsPanel");
-
+		// Node references are now set via [Export]
 		await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
 		this.Texture = effectViewport.GetTexture();
 
-		// Initialize the display
-		UpdateEffectVisuals(StackingEffectType.Poison);
-		UpdateEffectVisuals(StackingEffectType.Slow);
+		// Initialize the display for both editor and game
+		UpdateEffect(StackingEffectType.Poison, 0);
+		UpdateEffect(StackingEffectType.Slow, 0);
 	}
 
-	public bool AddStackingEffect(StackingEffectType effectType, int stacks = 1)
+	public void UpdateEffect(StackingEffectType effectType, int count)
 	{
-		if (stacks <= 0) return false;
-		ActiveEffectCounts[effectType] += stacks;
-		return true;
+		// Guard against running before the dictionary is populated by the editor
+		if (effectPanels == null || !effectPanels.ContainsKey(effectType)) return;
+		
+		UpdateEffectVisuals(effectType, count);
 	}
 
-	public bool RemoveStackingEffect(StackingEffectType effectType, int stacks = 1)
+	private void UpdateEffectVisuals(StackingEffectType effectType, int count)
 	{
-		if (stacks <= 0) return false;
-		if (ActiveEffectCounts[effectType] <= 0) return false;
-		ActiveEffectCounts[effectType] = (ActiveEffectCounts[effectType] - stacks).AtLeastZero();
-		UpdateEffectVisuals(effectType);
-		return true;
-	}
-
-	private void UpdateEffectVisuals(StackingEffectType effectType)
-	{
-		int count = ActiveEffectCounts[effectType];
-		PanelContainer panel = effectPanels[effectType];
-
+		HBoxContainer panel = effectPanels[effectType];
 		panel.Visible = count > 0;
-		if (count == 0)
-		{
-			// Clear all children if no stacks
-			foreach (var child in panel.GetChildren())
-			{
-				child.QueueFree();
-			}
-			return;
-		}
 
 		// Clear existing children
 		foreach (var child in panel.GetChildren())
@@ -106,32 +65,34 @@ public partial class StateSprite3d : Sprite3D
 			child.QueueFree();
 		}
 
-		Texture2D icon = Icons[effectType];
-		const int ICON_WIDTH = 24; // Assuming icon width for positioning
-		const float SPACING_REDUCTION_FACTOR = 0.5f; // How much spacing reduces per stack
+		if (count == 0) return;
 
+		// Calculate separation based on count
+		int separation;
+		if (count <= 1)
+		{
+			separation = 0;
+		}
+		else
+		{
+			// Linearly interpolate between (2, -10) and (8, -28)
+			separation = (int)Mathf.Lerp(-10.0f, -28.0f, (count - 2) / (8.0f - 2.0f));
+		}
+		panel.AddThemeConstantOverride("separation", separation);
+
+		// Add new icons
+		StackingEffectData effectData = EffectsComponent.EffectData[effectType];
+		Texture2D icon = effectData.EffectIcon;
+		
 		for (int i = 0; i < Mathf.Min(count, MaxVisibleStacks); i++)
 		{
-			TextureRect textureRect = new TextureRect();
-			textureRect.Texture = icon;
-			textureRect.ExpandMode = TextureRect.ExpandModeEnum.FitWidth; // or .KeepAspect
-			textureRect.CustomMinimumSize = new Vector2(ICON_WIDTH, ICON_WIDTH); // or icon.GetSize() if available
-
-			// Calculate position with decreasing spacing
-			float xPos = i * (ICON_WIDTH - (i * SPACING_REDUCTION_FACTOR));
-			textureRect.Position = new Vector2(xPos, 0);
-
+			TextureRect textureRect = new TextureRect
+			{
+				Texture = icon,
+				ExpandMode = TextureRect.ExpandModeEnum.FitWidth,
+				CustomMinimumSize = new Vector2(24, 24)
+			};
 			panel.AddChild(textureRect);
 		}
-
-		// Adjust the HBoxContainer's size to fit the panels if needed
-		// This might need more sophisticated layout management depending on desired behavior.
-		// For now, let's just make sure the panel itself is wide enough.
-		// panel.CustomMinimumSize = new Vector2(
-		// 	Mathf.Min(count, MaxVisibleStacks) * ICON_WIDTH - Mathf.Max(0, Mathf.Min(count, MaxVisibleStacks) - 1) * (SPACING_REDUCTION_FACTOR * (Mathf.Min(count, MaxVisibleStacks) - 1)),
-		// 	ICON_WIDTH
-		// );
 	}
-
-
 }

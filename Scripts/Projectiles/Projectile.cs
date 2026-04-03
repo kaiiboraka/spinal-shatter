@@ -18,7 +18,7 @@ public partial class Projectile : RigidBody3D
 
 	[Export] private PackedScene _sparkParticlesScene;
 	[Export] private PackedScene _explosionEffectScene;
-	[Export] private Node3D spritesParent;
+	private Node3D spritesParent;
 	[Export] private GpuParticles3D trail;
 
 	private Array<SpriteBase3D> sprites;
@@ -43,6 +43,7 @@ public partial class Projectile : RigidBody3D
 
 	[Export] private bool HasGravity = false;
 	[Export] private bool LingersOnGround { get; set; }
+	[Export] public Godot.Collections.Dictionary<StackingEffectType, int> EffectsToApply { get; set; }
 	private float initialSize;
 	private float damagePerMana;
 	private ProjectileState state = ProjectileState.Charging;
@@ -54,7 +55,7 @@ public partial class Projectile : RigidBody3D
 	public override void _Ready()
 	{
 
-		// spritesParent ??= GetNode<Node3D>("%Sprites");
+		spritesParent ??= GetNodeOrNull<Node3D>("%Sprites");
 		sprites = new Array<SpriteBase3D>();
 		if (spritesParent != null)
 		{
@@ -70,7 +71,7 @@ public partial class Projectile : RigidBody3D
 		collisionShape ??= GetNode<CollisionShape3D>("CollisionShape3D");
 		audioStreamPlayer ??= GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
 
-		// trail ??= GetNode<GpuParticles3D>("%GPUTrail3D");
+		trail ??= GetNodeOrNull<GpuParticles3D>("%GPUTrail3D");
 		hasTrail = trail != null;
 		detectionArea3D ??= GetNode<Area3D>("%Detection_Area3D"); // Get reference
 
@@ -504,7 +505,9 @@ public partial class Projectile : RigidBody3D
 			{
 				if (IsInstanceValid(trail)) trail.QueueFree();
 			};
+
 			trail.Reparent(GetParent());
+			trail.TopLevel = true;
 		}
 
 		// detectionArea3D.Reparent(GetParent());

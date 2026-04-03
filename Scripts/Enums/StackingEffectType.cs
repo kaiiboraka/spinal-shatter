@@ -1,4 +1,4 @@
-namespace SpinalShatter.Scripts.Enums;
+namespace SpinalShatter;
 
 public enum StackingEffectType
 {

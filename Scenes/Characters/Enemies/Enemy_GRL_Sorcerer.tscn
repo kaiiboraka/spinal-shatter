@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cxxfv2avrc3rw"]
+[gd_scene load_steps=28 format=3 uid="uid://cxxfv2avrc3rw"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_cifvm"]
 [ext_resource type="Resource" uid="uid://cq6bcxst4hyxm" path="res://assets/Resources/EnemyData/GRL_SorcererData.tres" id="2_cifvm"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_21hm2"]
 [ext_resource type="AudioStream" uid="uid://bnmwtidou6nvm" path="res://assets/Audio/SFX/Touchdrk.wav" id="5_jykus"]
 [ext_resource type="AudioStream" uid="uid://dwnsumgah6q0n" path="res://assets/Audio/SFX/Spell.wav" id="6_55f17"]
+[ext_resource type="Script" uid="uid://d0do8l6pcx7dh" path="res://Scripts/Components/EffectsComponent.cs" id="6_dssud"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="7_pwasg"]
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="8_rvrw2"]
 [ext_resource type="SpriteFrames" uid="uid://cqa0jrqo5t1w8" path="res://assets/Images/Enemies/Enemy_GRL_Sorcerer.ase" id="9_cifvm"]
@@ -806,6 +807,9 @@ _deathParticlesScene = ExtResource("3_7gjbn")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("4_21hm2")
+
+[node name="EffectComponent" type="Node" parent="."]
+script = ExtResource("6_dssud")
 
 [node name="Timers" type="Node" parent="."]
 

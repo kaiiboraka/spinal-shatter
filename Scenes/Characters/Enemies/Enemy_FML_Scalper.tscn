@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://c84y5l48t73cy"]
+[gd_scene load_steps=24 format=3 uid="uid://c84y5l48t73cy"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_2mplv"]
 [ext_resource type="Resource" uid="uid://dr2qyr2emuw4m" path="res://assets/Resources/EnemyData/FML_ScalperData.tres" id="2_2mplv"]
 [ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_l51m0"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_7r2nh"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="5_dx7m8"]
+[ext_resource type="Script" uid="uid://d0do8l6pcx7dh" path="res://Scripts/Components/EffectsComponent.cs" id="5_hb3fr"]
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="6_pptis"]
 [ext_resource type="SpriteFrames" uid="uid://ojotwsn4sq36" path="res://assets/Images/Enemies/Enemy_FML_Scalper.ase" id="7_8s2ah"]
 [ext_resource type="SpriteFrames" uid="uid://cthbltmunn1t0" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_FML_Scalper.ase" id="8_2mplv"]
@@ -697,6 +698,9 @@ _deathParticlesScene = ExtResource("3_l51m0")
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_7r2nh")
+
+[node name="EffectComponent" type="Node" parent="."]
+script = ExtResource("5_hb3fr")
 
 [node name="Timers" type="Node" parent="."]
 

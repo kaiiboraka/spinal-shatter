@@ -65,7 +65,7 @@ public partial class WeaponSlotter : CanvasLayer
 
         if (chosenSlot != SlotType.None)
         {
-            EmitSignal(SignalName.SlotSelected, (int)chosenSlot, _spellToSlot);
+            EmitSignalSlotSelected(chosenSlot, _spellToSlot);
             _spellToSlot = null;
             Hide();
             ProcessMode = ProcessModeEnum.Disabled;

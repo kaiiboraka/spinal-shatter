@@ -461,7 +461,7 @@ public partial class Enemy : Combatant
 			// Move towards player
 			if (Data.IsFlying)
 			{
-				newVelocity = -GlobalTransform.Basis.Z * WalkSpeed;
+				newVelocity = -GlobalTransform.Basis.Z * (WalkSpeed * slowMultiplier);
 			}
 			else
 			{
@@ -511,8 +511,9 @@ public partial class Enemy : Combatant
 
 	private void WalkForward(ref Vector3 newVelocity)
 	{
-		newVelocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
-		newVelocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
+		var effectiveSpeed = WalkSpeed * slowMultiplier;
+		newVelocity.X = -GlobalTransform.Basis.Z.X * effectiveSpeed;
+		newVelocity.Z = -GlobalTransform.Basis.Z.Z * effectiveSpeed;
 	}
 
 	private void StartWalking()
@@ -880,5 +881,11 @@ public partial class Enemy : Combatant
 		BlinkTween = CreateTween().SetLoops(2).SetTrans(Tween.TransitionType.Quart).SetEase(Tween.EaseType.InOut);
 		BlinkTween.TweenProperty(animatedSprite, "modulate:a", alpha, duration / 2);
 		BlinkTween.TweenProperty(animatedSprite, "modulate:a", 1.0f, duration / 2);
+	}
+
+
+	protected override void OnEffectComponentStacksChanged(StackingEffectType type, int newStackCount)
+	{
+		stateVisual.UpdateEffect(type, newStackCount);
 	}
 }

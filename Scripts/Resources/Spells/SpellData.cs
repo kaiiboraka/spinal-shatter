@@ -1,3 +1,5 @@
+using Godot.Collections;
+
 namespace SpinalShatter;
 
 using Godot;
@@ -10,6 +12,7 @@ public partial class SpellData : ShopItemData
 	[Export] public WeaponType Weapon { get; private set; }
 	[Export] public SlotType Slot { get; private set; }
 	[Export] private StatListData StatRanges { get; set; }
+	[Export] public Array<StackingEffectType> ApplicableEffects { get; set; }
 
 	public FloatValue this[StatType stat]
 	{
@@ -49,4 +52,5 @@ public partial class SpellData : ShopItemData
 
 	[ExportGroup("Audio")]
 	[Export] public AudioData ChargeAudioData { get; private set; }
+
 }

@@ -349,15 +349,15 @@ public partial class PlayerBody : Combatant
 		var target = direction;
 		if (isSprinting)
 		{
-			target *= MAX_SPRINT_SPEED;
+			target *= MAX_SPRINT_SPEED * slowMultiplier;
 		}
 		else if (isCrouching)
 		{
-			target *= CROUCH_SPEED;
+			target *= CROUCH_SPEED * slowMultiplier;
 		}
 		else
 		{
-			target *= WALK_SPEED;
+			target *= WALK_SPEED * slowMultiplier;
 		}
 
 		float acceleration = ACCEL;
@@ -1012,8 +1012,8 @@ public partial class PlayerBody : Combatant
 		DisallowRangedAttack();
 		siphon.ProcessMode = ProcessModeEnum.Disabled;
 		magicCaster.ProcessMode = ProcessModeEnum.Disabled;
-		pickupArea.Monitoring = false;
-		pickupArea.Monitorable = false;
+		pickupArea.SetDeferred("monitoring", false);
+		pickupArea.SetDeferred("monitorable", false);
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
 		onDeathSfxFinished = () =>
 		{

@@ -20,3 +20,63 @@ There are a lot of potential ways to solve this problem. I want you to present t
 # Sample Code
 
 # Previous Conversation 
+
+> I have a new task for you outlined in @Scripts/SampleCode.txt . @assets/Resources/EffectData/ @Scripts/Enums/StackingEffectType.cs @Scripts/Resources/Spells/StackingEffectData.cs
+  @Scripts/UI/StateSprite3d.cs @Scripts/Combatant.cs @Scripts/Enemies/Enemy.cs @Scripts/PlayerBody.cs These are the relevant files. Please read through the instructions outlined in SampleCode.txt and
+  summarize it back to me before fulfilling the request therein.
+
+✦ Excellent, I have reviewed the instructions in SampleCode.txt and the related files. Here is a summary of the task and two proposed implementation plans, as you requested.
+
+  Task Summary
+
+  The goal is to create a robust and performant system for managing stacking status effects (like poison and slow) on any Combatant (Enemies and the Player).
+
+  Key requirements include:
+   * Stacking Logic: Effects stack to increase intensity and duration, capped by a max value. Further stacks refresh the duration.
+   * Timing: Each effect type has its own timer for duration and, if applicable, a separate tick-rate for damage-over-time.
+   * Architecture: The system must be cleanly implemented, either as a separate component on the Combatant or directly within the Combatant class itself.
+   * API: It must provide a public API to safely add and remove stacks from anywhere in the codebase.
+   * UI Updates: The StateSprite3d on Enemy combatants must be updated visually when stacks are added or removed.
+
+  I will now present two distinct, viable architectural plans to achieve this.
+
+  ---
+  Alternative A: The Component-Based Plan
+
+  This approach prioritizes modularity and separation of concerns by encapsulating all status effect logic into a dedicated component.
+
+   1. `EffectsComponent.cs` Node:
+       * I will create a new script, EffectsComponent.cs, inheriting from Node. This component will be added as a child to the base Combatant scene.
+       * This component will manage a dictionary of active effects and their remaining durations and stacks.
+       * It will handle all timer logic internally within its _Process(delta) loop, which is highly performant for many instances. It will track duration countdowns and the interval for damage ticks.
+   2. `Combatant` Integration:
+       * The Combatant will get a reference to its EffectsComponent.
+       * The EffectsComponent will use C# events (or Godot signals) like EffectTicked or EffectExpired.
+       * The Combatant will subscribe to these events to react to them. For example, upon receiving an EffectTicked event for poison, it will call its TakeDamage method.
+   3. API and UI:
+       * The Combatant will expose public methods like ApplyEffect(StackingEffectData data) which will simply call the corresponding method on its EffectsComponent.
+       * Enemy.cs will override these methods to update its StateSprite3d visuals, keeping the UI in sync.
+
+  This plan results in a self-contained `EffectsComponent` that cleanly handles its own logic, communicating its results to the `Combatant`.
+
+  Alternative B: The Integrated Plan
+
+  This approach integrates the logic directly into the Combatant class, leveraging inheritance and virtual methods.
+
+   1. `Combatant.cs` Logic:
+       * The core logic, including the dictionary of active effects and stack counts, will be added directly to the Combatant base class.
+       * A single Timer node will be added to the Combatant scene to manage all effect updates at a regular interval (e.g., every 0.1 seconds).
+   2. Timer and Updates:
+	   * When the timer's Timeout signal is emitted, a new method _OnEffectUpdate() in Combatant will be called.
+	   * This method will iterate through all active effects, decrementing their durations and handling tick logic.
+	   * Instead of signals, this method will call virtual methods like OnEffectTicked(StackingEffectData data) or OnEffectApplied(StackingEffectData data).
+   3. API and UI:
+	   * The ApplyEffect method will be a public method directly on the Combatant.
+	   * Derived classes like Enemy.cs will override these virtual methods to implement specific behaviors, such as taking damage from poison, applying a slow to movement speed, or updating the
+		 StateSprite3d UI.
+
+  This plan keeps all related logic within the `Combatant` hierarchy, which can be simpler for tightly coupled systems.
+
+  ---
+
+  Both plans will achieve the desired outcome. Please let me know which alternative you prefer, and I will begin the implementation.

@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://ce3rixvfkjjko"]
+[gd_scene load_steps=24 format=3 uid="uid://ce3rixvfkjjko"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_5f5xd"]
 [ext_resource type="Resource" uid="uid://bsa11e7usrada" path="res://assets/Resources/EnemyData/GMM_ThrasherData.tres" id="2_5f5xd"]
 [ext_resource type="PackedScene" uid="uid://bxh5ht8loftv7" path="res://Scenes/Particles/DeathEffects_Bone.tscn" id="3_kw3gx"]
 [ext_resource type="Script" uid="uid://df0gwl6hmsvsl" path="res://Scripts/Components/HealthComponent.cs" id="4_1syk4"]
+[ext_resource type="Script" uid="uid://d0do8l6pcx7dh" path="res://Scripts/Components/EffectsComponent.cs" id="5_kty6f"]
 [ext_resource type="PackedScene" uid="uid://dlu0kyq355mht" path="res://Scenes/UI/health_bar.tscn" id="5_lob6v"]
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="6_4r4pb"]
 [ext_resource type="SpriteFrames" uid="uid://cj4btnytpq1ao" path="res://assets/Images/Enemies/Enemy_GMM_Thrasher.ase" id="7_5f5xd"]
@@ -696,6 +697,9 @@ _deathParticlesScene = ExtResource("3_kw3gx")
 [node name="HealthComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_1syk4")
+
+[node name="EffectComponent" type="Node" parent="."]
+script = ExtResource("5_kty6f")
 
 [node name="Timers" type="Node" parent="."]
 

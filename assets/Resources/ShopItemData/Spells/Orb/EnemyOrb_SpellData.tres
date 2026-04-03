@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=12 format=3 uid="uid://bpg87onj725jn"]
+[gd_resource type="Resource" script_class="CastedSpellData" load_steps=13 format=3 uid="uid://bpg87onj725jn"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_ucaek"]
 [ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/ShopItems/Spells/fireball_enemy.png" id="2_jrqo3"]
 [ext_resource type="Resource" uid="uid://depsmo4qgxd07" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/EnemyOrb_StatList.tres" id="3_tkcrf"]
 [ext_resource type="Resource" uid="uid://di0ky7b0mux52" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank1.tres" id="4_idy44"]
 [ext_resource type="PackedScene" uid="uid://dlnm3x4j36fvu" path="res://Scenes/Projectiles/EnemyFireball.tscn" id="4_llsa7"]
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="4_ucaek"]
 [ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="5_llsa7"]
 [ext_resource type="Resource" uid="uid://c2382vrcf7vno" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank2.tres" id="5_ucaek"]
 [ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="5_v4r0i"]
@@ -13,12 +14,13 @@
 
 [sub_resource type="Resource" id="Resource_tqapl"]
 script = ExtResource("5_llsa7")
-RankUps = [ExtResource("4_idy44"), ExtResource("5_ucaek"), ExtResource("6_y6kwd"), ExtResource("7_esnd5")]
+RankUps = Array[ExtResource("4_ucaek")]([ExtResource("4_idy44"), ExtResource("5_ucaek"), ExtResource("6_y6kwd"), ExtResource("7_esnd5")])
 
 [resource]
 script = ExtResource("5_v4r0i")
 ChargeIntervals = 1
 StatRanges = ExtResource("3_tkcrf")
+ApplicableEffects = null
 ProjectileScene = ExtResource("4_llsa7")
 ChargeAudioData = ExtResource("1_ucaek")
 hasRankData = false

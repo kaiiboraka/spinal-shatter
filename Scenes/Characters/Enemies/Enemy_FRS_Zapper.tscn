@@ -9,7 +9,7 @@
 motion_mode = 1
 Data = ExtResource("2_ghelw")
 
-[node name="Body_AnimatedSprite3D" parent="." index="6"]
+[node name="Body_AnimatedSprite3D" parent="." index="7"]
 billboard = 1
 sprite_frames = ExtResource("3_dbu75")
 autoplay = ""

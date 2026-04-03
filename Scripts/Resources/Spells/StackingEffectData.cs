@@ -1,6 +1,5 @@
 using Elythia;
 using Godot;
-using SpinalShatter.Scripts.Enums;
 
 namespace SpinalShatter;
 

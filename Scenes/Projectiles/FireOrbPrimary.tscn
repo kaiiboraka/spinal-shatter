@@ -49,7 +49,7 @@ material = SubResource("ShaderMaterial_6qpqf")
 [sub_resource type="SphereShape3D" id="SphereShape3D_vxbqy"]
 radius = 3.0
 
-[node name="FireOrb_Primary" type="RigidBody3D" node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
+[node name="FireOrb_Primary" type="RigidBody3D" node_paths=PackedStringArray("trail") groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 41604
 physics_material_override = ExtResource("1_caehy")
@@ -59,7 +59,6 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("2_etwi8")
 _sparkParticlesScene = ExtResource("3_6qpqf")
-spritesParent = NodePath("Sprites")
 trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("4_ivnhv")
 _lifetime = 20.0

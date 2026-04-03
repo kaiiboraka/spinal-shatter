@@ -1,23 +1,42 @@
 # Error
 
-E 0:09:14:473   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+E 0:05:02:091   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
   <C++ Error>   Condition "p_size < size()" is true.
   <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
-E 0:09:14:474   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+
+E 0:00:31:210   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
   <C++ Error>   Condition "p_size < size()" is true.
   <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
-E 0:09:19:340   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+
+E 0:01:02:508   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
   <C++ Error>   Condition "p_size < size()" is true.
   <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
-E 0:09:19:340   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+
+E 0:01:02:509   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
   <C++ Error>   Condition "p_size < size()" is true.
   <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
-E 0:09:24:075   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
+
+E 0:01:02:627   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
   <C++ Error>   Condition "p_size < size()" is true.
   <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
-E 0:09:24:075   reserve: reserve() called with a capacity smaller than the current size. This is likely a mistake.
-  <C++ Error>   Condition "p_size < size()" is true.
-  <C++ Source>  ./core/templates/local_vector.h:164 @ reserve()
+
+Some cursory research about this vague error gives me the following information:
+
+The error "godot reserve: reserve() called with a capacity smaller than the current size" indicates an internal issue within the Godot engine's memory management for data structures like Array or HashMap, where a function attempted to set a new capacity that was less than the number of elements already present. This is a safety check to prevent data loss. 
+This error is often a sign of an engine bug, particularly in Godot 4.x versions, but can sometimes be caused by a specific user setup. 
+
+## Potential Causes and Solutions
+
+- Engine Bugs (Godot 4.x): This error frequently appears in specific contexts within the Godot engine, often related to physics or animation systems.
+  - Jolt Physics Addon: The error has been linked to the Jolt Physics addon's DebugDraw3D feature. Switching to the default Godot Physics engine or disabling the debug drawing might resolve the issue.
+  - AnimationPlayer: Empty or unassigned animations within an AnimationPlayer have been known to trigger this error.
+	- Solution: Check for and delete any empty animations or tracks in your AnimationPlayer nodes.
+  - AHashMap issues: The error can originate in the engine's internal AHashMap implementation during certain operations like copying a hashmap. This might be an internal engine bug that requires a Godot update to fix.
+- User Code (Less Common): In rare cases, the error might be related to how your GDScript or C++ code interacts with data structures, for example:
+  - Invalid Array Access/Manipulation: Using incorrect array access methods (e.g., array.size[i] instead of array[i]) can cause unexpected behavior.
+  - Incorrect Inheritance: If you are using custom classes in arrays/collections, ensure they inherit from a proper base class like Object, Resource, or RefCounted. 
+
+I also know that the primary bug that caused this error with regards to AnimationPlayer was supposedly fixed in 4.5, but I am on 4.5 stable, so I should have that fix already. So I speculate that something else must be causing this problem. 
 
 
 # Output

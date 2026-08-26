@@ -22,6 +22,7 @@ public partial class WaveDirector : Node
 	private int _enemiesThisWave = 0;
 	private LevelRoom _activeRoom;
 	private LevelRoom _roundInProgressRoom;
+	public LevelRoom CurrentRoom =>  _roundInProgressRoom;
 	
 	// --- Room & Door Management ---
 	private readonly Godot.Collections.Dictionary<CardinalDirection, Door> _hubDoors = new();
@@ -50,6 +51,8 @@ public partial class WaveDirector : Node
 	private VBoxContainer _bonusContainer;
 	private RichTextLabel _timeBonusTextValue;
 	private RichTextLabel _lifeBonusTextValue;
+
+	[Signal] public delegate void RoundWonEventHandler();
 
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _levelLostMenuScene;
@@ -105,17 +108,17 @@ public partial class WaveDirector : Node
 		RoundTimer.SafeSubscribe(Timer.SignalName.Timeout, OnRoundLost);
 
 		// --- Initialize UI References ---
-		_directorDisplay = GetNode<Control>("DirectorDisplay");
+		_directorDisplay = GetNode<Control>("%DirectorDisplay");
 		_timerLabel = GetNode<RichTextLabel>("%TimerTextLabel");	
 		_waveMinMaxLabel = GetNode<MinMaxValuesLabel>("%Wave_MinMaxValuesLabel");
 		_roundTextValue = GetNode<RichTextLabel>("%RoundTextValue");
-		_activeEnemyCountTextValue = GetNode<RichTextLabel>("DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer/ActiveEnemyCountTextValue");
 		_activeEnemyCountHBoxContainer = GetNode<HBoxContainer>("%ActiveEnemyCount_HBoxContainer"); // Added
+		_activeEnemyCountTextValue = _activeEnemyCountHBoxContainer.GetNode<RichTextLabel>("ActiveEnemyCountTextValue");
 		_roomLabelsVBoxContainer = GetNode<VBoxContainer>("%RoomLabels_VBoxContainer"); // Added
 		_victoryLabel = GetNode<RichTextLabel>("%VictoryLabel");
 		_defeatLabel = GetNode<RichTextLabel>("%DefeatLabel");
-		_waveRoundContainer = GetNode<VBoxContainer>("DirectorDisplay/MarginContainer/WaveRound_Container");
-		_bonusContainer = GetNode<VBoxContainer>("DirectorDisplay/MarginContainer/Bonus_VBoxContainer");
+		_waveRoundContainer = GetNode<VBoxContainer>("%DirectorDisplay/MarginContainer/WaveRound_Container");
+		_bonusContainer = GetNode<VBoxContainer>("%DirectorDisplay/MarginContainer/Bonus_VBoxContainer");
 		_timeBonusTextValue = GetNode<RichTextLabel>("%TimeBonus_TextValue");
 		_lifeBonusTextValue = GetNode<RichTextLabel>("%LifeBonus_TextValue");
 
@@ -369,11 +372,11 @@ public partial class WaveDirector : Node
 		RoundTimer.Stop();
 
 		moneyTimeBonus = (int)(moneyGivenPerSecondLeft * timeLeft * DifficultyMultipliers[SelectedDifficulty]);
-		player.AddMoney(moneyTimeBonus);
+		player.ReceiveMoney(moneyTimeBonus);
 
 		moneyHealthBonus =
 			(int)(moneyGivenPerHealthLeft * endingPlayerHealth * DifficultyMultipliers[SelectedDifficulty]);
-		player.AddMoney(moneyHealthBonus);
+		player.ReceiveMoney(moneyHealthBonus);
 
 		CurrentRound++;
 		if (wavesPerRound < 5)
@@ -394,6 +397,9 @@ public partial class WaveDirector : Node
 
 		_timeBonusTextValue.Text = moneyTimeBonus.ToString();
 		_lifeBonusTextValue.Text = moneyHealthBonus.ToString();
+		
+		EmitSignalRoundWon();
+		CleanUpInactiveEnemies();
 	}
 
 	private void OnHubDoorShut()
@@ -574,5 +580,39 @@ public partial class WaveDirector : Node
 		_victoryLabel.Visible = false;
 		_defeatLabel.Visible = false;
 		_bonusContainer.Visible = false;
+	}
+
+	private void CleanUpInactiveEnemies()
+	{
+		foreach (var roomEntry in _combatRooms)
+		{
+			var room = roomEntry.Value;
+			// Create a copy of the list to avoid modifying it while iterating
+			var enemiesToClean = room.EnemiesInRoom.ToList(); 
+			foreach (var enemy in enemiesToClean)
+			{
+				if (enemy == null || !IsInstanceValid(enemy))
+				{
+					room.EnemiesInRoom.Remove(enemy);
+					continue;
+				}
+
+				if (!enemy.Visible)
+				{
+					enemy.QueueFree();
+					room.EnemiesInRoom.Remove(enemy);
+				}
+			}
+
+			var children = room.GetChildren();
+			foreach (var child in children)
+			{
+				if (child is Enemy { Visible: false } enemy)
+				{
+					enemy.QueueFree();
+					// room.EnemiesInRoom.Remove(enemy);
+				}
+			}
+		}
 	}
 }

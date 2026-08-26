@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class AudioBucket : AudioStream
 {
 	[Export] public Array<AudioStream> Bucket;

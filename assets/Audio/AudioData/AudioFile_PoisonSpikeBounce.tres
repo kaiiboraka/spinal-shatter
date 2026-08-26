@@ -1,0 +1,10 @@
+[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://lutykp8n75ro"]
+
+[ext_resource type="AudioStream" uid="uid://c50wah00nfmgt" path="res://assets/Audio/AudioData/SFX_PoisonBounce.tres" id="1_y37oo"]
+[ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_s2q4y"]
+
+[resource]
+resource_name = "PoisonSpikeBounce"
+script = ExtResource("2_s2q4y")
+Stream = ExtResource("1_y37oo")
+metadata/_custom_type_script = "uid://cobrtm7ta40hq"

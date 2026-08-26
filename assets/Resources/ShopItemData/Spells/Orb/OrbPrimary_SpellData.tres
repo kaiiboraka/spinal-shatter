@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=9 format=3 uid="uid://b822nwtw8a74b"]
+
+[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_4y3ih"]
+[ext_resource type="Resource" uid="uid://c8k5dujog71uv" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbAuto_SpellData.tres" id="2_6doro"]
+[ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="3_do1wr"]
+[ext_resource type="PackedScene" uid="uid://dce3xvef1l24d" path="res://Scenes/Projectiles/FireOrbPrimary.tscn" id="3_o4ofs"]
+[ext_resource type="Resource" uid="uid://b65kppgedxtr7" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/OrbPrimary_Ranks.tres" id="5_dwtfv"]
+[ext_resource type="Resource" uid="uid://dov3f7axphag7" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/OrbPrimary_StatList.tres" id="6_o4ofs"]
+[ext_resource type="Resource" uid="uid://cirydstf3n5" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbSecondary_SpellData.tres" id="18_a2vte"]
+[ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="21_gdc3u"]
+
+[resource]
+script = ExtResource("21_gdc3u")
+Secondary = ExtResource("18_a2vte")
+Automatic = ExtResource("2_6doro")
+StatRanges = ExtResource("6_o4ofs")
+ProjectileScene = ExtResource("3_o4ofs")
+ChargeAudioData = ExtResource("1_4y3ih")
+RankUps = ExtResource("5_dwtfv")
+ItemIcon = ExtResource("3_do1wr")
+ItemName = "Fire Ball"
+ItemDescription = "A simple projectile that can bounce on walls. Charge to increase damage and size.
+PRIMARY: High single target damage.
+SECONDARY: Splash in a large AoE.
+AUTOMATIC: Fires at the nearest enemy."
+Price = 100
+Rarity = 0.5

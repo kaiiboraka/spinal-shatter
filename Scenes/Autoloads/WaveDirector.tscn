@@ -1,38 +1,37 @@
-[gd_scene load_steps=26 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene load_steps=25 format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="2_aege0"]
 [ext_resource type="Resource" uid="uid://d24mb4cakhuxt" path="res://assets/Resources/EnemyData/GRS_ScroungerData.tres" id="3_oxf7n"]
 [ext_resource type="PackedScene" uid="uid://b4oyp3ex0rdq7" path="res://Scenes/UI/Menu Templates/scenes/menus/main_menu/main_menu.tscn" id="3_ylehw"]
+[ext_resource type="Script" uid="uid://betysh4mhv0qi" path="res://Scripts/Resources/EnemyData.cs" id="4_6kqlu"]
 [ext_resource type="Resource" uid="uid://c7gno2uhabeeb" path="res://assets/Resources/EnemyData/GMS_ScrapperData.tres" id="4_kpvn7"]
-[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/GMS_Scrapper.tscn" id="4_phwt4"]
+[ext_resource type="PackedScene" uid="uid://bl1y0kt6e7sod" path="res://Scenes/Characters/Enemies/Enemy_GMS_Scrapper.tscn" id="4_phwt4"]
 [ext_resource type="Resource" uid="uid://ckufkle75pln1" path="res://assets/Resources/EnemyData/FMS_SwooperData.tres" id="5_gkeq4"]
-[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/GRS_Scrounger.tscn" id="6_6lw2h"]
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Enemy_GRS_Scrounger.tscn" id="6_6lw2h"]
 [ext_resource type="Resource" uid="uid://cpjitr3gcxgjv" path="res://assets/Resources/EnemyData/FRS_ZapperData.tres" id="6_phwt4"]
-[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/FMS_Swooper.tscn" id="8_omfed"]
-[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/FRS_Zapper.tscn" id="10_aege0"]
+[ext_resource type="PackedScene" uid="uid://ddskdsst6e3hl" path="res://Scenes/Characters/Enemies/Enemy_FMS_Swooper.tscn" id="8_omfed"]
+[ext_resource type="PackedScene" uid="uid://5ou8wlwv5mf1" path="res://Scenes/Characters/Enemies/Enemy_FRS_Zapper.tscn" id="10_aege0"]
 [ext_resource type="PackedScene" uid="uid://d1hrwm72m604c" path="res://Scenes/UI/MinMaxValuesLabel.tscn" id="11_6lw2h"]
 [ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="11_omfed"]
 [ext_resource type="Resource" uid="uid://bsa11e7usrada" path="res://assets/Resources/EnemyData/GMM_ThrasherData.tres" id="12_5ktau"]
-[ext_resource type="PackedScene" uid="uid://ce3rixvfkjjko" path="res://Scenes/Characters/Enemies/GMM_Thrasher.tscn" id="13_umeo8"]
+[ext_resource type="PackedScene" uid="uid://ce3rixvfkjjko" path="res://Scenes/Characters/Enemies/Enemy_GMM_Thrasher.tscn" id="13_umeo8"]
 [ext_resource type="Resource" uid="uid://c6m53nnl3g8sv" path="res://assets/Resources/EnemyData/GRM_BusterData.tres" id="14_13k8h"]
-[ext_resource type="PackedScene" uid="uid://cf42r05uvra67" path="res://Scenes/Characters/Enemies/GRM_Buster.tscn" id="15_n7p8p"]
+[ext_resource type="PackedScene" uid="uid://cf42r05uvra67" path="res://Scenes/Characters/Enemies/Enemy_GRM_Buster.tscn" id="15_n7p8p"]
 [ext_resource type="Resource" uid="uid://cb8v6fpytbmp8" path="res://assets/Resources/EnemyData/FMM_SlicerData.tres" id="16_dn1vs"]
-[ext_resource type="PackedScene" uid="uid://cvft8k6fsoi0x" path="res://Scenes/Characters/Enemies/FMM_Slicer.tscn" id="17_6kqlu"]
+[ext_resource type="PackedScene" uid="uid://cvft8k6fsoi0x" path="res://Scenes/Characters/Enemies/Enemy_FMM_Slicer.tscn" id="17_6kqlu"]
 [ext_resource type="Resource" uid="uid://c2b6lfgkfkyxe" path="res://assets/Resources/EnemyData/GML_SmasherData.tres" id="18_kgpgr"]
-[ext_resource type="PackedScene" uid="uid://dmnq5xbb1sguc" path="res://Scenes/Characters/Enemies/GML_Smasher.tscn" id="19_1ovyk"]
-[ext_resource type="Resource" uid="uid://cq6bcxst4hyxm" path="res://assets/Resources/EnemyData/GRL_SorcererData.tres" id="20_dn1vs"]
-[ext_resource type="PackedScene" uid="uid://cxxfv2avrc3rw" path="res://Scenes/Characters/Enemies/GRL_Sorcerer.tscn" id="21_6kqlu"]
+[ext_resource type="PackedScene" uid="uid://dmnq5xbb1sguc" path="res://Scenes/Characters/Enemies/Enemy_GML_Smasher.tscn" id="19_1ovyk"]
 [ext_resource type="Resource" uid="uid://dr2qyr2emuw4m" path="res://assets/Resources/EnemyData/FML_ScalperData.tres" id="22_kgpgr"]
-[ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/FML_Scalper.tscn" id="23_1ovyk"]
+[ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/Enemy_FML_Scalper.tscn" id="23_1ovyk"]
 
 [node name="WaveDirector" type="Node"]
 script = ExtResource("1_fhtwo")
 _levelLostMenuScene = ExtResource("2_aege0")
 _mainMenuScene = ExtResource("3_ylehw")
-moneyGivenPerSecondLeft = 2.5
-moneyGivenPerHealthLeft = 1.5
-_enemyDataToSceneMap = Dictionary[Variant, PackedScene]({
+moneyGivenPerSecondLeft = 0.75
+moneyGivenPerHealthLeft = 1.75
+_enemyDataToSceneMap = Dictionary[ExtResource("4_6kqlu"), PackedScene]({
 ExtResource("4_kpvn7"): ExtResource("4_phwt4"),
 ExtResource("3_oxf7n"): ExtResource("6_6lw2h"),
 ExtResource("5_gkeq4"): ExtResource("8_omfed"),
@@ -41,7 +40,6 @@ ExtResource("12_5ktau"): ExtResource("13_umeo8"),
 ExtResource("14_13k8h"): ExtResource("15_n7p8p"),
 ExtResource("16_dn1vs"): ExtResource("17_6kqlu"),
 ExtResource("18_kgpgr"): ExtResource("19_1ovyk"),
-ExtResource("20_dn1vs"): ExtResource("21_6kqlu"),
 ExtResource("22_kgpgr"): ExtResource("23_1ovyk")
 })
 wavesPerRound = 1
@@ -89,39 +87,6 @@ theme = ExtResource("11_omfed")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "99:59"
-fit_content = true
-autowrap_mode = 0
-horizontal_alignment = 2
-justification_flags = 160
-
-[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("11_omfed")
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_outline_size = 1
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/normal_font_size = 32
-bbcode_enabled = true
-text = "Enemies left: "
-fit_content = true
-autowrap_mode = 0
-justification_flags = 160
-
-[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme = ExtResource("11_omfed")
-theme_override_font_sizes/normal_font_size = 32
-bbcode_enabled = true
-text = "0"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 2
@@ -219,7 +184,41 @@ justification_flags = 160
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("11_omfed")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Enemies left: "
+fit_content = true
+autowrap_mode = 0
+justification_flags = 160
+
+[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("11_omfed")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "0"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 2
+justification_flags = 160
+
 [node name="North_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 
@@ -249,6 +248,7 @@ autowrap_mode = 0
 justification_flags = 160
 
 [node name="East_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 
@@ -278,6 +278,7 @@ autowrap_mode = 0
 justification_flags = 160
 
 [node name="South_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 
@@ -307,6 +308,7 @@ autowrap_mode = 0
 justification_flags = 160
 
 [node name="West_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+visible = false
 layout_mode = 2
 alignment = 2
 

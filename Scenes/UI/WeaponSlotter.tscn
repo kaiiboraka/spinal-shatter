@@ -1,0 +1,69 @@
+[gd_scene load_steps=4 format=3 uid="uid://der2exjwu7h7c"]
+
+[ext_resource type="Script" uid="uid://bxifqp86ailvm" path="res://Scripts/Autoloads/WeaponSlotter.cs" id="1_i6ir6"]
+[ext_resource type="Theme" uid="uid://cyr4cb6xp8qso" path="res://assets/Themes/TextShadow.tres" id="2_1m6xh"]
+[ext_resource type="FontFile" uid="uid://dklg7jy0nkurw" path="res://assets/Fonts/NimbusRomNo9L-Med.otf" id="3_dd6xd"]
+
+[node name="WeaponSlotter" type="CanvasLayer"]
+script = ExtResource("1_i6ir6")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSplitContainer_Parent" type="HSplitContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -39.5
+offset_bottom = 39.5
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = -250
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="Control" type="Control" parent="Control/HSplitContainer_Parent"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Control/HSplitContainer_Parent"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/HSplitContainer_Parent/HSplitContainer"]
+custom_minimum_size = Vector2(512, 160)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/HSplitContainer_Parent/HSplitContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Prompt_RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer_Parent/HSplitContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+z_index = 2
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("2_1m6xh")
+theme_override_fonts/normal_font = ExtResource("3_dd6xd")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Press [ATTACK] for Primary, [ALT-FIRE] for Secondary, or [SIPHON] for Automatic slot."
+scroll_active = false
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="Control/HSplitContainer_Parent/HSplitContainer"]
+layout_mode = 2

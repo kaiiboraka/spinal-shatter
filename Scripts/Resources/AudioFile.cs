@@ -1,7 +1,7 @@
 using Godot;
 
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class AudioFile : AudioStream
 {
 	[Export] public AudioStream Stream;

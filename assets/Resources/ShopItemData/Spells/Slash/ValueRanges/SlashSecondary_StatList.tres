@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="StatListData" load_steps=12 format=3 uid="uid://diwhvjh8u0odi"]
+
+[ext_resource type="Resource" uid="uid://ctyq3myqcpp5" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_S_Damage_RangeF.tres" id="1_vqeke"]
+[ext_resource type="Resource" uid="uid://cwmuljo8812xx" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_S_Size_RangeF.tres" id="2_epiy2"]
+[ext_resource type="Resource" uid="uid://e8klqy0bqwm3" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_S_Speed_RangeF.tres" id="4_ibnbm"]
+[ext_resource type="Resource" uid="uid://ikmrj4j5cjmk" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_S_MaxChargeTime_RangeF.tres" id="5_ay3y2"]
+[ext_resource type="Resource" uid="uid://2y084bp0vlic" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_P_NoBounce_RangeF.tres" id="6_ywhxy"]
+[ext_resource type="Resource" uid="uid://bhvgwd2kiyp80" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_P_Duration_RangeF.tres" id="7_q2fas"]
+[ext_resource type="Resource" uid="uid://b5gd0a1nrchyj" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_P_Count_RangeF.tres" id="8_b4kdy"]
+[ext_resource type="Resource" uid="uid://c2oo0wj1a28b8" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_S_ManaCost_RangeF.tres" id="9_mobmd"]
+[ext_resource type="Resource" uid="uid://537071cgnyok" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_P_Refund_RangeF.tres" id="9_orrjw"]
+[ext_resource type="Resource" uid="uid://bhw1cj36flyf4" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/Slash_P_Pierce_RangeF.tres" id="10_d3efk"]
+[ext_resource type="Script" uid="uid://cohfu4uf7boyb" path="res://Scripts/Resources/Spells/StatListData.cs" id="11_ajvfh"]
+
+[resource]
+script = ExtResource("11_ajvfh")
+StatRanges = {
+10: ExtResource("1_vqeke"),
+11: ExtResource("2_epiy2"),
+12: ExtResource("8_b4kdy"),
+13: ExtResource("4_ibnbm"),
+14: ExtResource("5_ay3y2"),
+15: ExtResource("7_q2fas"),
+16: ExtResource("10_d3efk"),
+17: ExtResource("6_ywhxy"),
+19: ExtResource("9_mobmd"),
+21: ExtResource("9_orrjw")
+}
+metadata/_custom_type_script = "uid://cohfu4uf7boyb"

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CastedSpellData" format=3 uid="uid://dqt8lfh4rdcli"]
+
+[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_lrnxh"]
+[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_mg8x0"]
+[ext_resource type="Resource" uid="uid://hlu48ta7fjwc" path="res://assets/Resources/ShopItemData/Spells/Slash/ValueRanges/SlashPrimary_StatList.tres" id="4_dp0gl"]
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="4_f26l0"]
+[ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="4_xi6y2"]
+[ext_resource type="PackedScene" uid="uid://ddfqqv0358ue" path="res://Scenes/Projectiles/WaterSlashPrimary.tscn" id="7_d5mqa"]
+[ext_resource type="Script" uid="uid://db325snahqh82" path="res://Scripts/Resources/Spells/CastedSpellData.cs" id="10_at6aa"]
+
+[sub_resource type="Resource" id="Resource_f26l0"]
+script = ExtResource("4_xi6y2")
+metadata/_custom_type_script = "uid://yp8fybiswcj8"
+
+[resource]
+script = ExtResource("10_at6aa")
+Weapon = 1
+Slot = 1
+StatRanges = ExtResource("4_dp0gl")
+ApplicableEffects = []
+ProjectileScene = ExtResource("7_d5mqa")
+ChargeAudioData = ExtResource("1_lrnxh")
+RankUps = SubResource("Resource_f26l0")
+ItemIcon = ExtResource("3_mg8x0")
+ItemName = "Wave Nova"
+ItemDescription = "Blast all around you, high knockback."

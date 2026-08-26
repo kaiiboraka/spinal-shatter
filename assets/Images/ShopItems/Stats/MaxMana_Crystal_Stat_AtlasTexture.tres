@@ -1,0 +1,9 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://jf1q04trsu8u"]
+
+[ext_resource type="Texture2D" uid="uid://cpyg612j1yxs4" path="res://assets/Images/ShopItems/Stats/all_stats.ase" id="1_hwixg"]
+
+[resource]
+resource_name = "StatIcon_ManaCrystal"
+atlas = ExtResource("1_hwixg")
+region = Rect2(48, 0, 48, 48)
+filter_clip = true

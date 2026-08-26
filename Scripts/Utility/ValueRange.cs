@@ -8,6 +8,7 @@ public abstract partial class ValueRange<T> : Resource where T : INumber<T>
 {
 	public abstract T Min { get; set; }
 	public abstract T Max { get; set; }
+	public abstract T FixedValue { get; set; }
 	public abstract T GetRandomValue();
 	public abstract T GetLerpedValue(T weight);
 	protected abstract T AbsoluteMin { get; set; }

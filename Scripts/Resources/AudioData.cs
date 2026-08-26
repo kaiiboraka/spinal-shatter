@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class AudioData : Resource
 {
 	[Export] public Dictionary<string, AudioStream> Sounds;

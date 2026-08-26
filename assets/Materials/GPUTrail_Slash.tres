@@ -1,0 +1,31 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://6s2yb5wgqhpj"]
+
+[ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="1_fnbiy"]
+[ext_resource type="Texture2D" uid="uid://nvrsxn7ipo3r" path="res://assets/Images/ShopItems/Spells/water_slash1.png" id="2_tdnn4"]
+
+[sub_resource type="Gradient" id="Gradient_caehy"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.77136755, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tekgy"]
+gradient = SubResource("Gradient_caehy")
+
+[sub_resource type="Curve" id="Curve_etwi8"]
+bake_resolution = 16
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_71frm"]
+curve = SubResource("Curve_etwi8")
+
+[resource]
+resource_local_to_scene = true
+render_priority = -1
+shader = ExtResource("1_fnbiy")
+shader_parameter/tex = ExtResource("2_tdnn4")
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/color_ramp = SubResource("GradientTexture1D_tekgy")
+shader_parameter/curve = SubResource("CurveTexture_71frm")
+shader_parameter/emmission_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/flags = 9

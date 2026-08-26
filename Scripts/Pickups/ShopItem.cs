@@ -2,30 +2,56 @@ using Godot;
 
 namespace SpinalShatter;
 
+[GlobalClass,Tool]
 public partial class ShopItem : Node3D
 {
-    [Export] public ShopItemData Data { get; set; }
+    private ShopItemData data;
+    [Export] public ShopItemData Data
+    {
+        get => data;
+        set
+        {
+            data = value;
+            if (Engine.IsEditorHint()) UpdateVisualData();
+            else if (IsInsideTree()) // Ensure node is in the tree before deferring a call
+            {
+                CallDeferred(nameof(UpdateVisualData));
+            }
+        }
+    }
 
-    private RichTextLabel priceLabel;
+    [Export] private InventoryHUDItem item;
+    public InventoryHUDItem Item => item;
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        UpdateVisualData();
+    }
 
     public override void _Ready()
     {
-        if (Data == null)
+        UpdateVisualData();
+    }
+
+    private void UpdateVisualData()
+    {
+        if (Engine.IsEditorHint() && item == null)
         {
-            GD.PushWarning("ShopItemData not set for ShopItem.");
-            return;
+             // In editor, item might not be assigned yet. This is expected.
+             return;
         }
 
-        var animatedSprite = GetNode<AnimatedSprite3D>("ItemSprite_AnimatedSprite3D");
-        if (animatedSprite != null)
+        if (item != null)
         {
-            animatedSprite.SpriteFrames = Data.ItemIcon;
-        }
-
-        priceLabel = GetNode<RichTextLabel>("%Price_RichTextLabel");
-        if (priceLabel != null)
-        {
-            priceLabel.Text = $"[center]${Data.Price}[/center]";
+            if (Data != null)
+            {
+                item.ChangeDisplayData(Data, Data.ShopRank);
+            }
+            else
+            {
+                item.ChangeDisplayData(null, 0);
+            }
         }
     }
 }

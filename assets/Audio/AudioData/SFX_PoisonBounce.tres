@@ -1,0 +1,9 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://c50wah00nfmgt"]
+
+[ext_resource type="AudioStream" uid="uid://bxuqvgxlvifk" path="res://assets/Audio/SFX/PoisonSpikeShot_Bounce.wav" id="1_yaoep"]
+
+[resource]
+random_pitch = 1.1
+random_volume_offset_db = 0.53
+streams_count = 1
+stream_0/stream = ExtResource("1_yaoep")

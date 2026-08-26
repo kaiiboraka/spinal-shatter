@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StackingEffectData" load_steps=3 format=3 uid="uid://4pu7wkhrxjdx"]
+
+[ext_resource type="Texture2D" uid="uid://c3q2hw8vo7c1a" path="res://assets/Images/UI/PoisonIcon.png" id="1_lj6te"]
+[ext_resource type="Script" uid="uid://doenllwrpgh53" path="res://Scripts/Resources/Spells/StackingEffectData.cs" id="1_psvtj"]
+
+[resource]
+script = ExtResource("1_psvtj")
+EffectIcon = ExtResource("1_lj6te")
+MaxStacks = 8
+MaxDuration = 16.0
+MaxIntensity = 10.0
+DurationPerStack = 2.0
+IntensityPerStack = 1.25
+HasTickEffect = true
+TimeBetweenTicks = 0.5
+metadata/_custom_type_script = "uid://doenllwrpgh53"

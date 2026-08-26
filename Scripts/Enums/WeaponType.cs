@@ -4,10 +4,10 @@ public enum WeaponType
 {
     Orb,
     Slash,
-    ForceWall,
-    Dice,
-    Lance,
-    Garlic,
+    Wall,
+    Spikes,
+    Spear,
+    Storm,
     Chakram,
     Missiles
 }

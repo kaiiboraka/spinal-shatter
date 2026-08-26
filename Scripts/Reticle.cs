@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Godot.Collections;
 
+[Tool]
 public partial class Reticle : CenterContainer
 {
 	[Export] private Array<Line2D> reticleLines;

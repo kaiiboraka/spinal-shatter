@@ -31,4 +31,21 @@ public static class StringExtensions
         return source?.Substring(source.LastIndexOf("/") + 1);
     }
 
+    /// <summary>
+    /// Retrieves the human-readable name of the first key/button bound to an action.
+    /// </summary>
+    /// <param name="actionName">The name of the action in the Input Map.</param>
+    /// <returns>The string representation of the key, or "N/A" if none found.</returns>
+    public static string GetActionKeyName(this string actionName)
+    {
+        var events = InputMap.ActionGetEvents(actionName);
+        if (events.Count > 0)
+        {
+            string primaryEvent = events[0].AsText();
+            return primaryEvent.Left(primaryEvent.IndexOf(' '));
+        }
+        return "N/A";
+    }
+
+
 }

@@ -1,9 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://drxvesqhpamll"]
+[gd_scene format=3 uid="uid://drxvesqhpamll"]
 
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_bixke"]
 [ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_26t7v"]
 [ext_resource type="Material" uid="uid://dnvlqd8xy3s4i" path="res://assets/Materials/MAT_ExplosionSpark.tres" id="2_bixke"]
-[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/Textures/fireball.png" id="3_klejl"]
+[ext_resource type="Texture2D" uid="uid://cous1j4jendfe" path="res://assets/Images/ShopItems/Spells/fireball.png" id="3_klejl"]
 
 [sub_resource type="Gradient" id="Gradient_klejl"]
 offsets = PackedFloat32Array(0, 0.8411458)
@@ -39,7 +39,7 @@ size = Vector2(0.5, 1)
 transparency = 1
 shading_mode = 2
 vertex_color_use_as_albedo = true
-albedo_color = Color(1.3528494, 0.50769496, 0, 0.25490198)
+albedo_color = Color(1.3528494, 0.5103115, 0, 0.15686275)
 albedo_texture = ExtResource("3_klejl")
 emission = Color(1.6644346, 0, 0, 1)
 emission_texture = ExtResource("2_26t7v")
@@ -85,13 +85,33 @@ collision_use_scale = true
 [sub_resource type="QuadMesh" id="QuadMesh_swgem"]
 size = Vector2(2, 2)
 
-[node name="HitEffects_Explode" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klejl"]
+resource_local_to_scene = true
+resource_name = "glowMaterial"
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.5019608, 0.0627451, 0, 0.3137255)
+texture_filter = 0
+texture_repeat = false
+stencil_flags = 2
+
+[sub_resource type="SphereMesh" id="SphereMesh_pk1o6"]
+resource_local_to_scene = true
+resource_name = "sphere"
+material = SubResource("StandardMaterial3D_klejl")
+radius = 4.0
+height = 8.0
+
+[node name="HitEffects_Explode" type="Node3D" unique_id=1155296772]
 script = ExtResource("1_bixke")
 hasCloud = true
+hasSphere = true
 
-[node name="FreeTimer" type="Timer" parent="."]
+[node name="FreeTimer" type="Timer" parent="." unique_id=1863451413]
 
-[node name="Particles" type="GPUParticles3D" parent="."]
+[node name="Particles" type="GPUParticles3D" parent="." unique_id=193122952]
 unique_name_in_owner = true
 material_override = ExtResource("2_bixke")
 amount = 150
@@ -105,7 +125,7 @@ trail_lifetime = 1.95
 process_material = SubResource("ParticleProcessMaterial_3esec")
 draw_pass_1 = SubResource("QuadMesh_v8bk4")
 
-[node name="CloudParticles" type="GPUParticles3D" parent="."]
+[node name="CloudParticles" type="GPUParticles3D" parent="." unique_id=1309426666]
 unique_name_in_owner = true
 material_override = SubResource("StandardMaterial3D_pk1o6")
 amount = 300
@@ -119,7 +139,10 @@ trail_lifetime = 1.95
 process_material = SubResource("ParticleProcessMaterial_olhfp")
 draw_pass_1 = SubResource("QuadMesh_swgem")
 
-[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="." unique_id=941285025]
 size = Vector3(12, 12, 12)
 resolution = 1
 heightfield_mask = 17
+
+[node name="Sphere_MeshInstance3D" type="MeshInstance3D" parent="." unique_id=44803955]
+mesh = SubResource("SphereMesh_pk1o6")

@@ -20,12 +20,21 @@ public enum StatType
 	Weapon_Count,
 	Weapon_Speed,
 	Weapon_Time, // affects Casted charge time, and Automatic Cooldown time (delay between firing)
-	Weapon_Duration, // affects
+	Weapon_Duration, // affects lifetime of projectile before it dissipates automatically
+	Weapon_Pierce,
+	Weapon_Bounce, // for both bounces off of walls and bounces off of enemies, depending on the context of the weapon at hand
+	Weapon_Range, // mostly for targeting falloff of automatic weapons
+	Weapon_Cost,
+	Weapon_Knockback,
+	Weapon_Refund
+}
 
+public enum MetaStatType
+{
 	// Meta Progression Stats
-	Meta_RerollHallwayRewards,
-	Meta_RerollShop,
-	Meta_FreezeCharges,
-	Meta_Banish,
-	Meta_SellValueRatio,
+	RerollHallwayRewards,
+	RerollShop,
+	FreezeCharges,
+	Banish,
+	SellValueRatio,
 }

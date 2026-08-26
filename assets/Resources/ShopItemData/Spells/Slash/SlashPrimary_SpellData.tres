@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PrimarySpellData" format=3 uid="uid://dowpqoyraljfv"]
+
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="2_et6xm"]
+[ext_resource type="Texture2D" uid="uid://dgwm2upwsf2m5" path="res://assets/Images/ShopItems/Spells/Spell_Slash_Icon.ase" id="3_l2hbq"]
+[ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="5_vjab3"]
+[ext_resource type="Resource" uid="uid://dqt8lfh4rdcli" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashSecondary_SpellData.tres" id="8_muxpl"]
+[ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="11_wkhaa"]
+
+[sub_resource type="Resource" id="Resource_oxfwu"]
+script = ExtResource("5_vjab3")
+
+[resource]
+script = ExtResource("11_wkhaa")
+Secondary = ExtResource("8_muxpl")
+ApplicableEffects = []
+RankUps = SubResource("Resource_oxfwu")
+ItemIcon = ExtResource("3_l2hbq")
+ItemName = "Slash"
+ItemDescription = "A wave of damage capable of hitting multiple enemies or one large enemy multiple times.
+PRIMARY: Charge increases width but lowers damage.
+SECONDARY: Nova all around you, high knockback.
+AUTOMATIC: Whips around you repeatedly."
+Price = 120
+Rarity = 0.6

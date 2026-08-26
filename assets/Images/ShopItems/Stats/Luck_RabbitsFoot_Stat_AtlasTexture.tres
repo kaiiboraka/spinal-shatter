@@ -1,0 +1,9 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dub83j3ld1r8q"]
+
+[ext_resource type="Texture2D" uid="uid://cpyg612j1yxs4" path="res://assets/Images/ShopItems/Stats/all_stats.ase" id="1_pa2pt"]
+
+[resource]
+resource_name = "StatIcon_Slipper"
+atlas = ExtResource("1_pa2pt")
+region = Rect2(0, 48, 48, 48)
+filter_clip = true

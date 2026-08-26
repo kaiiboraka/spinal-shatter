@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="FloatValue" load_steps=2 format=3 uid="uid://b0xb74rmmdaha"]
+
+[ext_resource type="Script" uid="uid://dfwrm14wv5vmm" path="res://Scripts/Utility/FloatValue.cs" id="1_6humj"]
+
+[resource]
+script = ExtResource("1_6humj")
+IsFixed = true
+FixedValue = 25.0

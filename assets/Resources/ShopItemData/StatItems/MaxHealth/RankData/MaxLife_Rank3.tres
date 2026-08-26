@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RankUpData" load_steps=2 format=3 uid="uid://fnsqq7h4nlvy"]
+
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_hbwfr"]
+
+[resource]
+resource_name = "MaxLife_Rank2"
+script = ExtResource("1_hbwfr")
+StatModifiers = Dictionary[int, float]({
+0: 75.0
+})
+RankUpPrice = 150.0
+metadata/_custom_type_script = "uid://btb00jki3f5wt"

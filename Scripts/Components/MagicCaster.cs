@@ -6,9 +6,9 @@ using System;
 
 public partial class MagicCaster : Node
 {
-	private CastedSpellData _equippedSpell;
-	private CastedSpellData _equippedAltFireSpell;
-	private SlotType _activeCastingSlot = SlotType.Primary;
+	private CastedSpellData equippedPrimarySpell;
+	private CastedSpellData equippedSecondarySpell;
+	private SlotType activeCastingSlot = SlotType.Primary;
 
 	[Export] private ManaComponent manaComponent;
 	[Export] public Marker3D SpellOrigin { get; private set; }
@@ -39,26 +39,29 @@ public partial class MagicCaster : Node
 
 	public void SetPrimaryWeapon(CastedSpellData spellData)
 	{
-		_equippedSpell = spellData;
+		equippedPrimarySpell = spellData;
 
-		sfxBeep = (AudioFile)_equippedSpell.AudioData["SpellChargeBeep"];
-		sfxComplete = (AudioFile)_equippedSpell.AudioData["SpellChargeComplete"];
+		sfxBeep = (AudioFile)equippedPrimarySpell.ChargeAudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)equippedPrimarySpell.ChargeAudioData["SpellChargeComplete"];
 	}
 
 	public void SetSecondaryWeapon(CastedSpellData spellData)
 	{
-		_equippedAltFireSpell = spellData;
+		equippedSecondarySpell = spellData;
+
+		sfxBeep = (AudioFile)equippedSecondarySpell.ChargeAudioData["SpellChargeBeep"];
+		sfxComplete = (AudioFile)equippedSecondarySpell.ChargeAudioData["SpellChargeComplete"];
 	}
 
 	private CastedSpellData GetActiveSpellData =>
-		_activeCastingSlot switch
+		activeCastingSlot switch
 		{
-			SlotType.Primary => _equippedSpell,
-			SlotType.Alt => _equippedAltFireSpell,
-			_ => _equippedSpell // Default to primary if for some reason an unhandled SlotType is active
+			SlotType.Primary => equippedPrimarySpell,
+			SlotType.Secondary => equippedSecondarySpell,
+			_ => equippedPrimarySpell // Default to primary if for some reason an unhandled SlotType is active
 		};
 
-	public override void _Input(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (!CanShoot) return;
 
@@ -71,16 +74,16 @@ public partial class MagicCaster : Node
 				}
 				else if (@event.IsActionPressed("Player_AltFire"))
 				{
-					BeginCharge(SlotType.Alt);
+					BeginCharge(SlotType.Secondary);
 				}
 
 				break;
 			case CasterState.Charging:
-				if (@event.IsActionReleased("Player_Shoot") && _activeCastingSlot == SlotType.Primary)
+				if (@event.IsActionReleased("Player_Shoot") && activeCastingSlot == SlotType.Primary)
 				{
 					FireWeapon();
 				}
-				else if (@event.IsActionReleased("Player_AltFire") && _activeCastingSlot == SlotType.Alt)
+				else if (@event.IsActionReleased("Player_AltFire") && activeCastingSlot == SlotType.Secondary)
 				{
 					FireWeapon();
 				}
@@ -99,7 +102,7 @@ public partial class MagicCaster : Node
 
 	private void BeginCharge(SlotType slot)
 	{
-		_activeCastingSlot = slot;
+		activeCastingSlot = slot;
 		currentSpellData = GetActiveSpellData;
 
 		if (currentSpellData == null || chargingProjectile != null || currentSpellData.ProjectileScene == null ||
@@ -119,7 +122,7 @@ public partial class MagicCaster : Node
 		lastInterval = -1;
 		chargingProjectile = currentSpellData.ProjectileScene.Instantiate<Projectile>();
 
-		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)currentSpellData.AudioData["SpellChargeBack"]);
+		AudioManager.Play(audioPlayer_ChargeBack, (AudioFile)currentSpellData.ChargeAudioData["SpellChargeBack"]);
 
 		// Pass the FloatValueRange to BeginChargingProjectile to be used by Projectile.ApplyChargeAndTypeEffects
 		chargingProjectile.BeginChargingProjectile(SpellOrigin, currentSpellData);
@@ -131,15 +134,15 @@ public partial class MagicCaster : Node
 
 		float maxChargeRatioByMana = Mathf.InverseLerp(currentSpellData.ManaCostRange.Min,
 			currentSpellData.ManaCostRange.Max, manaComponent.CurrentMana);
-		float maxChargeTimeByMana = maxChargeRatioByMana * currentSpellData.MaxChargeTime.Max;
+		float maxChargeTimeByMana = maxChargeRatioByMana * currentSpellData.MaxChargeTime;
 
 		currentChargeTime += (float)delta;
-		currentChargeTime = Mathf.Min(currentChargeTime, currentSpellData.MaxChargeTime.Max);
+		currentChargeTime = Mathf.Min(currentChargeTime, currentSpellData.MaxChargeTime);
 		currentChargeTime = Mathf.Min(currentChargeTime, maxChargeTimeByMana);
 
 		int currentInterval = 0;
-		float intervalDuration = currentSpellData.MaxChargeTime.Max > 0
-			? currentSpellData.MaxChargeTime.Max / currentSpellData.ChargeIntervals
+		float intervalDuration = currentSpellData.MaxChargeTime > 0
+			? currentSpellData.MaxChargeTime / currentSpellData.ChargeIntervals
 			: 0;
 		if (intervalDuration > 0)
 		{
@@ -172,13 +175,12 @@ public partial class MagicCaster : Node
 
 	private void FireWeapon()
 	{
-		if (currentSpellData == null || chargingProjectile == null)
+		if (currentSpellData == null || chargingProjectile == null ||
+			(currentChargeTime < currentSpellData.MinChargeTime))
 		{
 			CancelCharge();
 			return;
 		}
-
-		PlayerBody.Instance.PlayCastRelease();
 
 		float chargeRatio = GetCurrentChargeRatio();
 
@@ -191,6 +193,8 @@ public partial class MagicCaster : Node
 			return;
 		}
 
+		PlayerBody.Instance.PlayCastRelease();
+
 		Vector3 initialVelocity = CalculateInitialVelocity(Mathf.Lerp(currentSpellData.SpeedRange.Min,
 			currentSpellData.SpeedRange.Max, chargeRatio));
 
@@ -202,7 +206,7 @@ public partial class MagicCaster : Node
 			ChargeRatio = chargeRatio,
 			StartPosition = SpellOrigin,
 			SpellData = currentSpellData,
-			Slot = _activeCastingSlot
+			Slot = activeCastingSlot
 		};
 
 		audioPlayer_Spell.Play();
@@ -215,9 +219,9 @@ public partial class MagicCaster : Node
 
 	private float GetCurrentChargeRatio()
 	{
-		if (currentSpellData == null || currentSpellData.MaxChargeTime.Max <= 0) return 0;
+		if (currentSpellData == null || currentSpellData.MaxChargeTime <= 0) return 0;
 
-		float intervalDuration = currentSpellData.MaxChargeTime.Max / currentSpellData.ChargeIntervals;
+		float intervalDuration = currentSpellData.MaxChargeTime / currentSpellData.ChargeIntervals;
 		int intervalsCharged = Mathf.FloorToInt(currentChargeTime / intervalDuration);
 		intervalsCharged = Mathf.Clamp(intervalsCharged, 0, currentSpellData.ChargeIntervals);
 		return (float)intervalsCharged / currentSpellData.ChargeIntervals;
@@ -258,7 +262,7 @@ public partial class MagicCaster : Node
 		lastInterval = -1;
 		audioPlayer_ChargeBack.Stop();
 		audioPlayer_ChargeBeep.Stop();
-		_activeCastingSlot = SlotType.Primary; // Reset active casting slot
+		activeCastingSlot = SlotType.Primary; // Reset active casting slot
 
 		PlayerBody.Instance.AllowMeleeAttack();
 		PlayerBody.Instance.AllowSiphon();

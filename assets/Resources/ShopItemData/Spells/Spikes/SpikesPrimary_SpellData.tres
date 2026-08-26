@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=7 format=3 uid="uid://4evn4gyqfvhl"]
+
+[ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_hkkdf"]
+[ext_resource type="PackedScene" uid="uid://djr135swr21s8" path="res://Scenes/Projectiles/PoisonSpikesPrimary.tscn" id="2_b2yl5"]
+[ext_resource type="Texture2D" uid="uid://dhb1n7j4kagxq" path="res://assets/Images/ShopItems/Spells/Spell_PoisonSpikes_Icon.ase" id="2_kk7vq"]
+[ext_resource type="Resource" uid="uid://b65kppgedxtr7" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/OrbPrimary_Ranks.tres" id="3_kk7vq"]
+[ext_resource type="Resource" uid="uid://br4khjcm0s7a6" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/SpikesPrimary_StatList.tres" id="4_statlist"]
+[ext_resource type="Script" uid="uid://doa3vvrkbnm8r" path="res://Scripts/Resources/Spells/PrimarySpellData.cs" id="5_n2gsg"]
+
+[resource]
+script = ExtResource("5_n2gsg")
+ChargeIntervals = 4
+Weapon = 3
+StatRanges = ExtResource("4_statlist")
+ApplicableEffects = Array[int]([0])
+ProjectileScene = ExtResource("2_b2yl5")
+ChargeAudioData = ExtResource("1_hkkdf")
+RankUps = ExtResource("3_kk7vq")
+ItemIcon = ExtResource("2_kk7vq")
+ItemName = "Poison Spikes"
+ItemDescription = "A case that carries a payload of poisoned caltrop spikes. Charge to increase count.
+PRIMARY: Bundle of Toxic Caltrops
+SECONDARY: .
+AUTOMATIC: Rain down payloads at nearby enemies."
+Price = 100
+Rarity = 0.5

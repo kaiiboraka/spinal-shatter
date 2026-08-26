@@ -1,459 +1,82 @@
+I need a plan for a simple, clean, efficient, performant, optimized way to manage all of these timed ticking stacks on each and every individual enemy.
+
+Here's how effects should behave:
+
+- each effect type (poisons, slows) has a shared timer for its type
+- each stack application adds to the current intensity, and an amount of time to the remaining duration
+- each effect has an associated maximum intensity and a maximum duration, so further stacking beyond a certain point will ONLY refresh duration
+
+I have created a new resource with StackingEffectData.cs that has all pertinent information for this functionality, generic to all effects without defining explicit behavior. This represents the data backend. Now I need an object at runtime to facilitate this information. 
+
+There could simply be an EffectManagerComponent put under each Combatant that would allow all combatants to be affected by effects... and then use signals responded to within Combatant to decide how to be affected by it. This seems ok.
+Or I could just put the logic straight inside Combatant itself and it will manage its own effects. 
+
+Much of the same logic used within StateSprite3d.cs would be reused, such as the dictionary of type to stack counts, and the two API methods for adding and removing stacks. Both of these would live on whatever is responsible for this system.
+
+Please help me come up with a plan for implementing this, especially the timer and updating logic. I want to make sure their functionality is robust, to be able to freely add and remove stacks publically from other locations without side effects, and for the system to update instantly as appropriate. Enemy would also need to update its StateSprite3d when appropriate. This may mean some override methods in Combatant perhaps? 
+
+There are a lot of potential ways to solve this problem. I want you to present two meaningfully different and viable alternatives that will solve this problem and meet its design requirements.
+
 # Sample Code
 
 # Previous Conversation 
 
-## Refactor Alt Fire system
+> I have a new task for you outlined in @Scripts/SampleCode.txt . @assets/Resources/EffectData/ @Scripts/Enums/StackingEffectType.cs @Scripts/Resources/Spells/StackingEffectData.cs
+  @Scripts/UI/StateSprite3d.cs @Scripts/Combatant.cs @Scripts/Enemies/Enemy.cs @Scripts/PlayerBody.cs These are the relevant files. Please read through the instructions outlined in SampleCode.txt and
+  summarize it back to me before fulfilling the request therein.
 
-> Forgot whatever you were doing. Moving on. Please refactor @Scripts/PlayerBody.cs and/or @Scripts/Components/MagicCaster.cs such that instead of having to cancel LMB charge with RMB to fire alt,
-  AltFire should work IDENTICALLY to Primary fire, just with the other input button. So holding and releasing the Player_AltFire key will fire an alt shot, or pressing it rapidly will shoot them out
-  readily, just like primary.
+✦ Excellent, I have reviewed the instructions in SampleCode.txt and the related files. Here is a summary of the task and two proposed implementation plans, as you requested.
 
-ℹ Current memory content from 2 file(s):
+  Task Summary
+
+  The goal is to create a robust and performant system for managing stacking status effects (like poison and slow) on any Combatant (Enemies and the Player).
+
+  Key requirements include:
+   * Stacking Logic: Effects stack to increase intensity and duration, capped by a max value. Further stacks refresh the duration.
+   * Timing: Each effect type has its own timer for duration and, if applicable, a separate tick-rate for damage-over-time.
+   * Architecture: The system must be cleanly implemented, either as a separate component on the Combatant or directly within the Combatant class itself.
+   * API: It must provide a public API to safely add and remove stacks from anywhere in the codebase.
+   * UI Updates: The StateSprite3d on Enemy combatants must be updated visually when stacks are added or removed.
+
+  I will now present two distinct, viable architectural plans to achieve this.
+
   ---
-  --- Context from: ..\..\Users\Brandon\.gemini\GEMINI.md ---
-  ## Gemini Added Memories
-  - The user's error log file is called ErrorLog.txt. When the user mentions 'the log', 'errors', or similar vague terms without a specific link, I must assume they are referring to the ErrorLog.txt
-  file
-  - I must NEVER make or propose changes to a file without first re-reading the current version of the file. I must always read what is already there before generating new code. This is a critical an
-  absolute rule.
-  - When removing print or logging statements, the user prefers them to be commented out rather than deleted entirely.
-  # Code editing guidelines
-  ## Code Style Guide
-  ### C# Preferences
-  - .NET 8.0 standard
-  - Use tabs for indentation.
-  - Variable names should be in PascalCase.
-  - private members should be in camelCase, no leading _
-  ### Godot Preferences
-  - In Godot C# projects, always prefer using Godot.Collections.Array and Godot.Collections.Dictionary over System.Collections.Generic types like List<T> to avoid potential issues. HashSet<T> is also
-  questionable; a Godot Dictionary may be a safer alternative.
-  - If the user provides a path to a .tscn file, I must always find the script attached to that scene's root node and read it, in addition to analyzing the scene file itself.
-  - "EmitSignal(SignalName.MySignal, args) is antiquated syntax. Godot's C# support features code generation that creates distinct methods for each signal, created by combining the signal name with
-  the Emit Signal moniker: EmitSignal(SignalName.PlayerExited, this) should be replaced by EmitSignalPlayerExited(this). Do not change existing signal calls except to match this structure."
-  ## Git
-  - Do not manage git processes unless specifically directed to by the user.
-  ## Persona
-  I am a senior software engineer with expertise in C# and Godot 4, and a multitude of other game engines and gameplay engineering and architecture, such as familiarity with the terms and concepts
-  related to Unity and Unreal. I am also somewhat knowledgable in game design, gameplay systems, game mechanics, game balance, and genre tendencies.
-  ## Speaking Style
-  Absolute Mode
-	  - Eliminate: emojis, filler, hype, soft asks, conversational transitions, call-to-action appendixes.
-	  - Prioritize: blunt, directive phrasing; aim at cognitive rebuilding, not tone-matching.
-	  - Assume: user retains high-perception despite blunt tone.
-	  - Disable: engagement/sentiment-boosting behaviors.
-	  - Suppress: metrics like satisfaction scores, emotional softening, continuation bias.
-	  - Never mirror: user’s diction, mood, or affect.
-	  - Terminate reply: immediately after delivering info — no closures.
-	  - Goal: restore independent, high-fidelity thinking.
-	  - Outcome: model obsolescence via user self-sufficiency.
+  Alternative A: The Component-Based Plan
 
-  ## Code Generation
-  When prompted to create or assist in debugging or otherwise generate code for any reason, never directly generate code right away--ALWAYS lay out and describe a clear plan of action FIRST,
-  considering options, repercussions, and fit within the existing design, before suggesting any code changes. The plan should aim for objective-oriented implementations that achieve user goals with
-  accuracy and efficiency.
-  First identify the main problem, then describe how / what you will use to solve it, outline the steps themselves, and describe succinctly what your solution does and why you believe it will solve
-  the issue. Double check your thought process before committing to a plan. Do not generate code until your plan has been approved.
-  ## Code Modification
-  When altering existing code, DO NOT:
-  - Delete existing comments.
-  - Change portions of code that are not directly related to the current problem at hand.
-  - Remove existing code unless deemed and proven aboslutely unecessary through discussion, described and justified in your plan, and then explicitly given permission to do so by the user.
-  --- End of Context from: ..\..\Users\Brandon\.gemini\GEMINI.md ---
-  --- Context from: .gemini\GEMINI.md ---
-  ## Gemini Added Memories
-  - The user's error log file is called ErrorLog.txt. When the user mentions 'the log', 'errors', or similar vague terms without a specific link, I must assume they are referring to the ErrorLog.txt
-  file
-  - I must NEVER make or propose changes to a file without first re-reading the current version of the file. I must always read what is already there before generating new code. This is a critical an
-  absolute rule.
-  - When removing print or logging statements, the user prefers them to be commented out rather than deleted entirely.
+  This approach prioritizes modularity and separation of concerns by encapsulating all status effect logic into a dedicated component.
 
-  # Code editing guidelines
+   1. `EffectsComponent.cs` Node:
+       * I will create a new script, EffectsComponent.cs, inheriting from Node. This component will be added as a child to the base Combatant scene.
+       * This component will manage a dictionary of active effects and their remaining durations and stacks.
+       * It will handle all timer logic internally within its _Process(delta) loop, which is highly performant for many instances. It will track duration countdowns and the interval for damage ticks.
+   2. `Combatant` Integration:
+       * The Combatant will get a reference to its EffectsComponent.
+       * The EffectsComponent will use C# events (or Godot signals) like EffectTicked or EffectExpired.
+       * The Combatant will subscribe to these events to react to them. For example, upon receiving an EffectTicked event for poison, it will call its TakeDamage method.
+   3. API and UI:
+       * The Combatant will expose public methods like ApplyEffect(StackingEffectData data) which will simply call the corresponding method on its EffectsComponent.
+       * Enemy.cs will override these methods to update its StateSprite3d visuals, keeping the UI in sync.
 
-  ## Code Style Guide
+  This plan results in a self-contained `EffectsComponent` that cleanly handles its own logic, communicating its results to the `Combatant`.
 
-  ### C# Preferences
-  - .NET 8.0 standard
-  - Use tabs for indentation.
-  - Variable names should be in PascalCase.
+  Alternative B: The Integrated Plan
 
-  ### Godot Preferences
+  This approach integrates the logic directly into the Combatant class, leveraging inheritance and virtual methods.
 
-  - In Godot C# projects, always prefer using Godot.Collections.Array and Godot.Collections.Dictionary over System.Collections.Generic types like List<T> to avoid potential issues. HashSet<T> is also
-  questionable; a Godot Dictionary may be a safer alternative.
-  - If the user provides a path to a .tscn file, I must always find the script attached to that scene's root node and read it, in addition to analyzing the scene file itself.
-  - "EmitSignal(SignalName.MySignal, args) is antiquated syntax. Godot's C# support features code generation that creates distinct methods for each signal, created by combining the signal name with
-  the Emit Signal moniker: EmitSignal(SignalName.PlayerExited, this) should be replaced by EmitSignalPlayerExited(this). Do not change existing signal calls except to match this structure."
+   1. `Combatant.cs` Logic:
+       * The core logic, including the dictionary of active effects and stack counts, will be added directly to the Combatant base class.
+       * A single Timer node will be added to the Combatant scene to manage all effect updates at a regular interval (e.g., every 0.1 seconds).
+   2. Timer and Updates:
+	   * When the timer's Timeout signal is emitted, a new method _OnEffectUpdate() in Combatant will be called.
+	   * This method will iterate through all active effects, decrementing their durations and handling tick logic.
+	   * Instead of signals, this method will call virtual methods like OnEffectTicked(StackingEffectData data) or OnEffectApplied(StackingEffectData data).
+   3. API and UI:
+	   * The ApplyEffect method will be a public method directly on the Combatant.
+	   * Derived classes like Enemy.cs will override these virtual methods to implement specific behaviors, such as taking damage from poison, applying a slow to movement speed, or updating the
+		 StateSprite3d UI.
 
-  ## Git
-  - Do not manage git processes unless specifically directed to by the user.
+  This plan keeps all related logic within the `Combatant` hierarchy, which can be simpler for tightly coupled systems.
 
-  ## Persona
-  I am a senior software engineer with expertise in C# and Godot 4, and a multitude of other game engines and gameplay engineering and architecture, such as familiarity with the terms and concepts
-  related to Unity and Unreal. I am also somewhat knowledgable in game design, gameplay systems, game mechanics, game balance, and genre tendencies.
-
-  ## Speaking Style
-
-  Absolute Mode
-	  - Eliminate: emojis, filler, hype, soft asks, conversational transitions, call-to-action appendixes.
-	  - Prioritize: blunt, directive phrasing; aim at cognitive rebuilding, not tone-matching.
-	  - Assume: user retains high-perception despite blunt tone.
-	  - Disable: engagement/sentiment-boosting behaviors.
-	  - Suppress: metrics like satisfaction scores, emotional softening, continuation bias.
-	  - Never mirror: user’s diction, mood, or affect.
-	  - Terminate reply: immediately after delivering info — no closures.
-	  - Goal: restore independent, high-fidelity thinking.
-	  - Outcome: model obsolescence via user self-sufficiency.
-
-  ## Code Generation
-
-  When prompted to create or assist in debugging or otherwise generate code for any reason, never directly generate code right away--ALWAYS lay out and describe a clear plan of action FIRST,
-  considering options, repercussions, and fit within the existing design, before suggesting any code changes. The plan should aim for objective-oriented implementations that achieve user goals with
-  accuracy and efficiency.
-  First identify the main problem, then describe how / what you will use to solve it, outline the steps themselves, and describe succinctly what your solution does and why you believe it will solve
-  the issue. Double check your thought process before committing to a plan. Do not generate code until your plan has been approved.
-
-
-  ## Code Modification
-
-  When altering existing code, DO NOT:
-  - Delete existing comments.
-  - Change portions of code that are not directly related to the current problem at hand.
-  - Remove existing code unless deemed and proven aboslutely unecessary through discussion, described and justified in your plan, and then explicitly given permission to do so by the user.
-  --- End of Context from: .gemini\GEMINI.md ---
   ---
 
-> You are not allowed to make code changes without first presenting a plan of action. You should be able to reuse the existing logic entirely. You will just need to change a few key spots so that the projectile that is made is the right one. The charge and release system is the same, so use the same system.
-
-✦ You are absolutely correct.  duplication is to be avoided, and the casting system should be generalized for reuse.
-
-  The core idea is to make the existing charge and fire logic in MagicCaster.cs context-aware, allowing it to operate on either the primary or alt-fire spell based on the input, without duplicating
-  code.
-
-  Revised Plan to Refactor MagicCaster.cs for Independent AltFire (Code Reuse)
-
-  Objective: Generalize the existing casting mechanism to handle both primary and alt-fire inputs independently, using the same underlying logic.
-
-  Detailed Step-by-Step for `MagicCaster.cs`:
-
-   1. Introduce `_activeCastingSlot` field:
-	   * Add a private field private SlotType _activeCastingSlot = SlotType.Primary; to track which spell is currently being charged. This will replace the need for separate state variables for
-		 primary and alt-fire.
-
-   2. Refactor `_Input` Method:
-	   * The _Input method will be updated to separately detect "Player_Shoot" and "Player_AltFire" events.
-	   * If "Player_Shoot" is pressed while `_currentState is Idle, it will call BeginCharge(SlotType.Primary)`.
-	   * If "Player_Shoot" is released while `_currentState is Charging and _activeCastingSlot is Primary, it will call FireWeapon()`.
-	   * If "Player_AltFire" is pressed while `_currentState is Idle, it will call BeginCharge(SlotType.Alt)`.
-	   * If "Player_AltFire" is released while `_currentState is Charging and _activeCastingSlot is Alt, it will call FireWeapon()`.
-
-   3. Create `GetActiveSpellData()` Helper Method:
-	   * Add a new private method private CastedSpellData GetActiveSpellData() that returns either _equippedSpell or _equippedAltFireSpell based on the current value of _activeCastingSlot. This
-		 centralizes the selection of the active spell data.
-
-   4. Refactor `BeginCharge` Method:
-	   * Change its signature from private void BeginCharge() to private void BeginCharge(SlotType slot).
-	   * Inside this method, use slot to select the correct CastedSpellData (_equippedSpell or _equippedAltFireSpell).
-	   * Add a null check for the chosen spell data.
-	   * Set _activeCastingSlot = slot;.
-	   * Replace all direct references to _equippedSpell within this method with a call to GetActiveSpellData().
-
-   5. Refactor `ContinueCharge` Method:
-	   * Replace all direct references to _equippedSpell within this method with a call to GetActiveSpellData().
-
-   6. Refactor `FirePrimary` and `FireAltFire` into a single `FireWeapon`:
-	   * Remove the existing private void FirePrimary() and private void FireAltFire() methods.
-	   * The existing private void FireWeapon(SlotType slotType, CastedSpellData spellData, Projectile projectileInstance) will be adapted. Change its signature to private void FireWeapon().
-	   * Inside this method, slotType will now be _activeCastingSlot and spellData will be GetActiveSpellData().
-	   * The projectileInstance will be the chargingProjectile (which is already instantiated in BeginCharge).
-	   * Remove the condition if (slotType == SlotType.Alt && chargingProjectile != null) { chargingProjectile.QueueFree(); } as the chargingProjectile is always the one that's about to be fired.
-
-   7. Refactor `GetCurrentChargeRatio` Method:
-       * Replace all direct references to _equippedSpell with a call to GetActiveSpellData().
-
-   8. Refactor `CalculateInitialVelocity` Method:
-       * Replace all direct references to _equippedSpell with a call to GetActiveSpellData().
-
-   9. Refactor `ResetChargeState` Method:
-       * Ensure _activeCastingSlot is reset to SlotType.Primary (or SlotType.None if preferred) when the charge state is reset.
-
-  This plan focuses on generalizing the existing logic, preventing code duplication, and providing a clean, independent charging and firing mechanism for both primary and alt-fire.
-
-
-
-## Overall Gameplan - missing features and functionality
-
-
-> Alright, I have implemented the Alt-fire system. Some outstanding feature implementations include: shop camera / interaction / purchasing behavior; player inventory system; weapon stat / rank
-  system; passive automatic weapons (slot type); health economy (design and implementation to answer, "how should the player heal?"); content for more weapon types. @README.md Evaluate the updated
-  readme Game Design Document (GDD). Then break down what you think should be worked on or prioritized next.
-
-✦ The GDD is comprehensive and provides a strong foundation for Spinal Shatter. It clearly outlines the fantasy, core loop, and mechanics, drawing from a solid set of inspirations.
-
-  Based on the GDD and your list of outstanding features, here is a breakdown of what I recommend prioritizing to build out the core gameplay loop in a logical, dependency-aware order.
-
-  Priority 1: Finalize Foundational Design
-
-  Task: Decide on the Health Economy.
-
-  This is the most critical design decision to make right now, as it blocks the implementation of the shop and impacts the entire feel of combat and survival. The GDD correctly identifies this as a
-  key point of deliberation.
-
-  Here are three potential models based on your game's inspirations:
-
-   1. Aggressive & Resourceful (DOOM-style): Enemies have a chance to drop small health pickups, with larger amounts guaranteed from a specific action (e.g., a "glory kill" style melee takedown). The
-	  Siphon mechanic is a natural fit for collecting these drops. This encourages constant aggression.
-   2. Strategic & Scarce (Hades-style): Health is a precious resource. Healing is primarily offered as a chamber reward, a rare shop item, or from a specific boon. This makes every point of damage
-	  meaningful and every healing choice critical.
-   3. Preparation-focused (Shop-centric): Healing is performed almost exclusively at the shop between rounds via "refill health". This places a heavy emphasis on performance during rounds to minimize
-	  damage taken and save money for other upgrades.
-
-  Recommendation: A hybrid of Model 1 and 3. Core healing comes from aggressive gameplay, reinforcing your mana-from-enemies loop. The shop serves as a reliable, but expensive, fallback to refill
-  health before a tough encounter. This provides both tactical expression in combat and strategic choice in the hub.
-
-  Priority 2: Implement Core Progression Systems
-
-  These tasks are interdependent and form the backbone of the player's in-run power progression.
-
-   1. Player Inventory System: This is the immediate prerequisite for items and upgrades.
-	   * Action: Create the data structure that manages the player's equipped items. It should support one Main weapon, one Secondary weapon, and the three Passive slots as defined in the GDD. This
-		 system needs to track the weapon type and its current rank.
-
-   2. Weapon Stat & Rank System: This system makes the game loop rewarding.
-	   * Action: Implement the SpellData and RankUp architecture described in the GDD. Create the logic that applies new stats when an item in the inventory increases its rank. To test this, I
-		 suggest fully implementing a single weapon (e.g., the Orb) with its complete rank progression.
-
-   3. Shop System: With the inventory and ranking systems in place, you can now build the shop.
-	   * Action: Develop the shop's functionality, including:
-		   * A basic UI for displaying items for sale.
-		   * Interaction logic (e.g., player walks near an item, a prompt appears).
-		   * The transaction logic for purchasing, which should correctly add a new item to an empty inventory slot or rank up an existing one if a duplicate is bought.
-		   * Functionality for the permanent "refill health/mana" items.
-
-  Priority 3: Expand Content and Features
-
-  Once the core loop of fighting, earning, and upgrading is functional, you can expand the player's options.
-
-   1. Passive Weapon Functionality: This is a unique feature of your design and should come first.
-	   * Action: Implement the behavior for weapons in the Passive inventory slots. This involves giving them an independent targeting/firing loop that works automatically, as described in the GDD.
-
-   2. Weapon Content Expansion:
-	   * Action: With all systems in place, you can now begin the iterative process of implementing the other weapon archetypes outlined in the GDD (Slash, Force Wall, Dice, etc.). Each new weapon
-		 will validate your systems and add significant variety to the game.
-
-  Following this roadmap will ensure that you build the foundational systems first before moving on to the content that relies on them. This will lead to a more stable and scalable development
-  process.
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                                                                                                         │
-│                                                                                                                                                                                                     │
-│ ### ReadManyFiles Result (Target Dir: `C:\_GameDevelopment\spinal-shatter`)                                                                                                                         │
-│                                                                                                                                                                                                     │
-│ Successfully read and concatenated content from **1 file(s)**.                                                                                                                                      │
-│                                                                                                                                                                                                     │
-│ **Processed Files:**                                                                                                                                                                                │
-│ - `README.md`                                                                                                                                                                                       │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-
-> Let me clarify one small but crucial thing: there are 2 kinds of passive things: passive Player Stats, and Weapons equipped to the PassiveWeapon slot. I have updated the @README.md to reflect this
-  distinction.
-
-✦ Understood. Thank you for the clarification. That's a critical distinction, and the updated GDD now clearly separates Automatic Weapons from Passive Stat Items.
-
-  This refines the previously discussed plan. The high-level priorities remain the same, but the scope for the core systems is now more detailed:
-
-   1. Health Economy Design: This remains the top priority and the primary design blocker.
-
-   2. Core Systems Implementation (Refined Scope):
-	   * Player Inventory System: Must now be implemented with two distinct categories:
-		   * Weapon Slots: 1 Main, 1 Secondary, and 3 Automatic slots.
-		   * Stat Item Slots: 3 slots dedicated to the new passive stat-boosting items.
-	   * Item Stat & Ranking System: The ranking logic must be generalized to handle both Weapons and Stat Items, as the GDD specifies both can be ranked up. This suggests a common data structure for
-		 any "rankable" item type.
-	   * Shop Implementation: The shop's logic must be able to source from, display, and sell items from these two distinct pools (Weapons and Stat Items).
-
-   3. Content & Feature Expansion: The subsequent priorities—implementing automatic weapon behavior and expanding the weapon arsenal—remain unchanged.
-
-  This makes the inventory and progression systems much richer. I am ready to proceed based on this updated understanding.
-
-> I think I agree with your recommendation for the Health economy. A hybrid of 1-Aggressive-Doom and 3-Preparation-ShopCentric sounds like the best approach. I think I imagine a separate station from
-  the ShopCart, like an interactable HealingFountain (might look like a giant cauldron or potion) that costs money to use, costing more the lower HP you are (non-linear relationship), which simply
-  refills your health to full for the listed price. I haven't decided upon HealthDrops yet, but if I do, I see no reason why they couldn't be similar to money and mana drops with multiple size types.
-
-✦ Excellent. The Healing Fountain concept with non-linear cost scaling is a strong design choice that reinforces the 'preparation' aspect of the health economy. Combining that with potential health
-  drops from enemies provides a solid foundation for the entire system.
-
-  With the health economy design now established, the next logical step is to implement the core progression systems, starting with the Player Inventory System.
-
-  This system will be the backbone for the weapons and stat items. As we discussed, it will need to manage two distinct categories:
-
-   * Weapon Slots: 1 Main, 1 Secondary, and 3 Automatic.
-   * Stat Item Slots: 3 slots for passive stat-boosting items.
-
-  I am ready to proceed with building out this inventory system based on our discussion.
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                                                                                                         │
-│                                                                                                                                                                                                     │
-│ ### ReadManyFiles Result (Target Dir: `C:\_GameDevelopment\spinal-shatter`)                                                                                                                         │
-│                                                                                                                                                                                                     │
-│ Successfully read and concatenated content from **2 file(s)**.                                                                                                                                      │
-│                                                                                                                                                                                                     │
-│ **Processed Files:**                                                                                                                                                                                │
-│ - `Scripts/Components/MagicCaster.cs`                                                                                                                                                               │
-│ - `Scripts/PlayerBody.cs`                                                                                                                                                                           │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-
-> only 1 automatic weapon slot--that 3 was conflated from "3 passive slots" which is intended for Stat Items. 3 weapons (1 of each slot type), 3 stat passives. I want you to examine
-  @Scripts/PlayerBody.cs and @Scripts/Components/MagicCaster.cs , then come up with a plan for some kind of inventory system that will keep everything modular and data-driven. If the inventory is
-  simply some enum values, or if it is a dictionary of enum values to spell data, or something, I don't know what would be the most efficient. I don't really like the idea of needing a global
-  reference dictionary for all the spell-data... it may be needed later in the shop for randomization purposes, but ideally the system passes along the SpellData to whomever needs it at the moment
-  they need it. So a ShopItem that is a Weapon should have a reference to its SpellData, and acquisition from the Shop should pass that resource along to the player/inventory system to have access
-  to. This instead of it simply assigning an enum, and then having to perform some global lookup on a reference dictionary somewhere. Aside from that constraint, please come up with the simplest,
-  most intuitive, and clean solution that will integrate nicely with the existing systems. Some refactoring of existing systems is permitted, but if kept to a minimum that would be ideal. What plan
-  of action can be stapled on with the fewest side-effects?
-
-✦ Excellent. This clarifies the requirements perfectly. Moving from hard-coded slots in MagicCaster to a flexible, data-driven inventory is the right architectural step. It will make adding new
-  weapons, items, and shop functionality much easier in the future.
-
-  Based on my analysis of PlayerBody.cs and MagicCaster.cs, and adhering to your constraint of passing Resource references directly, here is my proposed plan of action.
-
-  Plan: Implement a Modular, Resource-Based Inventory System
-
-  This plan introduces a central PlayerInventory resource to act as the single source of truth for the player's loadout, orchestrated by PlayerBody.
-
-  1. Create Core Data Structures (`Resource` scripts):
-
-   * `PlayerInventory.cs`: This will be a new Resource script. It will be the central data container for the player's entire loadout.
-	   * Properties:
-		   * [Export] public SpellData MainWeapon { get; private set; }
-		   * [Export] public SpellData SecondaryWeapon { get; private set; }
-		   * [Export] public SpellData AutomaticWeapon { get; private set; }
-		   * [Export] public Godot.Collections.Array<StatItemData> StatItems { get; private set; } (Initialized to a fixed size of 3).
-	   * Signals:
-		   * [Signal] public delegate void MainWeaponChangedEventHandler(SpellData newWeapon);
-		   * [Signal] public delegate void SecondaryWeaponChangedEventHandler(SpellData newWeapon);
-		   * [Signal] public delegate void AutomaticWeaponChangedEventHandler(SpellData newWeapon);
-		   * [Signal] public delegate void StatItemsChangedEventHandler();
-	   * Methods:
-		   * public void EquipWeapon(SpellData weaponData, WeaponSlot slot)
-		   * public void EquipStatItem(StatItemData statItem, int slotIndex)
-		   * These methods will set the data and emit the corresponding signals.
-
-   * `StatItemData.cs`: A new Resource script to define passive stat-boosting items.
-	   * Properties:
-		   * [Export] public StatType TargetStat { get; private set; } // Enum: MaxHealth, MoveSpeed, etc.
-		   * [Export] public float Value { get; private set; }
-		   * [Export] public bool IsMultiplier { get; private set; } // Differentiates additive from multiplicative bonuses.
-		   * Plus any data needed for ranking up, UI display (name, icon), etc.
-
-  2. Integrate `PlayerInventory` into `PlayerBody`:
-
-   * In PlayerBody.cs, add a single exported property for the new inventory resource: [Export] public PlayerInventory Inventory { get; private set; }.
-   * In PlayerBody._Ready(), connect to all the signals from the Inventory resource (e.g., Inventory.MainWeaponChanged += OnMainWeaponChanged;).
-   * The handler methods in PlayerBody will be responsible for orchestrating updates. For example: private void OnMainWeaponChanged(SpellData newWeapon) { magicCaster.SetPrimaryWeapon(newWeapon); }.
-
-  3. Refactor `MagicCaster` for Statelesness:
-
-   * MagicCaster.cs will be simplified to become a stateless service that acts on command.
-   * Remove the EquippedSpell and EquippedAltFireSpell properties.
-   * Add public methods: public void SetPrimaryWeapon(SpellData spellData) and public void SetSecondaryWeapon(SpellData spellData). These methods will take the SpellData reference from PlayerBody and
-	 configure the caster accordingly (e.g., loading audio data from the new spell).
-   * The _Input logic will remain largely the same, but it will now use the SpellData provided via these new methods instead of the old exported properties.
-
-  4. Create New Component for Automatic Weapon:
-
-   * Create a new node script AutomaticCaster.cs and add it as a child to PlayerBody.
-   * This component will contain a Timer and its own logic for targeting and firing.
-   * It will have one public method: public void SetAutomaticWeapon(SpellData spellData). When called, it will configure its timer's duration and projectile based on the passed-in spellData.
-   * PlayerBody will call this method from its OnAutomaticWeaponChanged signal handler.
-
-  5. Implement Stat Application in `PlayerBody`:
-
-   * Create a private void RecalculateStats() method in PlayerBody.cs.
-   * This method will be called in _Ready() and from the OnStatItemsChanged signal handler.
-   * Logic: It will start with base stats (from PlayerData or defaults), iterate through Inventory.StatItems, and apply each bonus, updating the final movement/combat variables (WALK_SPEED,
-	 MAX_SPRINT_SPEED, etc.).
-
-  This plan creates a clean, data-driven architecture that is easy to expand. It keeps responsibilities separate and minimizes side effects by having PlayerBody orchestrate all updates in response to
-  clear signals from a single PlayerInventory data source.
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                                                                                                         │
-│                                                                                                                                                                                                     │
-│ ### ReadManyFiles Result (Target Dir: `C:\_GameDevelopment\spinal-shatter`)                                                                                                                         │
-│                                                                                                                                                                                                     │
-│ Successfully read and concatenated content from **4 file(s)**.                                                                                                                                      │
-│                                                                                                                                                                                                     │
-│ **Processed Files:**                                                                                                                                                                                │
-│ - `README.md`                                                                                                                                                                                       │
-│ - `Scripts/Enums/SlotType.cs`                                                                                                                                                                       │
-│ - `Scripts/Resources/Spells/OrbAltSpellData.cs`                                                                                                                                                     │
-│ - `Scripts/Resources/Spells/SpellData.cs`                                                                                                                                                           │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-
-> Why would the EquippedSpell and EquippedAltFireSpell need to be removed if you're just going to replace them? all you need to do is restrict their access level, right? instead of public exports,
-  make them private fields, but don't need to get rid of them--reuse them. have those be what are set by the Set methods. ;;
-  Seems like there will need to be a SpellData subclass for AutomaticSpellData, and convert the existing @Scripts/Resources/Spells/SpellData.cs and @Scripts/Resources/Spells/OrbAltSpellData.cs into a
-  pattern more like: SpellData is the parent with shared metadata about all spells including WeaponType and SlotType, Name, Description, baseShopCost, and other minimal meta-data. Then have 2 main
-  children: AutomaticSpellData and CastedSpellData. Automatic is the new one you described needing to load Timer information from, and Casted is what SpellData will be converted into. ;;
-  Make sure you fill out the enums, old and new, based on the complete info from the @README.md gdd, like adding Automatic to @Scripts/Enums/SlotType.cs etc. the new StatType enum... I'm unsure if it
-  should just be one big global enum for all things that are stat-ish, so they are freely compatible with other UI systems etc., but I fear for their usability in-code. For instance, there are unique
-  "meta" stats for the meta progression. There are unique weapon stats vs player stats. Whatever. Just make it all one big enum for now.
-
-✦ You've raised excellent points that will lead to a much cleaner and more scalable architecture. Reusing the fields in MagicCaster is more efficient, and the suggested class hierarchy for SpellData
-  is a significant improvement.
-
-  I will proceed with a revised plan that incorporates this feedback.
-
-  Revised Plan: Actionable Steps for Implementation
-
-  Phase 1: Update Foundational Enums and Data Structures
-
-   1. Update `SlotType.cs`:
-	   * Add Automatic to the enum to represent the third weapon slot.
-
-   2. Create `StatType.cs`:
-	   * Create a new enum file Scripts/Enums/StatType.cs.
-	   * Populate this single, global enum with all player, weapon, and meta stats listed in the GDD, such as: MaxHealth, MoveSpeed, Armor, ProjectileCount, ChargeSpeed, RerollShop, etc.
-
-   3. Refactor `SpellData` into a Class Hierarchy:
-	   * Modify `Scripts/Resources/Spells/SpellData.cs` (New Parent Class):
-		   * This will become the abstract base class for all spell types.
-		   * It will retain only the shared metadata: Name, Description, WeaponType, SlotType.
-		   * We will add common weapon properties here: ProjectileScene, DamageRange, SpeedRange, SizeRange, and UsePlayerMomentum as they are relevant to both casted and automatic weapons.
-	   * Create `Scripts/Resources/Spells/CastedSpellData.cs` (New Child Class):
-		   * It will inherit from SpellData.
-		   * It will contain properties specific to charged/casted weapons: ChargeIntervals, ManaCostRange, MaxChargeTime, and AudioData (for charge sounds).
-	   * Create `Scripts/Resources/Spells/AutomaticSpellData.cs` (New Child Class):
-		   * It will inherit from SpellData.
-		   * It will contain properties for automatic weapons: [Export] public float FireRate { get; private set; }.
-	   * Update `Scripts/Resources/Spells/OrbAltSpellData.cs`:
-		   * Change its inheritance from SpellData to the new CastedSpellData.
-
-  Phase 2: Create the Inventory and Stat Item Systems
-
-   1. Create `StatItemData.cs`:
-	   * Create Scripts/Resources/Items/StatItemData.cs. This Resource will define passive items.
-	   * It will contain: StatType TargetStat, float Value, and bool IsMultiplier.
-
-   2. Create `PlayerInventory.cs`:
-	   * Create Scripts/Resources/PlayerInventory.cs. This Resource will be the player's central loadout manager.
-	   * It will have typed properties for each slot:
-		   * public CastedSpellData MainWeapon { get; private set; }
-		   * public CastedSpellData SecondaryWeapon { get; private set; }
-		   * public AutomaticSpellData AutomaticWeapon { get; private set; }
-		   * public Godot.Collections.Array<StatItemData> StatItems { get; private set; }
-	   * It will also contain the signals (MainWeaponChanged, etc.) and Equip... methods as previously discussed.
-
-  Phase 3: Integrate Systems and Refactor `PlayerBody` & `MagicCaster`
-
-   1. Refactor `MagicCaster.cs`:
-	   * The EquippedSpell and EquippedAltFireSpell properties will be changed from [Export] public to private. I will rename them to _equippedSpell and _equippedAltFireSpell to reflect this change.
-		 Their type will be updated to CastedSpellData.
-	   * Public methods SetPrimaryWeapon(CastedSpellData spellData) and SetSecondaryWeapon(CastedSpellData spellData) will be added to set these private fields.
-
-   2. Create `AutomaticCaster.cs`:
-	   * Create this new node Scripts/Components/AutomaticCaster.cs and add it to the player scene.
-	   * It will contain a Timer and logic to fire based on the FireRate from an AutomaticSpellData resource, which will be provided via a SetAutomaticWeapon(AutomaticSpellData spellData) method.
-
-   3. Update `PlayerBody.cs`:
-	   * Add the [Export] public PlayerInventory Inventory { get; private set; }.
-	   * In _Ready, connect to the Inventory signals to call the Set... methods on MagicCaster and the new AutomaticCaster.
-	   * Implement the RecalculateStats() method, which will be triggered by Inventory.StatItemsChanged.
+  Both plans will achieve the desired outcome. Please let me know which alternative you prefer, and I will begin the implementation.

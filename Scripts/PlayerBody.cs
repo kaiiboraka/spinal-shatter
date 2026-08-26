@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using Godot;
-using Elythia;
 using Godot.Collections;
-using PhantomCamera;
 
 namespace SpinalShatter;
 
@@ -40,6 +38,7 @@ public partial class PlayerBody : Combatant
 	[Export] private float bob_Height = .15f;
 	[Export] private float bob_Sway_Percent = 0f;
 	[Export] private float t_bob = .0f;
+	private Vector3 _cameraInitialLocalPosition;
 	[Export] private float lookUpDegrees = 80f;
 	[Export] private float lookDownDegrees = 65f;
 	[Export] private float BaseFOV = 75f;
@@ -51,9 +50,14 @@ public partial class PlayerBody : Combatant
 	private bool grounded = false;
 	private bool isCrouching = false;
 	private bool isSprinting = false;
-	public bool DeadNow { get; private set; } = false;
 	private int curJumps = 0;
-	private int _currentMoney = 0;
+
+	public int CurrentMoney
+	{
+		get => Inventory.CurrentMoney;
+		private set => Inventory.CurrentMoney = value;
+	}
+
 	private Vector2 inputDir = Vector2.Zero;
 	private Vector3 direction = Vector3.Zero;
 	private Vector3 newVelocity = Vector3.Zero;
@@ -64,13 +68,21 @@ public partial class PlayerBody : Combatant
 	private Camera3D camera;
 	public Camera3D PlayerCamera => camera;
 
+	private MinMaxValuesLabel healthMinMaxLabel;
+	private PlayerParamterBar playerHealthBar;
 	private MinMaxValuesLabel manaMinMaxLabel;
-	private PlayerHealthBar playerHealthBar;
+	private PlayerParamterBar playerManaBar;
 	private Label playerMoneyAmountLabel;
+	private CenterContainer reticle;
 	private ManaComponent manaComponent;
 	private Area3D pickupArea;
 	[ExportGroup("Menus")]
 	[Export] private PackedScene _pauseMenuScene;
+	[Export] private InventoryHUD _weaponInventoryHUD;
+	[Export] private InventoryHUD _statItemInventoryHUD;
+	private Control _detailsControl;
+	private RichTextLabel _detailsNameLabel;
+	private RichTextLabel _detailsDescriptionLabel;
 	private AudioData AudioData;
 
 	[ExportCategory("Combat")]
@@ -82,7 +94,7 @@ public partial class PlayerBody : Combatant
 	private RayCast3D canStandUpRay;
 	private RayCast3D footSoundRay;
 	private MagicCaster magicCaster;
-	private AutomaticCaster _automaticCaster;
+	private AutomaticCaster automaticCaster;
 	private SiphonComponent siphon;
 	private bool standUpBlocked;
 	private Timer _footstepCooldownTimer;
@@ -92,6 +104,7 @@ public partial class PlayerBody : Combatant
 	private AnimatedSprite3D armLeft;
 	private AnimatedSprite3D armRight;
 	private Timer meleeResetTimer;
+	private bool _inventorySlotsDirty = true;
 	private HorizontalDirection lastSwingDirection = HorizontalDirection.None;
 	private bool meleeAttackPlaying = false;
 
@@ -140,7 +153,7 @@ public partial class PlayerBody : Combatant
 		StoreBaseStats();
 		_footstepMaxCooldown = (AudioFile_Walk.Stream as AudioStreamRandomizer).GetMaxLength();
 		_sprintFootstepMaxCooldown = (AudioFile_Sprint.Stream as AudioStreamRandomizer).GetMaxLength() / 1.2f;
-		AddMoney(0);
+		ReceiveMoney(0);
 		RefillMana();
 		RefillLife();
 		AllowRangedAttack();
@@ -162,19 +175,28 @@ public partial class PlayerBody : Combatant
 
 		headNode = GetNode<Node3D>("%Head");
 		camera = GetNode<Camera3D>("%Camera1P");
+		_cameraInitialLocalPosition = camera.Position;
 		collider = GetNode<CollisionShape3D>("%PlayerCollider");
 		canStandUpRay = GetNode<RayCast3D>("%StandUpRay");
-		manaMinMaxLabel = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
+		healthMinMaxLabel = GetNode<MinMaxValuesLabel>("%Health_MinMaxValuesLabel");
+		playerHealthBar   = GetNode<PlayerParamterBar>("%PlayerHealthBar");
+		manaMinMaxLabel   = GetNode<MinMaxValuesLabel>("%Mana_MinMaxValuesLabel");
+		playerManaBar     = GetNode<PlayerParamterBar>("%PlayerManaBar");
+		reticle  = GetNode<CenterContainer>("%Reticle");
+
 		manaComponent = GetNode<ManaComponent>("%ManaComponent");
-		playerHealthBar = GetNode<PlayerHealthBar>("%PlayerHealthBar");
 		playerMoneyAmountLabel = GetNode<Label>("%MoneyAmountLabel");
 		pickupArea = GetNode<Area3D>("PickupArea");
 		magicCaster = GetNode<MagicCaster>("%MagicCaster");
-		_automaticCaster = GetNode<AutomaticCaster>("%AutomaticCaster");
+		automaticCaster = GetNode<AutomaticCaster>("%AutomaticCaster");
 		siphon = GetNode<SiphonComponent>("SiphonComponent");
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		armLeft = GetNode<AnimatedSprite3D>("%LeftArm");
 		armRight = GetNode<AnimatedSprite3D>("%RightArm");
+
+		_detailsControl = GetNode<Control>("%Details_Control");
+		_detailsNameLabel =  GetNode<RichTextLabel>("%Details_Name_RichTextLabel");
+		_detailsDescriptionLabel = GetNode<RichTextLabel>("%Details_Description_RichTextLabel");
 
 		// Timers
 		_footstepCooldownTimer = GetNode<Timer>("%FootstepCooldownTimer");
@@ -189,7 +211,6 @@ public partial class PlayerBody : Combatant
 		AudioPlayer_Footsteps = GetNode<AudioStreamPlayer3D>("Audio/Footsteps_AudioStreamPlayer3D");
 		var audioData = GD.Load<Resource>("res://assets/Audio/AudioData/AudioData_Player.tres");
 		AudioData = audioData as AudioData;
-		_automaticCaster.Initialize(magicCaster.SpellOrigin);
 	}
 
 	protected override void ConnectEvents()
@@ -223,8 +244,15 @@ public partial class PlayerBody : Combatant
 		SignalBus.Instance.GameResumed += ExitUIMode;
 	}
 
-	public override void _Input(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
+        if (CurrentControlState == PlayerControlState.UI)
+        {
+            // Do not process any player-specific input when in UI mode
+            // Allow event to propagate to other nodes, e.g., ShopCart
+            return; 
+        }
+
 		// Camera Rotation
 		if (@event is InputEventMouseMotion motion)
 		{
@@ -235,6 +263,11 @@ public partial class PlayerBody : Combatant
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
+
+		if (_inventorySlotsDirty)
+		{
+			UpdateInventoryUI();
+		}
 
 		ProcessInput(delta);
 	}
@@ -316,15 +349,15 @@ public partial class PlayerBody : Combatant
 		var target = direction;
 		if (isSprinting)
 		{
-			target *= MAX_SPRINT_SPEED;
+			target *= MAX_SPRINT_SPEED * slowMultiplier;
 		}
 		else if (isCrouching)
 		{
-			target *= CROUCH_SPEED;
+			target *= CROUCH_SPEED * slowMultiplier;
 		}
 		else
 		{
-			target *= WALK_SPEED;
+			target *= WALK_SPEED * slowMultiplier;
 		}
 
 		float acceleration = ACCEL;
@@ -375,7 +408,9 @@ public partial class PlayerBody : Combatant
 		if (ControllingUI) return;
 		CurrentControlState = PlayerControlState.UI;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
+		reticle.Visible = false;
 		this.Visible = false;
+		_detailsControl.Visible = true;
 		// collider.Disabled = true;
 		DisallowMeleeAttack();
 		DisallowRangedAttack();
@@ -389,7 +424,9 @@ public partial class PlayerBody : Combatant
 
 		CurrentControlState = PlayerControlState.Piloting;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		reticle.Visible = true;
 		this.Visible = true;
+		_detailsControl.Visible = false;
 		// collider.Disabled = false;
 		AllowMeleeAttack();
 		AllowRangedAttack();
@@ -397,25 +434,16 @@ public partial class PlayerBody : Combatant
 		hurtbox.EnableMonitor();
 	}
 
-	/// <summary>
-    /// Retrieves the human-readable name of the first key/button bound to an action.
-    /// </summary>
-    /// <param name="actionName">The name of the action in the Input Map.</param>
-    /// <returns>The string representation of the key, or "N/A" if none found.</returns>
-    public string GetActionKeyName(string actionName)
-    {
-        var events = InputMap.ActionGetEvents(actionName);
-        if (events.Count > 0)
-        {
-            string primaryEvent = events[0].AsText();
-            return primaryEvent.Left(primaryEvent.IndexOf(' '));
-        }
-        return "N/A";
-    }
 
 	public void ShowPromptToPress(string actionName, string message, string prefix = "")
 	{
-		string keyName = GetActionKeyName(actionName);
+		if (actionName.IsNullOrWhiteSpace())
+		{
+			_interactionPromptLabel.Text = $"[center]{prefix} {message}[/center]";
+			_interactionPromptContainer.Visible = true;
+				return;
+		}
+		string keyName = actionName.GetActionKeyName();
 		_interactionPromptLabel.Text = $"[center]{prefix} [{keyName}] {message}[/center]";
 		_interactionPromptContainer.Visible = true;
 	}
@@ -423,6 +451,98 @@ public partial class PlayerBody : Combatant
 	public void HideInteractionPrompt()
 	{
 		_interactionPromptContainer.Visible = false;
+	}
+
+	public void UpdateShopDetails(ShopItemData itemData)
+	{
+		// Safety check for UI elements
+		if (_detailsNameLabel == null || _detailsDescriptionLabel == null || _detailsControl == null)
+		{
+			GD.PushError("PlayerBody: Shop details UI labels or control are null.");
+			return;
+		}
+
+		if (itemData == null)
+		{
+			_detailsNameLabel.Text = "[center]No Item Selected[/center]"; // Display placeholder
+			_detailsDescriptionLabel.Text = "[center]This slot is empty.[/center]"; // Display placeholder
+		}
+		else
+		{
+			_detailsNameLabel.Text = itemData.ItemName ?? "";
+
+            // Determine if it's a new item or a rank-up
+            bool isOwned = false;
+            int currentRank = 0;
+
+            if (itemData is SpellData spellData)
+            {
+                var (equippedWeapon, rank, max) = Inventory.GetOwnedWeaponInfo(spellData);
+                if (equippedWeapon != null)
+                {
+                    isOwned = true;
+                    currentRank = rank;
+                }
+            }
+            else if (itemData is StatItemData statItemData)
+            {
+                var (equippedStatItem, rank, max) = Inventory.GetOwnedStatItemInfo(statItemData);
+                if (equippedStatItem != null)
+                {
+                    isOwned = true;
+                    currentRank = rank;
+                }
+            }
+
+            // Display logic based on item status
+            if (isOwned && itemData.ShopRank > 1) // It's an upgrade in the shop
+            {
+                _detailsNameLabel.Text = $"{itemData.ItemName ?? ""} {itemData.ShopRank.ToRomanNumerals()}"; // Name + Rank
+                
+                // Get the RankUpData for this specific rank-up
+                if (itemData.RankUps != null && (itemData.ShopRank - 2) >= 0 && (itemData.ShopRank - 2) < itemData.RankUps.Count)
+                {
+                    RankUpData rankUp = itemData.RankUps[itemData.ShopRank - 2];
+                    _detailsDescriptionLabel.Text = "RANK UP : " + FormatStatModifiers(rankUp.StatModifiers);
+                }
+                else
+                {
+                    _detailsDescriptionLabel.Text = "RANK UP : No specific data for this rank.";
+                }
+            }
+            else // It's a new item (ShopRank == 1) or an item with no rank-up data (e.g. from Inventory)
+            {
+                _detailsNameLabel.Text = itemData.ItemName ?? "";
+                _detailsDescriptionLabel.Text = itemData.ItemDescription ?? "";
+            }
+		}
+	}
+
+	private string FormatStatModifiers(Dictionary<StatType, float> modifiers)
+	{
+		if (modifiers == null || modifiers.Count == 0) return "No stat changes.";
+
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		bool first = true;
+		foreach (var entry in modifiers)
+		{
+			if (!first)
+			{
+				sb.Append(", ");
+			}
+			// Example: "Damage + 10", "Size x 1.5", "Charge Time - 0.1"
+			string prefix = "";
+			if (entry.Value > 0) prefix = "+ ";
+			else if (entry.Value < 0) prefix = "- ";
+
+			// Convert StatType enum to readable string (e.g., Player_MaxHealth -> Max Health)
+			string statName = entry.Key.ToString().Replace("Player_", "").Replace("Weapon_", "").Replace("_", " ");
+
+			sb.Append($"{statName} {prefix}{Mathf.Abs(entry.Value)}"); // Add {prefix} and {Mathf.Abs(entry.Value)}
+
+			first = false;
+		}
+		return sb.ToString();
 	}
 
 	#endregion
@@ -562,24 +682,67 @@ public partial class PlayerBody : Combatant
 			OnWeaponEquipped(entry.Key, entry.Value);
 		}
 
+
 		RecalculateStats();
+		_inventorySlotsDirty = true;
 	}
 
 	#region Inventory Handlers
 
+	private void UpdateInventoryUI()
+	{
+		if (_weaponInventoryHUD != null)
+		{
+			var weaponSlots = _weaponInventoryHUD.GetItemSlots();
+			for (int i = 0; i < weaponSlots.Count; i++)
+			{
+				// This assumes a fixed order: Primary, Alt, Auto
+				SlotType slotType = (SlotType)i;
+				if (Inventory.EquippedWeapons.TryGetValue(slotType, out EquippedItem weapon) && weapon != null)
+				{
+					weaponSlots[i].ChangeDisplayData(weapon.ItemData, weapon.Rank);
+				}
+				else
+				{
+					weaponSlots[i].ChangeDisplayData(null, 0);
+				}
+			}
+		}
+
+		if (_statItemInventoryHUD != null)
+		{
+			var statSlots = _statItemInventoryHUD.GetItemSlots();
+			for (int i = 0; i < statSlots.Count; i++)
+			{
+				if (i < Inventory.EquippedStatItems.Count && Inventory.EquippedStatItems[i] != null)
+				{
+					var statItem = Inventory.EquippedStatItems[i];
+					statSlots[i].ChangeDisplayData(statItem.ItemData, statItem.Rank);
+				}
+				else
+				{
+					statSlots[i].ChangeDisplayData(null, 0);
+				}
+			}
+		}
+
+		_inventorySlotsDirty = false;
+	}
+
 	private void OnWeaponEquipped(SlotType slot, EquippedItem weapon)
 	{
+		_inventorySlotsDirty = true;
 		if (weapon?.ItemData is not SpellData spellData) return;
 		switch (slot)
 		{
 			case SlotType.Primary:
 				magicCaster.SetPrimaryWeapon(spellData as CastedSpellData);
 				break;
-			case SlotType.Alt:
+			case SlotType.Secondary:
 				magicCaster.SetSecondaryWeapon(spellData as CastedSpellData);
 				break;
 			case SlotType.Automatic:
-				_automaticCaster.SetAutomaticWeapon(spellData as AutomaticSpellData);
+				automaticCaster.SetAutomaticWeapon(spellData);
 				break;
 		}
 	}
@@ -637,6 +800,7 @@ public partial class PlayerBody : Combatant
 
 		// Health needs special handling to ensure current health is updated correctly
 		HealthComponent.Refill();
+		_inventorySlotsDirty = true;
 	}
 
 	private void ApplyStat(StatType stat, float value, bool isMultiplier)
@@ -646,18 +810,29 @@ public partial class PlayerBody : Combatant
 			case StatType.Player_MaxHealth:
 				HealthComponent.MaxHealth =
 					isMultiplier ? HealthComponent.MaxHealth * value : HealthComponent.MaxHealth + value;
+				Data[stat] = HealthComponent.MaxHealth;
+				break;
+			case StatType.Player_MaxMana:
+				manaComponent.MaxMana = 
+					isMultiplier ? manaComponent.MaxMana * value : manaComponent.MaxMana + value;
+				Data[stat] = manaComponent.MaxMana;
 				break;
 			case StatType.Player_MoveSpeed:
 				WALK_SPEED = isMultiplier ? WALK_SPEED * value : WALK_SPEED + value;
 				MAX_SPRINT_SPEED = isMultiplier ? MAX_SPRINT_SPEED * value : MAX_SPRINT_SPEED + value;
+				Data[stat] = value;
 				break;
 			case StatType.Player_JumpHeight:
 				JUMP_VELOCITY = isMultiplier ? JUMP_VELOCITY * value : JUMP_VELOCITY + value;
+				Data[stat] = JUMP_VELOCITY;
 				break;
 			case StatType.Player_AirJumps:
 				if (!isMultiplier) MAX_JUMPS += (int)value;
+				Data[stat] = MAX_JUMPS;
 				break;
-
+			case StatType.Weapon_Count:
+				Data[stat] = value;
+				break;
 			// Add other stat cases here
 		}
 	}
@@ -709,15 +884,28 @@ public partial class PlayerBody : Combatant
 
 	private void HeadBob(double delta)
 	{
-		// if (!firstPerson) return;
-		// bool canBob = grounded &&;
 		var hVel = Velocity.XZ().Length();
-		t_bob += ((float)delta) * hVel * (grounded ? 1 : 0);
-		var camTran = camera.Transform;
-		var pos = Vector3.Zero;
-		pos.Y = Mathf.Sin(t_bob * bob_Speed) * bob_Height;
-		camTran.Origin = pos;
-		camera.Transform = camTran;
+		bool isMovingOnGround = grounded && hVel > 0.1f; // Threshold for movement. Use a small threshold to avoid jitter when almost stopped.
+
+		if (isMovingOnGround)
+		{
+			t_bob += ((float)delta) * hVel * bob_Speed;
+		}
+		else
+		{
+			// Smoothly reset t_bob to 0 when not moving on ground or airborne
+			t_bob = Mathf.Lerp(t_bob, 0.0f, (float)delta * 8.0f); // Decay rate for t_bob
+		}
+
+		// Calculate bobbing offset
+		float bobOffset = Mathf.Sin(t_bob) * bob_Height;
+
+		// The target Y position for the camera
+		Vector3 targetCameraLocalPosition = _cameraInitialLocalPosition;
+		targetCameraLocalPosition.Y += bobOffset;
+
+		// Smoothly move the camera back to or towards the target position
+		camera.Position = camera.Position.Lerp(targetCameraLocalPosition, (float)delta * 10.0f); // Interpolation speed for camera position
 	}
 
 	public void SprintAndCrouch()
@@ -778,15 +966,18 @@ public partial class PlayerBody : Combatant
 		}
 	}
 
+	public void UpdateHealthHUD(float newCurr, float newMax)
+	{
+		healthMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
+		healthMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
+		playerHealthBar.OnParameterChanged(newCurr, newMax);
+	}
+
 	public void UpdateManaHUD(float newCurr, float newMax)
 	{
 		manaMinMaxLabel.TextCurrent = Mathf.RoundToInt(newCurr).ToString();
 		manaMinMaxLabel.TextMaximum = Mathf.RoundToInt(newMax).ToString();
-	}
-
-	public void UpdateHealthHUD(float newCurr, float newMax)
-	{
-		playerHealthBar.OnHealthChanged(newCurr, newMax);
+		playerManaBar.OnParameterChanged(newCurr, newMax);
 	}
 
 	public override float TakeDamage(float amount, Vector3 sourcePosition)
@@ -819,6 +1010,10 @@ public partial class PlayerBody : Combatant
 		DisallowSiphon();
 		DisallowMeleeAttack();
 		DisallowRangedAttack();
+		siphon.ProcessMode = ProcessModeEnum.Disabled;
+		magicCaster.ProcessMode = ProcessModeEnum.Disabled;
+		pickupArea.SetDeferred("monitoring", false);
+		pickupArea.SetDeferred("monitorable", false);
 		AudioManager.Play(AudioPlayer_Voice, (AudioFile)AudioData["Die_Voice"]);
 		onDeathSfxFinished = () =>
 		{
@@ -861,7 +1056,7 @@ public partial class PlayerBody : Combatant
 	private void CollectMoneyPickup(Money moneyParticle)
 	{
 		if (moneyParticle.State == Pickup.PickupState.Collected) return; // Already collected
-		AddMoney(moneyParticle.Value);
+		ReceiveMoney(moneyParticle.Value);
 		moneyParticle.Collect();
 		AudioPlayer_Money.Stream = moneyParticle.Data.AudioStream;
 		AudioPlayer_Money.PitchScale = moneyParticle.Data.AudioPitch;
@@ -869,11 +1064,23 @@ public partial class PlayerBody : Combatant
 		PickupManager.Instance.Release(moneyParticle);
 	}
 
-	public void AddMoney(int amount)
+	public void ReceiveMoney(int amount)
 	{
-		_currentMoney += amount;
-		_currentMoney = _currentMoney.AtLeastZero();
-		playerMoneyAmountLabel.Text = _currentMoney.ToString();
+		CurrentMoney += amount;
+		CurrentMoney = CurrentMoney.AtLeastZero();
+		playerMoneyAmountLabel.Text = CurrentMoney.ToString();
+	}
+
+	public bool SpendMoney(int amount)
+	{
+		if (CurrentMoney >= amount)
+		{
+			CurrentMoney -= amount;
+			CurrentMoney = CurrentMoney.AtLeastZero();
+			playerMoneyAmountLabel.Text = CurrentMoney.ToString();
+			return true;
+		}
+		return false;
 	}
 
 	private void RefillLife()

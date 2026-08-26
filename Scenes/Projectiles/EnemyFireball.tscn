@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_w5pg0"]
 [ext_resource type="AudioStream" uid="uid://bmk3w0d5d1ip8" path="res://assets/Audio/SFX/Fireball.wav" id="3_bucxx"]
 [ext_resource type="PackedScene" uid="uid://ycgo1ko7742e" path="res://Scenes/Particles/HitEffects_SparksBlue.tscn" id="3_w5pg0"]
-[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_Fireball.tres" id="4_w5pg0"]
+[ext_resource type="Resource" uid="uid://dto7uyqaw63oc" path="res://assets/Audio/AudioData/AudioData_FireOrb.tres" id="4_w5pg0"]
 [ext_resource type="SpriteFrames" uid="uid://cmdvtn2o3op81" path="res://assets/Images/Enemies/enemy_fireball.ase" id="5_ou870"]
 [ext_resource type="Shader" uid="uid://ctyomuf44f8ab" path="res://addons/GPUTrail/shaders/trail.gdshader" id="7_dfkx4"]
 [ext_resource type="Shader" uid="uid://dwx455ib4h8cj" path="res://addons/GPUTrail/shaders/trail_draw_pass.gdshader" id="8_76anl"]
-[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/Textures/fireball_enemy.png" id="9_g5x3p"]
+[ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/ShopItems/Spells/fireball_enemy.png" id="9_g5x3p"]
 [ext_resource type="Script" uid="uid://b6l44lujpalqq" path="res://addons/GPUTrail/GPUTrail3D.gd" id="10_0k0pq"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_12345"]
@@ -49,19 +49,24 @@ material = SubResource("ShaderMaterial_xcs8j")
 [sub_resource type="SphereShape3D" id="SphereShape3D_dfkx4"]
 radius = 3.0
 
-[node name="MagicOrb" type="RigidBody3D" groups=["Projectile"]]
+[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
 collision_layer = 32768
-collision_mask = 41612
+collision_mask = 41604
 physics_material_override = ExtResource("1_ou870")
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("2_w5pg0")
 _sparkParticlesScene = ExtResource("3_w5pg0")
+spritesParent = NodePath("Sprites")
+trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("4_w5pg0")
 IsFixed = true
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Sprites" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
 gi_mode = 2
 modulate = Color(0.43, 0.6865002, 1, 1)
 billboard = 1
@@ -86,7 +91,6 @@ doppler_tracking = 2
 [node name="GPUTrail3D" type="GPUParticles3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0.1)
-visible = false
 amount = 60
 lifetime = 60.0
 explosiveness = 1.0

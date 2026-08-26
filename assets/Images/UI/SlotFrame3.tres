@@ -1,0 +1,9 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://rwq0qaec1ine"]
+
+[ext_resource type="Texture2D" uid="uid://dt6pm6h3qofu8" path="res://assets/Images/UI/SlotFrames.png" id="1_sgvcq"]
+
+[resource]
+resource_name = "SlotFrame3_Automatic"
+atlas = ExtResource("1_sgvcq")
+region = Rect2(160, 0, 80, 80)
+filter_clip = true

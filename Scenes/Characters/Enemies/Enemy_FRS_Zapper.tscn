@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://5ou8wlwv5mf1"]
+
+[ext_resource type="PackedScene" uid="uid://dnmdbgy6un26g" path="res://Scenes/Characters/Enemies/Enemy_GRS_Scrounger.tscn" id="1_l0kyb"]
+[ext_resource type="Resource" uid="uid://cpjitr3gcxgjv" path="res://assets/Resources/EnemyData/FRS_ZapperData.tres" id="2_ghelw"]
+[ext_resource type="SpriteFrames" uid="uid://cqr5851apyyhs" path="res://assets/Images/Enemies/Enemy_FRS_Zapper.ase" id="3_dbu75"]
+[ext_resource type="SpriteFrames" uid="uid://fpsefbsgn0bo" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_FRS_Zapper.ase" id="4_6xlik"]
+
+[node name="Zapper" instance=ExtResource("1_l0kyb")]
+motion_mode = 1
+Data = ExtResource("2_ghelw")
+
+[node name="Body_AnimatedSprite3D" parent="." index="7"]
+billboard = 1
+sprite_frames = ExtResource("3_dbu75")
+autoplay = ""
+
+[node name="Eye_AnimatedSprite" parent="Body_AnimatedSprite3D" index="1"]
+billboard = 1
+sprite_frames = ExtResource("4_6xlik")
+autoplay = ""
+
+[node name="FogVolume" parent="Body_AnimatedSprite3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.0003054142, -2.6397312)
+
+[editable path="SpellOrigin/MagicOrb"]

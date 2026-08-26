@@ -51,8 +51,8 @@ public partial class Enemy : Combatant
 	public float MaxWaitTime { get; private set; } = 5.0f;
 
 	// Combat
-	public IntValueRange MoneyAmountToDrop { get; private set; } = new(10);
-	public IntValueRange ManaAmountToDrop { get; private set; } = new(10);
+	public IntValue MoneyAmountToDrop { get; private set; } = new(10);
+	public IntValue ManaAmountToDrop { get; private set; } = new(10);
 
 	// Attack
 	private float AttackRange { get; set; } = 2.0f;
@@ -65,7 +65,7 @@ public partial class Enemy : Combatant
 	private PackedScene ProjectileScene;
 
 	private Area3D DetectionArea;
-	private RayCast3D Detection_lineOfSight;
+	private RayCast3D LineOfSightRaycast3D;
 
 	private Marker3D ProjectileSpawnPoint;
 
@@ -114,7 +114,6 @@ public partial class Enemy : Combatant
 		}
 	}
 
-
 	protected override void GetComponents()
 	{
 		base.GetComponents();
@@ -138,7 +137,7 @@ public partial class Enemy : Combatant
 		AudioPlayer_Attack = GetNode<AudioStreamPlayer3D>("Attack_AudioStreamPlayer3D");
 
 		DetectionArea = GetNode<Area3D>("DetectionArea3D");
-		Detection_lineOfSight = GetNode<RayCast3D>("LOS_RayCast3D");
+		LineOfSightRaycast3D = GetNode<RayCast3D>("LOS_RayCast3D");
 
 		hurtbox = GetNode<Area3D>("Hurtbox");
 
@@ -316,7 +315,7 @@ public partial class Enemy : Combatant
 				timerAction.Start();
 				break;
 			case AIState.Dying:
-				TryToDie();
+				DoTheDying();
 				break;
 		}
 	}
@@ -360,8 +359,8 @@ public partial class Enemy : Combatant
 		if (!InActionableState) return;
 		if (_player == null) return; // This check is now more reliable
 
-		Detection_lineOfSight.TargetPosition = ToLocal(_player.GlobalPosition);
-		if (Detection_lineOfSight.IsColliding() && Detection_lineOfSight.GetCollider() == _player)
+		LineOfSightRaycast3D.TargetPosition = ToLocal(_player.GlobalPosition);
+		if (LineOfSightRaycast3D.IsColliding() && LineOfSightRaycast3D.GetCollider() == _player)
 		{
 			ChangeState(AIState.Chasing);
 		}
@@ -380,7 +379,9 @@ public partial class Enemy : Combatant
 			}
 
 			var projectile = ProjectileScene.Instantiate<Projectile>();
-			var direction = (_player.GlobalPosition - GlobalPosition).Normalized();
+			// Corrected line: use previousPlayerPosition if _player is null
+			Vector3 targetPosition = _player?.GlobalPosition ?? previousPlayerPosition;
+			var direction = (targetPosition - GlobalPosition).Normalized();
 			var launchData = new ProjectileLaunchData
 			{
 				Caster = this,
@@ -460,7 +461,7 @@ public partial class Enemy : Combatant
 			// Move towards player
 			if (Data.IsFlying)
 			{
-				newVelocity = -GlobalTransform.Basis.Z * WalkSpeed;
+				newVelocity = -GlobalTransform.Basis.Z * (WalkSpeed * slowMultiplier);
 			}
 			else
 			{
@@ -510,8 +511,9 @@ public partial class Enemy : Combatant
 
 	private void WalkForward(ref Vector3 newVelocity)
 	{
-		newVelocity.X = -GlobalTransform.Basis.Z.X * WalkSpeed;
-		newVelocity.Z = -GlobalTransform.Basis.Z.Z * WalkSpeed;
+		var effectiveSpeed = WalkSpeed * slowMultiplier;
+		newVelocity.X = -GlobalTransform.Basis.Z.X * effectiveSpeed;
+		newVelocity.Z = -GlobalTransform.Basis.Z.Z * effectiveSpeed;
 	}
 
 	private void StartWalking()
@@ -656,18 +658,6 @@ public partial class Enemy : Combatant
 		UpdateAnimation(angleToPlayer);
 	}
 
-	public override void OnHurtboxBodyEntered(Node3D body)
-	{
-		if (isDying) return;
-
-		base.OnHurtboxBodyEntered(body); // Handles damage + projectile destruction
-
-		if (body is Projectile projectile && projectile.Owner != this)
-		{
-			projectile.OnEnemyHit();
-		}
-	}
-
 	protected override void OnHurt(Vector3 sourcePosition, float damage)
 	{
 		base.OnHurt(sourcePosition, damage);
@@ -697,10 +687,12 @@ public partial class Enemy : Combatant
 		else QueueFree();
 	}
 
-	private void TryToDie()
+	private void DoTheDying()
 	{
 		// DebugManager.Debug($"Enemy: {Name} TryToDie called. Current state: {_currentState}\n" +
 		// 				   $"Death particles GlobalPosition before: {GlobalPosition}");
+
+		DeadNow = true;
 
 		if (_deathParticlesScene.Instantiate() is OneshotParticles deathParticles)
 		{
@@ -754,6 +746,7 @@ public partial class Enemy : Combatant
 		// Set initial state
 		animPlayer.Stop(); // Stop any playing animation
 		ChangeState(AIState.Idle, true);
+		Callable.From(EnableCollisions).CallDeferred();
 	}
 
 	public void Activate()
@@ -762,10 +755,11 @@ public partial class Enemy : Combatant
 
 		_isActive = true;
 		Visible = true;
+		DeadNow = false;
+
 		SetProcess(true);
 		SetPhysicsProcess(true);
 
-		EnableCollisions();
 	}
 
 	public void Deactivate()
@@ -816,8 +810,12 @@ public partial class Enemy : Combatant
 			meleeHitbox.SetDeferred("monitoring", false);
 			meleeHitbox.SetDeferred("monitorable", false);
 		}
-	}
 
+		DetectionArea.SetDeferred("monitoring", false);
+		DetectionArea.SetDeferred("monitorable", false);
+		LineOfSightRaycast3D.SetDeferred("monitoring", false);
+		LineOfSightRaycast3D.SetDeferred("monitorable", false);
+	}
 
 	private void EnableCollisions()
 	{
@@ -834,6 +832,11 @@ public partial class Enemy : Combatant
 			meleeHitbox.SetDeferred("monitoring", true);
 			meleeHitbox.SetDeferred("monitorable", true);
 		}
+
+		DetectionArea.SetDeferred("monitoring", true);
+		DetectionArea.SetDeferred("monitorable", true);
+		LineOfSightRaycast3D.SetDeferred("monitoring", true);
+		LineOfSightRaycast3D.SetDeferred("monitorable", true);
 	}
 
 	private void StopActionTimers()
@@ -878,5 +881,11 @@ public partial class Enemy : Combatant
 		BlinkTween = CreateTween().SetLoops(2).SetTrans(Tween.TransitionType.Quart).SetEase(Tween.EaseType.InOut);
 		BlinkTween.TweenProperty(animatedSprite, "modulate:a", alpha, duration / 2);
 		BlinkTween.TweenProperty(animatedSprite, "modulate:a", 1.0f, duration / 2);
+	}
+
+
+	protected override void OnEffectComponentStacksChanged(StackingEffectType type, int newStackCount)
+	{
+		stateVisual.UpdateEffect(type, newStackCount);
 	}
 }

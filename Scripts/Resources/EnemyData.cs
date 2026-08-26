@@ -38,9 +38,9 @@ public partial class EnemyData : Resource
 	[Export] public float KnockbackWeight { get; private set; } = 5f;
 
 	[ExportSubgroup("Money", "Money")]
-	[Export] public IntValueRange MoneyAmountToDrop { get; private set; } = new(10);
+	[Export] public IntValue MoneyAmountToDrop { get; private set; } = new(10);
 	[ExportSubgroup("Mana", "Mana")]
-	[Export] public IntValueRange ManaAmountToDrop { get; private set; } = new(10);
+	[Export] public IntValue ManaAmountToDrop { get; private set; } = new(10);
 
 	// Attack
 	[ExportSubgroup("Attack", "Attack")]

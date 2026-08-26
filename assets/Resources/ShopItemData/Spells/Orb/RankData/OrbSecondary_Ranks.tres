@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="RankUpListData" load_steps=11 format=3 uid="uid://bf6od8agor0a6"]
+
+[ext_resource type="Resource" uid="uid://cdr2h8u6y7jc8" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank1.tres" id="1_dmgi6"]
+[ext_resource type="Resource" uid="uid://6db8toi5mbkq" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank2.tres" id="2_0spu6"]
+[ext_resource type="Resource" uid="uid://b1aqaujpubc4r" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank3.tres" id="3_q5kob"]
+[ext_resource type="Resource" uid="uid://dd6qh6ncumemf" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank4.tres" id="4_wrxre"]
+[ext_resource type="Resource" uid="uid://dbgqnv7rmbklu" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank5.tres" id="5_54y12"]
+[ext_resource type="Resource" uid="uid://cp0ola7il2px1" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank6.tres" id="6_fechc"]
+[ext_resource type="Resource" uid="uid://cv643r0dcvrro" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank7.tres" id="7_4pjuh"]
+[ext_resource type="Resource" uid="uid://dq8iis27yar3r" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank8.tres" id="8_5krri"]
+[ext_resource type="Resource" uid="uid://cs2ansgt5vkjs" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_Sec_Rank9.tres" id="9_v4trq"]
+[ext_resource type="Script" uid="uid://yp8fybiswcj8" path="res://Scripts/Resources/Items/RankUpListData.cs" id="10_xj27g"]
+
+[resource]
+script = ExtResource("10_xj27g")
+RankUps = Array[Object]([ExtResource("1_dmgi6"), ExtResource("2_0spu6"), ExtResource("3_q5kob"), ExtResource("4_wrxre"), ExtResource("5_54y12"), ExtResource("6_fechc"), ExtResource("7_4pjuh"), ExtResource("8_5krri"), ExtResource("9_v4trq")])
+metadata/_custom_type_script = "uid://yp8fybiswcj8"

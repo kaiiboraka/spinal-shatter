@@ -3,6 +3,8 @@ namespace SpinalShatter;
 public enum SlotType
 {
 	Primary,
-	Alt,
-	Automatic
+	Secondary,
+	Automatic,
+	Stat,
+	None
 }

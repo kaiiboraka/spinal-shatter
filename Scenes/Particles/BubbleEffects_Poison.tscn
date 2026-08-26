@@ -1,0 +1,115 @@
+[gd_scene load_steps=13 format=3 uid="uid://hkrbvfev1wfo"]
+
+[ext_resource type="Texture2D" uid="uid://cgvpqxjqdk3uu" path="res://assets/Images/Textures/poison_bubble_anim_sheet.png" id="1_dr2v8"]
+[ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_a4pc2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ji2ca"]
+transparency = 1
+albedo_color = Color(2.454227, 2.454227, 2.454227, 1)
+albedo_texture = ExtResource("1_dr2v8")
+emission = Color(0, 1, 0, 1)
+emission_energy_multiplier = 0.1
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Curve" id="Curve_fk2cb"]
+_data = [Vector2(0, 0.24603742), 0.0, 1.547425, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ftwkv"]
+curve = SubResource("Curve_fk2cb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fk2cb"]
+lifetime_randomness = 0.92
+emission_shape_offset = Vector3(0, 0.3, 0)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.5
+emission_ring_radius = 0.4
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+direction = Vector3(0, -1, 0)
+spread = 30.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.99997765
+gravity = Vector3(0, 2, 0)
+scale_min = 0.75
+scale_max = 1.25
+scale_curve = SubResource("CurveTexture_ftwkv")
+scale_over_velocity_max = 3.0
+anim_speed_min = 1.0
+anim_speed_max = 3.0
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 10
+
+[sub_resource type="QuadMesh" id="QuadMesh_xpdqq"]
+size = Vector2(0.25, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ftwkv"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.6622801, 1.353256, 0.13357885, 1)
+albedo_texture = ExtResource("2_a4pc2")
+emission_texture = ExtResource("2_a4pc2")
+
+[sub_resource type="Gradient" id="Gradient_fme2a"]
+offsets = PackedFloat32Array(0, 0.8411458)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pk1o6"]
+gradient = SubResource("Gradient_fme2a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7rrg1"]
+direction = Vector3(0, 1, 0)
+spread = 120.0
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+radial_velocity_min = -2.0000224
+radial_velocity_max = 1.9999776
+damping_min = 1.0
+damping_max = 1.0
+attractor_interaction_enabled = false
+scale_min = 0.19999999
+scale_max = 0.19999999
+color_ramp = SubResource("GradientTexture1D_pk1o6")
+hue_variation_min = -0.04000002
+hue_variation_max = 0.039999977
+collision_mode = 1
+collision_friction = 0.05
+collision_bounce = 0.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_mahl3"]
+size = Vector2(0.3, 0.5)
+
+[node name="BubbleEmitter" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_ji2ca")
+amount = 10
+sub_emitter = NodePath("SparksEmitter")
+lifetime = 2.0
+explosiveness = 0.35
+randomness = 0.05
+fixed_fps = 60
+trail_lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_fk2cb")
+draw_pass_1 = SubResource("QuadMesh_xpdqq")
+
+[node name="SparksEmitter" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("StandardMaterial3D_ftwkv")
+amount = 150
+lifetime = 0.3
+preprocess = 0.01
+explosiveness = 1.0
+randomness = 0.1
+draw_order = 3
+transform_align = 3
+trail_lifetime = 1.95
+process_material = SubResource("ParticleProcessMaterial_7rrg1")
+draw_pass_1 = SubResource("QuadMesh_mahl3")

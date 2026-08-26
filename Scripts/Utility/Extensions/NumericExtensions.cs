@@ -13,7 +13,7 @@ using Godot;
 
 using System;
 using System.Linq;
-
+using System.Text;
 
 
 public static class NumericExtensions
@@ -271,6 +271,21 @@ public static class NumericExtensions
         return rounded / tens;
     }
 
+    public static float Squared(this float num)
+    {
+        return num * num;
+    }
+
+    public static int Squared(this int num)
+    {
+        return num * num;
+    }
+
+    public static double Squared(this double num)
+    {
+        return num * num;
+    }
+
     public static float Pow(this float x, float pow)
     {
         return Mathf.Pow(x, pow);
@@ -492,6 +507,35 @@ public static class NumericExtensions
         return (int)Mathf.Lerp(newLow, newHigh, t);
     }
 
-    
+    public static int ToSteppedInt(this float percent, int max)
+    {
+        if (percent <= 0f) return 0;
+        return (int)MathF.Ceiling(percent * max);
+    }
+
+    private static readonly int[] romanValues = [10, 9, 5, 4, 1];
+    private static readonly string[] romanCharacters = ["X", "IX", "V", "IV", "I"];
+
+    public static string ToRomanNumerals(this int num)
+    {
+        if (num is < 1 or >= 100)
+        {
+            return num == 100 ? "C" : "";
+        }
+
+        var roman = new StringBuilder();
+
+        for (int i = 0; i < romanValues.Length; i++)
+        {
+            // Greedily append the symbol while the number is greater than or equal to the value
+            while (num >= romanValues[i])
+            {
+                num -= romanValues[i];
+                roman.Append(romanCharacters[i]);
+            }
+        }
+
+        return roman.ToString();
+    }
 }
 

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=13 format=3 uid="uid://bpg87onj725jn"]
+[gd_resource type="Resource" script_class="CastedSpellData" format=3 uid="uid://bpg87onj725jn"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_ucaek"]
 [ext_resource type="Texture2D" uid="uid://b1cs7wcsndm17" path="res://assets/Images/ShopItems/Spells/fireball_enemy.png" id="2_jrqo3"]
@@ -20,7 +20,7 @@ RankUps = Array[ExtResource("4_ucaek")]([ExtResource("4_idy44"), ExtResource("5_
 script = ExtResource("5_v4r0i")
 ChargeIntervals = 1
 StatRanges = ExtResource("3_tkcrf")
-ApplicableEffects = null
+ApplicableEffects = []
 ProjectileScene = ExtResource("4_llsa7")
 ChargeAudioData = ExtResource("1_ucaek")
 hasRankData = false

@@ -56,135 +56,136 @@ rough = true
 bounce = 0.01
 absorbent = true
 
-[node name="LevelRoot" type="Node3D" unique_id=269705945]
+[node name="LevelRoot" type="Node3D" unique_id=1522857155]
 
-[node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="." unique_id=625045199]
+[node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="." unique_id=1713939630]
 stream = ExtResource("3_lf5qn")
 volume_db = -24.0
 pitch_scale = 1.1
 autoplay = true
 bus = &"Music"
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1634376700]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1242700433]
 environment = SubResource("Environment_kwiqg")
 
-[node name="CentralHub" parent="." unique_id=631302025 instance=ExtResource("2_ubqhk")]
+[node name="CentralHub" parent="." unique_id=1650137143 instance=ExtResource("2_ubqhk")]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 collision_layer = 516
 alwaysShow = false
 
-[node name="Torches" type="Node3D" parent="CentralHub" unique_id=13774191]
+[node name="Torches" type="Node3D" parent="CentralHub" unique_id=118588473]
 transform = Transform3D(-0.27176, 0, 1.014222, 0, 1.05, 0, -1.014222, 0, -0.27176, 0, 0, 0)
 
-[node name="SouthTorch" parent="CentralHub/Torches" unique_id=1762324011 instance=ExtResource("2_jwnvx")]
+[node name="SouthTorch" parent="CentralHub/Torches" unique_id=639275544 instance=ExtResource("2_jwnvx")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.0675883, 3.3905087, -5.0150514)
 
-[node name="WestTorch" parent="CentralHub/Torches" unique_id=362053989 instance=ExtResource("3_2e4mj")]
+[node name="WestTorch" parent="CentralHub/Torches" unique_id=1041293252 instance=ExtResource("3_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.068, 3.391, -5.015)
 
-[node name="NorthTorch" parent="CentralHub/Torches" unique_id=497719634 instance=ExtResource("4_qf3oj")]
+[node name="NorthTorch" parent="CentralHub/Torches" unique_id=454726264 instance=ExtResource("4_qf3oj")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 5.068, 3.391, 5.015)
 
-[node name="EastTorch" parent="CentralHub/Torches" unique_id=438554113 instance=ExtResource("5_68nw1")]
+[node name="EastTorch" parent="CentralHub/Torches" unique_id=1224947254 instance=ExtResource("5_68nw1")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -5.068, 3.391, 5.015)
 
-[node name="ManaSpawner" parent="CentralHub" unique_id=1786517183 instance=ExtResource("6_qf3oj")]
+[node name="ManaSpawner" parent="CentralHub" unique_id=978466043 instance=ExtResource("6_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -4, 0, -4)
 _spawnInterval = 1.5
 _minManaToSpawn = 15
 _maxManaToSpawn = 51
 
-[node name="HealthFountain" parent="CentralHub" unique_id=1053480219 instance=ExtResource("9_o2f56")]
+[node name="HealthFountain" parent="CentralHub" unique_id=739340357 instance=ExtResource("9_o2f56")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
 
-[node name="North_Ice" type="Node3D" parent="." unique_id=1657522391]
+[node name="North_Ice" type="Node3D" parent="." unique_id=1898062042]
 
-[node name="North_Room" parent="North_Ice" unique_id=215591792 instance=ExtResource("7_wrgjc")]
+[node name="North_Room" parent="North_Ice" unique_id=1733185197 instance=ExtResource("7_wrgjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -51.194263)
 
-[node name="North_Hallway" parent="North_Ice" unique_id=1773617200 instance=ExtResource("4_okbu8")]
+[node name="North_Hallway" parent="North_Ice" unique_id=997234914 instance=ExtResource("4_okbu8")]
 transform = Transform3D(1.0000002, 0, 0, 0, 1, 0, 0, 0, 1.0000002, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
-[node name="East_Abyss" type="Node3D" parent="." unique_id=2105727862]
+[node name="East_Abyss" type="Node3D" parent="." unique_id=908980262]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="East_Room" parent="East_Abyss" unique_id=75769355 instance=ExtResource("8_2e4mj")]
+[node name="East_Room" parent="East_Abyss" unique_id=1013543866 instance=ExtResource("8_2e4mj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 51.17123, 0, 0)
 
-[node name="East_Hallway" parent="East_Abyss" unique_id=1056761038 instance=ExtResource("4_okbu8")]
+[node name="East_Hallway" parent="East_Abyss" unique_id=1051436357 instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
-[node name="South_Crater" type="Node3D" parent="." unique_id=1078897621]
+[node name="South_Crater" type="Node3D" parent="." unique_id=1913834846]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="South_Room" parent="South_Crater" unique_id=1704583543 instance=ExtResource("9_qf3oj")]
+[node name="South_Room" parent="South_Crater" unique_id=1075047198 instance=ExtResource("9_qf3oj")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51.191006)
 
-[node name="South_Hallway" parent="South_Crater" unique_id=200113475 instance=ExtResource("4_okbu8")]
+[node name="South_Hallway" parent="South_Crater" unique_id=2090392118 instance=ExtResource("4_okbu8")]
 transform = Transform3D(-1.0000001, 0, -1.5099582e-07, 0, 1, 0, 1.5099582e-07, 0, -1.0000001, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
-[node name="West_Nest" type="Node3D" parent="." unique_id=1806021088]
+[node name="West_Nest" type="Node3D" parent="." unique_id=1652120492]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
 
-[node name="West_Room" parent="West_Nest" unique_id=1009364612 instance=ExtResource("10_68nw1")]
+[node name="West_Room" parent="West_Nest" unique_id=2025285564 instance=ExtResource("10_68nw1")]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, -51.195103, 0, 0)
 
-[node name="West_Hallway" parent="West_Nest" unique_id=1883803278 instance=ExtResource("4_okbu8")]
+[node name="West_Hallway" parent="West_Nest" unique_id=1497757842 instance=ExtResource("4_okbu8")]
 transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_oghjx")
 
-[node name="PlatformStatic" parent="." unique_id=197830555 instance=ExtResource("1_kpm7v")]
+[node name="PlatformStatic" parent="." unique_id=628205738 instance=ExtResource("1_kpm7v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328, 0)
 visible = false
 
-[node name="Player" parent="." unique_id=590230403 instance=ExtResource("2_amuju")]
+[node name="Player" parent="." unique_id=622490654 instance=ExtResource("2_amuju")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9999995, 0)
 WALK_SPEED = 13.0
 MAX_SPRINT_SPEED = 24.0
 
-[node name="EnemyPoolNode" type="Node3D" parent="." unique_id=2086265014]
+[node name="EnemyPoolNode" type="Node3D" parent="." unique_id=41448979]
 
-[node name="Scrounger" parent="EnemyPoolNode" unique_id=171939868 instance=ExtResource("6_2e4mj")]
+[node name="Scrounger" parent="EnemyPoolNode" unique_id=1217683930 instance=ExtResource("6_2e4mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -54)
 
-[node name="Smasher" parent="EnemyPoolNode" unique_id=1488859871 instance=ExtResource("21_2mlx1")]
+[node name="Smasher" parent="EnemyPoolNode" unique_id=566117369 instance=ExtResource("21_2mlx1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -125.50182)
 
-[node name="Buster" parent="EnemyPoolNode" unique_id=1921329859 instance=ExtResource("22_5eed7")]
+[node name="Buster" parent="EnemyPoolNode" unique_id=1356524515 instance=ExtResource("22_5eed7")]
 transform = Transform3D(-0.87881714, 0, 0.47715873, 0, 1, 0, -0.47715873, 0, -0.87881714, 25.382347, 0, -112.98555)
 
-[node name="Scrapper" parent="EnemyPoolNode" unique_id=862836280 instance=ExtResource("14_m8i8h")]
+[node name="Scrapper" parent="EnemyPoolNode" unique_id=639486555 instance=ExtResource("14_m8i8h")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 54.579865, 0, -0.83233833)
 
-[node name="Buster2" parent="EnemyPoolNode" unique_id=486849972 instance=ExtResource("22_5eed7")]
+[node name="Buster2" parent="EnemyPoolNode" unique_id=958913919 instance=ExtResource("22_5eed7")]
 transform = Transform3D(0.977497, 0, -0.21094948, 0, 1, 0, 0.21094948, 0, 0.977497, 57.661125, 3.8146973e-06, 46.235527)
 
-[node name="Thrasher2" parent="EnemyPoolNode" unique_id=772466688 instance=ExtResource("20_3s80s")]
+[node name="Thrasher2" parent="EnemyPoolNode" unique_id=640566051 instance=ExtResource("20_3s80s")]
 transform = Transform3D(-0.039678335, 0, 0.9992125, 0, 1, 0, -0.9992125, 0, -0.039678335, 102.16173, 0, -34.973495)
 
-[node name="Sorcerer" parent="EnemyPoolNode" unique_id=1297680732 instance=ExtResource("23_n6n2r")]
+[node name="Sorcerer" parent="EnemyPoolNode" unique_id=381807134 instance=ExtResource("23_n6n2r")]
 transform = Transform3D(0.28876445, 0, 0.9574002, 0, 1, 0, -0.9574002, 0, 0.28876445, 86.02106, 0, 13.864075)
+visible = false
 
-[node name="Zapper" parent="EnemyPoolNode" unique_id=2071514276 instance=ExtResource("17_m8i8h")]
+[node name="Zapper" parent="EnemyPoolNode" unique_id=348223269 instance=ExtResource("17_m8i8h")]
 transform = Transform3D(0.0041191024, 0, -0.99999154, 0, 1, 0, 0.99999154, 0, 0.0041191024, -56.406277, 0, 0)
 
-[node name="Slicer" parent="EnemyPoolNode" unique_id=1210125256 instance=ExtResource("22_uauu6")]
+[node name="Slicer" parent="EnemyPoolNode" unique_id=1659858919 instance=ExtResource("22_uauu6")]
 transform = Transform3D(0.22372648, 0, -0.974652, 0, 1, 0, 0.974652, 0, 0.22372648, -125.62857, 0, 32.730183)
 
-[node name="Scalper" parent="EnemyPoolNode" unique_id=645957493 instance=ExtResource("23_o2f56")]
+[node name="Scalper" parent="EnemyPoolNode" unique_id=1892753995 instance=ExtResource("23_o2f56")]
 transform = Transform3D(-0.009232672, 0, -0.9999574, 0, 1, 0, 0.9999574, 0, -0.009232672, -95.534996, 0, 0)
 
-[node name="Swooper" parent="EnemyPoolNode" unique_id=256715934 instance=ExtResource("16_ia271")]
+[node name="Swooper" parent="EnemyPoolNode" unique_id=1234114325 instance=ExtResource("16_ia271")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 61.045696)
 
-[node name="Thrasher" parent="EnemyPoolNode" unique_id=132461328 instance=ExtResource("20_3s80s")]
+[node name="Thrasher" parent="EnemyPoolNode" unique_id=523785003 instance=ExtResource("20_3s80s")]
 transform = Transform3D(0.18530653, 0, 0.9826808, 0, 1, 0, -0.9826808, 0, 0.18530653, 56.050823, 0, 114.73494)
 
-[node name="Slicer2" parent="EnemyPoolNode" unique_id=1088044871 instance=ExtResource("22_uauu6")]
+[node name="Slicer2" parent="EnemyPoolNode" unique_id=1911248930 instance=ExtResource("22_uauu6")]
 transform = Transform3D(-0.4223493, 0, -0.90643317, 0, 1, 0, 0.90643317, 0, -0.4223493, -82.32031, 0, 80.25745)
 
-[node name="ShopCart" parent="." unique_id=1316635081 instance=ExtResource("26_o2f56")]
+[node name="ShopCart" parent="." unique_id=333436854 instance=ExtResource("26_o2f56")]
 transform = Transform3D(0.73616797, 0, 0.6767988, 0, 1, 0, -0.6767988, 0, 0.73616797, -4.594806, -4.7683716e-07, 3.980397)

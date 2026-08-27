@@ -33,7 +33,6 @@ func hide() -> void:
 	visible = false
 
 func close() -> void:
-	if Engine.is_editor_hint(): return
 	queue_free()
 
 func _remove_uids(content : String) -> String:
@@ -155,6 +154,7 @@ func _delayed_saving_and_next_prompt(target_path : String) -> void:
 	var callable := func():
 		timer.stop()
 		EditorInterface.save_all_scenes()
+		EditorInterface.get_resource_filesystem().scan_sources()
 		EditorInterface.get_resource_filesystem().scan()
 		_wait_for_scan_and_complete(target_path)
 		timer.queue_free()

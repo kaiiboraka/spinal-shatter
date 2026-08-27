@@ -29,12 +29,17 @@ func get_next_scene_path() -> String:
 		return AppConfig.main_menu_scene_path
 	return next_scene_path
 
+func _on_scene_loaded() -> void:
+		SceneLoader.change_scene_to_resource()
+
 func _load_next_scene() -> void:
 	var status = SceneLoader.get_status()
-	if show_loading_screen or status != ResourceLoader.THREAD_LOAD_LOADED:
+	if status == ResourceLoader.THREAD_LOAD_LOADED:
+		_on_scene_loaded()
+	elif show_loading_screen:
 		SceneLoader.change_scene_to_loading_screen()
-	else:
-		SceneLoader.change_scene_to_resource()
+	elif not SceneLoader.scene_loaded.is_connected(_on_scene_loaded):
+		SceneLoader.scene_loaded.connect(_on_scene_loaded, CONNECT_ONE_SHOT)
 
 func _add_textures_to_container(textures : Array[Texture2D]) -> void:
 	for texture in textures:
@@ -46,10 +51,10 @@ func _add_textures_to_container(textures : Array[Texture2D]) -> void:
 		%ImagesContainer.call_deferred("add_child", texture_rect)
 
 func _event_skips_image(event : InputEvent) -> bool:
-	return event.is_action_released(&"ui_accept") or event.is_action_released(&"ui_select")
+	return event.is_action_pressed(&"ui_accept") or event.is_action_pressed(&"ui_select")
 
 func _event_skips_intro(event : InputEvent) -> bool:
-	return event.is_action_released(&"ui_cancel")
+	return event.is_action_pressed(&"ui_cancel")
 
 func _event_is_mouse_button_released(event : InputEvent) -> bool:
 	return event is InputEventMouseButton and not event.is_pressed()

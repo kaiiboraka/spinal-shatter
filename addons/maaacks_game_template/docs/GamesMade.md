@@ -5,15 +5,23 @@ If you have a game you'd like to share, join the [Discord server](https://discor
 
 ## Featured
 
-| Spud Customs | Rent Seek Kill  | A Darkness Like Gravity  |  
+| HeartFix Express | Baking Godium | Rent Seek Kill |  
 | :-------:| :-------: | :-------: |
-![Spud Customs](/addons/maaacks_game_template/media/thumbnail-game-spud-customs.png)  |  ![Rent-Seek-Kill](/addons/maaacks_game_template/media/thumbnail-game-rent-seek-kill.png)  |  ![A Darkness Like Gravity](/addons/maaacks_game_template/media/thumbnail-game-a-darkness-like-gravity.png)  |
-[Find on Steam](https://store.steampowered.com/app/3291880/Spud_Customs/) | [Play on itch.io](https://xandruher.itch.io/rent-seek-kill)  |  [Play on itch.io](https://maaack.itch.io/a-darkness-like-gravity)  |
-
+| ![HeartFix Express](/addons/maaacks_game_template/media/thumbnail-game-heartfix-express.png) | ![Baking Godium](/addons/maaacks_game_template/media/thumbnail-game-baking-godium.png) | ![Rent-Seek-Kill](/addons/maaacks_game_template/media/thumbnail-game-rent-seek-kill.png) |
+|  [Find on Steam](https://store.steampowered.com/app/3983290/HeartFix_Express_Demo/)  | [Play on itch.io](https://maaack.itch.io/baking-godium) | [Play on itch.io](https://xandruher.itch.io/rent-seek-kill)  |
 
 ## All Shared
-### 2025
-https://ferry-games.itch.io/departure  
+### 2026  
+https://maaack.itch.io/armed-and-altered  
+https://store.steampowered.com/app/3983290/HeartFix_Express_Demo/  
+https://store.steampowered.com/app/4029840/Zero_Warning_Burnt_Out/  
+https://maaack.itch.io/scout-quest  
+https://chippper.itch.io/hand-me-that  
+
+### 2025  
+https://sevadusk.itch.io/liferoot  
+https://maaack.itch.io/baking-godium  
+https://baconeggsrl.itch.io/umbra-city  
 https://store.steampowered.com/app/3911550/Warp_Marked_Demo/  
 https://maaack.itch.io/kobo-expansion  
 https://keur-collectif.itch.io/heartfix-express-demo  

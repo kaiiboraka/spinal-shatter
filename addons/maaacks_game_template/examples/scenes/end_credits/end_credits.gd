@@ -44,10 +44,11 @@ func _ready() -> void:
 		menu_button.hide()
 	if OS.has_feature("web"):
 		exit_button.hide()
+	end_message_panel.hide()
 	super._ready()
 
 func _unhandled_input(event : InputEvent) -> void:
-	if event.is_action_released("ui_cancel"):
+	if event.is_action_pressed("ui_cancel"):
 		if not end_message_panel.visible:
 			_end_reached()
 		else:

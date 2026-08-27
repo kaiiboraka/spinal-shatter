@@ -12,14 +12,14 @@ var animation_state_machine : AnimationNodeStateMachinePlayback
 
 @onready var continue_game_button = %ContinueGameButton
 @onready var level_select_button = %LevelSelectButton
-@onready var new_game_confirmation = %NewGameConfirmationDialog
+@onready var new_game_confirmation = %NewGameConfirmation
 
 func load_game_scene() -> void:
 	GameStateExample.start_game()
 	super.load_game_scene()
 
 func new_game() -> void:
-	if confirm_new_game and GameStateExample.get_levels_reached() > 0:
+	if confirm_new_game and continue_game_button.visible:
 		new_game_confirmation.show()
 	else:
 		GameStateExample.reset()
@@ -32,9 +32,9 @@ func _is_in_intro() -> bool:
 	return animation_state_machine.get_current_node() == "Intro"
 
 func _event_skips_intro(event : InputEvent) -> bool:
-	return event.is_action_released("ui_accept") or \
-		event.is_action_released("ui_select") or \
-		event.is_action_released("ui_cancel") or \
+	return event.is_action_pressed("ui_accept") or \
+		event.is_action_pressed("ui_select") or \
+		event.is_action_pressed("ui_cancel") or \
 		_event_is_mouse_button_released(event)
 
 func _open_sub_menu(menu : PackedScene) -> Node:
@@ -75,6 +75,6 @@ func _on_level_select_button_pressed() -> void:
 	if level_select_scene.has_signal("level_selected"):
 		level_select_scene.connect("level_selected", load_game_scene)
 
-func _on_new_game_confirmation_dialog_confirmed():
+func _on_new_game_confirmation_confirmed() -> void:
 	GameStateExample.reset()
 	load_game_scene()

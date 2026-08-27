@@ -1,7 +1,7 @@
 [DAT]
 
 PTH={
-"res://Assets/": Color(0.83, 0.2241, 0.375575, 1),
-"res://Scenes/": Color(0.93, 0.73935, 0.1674, 1),
-"res://addons/": Color(0.453125, 0.453125, 0.453125, 1)
+"res://Content/Models/": Color(0.88, 0.73039997, 0.7952267, 1),
+"res://Content/Scenes/": Color(0.88235295, 0.46666667, 0.5372549, 1),
+"res://Content/Scripts/": Color(0.79023993, 0.2816, 0.88, 1)
 }

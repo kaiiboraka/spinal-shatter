@@ -1,7 +1,7 @@
 # Script IDE
 
 Transforms the Script UI into an IDE like UI.
-Multiline Tabs are used for navigating between scripts.
+Multiline Tabs are used for navigating between scripts. Tabs can be split.
 The default Outline got an overhaul and now shows all members of the script (not just methods) with unique icons for faster navigation.
 Enhanced keyboard navigation for Scripts and Outline.
 Fast quick search functionality.
@@ -9,7 +9,8 @@ Quick function Override functionality.
 
 Features:
 - Scripts are now shown as Multiline Tabs
-- The Outline got an overhaul and shows more than just the methods of the script. It includes the following members with a unique icon:
+- Script Tab can be split – showing the current Script as readonly CodeEdit next to the main one. The original script can be reopened by right clicking.
+- The Outline got an overhaul and showed more than just the methods of the script. It includes the following members with a unique icon:
 	- Classes (Red Square)
 	- Constants (Red Circle)
 	- Signals (Yellow)
@@ -19,7 +20,7 @@ Features:
 	- (Static) Functions (Green)
 		- Setter functions (Green circle, with an arrow inside it pointing to the right)
 		- Getter functions (Green circle, with an arrow inside it pointing to the left)
-- All the different members of the script can be hidden or made visible again by the outline filter. This allows fine control what should be visible (e.g. only signals, (Godot) functions, ...)
+- All the different members of the script can be hidden or made visible again by the outline filter. This allows fine control of what should be visible (e.g., only signals, (Godot) functions, ...)
 - A `Right Click` enables only the clicked filter, another `Right Click` will enable all filters again
 - The Outline can be opened in a Popup with a defined shortcut for quick navigation between methods
 - You can navigate through the Outline with the `Arrow` keys (or `Page up/Page down`) and scroll to the selected item by pressing `ENTER`
@@ -27,14 +28,14 @@ Features:
 - The currently edited script is automatically selected in the Filesystem Dock
 - Files can be quickly searched by the Quick Search Popup with `Shift`+`Shift`
 - You can find and quickly override any method from your super classes with `Alt`+`Ins`
-- The plugin is written with performance in mind, everything is very fast and works without any lags or stuttering
+- The plugin is written with performance in mind, there are no unneeded features and works without any lags or stuttering
 
 Customization:
 - The Outline is on the right side (can be changed to be on the left side again)
 - The Outline can be toggled via `File -> Toggle Scripts Panel`. This will hide or show it
 - The order in the Outline can be changed
 - There is also the possibility to hide private members, this is all members starting with a `_`
-- The Script ItemList is not visible by default, but can be made visible again
+- The Script ItemList is not visible by default but can be made visible again
 
 All settings can be changed in the `Editor Settings` under `Plugin` -> `Script Ide`:
 - `Open Outline Popup` = Shortcut to control how the Outline Popup should be triggered (default=CTRL+O or META+O)
@@ -49,21 +50,24 @@ All settings can be changed in the `Editor Settings` under `Plugin` -> `Script I
 - `Script Tabs Close Button Always` = Flag to control whether the script tabs should always have the close button or only the select tab (default=false)
 - `Auto Navigate in FileSystem Dock` = Flag to control whether the script that is currently edited should be automatically selected in the Filesystem Dock (default=true)
 - `Open Quick Search Popup` = Shortcut to control how the Quick Search Popup should be triggered (default=Shift+Shift, double press behavior is hardcoded for now)
+- `Open Quick Search Popup Scenes` = Shortcut to open the Quick Search Popup with the Scene Tab activated (default=CTRL+N or META+N)
+- `Open Quick Search Popup Scripts` = Shortcut to open the Quick Search Popup with the Script Tab activated (default=CTRL+SHIFT+N or META+SHIFT+N)
+- `Open Quick Search Popup Resources` = Shortcut to open the Quick Search Popup with the Resource Tab activated (default=CTRL+SHIFT+ALT+N or META+SHIFT+ALT+N)
 - `Open Override Popup` = Shortcut to control how the Override Popup should be triggered (default=Alt+Ins)
 - `Cycle Tab forward` = Shortcut to cycle the script tabs in the forward direction (only works in the 'Script' Editor Tab) (default=CTRL+TAB)
 - `Cycle Tab backward` = Shortcut to cycle the script tabs in the backward direction (only works in the 'Script' Editor Tab) (default=CTRL+SHIFT+TAB)
 - All outline visibility settings
 
-![Example of Script-IDE](https://github.com/Maran23/script-ide/blob/demo/demo/1.png?raw=true)
+![Example of Script-IDE](https://github.com/Maran23/script-ide/blob/demo/demo/editor.webp?raw=true)
 
-![Example of the Outline Popup](https://github.com/Maran23/script-ide/blob/demo/demo/2.png?raw=true)
+![Example of the Outline Popup](https://github.com/Maran23/script-ide/blob/demo/demo/outline.webp?raw=true)
 
-![Example of the Script Tabs Popup](https://github.com/Maran23/script-ide/blob/demo/demo/3.png?raw=true)
+![Example of the Script Tabs Popup](https://github.com/Maran23/script-ide/blob/demo/demo/tab_scripts.webp?raw=true)
 
-![Example of the Script List Popup](https://github.com/Maran23/script-ide/blob/demo/demo/4.png?raw=true)
+![Example of the Quick Search Popup](https://github.com/Maran23/script-ide/blob/demo/demo/quick_search.webp?raw=true)
 
-![Example of the Quick Search Popup](https://github.com/Maran23/script-ide/blob/demo/demo/5.png?raw=true)
+![Example of the Override Popup](https://github.com/Maran23/script-ide/blob/demo/demo/override.webp?raw=true)
 
-![Example of the Override Popup](https://github.com/Maran23/script-ide/blob/demo/demo/6.png?raw=true)
+![Example of Script Splitting](https://github.com/Maran23/script-ide/blob/demo/demo/script_split.webp?raw=true)
 
-![Example of the Plugin Editor Settings](https://github.com/Maran23/script-ide/blob/demo/demo/7.png?raw=true)
+![Example of the Settings](https://github.com/Maran23/script-ide/blob/demo/demo/settings.webp?raw=true)

@@ -32,7 +32,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Spinal Shatter"
 config/description="BYU Game Dev Club Game Jam Fall 2025 - SPOOKY"
 run/main_scene="uid://b4oyp3ex0rdq7"
-config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 boot_splash/image="uid://cwk1ukdg6oxn4"
 config/icon="uid://cwk1ukdg6oxn4"
 
@@ -43,14 +43,8 @@ buses/default_bus_layout="uid://cgapug46f4s45"
 [autoload]
 
 Globals_GD="*res://Scripts/Autoloads/Globals_GD.gd"
-PhantomCameraManager="*uid://duq6jhf6unyis"
 DebugManager="*res://Scenes/Debug/DebugManager.tscn"
-LayerNames="*uid://b5oond0fqbarv"
 ManaParticleManager="*res://Scenes/Autoloads/PickupManager.tscn"
-AppConfig="*uid://cjke6crjg14a0"
-SceneLoader="*uid://cbwmrnp0af35y"
-ProjectMusicController="*uid://r5t485lr3p7t"
-ProjectUISoundController="*uid://cc37235kj4384"
 RoomManager="*res://Scripts/Autoloads/RoomManager.cs"
 AudioManager="*res://Scripts/Autoloads/AudioManager.cs"
 PickupManager="*res://Scripts/Autoloads/PickupManager.cs"
@@ -80,7 +74,7 @@ naming/script_name_casing=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/AutoKey_SpriteFrames/plugin.cfg", "res://addons/GPUTrail/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg", "res://addons/fancy_folder_colors/plugin.cfg", "res://addons/layerNames/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/plugin_refresher/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/table_for_scene_tabs/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/AutoKey_SpriteFrames/plugin.cfg", "res://addons/GPUTrail/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg", "res://addons/fancy_folder_colors/plugin.cfg", "res://addons/layerNames/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/plugin_refresher/plugin.cfg")
 
 [file_customization]
 

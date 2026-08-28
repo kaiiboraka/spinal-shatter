@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://cns3ga0icrvrr"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cns3ga0icrvrr"]
 
 [ext_resource type="AudioStream" uid="uid://n2yv2xx4y83b" path="res://assets/Audio/SFX/dsoof.wav" id="1_xmbbm"]
 

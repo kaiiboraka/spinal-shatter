@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://b2mhu0wjo567g"]
+[gd_scene format=4 uid="uid://b2mhu0wjo567g"]
 
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="1_dj1i2"]
 [ext_resource type="Material" uid="uid://3x7hu8c03mly" path="res://assets/Materials/MAT_Caltrops.tres" id="1_ji2ca"]
@@ -51,7 +51,7 @@ points = PackedVector3Array(-5.7458878e-05, -0.22822966, -0.28562078, -5.7458878
 [sub_resource type="SphereShape3D" id="SphereShape3D_0tkhh"]
 radius = 0.75
 
-[node name="PoisonCaltrops" type="RigidBody3D"]
+[node name="PoisonCaltrops" type="RigidBody3D" unique_id=291678887]
 collision_layer = 8192
 collision_mask = 8844
 physics_material_override = SubResource("PhysicsMaterial_dj1i2")
@@ -67,30 +67,29 @@ EffectsToApply = Dictionary[int, int]({
 0: 1
 })
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2011999926]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9604645e-08, 0.2585712, -0.050158776)
 mesh = SubResource("ArrayMesh_2snnc")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1045376354]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9604645e-08, 0.2585712, -0.050158776)
 shape = SubResource("ConvexPolygonShape3D_ji2ca")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1333210938]
 stream = ExtResource("4_kawjc")
 volume_db = 5.0
 max_distance = 60.0
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="BubbleEmitter" parent="." instance=ExtResource("2_0tkhh")]
+[node name="BubbleEmitter" parent="." unique_id=111624336 instance=ExtResource("2_0tkhh")]
 
-[node name="Detection_Area3D" type="Area3D" parent="."]
+[node name="Detection_Area3D" type="Area3D" parent="." unique_id=137535511]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 collision_layer = 4096
 collision_mask = 3072
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D" unique_id=1081099828]
 shape = SubResource("SphereShape3D_0tkhh")
 debug_color = Color(0.9637796, 0.1917935, 7.70092e-07, 0.42)

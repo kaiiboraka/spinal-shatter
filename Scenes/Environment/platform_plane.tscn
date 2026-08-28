@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbk24fe7ef7m3"]
+[gd_scene format=3 uid="uid://dbk24fe7ef7m3"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fy2dq"]
 size = Vector2(200, 200)
@@ -16,7 +16,7 @@ albedo_texture = SubResource("GradientTexture2D_ws240")
 margin = 0.5
 data = PackedVector3Array(100, 0, 100, -100, 0, 100, 100, 0, -100, -100, 0, 100, -100, 0, -100, 100, 0, -100)
 
-[node name="PlatformStatic" type="StaticBody3D"]
+[node name="PlatformStatic" type="StaticBody3D" unique_id=1151598211]
 disable_mode = 1
 collision_layer = 12
 collision_mask = 129
@@ -27,10 +27,10 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1087200230]
 mesh = SubResource("PlaneMesh_fy2dq")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_n0xv5")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1238793389]
 shape = SubResource("ConcavePolygonShape3D_fy2dq")

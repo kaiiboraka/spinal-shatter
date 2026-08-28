@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FloatValue" load_steps=2 format=3 uid="uid://3er2kmq44r3t"]
+[gd_resource type="Resource" script_class="FloatValue" format=3 uid="uid://3er2kmq44r3t"]
 
 [ext_resource type="Script" uid="uid://dfwrm14wv5vmm" path="res://Scripts/Utility/FloatValue.cs" id="1_qep2j"]
 

@@ -1,4 +1,4 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cew0ls7qa7lgv"]
+[gd_resource type="AtlasTexture" format=3 uid="uid://cew0ls7qa7lgv"]
 
 [ext_resource type="Texture2D" uid="uid://dt6pm6h3qofu8" path="res://assets/Images/UI/SlotFrames.png" id="1_3dgpy"]
 

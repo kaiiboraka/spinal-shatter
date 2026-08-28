@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=4 format=3 uid="uid://dto7uyqaw63oc"]
+[gd_resource type="Resource" script_class="AudioData" format=3 uid="uid://dto7uyqaw63oc"]
 
 [ext_resource type="AudioStream" uid="uid://cvbd88cg1372e" path="res://assets/Audio/AudioData/AudioFile_FireSwoosh.tres" id="1_oadnt"]
 [ext_resource type="AudioStream" uid="uid://c0t6gc0kfedwx" path="res://assets/Audio/AudioData/AudioFile_FireHit.tres" id="2_1fgk6"]

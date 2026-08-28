@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bi48xxwpvl31n"]
+[gd_scene format=3 uid="uid://bi48xxwpvl31n"]
 
 [ext_resource type="Script" uid="uid://hkgyc1jfmtrb" path="res://Scripts/UI/InventoryHUDItem.cs" id="1_hud_item_script"]
 [ext_resource type="Texture2D" uid="uid://vrg343kljhsf" path="res://assets/Images/UI/SlotFrame1.tres" id="2_5obpo"]
@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://dklg7jy0nkurw" path="res://assets/Fonts/NimbusRomNo9L-Med.otf" id="4_61lbq"]
 [ext_resource type="FontFile" uid="uid://kuphg0meymun" path="res://assets/Fonts/PixBlox Large.ttf" id="6_xbpvs"]
 
-[node name="InventoryHUDItem" type="Control"]
+[node name="InventoryHUDItem" type="Control" unique_id=941356905]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 3
 anchors_preset = 8
@@ -24,7 +24,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_hud_item_script")
 
-[node name="FrameRect" type="TextureRect" parent="."]
+[node name="FrameRect" type="TextureRect" parent="." unique_id=1469063788]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -41,7 +41,7 @@ texture = ExtResource("2_5obpo")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="IconRect" type="TextureRect" parent="."]
+[node name="IconRect" type="TextureRect" parent="." unique_id=1917447835]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -57,7 +57,7 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 3
 
-[node name="RankLabel" type="RichTextLabel" parent="IconRect"]
+[node name="RankLabel" type="RichTextLabel" parent="IconRect" unique_id=488527785]
 unique_name_in_owner = true
 z_index = 2
 layout_mode = 1
@@ -79,7 +79,7 @@ scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 1
 
-[node name="Price_RichTextLabel" type="RichTextLabel" parent="."]
+[node name="Price_RichTextLabel" type="RichTextLabel" parent="." unique_id=809399892]
 unique_name_in_owner = true
 visible = false
 clip_contents = false

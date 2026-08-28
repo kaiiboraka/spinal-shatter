@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://fnr6r5j7eagj"]
+[gd_scene format=3 uid="uid://fnr6r5j7eagj"]
 
 [ext_resource type="Script" uid="uid://cg6fs0gck4cb1" path="res://Scenes/Particles/ObjectExplosion.cs" id="1_cud60"]
 [ext_resource type="PackedScene" uid="uid://b2mhu0wjo567g" path="res://Scenes/Projectiles/PoisonCaltrops.tscn" id="2_mjkkp"]
 
-[node name="CaltropsExplosion" type="Node3D" node_paths=PackedStringArray("_marker3D")]
+[node name="CaltropsExplosion" type="Node3D" unique_id=1630929517 node_paths=PackedStringArray("_marker3D")]
 script = ExtResource("1_cud60")
 _explosionEffectScene = ExtResource("2_mjkkp")
 _marker3D = NodePath("Marker3D")
 maxLaunchAngle = 90.0
 
-[node name="Marker3D" type="Marker3D" parent="."]
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1029292513]

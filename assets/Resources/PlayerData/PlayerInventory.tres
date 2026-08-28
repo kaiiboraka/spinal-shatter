@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerInventory" load_steps=3 format=3 uid="uid://c0h32c3lyl763"]
+[gd_resource type="Resource" script_class="PlayerInventory" format=3 uid="uid://c0h32c3lyl763"]
 
 [ext_resource type="Script" uid="uid://dsl8cttct5qr8" path="res://Scripts/Resources/PlayerInventory.cs" id="1_fyk2d"]
 [ext_resource type="Script" uid="uid://b3802gerc0cye" path="res://Scripts/Resources/Items/EquippedItem.cs" id="1_w75nx"]

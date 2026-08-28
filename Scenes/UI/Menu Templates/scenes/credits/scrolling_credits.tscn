@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cuuk1l0b2rvj7"]
+[gd_scene format=3 uid="uid://cuuk1l0b2rvj7"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Menu Templates/scenes/credits/scrolling_credits.gd" id="1_4l8jq"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Menu Templates/scenes/credits/credits_label.tscn" id="2_ixm4l"]
+[ext_resource type="Script" uid="uid://dyex15ksoh5ul" path="res://Scenes/UI/Menu Templates/scenes/credits/scrolling_credits.gd" id="1_4l8jq"]
+[ext_resource type="PackedScene" uid="uid://cknfejet3edfn" path="res://Scenes/UI/Menu Templates/scenes/credits/credits_label.tscn" id="2_ixm4l"]
 
-[node name="ScrollingCredits" type="Control"]
+[node name="ScrollingCredits" type="Control" unique_id=1690425132]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,29 +12,28 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4l8jq")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=407886411]
 unique_name_in_owner = true
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-scroll_vertical = 0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=1694076316]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HeaderSpace" type="Control" parent="ScrollContainer/VBoxContainer"]
+[node name="HeaderSpace" type="Control" parent="ScrollContainer/VBoxContainer" unique_id=175365415]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 720)
 layout_mode = 2
 
-[node name="CreditsLabel" parent="ScrollContainer/VBoxContainer" instance=ExtResource("2_ixm4l")]
+[node name="CreditsLabel" parent="ScrollContainer/VBoxContainer" unique_id=95071939 instance=ExtResource("2_ixm4l")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="FooterSpace" type="Control" parent="ScrollContainer/VBoxContainer"]
+[node name="FooterSpace" type="Control" parent="ScrollContainer/VBoxContainer" unique_id=865982504]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 720)
 layout_mode = 2

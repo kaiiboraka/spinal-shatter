@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ycgo1ko7742e"]
+[gd_scene format=3 uid="uid://ycgo1ko7742e"]
 
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_nw0dd"]
 [ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_h4mfb"]
@@ -37,12 +37,12 @@ collision_bounce = 0.5
 [sub_resource type="QuadMesh" id="QuadMesh_v8bk4"]
 size = Vector2(0.2, 1)
 
-[node name="HitEffects" type="Node3D"]
+[node name="HitEffects" type="Node3D" unique_id=247494205]
 script = ExtResource("1_nw0dd")
 
-[node name="FreeTimer" type="Timer" parent="."]
+[node name="FreeTimer" type="Timer" parent="." unique_id=1487266487]
 
-[node name="Particles" type="GPUParticles3D" parent="."]
+[node name="Particles" type="GPUParticles3D" parent="." unique_id=694935268]
 unique_name_in_owner = true
 material_override = SubResource("StandardMaterial3D_m71ty")
 amount = 30
@@ -55,7 +55,7 @@ trail_lifetime = 1.95
 process_material = SubResource("ParticleProcessMaterial_3esec")
 draw_pass_1 = SubResource("QuadMesh_v8bk4")
 
-[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="." unique_id=853188513]
 size = Vector3(12, 12, 12)
 resolution = 1
 heightfield_mask = 17

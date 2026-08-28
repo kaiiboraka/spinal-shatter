@@ -30,12 +30,12 @@ level_loading_screen = NodePath("../LevelLoadingScreen")
 
 [node name="LevelManager" type="Node" parent="." unique_id=1350972375 node_paths=PackedStringArray("level_loader", "scene_lister")]
 script = ExtResource("6_pm3vb")
-level_loader = NodePath("../LevelLoader")
 starting_level_path = "res://addons/maaacks_game_template/examples/scenes/game/levels/level_1.tscn"
-scene_lister = NodePath("SceneLister")
 game_won_scene = ExtResource("7_6gar2")
 level_lost_scene = ExtResource("8_oed0s")
 level_won_scene = ExtResource("9_mbv6o")
+level_loader = NodePath("../LevelLoader")
+scene_lister = NodePath("SceneLister")
 
 [node name="SceneLister" type="Node" parent="LevelManager" unique_id=673614733]
 script = ExtResource("10_bmi5i")

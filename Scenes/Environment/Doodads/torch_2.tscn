@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bvpgv11sxlx0v"]
+[gd_scene format=4 uid="uid://bvpgv11sxlx0v"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ui8i"]
 resource_name = "Torch__Base_Wood"
@@ -123,31 +123,28 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_huias")
 
-[node name="Torch 2" type="StaticBody3D"]
+[node name="Torch 2" type="StaticBody3D" unique_id=189793980]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 0, 0, 0)
 collision_layer = 512
 
-[node name="Torch 2_Torch _ Base Wood_0" type="MeshInstance3D" parent="."]
+[node name="Torch 2_Torch _ Base Wood_0" type="MeshInstance3D" parent="." unique_id=1405103270]
 mesh = SubResource("ArrayMesh_85b3x")
-skeleton = NodePath("")
 
-[node name="Torch 2_Torch _ Handling Grip_0" type="MeshInstance3D" parent="."]
+[node name="Torch 2_Torch _ Handling Grip_0" type="MeshInstance3D" parent="." unique_id=40429113]
 mesh = SubResource("ArrayMesh_nir45")
-skeleton = NodePath("")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1235046390]
 shape = SubResource("ConvexPolygonShape3D_bcbdv")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1688852787]
 shape = SubResource("ConvexPolygonShape3D_igs16")
 
-[node name="Torch 2 _ Flame" type="Node3D" parent="."]
+[node name="Torch 2 _ Flame" type="Node3D" parent="." unique_id=1807475287]
 transform = Transform3D(1, 0, 0, 0, 1, 2.646978e-23, 0, -2.646978e-23, 1, 0, 2.483527e-10, 0.32765806)
 
-[node name="Torch 2 _ Flame_Flame_0" type="MeshInstance3D" parent="Torch 2 _ Flame"]
+[node name="Torch 2 _ Flame_Flame_0" type="MeshInstance3D" parent="Torch 2 _ Flame" unique_id=1420519901]
 mesh = SubResource("ArrayMesh_tkuij")
-skeleton = NodePath("")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1178203412]
 light_color = Color(1, 0.42352942, 0, 1)
 omni_range = 7.5

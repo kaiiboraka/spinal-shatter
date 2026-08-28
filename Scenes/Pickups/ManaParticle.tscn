@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://3mci4bqbc8g6"]
+[gd_scene format=3 uid="uid://3mci4bqbc8g6"]
 
 [ext_resource type="Script" uid="uid://b3jsk6jtlrkc7" path="res://Scripts/Pickups/ManaParticle.cs" id="2_lkpyv"]
 [ext_resource type="Resource" uid="uid://6g1ukl8gec4s" path="res://assets/Resources/ManaParticleData_Small.tres" id="3_6badg"]
@@ -13,7 +13,7 @@ radius = 0.2
 resource_local_to_scene = true
 radius = 0.25
 
-[node name="ManaPickup" type="CharacterBody3D" node_paths=PackedStringArray("LifetimeTimer", "Sprite", "CollisionShape", "AreaShape") groups=["ManaParticles", "Pickups"]]
+[node name="ManaPickup" type="CharacterBody3D" unique_id=829061732 node_paths=PackedStringArray("LifetimeTimer", "Sprite", "CollisionShape", "AreaShape") groups=["ManaParticles", "Pickups"]]
 collision_layer = 65536
 collision_mask = 652
 floor_stop_on_slope = false
@@ -24,17 +24,17 @@ CollisionShape = NodePath("BodyCollisionShape3D")
 AreaShape = NodePath("Area3D/AreaCollisionShape3D")
 data = ExtResource("3_6badg")
 
-[node name="LifetimeTimer" type="Timer" parent="."]
+[node name="LifetimeTimer" type="Timer" parent="." unique_id=1655848085]
 one_shot = true
 autostart = true
 
-[node name="Pickup_AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Pickup_AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1177341609]
 stream = ExtResource("3_lkpyv")
 volume_db = -12.0
 pitch_scale = 0.74
 bus = &"SFX"
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1265582024]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 modulate = Color(1.5720325, 1.5720325, 1.5720325, 1)
 pixel_size = 0.02
@@ -44,17 +44,17 @@ sprite_frames = ExtResource("4_8lofv")
 autoplay = "default"
 frame_progress = 0.28987595
 
-[node name="BodyCollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="BodyCollisionShape3D" type="CollisionShape3D" parent="." unique_id=975405671]
 shape = SubResource("SphereShape3D_ulyup")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." unique_id=2079300071]
 collision_layer = 65536
 collision_mask = 131072
 
-[node name="AreaCollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="AreaCollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=377888126]
 shape = SubResource("SphereShape3D_ts6fd")
 debug_color = Color(0.82745004, 0.83317846, 1.92523e-06, 0.41960785)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1259521781]
 light_color = Color(0.85882354, 0.09019608, 0.79607844, 1)
 omni_range = 2.0

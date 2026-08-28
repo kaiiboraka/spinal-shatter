@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SpellData" load_steps=7 format=3 uid="uid://c8k5dujog71uv"]
+[gd_resource type="Resource" script_class="SpellData" format=3 uid="uid://c8k5dujog71uv"]
 
 [ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="1_k72oj"]
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_ow8lb"]
@@ -11,6 +11,7 @@
 script = ExtResource("13_7es57")
 Slot = 2
 StatRanges = ExtResource("5_ow8lb")
+ApplicableEffects = null
 ProjectileScene = ExtResource("3_ow8lb")
 ChargeAudioData = ExtResource("1_ow8lb")
 RankUps = ExtResource("4_7bumn")

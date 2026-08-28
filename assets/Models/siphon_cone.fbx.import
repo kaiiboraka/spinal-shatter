@@ -16,6 +16,8 @@ dest_files=["res://.godot/imported/siphon_cone.fbx-3127888c63e30775cc3c8a15c4b66
 nodes/root_type=""
 nodes/root_name=""
 nodes/root_script=null
+mesh_library/use_node_names_as_mesh_names=false
+array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=100.0
 nodes/import_as_skeleton_bones=false
@@ -41,7 +43,7 @@ _subresources={
 "materials": {
 "standardSurface1": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/Textures/siphon_cone.tres",
+"use_external/fallback_path": "res://assets/Materials/siphon_cone.tres",
 "use_external/path": "uid://cltmcffqncspc"
 }
 },
@@ -52,7 +54,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/siphon_cone.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/siphon_cone.res",
 "save_to_file/path": "uid://ldg6yktjwwb0"
 }
 }

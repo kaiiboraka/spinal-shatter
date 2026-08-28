@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://5pjtxclcnx4f"]
+[gd_scene format=3 uid="uid://5pjtxclcnx4f"]
 
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="1_s26cy"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="2_m2d6w"]
@@ -17,16 +17,6 @@ ease = 1
 
 [sub_resource type="Resource" id="Resource_7m0fv"]
 script = ExtResource("3_l7kg8")
-keep_aspect = 1
-cull_mask = 1048575
-h_offset = 0.0
-v_offset = 0.0
-projection = 0
-fov = 75.0
-size = 1.0
-frustum_offset = Vector2(0, 0)
-near = 0.05
-far = 4000.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_i42vj"]
 dof_blur_far_enabled = true
@@ -43,16 +33,7 @@ ease = 1
 
 [sub_resource type="Resource" id="Resource_jogxh"]
 script = ExtResource("3_l7kg8")
-keep_aspect = 1
-cull_mask = 1048575
 h_offset = 1.0
-v_offset = 0.0
-projection = 0
-fov = 75.0
-size = 1.0
-frustum_offset = Vector2(0, 0)
-near = 0.05
-far = 4000.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_fvhx5"]
 dof_blur_far_enabled = true
@@ -78,16 +59,6 @@ ease = 1
 
 [sub_resource type="Resource" id="Resource_unpfd"]
 script = ExtResource("3_l7kg8")
-keep_aspect = 1
-cull_mask = 1048575
-h_offset = 0.0
-v_offset = 0.0
-projection = 0
-fov = 75.0
-size = 1.0
-frustum_offset = Vector2(0, 0)
-near = 0.05
-far = 4000.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_sm466"]
 top_radius = 1.51
@@ -99,9 +70,9 @@ albedo_texture = ExtResource("8_rjcgw")
 uv1_scale = Vector3(1.91, 1.91, 1.91)
 uv1_offset = Vector3(0.025, -0.927, 0)
 
-[node name="Root" type="Node3D"]
+[node name="Root" type="Node3D" unique_id=1954074887]
 
-[node name="PlayerPhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("follow_target")]
+[node name="PlayerPhantomCamera3D" type="Node3D" parent="." unique_id=1585275111 node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
 transform = Transform3D(0.999903, 0.0139622, 0, -0.0139622, 0.999903, 0, 0, 0, 1, -0.0194088, 0.506884, 9.13821)
 script = ExtResource("1_s26cy")
@@ -116,7 +87,7 @@ follow_damping = true
 follow_distance = 3.5
 spring_length = 3.5
 
-[node name="PlayerAimPhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("follow_target")]
+[node name="PlayerAimPhantomCamera3D" type="Node3D" parent="." unique_id=585076155 node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
 transform = Transform3D(0.999903, 0.0139622, 0, -0.0139622, 0.999903, 0, 0, 0, 1, -0.0194088, 1.47688, 6.73921)
 script = ExtResource("1_s26cy")
@@ -131,59 +102,59 @@ follow_damping_value = Vector3(0, 0, 0)
 follow_distance = 1.5
 spring_length = 1.5
 
-[node name="PlayerCharacterBody3D" parent="." instance=ExtResource("4_qcyfd")]
+[node name="PlayerCharacterBody3D" parent="." unique_id=1009274001 instance=ExtResource("4_qcyfd")]
 unique_name_in_owner = true
 transform = Transform3D(0.999903, 0.0139622, 0, -0.0139622, 0.999903, 0, 0, 0, 1, -0.0194088, 0.506884, 5.63821)
 
-[node name="MainCamera3D" type="Camera3D" parent="."]
+[node name="MainCamera3D" type="Camera3D" parent="." unique_id=650837788]
 unique_name_in_owner = true
 physics_interpolation_mode = 1
 transform = Transform3D(0.999903, 0.0139622, 0, -0.0139622, 0.999903, 0, 0, 0, 1, -0.0194088, 0.506884, 9.13821)
 attributes = SubResource("CameraAttributesPractical_pst8q")
 
-[node name="PhantomCameraHost" type="Node" parent="MainCamera3D"]
+[node name="PhantomCameraHost" type="Node" parent="MainCamera3D" unique_id=317413212]
 process_priority = 300
 process_physics_priority = 300
 script = ExtResource("5_8von1")
 
-[node name="Environment" type="Node" parent="."]
+[node name="Environment" type="Node" parent="." unique_id=1006970327]
 
-[node name="Floor" parent="Environment" instance=ExtResource("6_o1fj6")]
+[node name="Floor" parent="Environment" unique_id=812761865 instance=ExtResource("6_o1fj6")]
 transform = Transform3D(1000, 0, 0, 0, 1, 0, 0, 0, 1000, 0, -1, 0)
 metadata/_edit_lock_ = true
 
-[node name="Wall" parent="Environment" instance=ExtResource("6_o1fj6")]
+[node name="Wall" parent="Environment" unique_id=245498991 instance=ExtResource("6_o1fj6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 4.5, 0)
 mesh = SubResource("BoxMesh_wsigl")
 metadata/_edit_lock_ = true
 
-[node name="Wall2" parent="Environment" instance=ExtResource("6_o1fj6")]
+[node name="Wall2" parent="Environment" unique_id=359717440 instance=ExtResource("6_o1fj6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 4.5, 0)
 mesh = SubResource("BoxMesh_wsigl")
 metadata/_edit_lock_ = true
 
-[node name="Wall3" parent="Environment" instance=ExtResource("6_o1fj6")]
+[node name="Wall3" parent="Environment" unique_id=1821378750 instance=ExtResource("6_o1fj6")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 4.5, 10.5)
 mesh = SubResource("BoxMesh_wsigl")
 metadata/_edit_lock_ = true
 
-[node name="Wall4" parent="Environment" instance=ExtResource("6_o1fj6")]
+[node name="Wall4" parent="Environment" unique_id=1406955170 instance=ExtResource("6_o1fj6")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 4.5, -9.5)
 mesh = SubResource("BoxMesh_wsigl")
 metadata/_edit_lock_ = true
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=1213839482]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8, 0)
 metadata/_edit_lock_ = true
 
-[node name="CeilingPhantomCamera3D" type="Node3D" parent="."]
+[node name="CeilingPhantomCamera3D" type="Node3D" parent="." unique_id=1752833098]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, -1, 2.98023e-08, 0, 2.98023e-08, 1, -1, 4.37114e-08, -1.3027e-15, -0.200665, 13.366, -0.162648)
 script = ExtResource("1_s26cy")
 tween_resource = SubResource("Resource_afrr1")
 camera_3d_resource = SubResource("Resource_unpfd")
 
-[node name="MovementInstructionsLabel" type="Label3D" parent="."]
+[node name="MovementInstructionsLabel" type="Label3D" parent="." unique_id=550848702]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0505604, -0.484909, 1.44357)
 visible = false
 modulate = Color(0.294118, 1, 0.631373, 1)
@@ -191,7 +162,7 @@ text = "[WASD] to move"
 font = ExtResource("7_amcmx")
 font_size = 48
 
-[node name="MovementInstructionsLabel3" type="Label3D" parent="."]
+[node name="MovementInstructionsLabel3" type="Label3D" parent="." unique_id=789512132]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0505604, -0.484909, 0.817134)
 visible = false
 modulate = Color(0.294118, 1, 0.631373, 1)
@@ -199,7 +170,7 @@ text = "[Right Mouse Click] to \"aim\""
 font = ExtResource("7_amcmx")
 font_size = 48
 
-[node name="MovementInstructionsLabel2" type="Label3D" parent="."]
+[node name="MovementInstructionsLabel2" type="Label3D" parent="." unique_id=1405622788]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.0440154, -0.490478, -6.30248)
 visible = false
 modulate = Color(0.294118, 1, 0.631373, 1)
@@ -207,12 +178,12 @@ text = "[Space] to toggle PCam"
 font = ExtResource("7_amcmx")
 font_size = 48
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1313084401]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.260217, 1.60477, -9.07797)
 mesh = SubResource("CylinderMesh_sm466")
 surface_material_override/0 = SubResource("StandardMaterial3D_hp48l")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1725966737]
 transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0.0525861, 1.60477, 9.98156)
 mesh = SubResource("CylinderMesh_sm466")
 surface_material_override/0 = SubResource("StandardMaterial3D_hp48l")

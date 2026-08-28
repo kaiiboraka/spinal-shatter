@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CastedSpellData" load_steps=8 format=3 uid="uid://cirydstf3n5"]
+[gd_resource type="Resource" script_class="CastedSpellData" format=3 uid="uid://cirydstf3n5"]
 
 [ext_resource type="Texture2D" uid="uid://bve3q2i7jh4xl" path="res://assets/Images/ShopItems/Spells/Spell_Orb_icon.ase" id="1_0jqsu"]
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_tgl4v"]
@@ -13,6 +13,7 @@ script = ExtResource("4_nob0r")
 VisualSizeOverride = ExtResource("6_aee25")
 Slot = 1
 StatRanges = ExtResource("5_aee25")
+ApplicableEffects = null
 ProjectileScene = ExtResource("3_aee25")
 ChargeAudioData = ExtResource("1_tgl4v")
 RankUps = ExtResource("4_tgl4v")

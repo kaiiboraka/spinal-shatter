@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=3 format=3 uid="uid://cgmjudjvgjmpl"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cgmjudjvgjmpl"]
 
 [ext_resource type="AudioStream" uid="uid://blft875wx3uct" path="res://assets/Audio/SFX/Slash.wav" id="1_vo6jr"]
 [ext_resource type="AudioStream" uid="uid://df1gmoqh0br2k" path="res://assets/Audio/SFX/SlashUp.wav" id="2_2ftol"]

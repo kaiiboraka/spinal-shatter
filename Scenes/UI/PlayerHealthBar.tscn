@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dswd37c3j26b1"]
+[gd_scene format=3 uid="uid://dswd37c3j26b1"]
 
-[ext_resource type="Script" uid="uid://duj35k5d3i30k" path="res://Scripts/UI/PlayerHealthBar.cs" id="1_g7kqa"]
+[ext_resource type="Script" uid="uid://duj35k5d3i30k" path="res://Scripts/UI/PlayerParamterBar.cs" id="1_g7kqa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u3ofr"]
 bg_color = Color(0, 0, 0, 1)
@@ -8,7 +8,7 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e31un"]
 bg_color = Color(1, 0, 0, 1)
 
-[node name="ProgressBar" type="ProgressBar"]
+[node name="ProgressBar" type="ProgressBar" unique_id=1034180506]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -23,10 +23,6 @@ resources_spreadsheet_view/fold_docks=true
 resources_spreadsheet_view/resource_cell_label_mode=1
 resources_spreadsheet_view/freeze_first_column=true
 
-[animation]
-
-compatibility/default_parent_skeleton_in_mesh_instance_3d=true
-
 [application]
 
 config/name="Spinal Shatter"
@@ -53,6 +49,7 @@ SignalBus="*res://Scripts/Autoloads/SignalBus.cs"
 CameraTransition="*res://Scripts/Autoloads/CameraTransition.cs"
 WeaponSlotter="*res://Scenes/UI/WeaponSlotter.tscn"
 SceneLoader="*uid://cbwmrnp0af35y"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
 
@@ -75,7 +72,7 @@ naming/script_name_casing=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/AutoKey_SpriteFrames/plugin.cfg", "res://addons/GPUTrail/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg", "res://addons/fancy_folder_colors/plugin.cfg", "res://addons/layerNames/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/plugin_refresher/plugin.cfg", "res://addons/resource_namer/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg", "res://addons/plugin_refresher/plugin.cfg")
 
 [file_customization]
 

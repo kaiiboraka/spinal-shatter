@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=5 format=3 uid="uid://c500xjuf7e00f"]
+[gd_resource type="Resource" script_class="AudioData" format=3 uid="uid://c500xjuf7e00f"]
 
 [ext_resource type="AudioStream" uid="uid://c50wah00nfmgt" path="res://assets/Audio/AudioData/SFX_PoisonBounce.tres" id="1_n1p7l"]
 [ext_resource type="AudioStream" uid="uid://b4q8b0kc2ibi" path="res://assets/Audio/AudioData/AudioFile_Explosion.tres" id="2_n1p7l"]

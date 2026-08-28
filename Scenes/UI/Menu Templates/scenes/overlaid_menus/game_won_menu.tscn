@@ -1,57 +1,57 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1hx0bmulmbhi"]
+[gd_scene format=3 uid="uid://b1hx0bmulmbhi"]
 
-[ext_resource type="PackedScene" path="res://addons/maaacks_game_template/base/nodes/overlaid_menu/overlaid_menu.tscn" id="1_bl6wu"]
-[ext_resource type="Script" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/game_won_menu.gd" id="2_k636x"]
+[ext_resource type="PackedScene" uid="uid://wny2d8dvp3ok" path="res://addons/maaacks_game_template/base/nodes/overlaid_menu/overlaid_menu.tscn" id="1_bl6wu"]
+[ext_resource type="Script" uid="uid://wphxjl4nyd8d" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/game_won_menu.gd" id="2_k636x"]
 
-[node name="GameWonMenu" instance=ExtResource("1_bl6wu")]
+[node name="GameWonMenu" unique_id=612521716 instance=ExtResource("1_bl6wu")]
 process_mode = 3
 script = ExtResource("2_k636x")
 pauses_game = true
 
-[node name="MenuPanelContainer" parent="." index="1"]
+[node name="MenuPanelContainer" parent="." index="1" unique_id=1027413032]
 custom_minimum_size = Vector2(432, 240)
 
-[node name="TitleMargin" parent="MenuPanelContainer/MarginContainer/BoxContainer" index="0"]
+[node name="TitleMargin" parent="MenuPanelContainer/MarginContainer/BoxContainer" parent_id_path=PackedInt32Array(1434949226) index="0" unique_id=1913327456]
 visible = false
 
-[node name="DescriptionMargin" parent="MenuPanelContainer/MarginContainer/BoxContainer" index="1"]
+[node name="DescriptionMargin" parent="MenuPanelContainer/MarginContainer/BoxContainer" parent_id_path=PackedInt32Array(1434949226) index="1" unique_id=1255969233]
 visible = true
 theme_override_constants/margin_top = 64
 theme_override_constants/margin_bottom = 64
 
-[node name="DescriptionLabel" parent="MenuPanelContainer/MarginContainer/BoxContainer/DescriptionMargin" index="0"]
+[node name="DescriptionLabel" parent="MenuPanelContainer/MarginContainer/BoxContainer/DescriptionMargin" index="0" unique_id=118027203]
 text = "You won!"
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="MenuButtons" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin" index="0"]
+[node name="MenuButtons" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin" parent_id_path=PackedInt32Array(1675108981) index="0" unique_id=336367003]
 custom_minimum_size = Vector2(400, 0)
 vertical = false
 
-[node name="ExitButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="0"]
+[node name="ExitButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="0" unique_id=97814637]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Exit"
 
-[node name="MainMenuButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="1"]
+[node name="MainMenuButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="1" unique_id=1168099469]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Main Menu"
 
-[node name="CloseButton" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="2"]
+[node name="CloseButton" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="2" unique_id=988348179]
 size_flags_horizontal = 3
 text = "Continue"
 
-[node name="ConfirmMainMenu" type="ConfirmationDialog" parent="." index="2"]
+[node name="ConfirmMainMenu" type="ConfirmationDialog" parent="." index="2" unique_id=1527902052]
 auto_translate_mode = 1
 initial_position = 2
 dialog_text = "Go back to main menu?"
 
-[node name="ConfirmExit" type="ConfirmationDialog" parent="." index="3"]
+[node name="ConfirmExit" type="ConfirmationDialog" parent="." index="3" unique_id=1106996461]
 auto_translate_mode = 1
 initial_position = 2
 dialog_text = "Quit the game?"

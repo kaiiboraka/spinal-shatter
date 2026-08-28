@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://ohgyrsqlspjj"]
+[gd_scene format=4 uid="uid://ohgyrsqlspjj"]
 
 [ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1_orange.tscn" id="1_p1ct4"]
 
@@ -43,10 +43,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_p7u1n")
 
-[node name="Torch 1" instance=ExtResource("1_p1ct4")]
+[node name="Torch 1" unique_id=1115072761 instance=ExtResource("1_p1ct4")]
 
-[node name="Torch 1 _ Flame_Flame_0" parent="Torch 1 _ Flame" index="0"]
+[node name="Torch 1 _ Flame_Flame_0" parent="Torch 1 _ Flame" parent_id_path=PackedInt32Array(939746697) index="0" unique_id=275242210]
 mesh = SubResource("ArrayMesh_60t2r")
 
-[node name="OmniLight3D" parent="." index="5"]
+[node name="OmniLight3D" parent="." index="5" unique_id=2069827794]
 light_color = Color(0.54509807, 0.16862746, 1, 1)

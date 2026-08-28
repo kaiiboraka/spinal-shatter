@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ce3rixvfkjjko"]
+[gd_scene format=3 uid="uid://ce3rixvfkjjko"]
 
 [ext_resource type="Script" uid="uid://cn3qgdh4l2tck" path="res://Scripts/Enemies/Enemy.cs" id="1_5f5xd"]
 [ext_resource type="Resource" uid="uid://bsa11e7usrada" path="res://assets/Resources/EnemyData/GMM_ThrasherData.tres" id="2_5f5xd"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://duqlhbd81gtaq" path="res://Scenes/UI/state_sprite_3d.tscn" id="6_4r4pb"]
 [ext_resource type="SpriteFrames" uid="uid://cj4btnytpq1ao" path="res://assets/Images/Enemies/Enemy_GMM_Thrasher.ase" id="7_5f5xd"]
 [ext_resource type="SpriteFrames" uid="uid://bcj4ebfkx2uby" path="res://assets/Images/Enemies/Eyes/Enemy_Eye_GMM_Thrasher.ase" id="8_5f5xd"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_kty6f"]
+viewport_path = NodePath("StateViewport")
 
 [sub_resource type="FogMaterial" id="FogMaterial_5f5xd"]
 albedo = Color(0.735357, 0.735357, 0.735357, 1)
@@ -684,7 +687,7 @@ _data = {
 &"Side": SubResource("Animation_nql3o")
 }
 
-[node name="Thrasher" type="CharacterBody3D" groups=["Enemies"]]
+[node name="Thrasher" type="CharacterBody3D" unique_id=1945290177 groups=["Enemies"]]
 collision_layer = 1024
 collision_mask = 1677
 floor_constant_speed = true
@@ -694,40 +697,41 @@ script = ExtResource("1_5f5xd")
 Data = ExtResource("2_5f5xd")
 _deathParticlesScene = ExtResource("3_kw3gx")
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node" parent="." unique_id=518913120]
 unique_name_in_owner = true
 script = ExtResource("4_1syk4")
 
-[node name="EffectComponent" type="Node" parent="."]
+[node name="EffectComponent" type="Node" parent="." unique_id=66973575]
 script = ExtResource("5_kty6f")
 
-[node name="Timers" type="Node" parent="."]
+[node name="Timers" type="Node" parent="." unique_id=1116621023]
 
-[node name="WalkTimer" type="Timer" parent="Timers"]
+[node name="WalkTimer" type="Timer" parent="Timers" unique_id=95444239]
 one_shot = true
 
-[node name="ActionWaitTimer" type="Timer" parent="Timers"]
+[node name="ActionWaitTimer" type="Timer" parent="Timers" unique_id=363161829]
 wait_time = 2.0
 one_shot = true
 
-[node name="AttackCooldownTimer" type="Timer" parent="Timers"]
+[node name="AttackCooldownTimer" type="Timer" parent="Timers" unique_id=1454207155]
 wait_time = 3.0
 one_shot = true
 
-[node name="PoolTimer" type="Timer" parent="Timers"]
+[node name="PoolTimer" type="Timer" parent="Timers" unique_id=391256320]
 one_shot = true
 
-[node name="BlinkTimer" type="Timer" parent="Timers"]
+[node name="BlinkTimer" type="Timer" parent="Timers" unique_id=1265038968]
 wait_time = 3.0
 one_shot = true
 
-[node name="HealthBar" parent="." instance=ExtResource("5_lob6v")]
+[node name="HealthBar" parent="." unique_id=678975451 instance=ExtResource("5_lob6v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
 
-[node name="StateSprite3D" parent="." instance=ExtResource("6_4r4pb")]
+[node name="StateSprite3D" parent="." unique_id=326004874 instance=ExtResource("6_4r4pb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, 0)
+texture = SubResource("ViewportTexture_kty6f")
 
-[node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Body_AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=344765101]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55, 0)
 layers = 4
 pixel_size = 0.05
@@ -739,7 +743,7 @@ sprite_frames = ExtResource("7_5f5xd")
 animation = &"Front"
 autoplay = "Front"
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D"]
+[node name="SpotLight3D" type="SpotLight3D" parent="Body_AnimatedSprite3D" unique_id=177205667]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.771, -0.01)
 light_color = Color(0.93, 0.44640002, 0.5270002, 1)
@@ -752,7 +756,7 @@ spot_range = 7.5
 spot_attenuation = 2.0
 spot_angle = 25.0
 
-[node name="Eye_AnimatedSprite" type="AnimatedSprite3D" parent="Body_AnimatedSprite3D"]
+[node name="Eye_AnimatedSprite" type="AnimatedSprite3D" parent="Body_AnimatedSprite3D" unique_id=543401681]
 layers = 5
 modulate = Color(18.892157, 18.892157, 18.892157, 1)
 pixel_size = 0.05
@@ -764,62 +768,60 @@ sprite_frames = ExtResource("8_5f5xd")
 animation = &"Front"
 autoplay = "Front"
 
-[node name="FogVolume" type="FogVolume" parent="Body_AnimatedSprite3D"]
+[node name="FogVolume" type="FogVolume" parent="Body_AnimatedSprite3D" unique_id=302114101]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5755254, -2.6397312)
 size = Vector3(1, 5, 1)
 shape = 0
 material = SubResource("FogMaterial_5f5xd")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=11918292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.731, 0)
 shape = SubResource("CapsuleShape3D_5f5xd")
 
-[node name="MeleeHitbox" type="Area3D" parent="."]
+[node name="MeleeHitbox" type="Area3D" parent="." unique_id=1257653377]
 collision_layer = 16384
 collision_mask = 2
 
-[node name="MeleeCollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
+[node name="MeleeCollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox" unique_id=756932364]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1)
 shape = SubResource("BoxShape3D_3nwgj")
 disabled = true
 debug_color = Color(1, 0.5498417, 0.3978175, 0.41960785)
 
-[node name="Hurtbox" type="Area3D" parent="."]
+[node name="Hurtbox" type="Area3D" parent="." unique_id=1064899046]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.731, 0)
 collision_layer = 2048
 collision_mask = 12288
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox" unique_id=1558286957]
 shape = SubResource("CapsuleShape3D_s0m4p")
 debug_color = Color(0.7, 0.64166665, 0, 0.41960785)
 
-[node name="DetectionArea3D" type="Area3D" parent="."]
+[node name="DetectionArea3D" type="Area3D" parent="." unique_id=1590774049]
 collision_layer = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea3D" unique_id=564958396]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 shape = SubResource("CylinderShape3D_3nwgj")
 
-[node name="LOS_RayCast3D" type="RayCast3D" parent="."]
+[node name="LOS_RayCast3D" type="RayCast3D" parent="." unique_id=1430985116]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9361892, 0)
 target_position = Vector3(0, 0, -20)
 collision_mask = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_o143j")
-}
-autoplay = "Front"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=286794154]
+libraries/ = SubResource("AnimationLibrary_o143j")
+autoplay = &"Front"
 
-[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1799170337]
 max_distance = 150.0
 bus = &"Voice"
 
-[node name="SFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="SFX_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1126447446]
 max_distance = 150.0
 bus = &"SFX"
 
-[node name="Attack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="Attack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1244973102]
 max_distance = 150.0
 bus = &"SFX"

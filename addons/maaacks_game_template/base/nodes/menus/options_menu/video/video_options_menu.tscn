@@ -53,7 +53,6 @@ option_section = 3
 key = "V-Sync"
 section = "VideoSettings"
 property_type = 2
-default_value = 0
 
 [connection signal="setting_changed" from="VBoxContainer/FullscreenControl" to="." method="_on_fullscreen_control_setting_changed"]
 [connection signal="setting_changed" from="VBoxContainer/ResolutionControl" to="." method="_on_resolution_control_setting_changed"]

@@ -1,4 +1,4 @@
-[gd_resource type="AudioStream" script_class="AudioBucket" load_steps=4 format=3 uid="uid://b831x1g38mrri"]
+[gd_resource type="AudioStream" script_class="AudioBucket" format=3 uid="uid://b831x1g38mrri"]
 
 [ext_resource type="AudioStream" uid="uid://dgxfiatt8g2x" path="res://assets/Audio/SFX/Exorcism.wav" id="1_3wgfd"]
 [ext_resource type="Script" uid="uid://dotxhewohd3yf" path="res://Scripts/Resources/AudioBucket.cs" id="1_gwyko"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b3np3lbhsv241"]
+[gd_scene format=3 uid="uid://b3np3lbhsv241"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_6igdy"]
 [ext_resource type="Material" uid="uid://dm8uxtucinjau" path="res://assets/Materials/BrickWall_Fire_RoomScale.tres" id="2_6igdy"]
@@ -34,111 +34,111 @@ size = Vector3(55.944214, 20, 44.506348)
 [sub_resource type="BoxShape3D" id="BoxShape3D_jsd1r"]
 size = Vector3(6.5, 5, 25)
 
-[node name="South_Room" type="StaticBody3D" groups=["OutsideHub"]]
+[node name="South_Room" type="StaticBody3D" unique_id=55061921 groups=["OutsideHub"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 51)
 collision_layer = 516
 collision_mask = 42001
 script = ExtResource("1_6igdy")
 RoomDirection = 2
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1721224736]
 navigation_mesh = SubResource("NavigationMesh_3aq0b")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=1709107758]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 layers = 17
 mesh = ExtResource("2_jhh6y")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_6igdy")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=666221299]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_wrgjc")
 
-[node name="LevelRegion" type="Area3D" parent="."]
+[node name="LevelRegion" type="Area3D" parent="." unique_id=1113264760]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.11887, 0, 57.651375)
 collision_layer = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRegion" unique_id=1329139508]
 transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -15.754368, 10, -32.977882)
 shape = SubResource("BoxShape3D_jhh6y")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="LevelRegion" unique_id=469618070]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.585228, 10, 8.577255)
 shape = SubResource("BoxShape3D_6igdy")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion" unique_id=597714884]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -105.31523, 10, 8.008835)
 shape = SubResource("BoxShape3D_jdgky")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="LevelRegion" unique_id=1942134678]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -49.59134, 10, -43.10621)
 shape = SubResource("BoxShape3D_bjuwb")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="LevelRegion" unique_id=1961198376]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -116.989136, 10, -32.27613)
 shape = SubResource("BoxShape3D_3aq0b")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
+[node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion" unique_id=898028420]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 2.5, -70.15001)
 shape = SubResource("BoxShape3D_jsd1r")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="Torches" type="Node3D" parent="."]
+[node name="Torches" type="Node3D" parent="." unique_id=2095193025]
 
-[node name="Torch 1" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 1" parent="Torches" unique_id=528598458 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 3, 5, 0)
 
-[node name="Torch 2" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 2" parent="Torches" unique_id=629255291 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -3, 5, 0)
 
-[node name="Torch 3" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 3" parent="Torches" unique_id=1349358548 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -88.453285, 5, 60.846107)
 
-[node name="Torch 4" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 4" parent="Torches" unique_id=1035090334 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -98.39595, 5, 10.122852)
 
-[node name="Torch 5" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 5" parent="Torches" unique_id=1003022845 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -67.248566, 5, 82.22167)
 
-[node name="Torch 6" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 6" parent="Torches" unique_id=753607787 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 74.43557, 5, 40.82303)
 
-[node name="Torch 7" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 7" parent="Torches" unique_id=2056600646 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 14.667528, 5, 82.72181)
 
-[node name="Torch 8" parent="Torches" instance=ExtResource("3_jhh6y")]
+[node name="Torch 8" parent="Torches" unique_id=269638533 instance=ExtResource("3_jhh6y")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -38.406185, 5, 22.75547)
 
-[node name="Spawners" type="Node3D" parent="."]
+[node name="Spawners" type="Node3D" parent="." unique_id=55811878]
 unique_name_in_owner = true
 
-[node name="Swooper_EnemySpawner" parent="Spawners" instance=ExtResource("5_3aq0b")]
+[node name="Swooper_EnemySpawner" parent="Spawners" unique_id=1535322719 instance=ExtResource("5_3aq0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -94.99999, 0, 89.00001)
 
-[node name="Melee_EnemySpawner" parent="Spawners" instance=ExtResource("5_3aq0b")]
+[node name="Melee_EnemySpawner" parent="Spawners" unique_id=961742425 instance=ExtResource("5_3aq0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -87, 0, 20.999992)
 SpawnRadius = 15.0
 
-[node name="Melee_EnemySpawner4" parent="Spawners" instance=ExtResource("5_3aq0b")]
+[node name="Melee_EnemySpawner4" parent="Spawners" unique_id=225735249 instance=ExtResource("5_3aq0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.999996, 0, 34.999992)
 
-[node name="Melee_EnemySpawner2" parent="Spawners" instance=ExtResource("5_3aq0b")]
+[node name="Melee_EnemySpawner2" parent="Spawners" unique_id=965117771 instance=ExtResource("5_3aq0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 53.000008)
 SpawnRadius = 15.0
 
-[node name="Melee_EnemySpawner3" parent="Spawners" instance=ExtResource("5_3aq0b")]
+[node name="Melee_EnemySpawner3" parent="Spawners" unique_id=2123005330 instance=ExtResource("5_3aq0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 70.99999)
 
-[node name="AudioPlayers" type="Node3D" parent="."]
+[node name="AudioPlayers" type="Node3D" parent="." unique_id=685471800]
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AudioPlayers" unique_id=808614220]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, -66, -69, 70)
 stream = ExtResource("6_jsd1r")
 volume_db = 12.0
@@ -147,7 +147,7 @@ autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
 
-[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="AudioPlayers" unique_id=751612619]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 51, -69, 81.00001)
 stream = ExtResource("6_jsd1r")
 volume_db = 12.0
@@ -156,7 +156,7 @@ autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
 
-[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="AudioPlayers" unique_id=1702065405]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, -11, -69, 56.999992)
 stream = ExtResource("6_jsd1r")
 volume_db = 12.0
@@ -165,7 +165,7 @@ autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
 
-[node name="AudioStreamPlayer3D6" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+[node name="AudioStreamPlayer3D6" type="AudioStreamPlayer3D" parent="AudioPlayers" unique_id=1162765048]
 transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, -1, -45, 62.999718)
 stream = ExtResource("7_53bcf")
 max_db = 4.0
@@ -173,11 +173,11 @@ autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
 
-[node name="Door" parent="." groups=["OutsideHub"] instance=ExtResource("8_jsd1r")]
+[node name="Door" parent="." unique_id=2016266888 groups=["OutsideHub"] instance=ExtResource("8_jsd1r")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.25)
 DoorDirection = 0
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1188167131]
 transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, 1, 0, -1.0000001, -4.3711395e-08, -12.858158, 18, 53.151924)
 light_color = Color(1, 0.42352942, 0, 1)
 light_energy = 3.5
@@ -190,7 +190,7 @@ spot_attenuation = 1.24
 spot_angle = 126.28
 spot_angle_attenuation = 0.2755447
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=2076667734]
 transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, 1, 0, -1.0000001, -4.3711395e-08, -61.57819, 18, 55.29418)
 light_color = Color(1, 0.42352942, 0, 1)
 light_energy = 3.5
@@ -203,7 +203,7 @@ spot_attenuation = 1.24
 spot_angle = 126.28
 spot_angle_attenuation = 0.2755447
 
-[node name="SpotLight3D3" type="SpotLight3D" parent="."]
+[node name="SpotLight3D3" type="SpotLight3D" parent="." unique_id=1320829737]
 transform = Transform3D(1.0000001, 0, 0, 0, -4.3711392e-08, 1, 0, -1.0000001, -4.3711395e-08, 47.92593, 18, 59.998505)
 light_color = Color(1, 0.42352942, 0, 1)
 light_energy = 3.5

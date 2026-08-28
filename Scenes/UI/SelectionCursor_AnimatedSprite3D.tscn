@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://byiseo5tydxlb"]
+[gd_scene format=3 uid="uid://byiseo5tydxlb"]
 
 [ext_resource type="SpriteFrames" uid="uid://bm21e4fvvpkb3" path="res://assets/Images/UI/selection_cursor.ase" id="1_7k5yl"]
 
-[node name="SelectionCursor_AnimatedSprite3D" type="AnimatedSprite3D"]
+[node name="SelectionCursor_AnimatedSprite3D" type="AnimatedSprite3D" unique_id=2053976935]
 billboard = 1
 double_sided = false
 no_depth_test = true

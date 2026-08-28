@@ -1,16 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7hopu7o7rdrd"]
+[gd_scene format=3 uid="uid://b7hopu7o7rdrd"]
 
 [ext_resource type="PackedScene" uid="uid://3mci4bqbc8g6" path="res://Scenes/Pickups/ManaParticle.tscn" id="1_uesoq"]
 
-[node name="ManaParticle" instance=ExtResource("1_uesoq")]
-Size = 2
-_attractSpeed = 12.0
-Lifetime = 20.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_ympwt"]
+resource_local_to_scene = true
+radius = 0.2
 
-[node name="AnimatedSprite3D" parent="." index="1"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_u1s5j"]
+resource_local_to_scene = true
+radius = 0.25
+
+[node name="ManaParticle" unique_id=1324520345 instance=ExtResource("1_uesoq")]
+
+[node name="AnimatedSprite3D" parent="." index="2" unique_id=1265582024]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 modulate = Color(1.186, 1.572, 0, 1)
 frame_progress = 0.6184592
 
-[node name="OmniLight3D" parent="." index="4"]
+[node name="BodyCollisionShape3D" parent="." index="3" unique_id=975405671]
+shape = SubResource("SphereShape3D_ympwt")
+
+[node name="AreaCollisionShape3D" parent="Area3D" parent_id_path=PackedInt32Array(2079300071) index="0" unique_id=377888126]
+shape = SubResource("SphereShape3D_u1s5j")
+
+[node name="OmniLight3D" parent="." index="5" unique_id=1259521781]
 light_color = Color(0.99215686, 0.49803922, 0, 1)

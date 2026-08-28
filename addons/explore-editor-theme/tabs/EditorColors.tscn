@@ -1,36 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://dti6srt6g56ce"]
+[gd_scene format=3 uid="uid://dti6srt6g56ce"]
 
 [ext_resource type="PackedScene" uid="uid://ds8c70l2dnpy8" path="res://addons/explore-editor-theme/ui/CodePreview.tscn" id="1"]
-[ext_resource type="Texture2D" uid="uid://1o4lmgmicu6s" path="res://addons/explore-editor-theme/color-preview-icon.png" id="2_lmyt4"]
-[ext_resource type="Script" path="res://addons/explore-editor-theme/tabs/EditorColors.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://bcicvnkcl4t5c" path="res://addons/explore-editor-theme/color-preview-icon.png" id="2_lmyt4"]
+[ext_resource type="Script" uid="uid://c45d4ev75pqos" path="res://addons/explore-editor-theme/tabs/EditorColors.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://c6mun6p3lk1k6" path="res://addons/explore-editor-theme/ui/FilterTool.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bg7phy5jdt0wl" path="res://addons/explore-editor-theme/ui/TypeTool.tscn" id="5"]
 
-[node name="Colors" type="MarginContainer"]
+[node name="Colors" type="MarginContainer" unique_id=1251067453]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("3")
 color_icon_background = ExtResource("2_lmyt4")
 
-[node name="Layout" type="VBoxContainer" parent="."]
+[node name="Layout" type="VBoxContainer" parent="." unique_id=2129342693]
 layout_mode = 2
 
-[node name="Toolbar" type="HBoxContainer" parent="Layout"]
+[node name="Toolbar" type="HBoxContainer" parent="Layout" unique_id=213287658]
 layout_mode = 2
 
-[node name="Filter" parent="Layout/Toolbar" instance=ExtResource("4")]
-layout_mode = 2
-label_text = "Filter"
-
-[node name="Type" parent="Layout/Toolbar" instance=ExtResource("5")]
+[node name="Filter" parent="Layout/Toolbar" unique_id=678167846 instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="ColorView" type="HBoxContainer" parent="Layout"]
+[node name="Type" parent="Layout/Toolbar" unique_id=477864763 instance=ExtResource("5")]
+layout_mode = 2
+
+[node name="ColorView" type="HBoxContainer" parent="Layout" unique_id=2010930412]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ColorList" type="ItemList" parent="Layout/ColorView"]
+[node name="ColorList" type="ItemList" parent="Layout/ColorView" unique_id=357456451]
 layout_mode = 2
 size_flags_horizontal = 3
 max_columns = 0
@@ -38,21 +37,21 @@ same_column_width = true
 icon_mode = 0
 fixed_icon_size = Vector2i(48, 48)
 
-[node name="ColorPanel" type="VBoxContainer" parent="Layout/ColorView"]
+[node name="ColorPanel" type="VBoxContainer" parent="Layout/ColorView" unique_id=1517936408]
 visible = false
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 
-[node name="Padding0" type="Control" parent="Layout/ColorView/ColorPanel"]
+[node name="Padding0" type="Control" parent="Layout/ColorView/ColorPanel" unique_id=1186172282]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
-[node name="ColorPreview" type="TextureRect" parent="Layout/ColorView/ColorPanel"]
+[node name="ColorPreview" type="TextureRect" parent="Layout/ColorView/ColorPanel" unique_id=1192646514]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 stretch_mode = 5
 
-[node name="ColorPreviewInfo" type="Label" parent="Layout/ColorView/ColorPanel/ColorPreview"]
+[node name="ColorPreviewInfo" type="Label" parent="Layout/ColorView/ColorPanel/ColorPreview" unique_id=672363704]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
@@ -61,7 +60,7 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 
-[node name="ColorPreviewInfo2" type="Label" parent="Layout/ColorView/ColorPanel/ColorPreview"]
+[node name="ColorPreviewInfo2" type="Label" parent="Layout/ColorView/ColorPanel/ColorPreview" unique_id=1021915541]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -74,21 +73,21 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 
-[node name="Padding1" type="Control" parent="Layout/ColorView/ColorPanel"]
+[node name="Padding1" type="Control" parent="Layout/ColorView/ColorPanel" unique_id=1808032749]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="ColorName" type="Label" parent="Layout/ColorView/ColorPanel"]
+[node name="ColorName" type="Label" parent="Layout/ColorView/ColorPanel" unique_id=559361742]
 layout_mode = 2
 autowrap_mode = 1
 
-[node name="Padding2" type="Control" parent="Layout/ColorView/ColorPanel"]
+[node name="Padding2" type="Control" parent="Layout/ColorView/ColorPanel" unique_id=205007470]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="ColorCode" parent="Layout/ColorView/ColorPanel" instance=ExtResource("1")]
+[node name="ColorCode" parent="Layout/ColorView/ColorPanel" unique_id=162538932 instance=ExtResource("1")]
 layout_mode = 2
 
-[node name="EmptyPanel" type="Control" parent="Layout/ColorView"]
+[node name="EmptyPanel" type="Control" parent="Layout/ColorView" unique_id=2037643199]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2

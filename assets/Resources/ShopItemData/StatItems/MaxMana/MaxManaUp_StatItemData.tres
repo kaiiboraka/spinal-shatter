@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StatItemData" load_steps=4 format=3 uid="uid://ks6csrwleo01"]
+[gd_resource type="Resource" script_class="StatItemData" format=3 uid="uid://ks6csrwleo01"]
 
 [ext_resource type="Script" uid="uid://bjd567vhk7si2" path="res://Scripts/Resources/Items/StatItemData.cs" id="1_8liqy"]
 [ext_resource type="Texture2D" uid="uid://jf1q04trsu8u" path="res://assets/Images/ShopItems/Stats/MaxMana_Crystal_Stat_AtlasTexture.tres" id="1_tjb3j"]

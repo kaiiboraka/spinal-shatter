@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://bi0hoewlvnifa"]
+[gd_scene format=3 uid="uid://bi0hoewlvnifa"]
 
 [ext_resource type="Script" uid="uid://orsaxc1ntupu" path="res://Scripts/PlayerBody.cs" id="1_gjot8"]
 [ext_resource type="PackedScene" uid="uid://csqqi418sjw74" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/pause_menu.tscn" id="2_3vnku"]
@@ -405,7 +405,7 @@ _data = {
 &"RESET": SubResource("Animation_2n8gu")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_weaponInventoryHUD", "_statItemInventoryHUD") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=1753003709 node_paths=PackedStringArray("_weaponInventoryHUD", "_statItemInventoryHUD") groups=["Player"]]
 collision_layer = 3
 collision_mask = 652
 floor_constant_speed = true
@@ -419,18 +419,18 @@ _pauseMenuScene = ExtResource("2_3vnku")
 _weaponInventoryHUD = NodePath("Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer")
 _statItemInventoryHUD = NodePath("Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer")
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node" parent="." unique_id=366607599]
 unique_name_in_owner = true
 script = ExtResource("7_u2vuf")
 
-[node name="ManaComponent" type="Node" parent="."]
+[node name="ManaComponent" type="Node" parent="." unique_id=1855712716]
 unique_name_in_owner = true
 script = ExtResource("3_mana")
 
-[node name="EffectComponent" type="Node" parent="."]
+[node name="EffectComponent" type="Node" parent="." unique_id=791016571]
 script = ExtResource("7_mrttg")
 
-[node name="MagicCaster" type="Node" parent="." node_paths=PackedStringArray("manaComponent", "SpellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
+[node name="MagicCaster" type="Node" parent="." unique_id=1654157778 node_paths=PackedStringArray("manaComponent", "SpellOrigin", "audioPlayer_Spell", "audioPlayer_ChargeBack", "audioPlayer_ChargeBeep")]
 unique_name_in_owner = true
 script = ExtResource("2_caster")
 manaComponent = NodePath("../ManaComponent")
@@ -439,203 +439,201 @@ audioPlayer_Spell = NodePath("../Audio/SpellCast_AudioStreamPlayer3D")
 audioPlayer_ChargeBack = NodePath("../Audio/SpellChargeBack_AudioStreamPlayer3D")
 audioPlayer_ChargeBeep = NodePath("../Audio/SpellChargeBeep_AudioStreamPlayer3D")
 
-[node name="AutomaticCaster" type="Node" parent="." node_paths=PackedStringArray("_spellOrigin")]
+[node name="AutomaticCaster" type="Node" parent="." unique_id=380357276 node_paths=PackedStringArray("_spellOrigin")]
 unique_name_in_owner = true
 script = ExtResource("7_3vnku")
 _spellOrigin = NodePath("../Head/Camera1P/AutoOrigin")
 
-[node name="SiphonComponent" type="Node" parent="." node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
+[node name="SiphonComponent" type="Node" parent="." unique_id=2026332633 node_paths=PackedStringArray("_siphonField", "_target", "AudioStreamPlayer_Siphon")]
 script = ExtResource("5_siphon")
 _siphonField = NodePath("../Head/Camera1P/SiphonField")
 _target = NodePath("../PickupArea")
 AudioStreamPlayer_Siphon = NodePath("../Audio/ManaSiphon_AudioStreamPlayer3D")
 
-[node name="SiphonAnimationPlayer" type="AnimationPlayer" parent="SiphonComponent"]
+[node name="SiphonAnimationPlayer" type="AnimationPlayer" parent="SiphonComponent" unique_id=712237281]
 root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_qkgjm")
-}
-autoplay = "Siphon_Spin"
+libraries/ = SubResource("AnimationLibrary_qkgjm")
+autoplay = &"Siphon_Spin"
 
-[node name="Timers" type="Node" parent="."]
+[node name="Timers" type="Node" parent="." unique_id=1047200610]
 
-[node name="MeleeResetTimer" type="Timer" parent="Timers"]
+[node name="MeleeResetTimer" type="Timer" parent="Timers" unique_id=853466743]
 unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
-[node name="FootstepCooldownTimer" type="Timer" parent="Timers"]
+[node name="FootstepCooldownTimer" type="Timer" parent="Timers" unique_id=90357063]
 unique_name_in_owner = true
 one_shot = true
 
-[node name="ManaRegenTimer" type="Timer" parent="Timers"]
+[node name="ManaRegenTimer" type="Timer" parent="Timers" unique_id=1354302280]
 unique_name_in_owner = true
 
-[node name="AudioListener3D" type="AudioListener3D" parent="."]
+[node name="AudioListener3D" type="AudioListener3D" parent="." unique_id=293120494]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 doppler_tracking = 2
 current = true
 
-[node name="Backlight_OmniLight3D" type="OmniLight3D" parent="."]
+[node name="Backlight_OmniLight3D" type="OmniLight3D" parent="." unique_id=2060460896]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3028629, 1.6992154)
 light_color = Color(1, 0.8, 0.96999997, 1)
 light_energy = 0.7
 
-[node name="PickupArea" type="Area3D" parent="."]
+[node name="PickupArea" type="Area3D" parent="." unique_id=95567217]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.208, 0.181)
 collision_layer = 131072
 collision_mask = 65536
 priority = 10
 
-[node name="PickupRadius" type="CollisionShape3D" parent="PickupArea"]
+[node name="PickupRadius" type="CollisionShape3D" parent="PickupArea" unique_id=781136293]
 shape = SubResource("CapsuleShape3D_7qdam")
 debug_color = Color(0.76919794, 0.44635576, 1.92523e-07, 0.41960785)
 
-[node name="Hurtbox" type="Area3D" parent="."]
+[node name="Hurtbox" type="Area3D" parent="." unique_id=1740135043]
 collision_layer = 2
 collision_mask = 49152
 
-[node name="HurtboxRadius" type="CollisionShape3D" parent="Hurtbox"]
+[node name="HurtboxRadius" type="CollisionShape3D" parent="Hurtbox" unique_id=1019355240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2037842, 0.181)
 shape = SubResource("CapsuleShape3D_3vnku")
 debug_color = Color(0, 0.77, 0.42350015, 0.41960785)
 
-[node name="MeleeHitbox" type="Area3D" parent="."]
+[node name="MeleeHitbox" type="Area3D" parent="." unique_id=1959929906]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -2)
 collision_layer = 4096
 collision_mask = 3072
 
-[node name="Melee_CollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox"]
+[node name="Melee_CollisionShape3D" type="CollisionShape3D" parent="MeleeHitbox" unique_id=1678255252]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
 shape = SubResource("CylinderShape3D_fxftb")
 disabled = true
 debug_color = Color(0.6092612, 0.53979415, 0, 0.41960785)
 
-[node name="Mesh_Body" type="MeshInstance3D" parent="."]
+[node name="Mesh_Body" type="MeshInstance3D" parent="." unique_id=532688864]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.328861)
 mesh = SubResource("CapsuleMesh_u83l5")
 surface_material_override/0 = SubResource("StandardMaterial3D_mc0oj")
 
-[node name="Head" type="MeshInstance3D" parent="Mesh_Body"]
+[node name="Head" type="MeshInstance3D" parent="Mesh_Body" unique_id=568632301]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.980253, 0)
 mesh = SubResource("SphereMesh_fa6rm")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_fxftb")
 
-[node name="PlayerCollider" type="CollisionShape3D" parent="."]
+[node name="PlayerCollider" type="CollisionShape3D" parent="." unique_id=1986578893]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_1i50u")
 
-[node name="Audio" type="Node3D" parent="."]
+[node name="Audio" type="Node3D" parent="." unique_id=1562265874]
 
-[node name="Global_AudioStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
+[node name="Global_AudioStreamPlayer" type="AudioStreamPlayer" parent="Audio" unique_id=1780583139]
 
-[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Voice_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=1072884811]
 stream = ExtResource("17_ibpri")
 unit_size = 20.0
 pitch_scale = 1.2
 bus = &"Voice"
 doppler_tracking = 2
 
-[node name="Oof_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Oof_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=77998610]
 stream = ExtResource("16_mc0oj")
 unit_size = 20.0
 max_polyphony = 2
 bus = &"_Oof"
 doppler_tracking = 2
 
-[node name="Mana_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Mana_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=660055542]
 stream = ExtResource("16_qeewm")
 max_polyphony = 3
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="Money_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Money_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=2107100588]
 stream = ExtResource("16_qd2bg")
 max_polyphony = 3
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="Footsteps_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="Footsteps_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=886984382]
 stream = ExtResource("10_aal88")
 volume_db = 5.0
 unit_size = 20.0
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="ManaSiphon_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="ManaSiphon_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=26046517]
 stream = ExtResource("10_5kd0c")
 volume_db = -5.0
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="SpellCast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="SpellCast_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=1575035522]
 stream = ExtResource("7_b4kmf")
 pitch_scale = 2.5
 max_polyphony = 3
 bus = &"_Spells"
 doppler_tracking = 2
 
-[node name="SpellChargeBack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="SpellChargeBack_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=1059802387]
 stream = ExtResource("10_shd1k")
 pitch_scale = 2.0
 bus = &"_ChargeBack"
 doppler_tracking = 2
 
-[node name="SpellChargeBeep_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio"]
+[node name="SpellChargeBeep_AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Audio" unique_id=255115913]
 stream = ExtResource("21_mc0oj")
 volume_db = -18.0
 bus = &"_ChargeComplete"
 doppler_tracking = 2
 
-[node name="StandUpRay" type="RayCast3D" parent="."]
+[node name="StandUpRay" type="RayCast3D" parent="." unique_id=2065288194]
 unique_name_in_owner = true
 target_position = Vector3(0, 1.1, 0)
 
-[node name="Head" type="Node3D" parent="."]
+[node name="Head" type="Node3D" parent="." unique_id=268989554]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83, 0)
 
-[node name="Camera1P" type="Camera3D" parent="Head"]
+[node name="Camera1P" type="Camera3D" parent="Head" unique_id=371781790]
 unique_name_in_owner = true
 
-[node name="AimCast1P" type="RayCast3D" parent="Head/Camera1P"]
+[node name="AimCast1P" type="RayCast3D" parent="Head/Camera1P" unique_id=257097345]
 unique_name_in_owner = true
 target_position = Vector3(0, 0, -200)
 collision_mask = 9
 collide_with_areas = true
 
-[node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P"]
+[node name="SpellOrigin" type="Marker3D" parent="Head/Camera1P" unique_id=2062732514]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.44999993, -0.737)
 
-[node name="AutoOrigin" type="Marker3D" parent="Head/Camera1P"]
+[node name="AutoOrigin" type="Marker3D" parent="Head/Camera1P" unique_id=118392489]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0, -1)
 
-[node name="SiphonField" type="Area3D" parent="Head/Camera1P"]
+[node name="SiphonField" type="Area3D" parent="Head/Camera1P" unique_id=1225624524]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.0118864775, -3.06)
 collision_layer = 131072
 collision_mask = 65536
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera1P/SiphonField"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera1P/SiphonField" unique_id=185204126]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = ExtResource("6_gc10f")
 
-[node name="Siphon_Cone" type="CollisionShape3D" parent="Head/Camera1P/SiphonField"]
+[node name="Siphon_Cone" type="CollisionShape3D" parent="Head/Camera1P/SiphonField" unique_id=1063606559]
 process_mode = 4
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 visible = false
 shape = SubResource("ConvexPolygonShape3D_7qdam")
 debug_color = Color(0.88235295, 0, 0.81960785, 0.41960785)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera1P/SiphonField"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera1P/SiphonField" unique_id=1902113379]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8443651, 1.1920929e-07)
 shape = SubResource("CapsuleShape3D_gc10f")
 debug_color = Color(0.88235295, 0, 0.81960785, 0.41960785)
 
-[node name="RightArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
+[node name="RightArm" type="AnimatedSprite3D" parent="Head/Camera1P" unique_id=1094426589]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.9, -1)
 shaded = true
@@ -645,7 +643,7 @@ animation = &"Cast_Release"
 autoplay = "Idle"
 frame = 2
 
-[node name="LeftArm" type="AnimatedSprite3D" parent="Head/Camera1P"]
+[node name="LeftArm" type="AnimatedSprite3D" parent="Head/Camera1P" unique_id=1546574912]
 unique_name_in_owner = true
 transform = Transform3D(0.99999994, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, -1, -1)
 visible = false
@@ -655,7 +653,7 @@ sprite_frames = ExtResource("24_x4yal")
 animation = &"RightSwing"
 frame = 7
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=393848293]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -666,9 +664,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="HUD" type="CanvasLayer" parent="Control"]
+[node name="HUD" type="CanvasLayer" parent="Control" unique_id=1256581744]
 
-[node name="ScreenMarginContainer" type="MarginContainer" parent="Control/HUD"]
+[node name="ScreenMarginContainer" type="MarginContainer" parent="Control/HUD" unique_id=225224389]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -679,27 +677,27 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Left_VBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer"]
+[node name="Left_VBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer" unique_id=1346627228]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Health_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer"]
+[node name="Health_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer" unique_id=1647636676]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ionog")
 
-[node name="Health_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer"]
+[node name="Health_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer" unique_id=1554354162]
 layout_mode = 2
 
-[node name="Health_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer"]
+[node name="Health_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer" unique_id=2076115339]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 3
 alignment = 2
 
-[node name="Health_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer" instance=ExtResource("24_fxftb")]
+[node name="Health_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer" unique_id=1220030986 instance=ExtResource("24_fxftb")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -729,7 +727,7 @@ theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 24
 text = "100"
 
-[node name="PlayerHealthBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer"]
+[node name="PlayerHealthBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer" unique_id=1411303108]
 unique_name_in_owner = true
 layout_mode = 2
 value = 100.0
@@ -739,48 +737,48 @@ texture_over = ExtResource("25_h1o3h")
 texture_progress = ExtResource("31_2ji7n")
 script = ExtResource("25_ynkr0")
 
-[node name="Stats_InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer"]
+[node name="Stats_InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer" unique_id=1127154664]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
-[node name="Stats_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer"]
+[node name="Stats_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer" unique_id=206581802]
 layout_mode = 2
 theme_override_constants/margin_bottom = 16
 
-[node name="Stats_InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer" instance=ExtResource("30_hud_container")]
+[node name="Stats_InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer" unique_id=19573820 instance=ExtResource("30_hud_container")]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 2
 
-[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" unique_id=1801528703 instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 3
 IsPlayerItem = true
 
-[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" unique_id=873249557 instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 3
 IsPlayerItem = true
 
-[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Stats_InventoryHUD_PanelContainer/Stats_MarginContainer/Stats_InventoryHUD_HBoxContainer" unique_id=85587162 instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 3
 IsPlayerItem = true
 
-[node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer"]
+[node name="MoneyContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer" unique_id=1601039373]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_fxftb")
 
-[node name="Money_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer"]
+[node name="Money_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer" unique_id=324373624]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -789,28 +787,28 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer" unique_id=1105564633]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="Control" type="Control" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer" unique_id=1077608035]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 mouse_filter = 1
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control" unique_id=17255812]
 position = Vector2(24, 24)
 scale = Vector2(1.5, 1.5)
 sprite_frames = ExtResource("28_h1o3h")
 animation = &"Spin"
 autoplay = "Spin"
 
-[node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
+[node name="MoneyAmountLabel" type="Label" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer" unique_id=1660561299]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
@@ -819,75 +817,75 @@ theme_override_fonts/font = ExtResource("24_ynkr0")
 text = "1000"
 horizontal_alignment = 2
 
-[node name="Control2" type="Control" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer" unique_id=1241012128]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 mouse_filter = 1
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control2"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control/HUD/ScreenMarginContainer/MoneyContainer/Money_MarginContainer/HBoxContainer/Control2" unique_id=1554650421]
 position = Vector2(24, 24)
 scale = Vector2(1.5, 1.5)
 sprite_frames = ExtResource("28_h1o3h")
 animation = &"Spin"
 autoplay = "Spin"
 
-[node name="Right_VBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer"]
+[node name="Right_VBoxContainer" type="HBoxContainer" parent="Control/HUD/ScreenMarginContainer" unique_id=1134314086]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 2
 
-[node name="Weapons_InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
+[node name="Weapons_InventoryHUD_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer" unique_id=1653560684]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
-[node name="Weapons_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer"]
+[node name="Weapons_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer" unique_id=415550525]
 layout_mode = 2
 theme_override_constants/margin_bottom = 16
 
-[node name="Weapons_InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer" instance=ExtResource("30_hud_container")]
+[node name="Weapons_InventoryHUD_HBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer" unique_id=608082540 instance=ExtResource("30_hud_container")]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 2
 
-[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" unique_id=1075574185 instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 IsPlayerItem = true
 
-[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem2" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" unique_id=1268989993 instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 1
 IsPlayerItem = true
 
-[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" instance=ExtResource("31_hud_item")]
+[node name="InventoryHUDItem3" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Weapons_InventoryHUD_PanelContainer/Weapons_MarginContainer/Weapons_InventoryHUD_HBoxContainer" unique_id=1303555065 instance=ExtResource("31_hud_item")]
 layout_mode = 2
 mouse_filter = 1
 FrameType = 2
 IsPlayerItem = true
 
-[node name="Mana_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer"]
+[node name="Mana_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer" unique_id=451255808]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mc0oj")
 
-[node name="Mana_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer"]
+[node name="Mana_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer" unique_id=602834756]
 layout_mode = 2
 
-[node name="Mana_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer"]
+[node name="Mana_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer" unique_id=1516093703]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 3
 alignment = 2
 
-[node name="Mana_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer" instance=ExtResource("24_fxftb")]
+[node name="Mana_MinMaxValuesLabel" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer" unique_id=370443684 instance=ExtResource("24_fxftb")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -917,7 +915,7 @@ theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 24
 text = "100"
 
-[node name="PlayerManaBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer"]
+[node name="PlayerManaBar" type="TextureProgressBar" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer" unique_id=269963450]
 unique_name_in_owner = true
 layout_mode = 2
 value = 50.0
@@ -929,11 +927,11 @@ tint_under = Color(0.5, 0.5, 0.5, 1)
 tint_over = Color(1, 1, 1, 0.5019608)
 script = ExtResource("25_ynkr0")
 
-[node name="InteractionPrompt_Control" type="Control" parent="Control/HUD/ScreenMarginContainer"]
+[node name="InteractionPrompt_Control" type="Control" parent="Control/HUD/ScreenMarginContainer" unique_id=274609559]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="InteractionPrompt_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/InteractionPrompt_Control"]
+[node name="InteractionPrompt_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/InteractionPrompt_Control" unique_id=1898178797]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(480, 0)
 layout_mode = 1
@@ -950,7 +948,7 @@ size_flags_vertical = 4
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mrttg")
 
-[node name="InteractionPrompt_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/InteractionPrompt_Control/InteractionPrompt_PanelContainer"]
+[node name="InteractionPrompt_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/InteractionPrompt_Control/InteractionPrompt_PanelContainer" unique_id=1303084356]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
@@ -970,13 +968,13 @@ scroll_active = false
 autowrap_trim_flags = 0
 shortcut_keys_enabled = false
 
-[node name="Details_Control" type="Control" parent="Control/HUD/ScreenMarginContainer"]
+[node name="Details_Control" type="Control" parent="Control/HUD/ScreenMarginContainer" unique_id=515379278]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Details_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control"]
+[node name="Details_VBoxContainer" type="VBoxContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control" unique_id=1375766646]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.01
@@ -985,20 +983,20 @@ anchor_bottom = 0.825
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Name_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer"]
+[node name="Name_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer" unique_id=1713802763]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
 
-[node name="Name_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Name_PanelContainer"]
+[node name="Name_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Name_PanelContainer" unique_id=606190739]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 
-[node name="Details_Name_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Name_PanelContainer/Name_MarginContainer"]
+[node name="Details_Name_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Name_PanelContainer/Name_MarginContainer" unique_id=1456358951]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
@@ -1020,21 +1018,21 @@ autowrap_trim_flags = 0
 shortcut_keys_enabled = false
 horizontal_alignment = 1
 
-[node name="Description_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer"]
+[node name="Description_PanelContainer" type="PanelContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer" unique_id=1548123527]
 custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
 
-[node name="Description_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer"]
+[node name="Description_MarginContainer" type="MarginContainer" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer" unique_id=1025809619]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Details_Description_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer/Description_MarginContainer"]
+[node name="Details_Description_RichTextLabel" type="RichTextLabel" parent="Control/HUD/ScreenMarginContainer/Details_Control/Details_VBoxContainer/Description_PanelContainer/Description_MarginContainer" unique_id=844432781]
 unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
@@ -1055,7 +1053,7 @@ autowrap_mode = 0
 autowrap_trim_flags = 0
 shortcut_keys_enabled = false
 
-[node name="Reticle" type="CenterContainer" parent="Control" node_paths=PackedStringArray("reticleLines")]
+[node name="Reticle" type="CenterContainer" parent="Control" unique_id=1773008004 node_paths=PackedStringArray("reticleLines")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -1068,26 +1066,24 @@ grow_vertical = 2
 script = ExtResource("33_h1o3h")
 reticleLines = []
 
-[node name="Top" type="Line2D" parent="Control/Reticle"]
+[node name="Top" type="Line2D" parent="Control/Reticle" unique_id=1358578815]
 points = PackedVector2Array(0, -5, 0, -15)
 width = 2.0
 
-[node name="Right" type="Line2D" parent="Control/Reticle"]
+[node name="Right" type="Line2D" parent="Control/Reticle" unique_id=1287811909]
 points = PackedVector2Array(5, 0, 15, 0)
 width = 2.0
 
-[node name="Bottom" type="Line2D" parent="Control/Reticle"]
+[node name="Bottom" type="Line2D" parent="Control/Reticle" unique_id=1961810810]
 points = PackedVector2Array(0, 5, 0, 15)
 width = 2.0
 
-[node name="Left" type="Line2D" parent="Control/Reticle"]
+[node name="Left" type="Line2D" parent="Control/Reticle" unique_id=600702108]
 points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_2n8gu")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=630149019]
+libraries/ = SubResource("AnimationLibrary_2n8gu")
 
 [connection signal="area_entered" from="PickupArea" to="." method="OnAreaEnteredPickupArea"]
 [connection signal="body_entered" from="PickupArea" to="." method="OnPickupAreaEntered"]

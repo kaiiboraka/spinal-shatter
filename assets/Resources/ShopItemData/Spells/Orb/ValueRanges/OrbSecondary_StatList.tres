@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StatListData" load_steps=12 format=3 uid="uid://cg11ntspp1333"]
+[gd_resource type="Resource" script_class="StatListData" format=3 uid="uid://cg11ntspp1333"]
 
 [ext_resource type="Resource" uid="uid://ca5legqto3lxr" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_S_Damage_RangeF.tres" id="1_35y7j"]
 [ext_resource type="Resource" uid="uid://dqyu0ptyom3ia" path="res://assets/Resources/ShopItemData/Spells/Orb/ValueRanges/Orb_P_Speed_RangeF.tres" id="2_lpxxk"]

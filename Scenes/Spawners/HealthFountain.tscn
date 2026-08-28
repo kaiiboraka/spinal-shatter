@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cex0nfv4ulutu"]
+[gd_scene format=3 uid="uid://cex0nfv4ulutu"]
 
 [ext_resource type="Script" uid="uid://bvexs7f47te53" path="res://Scripts/Environment/HealthFountain.cs" id="1_h5d8e"]
 
@@ -129,49 +129,47 @@ height = 3.5
 height = 3.0
 radius = 3.0
 
-[node name="HealthFountain" type="StaticBody3D"]
+[node name="HealthFountain" type="StaticBody3D" unique_id=419853048]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_h5d8e")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_dfknm")
-}
-autoplay = "spin"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1266858860]
+libraries/ = SubResource("AnimationLibrary_dfknm")
+autoplay = &"spin"
 
-[node name="Cauldron_MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Cauldron_MeshInstance3D" type="MeshInstance3D" parent="." unique_id=532648606]
 transform = Transform3D(1.183668, 0, 0, 0, 1, 0, 0, 0, 1.183668, 0, 0.98, 0)
 mesh = SubResource("CylinderMesh_3y7ud")
 skeleton = NodePath("../MeshParent")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Cauldron_MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Cauldron_MeshInstance3D" unique_id=453298778]
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Cauldron_MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cauldron_MeshInstance3D/StaticBody3D" unique_id=1600029957]
 shape = SubResource("ConcavePolygonShape3D_mjrws")
 
-[node name="Cauldron_MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="Cauldron_MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=786189775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_eoj0x")
 skeleton = NodePath("../MeshParent")
 
-[node name="MeshParent" type="Node3D" parent="."]
+[node name="MeshParent" type="Node3D" parent="." unique_id=111524503]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshParent"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshParent" unique_id=1488671526]
 transform = Transform3D(0.81416607, 0.4459073, -0.3718872, -0.5792279, 0.5792279, -0.57357633, -0.040354427, 0.68239397, 0.72986966, 0, -5.9604645e-08, 0)
 mesh = SubResource("BoxMesh_iqpnp")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=144889711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 shape = SubResource("CapsuleShape3D_mjrws")
 
-[node name="InteractionArea3D" type="Area3D" parent="."]
+[node name="InteractionArea3D" type="Area3D" parent="." unique_id=553370558]
 collision_layer = 64
 collision_mask = 33
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea3D" unique_id=1554980578]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("CylinderShape3D_3y7ud")
 debug_color = Color(0.0233333, 0.7, 0, 0.419608)

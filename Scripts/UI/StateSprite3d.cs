@@ -37,11 +37,10 @@ public partial class StateSprite3d : Sprite3D
 
 	public async override void _Ready()
 	{
-		// Node references are now set via [Export]
 		await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
-		this.Texture = effectViewport.GetTexture();
+		if (effectViewport != null)
+			this.Texture = effectViewport.GetTexture();
 
-		// Initialize the display for both editor and game
 		UpdateEffect(StackingEffectType.Poison, 0);
 		UpdateEffect(StackingEffectType.Slow, 0);
 	}

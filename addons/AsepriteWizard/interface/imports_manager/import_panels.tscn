@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bae2rn6vwdx88"]
+[gd_scene format=3 uid="uid://bae2rn6vwdx88"]
 
 [ext_resource type="Script" uid="uid://dcsch08kjfwmc" path="res://addons/AsepriteWizard/interface/imports_manager/import_panels.gd" id="1_853ds"]
 [ext_resource type="PackedScene" uid="uid://ci67r2f2btg5" path="res://addons/AsepriteWizard/interface/imports_manager/dock_imports_panel.tscn" id="2_rtubf"]
@@ -15,7 +15,7 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_qam8x"]
 image = SubResource("Image_jj4yt")
 
-[node name="ImportPanels" type="MarginContainer"]
+[node name="ImportPanels" type="MarginContainer" unique_id=644604669]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,14 +25,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_853ds")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=25654318]
 layout_mode = 2
+current_tab = 0
+tab_0/title = "Dock Imports"
 
-[node name="dock_imports" parent="TabContainer" instance=ExtResource("2_rtubf")]
+[node name="dock_imports" parent="TabContainer" unique_id=53434031 instance=ExtResource("2_rtubf")]
 layout_mode = 2
 metadata/_tab_name = "Dock Imports"
+metadata/_tab_index = 0
 
-[node name="dock_button" type="Button" parent="."]
+[node name="dock_button" type="Button" parent="." unique_id=1430257178]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0

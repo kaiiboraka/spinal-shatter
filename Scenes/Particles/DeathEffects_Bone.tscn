@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxh5ht8loftv7"]
+[gd_scene format=3 uid="uid://bxh5ht8loftv7"]
 
 [ext_resource type="Script" uid="uid://bbvqoemla3sep" path="res://Scenes/Particles/OneshotParticles.cs" id="1_3esec"]
 [ext_resource type="Texture2D" uid="uid://drytvlca1gw63" path="res://assets/Images/Enemies/spinning_bone.png" id="1_5xfmr"]
@@ -43,12 +43,12 @@ collision_bounce = 0.9
 [sub_resource type="QuadMesh" id="QuadMesh_v04ob"]
 size = Vector2(0.333, 0.333)
 
-[node name="DeathEffects" type="Node3D"]
+[node name="DeathEffects" type="Node3D" unique_id=691833101]
 script = ExtResource("1_3esec")
 
-[node name="FreeTimer" type="Timer" parent="."]
+[node name="FreeTimer" type="Timer" parent="." unique_id=1177190274]
 
-[node name="Particles" type="GPUParticles3D" parent="."]
+[node name="Particles" type="GPUParticles3D" parent="." unique_id=1468055621]
 unique_name_in_owner = true
 material_override = SubResource("StandardMaterial3D_0kmpn")
 amount = 10
@@ -60,7 +60,7 @@ trail_lifetime = 1.95
 process_material = SubResource("ParticleProcessMaterial_3esec")
 draw_pass_1 = SubResource("QuadMesh_v04ob")
 
-[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="."]
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="." unique_id=1135745134]
 size = Vector3(20, 20, 20)
 resolution = 1
 heightfield_mask = 17

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://drnuyxaq83m7a"]
+[gd_scene format=4 uid="uid://drnuyxaq83m7a"]
 
 [ext_resource type="PackedScene" uid="uid://dvmyuytfrypk8" path="res://Scenes/Environment/Doodads/torch_1_orange.tscn" id="1_1n01p"]
 
@@ -43,7 +43,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_p7u1n")
 
-[node name="Torch 1" instance=ExtResource("1_1n01p")]
+[node name="Torch 1" unique_id=766739635 instance=ExtResource("1_1n01p")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 
 [node name="Torch 1 _ Flame_Flame_0" parent="Torch 1 _ Flame" index="0"]

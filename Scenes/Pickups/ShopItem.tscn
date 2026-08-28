@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://br75cxlvledda"]
+[gd_scene format=3 uid="uid://br75cxlvledda"]
 
 [ext_resource type="Script" uid="uid://nthw2tn76qal" path="res://Scripts/Pickups/ShopItem.cs" id="1_tktbk"]
 [ext_resource type="Resource" uid="uid://ks6csrwleo01" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/MaxManaUp_StatItemData.tres" id="2_tktbk"]
@@ -34,24 +34,24 @@ stencil_flags = 2
 [sub_resource type="ViewportTexture" id="ViewportTexture_r8ncj"]
 viewport_path = NodePath("SubViewport")
 
-[node name="ShopItem" type="Node3D" node_paths=PackedStringArray("item")]
+[node name="ShopItem" type="Node3D" unique_id=1362696868 node_paths=PackedStringArray("item")]
 script = ExtResource("1_tktbk")
 Data = ExtResource("2_tktbk")
 item = NodePath("SubViewport/Icon_InventoryHUDItem")
 
-[node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="ItemBase_MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1514835793]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("CylinderMesh_67lmo")
 surface_material_override/0 = SubResource("StandardMaterial3D_q7jw3")
 
-[node name="PriceLabel_Sprite3D" type="Sprite3D" parent="."]
+[node name="PriceLabel_Sprite3D" type="Sprite3D" parent="." unique_id=1519968302]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 billboard = 1
 texture_filter = 0
 render_priority = 1
 texture = SubResource("ViewportTexture_r8ncj")
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." unique_id=487179668]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -61,7 +61,7 @@ size = Vector2i(128, 128)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="Icon_InventoryHUDItem" parent="SubViewport" instance=ExtResource("4_wcb6i")]
+[node name="Icon_InventoryHUDItem" parent="SubViewport" unique_id=2081498462 instance=ExtResource("4_wcb6i")]
 unique_name_in_owner = true
 FrameType = 4
 Rank = 0

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RankUpListData" load_steps=11 format=3 uid="uid://bbe5b2fd30pbi"]
+[gd_resource type="Resource" script_class="RankUpListData" format=3 uid="uid://bbe5b2fd30pbi"]
 
 [ext_resource type="Resource" uid="uid://xyfvgrjynlln" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank1.tres" id="1_xm8vt"]
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_yl0pf"]
 [ext_resource type="Resource" uid="uid://bm554wiwymqyu" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank2.tres" id="2_yl0pf"]
 [ext_resource type="Resource" uid="uid://cxvng6abgftjl" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank3.tres" id="3_nriuc"]
 [ext_resource type="Resource" uid="uid://byaslmgvvnaa6" path="res://assets/Resources/ShopItemData/Spells/Orb/RankData/Orb_A_Rank4.tres" id="4_dw1aq"]
@@ -13,5 +14,5 @@
 
 [resource]
 script = ExtResource("10_6aw8x")
-RankUps = Array[Object]([ExtResource("1_xm8vt"), ExtResource("2_yl0pf"), ExtResource("3_nriuc"), ExtResource("4_dw1aq"), ExtResource("5_qnw31"), ExtResource("6_bsihv"), ExtResource("7_dn515"), ExtResource("8_e6mjr"), ExtResource("9_le2y1")])
+RankUps = Array[ExtResource("1_yl0pf")]([ExtResource("1_xm8vt"), ExtResource("2_yl0pf"), ExtResource("3_nriuc"), ExtResource("4_dw1aq"), ExtResource("5_qnw31"), ExtResource("6_bsihv"), ExtResource("7_dn515"), ExtResource("8_e6mjr"), ExtResource("9_le2y1")])
 metadata/_custom_type_script = "uid://yp8fybiswcj8"

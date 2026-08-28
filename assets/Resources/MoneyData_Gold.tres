@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MoneyData" load_steps=4 format=3 uid="uid://sg4eop8fbym6"]
+[gd_resource type="Resource" script_class="MoneyData" format=3 uid="uid://sg4eop8fbym6"]
 
 [ext_resource type="SpriteFrames" uid="uid://bmxj7tnywa4s4" path="res://assets/Images/Pickups/Bubble_Money_Gold.ase" id="1_6342e"]
 [ext_resource type="AudioStream" uid="uid://cbfpdbvfgys8s" path="res://assets/Audio/AudioData/SFX_MoneyPickup.tres" id="1_hfspc"]

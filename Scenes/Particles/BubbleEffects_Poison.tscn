@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://hkrbvfev1wfo"]
+[gd_scene format=3 uid="uid://hkrbvfev1wfo"]
 
 [ext_resource type="Texture2D" uid="uid://cgvpqxjqdk3uu" path="res://assets/Images/Textures/poison_bubble_anim_sheet.png" id="1_dr2v8"]
 [ext_resource type="Texture2D" uid="uid://c14xfr6h5xfnn" path="res://assets/Images/Textures/spark.png" id="2_a4pc2"]
@@ -88,7 +88,7 @@ collision_bounce = 0.5
 [sub_resource type="QuadMesh" id="QuadMesh_mahl3"]
 size = Vector2(0.3, 0.5)
 
-[node name="BubbleEmitter" type="GPUParticles3D"]
+[node name="BubbleEmitter" type="GPUParticles3D" unique_id=645099387]
 material_override = SubResource("StandardMaterial3D_ji2ca")
 amount = 10
 sub_emitter = NodePath("SparksEmitter")
@@ -100,7 +100,7 @@ trail_lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_fk2cb")
 draw_pass_1 = SubResource("QuadMesh_xpdqq")
 
-[node name="SparksEmitter" type="GPUParticles3D" parent="."]
+[node name="SparksEmitter" type="GPUParticles3D" parent="." unique_id=599589441]
 unique_name_in_owner = true
 material_override = SubResource("StandardMaterial3D_ftwkv")
 amount = 150

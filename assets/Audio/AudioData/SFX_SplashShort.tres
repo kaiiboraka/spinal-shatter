@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://ci7cmnp8fh8fj"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://ci7cmnp8fh8fj"]
 
 [ext_resource type="AudioStream" uid="uid://cvb61n0epnpor" path="res://assets/Audio/SFX/splash_short.wav" id="1_dulb7"]
 

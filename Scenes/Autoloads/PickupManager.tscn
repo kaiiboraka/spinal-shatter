@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b6h7gq8xvyc3w"]
+[gd_scene format=3 uid="uid://b6h7gq8xvyc3w"]
 
 [ext_resource type="Script" uid="uid://cuml1f0xqipwk" path="res://Scripts/Autoloads/PickupManager.cs" id="1_askcv"]
 [ext_resource type="Script" uid="uid://q3g48qmmmpch" path="res://Scripts/Resources/ManaParticleData.cs" id="2_w7omq"]
@@ -13,7 +13,7 @@
 [ext_resource type="Resource" uid="uid://sg4eop8fbym6" path="res://assets/Resources/MoneyData_Gold.tres" id="8_qhlyx"]
 [ext_resource type="Resource" uid="uid://dutvvj3iw5ms7" path="res://assets/Resources/MoneyData_Silver.tres" id="8_taq0x"]
 
-[node name="PickupManager" type="Node"]
+[node name="PickupManager" type="Node" unique_id=520050053]
 script = ExtResource("1_askcv")
 ManaPickupData = Array[ExtResource("2_w7omq")]([ExtResource("3_fpl7x"), ExtResource("4_7ch3v"), ExtResource("5_taq0x")])
 MoneyPickupData = Array[ExtResource("6_7ch3v")]([ExtResource("7_lnr8f"), ExtResource("8_qhlyx"), ExtResource("8_taq0x"), ExtResource("7_taq0x")])

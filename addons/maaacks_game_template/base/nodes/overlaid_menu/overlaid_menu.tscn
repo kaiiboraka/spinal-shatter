@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://wny2d8dvp3ok"]
+[gd_scene format=3 uid="uid://wny2d8dvp3ok"]
 
-[ext_resource type="Script" uid="uid://xfugmpspqbcc" path="res://addons/maaacks_game_template/base/nodes/overlaid_menu/overlaid_menu.gd" id="1_euyj1"]
+[ext_resource type="Script" uid="uid://xfugmpspqbcc" path="res://addons/maaacks_game_template/base/nodes/windows/overlaid_window.gd" id="1_euyj1"]
 [ext_resource type="Script" uid="uid://1nf36h0gms3q" path="res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd" id="2_6ani0"]
 
-[node name="OverlaidMenu" type="Control"]
+[node name="OverlaidMenu" type="Control" unique_id=86753406]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_euyj1")
 
-[node name="BackgroundColor" type="ColorRect" parent="."]
+[node name="BackgroundColor" type="ColorRect" parent="." unique_id=784719180]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.12549)
 
-[node name="MenuPanelContainer" type="PanelContainer" parent="."]
+[node name="MenuPanelContainer" type="PanelContainer" parent="." unique_id=1027413032]
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 1
@@ -38,39 +38,39 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MenuPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MenuPanelContainer" unique_id=294065774]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="BoxContainer" type="BoxContainer" parent="MenuPanelContainer/MarginContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="MenuPanelContainer/MarginContainer" unique_id=1434949226]
 layout_mode = 2
 vertical = true
 
-[node name="TitleMargin" type="MarginContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer"]
+[node name="TitleMargin" type="MarginContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer" unique_id=1913327456]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="MenuPanelContainer/MarginContainer/BoxContainer/TitleMargin"]
+[node name="TitleLabel" type="Label" parent="MenuPanelContainer/MarginContainer/BoxContainer/TitleMargin" unique_id=208944256]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Menu"
 horizontal_alignment = 1
 
-[node name="DescriptionMargin" type="MarginContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer"]
+[node name="DescriptionMargin" type="MarginContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer" unique_id=1255969233]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DescriptionLabel" type="RichTextLabel" parent="MenuPanelContainer/MarginContainer/BoxContainer/DescriptionMargin"]
+[node name="DescriptionLabel" type="RichTextLabel" parent="MenuPanelContainer/MarginContainer/BoxContainer/DescriptionMargin" unique_id=118027203]
 layout_mode = 2
 bbcode_enabled = true
 
-[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer"]
+[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer" unique_id=1675108981]
 layout_mode = 2
 
-[node name="MenuButtons" type="BoxContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin"]
+[node name="MenuButtons" type="BoxContainer" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin" unique_id=336367003]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
@@ -81,7 +81,7 @@ alignment = 1
 vertical = true
 script = ExtResource("2_6ani0")
 
-[node name="CloseButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons"]
+[node name="CloseButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer/MenuButtonsMargin/MenuButtons" unique_id=988348179]
 layout_mode = 2
 text = "Close"
 

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Camera3DResource" load_steps=2 format=3 uid="uid://du0oqngo71imc"]
+[gd_resource type="Resource" script_class="Camera3DResource" format=3 uid="uid://du0oqngo71imc"]
 
 [ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="1_dn030"]
 

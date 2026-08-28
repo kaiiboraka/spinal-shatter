@@ -1,4 +1,4 @@
-[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://d4f6j4x5acbfg"]
+[gd_resource type="AudioStream" script_class="AudioFile" format=3 uid="uid://d4f6j4x5acbfg"]
 
 [ext_resource type="AudioStream" uid="uid://uepv0sn67mp8" path="res://assets/Audio/SFX/Powerup_05.wav" id="1_jjlej"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_icn6k"]

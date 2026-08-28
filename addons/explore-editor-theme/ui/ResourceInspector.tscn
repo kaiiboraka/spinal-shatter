@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdtluesl718xb"]
+[gd_scene format=3 uid="uid://bdtluesl718xb"]
 
-[ext_resource type="Script" path="res://addons/explore-editor-theme/ui/ResourceInspector.gd" id="1"]
+[ext_resource type="Script" uid="uid://dijlq8nolmg0g" path="res://addons/explore-editor-theme/ui/ResourceInspector.gd" id="1"]
 
-[node name="ResourceInspector" type="VBoxContainer"]
+[node name="ResourceInspector" type="VBoxContainer" unique_id=81905277]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1")
 
-[node name="InspectButton" type="Button" parent="."]
+[node name="InspectButton" type="Button" parent="." unique_id=1926545706]
 layout_mode = 2
 text = "Inspect"

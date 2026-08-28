@@ -1,24 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://duqlhbd81gtaq"]
+[gd_scene format=3 uid="uid://duqlhbd81gtaq"]
 
 [ext_resource type="Script" uid="uid://dd6t57pgfiabi" path="res://Scripts/UI/StateSprite3d.cs" id="1_2qrml"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_n5ahw"]
 viewport_path = NodePath("StateViewport")
 
-[node name="StateSprite3D" type="Sprite3D"]
+[node name="StateSprite3D" type="Sprite3D" unique_id=839010111]
 pixel_size = 0.03
 billboard = 1
 texture_filter = 0
 texture = SubResource("ViewportTexture_n5ahw")
 script = ExtResource("1_2qrml")
 
-[node name="StateViewport" type="SubViewport" parent="."]
+[node name="StateViewport" type="SubViewport" parent="." unique_id=1775600029]
 transparent_bg = true
 use_occlusion_culling = true
 size = Vector2i(256, 54)
 render_target_update_mode = 3
 
-[node name="EffectsContainer" type="HBoxContainer" parent="StateViewport"]
+[node name="EffectsContainer" type="HBoxContainer" parent="StateViewport" unique_id=622312962]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -31,19 +31,19 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 4
 
-[node name="PoisonEffectsPanel" type="HBoxContainer" parent="StateViewport/EffectsContainer"]
+[node name="PoisonEffectsPanel" type="HBoxContainer" parent="StateViewport/EffectsContainer" unique_id=1964120395]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 theme_override_constants/separation = -10
 
-[node name="SlowEffectsPanel" type="HBoxContainer" parent="StateViewport/EffectsContainer"]
+[node name="SlowEffectsPanel" type="HBoxContainer" parent="StateViewport/EffectsContainer" unique_id=789714909]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 theme_override_constants/separation = -8
 
-[node name="MarginContainer" type="MarginContainer" parent="StateViewport"]
+[node name="MarginContainer" type="MarginContainer" parent="StateViewport" unique_id=995037013]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -54,14 +54,14 @@ grow_horizontal = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_bottom = 4
 
-[node name="State_RichTextLabel" type="RichTextLabel" parent="StateViewport/MarginContainer"]
+[node name="State_RichTextLabel" type="RichTextLabel" parent="StateViewport/MarginContainer" unique_id=1212467843]
 clip_contents = false
 layout_mode = 2
 bbcode_enabled = true
 text = "⚔️"
 fit_content = true
 
-[node name="Control" type="Control" parent="StateViewport"]
+[node name="Control" type="Control" parent="StateViewport" unique_id=371735119]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

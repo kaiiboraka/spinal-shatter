@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://c50wah00nfmgt"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://c50wah00nfmgt"]
 
 [ext_resource type="AudioStream" uid="uid://bxuqvgxlvifk" path="res://assets/Audio/SFX/PoisonSpikeShot_Bounce.wav" id="1_yaoep"]
 

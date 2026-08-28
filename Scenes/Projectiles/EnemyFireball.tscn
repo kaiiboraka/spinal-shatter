@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dlnm3x4j36fvu"]
+[gd_scene format=3 uid="uid://dlnm3x4j36fvu"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_ou870"]
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_w5pg0"]
@@ -49,7 +49,7 @@ material = SubResource("ShaderMaterial_xcs8j")
 [sub_resource type="SphereShape3D" id="SphereShape3D_dfkx4"]
 radius = 3.0
 
-[node name="MagicOrb" type="RigidBody3D" node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
+[node name="MagicOrb" type="RigidBody3D" unique_id=2027678047 node_paths=PackedStringArray("trail") groups=["Projectile"]]
 collision_layer = 32768
 collision_mask = 41604
 physics_material_override = ExtResource("1_ou870")
@@ -58,15 +58,13 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("2_w5pg0")
 _sparkParticlesScene = ExtResource("3_w5pg0")
-spritesParent = NodePath("Sprites")
 trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("4_w5pg0")
-IsFixed = true
 
-[node name="Sprites" type="Node3D" parent="."]
+[node name="Sprites" type="Node3D" parent="." unique_id=495100485]
 unique_name_in_owner = true
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites" unique_id=554304138]
 gi_mode = 2
 modulate = Color(0.43, 0.6865002, 1, 1)
 billboard = 1
@@ -74,21 +72,21 @@ texture_filter = 0
 sprite_frames = ExtResource("5_ou870")
 autoplay = "default"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1801041451]
 shape = SubResource("SphereShape3D_12345")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1914123371]
 light_color = Color(0, 0.93333316, 1, 1)
 light_energy = 1.1
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=584251899]
 stream = ExtResource("3_bucxx")
 volume_db = 5.0
 max_distance = 60.0
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="GPUTrail3D" type="GPUParticles3D" parent="."]
+[node name="GPUTrail3D" type="GPUParticles3D" parent="." unique_id=537898383]
 unique_name_in_owner = true
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0.1)
 amount = 60
@@ -104,14 +102,13 @@ texture = ExtResource("9_g5x3p")
 color_ramp = SubResource("GradientTexture1D_n73rh")
 curve = SubResource("CurveTexture_t0yl1")
 billboard = true
-_defaults_have_been_set = true
 metadata/_custom_type_script = "uid://b6l44lujpalqq"
 
-[node name="Detection_Area3D" type="Area3D" parent="."]
+[node name="Detection_Area3D" type="Area3D" parent="." unique_id=505796102]
 unique_name_in_owner = true
 collision_layer = 16384
 collision_mask = 8195
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D" unique_id=1333790141]
 shape = SubResource("SphereShape3D_dfkx4")
 debug_color = Color(0.9637796, 0.1917935, 7.70092e-07, 0.42)

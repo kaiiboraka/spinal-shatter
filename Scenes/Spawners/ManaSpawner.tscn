@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3vj3gq8xvyd4"]
+[gd_scene format=3 uid="uid://d3vj3gq8xvyd4"]
 
 [ext_resource type="Script" uid="uid://cxmuhry32vsfo" path="res://Scripts/Spawners/ManaSpawner.cs" id="1_spawner_script"]
 
@@ -73,19 +73,17 @@ _data = {
 &"spin": SubResource("Animation_qt1v8")
 }
 
-[node name="ManaSpawner" type="Node3D"]
+[node name="ManaSpawner" type="Node3D" unique_id=1908897890]
 script = ExtResource("1_spawner_script")
 _spawnInterval = 2.5
 
-[node name="MeshParent" type="Node3D" parent="."]
+[node name="MeshParent" type="Node3D" parent="." unique_id=1859900082]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshParent"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshParent" unique_id=731414740]
 transform = Transform3D(0.814166, 0.44590738, -0.37188727, -0.5792279, 0.5792279, -0.57357645, -0.040354457, 0.68239397, 0.72986984, 0, 1, 0)
 mesh = SubResource("BoxMesh_iqpnp")
 skeleton = NodePath("../..")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_dfknm")
-}
-autoplay = "spin"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1923219415]
+libraries/ = SubResource("AnimationLibrary_dfknm")
+autoplay = &"spin"

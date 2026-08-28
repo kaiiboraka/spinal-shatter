@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6r5h6suqvj1p"]
+[gd_scene format=3 uid="uid://c6r5h6suqvj1p"]
 
-[ext_resource type="Script" path="res://addons/explore-editor-theme/lists/StyleboxListItem.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://1o4lmgmicu6s" path="res://addons/explore-editor-theme/color-preview-icon.png" id="2_o5jg8"]
+[ext_resource type="Script" uid="uid://b3lrlefxthryk" path="res://addons/explore-editor-theme/lists/StyleboxListItem.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bcicvnkcl4t5c" path="res://addons/explore-editor-theme/color-preview-icon.png" id="2_o5jg8"]
 
-[node name="StyleboxListItem" type="PanelContainer" groups=["ETE_StyleBoxItems"]]
+[node name="StyleboxListItem" type="PanelContainer" unique_id=1239404378 groups=["ETE_StyleBoxItems"]]
 custom_minimum_size = Vector2(0, 160)
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,15 +11,15 @@ anchor_bottom = 1.0
 script = ExtResource("1")
 preview_background_texture = ExtResource("2_o5jg8")
 
-[node name="Layout" type="VBoxContainer" parent="."]
+[node name="Layout" type="VBoxContainer" parent="." unique_id=1845878463]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PreviewContainer" type="MarginContainer" parent="Layout"]
+[node name="PreviewContainer" type="MarginContainer" parent="Layout" unique_id=1249397055]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="PreviewBackground" type="TextureRect" parent="Layout/PreviewContainer"]
+[node name="PreviewBackground" type="TextureRect" parent="Layout/PreviewContainer" unique_id=2101422826]
 modulate = Color(1, 1, 1, 0.0392157)
 texture_filter = 1
 texture_repeat = 2
@@ -29,14 +29,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch_mode = 1
 
-[node name="PreviewPanel" type="Panel" parent="Layout/PreviewContainer"]
+[node name="PreviewPanel" type="Panel" parent="Layout/PreviewContainer" unique_id=1401191905]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="StyleboxName" type="Label" parent="Layout"]
+[node name="StyleboxName" type="Label" parent="Layout" unique_id=2067588470]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 3

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AudioData" load_steps=6 format=3 uid="uid://1owutv32awja"]
+[gd_resource type="Resource" script_class="AudioData" format=3 uid="uid://1owutv32awja"]
 
 [ext_resource type="AudioStream" uid="uid://4mnftyx80mxv" path="res://assets/Audio/AudioData/AudioFile_SpellCast.tres" id="5_daxpn"]
 [ext_resource type="AudioStream" uid="uid://c66134p2k4fkl" path="res://assets/Audio/AudioData/AudioFile_SpellChargeBack.tres" id="6_4bxl4"]

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="RankUpData" load_steps=2 format=3 uid="uid://fnsqq7h4nlvy"]
+[gd_resource type="Resource" script_class="RankUpData" format=3 uid="uid://fnsqq7h4nlvy"]
 
 [ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_hbwfr"]
 

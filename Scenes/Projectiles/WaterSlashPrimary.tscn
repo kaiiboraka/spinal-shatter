@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ddfqqv0358ue"]
+[gd_scene format=3 uid="uid://ddfqqv0358ue"]
 
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_0j1v2"]
 [ext_resource type="PackedScene" uid="uid://ycgo1ko7742e" path="res://Scenes/Particles/HitEffects_SparksBlue.tscn" id="3_c3li1"]
@@ -42,7 +42,7 @@ curve = SubResource("Curve_etwi8")
 resource_local_to_scene = true
 radius = 3.0
 
-[node name="WaterSlash" type="RigidBody3D" node_paths=PackedStringArray("spritesParent", "trail") groups=["Projectile"]]
+[node name="WaterSlash" type="RigidBody3D" unique_id=928391101 node_paths=PackedStringArray("trail") groups=["Projectile"]]
 collision_layer = 8192
 collision_mask = 33412
 input_ray_pickable = false
@@ -55,50 +55,49 @@ contact_monitor = true
 max_contacts_reported = 3
 script = ExtResource("2_0j1v2")
 _sparkParticlesScene = ExtResource("3_c3li1")
-spritesParent = NodePath("Sprites")
 trail = NodePath("GPUTrail3D")
 AudioData = ExtResource("4_c3li1")
 _lifetime = 2.0
 
-[node name="Sprites" type="Node3D" parent="."]
+[node name="Sprites" type="Node3D" parent="." unique_id=293429614]
 unique_name_in_owner = true
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites"]
+[node name="Sprite3D" type="AnimatedSprite3D" parent="Sprites" unique_id=1006279279]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, -0.05, 0)
 gi_mode = 2
 texture_filter = 0
 sprite_frames = ExtResource("5_c3li1")
 
-[node name="Sprite3D2" type="AnimatedSprite3D" parent="Sprites"]
+[node name="Sprite3D2" type="AnimatedSprite3D" parent="Sprites" unique_id=1288237752]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 gi_mode = 2
 texture_filter = 0
 render_priority = -1
 sprite_frames = ExtResource("5_c3li1")
 
-[node name="Sprite3D3" type="AnimatedSprite3D" parent="Sprites"]
+[node name="Sprite3D3" type="AnimatedSprite3D" parent="Sprites" unique_id=259921898]
 transform = Transform3D(1, 0, 0, 0, -0.25881904, 0.9659258, 0, -0.9659258, -0.25881904, 0, 0.05, 0)
 gi_mode = 2
 texture_filter = 0
 render_priority = -2
 sprite_frames = ExtResource("5_c3li1")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=146811711]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_c3li1")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=522729993]
 light_color = Color(0.40663823, 0.52331686, 1, 1)
 light_energy = 1.1
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1072741052]
 stream = ExtResource("6_c3li1")
 volume_db = 5.0
 max_distance = 60.0
 bus = &"SFX"
 doppler_tracking = 2
 
-[node name="GPUTrail3D" type="GPUParticles3D" parent="."]
+[node name="GPUTrail3D" type="GPUParticles3D" parent="." unique_id=559489098]
 unique_name_in_owner = true
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 amount = 30
@@ -116,10 +115,9 @@ curve = SubResource("CurveTexture_71frm")
 vertical_texture = true
 dewiggle = false
 snap_to_transform = true
-_defaults_have_been_set = true
 metadata/_custom_type_script = "uid://b6l44lujpalqq"
 
-[node name="Detection_Area3D" type="Area3D" parent="."]
+[node name="Detection_Area3D" type="Area3D" parent="." unique_id=1876057348]
 unique_name_in_owner = true
 visible = false
 collision_layer = 4096
@@ -127,6 +125,6 @@ collision_mask = 35840
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection_Area3D" unique_id=1730081220]
 shape = SubResource("SphereShape3D_vxbqy")
 debug_color = Color(0.9637796, 0.1917935, 7.70092e-07, 0.42)

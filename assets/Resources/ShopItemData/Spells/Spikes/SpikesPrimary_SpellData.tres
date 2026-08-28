@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=7 format=3 uid="uid://4evn4gyqfvhl"]
+[gd_resource type="Resource" script_class="PrimarySpellData" format=3 uid="uid://4evn4gyqfvhl"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_hkkdf"]
 [ext_resource type="PackedScene" uid="uid://djr135swr21s8" path="res://Scenes/Projectiles/PoisonSpikesPrimary.tscn" id="2_b2yl5"]

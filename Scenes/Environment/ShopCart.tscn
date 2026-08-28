@@ -292,6 +292,7 @@ bones/1/scale = Vector3(1, 1, 1)
 [node name="WindowMesh" type="MeshInstance3D" parent="Cart/Skeleton3D" unique_id=1976962747]
 mesh = ExtResource("38_tmch4")
 skin = SubResource("Skin_n3hp2")
+skeleton = NodePath("..")
 
 [node name="Body" type="Node3D" parent="Cart/Skeleton3D" unique_id=456364599]
 transform = Transform3D(1, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0, 0)

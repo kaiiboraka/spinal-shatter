@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ckntcsepyti1b"]
+[gd_scene format=3 uid="uid://ckntcsepyti1b"]
 
 [ext_resource type="Script" uid="uid://c3jjbr2k4t3h4" path="res://Scripts/Autoloads/WaveDirector.cs" id="1_fhtwo"]
 [ext_resource type="PackedScene" uid="uid://dilaa1it3nyk4" path="res://Scenes/UI/Menu Templates/scenes/overlaid_menus/level_lost_menu.tscn" id="2_aege0"]
@@ -25,7 +25,7 @@
 [ext_resource type="Resource" uid="uid://dr2qyr2emuw4m" path="res://assets/Resources/EnemyData/FML_ScalperData.tres" id="22_kgpgr"]
 [ext_resource type="PackedScene" uid="uid://c84y5l48t73cy" path="res://Scenes/Characters/Enemies/Enemy_FML_Scalper.tscn" id="23_1ovyk"]
 
-[node name="WaveDirector" type="Node"]
+[node name="WaveDirector" type="Node" unique_id=1247889405]
 script = ExtResource("1_fhtwo")
 _levelLostMenuScene = ExtResource("2_aege0")
 _mainMenuScene = ExtResource("3_ylehw")
@@ -47,12 +47,12 @@ baseBudget = 8.0
 budgetIncreasePerWave = 0.5
 budgetIncreasePerRound = 5.0
 
-[node name="RoundTimer" type="Timer" parent="."]
+[node name="RoundTimer" type="Timer" parent="." unique_id=1920354061]
 unique_name_in_owner = true
 wait_time = 300.0
 one_shot = true
 
-[node name="DirectorDisplay" type="Control" parent="."]
+[node name="DirectorDisplay" type="Control" parent="." unique_id=1728680250]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -62,7 +62,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="DirectorDisplay"]
+[node name="MarginContainer" type="MarginContainer" parent="DirectorDisplay" unique_id=348106151]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,11 +74,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Objective_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+[node name="Objective_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer" unique_id=581383109]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TimerTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+[node name="TimerTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer" unique_id=1086075644]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -92,7 +92,7 @@ autowrap_mode = 0
 horizontal_alignment = 2
 justification_flags = 160
 
-[node name="VictoryLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+[node name="VictoryLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer" unique_id=1524484336]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -106,7 +106,7 @@ autowrap_mode = 0
 horizontal_alignment = 2
 justification_flags = 160
 
-[node name="DefeatLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer"]
+[node name="DefeatLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Objective_VBoxContainer" unique_id=2050686374]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -122,14 +122,14 @@ autowrap_mode = 0
 horizontal_alignment = 2
 justification_flags = 160
 
-[node name="WaveRound_Container" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+[node name="WaveRound_Container" type="VBoxContainer" parent="DirectorDisplay/MarginContainer" unique_id=2066804261]
 layout_mode = 2
 
-[node name="Wave_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/WaveRound_Container"]
+[node name="Wave_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/WaveRound_Container" unique_id=1972104268]
 layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="WaveTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Wave_HBoxContainer"]
+[node name="WaveTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Wave_HBoxContainer" unique_id=1579088731]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -143,7 +143,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="Wave_MinMaxValuesLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Wave_HBoxContainer" instance=ExtResource("11_6lw2h")]
+[node name="Wave_MinMaxValuesLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Wave_HBoxContainer" unique_id=1743633733 instance=ExtResource("11_6lw2h")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
@@ -152,10 +152,10 @@ TextCurrent = "00"
 TextMaximum = "99"
 TextSize = 32
 
-[node name="Round_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/WaveRound_Container"]
+[node name="Round_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/WaveRound_Container" unique_id=1570248933]
 layout_mode = 2
 
-[node name="RoundTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Round_HBoxContainer"]
+[node name="RoundTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Round_HBoxContainer" unique_id=1934810010]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -169,7 +169,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="RoundTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Round_HBoxContainer"]
+[node name="RoundTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/WaveRound_Container/Round_HBoxContainer" unique_id=1412520347]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")
@@ -180,17 +180,17 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="RoomLabels_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+[node name="RoomLabels_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer" unique_id=1115259346]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+[node name="ActiveEnemyCount_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer" unique_id=2026904466]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 
-[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+[node name="ActiveEnemyCountTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer" unique_id=197792766]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -204,7 +204,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer"]
+[node name="ActiveEnemyCountTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/ActiveEnemyCount_HBoxContainer" unique_id=905935500]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -217,12 +217,12 @@ autowrap_mode = 0
 horizontal_alignment = 2
 justification_flags = 160
 
-[node name="North_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+[node name="North_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer" unique_id=1486178437]
 visible = false
 layout_mode = 2
 alignment = 2
 
-[node name="NorthTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/North_HBoxContainer"]
+[node name="NorthTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/North_HBoxContainer" unique_id=612059073]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -236,7 +236,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="NorthTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/North_HBoxContainer"]
+[node name="NorthTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/North_HBoxContainer" unique_id=1338824791]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")
@@ -247,12 +247,12 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="East_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+[node name="East_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer" unique_id=2002420904]
 visible = false
 layout_mode = 2
 alignment = 2
 
-[node name="EastTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/East_HBoxContainer"]
+[node name="EastTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/East_HBoxContainer" unique_id=1082023795]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -266,7 +266,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="EastTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/East_HBoxContainer"]
+[node name="EastTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/East_HBoxContainer" unique_id=1015615812]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")
@@ -277,12 +277,12 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="South_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+[node name="South_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer" unique_id=1045636862]
 visible = false
 layout_mode = 2
 alignment = 2
 
-[node name="SouthTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/South_HBoxContainer"]
+[node name="SouthTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/South_HBoxContainer" unique_id=1102314196]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -296,7 +296,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="SouthTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/South_HBoxContainer"]
+[node name="SouthTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/South_HBoxContainer" unique_id=291907829]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")
@@ -307,12 +307,12 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="West_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer"]
+[node name="West_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer" unique_id=193023935]
 visible = false
 layout_mode = 2
 alignment = 2
 
-[node name="WestTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/West_HBoxContainer"]
+[node name="WestTextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/West_HBoxContainer" unique_id=2104156256]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -326,7 +326,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="WestTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/West_HBoxContainer"]
+[node name="WestTextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/RoomLabels_VBoxContainer/West_HBoxContainer" unique_id=351281685]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")
@@ -337,16 +337,16 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="Bonus_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer"]
+[node name="Bonus_VBoxContainer" type="VBoxContainer" parent="DirectorDisplay/MarginContainer" unique_id=522992375]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="TimeBonus_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer"]
+[node name="TimeBonus_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer" unique_id=1695219150]
 layout_mode = 2
 
-[node name="TimeBonus_TextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/TimeBonus_HBoxContainer"]
+[node name="TimeBonus_TextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/TimeBonus_HBoxContainer" unique_id=1949260192]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -360,7 +360,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="TimeBonus_TextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/TimeBonus_HBoxContainer"]
+[node name="TimeBonus_TextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/TimeBonus_HBoxContainer" unique_id=445210087]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")
@@ -371,10 +371,10 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="LifeBonus_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer"]
+[node name="LifeBonus_HBoxContainer" type="HBoxContainer" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer" unique_id=1180749718]
 layout_mode = 2
 
-[node name="LifeBonus_TextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/LifeBonus_HBoxContainer"]
+[node name="LifeBonus_TextLabel" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/LifeBonus_HBoxContainer" unique_id=1947600544]
 layout_mode = 2
 theme = ExtResource("11_omfed")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -388,7 +388,7 @@ fit_content = true
 autowrap_mode = 0
 justification_flags = 160
 
-[node name="LifeBonus_TextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/LifeBonus_HBoxContainer"]
+[node name="LifeBonus_TextValue" type="RichTextLabel" parent="DirectorDisplay/MarginContainer/Bonus_VBoxContainer/LifeBonus_HBoxContainer" unique_id=555412388]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("11_omfed")

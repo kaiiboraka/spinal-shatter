@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StatListData" load_steps=14 format=3 uid="uid://br4khjcm0s7a6"]
+[gd_resource type="Resource" script_class="StatListData" format=3 uid="uid://br4khjcm0s7a6"]
 
 [ext_resource type="Script" uid="uid://cohfu4uf7boyb" path="res://Scripts/Resources/Spells/StatListData.cs" id="1_x"]
 [ext_resource type="Resource" uid="uid://84wi7cnpqfti" path="res://assets/Resources/ShopItemData/Spells/Spikes/ValueRanges/Spikes_P_Damage_RangeF.tres" id="2_x"]

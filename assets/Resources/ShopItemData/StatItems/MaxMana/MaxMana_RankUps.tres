@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RankUpListData" load_steps=6 format=3 uid="uid://de2fn4kd7df7p"]
+[gd_resource type="Resource" script_class="RankUpListData" format=3 uid="uid://de2fn4kd7df7p"]
 
 [ext_resource type="Resource" uid="uid://di0ky7b0mux52" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank1.tres" id="1_d87s3"]
+[ext_resource type="Script" uid="uid://btb00jki3f5wt" path="res://Scripts/Resources/Items/RankUpData.cs" id="1_p1w4j"]
 [ext_resource type="Resource" uid="uid://c2382vrcf7vno" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank2.tres" id="2_p1w4j"]
 [ext_resource type="Resource" uid="uid://cw8gw1hkg3sfr" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank3.tres" id="3_fve8f"]
 [ext_resource type="Resource" uid="uid://dj3lq7s5mnijc" path="res://assets/Resources/ShopItemData/StatItems/MaxMana/RankData/MaxMana_Rank4.tres" id="4_2anmq"]
@@ -8,4 +9,4 @@
 
 [resource]
 script = ExtResource("5_gqy56")
-RankUps = [ExtResource("1_d87s3"), ExtResource("2_p1w4j"), ExtResource("3_fve8f"), ExtResource("4_2anmq")]
+RankUps = Array[ExtResource("1_p1w4j")]([ExtResource("1_d87s3"), ExtResource("2_p1w4j"), ExtResource("3_fve8f"), ExtResource("4_2anmq")])

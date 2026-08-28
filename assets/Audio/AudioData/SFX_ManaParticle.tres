@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://decle8stlyhkg"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://decle8stlyhkg"]
 
 [ext_resource type="AudioStream" uid="uid://do5ny30qf4gwy" path="res://assets/Audio/SFX/Powerup_03.wav" id="1_dkpm8"]
 

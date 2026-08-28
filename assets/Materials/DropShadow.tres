@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dnk2a3wc84xvg"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dnk2a3wc84xvg"]
 
 [ext_resource type="Texture2D" uid="uid://ddhsdsnfsgrje" path="res://assets/Images/Textures/drop_shadow.png" id="1_tygri"]
 

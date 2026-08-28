@@ -1,4 +1,4 @@
-[gd_resource type="AudioStream" script_class="AudioFile" load_steps=3 format=3 uid="uid://c66134p2k4fkl"]
+[gd_resource type="AudioStream" script_class="AudioFile" format=3 uid="uid://c66134p2k4fkl"]
 
 [ext_resource type="AudioStream" uid="uid://be4wnuk5vuyv1" path="res://assets/Audio/SFX/WarpDrive_01.wav" id="1_d55pv"]
 [ext_resource type="Script" uid="uid://cobrtm7ta40hq" path="res://Scripts/Resources/AudioFile.cs" id="2_rme0w"]

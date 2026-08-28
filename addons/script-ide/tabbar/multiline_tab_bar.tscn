@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://vjuhunm2uboy"]
 
-[ext_resource type="Script" uid="uid://l1rdargfn67o" path="res://addons/script-ide/tabbar/multiline_tab_bar.gd" id="1_8jr3v"]
+[ext_resource type="Script" uid="uid://l1rdargfn67o" path="res://addons/script-ide/tabbar/multiline_tab_container.gd" id="1_8jr3v"]
 
 [sub_resource type="DPITexture" id="DPITexture_split"]
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"M7.5 0v16h1V0z\"/></svg>"

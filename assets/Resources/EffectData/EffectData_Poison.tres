@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StackingEffectData" load_steps=3 format=3 uid="uid://4pu7wkhrxjdx"]
+[gd_resource type="Resource" script_class="StackingEffectData" format=3 uid="uid://4pu7wkhrxjdx"]
 
 [ext_resource type="Texture2D" uid="uid://c3q2hw8vo7c1a" path="res://assets/Images/UI/PoisonIcon.png" id="1_lj6te"]
 [ext_resource type="Script" uid="uid://doenllwrpgh53" path="res://Scripts/Resources/Spells/StackingEffectData.cs" id="1_psvtj"]

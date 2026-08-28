@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d0whlywijwa6s"]
+[gd_scene format=3 uid="uid://d0whlywijwa6s"]
 
 [ext_resource type="Script" uid="uid://66ct0chhwb4h" path="res://addons/AsepriteWizard/config/config_dialog.gd" id="1"]
 
@@ -30,16 +30,17 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_01nxe"]
 image = SubResource("Image_brc5y")
 
-[node name="config_dialog" type="Window"]
+[node name="config_dialog" type="Window" unique_id=1199842289]
+oversampling_override = 1.0
 title = "Aseprite Wizard Config"
 initial_position = 1
-size = Vector2i(850, 236)
+size = Vector2i(850, 456)
 wrap_controls = true
 transient = true
 min_size = Vector2i(800, 0)
 script = ExtResource("1")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1693907415]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -47,7 +48,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_01nxe")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=426388462]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 10
@@ -55,94 +56,94 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1097613272]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="warnings" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="warnings" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1592832091]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_brc5y")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings" unique_id=406282133]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer" unique_id=1073634638]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer" unique_id=1340094805]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1241930087]
 modulate = Color(1, 1, 1, 0.486275)
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 texture = SubResource("ImageTexture_01nxe")
 stretch_mode = 5
 
-[node name="v" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="v" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer/HBoxContainer" unique_id=530778520]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="project_text" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer/HBoxContainer/v"]
+[node name="project_text" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/warnings/MarginContainer/VBoxContainer/HBoxContainer/v" unique_id=913802257]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "- Project specific settings are located at \"Project > Project Settings > Aseprite\""
 autowrap_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1261134298]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1257256149]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Aseprite Command" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="Aseprite Command" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1649827670]
 layout_mode = 2
 tooltip_text = "Define the path for Aseprite command"
 mouse_filter = 1
 text = "Aseprite Command Path"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=2049011436]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="aseprite_command" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="aseprite_command" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=967382419]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "/Applications/Aseprite.app/Contents/MacOS/aseprite"
 caret_blink = true
 
-[node name="select" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="select" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=2125943951]
 layout_mode = 2
 text = "Find"
 
-[node name="test" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="test" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=658077068]
 layout_mode = 2
 text = "Test"
 
-[node name="version_found" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="version_found" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1066532544]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Aseprite version found"
 
-[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=241938787]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1641822875]
 layout_mode = 2
 alignment = 2
 
-[node name="close" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="close" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=785605214]
 layout_mode = 2
 text = "Close"
 
-[node name="save" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="save" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=2082129588]
 layout_mode = 2
 text = "Save"
 

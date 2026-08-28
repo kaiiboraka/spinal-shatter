@@ -1,4 +1,4 @@
-[gd_resource type="AudioStream" script_class="AudioBucket" load_steps=4 format=3 uid="uid://dosnrw3g58h5b"]
+[gd_resource type="AudioStream" script_class="AudioBucket" format=3 uid="uid://dosnrw3g58h5b"]
 
 [ext_resource type="AudioStream" uid="uid://cxqyhepdpana4" path="res://assets/Audio/AudioData/SFX_Oof.tres" id="1_g1uuw"]
 [ext_resource type="Script" uid="uid://dotxhewohd3yf" path="res://Scripts/Resources/AudioBucket.cs" id="1_wg5l0"]

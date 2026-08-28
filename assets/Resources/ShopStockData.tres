@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="ShopStockData" format=3 uid="uid://crlygrfbgh2kt"]
 
+[ext_resource type="Script" uid="uid://7g5ims23nlbu" path="res://Scripts/Resources/ShopItemData.cs" id="1_7e4h7"]
 [ext_resource type="Resource" uid="uid://b822nwtw8a74b" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbPrimary_SpellData.tres" id="1_lp835"]
 [ext_resource type="Script" uid="uid://dyfcdk8txef7m" path="res://Scripts/Resources/ShopStockData.cs" id="1_stock_data"]
 [ext_resource type="Resource" uid="uid://dowpqoyraljfv" path="res://assets/Resources/ShopItemData/Spells/Slash/SlashPrimary_SpellData.tres" id="2_wujhw"]
@@ -9,4 +10,4 @@
 
 [resource]
 script = ExtResource("1_stock_data")
-AvailableItems = [ExtResource("1_lp835"), ExtResource("2_wujhw"), ExtResource("5_tvjbw"), ExtResource("4_tvjbw"), ExtResource("5_7e4h7")]
+AvailableItems = Array[ExtResource("1_7e4h7")]([ExtResource("1_lp835"), ExtResource("2_wujhw"), ExtResource("5_tvjbw"), ExtResource("4_tvjbw"), ExtResource("5_7e4h7")])

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PrimarySpellData" load_steps=9 format=3 uid="uid://b822nwtw8a74b"]
+[gd_resource type="Resource" script_class="PrimarySpellData" format=3 uid="uid://b822nwtw8a74b"]
 
 [ext_resource type="Resource" uid="uid://1owutv32awja" path="res://assets/Audio/AudioData/AudioData_ManaCharge.tres" id="1_4y3ih"]
 [ext_resource type="Resource" uid="uid://c8k5dujog71uv" path="res://assets/Resources/ShopItemData/Spells/Orb/OrbAuto_SpellData.tres" id="2_6doro"]
@@ -14,6 +14,7 @@ script = ExtResource("21_gdc3u")
 Secondary = ExtResource("18_a2vte")
 Automatic = ExtResource("2_6doro")
 StatRanges = ExtResource("6_o4ofs")
+ApplicableEffects = null
 ProjectileScene = ExtResource("3_o4ofs")
 ChargeAudioData = ExtResource("1_4y3ih")
 RankUps = ExtResource("5_dwtfv")

@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://cbfpdbvfgys8s"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cbfpdbvfgys8s"]
 
 [ext_resource type="AudioStream" uid="uid://cbayb78unjlmm" path="res://assets/Audio/SFX/Pickup6.wav" id="1_33rg5"]
 

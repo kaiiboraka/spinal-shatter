@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1hrwm72m604c"]
+[gd_scene format=3 uid="uid://d1hrwm72m604c"]
 
 [ext_resource type="Script" uid="uid://cqkhq2mnfyutx" path="res://Scripts/UI/MinMaxValuesLabel.cs" id="1_fikkk"]
 
@@ -8,7 +8,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4snty"]
 
-[node name="MinMaxValuesLabel" type="HBoxContainer" node_paths=PackedStringArray("labelCurrent", "labelDivider", "labelMax", "panelCurrent", "panelDivider", "panelMax")]
+[node name="MinMaxValuesLabel" type="HBoxContainer" unique_id=789442329 node_paths=PackedStringArray("labelCurrent", "labelDivider", "labelMax", "panelCurrent", "panelDivider", "panelMax")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -28,13 +28,13 @@ panelCurrent = NodePath("PanelCurrent")
 panelDivider = NodePath("PanelDivider")
 panelMax = NodePath("PanelMax")
 
-[node name="PanelCurrent" type="Panel" parent="."]
+[node name="PanelCurrent" type="Panel" parent="." unique_id=65439238]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ey0s4")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelCurrent"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelCurrent" unique_id=2120786580]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -50,7 +50,7 @@ pivot_offset = Vector2(53, 8)
 stretch_mode = 0
 alignment_horizontal = 2
 
-[node name="LabelCurrent" type="Label" parent="PanelCurrent/AspectRatioContainer"]
+[node name="LabelCurrent" type="Label" parent="PanelCurrent/AspectRatioContainer" unique_id=637924205]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -63,13 +63,13 @@ text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PanelDivider" type="Panel" parent="."]
+[node name="PanelDivider" type="Panel" parent="." unique_id=129432309]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_styles/panel = SubResource("StyleBoxEmpty_sm0ed")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelDivider"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelDivider" unique_id=1704385151]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -85,7 +85,7 @@ grow_vertical = 2
 pivot_offset = Vector2(3.5, 8)
 stretch_mode = 0
 
-[node name="LabelDivider" type="Label" parent="PanelDivider/AspectRatioContainer"]
+[node name="LabelDivider" type="Label" parent="PanelDivider/AspectRatioContainer" unique_id=645848240]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 12
@@ -99,13 +99,13 @@ text = "/"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelMax" type="Panel" parent="."]
+[node name="PanelMax" type="Panel" parent="." unique_id=316941360]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_4snty")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelMax"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelMax" unique_id=1357554877]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -118,7 +118,7 @@ pivot_offset = Vector2(0, 8)
 stretch_mode = 0
 alignment_horizontal = 0
 
-[node name="LabelMax" type="Label" parent="PanelMax/AspectRatioContainer"]
+[node name="LabelMax" type="Label" parent="PanelMax/AspectRatioContainer" unique_id=947251734]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)

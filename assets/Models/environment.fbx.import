@@ -16,6 +16,8 @@ dest_files=["res://.godot/imported/environment.fbx-8d21ac556a18b55a038863c72b736
 nodes/root_type=""
 nodes/root_name=""
 nodes/root_script=null
+mesh_library/use_node_names_as_mesh_names=false
+array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=800.0
 nodes/import_as_skeleton_bones=false
@@ -41,7 +43,7 @@ _subresources={
 "materials": {
 "standardSurface1": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://assets/Textures/BrickWallDark.tres",
+"use_external/fallback_path": "res://assets/Materials/BrickWallDark.tres",
 "use_external/path": "uid://mabyre3endiv"
 }
 },
@@ -52,7 +54,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/CentralRoom.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/CentralRoom.res",
 "save_to_file/path": "uid://danfgn12phtev"
 },
 "Hallway_East": {
@@ -61,7 +63,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Hallway_East.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Hallway_East.res",
 "save_to_file/path": "uid://dyseg7fclxqbl"
 },
 "Hallway_North": {
@@ -70,7 +72,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Hallway_North.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Hallway_North.res",
 "save_to_file/path": "uid://ccdob2udobyem"
 },
 "Hallway_South": {
@@ -79,7 +81,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Hallway_South.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Hallway_South.res",
 "save_to_file/path": "uid://cvytmcbj8w7b5"
 },
 "Hallway_West": {
@@ -88,7 +90,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Hallway_West.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Hallway_West.res",
 "save_to_file/path": "uid://c8k7r3rgaaosg"
 },
 "Room_East": {
@@ -97,7 +99,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Room_East.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Room_East.res",
 "save_to_file/path": "uid://oj2ig7gydt52"
 },
 "Room_North": {
@@ -106,7 +108,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Room_North.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Room_North.res",
 "save_to_file/path": "uid://cdht6lyvqoy17"
 },
 "Room_South": {
@@ -115,7 +117,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Room_South.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Room_South.res",
 "save_to_file/path": "uid://7pr8vyi18640"
 },
 "Room_West": {
@@ -124,7 +126,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://assets/Models/Room_West.res",
+"save_to_file/fallback_path": "res://assets/Models/Meshes/Room_West.res",
 "save_to_file/path": "uid://bt8rikvvfxb4r"
 }
 }

@@ -1,4 +1,4 @@
-[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://4lx3aa0kw07j"]
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://4lx3aa0kw07j"]
 
 [ext_resource type="AudioStream" uid="uid://b0hln1umyq8mt" path="res://assets/Audio/SFX/Skeleton Death.wav" id="1_6543o"]
 

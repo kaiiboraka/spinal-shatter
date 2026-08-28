@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1l0bk12iwln3"]
+[gd_scene format=3 uid="uid://c1l0bk12iwln3"]
 
 [ext_resource type="Script" uid="uid://ctf8re8bekyl1" path="res://addons/AsepriteWizard/interface/shared/tree/inline_warning_panel.gd" id="1_aomsj"]
 
@@ -23,27 +23,27 @@ data = {
 [sub_resource type="ImageTexture" id="ImageTexture_7t6c7"]
 image = SubResource("Image_86111")
 
-[node name="inline_warning_panel" type="PanelContainer"]
+[node name="inline_warning_panel" type="PanelContainer" unique_id=799234782]
 visible = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_rpkoa")
 script = ExtResource("1_aomsj")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=561397510]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=700778086]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=717583850]
 modulate = Color(1, 1, 1, 0.486275)
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 texture = SubResource("ImageTexture_7t6c7")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1186239199]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 size_flags_horizontal = 3

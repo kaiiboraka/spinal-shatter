@@ -1,12 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dglem28acophe"]
+[gd_scene format=3 uid="uid://dglem28acophe"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Menu Templates/scenes/game_scene/levels/level.gd" id="1_qwsgx"]
-[ext_resource type="Script" path="res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd" id="2_nx4l5"]
-[ext_resource type="Script" path="res://Scenes/UI/Menu Templates/scenes/game_scene/input_display_label.gd" id="3_gyttm"]
-[ext_resource type="Script" path="res://Scenes/UI/Menu Templates/scenes/game_scene/tutorial_manager.gd" id="4_iwxl1"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Menu Templates/scenes/game_scene/tutorials/tutorial_1.tscn" id="5_pditi"]
+[ext_resource type="Script" uid="uid://dq6oaqe7tt01n" path="res://Scenes/UI/Menu Templates/scenes/game_scene/levels/level.gd" id="1_qwsgx"]
+[ext_resource type="Script" uid="uid://1nf36h0gms3q" path="res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd" id="2_nx4l5"]
+[ext_resource type="Script" uid="uid://d3eub3ku182nv" path="res://Scenes/UI/Menu Templates/scenes/game_scene/input_display_label.gd" id="3_gyttm"]
+[ext_resource type="Script" uid="uid://dksiljjjge4o8" path="res://Scenes/UI/Menu Templates/scenes/game_scene/tutorial_manager.gd" id="4_iwxl1"]
+[ext_resource type="PackedScene" uid="uid://qcxvl5qckq56" path="res://Scenes/UI/Menu Templates/scenes/game_scene/tutorials/tutorial_1.tscn" id="5_pditi"]
 
-[node name="Level1" type="Control"]
+[node name="Level1" type="Control" unique_id=456664077]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_qwsgx")
 next_level_path = "res://Scenes/UI/Menu Templates/scenes/game_scene/levels/level_2.tscn"
 
-[node name="BackgroundColor" type="ColorRect" parent="."]
+[node name="BackgroundColor" type="ColorRect" parent="." unique_id=1486077822]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -26,7 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=882308025]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,49 +38,49 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=418233606]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=311447077]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 script = ExtResource("2_nx4l5")
 
-[node name="LoseButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LoseButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1173007606]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Lose"
 
-[node name="WinButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="WinButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=172568876]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Win"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=106181527]
 layout_mode = 2
 
-[node name="TutorialButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TutorialButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=227387955]
 layout_mode = 2
 text = "Tutorial"
 
-[node name="InputDisplayLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="InputDisplayLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1060663780]
 layout_mode = 2
 size_flags_horizontal = 3
 horizontal_alignment = 1
 script = ExtResource("3_gyttm")
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=542813170]
 layout_mode = 2
 text = "Change Level Color: "
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="ColorPickerButton" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=498893951]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Change Color"
 
-[node name="TutorialManager" type="Node" parent="."]
+[node name="TutorialManager" type="Node" parent="." unique_id=460297098]
 unique_name_in_owner = true
 script = ExtResource("4_iwxl1")
 tutorial_scenes = Array[PackedScene]([ExtResource("5_pditi")])

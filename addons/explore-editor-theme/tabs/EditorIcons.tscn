@@ -1,35 +1,34 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtnrjguhery8r"]
+[gd_scene format=3 uid="uid://dtnrjguhery8r"]
 
-[ext_resource type="Script" path="res://addons/explore-editor-theme/tabs/EditorIcons.gd" id="1"]
+[ext_resource type="Script" uid="uid://uogqshk8blgt" path="res://addons/explore-editor-theme/tabs/EditorIcons.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://ds8c70l2dnpy8" path="res://addons/explore-editor-theme/ui/CodePreview.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://c6mun6p3lk1k6" path="res://addons/explore-editor-theme/ui/FilterTool.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bg7phy5jdt0wl" path="res://addons/explore-editor-theme/ui/TypeTool.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://dwsc0c4b3wt28" path="res://addons/explore-editor-theme/ui/IconSaver.tscn" id="6"]
 
-[node name="Icons" type="MarginContainer"]
+[node name="Icons" type="MarginContainer" unique_id=437181223]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
 
-[node name="Layout" type="VBoxContainer" parent="."]
+[node name="Layout" type="VBoxContainer" parent="." unique_id=714381730]
 layout_mode = 2
 
-[node name="Toolbar" type="HBoxContainer" parent="Layout"]
+[node name="Toolbar" type="HBoxContainer" parent="Layout" unique_id=1251001313]
 layout_mode = 2
 
-[node name="Filter" parent="Layout/Toolbar" instance=ExtResource("3")]
-layout_mode = 2
-label_text = "Filter"
-
-[node name="Type" parent="Layout/Toolbar" instance=ExtResource("4")]
+[node name="Filter" parent="Layout/Toolbar" unique_id=1719925933 instance=ExtResource("3")]
 layout_mode = 2
 
-[node name="IconView" type="HBoxContainer" parent="Layout"]
+[node name="Type" parent="Layout/Toolbar" unique_id=2105856975 instance=ExtResource("4")]
+layout_mode = 2
+
+[node name="IconView" type="HBoxContainer" parent="Layout" unique_id=359237809]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="IconList" type="ItemList" parent="Layout/IconView"]
+[node name="IconList" type="ItemList" parent="Layout/IconView" unique_id=561749091]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -38,23 +37,23 @@ same_column_width = true
 fixed_column_width = 220
 fixed_icon_size = Vector2i(16, 16)
 
-[node name="IconPanel" type="VBoxContainer" parent="Layout/IconView"]
+[node name="IconPanel" type="VBoxContainer" parent="Layout/IconView" unique_id=936197153]
 visible = false
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Padding0" type="Control" parent="Layout/IconView/IconPanel"]
+[node name="Padding0" type="Control" parent="Layout/IconView/IconPanel" unique_id=630872103]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
-[node name="IconPreview" type="TextureRect" parent="Layout/IconView/IconPanel"]
+[node name="IconPreview" type="TextureRect" parent="Layout/IconView/IconPanel" unique_id=455470346]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="IconPreviewInfo" type="Label" parent="Layout/IconView/IconPanel/IconPreview"]
+[node name="IconPreviewInfo" type="Label" parent="Layout/IconView/IconPanel/IconPreview" unique_id=958854012]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 14.0
@@ -64,24 +63,24 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 text = "64x64"
 
-[node name="Padding1" type="Control" parent="Layout/IconView/IconPanel"]
+[node name="Padding1" type="Control" parent="Layout/IconView/IconPanel" unique_id=1080711530]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="IconName" type="Label" parent="Layout/IconView/IconPanel"]
+[node name="IconName" type="Label" parent="Layout/IconView/IconPanel" unique_id=2080495843]
 layout_mode = 2
 autowrap_mode = 1
 
-[node name="Padding2" type="Control" parent="Layout/IconView/IconPanel"]
+[node name="Padding2" type="Control" parent="Layout/IconView/IconPanel" unique_id=2127330566]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="IconCode" parent="Layout/IconView/IconPanel" instance=ExtResource("2")]
+[node name="IconCode" parent="Layout/IconView/IconPanel" unique_id=110339929 instance=ExtResource("2")]
 layout_mode = 2
 
-[node name="IconSaver" parent="Layout/IconView/IconPanel" instance=ExtResource("6")]
+[node name="IconSaver" parent="Layout/IconView/IconPanel" unique_id=1365892235 instance=ExtResource("6")]
 layout_mode = 2
 
-[node name="EmptyPanel" type="Control" parent="Layout/IconView"]
+[node name="EmptyPanel" type="Control" parent="Layout/IconView" unique_id=842525341]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2

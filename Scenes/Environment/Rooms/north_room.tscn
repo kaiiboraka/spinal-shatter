@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dmf47bymxj2a7"]
+[gd_scene format=3 uid="uid://dmf47bymxj2a7"]
 
 [ext_resource type="Script" uid="uid://u5if10k56qsp" path="res://Scripts/Levels/LevelRoom.cs" id="1_g2g5o"]
 [ext_resource type="ArrayMesh" uid="uid://cdht6lyvqoy17" path="res://assets/Models/Meshes/Room_North.res" id="2_hnwvy"]
@@ -31,72 +31,72 @@ size = Vector3(59.092712, 20, 57.58899)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6l7bu"]
 size = Vector3(6.5, 5, 25)
 
-[node name="North_Room" type="StaticBody3D" groups=["OutsideHub"]]
+[node name="North_Room" type="StaticBody3D" unique_id=86828591 groups=["OutsideHub"]]
 collision_layer = 516
 collision_mask = 42001
 physics_material_override = SubResource("PhysicsMaterial_hnwvy")
 script = ExtResource("1_g2g5o")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1950028730]
 navigation_mesh = SubResource("NavigationMesh_xlqql")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D" unique_id=1064217429]
 layers = 17
 mesh = ExtResource("2_hnwvy")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("3_g2g5o")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1385075739]
 visible = false
 shape = SubResource("ConcavePolygonShape3D_er001")
 
-[node name="LevelRegion" type="Area3D" parent="."]
+[node name="LevelRegion" type="Area3D" parent="." unique_id=382953439]
 unique_name_in_owner = true
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="LevelRegion" unique_id=518401213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -8.693977)
 shape = SubResource("BoxShape3D_g2g5o")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D6" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="LevelRegion" unique_id=1767044227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -68.64019)
 shape = SubResource("BoxShape3D_gejl1")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="LevelRegion" unique_id=1615690557]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 16.518444, 10, -40.77188)
 shape = SubResource("BoxShape3D_xlqql")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="LevelRegion"]
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="LevelRegion" unique_id=167509915]
 transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, -16.518, 10, -40.772)
 shape = SubResource("BoxShape3D_xlqql")
 debug_color = Color(0.89411765, 0.7490196, 0, 0.41960785)
 
-[node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion"]
+[node name="Hallway_CollisionShape3D" type="CollisionShape3D" parent="LevelRegion" unique_id=1532498209]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 12.5)
 shape = SubResource("BoxShape3D_6l7bu")
 
-[node name="Torches" type="Node3D" parent="."]
+[node name="Torches" type="Node3D" parent="." unique_id=1682331049]
 
-[node name="Torch 1" parent="Torches" instance=ExtResource("3_hnwvy")]
+[node name="Torch 1" parent="Torches" unique_id=2113369987 instance=ExtResource("3_hnwvy")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 3, 5, -0.131)
 
-[node name="Torch 2" parent="Torches" instance=ExtResource("3_hnwvy")]
+[node name="Torch 2" parent="Torches" unique_id=1758972237 instance=ExtResource("3_hnwvy")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -3, 5, -0.13094115)
 
-[node name="Torch 3" parent="Torches" instance=ExtResource("3_hnwvy")]
+[node name="Torch 3" parent="Torches" unique_id=764022192 instance=ExtResource("3_hnwvy")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, -57.426067, 5, -57.529793)
 
-[node name="Torch 4" parent="Torches" instance=ExtResource("3_hnwvy")]
+[node name="Torch 4" parent="Torches" unique_id=1096464567 instance=ExtResource("3_hnwvy")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 57.426, 5, -57.53)
 
-[node name="Torch 5" parent="Torches" instance=ExtResource("3_hnwvy")]
+[node name="Torch 5" parent="Torches" unique_id=732220552 instance=ExtResource("3_hnwvy")]
 transform = Transform3D(1, 0, 0, 0, -1.6292067e-07, 1, 0, -1, -1.6292067e-07, 0, 5, -95.80663)
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Torches"]
+[node name="SpotLight3D" type="SpotLight3D" parent="Torches" unique_id=1683394060]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 18, -48.451)
 light_color = Color(0, 0.6666667, 1, 1)
 light_energy = 3.5
@@ -109,24 +109,24 @@ spot_attenuation = 1.4
 spot_angle = 126.28
 spot_angle_attenuation = 0.2755447
 
-[node name="Spawners" type="Node3D" parent="."]
+[node name="Spawners" type="Node3D" parent="." unique_id=1635173549]
 unique_name_in_owner = true
 
-[node name="Ranged_EnemySpawner" parent="Spawners" instance=ExtResource("5_xlqql")]
+[node name="Ranged_EnemySpawner" parent="Spawners" unique_id=968382586 instance=ExtResource("5_xlqql")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, -59)
 SpawnRadius = 12.0
 
-[node name="Ranged_EnemySpawner2" parent="Spawners" instance=ExtResource("5_xlqql")]
+[node name="Ranged_EnemySpawner2" parent="Spawners" unique_id=1117369543 instance=ExtResource("5_xlqql")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0, -59)
 SpawnRadius = 12.0
 
-[node name="Ranged_EnemySpawner3" parent="Spawners" instance=ExtResource("5_xlqql")]
+[node name="Ranged_EnemySpawner3" parent="Spawners" unique_id=1043715590 instance=ExtResource("5_xlqql")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -81)
 SpawnRadius = 12.0
 
-[node name="AudioPlayers" type="Node3D" parent="."]
+[node name="AudioPlayers" type="Node3D" parent="." unique_id=953700678]
 
-[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="AudioPlayers" unique_id=1532685634]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19, -59.615)
 stream = ExtResource("6_espfw")
 volume_db = -4.0
@@ -135,7 +135,7 @@ autoplay = true
 max_distance = 80.0
 bus = &"Ambience"
 
-[node name="AudioStreamPlayer3D5" type="AudioStreamPlayer3D" parent="AudioPlayers"]
+[node name="AudioStreamPlayer3D5" type="AudioStreamPlayer3D" parent="AudioPlayers" unique_id=2133349248]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -45, -67.615005)
 stream = ExtResource("7_v3os2")
 max_db = 4.0
@@ -143,5 +143,5 @@ autoplay = true
 max_distance = 120.0
 bus = &"Ambience"
 
-[node name="Door" parent="." groups=["OutsideHub"] instance=ExtResource("8_espfw")]
+[node name="Door" parent="." unique_id=59969254 groups=["OutsideHub"] instance=ExtResource("8_espfw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)

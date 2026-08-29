@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://dedelbnmwspi0"]
 
 [ext_resource type="PackedScene" uid="uid://sikc02ddepyt" path="res://addons/maaacks_game_template/base/nodes/opening/opening.tscn" id="1_lipxi"]
+[ext_resource type="Texture2D" uid="uid://cwk1ukdg6oxn4" path="res://assets/Images/Reference/logo.png" id="2_lipxi"]
 
 [node name="Opening" unique_id=914783453 instance=ExtResource("1_lipxi")]
-next_scene_path = "uid://b4oyp3ex0rdq7"
+next_scene_path = "uid://5rnpf10m5k88"
+images = Array[Texture2D]([ExtResource("2_lipxi")])
 
 [node name="ImagesContainer" parent="." index="1" unique_id=1471559661]
 theme_override_constants/margin_left = 64

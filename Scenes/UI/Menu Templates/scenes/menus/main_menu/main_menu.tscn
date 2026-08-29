@@ -8,14 +8,13 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_sr8ev")
-level_select_packed_scene = null
-confirm_new_game = true
 options_packed_scene = ExtResource("2_a4rwr")
 credits_packed_scene = ExtResource("3_5kcyy")
 
 [node name="NewGameConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=791383427]
 unique_name_in_owner = true
 auto_translate_mode = 1
+oversampling_override = 1.0
 title = "Start a New Game?"
 initial_position = 1
 size = Vector2i(480, 158)

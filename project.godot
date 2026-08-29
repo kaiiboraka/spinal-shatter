@@ -27,7 +27,7 @@ resources_spreadsheet_view/freeze_first_column=true
 
 config/name="Spinal Shatter"
 config/description="BYU Game Dev Club Game Jam Fall 2025 - SPOOKY"
-run/main_scene="uid://b4oyp3ex0rdq7"
+run/main_scene="res://Scenes/UI/Menu Templates/scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 boot_splash/image="uid://cwk1ukdg6oxn4"
 config/icon="uid://cwk1ukdg6oxn4"
@@ -39,8 +39,11 @@ buses/default_bus_layout="uid://cgapug46f4s45"
 [autoload]
 
 Globals_GD="*res://Scripts/Autoloads/Globals_GD.gd"
+PhantomCameraManager="*uid://duq6jhf6unyis"
 DebugManager="*res://Scenes/Debug/DebugManager.tscn"
+LayerNames="*res://addons/layerNames/generated/layerNames.gd"
 ManaParticleManager="*res://Scenes/Autoloads/PickupManager.tscn"
+AppConfig="*uid://cjke6crjg14a0"
 RoomManager="*res://Scripts/Autoloads/RoomManager.cs"
 AudioManager="*res://Scripts/Autoloads/AudioManager.cs"
 PickupManager="*res://Scripts/Autoloads/PickupManager.cs"
@@ -49,6 +52,8 @@ SignalBus="*res://Scripts/Autoloads/SignalBus.cs"
 CameraTransition="*res://Scripts/Autoloads/CameraTransition.cs"
 WeaponSlotter="*res://Scenes/UI/WeaponSlotter.tscn"
 SceneLoader="*uid://cbwmrnp0af35y"
+ProjectMusicController="*uid://r5t485lr3p7t"
+ProjectUISoundController="*uid://cc37235kj4384"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
@@ -72,12 +77,13 @@ naming/script_name_casing=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg", "res://addons/plugin_refresher/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg", "res://addons/fancy_folder_colors/plugin.cfg", "res://addons/godot_ai/plugin.cfg", "res://addons/layerNames/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/plugin_refresher/plugin.cfg", "res://addons/reload_current_scene/plugin.cfg", "res://addons/resource_namer/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
 "res://Scripts/": "blue",
+"res://addons/": "gray",
 "res://assets/": "pink"
 }
 

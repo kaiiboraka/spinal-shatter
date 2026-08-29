@@ -711,18 +711,18 @@ TextMaximum = "100"
 TextSize = 32
 AlignmentDivider = 3
 
-[node name="LabelCurrent" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelCurrent/AspectRatioContainer" index="0"]
+[node name="LabelCurrent" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelCurrent/AspectRatioContainer" parent_id_path=PackedInt32Array(1220030986, 2120786580) index="0" unique_id=637924205]
 theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 32
 text = "100"
 
-[node name="LabelDivider" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelDivider/AspectRatioContainer" index="0"]
+[node name="LabelDivider" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelDivider/AspectRatioContainer" parent_id_path=PackedInt32Array(1220030986, 1704385151) index="0" unique_id=645848240]
 theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 32
 text = "|"
 horizontal_alignment = 3
 
-[node name="LabelMax" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelMax/AspectRatioContainer" index="0"]
+[node name="LabelMax" parent="Control/HUD/ScreenMarginContainer/Left_VBoxContainer/Health_PanelContainer/Health_MarginContainer/Health_VBoxContainer/Health_MinMaxValuesLabel/PanelMax/AspectRatioContainer" parent_id_path=PackedInt32Array(1220030986, 1357554877) index="0" unique_id=947251734]
 theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 24
 text = "100"
@@ -899,18 +899,18 @@ TextMaximum = "100"
 TextSize = 32
 AlignmentDivider = 3
 
-[node name="LabelCurrent" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelCurrent/AspectRatioContainer" index="0"]
+[node name="LabelCurrent" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelCurrent/AspectRatioContainer" parent_id_path=PackedInt32Array(370443684, 2120786580) index="0" unique_id=637924205]
 theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 32
 text = "100"
 
-[node name="LabelDivider" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelDivider/AspectRatioContainer" index="0"]
+[node name="LabelDivider" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelDivider/AspectRatioContainer" parent_id_path=PackedInt32Array(370443684, 1704385151) index="0" unique_id=645848240]
 theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 32
 text = "|"
 horizontal_alignment = 3
 
-[node name="LabelMax" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelMax/AspectRatioContainer" index="0"]
+[node name="LabelMax" parent="Control/HUD/ScreenMarginContainer/Right_VBoxContainer/Mana_PanelContainer/Mana_MarginContainer/Mana_VBoxContainer/Mana_MinMaxValuesLabel/PanelMax/AspectRatioContainer" parent_id_path=PackedInt32Array(370443684, 1357554877) index="0" unique_id=947251734]
 theme_override_fonts/font = ExtResource("24_ynkr0")
 theme_override_font_sizes/font_size = 24
 text = "100"

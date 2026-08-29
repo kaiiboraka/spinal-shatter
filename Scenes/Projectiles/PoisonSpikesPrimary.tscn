@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://djr135swr21s8"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Resources/Bouncy_PhysicsMaterial.tres" id="1_kbplm"]
+[ext_resource type="PhysicsMaterial" uid="uid://bcx3yy4ykxhxh" path="res://assets/Materials/Bouncy_PhysicsMaterial.tres" id="1_kbplm"]
 [ext_resource type="Script" uid="uid://da5vpdng1v8ep" path="res://Scripts/Projectiles/Projectile.cs" id="2_7lqxj"]
 [ext_resource type="PackedScene" uid="uid://hkrbvfev1wfo" path="res://Scenes/Particles/BubbleEffects_Poison.tscn" id="3_680vp"]
 [ext_resource type="Resource" uid="uid://c500xjuf7e00f" path="res://assets/Audio/AudioData/AudioData_PoisonSpikes.tres" id="3_a1ghb"]

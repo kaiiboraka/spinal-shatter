@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dcq14qm4pbq8o"]
 
 [ext_resource type="ArrayMesh" uid="uid://d10p833gjq6st" path="res://assets/Models/Meshes/ShopCart/bench.res" id="2_dxthx"]
-[ext_resource type="Resource" uid="uid://crlygrfbgh2kt" path="res://assets/Resources/ShopStockData.tres" id="2_khf6c"]
+[ext_resource type="Resource" uid="uid://crlygrfbgh2kt" path="res://assets/Resources/ShopItemData/ShopStockData.tres" id="2_khf6c"]
 [ext_resource type="ArrayMesh" uid="uid://cxfjdyv35w14e" path="res://assets/Models/Meshes/ShopCart/frontRoof.res" id="3_me00m"]
 [ext_resource type="Script" uid="uid://cfw8ih2mgcvgu" path="res://Scripts/ShopCart.cs" id="3_yvf2d"]
 [ext_resource type="ArrayMesh" uid="uid://bkuejmdwnpelb" path="res://assets/Models/Meshes/ShopCart/topRoof.res" id="4_call2"]

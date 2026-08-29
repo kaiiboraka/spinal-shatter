@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Registry" format=3 uid="uid://2ra5hlg2q7ms"]
+
+[ext_resource type="Script" uid="uid://dqtv77mng5dyh" path="res://addons/yard/registry.gd" id="1_s6qch"]
+
+[resource]
+script = ExtResource("1_s6qch")
+_version = 2
+_scan_rulesets = Array[Dictionary]([{
+&"allowed_file_extensions": Array[String]([]),
+&"class_restrictions": Array[StringName]([&"\"res://Scripts/Resources/Spells/SpellData.cs\""]),
+&"recursive_scan": true,
+&"scan_directories": Array[String](["res://assets/Resources/ShopItemData/Spells"]),
+&"scan_regex_exclude": "",
+&"scan_regex_include": ""
+}])
+_uids_to_string_ids = Dictionary[StringName, StringName]({
+&"uid://4evn4gyqfvhl": &"SpikesPrimary_SpellData",
+&"uid://b822nwtw8a74b": &"OrbPrimary_SpellData",
+&"uid://bpg87onj725jn": &"EnemyOrb_SpellData",
+&"uid://c8k5dujog71uv": &"OrbAuto_SpellData",
+&"uid://cirydstf3n5": &"OrbSecondary_SpellData",
+&"uid://dowpqoyraljfv": &"SlashPrimary_SpellData",
+&"uid://dqt8lfh4rdcli": &"SlashSecondary_SpellData"
+})
+_string_ids_to_uids = Dictionary[StringName, StringName]({
+&"EnemyOrb_SpellData": &"uid://bpg87onj725jn",
+&"OrbAuto_SpellData": &"uid://c8k5dujog71uv",
+&"OrbPrimary_SpellData": &"uid://b822nwtw8a74b",
+&"OrbSecondary_SpellData": &"uid://cirydstf3n5",
+&"SlashPrimary_SpellData": &"uid://dowpqoyraljfv",
+&"SlashSecondary_SpellData": &"uid://dqt8lfh4rdcli",
+&"SpikesPrimary_SpellData": &"uid://4evn4gyqfvhl"
+})

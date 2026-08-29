@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="Registry" format=3 uid="uid://cs2sieh3j1d7f"]
+
+[ext_resource type="Script" uid="uid://dqtv77mng5dyh" path="res://addons/yard/registry.gd" id="1_3sqbs"]
+
+[resource]
+script = ExtResource("1_3sqbs")
+_version = 2
+_scan_rulesets = Array[Dictionary]([{
+&"allowed_file_extensions": Array[String]([]),
+&"class_restrictions": Array[StringName]([&"AudioStream"]),
+&"recursive_scan": true,
+&"scan_directories": Array[String](["res://assets/Audio/AudioData"]),
+&"scan_regex_exclude": "",
+&"scan_regex_include": ""
+}])
+_uids_to_string_ids = Dictionary[StringName, StringName]({
+&"uid://35b44yo2qyg5": &"AudioFile_Move_Walk",
+&"uid://4lx3aa0kw07j": &"SFX_EnemySmall_Hurt",
+&"uid://4mnftyx80mxv": &"AudioFile_SpellCast",
+&"uid://b24q1xpu1h77e": &"AudioFile_SpellChargeBeep",
+&"uid://b4q8b0kc2ibi": &"AudioFile_Explosion",
+&"uid://b6apxt58004l0": &"AudioFile_EnemySmall_Die",
+&"uid://b831x1g38mrri": &"AudioBucket_PlayerDie_SFX",
+&"uid://bmjytv4b2j12o": &"SFX_Footsteps_Sprint",
+&"uid://c0lxyt8y6nq2r": &"AudioFile_PoisonSpikesShot",
+&"uid://c0t6gc0kfedwx": &"AudioFile_FireHit",
+&"uid://c18a1p5os1105": &"AudioFile_EnemySmall_RangedAttack",
+&"uid://c50wah00nfmgt": &"SFX_PoisonBounce",
+&"uid://c66134p2k4fkl": &"AudioFile_SpellChargeBack",
+&"uid://cbfpdbvfgys8s": &"SFX_MoneyPickup",
+&"uid://cgmjudjvgjmpl": &"SFX_Slash",
+&"uid://ci7cmnp8fh8fj": &"SFX_SplashShort",
+&"uid://cns3ga0icrvrr": &"SFX_DsOof",
+&"uid://cvbd88cg1372e": &"AudioFile_FireSwoosh",
+&"uid://cxqyhepdpana4": &"SFX_Oof",
+&"uid://d4f6j4x5acbfg": &"AudioFile_SpellChargeComplete",
+&"uid://decle8stlyhkg": &"SFX_ManaParticle",
+&"uid://dgxb157jqvlyh": &"SFX_Footsteps_Walk",
+&"uid://djsbsdf4qsxob": &"AudioFile_EnemySmall_Hurt",
+&"uid://dlfxn1usva7jb": &"AudioFile_PlayerDie_Voice",
+&"uid://dlwdcrauyytur": &"AudioFile_Slashes",
+&"uid://dosnrw3g58h5b": &"AudioBucket_Oof",
+&"uid://du7382uakh47d": &"AudioFile_EnemySmall_MeleeAttack",
+&"uid://lutykp8n75ro": &"AudioFile_PoisonSpikeBounce",
+&"uid://oooh2fulk8h0": &"AudioFile_Move_Sprint",
+&"uid://qmk80g5duni7": &"AudioFile_Oof",
+&"uid://wndltrj6r6hu": &"AudioFile_SplashShort"
+})
+_string_ids_to_uids = Dictionary[StringName, StringName]({
+&"AudioBucket_Oof": &"uid://dosnrw3g58h5b",
+&"AudioBucket_PlayerDie_SFX": &"uid://b831x1g38mrri",
+&"AudioFile_EnemySmall_Die": &"uid://b6apxt58004l0",
+&"AudioFile_EnemySmall_Hurt": &"uid://djsbsdf4qsxob",
+&"AudioFile_EnemySmall_MeleeAttack": &"uid://du7382uakh47d",
+&"AudioFile_EnemySmall_RangedAttack": &"uid://c18a1p5os1105",
+&"AudioFile_Explosion": &"uid://b4q8b0kc2ibi",
+&"AudioFile_FireHit": &"uid://c0t6gc0kfedwx",
+&"AudioFile_FireSwoosh": &"uid://cvbd88cg1372e",
+&"AudioFile_Move_Sprint": &"uid://oooh2fulk8h0",
+&"AudioFile_Move_Walk": &"uid://35b44yo2qyg5",
+&"AudioFile_Oof": &"uid://qmk80g5duni7",
+&"AudioFile_PlayerDie_Voice": &"uid://dlfxn1usva7jb",
+&"AudioFile_PoisonSpikeBounce": &"uid://lutykp8n75ro",
+&"AudioFile_PoisonSpikesShot": &"uid://c0lxyt8y6nq2r",
+&"AudioFile_Slashes": &"uid://dlwdcrauyytur",
+&"AudioFile_SpellCast": &"uid://4mnftyx80mxv",
+&"AudioFile_SpellChargeBack": &"uid://c66134p2k4fkl",
+&"AudioFile_SpellChargeBeep": &"uid://b24q1xpu1h77e",
+&"AudioFile_SpellChargeComplete": &"uid://d4f6j4x5acbfg",
+&"AudioFile_SplashShort": &"uid://wndltrj6r6hu",
+&"SFX_DsOof": &"uid://cns3ga0icrvrr",
+&"SFX_EnemySmall_Hurt": &"uid://4lx3aa0kw07j",
+&"SFX_Footsteps_Sprint": &"uid://bmjytv4b2j12o",
+&"SFX_Footsteps_Walk": &"uid://dgxb157jqvlyh",
+&"SFX_ManaParticle": &"uid://decle8stlyhkg",
+&"SFX_MoneyPickup": &"uid://cbfpdbvfgys8s",
+&"SFX_Oof": &"uid://cxqyhepdpana4",
+&"SFX_PoisonBounce": &"uid://c50wah00nfmgt",
+&"SFX_Slash": &"uid://cgmjudjvgjmpl",
+&"SFX_SplashShort": &"uid://ci7cmnp8fh8fj"
+})

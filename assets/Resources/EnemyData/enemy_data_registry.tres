@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="Registry" format=3 uid="uid://dyue8pumxsapl"]
+
+[ext_resource type="Script" uid="uid://dqtv77mng5dyh" path="res://addons/yard/registry.gd" id="1_6jjrs"]
+
+[resource]
+script = ExtResource("1_6jjrs")
+_version = 2
+_scan_rulesets = Array[Dictionary]([{
+&"allowed_file_extensions": Array[String]([]),
+&"class_restrictions": Array[StringName]([&"\"res://Scripts/Resources/EnemyData.cs\""]),
+&"recursive_scan": true,
+&"scan_directories": Array[String](["res://assets/Resources/EnemyData"]),
+&"scan_regex_exclude": "",
+&"scan_regex_include": ""
+}])
+_uids_to_string_ids = Dictionary[StringName, StringName]({
+&"uid://bsa11e7usrada": &"GMM_ThrasherData",
+&"uid://c2b6lfgkfkyxe": &"GML_SmasherData",
+&"uid://c6m53nnl3g8sv": &"GRM_BusterData",
+&"uid://c7gno2uhabeeb": &"GMS_ScrapperData",
+&"uid://cb8v6fpytbmp8": &"FMM_SlicerData",
+&"uid://ckufkle75pln1": &"FMS_SwooperData",
+&"uid://cpjitr3gcxgjv": &"FRS_ZapperData",
+&"uid://cq6bcxst4hyxm": &"GRL_SorcererData",
+&"uid://d24mb4cakhuxt": &"GRS_ScroungerData",
+&"uid://dr2qyr2emuw4m": &"FML_ScalperData"
+})
+_string_ids_to_uids = Dictionary[StringName, StringName]({
+&"FML_ScalperData": &"uid://dr2qyr2emuw4m",
+&"FMM_SlicerData": &"uid://cb8v6fpytbmp8",
+&"FMS_SwooperData": &"uid://ckufkle75pln1",
+&"FRS_ZapperData": &"uid://cpjitr3gcxgjv",
+&"GML_SmasherData": &"uid://c2b6lfgkfkyxe",
+&"GMM_ThrasherData": &"uid://bsa11e7usrada",
+&"GMS_ScrapperData": &"uid://c7gno2uhabeeb",
+&"GRL_SorcererData": &"uid://cq6bcxst4hyxm",
+&"GRM_BusterData": &"uid://c6m53nnl3g8sv",
+&"GRS_ScroungerData": &"uid://d24mb4cakhuxt"
+})

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://3mci4bqbc8g6"]
 
 [ext_resource type="Script" uid="uid://b3jsk6jtlrkc7" path="res://Scripts/Pickups/ManaParticle.cs" id="2_lkpyv"]
-[ext_resource type="Resource" uid="uid://6g1ukl8gec4s" path="res://assets/Resources/ManaParticleData_Small.tres" id="3_6badg"]
+[ext_resource type="Resource" uid="uid://6g1ukl8gec4s" path="res://assets/Resources/PickupData/ManaParticleData_Small.tres" id="3_6badg"]
 [ext_resource type="AudioStream" uid="uid://decle8stlyhkg" path="res://assets/Audio/AudioData/SFX_ManaParticle.tres" id="3_lkpyv"]
 [ext_resource type="SpriteFrames" uid="uid://dfgkcuh2svppw" path="res://assets/Images/Pickups/magic_spark.ase" id="4_8lofv"]
 

@@ -354,7 +354,7 @@ stretch_mode = 5
 
 [node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" index="1" unique_id=359406872]
 visible = false
-text = ""
+text = "Spinal Shatter"
 
 [node name="SubTitleMargin" parent="MenuContainer" parent_id_path=PackedInt32Array(396616752) index="1" unique_id=1510335937]
 visible = false

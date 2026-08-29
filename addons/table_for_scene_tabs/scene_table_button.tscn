@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://4ewfjshsxkll"]
+[gd_scene load_steps=2 format=3 uid="uid://4ewfjshsxkll"]
 
 [ext_resource type="Script" uid="uid://dky6dl2wabkqn" path="res://addons/table_for_scene_tabs/scene_table_button.gd" id="2_e6xsu"]
 
-[node name="Button" type="Button" unique_id=395703280]
+[node name="Button" type="Button"]
 custom_minimum_size = Vector2(180, 32)
 toggle_mode = true
 text = "
